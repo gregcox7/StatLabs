@@ -1,0 +1,9 @@
+lab1
+skills
+r-and-rstudio
+meet-your-data
+load-the-data
+check-out-the-variables
+answering-questions-with-data
+making-frequency-tables-for-discrete-variables
+making-bar-charts-for-discrete-variables
