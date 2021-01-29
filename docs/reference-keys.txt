@@ -6,3 +6,4 @@ answering-questions-with-data
 frequency-tables
 bar-charts
 histograms
+wrap-up

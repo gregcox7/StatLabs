@@ -147,6 +147,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.3.2" data-path="lab1.html"><a href="lab1.html#bar-charts"><i class="fa fa-check"></i><b>1.3.2</b> Bar charts</a></li>
 <li class="chapter" data-level="1.3.3" data-path="lab1.html"><a href="lab1.html#histograms"><i class="fa fa-check"></i><b>1.3.3</b> Histograms</a></li>
 </ul></li>
+<li class="chapter" data-level="1.4" data-path="lab1.html"><a href="lab1.html#wrap-up"><i class="fa fa-check"></i><b>1.4</b> Wrap-up</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -172,39 +173,41 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="lab1" class="section level1" number="1">
 <h1><span class="header-section-number">Lab 1</span> Exploring Data with R</h1>
 <p><img src="img/titanic.png" width="100%" /></p>
-<p>In this session, we will learn a bit about data and how to look at it in <code>R</code>. This will largely involve copying and pasting code from this document into your own <code>RStudio</code> window and interpreting the results, though you will also have to make some tweaks to that code on your own. The big point is to get a feel for the power of the tools we will be learning to use in the rest of the semester.</p>
-<p>For most of what we will be doing, this document shows both the <code>R</code> code and, below it, the result that code is expected to produce. The questions you will need to answer for the accompanying assignment are presented as numbered footnotes.</p>
+<p>In this session, we will learn a bit about data and how to look at it in R. This will largely involve copying and pasting code from this document into your own RStudio window and interpreting the results, though you will also have to make some tweaks to that code on your own. The big point is to get a feel for the power of the tools we will be learning to use in the rest of the semester.</p>
+<p>For most of what we will be doing, this document shows both the R code and, below it, the result that code is expected to produce. The questions you will need to answer for the accompanying assignment are presented as numbered footnotes.</p>
 <p>Another big point is that even though statistics is about dealing with data, those data are <em>meaningful</em>. They are not just numbers or names, they are a peek into the world. They offer glimpses of someone’s life, of the workings of some natural process, of some social structure, etc. Any dataset will be limited in how wide of a glimpse it gives us, and the point of statistics is how to learn and make decisions based on that glimpse.</p>
 <p>The primary skills developed in this activity are:</p>
 <ol style="list-style-type: decimal">
-<li>Viewing data in <code>R</code></li>
+<li>Viewing data in R</li>
 <li>Making frequency tables</li>
 <li>Making bar charts</li>
 <li>Making histograms</li>
 </ol>
 <div id="r-and-rstudio" class="section level2" number="1.1">
 <h2><span class="header-section-number">1.1</span> R and RStudio</h2>
-<p>All of our labs will make use of <code>RStudio</code>, a graphical interface to the statistical computing language <code>R</code>. The <code>R</code> language represents the current state of the art in both academic and industrial research. It is likely to remain relevant for many years to come because it is free and open-source, meaning both that it is widely accessible and that improvements and extensions are relatively easy to make. In fact, many of the best features of <code>R</code> that we will be using are extensions made by people outside the “core” development team for <code>R</code>. These extensions are called “packages,” and they represent bundles of code that are useful for doing statistics.</p>
-<p><code>RStudio</code> makes it easier to work with the <code>R</code> language, and it is also free and can be installed on computers running any modern operating system (Windows, Mac, Linux, etc.). <code>RStudio</code> is already installed on the computers in the Technology-Enhanced Classrooms and the Library Public Computing Sites on campus. If you are working on your own computer, you will have an easier time of it if you install <code>RStudio</code> on it. Installing <code>RStudio</code> requires installing <code>R</code>, but you only need to do this once. Follow the installation instructions for <strong>RStudio Desktop</strong> here: <a href="https://rstudio.com/products/rstudio/download/" class="uri">https://rstudio.com/products/rstudio/download/</a></p>
-<p>You can also use <code>RStudio</code> in a browser! This way, even if you don’t have access to a computer with <code>RStudio</code> installed locally, you can use it if you have access to the internet. You can run <code>RStudio</code> online here: <a href="https://rstudio.cloud/" class="uri">https://rstudio.cloud/</a>. The downside with this is that there is a cap to the amount of time you can spend using the online version, so you are better off using a local installation whenever possible.</p>
+<p>All of our labs will make use of RStudio, a graphical interface to the statistical computing language R. The R language represents the current state of the art in both academic and industrial research. It is likely to remain relevant for many years to come because it is free and open-source, meaning both that it is widely accessible and that improvements and extensions are relatively easy to make. In fact, many of the best features of R that we will be using are extensions made by people outside the “core” development team for R. These extensions are called “packages,” and they represent bundles of code that are useful for doing statistics.</p>
+<p>RStudio makes it easier to work with the R language, and it is also free and can be installed on computers running any modern operating system (Windows, Mac, Linux, etc.). RStudio is already installed on the computers in the Technology-Enhanced Classrooms and the Library Public Computing Sites on campus. If you are working on your own computer, you will have an easier time of it if you install RStudio on it. Installing RStudio requires installing R, but you only need to do this once. Follow the installation instructions for <strong>RStudio Desktop</strong> here: <a href="https://rstudio.com/products/rstudio/download/" class="uri">https://rstudio.com/products/rstudio/download/</a></p>
+<p>You can also use RStudio in a browser! This way, even if you don’t have access to a computer with RStudio installed locally, you can use it if you have access to the internet. You can run RStudio online here: <a href="https://rstudio.cloud/" class="uri">https://rstudio.cloud/</a>. The downside with this is that there is a cap to the amount of time you can spend using the online version, so you are better off using a local installation whenever possible.</p>
 <p>This first lab will use the cloud version so we can jump right in. Access the first Lab here:</p>
 <p><a href="https://rstudio.cloud/project/2118415" class="uri">https://rstudio.cloud/project/2118415</a></p>
 <p>Note that you may need to create an account, but it is free to do so.</p>
 <!-- ## Tidyverse -->
-<!-- Once you have `RStudio` up and running, there's one more thing you need to do to make sure you can do the labs in the course.  Open up `RStudio`, paste the line below into your console, and hit enter: -->
+<!-- Once you have RStudio up and running, there's one more thing you need to do to make sure you can do the labs in the course.  Open up RStudio, paste the line below into your console, and hit enter: -->
 <!-- ```{r eval = FALSE} -->
 <!-- install.packages("tidyverse") -->
 <!-- ``` -->
-<!-- This will install a package called "tidyverse" that we will be using in class that will make `R` much more useful for us.  You only need to do this once on any particular computer, and it may already be installed.  If so, running this won't hurt, it'll just make sure you've got everything we need. -->
+<!-- This will install a package called "tidyverse" that we will be using in class that will make R much more useful for us.  You only need to do this once on any particular computer, and it may already be installed.  If so, running this won't hurt, it'll just make sure you've got everything we need. -->
 </div>
 <div id="meet-your-data" class="section level2" number="1.2">
 <h2><span class="header-section-number">1.2</span> Meet your data</h2>
 <p>The data we will be looking at are passenger records from the RMS <em>Titanic</em>, an oceanliner which famously sank on April 15, 1912. Though the liner was not filled to capacity, lax safety precautions—including a failure to carry enough lifeboats—meant that many of her passengers died because they were unable to evacuate when the ship struck an iceberg.</p>
 <!-- ### Load the data -->
 <!-- Open up a browser and head to the course Blackboard page.  Under the "Datasets" folder, you will find a file called "titanic.csv".  Download the file and make sure you take note of where you saved it. -->
-<!-- Make sure `RStudio` is running.  You can load the data into `RStudio` by going to **File** > **Import Dataset** > **From text (readr)...** and finding the "titanic.csv" file wherever you put it.  If you are doing this using the online version of `RStudio`, you will first have to **Upload** the file to your workspace using the "Files" panel on the right. -->
+<!-- Make sure RStudio is running.  You can load the data into RStudio by going to **File** > **Import Dataset** > **From text (readr)...** and finding the "titanic.csv" file wherever you put it.  If you are doing this using the online version of RStudio, you will first have to **Upload** the file to your workspace using the "Files" panel on the right. -->
 <div id="check-out-the-variables" class="section level3" number="1.2.1">
 <h3><span class="header-section-number">1.2.1</span> Check out the variables</h3>
+<p>This is what RStudio looks like (with some helpful colored labels):</p>
+<p><img src="img/rstudio_window.png" width="100%" /></p>
 <p>In the upper left of the RStudio screen, you’ll see a bunch of columns. These are our data in “raw” form. Each row represents a specific passenger and each column represents a different <em>variable</em>. Based on the names of each variable and the types of <em>values</em> it seems to take, can you figure out what each variable is? In other words, what does each column tell us about a person?<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
 </div>
 </div>
@@ -226,8 +229,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>We got a table that counted the frequency of males and females on the passenger list. We went from 1300 or so rows with multiple variables each to just two numbers. A pretty concise summary! But how did we do it? Let’s break down that bit of code:</p>
 <ul>
 <li><code>titanic</code> is our original dataset.</li>
-<li><code>group_by(sex)</code> tells <code>R</code> to group that dataset by sex.</li>
-<li><code>summarize(n=n())</code> tells <code>R</code> to take our grouped dataset and <em>summarize</em> it by counting the <code>n</code>umber of people in each group and labeling the resulting number “<code>n</code>.”</li>
+<li><code>group_by(sex)</code> tells R to group that dataset by sex.</li>
+<li><code>summarize(n=n())</code> tells R to take our grouped dataset and <em>summarize</em> it by counting the <code>n</code>umber of people in each group and labeling the resulting number “<code>n</code>.”</li>
 <li>The funky symbol <code>%&gt;%</code> connects the three steps above and makes sure R does them in the order we want.</li>
 </ul>
 <p>Let’s try a few things to get a sense of why that code did what it did. What happens if we change <code>n = n()</code> in the last line to <code>Number = n()</code>?</p>
@@ -248,7 +251,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## x could not find function &quot;m&quot;
 ## ℹ Input `n` is `m()`.
 ## ℹ The error occurred in group 1: sex = &quot;Female&quot;.</code></pre>
-<p><code>R</code> doesn’t like it! It reports an error because it doesn’t know what to do with <code>m()</code>. That’s because <code>n()</code> is a <strong>function</strong>, it is an instruction that tells <code>R</code> to count the <code>n</code>umber of something. On the other hand, <code>m()</code> doesn’t mean anything to <code>R</code> so it throws up its hands.</p>
+<p>R doesn’t like it! It reports an error because it doesn’t know what to do with <code>m()</code>. That’s because <code>n()</code> is a <strong>function</strong>, it is an instruction that tells R to count the <code>n</code>umber of something. On the other hand, <code>m()</code> doesn’t mean anything to R so it throws up its hands.</p>
 <p>We saw that we know not just the sex of each passenger, the “residence” variable tells us whether each person is American, British, or something else. Let’s modify our code to get a frequency table for country of residence instead of sex:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="lab1.html#cb7-1" aria-hidden="true" tabindex="-1"></a>titanic <span class="sc">%&gt;%</span></span>
 <span id="cb7-2"><a href="lab1.html#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(residence) <span class="sc">%&gt;%</span></span>
@@ -265,7 +268,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb9-3"><a href="lab1.html#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>())</span></code></pre></div>
 <pre><code>## Error: Must group by variables found in `.data`.
 ## * Column `degree` is not found.</code></pre>
-<p>No dice! <code>R</code> tells us that it can’t find a column labeled “degree,” and indeed, there is no such variable in our data since it was not recorded. This illustrates that the variable in the parens in the <code>group_by</code> line can’t be just anything, it has to be the name of a variable (spelled exactly the same!) that exists in our data.</p>
+<p>No dice! R tells us that it can’t find a column labeled “degree,” and indeed, there is no such variable in our data since it was not recorded. This illustrates that the variable in the parens in the <code>group_by</code> line can’t be just anything, it has to be the name of a variable (spelled exactly the same!) that exists in our data.</p>
 <p>Finally, let’s construct a frequency table using multiple variables at once. This lets us answer questions like, <strong>how many British women were aboard the <em>Titanic</em></strong>? We can put multiple variables in the <code>group_by</code> line:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="lab1.html#cb11-1" aria-hidden="true" tabindex="-1"></a>titanic <span class="sc">%&gt;%</span></span>
 <span id="cb11-2"><a href="lab1.html#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(residence, sex) <span class="sc">%&gt;%</span></span>
@@ -309,7 +312,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="lab1.html#cb17-1" aria-hidden="true" tabindex="-1"></a>titanic <span class="sc">%&gt;%</span></span>
 <span id="cb17-2"><a href="lab1.html#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> class)) <span class="sc">+</span></span>
 <span id="cb17-3"><a href="lab1.html#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code></pre></div>
-<p><img src="01-exploring_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="01-exploring_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <p>Pretty neat! It is now easy to see how much more 3rd class passengers there are than 1st or 2nd, and that interestingly, there are fewer 2nd class than 1st class passengers<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a>. Notice that the code we used is similar to what we’ve been using, but differs in some important ways:</p>
 <ul>
 <li>The first line is the same, telling R what dataset we are using (<code>titanic</code>).</li>
@@ -346,7 +349,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb20-3"><a href="lab1.html#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <pre><code>## Warning: Removed 263 rows containing non-finite values (stat_bin).</code></pre>
-<p><img src="01-exploring_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><img src="01-exploring_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <p>The resulting histogram shows a bunch of bars, the height of which indicate the number of passengers within a particular age range.<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a></p>
 <p>Notice that we got a couple messages from R in addition to our plot, one about “non-finite values” and another about “picking a better value.” When R says, “non-finite values,” it is talking about people for whom their age was not recorded. This is an unfortunate thing about real data: sometimes it has missing pieces. This didn’t stop R from making the plot we wanted using the non-missing data, but R wanted to warn us just in case.</p>
 <p>The message about “picking a better value” is important: When you make a histogram, you are looking at how many things fall within a particular range of values, say, between ages 4 and 8. How do you decide those ranges? If you don’t tell R how to do that, it will decide on its own to divide up the range of values into 30 “bins,” each of which corresponds to a range of values that is the same width. This is usually not what we want.</p>
@@ -355,16 +358,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb23-2"><a href="lab1.html#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> age)) <span class="sc">+</span></span>
 <span id="cb23-3"><a href="lab1.html#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>)</span></code></pre></div>
 <pre><code>## Warning: Removed 263 rows containing non-finite values (stat_bin).</code></pre>
-<p><img src="01-exploring_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><img src="01-exploring_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 <p>Here’s what it looks like when we set the width of each bin to be just 1 year<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a>:</p>
 <pre><code>## Warning: Removed 263 rows containing non-finite values (stat_bin).</code></pre>
-<p><img src="01-exploring_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p><img src="01-exploring_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 <p>And here’s what it looks like when we set the width of each bin to be 10 years<a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a>:</p>
 <pre><code>## Warning: Removed 263 rows containing non-finite values (stat_bin).</code></pre>
-<p><img src="01-exploring_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p><img src="01-exploring_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
 <p>Choosing different bin widths makes the resulting histogram look very different. There is not necessarily one “right” answer, so being able to quickly see the differences between different histograms makes R very handy.<a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a></p>
-
 </div>
+</div>
+<div id="wrap-up" class="section level2" number="1.4">
+<h2><span class="header-section-number">1.4</span> Wrap-up</h2>
+<p>Today we began our adventure by using RStudio to explore some data. We saw how to look at data and how to summarize it in various helpful ways. These were frequency tables, bar charts, and histograms.</p>
+<ul>
+<li>Frequency tables count the number of times a particular value of a particular variable (or combination of values across multiple variables) occurs in our dataset.</li>
+<li>Bar charts display those counts in a visual form that makes it easier to compare frequencies.</li>
+<li>Histograms let us visually summarize counts of continuous variables by putting them in “bins,” the width of which we need to decide.</li>
+</ul>
+
 </div>
 </div>
 <div class="footnotes">

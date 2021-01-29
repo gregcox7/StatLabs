@@ -15,26 +15,26 @@ titanic <- read.csv('data/titanic.csv')
 knitr::include_graphics("img/titanic.png")
 ```
 
-In this session, we will learn a bit about data and how to look at it in `R`.  This will largely involve copying and pasting code from this document into your own `RStudio` window and interpreting the results, though you will also have to make some tweaks to that code on your own.  The big point is to get a feel for the power of the tools we will be learning to use in the rest of the semester.
+In this session, we will learn a bit about data and how to look at it in R.  This will largely involve copying and pasting code from this document into your own RStudio window and interpreting the results, though you will also have to make some tweaks to that code on your own.  The big point is to get a feel for the power of the tools we will be learning to use in the rest of the semester.
 
-For most of what we will be doing, this document shows both the `R` code and, below it, the result that code is expected to produce.  The questions you will need to answer for the accompanying assignment are presented as numbered footnotes.
+For most of what we will be doing, this document shows both the R code and, below it, the result that code is expected to produce.  The questions you will need to answer for the accompanying assignment are presented as numbered footnotes.
 
 Another big point is that even though statistics is about dealing with data, those data are *meaningful*.  They are not just numbers or names, they are a peek into the world.  They offer glimpses of someone's life, of the workings of some natural process, of some social structure, etc.  Any dataset will be limited in how wide of a glimpse it gives us, and the point of statistics is how to learn and make decisions based on that glimpse.
 
 The primary skills developed in this activity are:
 
-1. Viewing data in `R`
+1. Viewing data in R
 2. Making frequency tables
 3. Making bar charts
 4. Making histograms
 
 ## R and RStudio
 
-All of our labs will make use of `RStudio`, a graphical interface to the statistical computing language `R`.  The `R` language represents the current state of the art in both academic and industrial research.  It is likely to remain relevant for many years to come because it is free and open-source, meaning both that it is widely accessible and that improvements and extensions are relatively easy to make.  In fact, many of the best features of `R` that we will be using are extensions made by people outside the "core" development team for `R`.  These extensions are called "packages", and they represent bundles of code that are useful for doing statistics.
+All of our labs will make use of RStudio, a graphical interface to the statistical computing language R.  The R language represents the current state of the art in both academic and industrial research.  It is likely to remain relevant for many years to come because it is free and open-source, meaning both that it is widely accessible and that improvements and extensions are relatively easy to make.  In fact, many of the best features of R that we will be using are extensions made by people outside the "core" development team for R.  These extensions are called "packages", and they represent bundles of code that are useful for doing statistics.
 
-`RStudio` makes it easier to work with the `R` language, and it is also free and can be installed on computers running any modern operating system (Windows, Mac, Linux, etc.).  `RStudio` is already installed on the computers in the Technology-Enhanced Classrooms and the Library Public Computing Sites on campus.  If you are working on your own computer, you will have an easier time of it if you install `RStudio` on it.  Installing `RStudio` requires installing `R`, but you only need to do this once.  Follow the installation instructions for **RStudio Desktop** here: <https://rstudio.com/products/rstudio/download/>
+RStudio makes it easier to work with the R language, and it is also free and can be installed on computers running any modern operating system (Windows, Mac, Linux, etc.).  RStudio is already installed on the computers in the Technology-Enhanced Classrooms and the Library Public Computing Sites on campus.  If you are working on your own computer, you will have an easier time of it if you install RStudio on it.  Installing RStudio requires installing R, but you only need to do this once.  Follow the installation instructions for **RStudio Desktop** here: <https://rstudio.com/products/rstudio/download/>
 
-You can also use `RStudio` in a browser!  This way, even if you don't have access to a computer with `RStudio` installed locally, you can use it if you have access to the internet.  You can run `RStudio` online here: <https://rstudio.cloud/>.  The downside with this is that there is a cap to the amount of time you can spend using the online version, so you are better off using a local installation whenever possible.
+You can also use RStudio in a browser!  This way, even if you don't have access to a computer with RStudio installed locally, you can use it if you have access to the internet.  You can run RStudio online here: <https://rstudio.cloud/>.  The downside with this is that there is a cap to the amount of time you can spend using the online version, so you are better off using a local installation whenever possible.
 
 This first lab will use the cloud version so we can jump right in.  Access the first Lab here:
 
@@ -44,13 +44,13 @@ Note that you may need to create an account, but it is free to do so.
 
 <!-- ## Tidyverse -->
 
-<!-- Once you have `RStudio` up and running, there's one more thing you need to do to make sure you can do the labs in the course.  Open up `RStudio`, paste the line below into your console, and hit enter: -->
+<!-- Once you have RStudio up and running, there's one more thing you need to do to make sure you can do the labs in the course.  Open up RStudio, paste the line below into your console, and hit enter: -->
 
 <!-- ```{r eval = FALSE} -->
 <!-- install.packages("tidyverse") -->
 <!-- ``` -->
 
-<!-- This will install a package called "tidyverse" that we will be using in class that will make `R` much more useful for us.  You only need to do this once on any particular computer, and it may already be installed.  If so, running this won't hurt, it'll just make sure you've got everything we need. -->
+<!-- This will install a package called "tidyverse" that we will be using in class that will make R much more useful for us.  You only need to do this once on any particular computer, and it may already be installed.  If so, running this won't hurt, it'll just make sure you've got everything we need. -->
 
 ## Meet your data
 
@@ -60,9 +60,15 @@ The data we will be looking at are passenger records from the RMS *Titanic*, an 
 
 <!-- Open up a browser and head to the course Blackboard page.  Under the "Datasets" folder, you will find a file called "titanic.csv".  Download the file and make sure you take note of where you saved it. -->
 
-<!-- Make sure `RStudio` is running.  You can load the data into `RStudio` by going to **File** > **Import Dataset** > **From text (readr)...** and finding the "titanic.csv" file wherever you put it.  If you are doing this using the online version of `RStudio`, you will first have to **Upload** the file to your workspace using the "Files" panel on the right. -->
+<!-- Make sure RStudio is running.  You can load the data into RStudio by going to **File** > **Import Dataset** > **From text (readr)...** and finding the "titanic.csv" file wherever you put it.  If you are doing this using the online version of RStudio, you will first have to **Upload** the file to your workspace using the "Files" panel on the right. -->
 
 ### Check out the variables
+
+This is what RStudio looks like (with some helpful colored labels):
+
+```{r, echo=FALSE, out.width="100%"}
+knitr::include_graphics("img/rstudio_window.png")
+```
 
 In the upper left of the RStudio screen, you'll see a bunch of columns.  These are our data in "raw" form.  Each row represents a specific passenger and each column represents a different *variable*.  Based on the names of each variable and the types of *values* it seems to take, can you figure out what each variable is?  In other words, what does each column tell us about a person?^[For each variable in the dataset, say whether it is a) Discrete or Continuous; b) what scale it is measured on (nominal, ordinal, interval, or ratio); and c) what you think it means based on the name of the variable and/or what values it takes.]
 
@@ -85,8 +91,8 @@ titanic %>%
 We got a table that counted the frequency of males and females on the passenger list.  We went from 1300 or so rows with multiple variables each to just two numbers.  A pretty concise summary!  But how did we do it?  Let's break down that bit of code:
 
 * `titanic` is our original dataset.
-* `group_by(sex)` tells `R` to group that dataset by sex.
-* `summarize(n=n())` tells `R` to take our grouped dataset and *summarize* it by counting the `n`umber of people in each group and labeling the resulting number "`n`".
+* `group_by(sex)` tells R to group that dataset by sex.
+* `summarize(n=n())` tells R to take our grouped dataset and *summarize* it by counting the `n`umber of people in each group and labeling the resulting number "`n`".
 * The funky symbol `%>%` connects the three steps above and makes sure R does them in the order we want.
 
 Let's try a few things to get a sense of why that code did what it did.  What happens if we change `n = n()` in the last line to `Number = n()`?
@@ -107,7 +113,7 @@ titanic %>%
   summarize(n = m())
 ```
 
-`R` doesn't like it!  It reports an error because it doesn't know what to do with `m()`.  That's because `n()` is a **function**, it is an instruction that tells `R` to count the `n`umber of something.  On the other hand, `m()` doesn't mean anything to `R` so it throws up its hands.
+R doesn't like it!  It reports an error because it doesn't know what to do with `m()`.  That's because `n()` is a **function**, it is an instruction that tells R to count the `n`umber of something.  On the other hand, `m()` doesn't mean anything to R so it throws up its hands.
 
 We saw that we know not just the sex of each passenger, the "residence" variable tells us whether each person is American, British, or something else.  Let's modify our code to get a frequency table for country of residence instead of sex:
 
@@ -125,7 +131,7 @@ titanic %>%
   summarize(n = n())
 ```
 
-No dice!  `R` tells us that it can't find a column labeled "degree", and indeed, there is no such variable in our data since it was not recorded.  This illustrates that the variable in the parens in the `group_by` line can't be just anything, it has to be the name of a variable (spelled exactly the same!) that exists in our data.
+No dice!  R tells us that it can't find a column labeled "degree", and indeed, there is no such variable in our data since it was not recorded.  This illustrates that the variable in the parens in the `group_by` line can't be just anything, it has to be the name of a variable (spelled exactly the same!) that exists in our data.
 
 Finally, let's construct a frequency table using multiple variables at once.  This lets us answer questions like, **how many British women were aboard the _Titanic_**?  We can put multiple variables in the `group_by` line:
 
@@ -225,3 +231,11 @@ titanic %>%
 ```
 
 Choosing different bin widths makes the resulting histogram look very different.  There is not necessarily one "right" answer, so being able to quickly see the differences between different histograms makes R very handy.^[What bin width do you think makes the best histogram for passenger ages?  Why?  Do you think different bin widths might be better in different circumstances?]
+
+## Wrap-up
+
+Today we began our adventure by using RStudio to explore some data.  We saw how to look at data and how to summarize it in various helpful ways.  These were frequency tables, bar charts, and histograms.
+
+* Frequency tables count the number of times a particular value of a particular variable (or combination of values across multiple variables) occurs in our dataset.
+* Bar charts display those counts in a visual form that makes it easier to compare frequencies.
+* Histograms let us visually summarize counts of continuous variables by putting them in "bins", the width of which we need to decide.
