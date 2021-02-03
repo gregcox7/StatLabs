@@ -80,7 +80,7 @@ Now that we've gotten acquainted with the kind of data we have, we can begin usi
 
 The first question is, who was actually aboard the *Titanic*?  One way we could answer this question is to read the names of all 1300 or so people in our dataset, but this would not be particularly efficient or informative.  What we are going to do instead is *simplify*, and focus on specific aspects of each person.
 
-Let's first ask **how many passengers were male or female**.  One way to answer this question is by constructing a **frequency table**.  In the RStudio window, see the big open space just below our data?  This is called the "console" and is where we will do most of our work.  Copy and paste the code below into the "Console".  Then hit **enter**.
+Let's first ask **how many passengers were male or female**.  One way to answer this question is by constructing a **frequency table**.  In the RStudio window, see the big open space just below our data?  This is called the "console" and is where we will do most of our work.  Copy and paste the code below into the "Console".  The code should appear right after the ">".  Once it is there, hit **enter** to run it and see the results.
 
 ```{r}
 titanic %>%
