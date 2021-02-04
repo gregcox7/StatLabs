@@ -1,7 +1,7 @@
 --- 
 title: "Labs"
 author: "Greg Cox"
-date: "2021-01-29"
+date: "2021-02-04"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography:

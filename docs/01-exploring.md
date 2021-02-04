@@ -61,7 +61,7 @@ In the upper left of the RStudio screen, you'll see a bunch of columns.  These a
 
 ## Answering questions with data
 
-Now that we've gotten acquainted with the kind of data we have, we can begin using it to answer some questions.  This will involve simplifying the data, turning it into a summary form that makes it easier to understand.  The three types of summaries we will explore today are **frequency tables**, **bar charts**, and **histograms**.
+Now that we've gotten acquainted with the kind of data we have, we can begin using it to answer some questions.  This will involve simplifying the data, turning it into a summary form that makes it easier to understand.  These summaries fall under the heading of "descriptive statistics", because they are meant to *describe* important aspects of the data.  The three types of summaries we will explore today are **frequency tables**, **bar charts**, and **histograms**.
 
 ### Frequency tables
 
