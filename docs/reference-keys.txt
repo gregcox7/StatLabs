@@ -7,3 +7,14 @@ frequency-tables
 bar-charts
 histograms
 wrap-up
+lab2
+simple-cases
+central-tendency
+variability
+dealing-with-real-data
+setting-the-stage
+getting-the-data
+visualizing-the-data
+central-tendency-1
+variability-1
+wrap-up-1
