@@ -45,7 +45,7 @@ Recall that the Pearson correlation coefficient can be found using $z$ scores.  
 
 #### R can remember things
 
-Let's try doing that in R.  Remember that R uses `c()` to say that everything within the parentheses is supposed to be treated as a **collection** of measurements on a single variable.  Rather than having to write out that collection every time we want to use it, we can tell R to remember it.  Let's say we have a collection of 4 measurements and we want to tell R to remember them with the label "X".  We can do that this way:
+Let's try doing that in R.  Remember that R uses `c()` to say that everything within the parentheses is supposed to be treated as a **collection** of measurements on a single variable.  Rather than having to write out that collection every time we want to use it, we can tell R to remember it.  Let's say we have a collection of measurements and we want to tell R to remember them with the label "X".  We can do that this way:
 
 
 ```r
