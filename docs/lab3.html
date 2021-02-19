@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Lab 3 Scatterplots and correlation | Labs</title>
+  <meta name="description" content="Laboratory exercises for APSY210." />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Lab 3 Scatterplots and correlation | Labs" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Laboratory exercises for APSY210." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Lab 3 Scatterplots and correlation | Labs" />
+  
+  <meta name="twitter:description" content="Laboratory exercises for APSY210." />
+  
+
+<meta name="author" content="Greg Cox" />
+
+
+<meta name="date" content="2021-02-19" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="lab2.html"/>
+<link rel="next" href="references.html"/>
+<script src="libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Labs</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="1" data-path="lab1.html"><a href="lab1.html"><i class="fa fa-check"></i><b>1</b> Exploring Data with R</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="lab1.html"><a href="lab1.html#r-and-rstudio"><i class="fa fa-check"></i><b>1.1</b> R and RStudio</a></li>
+<li class="chapter" data-level="1.2" data-path="lab1.html"><a href="lab1.html#meet-your-data"><i class="fa fa-check"></i><b>1.2</b> Meet your data</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="lab1.html"><a href="lab1.html#check-out-the-variables"><i class="fa fa-check"></i><b>1.2.1</b> Check out the variables</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="lab1.html"><a href="lab1.html#answering-questions-with-data"><i class="fa fa-check"></i><b>1.3</b> Answering questions with data</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="lab1.html"><a href="lab1.html#frequency-tables"><i class="fa fa-check"></i><b>1.3.1</b> Frequency tables</a></li>
+<li class="chapter" data-level="1.3.2" data-path="lab1.html"><a href="lab1.html#bar-charts"><i class="fa fa-check"></i><b>1.3.2</b> Bar charts</a></li>
+<li class="chapter" data-level="1.3.3" data-path="lab1.html"><a href="lab1.html#histograms"><i class="fa fa-check"></i><b>1.3.3</b> Histograms</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="lab1.html"><a href="lab1.html#wrap-up"><i class="fa fa-check"></i><b>1.4</b> Wrap-up</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="lab2.html"><a href="lab2.html"><i class="fa fa-check"></i><b>2</b> Central tendency and variability</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="lab2.html"><a href="lab2.html#simple-cases"><i class="fa fa-check"></i><b>2.1</b> Simple cases</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="lab2.html"><a href="lab2.html#central-tendency"><i class="fa fa-check"></i><b>2.1.1</b> Central tendency</a></li>
+<li class="chapter" data-level="2.1.2" data-path="lab2.html"><a href="lab2.html#variability"><i class="fa fa-check"></i><b>2.1.2</b> Variability</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="lab2.html"><a href="lab2.html#dealing-with-real-data"><i class="fa fa-check"></i><b>2.2</b> Dealing with real data</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="lab2.html"><a href="lab2.html#setting-the-stage"><i class="fa fa-check"></i><b>2.2.1</b> Setting the stage</a></li>
+<li class="chapter" data-level="2.2.2" data-path="lab2.html"><a href="lab2.html#getting-the-data"><i class="fa fa-check"></i><b>2.2.2</b> Getting the data</a></li>
+<li class="chapter" data-level="2.2.3" data-path="lab2.html"><a href="lab2.html#visualizing-the-data"><i class="fa fa-check"></i><b>2.2.3</b> Visualizing the data</a></li>
+<li class="chapter" data-level="2.2.4" data-path="lab2.html"><a href="lab2.html#central-tendency-1"><i class="fa fa-check"></i><b>2.2.4</b> Central tendency</a></li>
+<li class="chapter" data-level="2.2.5" data-path="lab2.html"><a href="lab2.html#variability-1"><i class="fa fa-check"></i><b>2.2.5</b> Variability</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="lab2.html"><a href="lab2.html#wrap-up-1"><i class="fa fa-check"></i><b>2.3</b> Wrap-up</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="lab3.html"><a href="lab3.html"><i class="fa fa-check"></i><b>3</b> Scatterplots and correlation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="lab3.html"><a href="lab3.html#calculating-the-pearson-correlation-coefficient"><i class="fa fa-check"></i><b>3.1</b> Calculating the Pearson correlation coefficient</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="lab3.html"><a href="lab3.html#from-x-to-z"><i class="fa fa-check"></i><b>3.1.1</b> From <span class="math inline">\(X\)</span> to <span class="math inline">\(z\)</span></a></li>
+<li class="chapter" data-level="3.1.2" data-path="lab3.html"><a href="lab3.html#finding-the-correlation-coefficient"><i class="fa fa-check"></i><b>3.1.2</b> Finding the correlation coefficient</a></li>
+<li class="chapter" data-level="3.1.3" data-path="lab3.html"><a href="lab3.html#dealing-with-real-data-1"><i class="fa fa-check"></i><b>3.1.3</b> Dealing with real data</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="lab3.html"><a href="lab3.html#scatterplots"><i class="fa fa-check"></i><b>3.2</b> Scatterplots</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="lab3.html"><a href="lab3.html#making-a-group-of-scatterplots"><i class="fa fa-check"></i><b>3.2.1</b> Making a group of scatterplots</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="lab3.html"><a href="lab3.html#some-bigger-data"><i class="fa fa-check"></i><b>3.3</b> Some bigger data</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="lab3.html"><a href="lab3.html#import-the-data"><i class="fa fa-check"></i><b>3.3.1</b> Import the data</a></li>
+<li class="chapter" data-level="3.3.2" data-path="lab3.html"><a href="lab3.html#experience-and-memory-for-barbies"><i class="fa fa-check"></i><b>3.3.2</b> Experience and memory for Barbies</a></li>
+<li class="chapter" data-level="3.3.3" data-path="lab3.html"><a href="lab3.html#experience-and-memory-for-transformers"><i class="fa fa-check"></i><b>3.3.3</b> Experience and memory for Transformers</a></li>
+<li class="chapter" data-level="3.3.4" data-path="lab3.html"><a href="lab3.html#experience-with-barbies-and-memory-for-transformers"><i class="fa fa-check"></i><b>3.3.4</b> Experience with Barbies and memory for Transformers</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="lab3.html"><a href="lab3.html#wrap-up-2"><i class="fa fa-check"></i><b>3.4</b> Wrap-up</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Labs</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="lab3" class="section level1" number="3">
+<h1><span class="header-section-number">Lab 3</span> Scatterplots and correlation</h1>
+<p><img src="img/toys.jpg" width="100%" /></p>
+<p>So far, most of what we’ve done has been about describing measurements on one variable at a time. Today’s session will look at how we can explore relationships <em>between</em> variables. If there is a systematic relationship between two variables, they are said to be <strong>correlated</strong>.</p>
+<p>The primary skills developed in this activity are a visual and a numerical way to explore relationships between variables:</p>
+<ol style="list-style-type: decimal">
+<li>The visual way is called a <strong>scatterplot</strong>.</li>
+<li>The numerical way is the <strong>Pearson correlation coefficient</strong>.</li>
+</ol>
+<p>Before we begin, make sure you have opened the tidyverse package from the library:</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="lab3.html#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
+## ✓ tibble  3.0.5     ✓ dplyr   1.0.3
+## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
+## ✓ readr   1.4.0     ✓ forcats 0.5.0</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<div id="calculating-the-pearson-correlation-coefficient" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Calculating the Pearson correlation coefficient</h2>
+<p>We saw last time that one way R is useful is as a powerful calculator. Calculating things like standard deviations by hand is hard enough, but calculating the Pearson correlation coefficient requires doing that twice (once for each variable), in addition to a lot of other steps. R can help ease that burden.</p>
+<div id="from-x-to-z" class="section level3" number="3.1.1">
+<h3><span class="header-section-number">3.1.1</span> From <span class="math inline">\(X\)</span> to <span class="math inline">\(z\)</span></h3>
+<p>Recall that the Pearson correlation coefficient can be found using <span class="math inline">\(z\)</span> scores. Specifically, if we have measurements on one variable—let’s call them <span class="math inline">\(X\)</span>—and measurements on another variable—let’s call them <span class="math inline">\(Y\)</span>—we can find the correlation by first finding the <span class="math inline">\(z\)</span> scores for these two sets of measurements.</p>
+<div id="r-can-remember-things" class="section level4" number="3.1.1.1">
+<h4><span class="header-section-number">3.1.1.1</span> R can remember things</h4>
+<p>Let’s try doing that in R. Remember that R uses <code>c()</code> to say that everything within the parentheses is supposed to be treated as a <strong>collection</strong> of measurements on a single variable. Rather than having to write out that collection every time we want to use it, we can tell R to remember it. Let’s say we have a collection of 4 measurements and we want to tell R to remember them with the label “X.” We can do that this way:</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="lab3.html#cb61-1" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">8</span>, <span class="dv">13</span>, <span class="dv">9</span>, <span class="dv">11</span>, <span class="dv">14</span>, <span class="dv">6</span>, <span class="dv">4</span>, <span class="dv">12</span>, <span class="dv">7</span>, <span class="dv">5</span>)</span></code></pre></div>
+<p>The important thing to note in the line above is the arrow <code>&lt;-</code>. The arrow tells R to take the stuff on the right and put it under the label on the left. You can think of the arrow as saying that the collection <code>c(10, 8, 13, 9, 11, 14, 6, 4, 12, 7, 5)</code> is now “inside” a box labeled <code>X</code>.</p>
+<p>Now if we write “<code>X</code>” at the console and hit enter, R will remind us what we put inside the “<code>X</code>” box:</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="lab3.html#cb62-1" aria-hidden="true" tabindex="-1"></a>X</span></code></pre></div>
+<pre><code>##  [1] 10  8 13  9 11 14  6  4 12  7  5</code></pre>
+<p>We can also find a specific value using square brackets. For example, we can find the 3rd measurement this way:</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="lab3.html#cb64-1" aria-hidden="true" tabindex="-1"></a>X[<span class="dv">3</span>]</span></code></pre></div>
+<pre><code>## [1] 13</code></pre>
+<p>Nice!<a href="#fn23" class="footnote-ref" id="fnref23"><sup>23</sup></a> This is just like how we used <span class="math inline">\(X_3\)</span> as a shorthand for the 3rd measurement when we were doing things by hand.<a href="#fn24" class="footnote-ref" id="fnref24"><sup>24</sup></a></p>
+</div>
+<div id="using-labeled-collections" class="section level4" number="3.1.1.2">
+<h4><span class="header-section-number">3.1.1.2</span> Using labeled collections</h4>
+<p>Now that R can remember that whole collection of measurements, we can use it to do calculations. For example, this will find the mean of all the numbers we put under the label “X”:</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="lab3.html#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(X)</span></code></pre></div>
+<pre><code>## [1] 9</code></pre>
+<p>And this will find the standard deviation:</p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="lab3.html#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(X)</span></code></pre></div>
+<pre><code>## [1] 3.316625</code></pre>
+<p>Finally, we can combine different operations into a single line of code. The following will convert each of the measurements in <code>X</code> into <span class="math inline">\(z\)</span> scores:</p>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="lab3.html#cb70-1" aria-hidden="true" tabindex="-1"></a>(X <span class="sc">-</span> <span class="fu">mean</span>(X)) <span class="sc">/</span> <span class="fu">sd</span>(X)</span></code></pre></div>
+<pre><code>##  [1]  0.3015113 -0.3015113  1.2060454  0.0000000  0.6030227  1.5075567
+##  [7] -0.9045340 -1.5075567  0.9045340 -0.6030227 -1.2060454</code></pre>
+<p>We can even tell R to remember those <span class="math inline">\(z\)</span> scores like so:</p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="lab3.html#cb72-1" aria-hidden="true" tabindex="-1"></a>z_X <span class="ot">&lt;-</span> (X <span class="sc">-</span> <span class="fu">mean</span>(X)) <span class="sc">/</span> <span class="fu">sd</span>(X)</span></code></pre></div>
+<p>Note that we gave these <span class="math inline">\(z\)</span> scores a special label, “<code>z_X</code>,” so that we know they originally came from our collection labeled <code>X</code>. Now if we ask R to tell us what we put under the “<code>z_X</code>” label, we’ll get our <span class="math inline">\(z\)</span> scores back</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="lab3.html#cb73-1" aria-hidden="true" tabindex="-1"></a>z_X</span></code></pre></div>
+<pre><code>##  [1]  0.3015113 -0.3015113  1.2060454  0.0000000  0.6030227  1.5075567
+##  [7] -0.9045340 -1.5075567  0.9045340 -0.6030227 -1.2060454</code></pre>
+</div>
+</div>
+<div id="finding-the-correlation-coefficient" class="section level3" number="3.1.2">
+<h3><span class="header-section-number">3.1.2</span> Finding the correlation coefficient</h3>
+<div id="introducing-a-new-set-of-measurements" class="section level4" number="3.1.2.1">
+<h4><span class="header-section-number">3.1.2.1</span> Introducing a new set of measurements</h4>
+<p>Now that we’ve seen how to tell R to remember different collections of values, let’s add another variable to the mix and find its correlation with <span class="math inline">\(X\)</span>. We will call this variable <span class="math inline">\(Y\)</span> to keep it distinct.</p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="lab3.html#cb75-1" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">8.04</span>, <span class="fl">6.95</span>, <span class="fl">7.58</span>, <span class="fl">8.81</span>, <span class="fl">8.33</span>, <span class="fl">9.96</span>, <span class="fl">7.24</span>, <span class="fl">4.26</span>, <span class="fl">10.84</span>, <span class="fl">4.82</span>, <span class="fl">5.68</span>)</span></code></pre></div>
+<p>Let’s see what the mean of <span class="math inline">\(Y\)</span> is<a href="#fn25" class="footnote-ref" id="fnref25"><sup>25</sup></a></p>
+<pre><code>## [1] 7.500909</code></pre>
+<p>as well as its standard deviation<a href="#fn26" class="footnote-ref" id="fnref26"><sup>26</sup></a></p>
+<pre><code>## [1] 2.031568</code></pre>
+<p>Finally, let’s find the <span class="math inline">\(z\)</span> scores for each of our <span class="math inline">\(Y\)</span> values and tell R to remember them with the label <code>z_Y</code><a href="#fn27" class="footnote-ref" id="fnref27"><sup>27</sup></a>:</p>
+<p>If we’ve done our job right, we should get the following output when we ask R to remember what we put into <code>z_Y</code></p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="lab3.html#cb78-1" aria-hidden="true" tabindex="-1"></a>z_Y</span></code></pre></div>
+<pre><code>##  [1]  0.26535704 -0.27117431  0.03893097  0.64437460  0.40810391  1.21043979
+##  [7] -0.12842744 -1.59527462  1.64360272 -1.31962549 -0.89630717</code></pre>
+</div>
+<div id="calculating-correlation-from-z-scores" class="section level4" number="3.1.2.2">
+<h4><span class="header-section-number">3.1.2.2</span> Calculating correlation from <span class="math inline">\(z\)</span> scores</h4>
+<p>To get the correlation coefficient between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> from our <span class="math inline">\(z\)</span> scores, we need to multiply the <span class="math inline">\(z\)</span> scores together, add them up, and divide by the number of values minus one. We can tell R to multiply together all our pairs of <span class="math inline">\(z\)</span> scores like this</p>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="lab3.html#cb80-1" aria-hidden="true" tabindex="-1"></a>z_X <span class="sc">*</span> z_Y</span></code></pre></div>
+<pre><code>##  [1] 0.08000816 0.08176213 0.04695251 0.00000000 0.24609592 1.82480664
+##  [7] 0.11616699 2.40496698 1.48669460 0.79576411 1.08098712</code></pre>
+<p>We can add them up like this, by telling R to find the <code>sum</code></p>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="lab3.html#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(z_X <span class="sc">*</span> z_Y)</span></code></pre></div>
+<pre><code>## [1] 8.164205</code></pre>
+<p>Finally, we need to divide by <span class="math inline">\(N - 1\)</span>. <span class="math inline">\(N\)</span> in this case is 11, so <span class="math inline">\(N - 1 = 11 - 1 = 10\)</span>.</p>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="lab3.html#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(z_X <span class="sc">*</span> z_Y) <span class="sc">/</span> <span class="dv">10</span></span></code></pre></div>
+<pre><code>## [1] 0.8164205</code></pre>
+<p>And that’s the Pearson correlation coefficient!<a href="#fn28" class="footnote-ref" id="fnref28"><sup>28</sup></a></p>
+</div>
+<div id="calculating-correlation-directly" class="section level4" number="3.1.2.3">
+<h4><span class="header-section-number">3.1.2.3</span> Calculating correlation directly</h4>
+<p>This is what you might call the “shaggy-dog” way of calculating the correlation, in that it takes a long time to get to the punchline. Fortunately, R gives us an even easier way! The correlation between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> can be found like this</p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="lab3.html#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(X, Y)</span></code></pre></div>
+<pre><code>## [1] 0.8164205</code></pre>
+<p><code>cor</code> tells R to find the <code>cor</code>relation between the two sets of measurements labeled <code>X</code> and <code>Y</code>.</p>
+<p>Remember that R knows what we mean by <code>X</code> and <code>Y</code> <em>only because we already told R what they stood for</em>. To get a sense of how that works, let’s replace our old <code>Y</code> with a new one:</p>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="lab3.html#cb88-1" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">10</span>, <span class="dv">11</span>)</span></code></pre></div>
+<p>Now if we ask for the correlation again, it will be different<a href="#fn29" class="footnote-ref" id="fnref29"><sup>29</sup></a></p>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="lab3.html#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(X, Y)</span></code></pre></div>
+<pre><code>## [1] -0.4272727</code></pre>
+</div>
+</div>
+<div id="dealing-with-real-data-1" class="section level3" number="3.1.3">
+<h3><span class="header-section-number">3.1.3</span> Dealing with real data</h3>
+<p>The steps above are useful when you’ve got relatively few measurements that you can copy-and-paste into the R console. Real data is often more complicated, so let’s see how we can deal with it.</p>
+<div id="get-some-data" class="section level4" number="3.1.3.1">
+<h4><span class="header-section-number">3.1.3.1</span> Get some data</h4>
+<p>First, we need to import some data into R using the code below.</p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="lab3.html#cb91-1" aria-hidden="true" tabindex="-1"></a>anscombe <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/cor_data.csv&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   Group = col_character(),
+##   X = col_double(),
+##   Y = col_double()
+## )</code></pre>
+<p>These data are artificial and were devised by <span class="citation"><a href="references.html#ref-Anscombe1973" role="doc-biblioref">Anscombe</a> (<a href="references.html#ref-Anscombe1973" role="doc-biblioref">1973</a>)</span> to illustrate the importance of not interpreting a correlation coefficient without visualizing your data.</p>
+</div>
+<div id="correlations-for-different-sets-of-measurements" class="section level4" number="3.1.3.2">
+<h4><span class="header-section-number">3.1.3.2</span> Correlations for different sets of measurements</h4>
+<p>There are four groups of measurements in these data. The groups are labeled “A,” “B,” “C,” and “D.” Measurements are on two variables, labeled “X” and “Y.” Click on <code>anscombe</code> in the environment panel in RStudio (upper right) to take a look.</p>
+<p>We can quickly find the correlation coefficient for each group of “X” and “Y” measurements<a href="#fn30" class="footnote-ref" id="fnref30"><sup>30</sup></a></p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="lab3.html#cb93-1" aria-hidden="true" tabindex="-1"></a>anscombe <span class="sc">%&gt;%</span></span>
+<span id="cb93-2"><a href="lab3.html#cb93-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(Group) <span class="sc">%&gt;%</span></span>
+<span id="cb93-3"><a href="lab3.html#cb93-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">r =</span> <span class="fu">cor</span>(X, Y))</span></code></pre></div>
+<pre><code>## # A tibble: 4 x 2
+##   Group     r
+## * &lt;chr&gt; &lt;dbl&gt;
+## 1 A     0.816
+## 2 B     0.816
+## 3 C     0.816
+## 4 D     0.817</code></pre>
+<p>Notice that the correlation coefficients are almost all the same for each group. But now let’s try making some scatterplots to see if these correlations make sense.</p>
+</div>
+</div>
+</div>
+<div id="scatterplots" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Scatterplots</h2>
+<p>As we’ve seen, a scatterplot lets us see how measurements on two variables are related to one another. It does this with a bunch of dots “scattered” around the plot. Each dot represents a single individual or object. The horizontal position of the dot represents that individual’s observed value on one variable. The vertical position of the dot represents that same individual’s observed value on a different variable.</p>
+<div id="making-a-group-of-scatterplots" class="section level3" number="3.2.1">
+<h3><span class="header-section-number">3.2.1</span> Making a group of scatterplots</h3>
+<p>R makes it easy not just to make a single scatterplot, but an entire group of them at once. The code below produces a set of scatterplots, one for each of the four groups, that puts the “X” measurements on the horizontal and the “Y” measurements on the vertical<a href="#fn31" class="footnote-ref" id="fnref31"><sup>31</sup></a>:</p>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="lab3.html#cb95-1" aria-hidden="true" tabindex="-1"></a>anscombe <span class="sc">%&gt;%</span></span>
+<span id="cb95-2"><a href="lab3.html#cb95-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>X, <span class="at">y=</span>Y)) <span class="sc">+</span></span>
+<span id="cb95-3"><a href="lab3.html#cb95-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb95-4"><a href="lab3.html#cb95-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="st">&quot;Group&quot;</span>)</span></code></pre></div>
+<p><img src="03-correlation_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<p>Even though the correlation coefficient is the same for each group, the scatterplots all look very different!<a href="#fn32" class="footnote-ref" id="fnref32"><sup>32</sup></a></p>
+</div>
+</div>
+<div id="some-bigger-data" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> Some bigger data</h2>
+<p>Now that we’ve seen how to find correlation coefficients and make scatterplots, let’s apply these tools to some real data. These data come from a study by <span class="citation"><a href="references.html#ref-RyanGauthier2016" role="doc-biblioref">Ryan &amp; Gauthier</a> (<a href="references.html#ref-RyanGauthier2016" role="doc-biblioref">2016</a>)</span>, who studied differences in how well people can remember different kinds of objects. The point of this is to understand how we develop the ability to make fine visual distinctions between some things (e.g., between different peoples’ faces) but not others (e.g., leaves or snowflakes). They reasoned that the more experience someone has in dealing with a particular category of things, the better they’ll be at noticing and remembering the visual features that distinguish between members of that category.</p>
+<p>Two of those categories were different types of toys: Barbies and Transformers. They measured how well their participants could tell apart pictures of Barbies that they had seen from pictures of Barbies they hadn’t seen. They did the same for pictures of Transformers. The final memory scores are a number correct out of 48. Finally, each participant indicated on a scale from 1 to 9 how much experience they had with each type of toy.</p>
+<p>The question is, “is experience with a type of toy <em>correlated with</em> better memory?”</p>
+<div id="import-the-data" class="section level3" number="3.3.1">
+<h3><span class="header-section-number">3.3.1</span> Import the data</h3>
+<p>To import the data into R, use the line below</p>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="lab3.html#cb96-1" aria-hidden="true" tabindex="-1"></a>toys <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/toys.csv&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   Barbie_Score = col_double(),
+##   Transf_Score = col_double(),
+##   Barbie_Exp = col_double(),
+##   Transf_Exp = col_double()
+## )</code></pre>
+<p>Click on the new “toys” dataset in the Environment panel (upper right) to see what the data look like. “Barbie_Score” and “Transf_Score” are the scores on the two memory tests, one for Barbies and one for Transformers (respectively). “Barbie_Exp” and “Transf_Exp” are the two reports of prior experience with Barbies and Transformers, respectively.</p>
+</div>
+<div id="experience-and-memory-for-barbies" class="section level3" number="3.3.2">
+<h3><span class="header-section-number">3.3.2</span> Experience and memory for Barbies</h3>
+<p>Let’s first make a scatterplot showing Barbie experience on the horizontal axis and Barbie memory on the vertical axis. We can do that using this code:</p>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="lab3.html#cb98-1" aria-hidden="true" tabindex="-1"></a>toys <span class="sc">%&gt;%</span></span>
+<span id="cb98-2"><a href="lab3.html#cb98-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Barbie_Exp, <span class="at">y=</span>Barbie_Score)) <span class="sc">+</span></span>
+<span id="cb98-3"><a href="lab3.html#cb98-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>()</span></code></pre></div>
+<p><img src="03-correlation_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<p>This gives us a sense of what might be going on.<a href="#fn33" class="footnote-ref" id="fnref33"><sup>33</sup></a> Now let’s calculate the Pearson correlation coefficient (notice that there are no groups here, so we don’t need a <code>group_by</code> line)<a href="#fn34" class="footnote-ref" id="fnref34"><sup>34</sup></a>:</p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="lab3.html#cb99-1" aria-hidden="true" tabindex="-1"></a>toys <span class="sc">%&gt;%</span></span>
+<span id="cb99-2"><a href="lab3.html#cb99-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">r =</span> <span class="fu">cor</span>(Barbie_Exp, Barbie_Score))</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##       r
+##   &lt;dbl&gt;
+## 1 0.142</code></pre>
+</div>
+<div id="experience-and-memory-for-transformers" class="section level3" number="3.3.3">
+<h3><span class="header-section-number">3.3.3</span> Experience and memory for Transformers</h3>
+<p>Now let’s do the same thing for Transformers. Here’s the scatterplot:<a href="#fn35" class="footnote-ref" id="fnref35"><sup>35</sup></a></p>
+<p><img src="03-correlation_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<p>And this is the correlation coefficient between Transformers Experience and Transformers memory score:<a href="#fn36" class="footnote-ref" id="fnref36"><sup>36</sup></a></p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="lab3.html#cb101-1" aria-hidden="true" tabindex="-1"></a>toys <span class="sc">%&gt;%</span></span>
+<span id="cb101-2"><a href="lab3.html#cb101-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">r =</span> <span class="fu">cor</span>(Transf_Exp, Transf_Score))</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##        r
+##    &lt;dbl&gt;
+## 1 0.0964</code></pre>
+<p>It seems like the relationship between experience and memory is a bit weaker for Transformers than for Barbies. But there’s another interesting correlation here.</p>
+</div>
+<div id="experience-with-barbies-and-memory-for-transformers" class="section level3" number="3.3.4">
+<h3><span class="header-section-number">3.3.4</span> Experience with Barbies and memory for Transformers</h3>
+<p>Let’s see if there’s a relationship between experience with Barbies and memory for Transformers.</p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="lab3.html#cb103-1" aria-hidden="true" tabindex="-1"></a>toys <span class="sc">%&gt;%</span></span>
+<span id="cb103-2"><a href="lab3.html#cb103-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Barbie_Exp, <span class="at">y=</span>Transf_Score)) <span class="sc">+</span></span>
+<span id="cb103-3"><a href="lab3.html#cb103-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>()</span></code></pre></div>
+<p><img src="03-correlation_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<p>The scatterplot is shown above and this gives the Pearson correlation coefficient:</p>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="lab3.html#cb104-1" aria-hidden="true" tabindex="-1"></a>toys <span class="sc">%&gt;%</span></span>
+<span id="cb104-2"><a href="lab3.html#cb104-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">r =</span> <span class="fu">cor</span>(Barbie_Exp, Transf_Score))</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##        r
+##    &lt;dbl&gt;
+## 1 -0.124</code></pre>
+<p>Interesting! Even though there is at best a weak relationship between Transformers experience and Transformers memory, there is actually a stronger relationship between Barbie experience and Transformers memory, just a <em>negative</em> one!<a href="#fn37" class="footnote-ref" id="fnref37"><sup>37</sup></a></p>
+</div>
+</div>
+<div id="wrap-up-2" class="section level2" number="3.4">
+<h2><span class="header-section-number">3.4</span> Wrap-up</h2>
+<p>In today’s session, we saw how to find <span class="math inline">\(z\)</span> scores and correlation coefficients in R. We also used R to make scatterplots and saw an example of why it is critical to look at a scatterplot before interpreting the correlation coefficient.</p>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="23">
+<li id="fn23"><p>How would you get R to tell you what the first measurement was?<a href="lab3.html#fnref23" class="footnote-back">↩︎</a></p></li>
+<li id="fn24"><p>What do you think would happen if we asked for the 12th measurement? Try it and see! <em>Hint: how many measurements do we have?</em><a href="lab3.html#fnref24" class="footnote-back">↩︎</a></p></li>
+<li id="fn25"><p>What code will find the mean of <span class="math inline">\(Y\)</span>? <em>Hint: how did we find the mean of <span class="math inline">\(X\)</span>?</em><a href="lab3.html#fnref25" class="footnote-back">↩︎</a></p></li>
+<li id="fn26"><p>What code will find the standard deviation of <span class="math inline">\(Y\)</span>? <em>Hint: how did we find the standard deviation of <span class="math inline">\(X\)</span>?</em><a href="lab3.html#fnref26" class="footnote-back">↩︎</a></p></li>
+<li id="fn27"><p>What code would you write to do this? <em>Hint: what code did we use to calculate and remember the <span class="math inline">\(z\)</span> scores for <span class="math inline">\(X\)</span>?</em><a href="lab3.html#fnref27" class="footnote-back">↩︎</a></p></li>
+<li id="fn28"><p>Is the correlation positive or negative? Does it seem strong or weak?<a href="lab3.html#fnref28" class="footnote-back">↩︎</a></p></li>
+<li id="fn29"><p>Why do we get a different result from <code>cor(X, Y)</code> even though the code itself is the same?<a href="lab3.html#fnref29" class="footnote-back">↩︎</a></p></li>
+<li id="fn30"><p>Compare the code we used to find these correlations with the code we used last time to find the means of the different groups of rat lifespans. What is similar and what is different?<a href="lab3.html#fnref30" class="footnote-back">↩︎</a></p></li>
+<li id="fn31"><p>What do you think the function of the line <code>facet_wrap("Group")</code> is in the code below?<a href="lab3.html#fnref31" class="footnote-back">↩︎</a></p></li>
+<li id="fn32"><p>For each group, say whether you think the correlation coefficient provides a fair description of the relationship between the two variables. Why or why not?<a href="lab3.html#fnref32" class="footnote-back">↩︎</a></p></li>
+<li id="fn33"><p>Based on this scatterplot, does it seem like there might be a correlation between Barbie experience and visual memory for Barbies? If so, is it positive or negative? Weak or strong?<a href="lab3.html#fnref33" class="footnote-back">↩︎</a></p></li>
+<li id="fn34"><p>Do the sign and magnitude of the correlation coefficient make sense based on the scatterplot?<a href="lab3.html#fnref34" class="footnote-back">↩︎</a></p></li>
+<li id="fn35"><p>What code would produce this scatterplot? <em>Hint: what code did we use to make the Barbie scatterplot? What variables in the dataset refer to Transformers rather than Barbies?</em><a href="lab3.html#fnref35" class="footnote-back">↩︎</a></p></li>
+<li id="fn36"><p>What code would find this correlation? <em>Hint: what code did we use to find the Barbie correlation?</em><a href="lab3.html#fnref36" class="footnote-back">↩︎</a></p></li>
+<li id="fn37"><p>Can you think of any reasons why there might be a negative correlation between Barbie experience and Transformers memory?<a href="lab3.html#fnref37" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="lab2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["APSY210 Labs.pdf", "APSY210 Labs.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
