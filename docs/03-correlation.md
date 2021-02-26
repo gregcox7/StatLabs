@@ -158,11 +158,11 @@ as well as its standard deviation^[What code will find the standard deviation of
 ## [1] 2.031568
 ```
 
-Finally, let's find the $z$ scores for each of our $Y$ values and tell R to remember them with the label `z_Y`^[What code would you write to do this? *Hint: what code did we use to calculate and remember the $z$ scores for $X$?*]:
+Finally, let's find the $z$ scores for each of our $Y$ values and tell R to remember them with the label `z_Y`^[What code would you write to do this? *Hint: what code did we use to calculate and remember the $z$ scores for $X$?*].
 
 
 
-If we've done our job right, we should get the following output when we ask R to remember what we put into `z_Y`
+If we've done our job right, we should get the following output when we ask R to remember what we put into `z_Y`:
 
 
 ```r

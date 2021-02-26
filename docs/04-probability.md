@@ -1,0 +1,492 @@
+# Probability and simulation {#lab4}
+
+
+
+<img src="img/kobe.png" width="100%" />
+
+We have seen that there are two senses in which we can think about probability.  On the one hand, we can think of the probability of an outcome as its **long-run relative frequency**.  We can therefore *estimate* the probability that an outcome will happen by seeing how often it occurred in the past, relative to all the other possible outcomes in our sample space.  But on the other hand, we can think of probability as a **degree of belief** about how likely something is to happen.  This second perspective lets us think about probabilities for events that only happen once; until the event happens, all the possible outcomes have some probability of occurring.  We can *imagine* rewinding the clock and seeing how often an event may have turned out differently.
+
+Actually, with computers, we can do better than just imagine what might happen.  We can use the computer to **simulate** many repetitions of an event.
+
+Before we begin, make sure you have opened the tidyverse package from the library:
+
+
+```r
+library(tidyverse)
+```
+
+```
+## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──
+```
+
+```
+## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
+## ✓ tibble  3.0.5     ✓ dplyr   1.0.3
+## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
+## ✓ readr   1.4.0     ✓ forcats 0.5.0
+```
+
+```
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
+```
+
+## Simulation basics
+
+To begin, let's think about the simple scenario of flipping a coin.  The **sample space** consists of two possible outcomes, "Heads" and "Tails".
+
+### Single coin flips
+
+We can simulate a single coin flip in R using a "function" called `sample`:
+
+
+```r
+c("Heads", "Tails") %>%
+    sample(size = 1)
+```
+
+```
+## [1] "Tails"
+```
+
+The first line in the code above tells R our sample space, which is a **collection** of two outcomes, "Heads" and "Tails".  We use the `%>%` to tell R to take that sample space and, on the next line, take a **sample** of **size** 1 from that space.  By "sample of size 1", that's just a precise way of saying "a single flip".
+
+Try running that same bit of code a few more times, so we can see that R is really simulating coin flips---you don't know ahead of time whether it will come up heads or tails.^[How many times did you have to run the coin-flip simulation before you got at least one "Heads" and at least one "Tails"?]
+
+
+```r
+c("Heads", "Tails") %>%
+    sample(size = 1)
+```
+
+```
+## [1] "Heads"
+```
+
+### A sequence of coin flips
+
+It is kind of fun to keep flipping our simulated coin, but it would take a long time to do this repeatedly.  As you might have guessed, we can change the `size` of our sample to quickly give us a long sequence of coin flips.  Let's try that now and see if we can get a sequence of 10 flips.
+
+
+```r
+c("Heads", "Tails") %>%
+    sample(size = 10)
+```
+
+```
+## Error in sample.int(length(x), size, replace, prob): cannot take a sample larger than the population when 'replace = FALSE'
+```
+
+We got an error!  Why is that?  It's because, by default, when you tell R to draw samples, it does so **without replacement**.  In other words, once it draws a sample from the sample space, whatever outcome it sampled doesn't get put back into the space.  This wasn't a problem when we ran the single-sample code multiple times because we told R to start with a "fresh" sample space each time---that's what the first line `c("Heads", "Tails") %>%` means.
+
+Luckily, this is easily fixed by just telling R to sample with replacement like so:
+
+
+```r
+c("Heads", "Tails") %>%
+    sample(size = 10, replace = TRUE)
+```
+
+```
+##  [1] "Tails" "Heads" "Tails" "Heads" "Tails" "Heads" "Tails" "Tails" "Tails"
+## [10] "Tails"
+```
+
+Just like R gave us "fresh" single flips, if we run the 10-flip code again, we will probably get a different sequence of outcomes:
+
+
+```r
+c("Heads", "Tails") %>%
+    sample(size = 10, replace = TRUE)
+```
+
+```
+##  [1] "Tails" "Heads" "Tails" "Heads" "Tails" "Heads" "Heads" "Tails" "Tails"
+## [10] "Tails"
+```
+
+And for the computer, doing 50 flips is not much harder than just 10^[What code would produce a sequence of 50 flips at once? *Hint: what is the number we had to change in the `sample` line to get 10 flips?*]:
+
+
+```
+##  [1] "Tails" "Tails" "Tails" "Heads" "Tails" "Heads" "Tails" "Tails" "Tails"
+## [10] "Tails" "Tails" "Tails" "Heads" "Tails" "Tails" "Tails" "Heads" "Tails"
+## [19] "Heads" "Heads" "Tails" "Heads" "Tails" "Tails" "Tails" "Tails" "Tails"
+## [28] "Heads" "Tails" "Heads" "Heads" "Tails" "Heads" "Tails" "Tails" "Tails"
+## [37] "Heads" "Tails" "Heads" "Heads" "Heads" "Tails" "Heads" "Tails" "Tails"
+## [46] "Heads" "Heads" "Tails" "Heads" "Tails"
+```
+
+### Remembering simulated results
+
+The problem with simulating so many outcomes is that now it is hard to keep track of them!  And, as we've seen, we can't just copy-and-paste the same line of code each time we want to refer back to our simulated outcomes, because that will produce a *new* sequence of outcomes.  Instead, let's tell R to remember the outcomes we simulated.
+
+
+```r
+result <- c("Heads", "Tails") %>%
+    sample(size = 50, replace = TRUE)
+```
+
+All we did was add `result <- ` to the beginning of our code.  Like we saw last time, this will let R remember the particular sequence of outcomes under the label "result".  If we type "result" at the console, we'll see that R looks back in its memory and tells us how that sequence of 50 flips turned out.
+
+
+```r
+result
+```
+
+```
+##  [1] "Heads" "Tails" "Heads" "Tails" "Tails" "Heads" "Tails" "Heads" "Tails"
+## [10] "Heads" "Tails" "Tails" "Heads" "Tails" "Tails" "Tails" "Tails" "Tails"
+## [19] "Tails" "Heads" "Heads" "Heads" "Tails" "Heads" "Tails" "Heads" "Tails"
+## [28] "Heads" "Heads" "Tails" "Heads" "Heads" "Tails" "Heads" "Tails" "Heads"
+## [37] "Heads" "Heads" "Tails" "Tails" "Heads" "Heads" "Tails" "Heads" "Heads"
+## [46] "Heads" "Heads" "Tails" "Tails" "Heads"
+```
+
+But if we simulate a new sequence of flips and tell R to remember it under the label "result", it will forget the original sequence:
+
+
+```r
+result <- c("Heads", "Tails") %>%
+    sample(size = 50, replace = TRUE)
+
+result
+```
+
+```
+##  [1] "Tails" "Tails" "Heads" "Tails" "Heads" "Tails" "Heads" "Heads" "Heads"
+## [10] "Tails" "Tails" "Tails" "Tails" "Tails" "Tails" "Tails" "Heads" "Heads"
+## [19] "Heads" "Tails" "Heads" "Heads" "Heads" "Tails" "Heads" "Heads" "Tails"
+## [28] "Tails" "Heads" "Tails" "Heads" "Heads" "Tails" "Tails" "Heads" "Heads"
+## [37] "Heads" "Tails" "Heads" "Tails" "Heads" "Tails" "Heads" "Tails" "Heads"
+## [46] "Tails" "Heads" "Heads" "Tails" "Heads"
+```
+
+### Turning simulated results into "data"
+
+Now that we can simulate long sequences of outcomes and get R to remember them, we are going to get R to treat those outcomes as if they were "data", in other words, as if they were from a real coin instead of a simulated one.  R keeps data in a special form called a "tibble".  We've seen this cutesy form of the word "table" before; every time we used R to summarize a dataset, it told us the result was a "tibble".
+
+We can create a "tibble" from our simulated flips like this
+
+
+```r
+coin_data <- tibble(result)
+```
+
+We've told R to take our flips, turn them into a `tibble`, and remember the result under the label "coin_data".  Now when we ask R to remember "coin_data", we see it looks a bit different
+
+
+```r
+coin_data
+```
+
+```
+## # A tibble: 50 x 1
+##    result
+##    <chr> 
+##  1 Tails 
+##  2 Tails 
+##  3 Heads 
+##  4 Tails 
+##  5 Heads 
+##  6 Tails 
+##  7 Heads 
+##  8 Heads 
+##  9 Heads 
+## 10 Tails 
+## # … with 40 more rows
+```
+
+## Estimating probabilities
+
+Now that R can treat our simulated flips like it would "real" data, we can summarize it just like we would "real" data.  This will allow us to estimate the probabilities of different outcomes from their relative frequency.
+
+### Frequency table
+
+The first thing we want to know is how many flips were heads and how many were tails.
+
+
+```r
+coin_data %>%
+    group_by(result) %>%
+    summarize(n=n())
+```
+
+```
+## # A tibble: 2 x 2
+##   result     n
+## * <chr>  <int>
+## 1 Heads     26
+## 2 Tails     24
+```
+
+The summary above is a frequency table, which we have used before.^[Compare the code we just used to produce a frequency table with the code we used to make frequency tables in Lab 1.  What is similar and what is different?]
+
+### Estimating probability from frequency
+
+Let's use this frequency table to estimate the probability of getting either a heads or a tails.  To do this, we need to add a line to the code above:
+
+
+```r
+coin_data %>%
+    group_by(result) %>%
+    summarize(n=n()) %>%
+    mutate(p = n / sum(n))
+```
+
+```
+## # A tibble: 2 x 3
+##   result     n     p
+## * <chr>  <int> <dbl>
+## 1 Heads     26  0.52
+## 2 Tails     24  0.48
+```
+
+The final line is called `mutate` because we are "mutating" the frequency counts to produce an estimate of the probability.  We get that estimate (`p`) by taking the frequency of each outcome, `n`, and dividing it by the total number of outcomes (`sum(n)`).
+
+Let's see how this works by simulating a longer sequence of coin flips (1000 flips) and replacing our old results:
+
+
+```r
+result <- c("Heads", "Tails") %>%
+    sample(size = 1000, replace = TRUE)
+
+coin_data <- tibble(result)
+
+coin_data %>%
+    group_by(result) %>%
+    summarize(n=n()) %>%
+    mutate(p = n / sum(n))
+```
+
+```
+## # A tibble: 2 x 3
+##   result     n     p
+## * <chr>  <int> <dbl>
+## 1 Heads    520  0.52
+## 2 Tails    480  0.48
+```
+
+Now let's try it with an even longer sequence of 10000 flips.^[What would you change in the code above to make it produce 10000 flips?  Does it seem like the estimated probabilities are closer to 0.5 for both heads and tails with more flips?]
+
+
+```
+## # A tibble: 2 x 3
+##   result     n     p
+## * <chr>  <int> <dbl>
+## 1 Heads   4999 0.500
+## 2 Tails   5001 0.500
+```
+
+## More advanced simulation tricks
+
+So far, we have just been simulating flips of a fair coin.  Now let's see how we can simulate more complex situations.
+
+### Making up our own probabilities
+
+By default, when you ask R to `sample`, it will assume that all the outcomes in the sample space have equal probability.  That's why when we asked R to simulate coin flips, heads and tails came up about equally often.  Let's mess with this and make ourselves a simulated *unfair* coin.
+
+The code below simulates 1000 flips of a coin that comes up heads with probability 0.6, rather than 0.5:
+
+
+```r
+result <- c("Heads", "Tails") %>%
+    sample(size = 1000, replace = TRUE, prob = c(0.6, 0.4))
+
+coin_data <- tibble(result)
+
+coin_data %>%
+    group_by(result) %>%
+    summarize(n=n()) %>%
+    mutate(p = n / sum(n))
+```
+
+```
+## # A tibble: 2 x 3
+##   result     n     p
+## * <chr>  <int> <dbl>
+## 1 Heads    609 0.609
+## 2 Tails    391 0.391
+```
+
+Notice the main difference is that we added another part to the `sample` line.  By adding `prob = c(0.6, 0.4)`, we told R that the `prob`ability of the *corresponding* outcomes in the sample space (`c("Heads", "Tails")`) should be 0.6 and 0.4, respectively.  If we reverse the order of the probabilities, notice that "Tails" now comes out ahead:
+
+
+```r
+result <- c("Heads", "Tails") %>%
+    sample(size = 1000, replace = TRUE, prob = c(0.4, 0.6))
+
+coin_data <- tibble(result)
+
+coin_data %>%
+    group_by(result) %>%
+    summarize(n=n()) %>%
+    mutate(p = n / sum(n))
+```
+
+```
+## # A tibble: 2 x 3
+##   result     n     p
+## * <chr>  <int> <dbl>
+## 1 Heads    398 0.398
+## 2 Tails    602 0.602
+```
+
+The first rule is that the first number in the collection of probabilities (after `prob`) gives the probability of the first outcome in the sample space, the second number gives the probability of the second outcome in the sample space, and so on.  Now let's try simulating 1000 flips where the probability of heads is 0.7:^[How would you change our coin flipping code to do this?  *Hint: remember that probabilities should always add up to 1.*]
+
+
+```
+## # A tibble: 2 x 3
+##   result     n     p
+## * <chr>  <int> <dbl>
+## 1 Heads    672 0.672
+## 2 Tails    328 0.328
+```
+
+Notice that the **relative frequency** of the different outcomes is always close to the probabilities we give to R.
+
+### Expanding the sample space
+
+In addition to messing with the probabilities, we can mess with the sample space.  So far, we have been assuming that the coin can only come up heads or tails.  What if the coin could land on its side?  This would introduce a new possible *outcome* to our sample space.  We need to change the first line of our simulation code to reflect this:
+
+
+```r
+result <- c("Heads", "Tails", "Side") %>%
+    sample(size = 1000, replace = TRUE)
+
+coin_data <- tibble(result)
+
+coin_data %>%
+    group_by(result) %>%
+    summarize(n=n()) %>%
+    mutate(p = n / sum(n))
+```
+
+```
+## # A tibble: 3 x 3
+##   result     n     p
+## * <chr>  <int> <dbl>
+## 1 Heads    338 0.338
+## 2 Side     342 0.342
+## 3 Tails    320 0.32
+```
+
+Notice that the code above did not specify any `prob`abilities.  As a result, all three outcomes in our sample space ended up happening about equally often.  Let's specify those probabilities to try and get the coin to come up on its side with probability 0.1, but otherwise come up heads or tails with equal probability and simulated 1000 flips.  The result will look something like this:^[What would you add to the simulation code to make the probability of heads, tails, and side come out this way? *Hint: Remember how we specified the probabilities for the unfair coin, and that all three probabilities should add up to 1.*]
+
+
+```
+## # A tibble: 3 x 3
+##   result     n     p
+## * <chr>  <int> <dbl>
+## 1 Heads    464 0.464
+## 2 Side     100 0.1  
+## 3 Tails    436 0.436
+```
+
+## Estimating probabilities in data
+
+By now we are probably sick of coin flipping.  Let's take a break and watch some basketball.  Specifically, let's watch Kobe Bryant of the LA Lakers as they played against the Orlando Magic in the 2009 NBA finals.  Use the following line of code to download a dataset consisting of every shooting attempt Kobe made that game, including whether or not it went in (i.e., was the shot a "Hit" or a "Miss"):
+
+
+```r
+kobe <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/kobe.csv")
+```
+
+```
+## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   vs = col_character(),
+##   game = col_double(),
+##   quarter = col_character(),
+##   time = col_time(format = ""),
+##   description = col_character(),
+##   shot = col_character(),
+##   prev_shot = col_character()
+## )
+```
+
+### What was Kobe's hit rate?
+
+The first question we should ask is how often Kobe's shots go in (called his "field goal percentage").  We can modify the code we used to estimate probabilities from our simulated coin flips to do the same for Kobe's real shot attempts:^[Compare the code below to the code we used above to estimate probabilities from our simulated coin flips.  What is similar and what is different?]
+
+
+```r
+kobe %>%
+    group_by(shot) %>%
+    summarize(n=n()) %>%
+    mutate(p = n / sum(n))
+```
+
+```
+## # A tibble: 2 x 3
+##   shot      n     p
+## * <chr> <int> <dbl>
+## 1 H        57 0.432
+## 2 M        75 0.568
+```
+
+### A simulated Kobe
+
+Using the estimates above, let's see if we can construct a simulated Kobe Bryant that, like our simulated coin, will have roughly the same probability of making a basket as Kobe did.  To do this, we need to specify our **sample space** (`c("H", "M")`, where "H" is for "hit" and "M" is for "miss") and our **probabilities** (e.g., `prob = c(0.5, 0.5)` if we think hits and misses are equally likely).  Since this is a simulated Kobe, we can make him attempt 1000 shots (or more):
+
+
+```r
+result <- c("H", "M") %>%
+    sample(size = 1000, replace = TRUE, prob = c(0.5, 0.5))
+
+simulated_kobe_data <- tibble(result)
+
+simulated_kobe_data %>%
+    group_by(result) %>%
+    summarize(n=n()) %>%
+    mutate(p = n / sum(n))
+```
+
+```
+## # A tibble: 2 x 3
+##   result     n     p
+## * <chr>  <int> <dbl>
+## 1 H        520  0.52
+## 2 M        480  0.48
+```
+
+Does this simulated Kobe look much like the real one?  What should we change to make it look more like the real Kobe?^[Play around with the `prob`abilities in the code for simulating shots from Kobe Bryant until you find some probabilities that make his hit rate look similar to what we actually observed.  What probabilities did you end up with?]
+
+### Hot- or cold-handed
+
+Commentators at this particular game remarked that Kobe seemed to have a "hot hand".  In other words, they seemed to believe that once Kobe made a basket ("H"), he was *more likely* to make a basket on his next shot.  This is a probability question!  Specifically, it is a question about **conditional probability**.  *Conditional on* whether Kobe's previous shot was a hit or a miss, what is the probability that his next shot is a hit or a miss?
+
+We can address this question by modifying the code we used above to estimate probabilities:
+
+
+```r
+kobe %>%
+    group_by(prev_shot, shot) %>%
+    summarize(n=n()) %>%
+    mutate(p = n / sum(n))
+```
+
+```
+## `summarise()` has grouped output by 'prev_shot'. You can override using the `.groups` argument.
+```
+
+```
+## # A tibble: 4 x 4
+## # Groups:   prev_shot [2]
+##   prev_shot shot      n     p
+##   <chr>     <chr> <int> <dbl>
+## 1 H         H        21 0.368
+## 2 H         M        36 0.632
+## 3 M         H        36 0.48 
+## 4 M         M        39 0.52
+```
+
+Here, `prev_shot` refers to whether Kobe's `prev`ious shot was a hit ("H") or a miss ("M").  By adding `prev_shot` to the grouping in our second line, what we have done is tell R to count the number of times each *combination* of hit/miss on the previous shot and hit/miss on the current shot occurred.^[Compare the code we just used with the code we used to get the number of passengers who did or did not survive on the *Titanic* in each class.  What is similar and what is different?]  As a result, when we ask R in the final line to give us probabilities, it gives us the probability of a hit or miss on the current shot *conditional on* whether the previous shot was a hit or a miss.
+
+So, were the commentators right?^[Did Kobe have a "hot hand"?  Did he have a "cold hand", where missing a shot meant it was more likely he would miss his next shot?  Was there something else going on?  Or was there no particular difference depending on whether he made or missed his previous shot?]
+
+## Wrap-up
+
+In this activity, we saw how we could use R to **simulate** outcomes of many repeated events.  We could specify the **sample space** as well as the **probability** with which different outcomes could occur.  We saw how the **long-run relative frequency** got close to these probabilities.  Finally, we saw how we could use R to **estimate** probabilities from frequencies of different outcomes, including **conditional probabilities**.
