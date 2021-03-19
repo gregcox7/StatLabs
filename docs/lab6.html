@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Lab 6 Sampling and the Central Limit Theorem: The Wisdom of Large Samples | Labs</title>
+  <meta name="description" content="Laboratory exercises for APSY210." />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Lab 6 Sampling and the Central Limit Theorem: The Wisdom of Large Samples | Labs" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Laboratory exercises for APSY210." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Lab 6 Sampling and the Central Limit Theorem: The Wisdom of Large Samples | Labs" />
+  
+  <meta name="twitter:description" content="Laboratory exercises for APSY210." />
+  
+
+<meta name="author" content="Greg Cox" />
+
+
+<meta name="date" content="2021-03-18" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="lab5.html"/>
+<link rel="next" href="references.html"/>
+<script src="libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Labs</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="1" data-path="lab1.html"><a href="lab1.html"><i class="fa fa-check"></i><b>1</b> Exploring Data with R</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="lab1.html"><a href="lab1.html#r-and-rstudio"><i class="fa fa-check"></i><b>1.1</b> R and RStudio</a></li>
+<li class="chapter" data-level="1.2" data-path="lab1.html"><a href="lab1.html#meet-your-data"><i class="fa fa-check"></i><b>1.2</b> Meet your data</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="lab1.html"><a href="lab1.html#check-out-the-variables"><i class="fa fa-check"></i><b>1.2.1</b> Check out the variables</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="lab1.html"><a href="lab1.html#answering-questions-with-data"><i class="fa fa-check"></i><b>1.3</b> Answering questions with data</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="lab1.html"><a href="lab1.html#frequency-tables"><i class="fa fa-check"></i><b>1.3.1</b> Frequency tables</a></li>
+<li class="chapter" data-level="1.3.2" data-path="lab1.html"><a href="lab1.html#bar-charts"><i class="fa fa-check"></i><b>1.3.2</b> Bar charts</a></li>
+<li class="chapter" data-level="1.3.3" data-path="lab1.html"><a href="lab1.html#histograms"><i class="fa fa-check"></i><b>1.3.3</b> Histograms</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="lab1.html"><a href="lab1.html#wrap-up"><i class="fa fa-check"></i><b>1.4</b> Wrap-up</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="lab2.html"><a href="lab2.html"><i class="fa fa-check"></i><b>2</b> Central tendency and variability</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="lab2.html"><a href="lab2.html#simple-cases"><i class="fa fa-check"></i><b>2.1</b> Simple cases</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="lab2.html"><a href="lab2.html#central-tendency"><i class="fa fa-check"></i><b>2.1.1</b> Central tendency</a></li>
+<li class="chapter" data-level="2.1.2" data-path="lab2.html"><a href="lab2.html#variability"><i class="fa fa-check"></i><b>2.1.2</b> Variability</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="lab2.html"><a href="lab2.html#dealing-with-real-data"><i class="fa fa-check"></i><b>2.2</b> Dealing with real data</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="lab2.html"><a href="lab2.html#setting-the-stage"><i class="fa fa-check"></i><b>2.2.1</b> Setting the stage</a></li>
+<li class="chapter" data-level="2.2.2" data-path="lab2.html"><a href="lab2.html#getting-the-data"><i class="fa fa-check"></i><b>2.2.2</b> Getting the data</a></li>
+<li class="chapter" data-level="2.2.3" data-path="lab2.html"><a href="lab2.html#visualizing-the-data"><i class="fa fa-check"></i><b>2.2.3</b> Visualizing the data</a></li>
+<li class="chapter" data-level="2.2.4" data-path="lab2.html"><a href="lab2.html#central-tendency-1"><i class="fa fa-check"></i><b>2.2.4</b> Central tendency</a></li>
+<li class="chapter" data-level="2.2.5" data-path="lab2.html"><a href="lab2.html#variability-1"><i class="fa fa-check"></i><b>2.2.5</b> Variability</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="lab2.html"><a href="lab2.html#wrap-up-1"><i class="fa fa-check"></i><b>2.3</b> Wrap-up</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="lab3.html"><a href="lab3.html"><i class="fa fa-check"></i><b>3</b> Scatterplots and correlation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="lab3.html"><a href="lab3.html#calculating-the-pearson-correlation-coefficient"><i class="fa fa-check"></i><b>3.1</b> Calculating the Pearson correlation coefficient</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="lab3.html"><a href="lab3.html#from-x-to-z"><i class="fa fa-check"></i><b>3.1.1</b> From <span class="math inline">\(X\)</span> to <span class="math inline">\(z\)</span></a></li>
+<li class="chapter" data-level="3.1.2" data-path="lab3.html"><a href="lab3.html#finding-the-correlation-coefficient"><i class="fa fa-check"></i><b>3.1.2</b> Finding the correlation coefficient</a></li>
+<li class="chapter" data-level="3.1.3" data-path="lab3.html"><a href="lab3.html#dealing-with-real-data-1"><i class="fa fa-check"></i><b>3.1.3</b> Dealing with real data</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="lab3.html"><a href="lab3.html#scatterplots"><i class="fa fa-check"></i><b>3.2</b> Scatterplots</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="lab3.html"><a href="lab3.html#making-a-group-of-scatterplots"><i class="fa fa-check"></i><b>3.2.1</b> Making a group of scatterplots</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="lab3.html"><a href="lab3.html#some-bigger-data"><i class="fa fa-check"></i><b>3.3</b> Some bigger data</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="lab3.html"><a href="lab3.html#import-the-data"><i class="fa fa-check"></i><b>3.3.1</b> Import the data</a></li>
+<li class="chapter" data-level="3.3.2" data-path="lab3.html"><a href="lab3.html#experience-and-memory-for-barbies"><i class="fa fa-check"></i><b>3.3.2</b> Experience and memory for Barbies</a></li>
+<li class="chapter" data-level="3.3.3" data-path="lab3.html"><a href="lab3.html#experience-and-memory-for-transformers"><i class="fa fa-check"></i><b>3.3.3</b> Experience and memory for Transformers</a></li>
+<li class="chapter" data-level="3.3.4" data-path="lab3.html"><a href="lab3.html#experience-with-barbies-and-memory-for-transformers"><i class="fa fa-check"></i><b>3.3.4</b> Experience with Barbies and memory for Transformers</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="lab3.html"><a href="lab3.html#wrap-up-2"><i class="fa fa-check"></i><b>3.4</b> Wrap-up</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="lab4.html"><a href="lab4.html"><i class="fa fa-check"></i><b>4</b> Probability and simulation</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="lab4.html"><a href="lab4.html#simulation-basics"><i class="fa fa-check"></i><b>4.1</b> Simulation basics</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="lab4.html"><a href="lab4.html#single-coin-flips"><i class="fa fa-check"></i><b>4.1.1</b> Single coin flips</a></li>
+<li class="chapter" data-level="4.1.2" data-path="lab4.html"><a href="lab4.html#a-sequence-of-coin-flips"><i class="fa fa-check"></i><b>4.1.2</b> A sequence of coin flips</a></li>
+<li class="chapter" data-level="4.1.3" data-path="lab4.html"><a href="lab4.html#remembering-simulated-results"><i class="fa fa-check"></i><b>4.1.3</b> Remembering simulated results</a></li>
+<li class="chapter" data-level="4.1.4" data-path="lab4.html"><a href="lab4.html#turning-simulated-results-into-data"><i class="fa fa-check"></i><b>4.1.4</b> Turning simulated results into “data”</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="lab4.html"><a href="lab4.html#estimating-probabilities"><i class="fa fa-check"></i><b>4.2</b> Estimating probabilities</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="lab4.html"><a href="lab4.html#frequency-table"><i class="fa fa-check"></i><b>4.2.1</b> Frequency table</a></li>
+<li class="chapter" data-level="4.2.2" data-path="lab4.html"><a href="lab4.html#estimating-probability-from-frequency"><i class="fa fa-check"></i><b>4.2.2</b> Estimating probability from frequency</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="lab4.html"><a href="lab4.html#more-advanced-simulation-tricks"><i class="fa fa-check"></i><b>4.3</b> More advanced simulation tricks</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="lab4.html"><a href="lab4.html#making-up-our-own-probabilities"><i class="fa fa-check"></i><b>4.3.1</b> Making up our own probabilities</a></li>
+<li class="chapter" data-level="4.3.2" data-path="lab4.html"><a href="lab4.html#expanding-the-sample-space"><i class="fa fa-check"></i><b>4.3.2</b> Expanding the sample space</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="lab4.html"><a href="lab4.html#estimating-probabilities-in-data"><i class="fa fa-check"></i><b>4.4</b> Estimating probabilities in data</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="lab4.html"><a href="lab4.html#what-was-kobes-hit-rate"><i class="fa fa-check"></i><b>4.4.1</b> What was Kobe’s hit rate?</a></li>
+<li class="chapter" data-level="4.4.2" data-path="lab4.html"><a href="lab4.html#a-simulated-kobe"><i class="fa fa-check"></i><b>4.4.2</b> A simulated Kobe</a></li>
+<li class="chapter" data-level="4.4.3" data-path="lab4.html"><a href="lab4.html#hot--or-cold-handed"><i class="fa fa-check"></i><b>4.4.3</b> Hot- or cold-handed</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="lab4.html"><a href="lab4.html#wrap-up-3"><i class="fa fa-check"></i><b>4.5</b> Wrap-up</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="lab5.html"><a href="lab5.html"><i class="fa fa-check"></i><b>5</b> Models: The Binomial and the Normal</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="lab5.html"><a href="lab5.html#the-binomial-distribution-in-r"><i class="fa fa-check"></i><b>5.1</b> The binomial distribution in R</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="lab5.html"><a href="lab5.html#translating-from-sample-to-rbinom"><i class="fa fa-check"></i><b>5.1.1</b> Translating from <code>sample</code> to <code>rbinom</code></a></li>
+<li class="chapter" data-level="5.1.2" data-path="lab5.html"><a href="lab5.html#outcomes-from-different-sequences-of-events"><i class="fa fa-check"></i><b>5.1.2</b> Outcomes from different sequences of events</a></li>
+<li class="chapter" data-level="5.1.3" data-path="lab5.html"><a href="lab5.html#simulated-relative-frequencies-and-probabilities"><i class="fa fa-check"></i><b>5.1.3</b> Simulated relative frequencies and probabilities</a></li>
+<li class="chapter" data-level="5.1.4" data-path="lab5.html"><a href="lab5.html#calculating-binomial-probabilities-directly"><i class="fa fa-check"></i><b>5.1.4</b> Calculating binomial probabilities directly</a></li>
+<li class="chapter" data-level="5.1.5" data-path="lab5.html"><a href="lab5.html#cumulative-probabilities-with-the-binomial"><i class="fa fa-check"></i><b>5.1.5</b> Cumulative probabilities with the binomial</a></li>
+<li class="chapter" data-level="5.1.6" data-path="lab5.html"><a href="lab5.html#summary-of-rs-built-in-binomial-distribution"><i class="fa fa-check"></i><b>5.1.6</b> Summary of R’s built-in binomial distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="lab5.html"><a href="lab5.html#the-normal-distribution-in-r"><i class="fa fa-check"></i><b>5.2</b> The normal distribution in R</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="lab5.html"><a href="lab5.html#simulating-outcomes-from-a-normal-distribution"><i class="fa fa-check"></i><b>5.2.1</b> Simulating outcomes from a normal distribution</a></li>
+<li class="chapter" data-level="5.2.2" data-path="lab5.html"><a href="lab5.html#the-mean-and-standard-deviation"><i class="fa fa-check"></i><b>5.2.2</b> The mean and standard deviation</a></li>
+<li class="chapter" data-level="5.2.3" data-path="lab5.html"><a href="lab5.html#calculating-probabilities-with-the-normal-distribution"><i class="fa fa-check"></i><b>5.2.3</b> Calculating probabilities with the normal distribution</a></li>
+<li class="chapter" data-level="5.2.4" data-path="lab5.html"><a href="lab5.html#finding-quantiles-with-the-normal-distribution"><i class="fa fa-check"></i><b>5.2.4</b> Finding “quantiles” with the normal distribution</a></li>
+<li class="chapter" data-level="5.2.5" data-path="lab5.html"><a href="lab5.html#summary-of-rs-built-in-normal-distribution"><i class="fa fa-check"></i><b>5.2.5</b> Summary of R’s built-in normal distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="lab5.html"><a href="lab5.html#wrap-up-4"><i class="fa fa-check"></i><b>5.3</b> Wrap-up</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="lab6.html"><a href="lab6.html"><i class="fa fa-check"></i><b>6</b> Sampling and the Central Limit Theorem: The Wisdom of Large Samples</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="lab6.html"><a href="lab6.html#before-we-begin"><i class="fa fa-check"></i><b>6.1</b> Before we begin…</a></li>
+<li class="chapter" data-level="6.2" data-path="lab6.html"><a href="lab6.html#heights"><i class="fa fa-check"></i><b>6.2</b> Heights</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="lab6.html"><a href="lab6.html#a-simulated-population"><i class="fa fa-check"></i><b>6.2.1</b> A simulated population</a></li>
+<li class="chapter" data-level="6.2.2" data-path="lab6.html"><a href="lab6.html#a-sample-from-our-simulated-population"><i class="fa fa-check"></i><b>6.2.2</b> A sample from our simulated population</a></li>
+<li class="chapter" data-level="6.2.3" data-path="lab6.html"><a href="lab6.html#many-samples-from-our-simulated-population"><i class="fa fa-check"></i><b>6.2.3</b> Many samples from our simulated population</a></li>
+<li class="chapter" data-level="6.2.4" data-path="lab6.html"><a href="lab6.html#many-larger-samples"><i class="fa fa-check"></i><b>6.2.4</b> Many larger samples</a></li>
+<li class="chapter" data-level="6.2.5" data-path="lab6.html"><a href="lab6.html#the-probability-of-being-wrong"><i class="fa fa-check"></i><b>6.2.5</b> The probability of being wrong</a></li>
+<li class="chapter" data-level="6.2.6" data-path="lab6.html"><a href="lab6.html#biased-samples"><i class="fa fa-check"></i><b>6.2.6</b> Biased samples</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="lab6.html"><a href="lab6.html#the-wisdom-of-the-crowd"><i class="fa fa-check"></i><b>6.3</b> The Wisdom of the Crowd</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="lab6.html"><a href="lab6.html#grab-the-data"><i class="fa fa-check"></i><b>6.3.1</b> Grab the data</a></li>
+<li class="chapter" data-level="6.3.2" data-path="lab6.html"><a href="lab6.html#make-a-histogram"><i class="fa fa-check"></i><b>6.3.2</b> Make a histogram</a></li>
+<li class="chapter" data-level="6.3.3" data-path="lab6.html"><a href="lab6.html#what-is-the-right-answer"><i class="fa fa-check"></i><b>6.3.3</b> What is the right answer?</a></li>
+<li class="chapter" data-level="6.3.4" data-path="lab6.html"><a href="lab6.html#what-about-the-average"><i class="fa fa-check"></i><b>6.3.4</b> What about the average?</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="lab6.html"><a href="lab6.html#wrap-up-5"><i class="fa fa-check"></i><b>6.4</b> Wrap-up</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Labs</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="lab6" class="section level1" number="6">
+<h1><span class="header-section-number">Lab 6</span> Sampling and the Central Limit Theorem: The Wisdom of Large Samples</h1>
+<p><img src="img/crowd.png" width="100%" /></p>
+<p>We have just encountered a remarkable phenomenon which goes by the weighty but unclear name “central limit theorem.” This theorem says that if we draw a large enough sample from our population of interest, the <em>mean</em> of our sample will have a much better chance of being a good <em>estimate</em> of the mean of the population.</p>
+<p>Specifically, what happens is that there is a distribution of sample means which is approximately normal. The mean of this distribution is the population mean (which we’ve labeled <span class="math inline">\(\mu\)</span>) and the standard deviation of this distribution is called the “<strong>standard error of the mean</strong>” and is equal to <span class="math inline">\(\frac{\sigma}{\sqrt{n}}\)</span>, where <span class="math inline">\(\sigma\)</span> is the population standard deviation and <span class="math inline">\(n\)</span> is our sample size. So this distribution of sample means is centered on the “correct answer,” and gets narrower and narrower the larger our sample. This means that, the larger the sample, the better the chance that its mean is close to the population mean.</p>
+<p>But for this to happen, our sample has to be <em>representative</em> of the population. If the sample is <em>biased</em> in any way, then our estimate of the population mean will also be biased. One way a sample can be biased is if it is not a <em>simple random sample</em> from the population.</p>
+<p>In this session, we will see the “central limit theorem” in action to better understand what it means. We will also see how sampling bias hampers our ability to estimate population means. Finally, we will see that it is not just a statistical curiosity, but something that is surprisingly pervasive.</p>
+<div id="before-we-begin" class="section level2" number="6.1">
+<h2><span class="header-section-number">6.1</span> Before we begin…</h2>
+<p>For this session, we will need the tidyverse package like usual. We will <em>also</em> need another package from R’s library called “infer.” Make sure you have it installed (if you already have it installed, you can skip the next line, but try running this line if something doesn’t work):</p>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="lab6.html#cb208-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;infer&quot;</span>)</span></code></pre></div>
+<p>Now, make sure you have loaded <em>both</em> the tidyverse package <em>and</em> the new “infer” package from R’s library:</p>
+<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="lab6.html#cb209-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
+## ✓ tibble  3.0.5     ✓ dplyr   1.0.3
+## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
+## ✓ readr   1.4.0     ✓ forcats 0.5.0</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="lab6.html#cb213-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(infer)</span></code></pre></div>
+<p>One last thing before we begin: Make your best guess about the answer to this question: <strong>What percent of the world’s airports are in the United States?</strong></p>
+</div>
+<div id="heights" class="section level2" number="6.2">
+<h2><span class="header-section-number">6.2</span> Heights</h2>
+<p>Last time, we saw how when we used a <em>model</em> to simulate lots of individual observed values, the descriptive statistics for our simulated data were very close to the model <em>parameters</em> we used. We focused on the distribution of these individual values. Now, we will focus on the <strong>distribution of sample means</strong>. This is the distribution that represents our uncertainty about the true value of the population mean.</p>
+<div id="a-simulated-population" class="section level3" number="6.2.1">
+<h3><span class="header-section-number">6.2.1</span> A simulated population</h3>
+<p>Lets use the normal distribution to simulate the heights of an entire population of women, let’s say 50,000. Remember that the mean height is 64 inches and the standard deviation is 6 inches:</p>
+<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="lab6.html#cb214-1" aria-hidden="true" tabindex="-1"></a>height <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">50000</span>, <span class="at">mean =</span> <span class="dv">64</span>, <span class="at">sd =</span> <span class="dv">6</span>)</span>
+<span id="cb214-2"><a href="lab6.html#cb214-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb214-3"><a href="lab6.html#cb214-3" aria-hidden="true" tabindex="-1"></a>population <span class="ot">&lt;-</span> <span class="fu">tibble</span>(height)</span></code></pre></div>
+<p>In the first line, we used the <code>rnorm</code> function to simulate the heights of <code>n = 50000</code> women, where the average height is <code>mean = 64</code> inches and the standard deviation of heights is <code>sd = 6</code> inches. We told R to remember this collection of values under the name “height.” In the second line, we told R to treat “height” as if it were data (a “tibble”) and told R to remember our data under the name “population.”</p>
+</div>
+<div id="a-sample-from-our-simulated-population" class="section level3" number="6.2.2">
+<h3><span class="header-section-number">6.2.2</span> A sample from our simulated population</h3>
+<p>Now that we have a whole population at our disposal—which we can only do because we are <em>simulating them</em>!—we can experiment and see what the effect is of getting different samples from this population.</p>
+<p>The code below selects a simple random sample of 10 women from our population:</p>
+<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="lab6.html#cb215-1" aria-hidden="true" tabindex="-1"></a>population <span class="sc">%&gt;%</span></span>
+<span id="cb215-2"><a href="lab6.html#cb215-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 10 x 1
+##    height
+##     &lt;dbl&gt;
+##  1   55.2
+##  2   56.8
+##  3   58.9
+##  4   65.6
+##  5   65.0
+##  6   52.0
+##  7   58.1
+##  8   52.6
+##  9   59.5
+## 10   65.3</code></pre>
+<p>This is pretty similar to how we simulated things like coin flips earlier.<a href="#fn63" class="footnote-ref" id="fnref63"><sup>63</sup></a> The <code>slice_sample</code> function is just another way we can simulate drawing a “sample” of size <code>n</code> from a set of possibilities.</p>
+<p>Let’s try it again and see what a different sample of 10 women from this population might be:</p>
+<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb217-1"><a href="lab6.html#cb217-1" aria-hidden="true" tabindex="-1"></a>population <span class="sc">%&gt;%</span></span>
+<span id="cb217-2"><a href="lab6.html#cb217-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 10 x 1
+##    height
+##     &lt;dbl&gt;
+##  1   64.5
+##  2   67.8
+##  3   55.9
+##  4   60.7
+##  5   66.3
+##  6   69.0
+##  7   74.7
+##  8   57.0
+##  9   54.8
+## 10   64.3</code></pre>
+<p>Now let’s tell R to remember one of these samples under the name “sample_heights,” so we can work with it later.</p>
+<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="lab6.html#cb219-1" aria-hidden="true" tabindex="-1"></a>sample_heights <span class="ot">&lt;-</span> population <span class="sc">%&gt;%</span></span>
+<span id="cb219-2"><a href="lab6.html#cb219-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div>
+<p>Now we can do our usual thing and find the mean and standard deviation of the heights <em>in this one sample</em>:</p>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="lab6.html#cb220-1" aria-hidden="true" tabindex="-1"></a>sample_heights <span class="sc">%&gt;%</span></span>
+<span id="cb220-2"><a href="lab6.html#cb220-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">M =</span> <span class="fu">mean</span>(height), <span class="at">S =</span> <span class="fu">sd</span>(height))</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 2
+##       M     S
+##   &lt;dbl&gt; &lt;dbl&gt;
+## 1  64.9  5.73</code></pre>
+<p>As we might expect, they are somewhat close to the parameters we used to generate the population, but they are unlikely to match exactly.</p>
+</div>
+<div id="many-samples-from-our-simulated-population" class="section level3" number="6.2.3">
+<h3><span class="header-section-number">6.2.3</span> Many samples from our simulated population</h3>
+<p>If we kept getting samples of size 10 from our population, how often would their sample means be close to the true population mean? While we could just keep running that same code from above over and over again, R helps us automate this process:</p>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="lab6.html#cb222-1" aria-hidden="true" tabindex="-1"></a>many_samples_size10 <span class="ot">&lt;-</span> population <span class="sc">%&gt;%</span></span>
+<span id="cb222-2"><a href="lab6.html#cb222-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rep_slice_sample</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">reps =</span> <span class="dv">1000</span>)</span></code></pre></div>
+<p>What we just did was use the <code>rep_slice_sample</code> function to <code>rep</code>eatedly sample groups of 10 women from our population<a href="#fn64" class="footnote-ref" id="fnref64"><sup>64</sup></a>. Specifically, we got <code>reps = 1000</code> samples of size 10, and we told R to remember these samples under the name “many_samples_size10.” Let’s have a look at what the resulting simulated data look like:</p>
+<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="lab6.html#cb223-1" aria-hidden="true" tabindex="-1"></a>many_samples_size10</span></code></pre></div>
+<pre><code>## # A tibble: 10,000 x 2
+## # Groups:   replicate [1,000]
+##    replicate height
+##        &lt;int&gt;  &lt;dbl&gt;
+##  1         1   65.3
+##  2         1   72.3
+##  3         1   69.6
+##  4         1   67.1
+##  5         1   69.0
+##  6         1   70.4
+##  7         1   67.6
+##  8         1   54.5
+##  9         1   56.2
+## 10         1   55.1
+## # … with 9,990 more rows</code></pre>
+<p>So there are two columns, one column is “height,” representing the height in inches of each simulated woman in our samples. The other column is “replicate” which tells us <em>which sample</em> (of the 1000 samples we made) the woman is in. This column will let us group the women into their respective samples.</p>
+<p>Now we can get the mean height for each sample:</p>
+<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="lab6.html#cb225-1" aria-hidden="true" tabindex="-1"></a>many_samples_size10 <span class="sc">%&gt;%</span></span>
+<span id="cb225-2"><a href="lab6.html#cb225-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(replicate) <span class="sc">%&gt;%</span></span>
+<span id="cb225-3"><a href="lab6.html#cb225-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">M =</span> <span class="fu">mean</span>(height))</span></code></pre></div>
+<pre><code>## # A tibble: 1,000 x 2
+##    replicate     M
+##  *     &lt;int&gt; &lt;dbl&gt;
+##  1         1  64.7
+##  2         2  67.3
+##  3         3  62.5
+##  4         4  60.8
+##  5         5  63.0
+##  6         6  64.6
+##  7         7  62.2
+##  8         8  66.1
+##  9         9  64.1
+## 10        10  60.6
+## # … with 990 more rows</code></pre>
+<p>So we begin to see how the sample mean changes depending on who happened to have been selected into the sample. But this is still too many numbers, so let’s go to our old standby, the histogram.</p>
+<p>First, let’s tell R to remember those sample means we just found:</p>
+<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="lab6.html#cb227-1" aria-hidden="true" tabindex="-1"></a>sample_means_size10 <span class="ot">&lt;-</span> many_samples_size10 <span class="sc">%&gt;%</span></span>
+<span id="cb227-2"><a href="lab6.html#cb227-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(replicate) <span class="sc">%&gt;%</span></span>
+<span id="cb227-3"><a href="lab6.html#cb227-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">M =</span> <span class="fu">mean</span>(height))</span></code></pre></div>
+<p>Now, we are in shape to make a histogram representing the <em>frequency</em> with which different samples have different means:</p>
+<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="lab6.html#cb228-1" aria-hidden="true" tabindex="-1"></a>sample_means_size10 <span class="sc">%&gt;%</span></span>
+<span id="cb228-2"><a href="lab6.html#cb228-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>M)) <span class="sc">+</span></span>
+<span id="cb228-3"><a href="lab6.html#cb228-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">binwidth=</span><span class="dv">1</span>)</span></code></pre></div>
+<p><img src="06-central_limit_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p>Certainly looks like a normal distribution! Now let’s see what the mean and standard deviation of the sample means are:</p>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="lab6.html#cb229-1" aria-hidden="true" tabindex="-1"></a>sample_means_size10 <span class="sc">%&gt;%</span></span>
+<span id="cb229-2"><a href="lab6.html#cb229-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">MM =</span> <span class="fu">mean</span>(M), <span class="at">SEM =</span> <span class="fu">sd</span>(M))</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 2
+##      MM   SEM
+##   &lt;dbl&gt; &lt;dbl&gt;
+## 1  64.0  1.93</code></pre>
+<p>Remember that the standard deviation of sample means goes by the special name <strong>standard error of the mean</strong>, hence why we labeled it <code>SEM</code>.<a href="#fn65" class="footnote-ref" id="fnref65"><sup>65</sup></a></p>
+</div>
+<div id="many-larger-samples" class="section level3" number="6.2.4">
+<h3><span class="header-section-number">6.2.4</span> Many larger samples</h3>
+<p>Let’s follow the same steps above, but instead of collecting many samples of size 10, let’s get many larger samples of size 100.</p>
+<p>First, let’s simulate 1000 samples, all of size 100, and tell R to remember them under the name “many_samples_size100.”<a href="#fn66" class="footnote-ref" id="fnref66"><sup>66</sup></a></p>
+<p>Next, let’s find the means of each of those samples like we did above:</p>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="lab6.html#cb231-1" aria-hidden="true" tabindex="-1"></a>sample_means_size100 <span class="ot">&lt;-</span> many_samples_size100 <span class="sc">%&gt;%</span></span>
+<span id="cb231-2"><a href="lab6.html#cb231-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(replicate) <span class="sc">%&gt;%</span></span>
+<span id="cb231-3"><a href="lab6.html#cb231-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">M =</span> <span class="fu">mean</span>(height))</span></code></pre></div>
+<p>And have a look at a histogram:</p>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="lab6.html#cb232-1" aria-hidden="true" tabindex="-1"></a>sample_means_size100 <span class="sc">%&gt;%</span></span>
+<span id="cb232-2"><a href="lab6.html#cb232-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>M)) <span class="sc">+</span></span>
+<span id="cb232-3"><a href="lab6.html#cb232-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">binwidth=</span><span class="dv">1</span>)</span></code></pre></div>
+<p><img src="06-central_limit_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p>And the mean of sample means and standard error of the mean<a href="#fn67" class="footnote-ref" id="fnref67"><sup>67</sup></a>:</p>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="lab6.html#cb233-1" aria-hidden="true" tabindex="-1"></a>sample_means_size100 <span class="sc">%&gt;%</span></span>
+<span id="cb233-2"><a href="lab6.html#cb233-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">MM =</span> <span class="fu">mean</span>(M), <span class="at">SEM =</span> <span class="fu">sd</span>(M))</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 2
+##      MM   SEM
+##   &lt;dbl&gt; &lt;dbl&gt;
+## 1  64.0 0.600</code></pre>
+</div>
+<div id="the-probability-of-being-wrong" class="section level3" number="6.2.5">
+<h3><span class="header-section-number">6.2.5</span> The probability of being wrong</h3>
+<p>Remember that, just like we never really get to see the whole population in any real-world settings, we also never really get to see the distribution of sample means in real life. In real life, we will probably only have one sample and, therefore, one sample mean.</p>
+<p>But that sample mean that we have is itself a sample! It is a sample from the distribution of sample means. Weird, right? But what that allows us to do is figure out the <em>probability</em> that whatever sample mean we have is wrong, and by how much.</p>
+<div id="using-simulation" class="section level4" number="6.2.5.1">
+<h4><span class="header-section-number">6.2.5.1</span> Using simulation</h4>
+<p>First, let’s use our many simulated samples to see how many are wrong by different amounts.</p>
+<p>How many of our samples of size 10 had sample means that under-shot or over-shot the true population mean of 64 inches?</p>
+<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="lab6.html#cb235-1" aria-hidden="true" tabindex="-1"></a>sample_means_size10 <span class="sc">%&gt;%</span></span>
+<span id="cb235-2"><a href="lab6.html#cb235-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(M <span class="sc">&gt;</span> <span class="dv">64</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb235-3"><a href="lab6.html#cb235-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">n=</span><span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb235-4"><a href="lab6.html#cb235-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">p =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div>
+<pre><code>## # A tibble: 2 x 3
+##   `M &gt; 64`     n     p
+## * &lt;lgl&gt;    &lt;int&gt; &lt;dbl&gt;
+## 1 FALSE      497 0.497
+## 2 TRUE       503 0.503</code></pre>
+<p>In the second line above, we grouped our samples by whether or not their sample means were greater than 64 (<code>M &gt; 64</code>). Looks like it is about even.<a href="#fn68" class="footnote-ref" id="fnref68"><sup>68</sup></a> This suggests that the sample means are not <em>biased</em> either high or low.</p>
+<p>Now, how many of our samples of size 10 had sample means that were within 1 inch of the true population mean of 64 inches? In other words, how many had sample means that were between 63 and 65 inches?</p>
+<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="lab6.html#cb237-1" aria-hidden="true" tabindex="-1"></a>sample_means_size10 <span class="sc">%&gt;%</span></span>
+<span id="cb237-2"><a href="lab6.html#cb237-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(<span class="dv">63</span> <span class="sc">&lt;</span> M <span class="sc">&amp;</span> M <span class="sc">&lt;</span> <span class="dv">65</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb237-3"><a href="lab6.html#cb237-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">n=</span><span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb237-4"><a href="lab6.html#cb237-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">p =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div>
+<pre><code>## # A tibble: 2 x 3
+##   `63 &lt; M &amp; M &lt; 65`     n     p
+## * &lt;lgl&gt;             &lt;int&gt; &lt;dbl&gt;
+## 1 FALSE               600   0.6
+## 2 TRUE                400   0.4</code></pre>
+<p>By comparison, how many of our samples of size 100 had sample means that were within 1 inch of the true population mean of 64 inches?<a href="#fn69" class="footnote-ref" id="fnref69"><sup>69</sup></a></p>
+<pre><code>## # A tibble: 2 x 3
+##   `63 &lt; M &amp; M &lt; 65`     n     p
+## * &lt;lgl&gt;             &lt;int&gt; &lt;dbl&gt;
+## 1 FALSE                97 0.097
+## 2 TRUE                903 0.903</code></pre>
+<p>Wow, that’s quite an improvement! The probability that our estimate of the population mean—the sample mean—is within 1 inch of the correct answer is much higher if our sample has 100 women than 10 women.</p>
+</div>
+<div id="using-the-central-limit-theorem" class="section level4" number="6.2.5.2">
+<h4><span class="header-section-number">6.2.5.2</span> Using the central limit theorem</h4>
+<p>Remember that we were only able to count those results above <em>because we have many many samples of the same size</em>. In real life, we almost never have this. That’s why the central limit theorem is useful—we can use what we know about the normal distribution to calculate the probability of being wrong and by how much.</p>
+<p>Let’s first think about our samples of size 10. The central limit theorem says that the means of these samples have a normal distribution with a mean of <span class="math inline">\(\mu = 64\)</span> inches and a standard deviation of <span class="math inline">\(\frac{\sigma}{\sqrt{n}} = \frac{6}{\sqrt{10}} \left( \approx 1.897 \right)\)</span> inches. In R, we can write that standard deviation like this: <code>6 / sqrt(10)</code>, where <code>sqrt</code> stands for “square root.”</p>
+<p>Now, using the normal distribution, what is the probability that the mean we get from a sample of size 10 is within 1 inch of the true population mean?<a href="#fn70" class="footnote-ref" id="fnref70"><sup>70</sup></a></p>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="lab6.html#cb240-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="at">q=</span><span class="dv">65</span>, <span class="at">mean =</span> <span class="dv">64</span>, <span class="at">sd =</span> <span class="dv">6</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">10</span>)) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="at">q =</span> <span class="dv">63</span>, <span class="at">mean =</span> <span class="dv">64</span>, <span class="at">sd =</span> <span class="dv">6</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">10</span>))</span></code></pre></div>
+<pre><code>## [1] 0.4018385</code></pre>
+<p>And what is the probability that the mean we get from a sample of size 100 is within 1 inch of the true population mean?<a href="#fn71" class="footnote-ref" id="fnref71"><sup>71</sup></a></p>
+<pre><code>## [1] 0.9044193</code></pre>
+</div>
+</div>
+<div id="biased-samples" class="section level3" number="6.2.6">
+<h3><span class="header-section-number">6.2.6</span> Biased samples</h3>
+<p>So far, we assumed that our samples were all simple random samples. What happens if this is no longer the case? What if instead our samples are <strong>biased</strong>?</p>
+<p>Imagine that instead of selecting women at random, we got a bunch of women in a large room and selected them based on how easy they were to see. Obviously this would lead us to select more tall than short women, because it is easier to see a tall person above a crowd (and a tall person could hide a shorter person behind them). We can simulate this kind of biased sampling by telling R to give more “weight” to a woman who is taller when selecting samples. This doesn’t mean that a short person will <em>never</em> get selected (maybe they are standing in front so no one is in the way), but it does make it less likely.</p>
+<p>Here’s an example of a single sample of size 10, where more “weight” is given to women who are taller:</p>
+<div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="lab6.html#cb243-1" aria-hidden="true" tabindex="-1"></a>population <span class="sc">%&gt;%</span></span>
+<span id="cb243-2"><a href="lab6.html#cb243-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">weight_by =</span> height)</span></code></pre></div>
+<pre><code>## # A tibble: 10 x 1
+##    height
+##     &lt;dbl&gt;
+##  1   65.6
+##  2   62.5
+##  3   65.7
+##  4   65.2
+##  5   62.4
+##  6   60.2
+##  7   46.7
+##  8   57.6
+##  9   74.8
+## 10   62.3</code></pre>
+<p>Now let’s repeat the same steps from above to get 1000 <em>biased</em> samples each of size 10 and size 100 (note that this may take longer than simulating unbiased samples):</p>
+<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb245-1"><a href="lab6.html#cb245-1" aria-hidden="true" tabindex="-1"></a>many_biased_samples_size10 <span class="ot">&lt;-</span> population <span class="sc">%&gt;%</span></span>
+<span id="cb245-2"><a href="lab6.html#cb245-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rep_slice_sample</span>(<span class="at">n=</span><span class="dv">10</span>, <span class="at">reps=</span><span class="dv">1000</span>, <span class="at">weight_by =</span> height)</span>
+<span id="cb245-3"><a href="lab6.html#cb245-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb245-4"><a href="lab6.html#cb245-4" aria-hidden="true" tabindex="-1"></a>many_biased_samples_size100 <span class="ot">&lt;-</span> population <span class="sc">%&gt;%</span></span>
+<span id="cb245-5"><a href="lab6.html#cb245-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rep_slice_sample</span>(<span class="at">n=</span><span class="dv">100</span>, <span class="at">reps=</span><span class="dv">1000</span>, <span class="at">weight_by =</span> height)</span></code></pre></div>
+<p>Now let’s get the means of each of these biased samples:</p>
+<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="lab6.html#cb246-1" aria-hidden="true" tabindex="-1"></a>biased_sample_means_size10 <span class="ot">&lt;-</span> many_biased_samples_size10 <span class="sc">%&gt;%</span></span>
+<span id="cb246-2"><a href="lab6.html#cb246-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(replicate) <span class="sc">%&gt;%</span></span>
+<span id="cb246-3"><a href="lab6.html#cb246-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">M =</span> <span class="fu">mean</span>(height))</span>
+<span id="cb246-4"><a href="lab6.html#cb246-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb246-5"><a href="lab6.html#cb246-5" aria-hidden="true" tabindex="-1"></a>biased_sample_means_size100 <span class="ot">&lt;-</span> many_biased_samples_size100 <span class="sc">%&gt;%</span></span>
+<span id="cb246-6"><a href="lab6.html#cb246-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(replicate) <span class="sc">%&gt;%</span></span>
+<span id="cb246-7"><a href="lab6.html#cb246-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">M =</span> <span class="fu">mean</span>(height))</span></code></pre></div>
+<p>Let’s look at some histograms to get a sense of their distribution shape. Here it is for biased samples of size 10:</p>
+<div class="sourceCode" id="cb247"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb247-1"><a href="lab6.html#cb247-1" aria-hidden="true" tabindex="-1"></a>biased_sample_means_size10 <span class="sc">%&gt;%</span></span>
+<span id="cb247-2"><a href="lab6.html#cb247-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>M)) <span class="sc">+</span></span>
+<span id="cb247-3"><a href="lab6.html#cb247-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">binwidth=</span><span class="dv">1</span>)</span></code></pre></div>
+<p><img src="06-central_limit_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<p>And for biased samples of size 100<a href="#fn72" class="footnote-ref" id="fnref72"><sup>72</sup></a>:</p>
+<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="lab6.html#cb248-1" aria-hidden="true" tabindex="-1"></a>biased_sample_means_size100 <span class="sc">%&gt;%</span></span>
+<span id="cb248-2"><a href="lab6.html#cb248-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>M)) <span class="sc">+</span></span>
+<span id="cb248-3"><a href="lab6.html#cb248-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">binwidth=</span><span class="dv">1</span>)</span></code></pre></div>
+<p><img src="06-central_limit_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<p>And finally, let’s have a look at the mean of the sample means and their standard errors for biased samples of size 10:</p>
+<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="lab6.html#cb249-1" aria-hidden="true" tabindex="-1"></a>biased_sample_means_size10 <span class="sc">%&gt;%</span></span>
+<span id="cb249-2"><a href="lab6.html#cb249-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">MM =</span> <span class="fu">mean</span>(M), <span class="at">SEM =</span> <span class="fu">sd</span>(M))</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 2
+##      MM   SEM
+##   &lt;dbl&gt; &lt;dbl&gt;
+## 1  64.6  1.84</code></pre>
+<p>And for biased samples of size 100<a href="#fn73" class="footnote-ref" id="fnref73"><sup>73</sup></a>:</p>
+<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="lab6.html#cb251-1" aria-hidden="true" tabindex="-1"></a>biased_sample_means_size100 <span class="sc">%&gt;%</span></span>
+<span id="cb251-2"><a href="lab6.html#cb251-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">MM =</span> <span class="fu">mean</span>(M), <span class="at">SEM =</span> <span class="fu">sd</span>(M))</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 2
+##      MM   SEM
+##   &lt;dbl&gt; &lt;dbl&gt;
+## 1  64.6 0.606</code></pre>
+</div>
+</div>
+<div id="the-wisdom-of-the-crowd" class="section level2" number="6.3">
+<h2><span class="header-section-number">6.3</span> The Wisdom of the Crowd</h2>
+<p>We’ve seen how, at least when we have simple random samples, the larger a sample, the more likely it is that our sample mean is close to the actual population mean. But this isn’t just a statistical curiosity about estimating properties of populations, like their heights. It turns out that if you want to know anything about the world, you’re better off asking more people. This concept was originally identified by <span class="citation"><a href="references.html#ref-Galton1907" role="doc-biblioref">Galton</a> (<a href="references.html#ref-Galton1907" role="doc-biblioref">1907</a>)</span> and is now called the “wisdom of the crowd” <span class="citation">(<a href="references.html#ref-Surowiecki2004" role="doc-biblioref">Surowiecki, 2004</a>)</span>.</p>
+<p>The wisdom of crowds was studied recently by <span class="citation"><a href="references.html#ref-SteegenEtAl2014" role="doc-biblioref">Steegen et al.</a> (<a href="references.html#ref-SteegenEtAl2014" role="doc-biblioref">2014</a>)</span> who replicated a study by <span class="citation"><a href="references.html#ref-VulPashler2008" role="doc-biblioref">Vul &amp; Pashler</a> (<a href="references.html#ref-VulPashler2008" role="doc-biblioref">2008</a>)</span>. They asked people questions about world facts like the one you answered at the beginning of the session. These people weren’t experts and weren’t allowed to look up the answer. But as we will see, their <em>mean</em> answer is actually pretty close to the truth.</p>
+<div id="grab-the-data" class="section level3" number="6.3.1">
+<h3><span class="header-section-number">6.3.1</span> Grab the data</h3>
+<p>First, let’s download the guesses that the participants in <span class="citation"><a href="references.html#ref-SteegenEtAl2014" role="doc-biblioref">Steegen et al.</a> (<a href="references.html#ref-SteegenEtAl2014" role="doc-biblioref">2014</a>)</span> made to the question you answered at the beginning:</p>
+<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="lab6.html#cb253-1" aria-hidden="true" tabindex="-1"></a>wisdom_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/wisdom.csv&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   age = col_double(),
+##   nationality = col_character(),
+##   sex = col_character(),
+##   guess = col_double()
+## )</code></pre>
+<p>Taking a look at the data, each row represents a different person’s answer to the question. The answer they gave is in the “guess” column. There is also some demographic information about each person (age, sex, nationality).</p>
+</div>
+<div id="make-a-histogram" class="section level3" number="6.3.2">
+<h3><span class="header-section-number">6.3.2</span> Make a histogram</h3>
+<p>Now let’s make a histogram of people’s guesses<a href="#fn74" class="footnote-ref" id="fnref74"><sup>74</sup></a>:</p>
+<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="lab6.html#cb255-1" aria-hidden="true" tabindex="-1"></a>wisdom_data <span class="sc">%&gt;%</span></span>
+<span id="cb255-2"><a href="lab6.html#cb255-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>guess)) <span class="sc">+</span></span>
+<span id="cb255-3"><a href="lab6.html#cb255-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>)</span></code></pre></div>
+<p><img src="06-central_limit_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
+<p>Doesn’t look especially normal, but it is also pretty spread out. This makes sense given that very few if any people in this sample would be expected to be experts in airport distribution.</p>
+</div>
+<div id="what-is-the-right-answer" class="section level3" number="6.3.3">
+<h3><span class="header-section-number">6.3.3</span> What is the right answer?</h3>
+<p>At the time these data were collected, the correct answer to the question, “what percent of the world’s airports are in the United States?” was <strong>32.3%</strong> (how close were you?).</p>
+<p>How many people over- or under-shot the answer?</p>
+<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb256-1"><a href="lab6.html#cb256-1" aria-hidden="true" tabindex="-1"></a>wisdom_data <span class="sc">%&gt;%</span></span>
+<span id="cb256-2"><a href="lab6.html#cb256-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(guess <span class="sc">&lt;</span> <span class="fl">32.3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb256-3"><a href="lab6.html#cb256-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb256-4"><a href="lab6.html#cb256-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">p =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div>
+<pre><code>## # A tibble: 2 x 3
+##   `guess &lt; 32.3`     n     p
+## * &lt;lgl&gt;          &lt;int&gt; &lt;dbl&gt;
+## 1 FALSE            155 0.329
+## 2 TRUE             316 0.671</code></pre>
+</div>
+<div id="what-about-the-average" class="section level3" number="6.3.4">
+<h3><span class="header-section-number">6.3.4</span> What about the average?</h3>
+<p>How close was the <em>mean</em> guess to the right answer?</p>
+<div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="lab6.html#cb258-1" aria-hidden="true" tabindex="-1"></a>wisdom_data <span class="sc">%&gt;%</span></span>
+<span id="cb258-2"><a href="lab6.html#cb258-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">M =</span> <span class="fu">mean</span>(guess))</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##       M
+##   &lt;dbl&gt;
+## 1  27.0</code></pre>
+<p>Huh, not too bad! The difference between the mean guess and the right answer is about <span class="math inline">\(32.3 - 27 = 5.3\)</span>. How many people were at least as close to the correct answer as the mean guess, in other words, how many people guessed a value between 27 and <span class="math inline">\(32.3 + 5.3 = 37.6\)</span>?<a href="#fn75" class="footnote-ref" id="fnref75"><sup>75</sup></a></p>
+<pre><code>## # A tibble: 2 x 3
+##   `27 &lt; guess &amp; guess &lt; 37.6`     n     p
+## * &lt;lgl&gt;                       &lt;int&gt; &lt;dbl&gt;
+## 1 FALSE                         380 0.807
+## 2 TRUE                           91 0.193</code></pre>
+<p>So the mean guess is doing better than the vast majority of individual guesses. This is pretty remarkable! The “wisdom of the crowd” is another case in which large samples get us closer to the truth.<a href="#fn76" class="footnote-ref" id="fnref76"><sup>76</sup></a></p>
+</div>
+</div>
+<div id="wrap-up-5" class="section level2" number="6.4">
+<h2><span class="header-section-number">6.4</span> Wrap-up</h2>
+<p>We’ve seen the “central limit theorem” in action: The larger our sample, the more likely it is that the sample mean is close to the population mean. This is valuable because, in reality, we almost never know the true population mean, so we have to <em>estimate</em> it using a sample. But we also saw that a <em>biased</em> sample can give us the wrong answer. Finally, we saw that the power of large samples extends to making guesses about the world at large—maybe instead of finding an expert, we just need a lot of guesses!</p>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="63">
+<li id="fn63"><p>Compare sampling from a population to simulating coin flips. When we select an individual from a population, what is the <em>sample space</em>? If we are doing simple random sampling, what is the probability that any particular individual is selected into our sample?<a href="lab6.html#fnref63" class="footnote-back">↩︎</a></p></li>
+<li id="fn64"><p>Compare this line of code with the line we used to get a single sample of size 10, above. What is similar and what is different?<a href="lab6.html#fnref64" class="footnote-back">↩︎</a></p></li>
+<li id="fn65"><p>Based on the “central limit theorem,” and the fact that the population standard deviation is <span class="math inline">\(\sigma = 6\)</span> and the samples are of size <span class="math inline">\(n = 10\)</span>, how does the value of <code>SEM</code> above compare with what the central limit theorem would predict?<a href="lab6.html#fnref65" class="footnote-back">↩︎</a></p></li>
+<li id="fn66"><p>What code would do this? <em>Hint: what would you need to change in the code we used to produce many samples of size 10?</em><a href="lab6.html#fnref66" class="footnote-back">↩︎</a></p></li>
+<li id="fn67"><p>Compare <code>SEM</code> we found for our samples of size 100 with what the central limit theorem says the standard error of the mean should be—is it close? Compare <code>SEM</code> for samples of size 10 to <code>SEM</code> for samples of size 100, which is smaller?<a href="lab6.html#fnref67" class="footnote-back">↩︎</a></p></li>
+<li id="fn68"><p>By counting the number of samples that over-shot, we also end up knowing how many samples under-shot. Why is this?<a href="lab6.html#fnref68" class="footnote-back">↩︎</a></p></li>
+<li id="fn69"><p>What code produces the results below? <em>Hint: what should we change in the code immediately above?</em><a href="lab6.html#fnref69" class="footnote-back">↩︎</a></p></li>
+<li id="fn70"><p>How does the probability we get from the normal distribution compare with the one we found by counting our samples, above?<a href="lab6.html#fnref70" class="footnote-back">↩︎</a></p></li>
+<li id="fn71"><p>What code produces this result? <em>Hint: what do we need to change in the code above?</em><a href="lab6.html#fnref71" class="footnote-back">↩︎</a></p></li>
+<li id="fn72"><p>Do the shapes of the distributions of biased means still look roughly normal, or do they look a bit skewed? Is there a difference between biased samples of size 10 vs. 100?<a href="lab6.html#fnref72" class="footnote-back">↩︎</a></p></li>
+<li id="fn73"><p>What is different between the mean of sample means (<code>MM</code>) and the standard error of the mean (<code>SEM</code>) for biased samples versus unbiased samples? Does this difference make sense given the way our samples are biased?<a href="lab6.html#fnref73" class="footnote-back">↩︎</a></p></li>
+<li id="fn74"><p>Why do you think the histogram looks kind of “lumpy?” <em>Hint: how much detail do you think people can give when making a guess like this?</em><a href="lab6.html#fnref74" class="footnote-back">↩︎</a></p></li>
+<li id="fn75"><p>What code would give us this result? <em>Hint: remember how we found the number of sample mean heights that were within an inch of the true population average above.</em><a href="lab6.html#fnref75" class="footnote-back">↩︎</a></p></li>
+<li id="fn76"><p>Why do you think that the <em>mean</em> of a set of guesses does so much better than most of the individual guesses?<a href="lab6.html#fnref76" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="lab5.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["APSY210 Labs.pdf", "APSY210 Labs.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
