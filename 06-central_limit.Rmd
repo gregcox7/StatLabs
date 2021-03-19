@@ -179,7 +179,7 @@ sample_means_size100 %>%
 
 Remember that, just like we never really get to see the whole population in any real-world settings, we also never really get to see the distribution of sample means in real life.  In real life, we will probably only have one sample and, therefore, one sample mean.
 
-But that sample mean that we have is itself a sample!  It is a sample from the distribution of sample means.  Weird, right?  But what that allows us to do is figure out the *probability* that whatever sample mean we have is wrong, and by how much.
+But because our sample mean comes from a distribution of sample means that is *normal*, we can use the normal distribution to figure out the *probability* that whatever sample mean we have is wrong, and by how much.
 
 #### Using simulation
 
