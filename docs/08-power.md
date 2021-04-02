@@ -161,7 +161,7 @@ sample_means %>%
 ## 2 TRUE                               9486 0.949
 ```
 
-\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:unnamed-chunk-12"><strong>(\#exr:unnamed-chunk-12) </strong></span>In the table above, "FALSE" means that the simulated sample mean fell outside the confidence interval and we would (incorrectly) reject the null hypothesis.  How close is it to the alpha level we decided on earlier?</div>\EndKnitrBlock{exercise}
+\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:unnamed-chunk-12"><strong>(\#exr:unnamed-chunk-12) </strong></span>In the table above, the row labeled "FALSE" corresponds to simulated sample means that fell outside the confidence interval, which would lead us to (incorrectly) reject the null hypothesis.  How close is the probability "p" in that column to the alpha level we decided on earlier?</div>\EndKnitrBlock{exercise}
 
 ## Achieving a target level of power
 
@@ -318,7 +318,9 @@ pnorm(q = ci_lower, mean = null_mean + effect_size, sd = null_sd / sqrt(sample_s
 ## [1] 0.2944317
 ```
 
-\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:unnamed-chunk-26"><strong>(\#exr:unnamed-chunk-26) </strong></span>Try changing `alpha_level` in the code above to different values and then re-run it to make a histogram and calculate power.  Try to find an alpha level where the power ends up as close as you can get it to 0.8 without going over.  What alpha level did you find?</div>\EndKnitrBlock{exercise}
+.
+
+\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:unnamed-chunk-26"><strong>(\#exr:unnamed-chunk-26) </strong></span>Try changing `alpha_level` in the code above to different values and then re-run the code to make a histogram and calculate power.  Try to find an alpha level where the power ends up as close as you can get it to 0.8 without going over.  What alpha level did you find?</div>\EndKnitrBlock{exercise}
 
 ### Population standard deviation
 
@@ -381,7 +383,7 @@ Also, notice that the sample size they had was 69, so let's make sure to adjust 
 sample_size <- 69
 ```
 
-#### Confidence interval limits
+### Confidence interval limits
 
 Now, we find the upper and lower limits of our confidence interval:
 
@@ -400,7 +402,7 @@ sample_mean <- mean(feedback_learning$Improvement)
 
 Because this falls outside the confidence interval, we **reject** the null hypothesis!
 
-#### The $p$ value
+### The $p$ value
 
 Let's also find the $p$ value, the probability that we would observe a result at least as extreme as our result if the null hypothesis were true.  Because the sample mean is *larger* than the mean according to the null hypothesis, we need to find the probability of being *above* the sample mean:
 
@@ -428,7 +430,7 @@ This is the final $p$ value, and we can see that it is less than our alpha level
 
 \BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:unnamed-chunk-36"><strong>(\#exr:unnamed-chunk-36) </strong></span>By rejecting the null hypothesis, our results are statistically significant.  Do you believe they are practically significant?  In other words, do you believe that the improvement in scores resulting from the learning activity is large enough to care about?  Why or why not?</div>\EndKnitrBlock{exercise}
 
-#### Estimated power
+### Estimated power
 
 Finally, let's try something interesting.  Assume that the sample mean reflects the actual effect size:
 

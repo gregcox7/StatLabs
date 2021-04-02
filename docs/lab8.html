@@ -288,7 +288,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.2.3" data-path="lab8.html"><a href="lab8.html#alpha-level"><i class="fa fa-check"></i><b>8.2.3</b> Alpha level</a></li>
 <li class="chapter" data-level="8.2.4" data-path="lab8.html"><a href="lab8.html#population-standard-deviation"><i class="fa fa-check"></i><b>8.2.4</b> Population standard deviation</a></li>
 </ul></li>
-<li class="chapter" data-level="8.3" data-path="lab8.html"><a href="lab8.html#using-data-to-test-the-null-hypothesis"><i class="fa fa-check"></i><b>8.3</b> Using data to test the null hypothesis</a></li>
+<li class="chapter" data-level="8.3" data-path="lab8.html"><a href="lab8.html#using-data-to-test-the-null-hypothesis"><i class="fa fa-check"></i><b>8.3</b> Using data to test the null hypothesis</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="lab8.html"><a href="lab8.html#confidence-interval-limits"><i class="fa fa-check"></i><b>8.3.1</b> Confidence interval limits</a></li>
+<li class="chapter" data-level="8.3.2" data-path="lab8.html"><a href="lab8.html#the-p-value"><i class="fa fa-check"></i><b>8.3.2</b> The <span class="math inline">\(p\)</span> value</a></li>
+<li class="chapter" data-level="8.3.3" data-path="lab8.html"><a href="lab8.html#estimated-power"><i class="fa fa-check"></i><b>8.3.3</b> Estimated power</a></li>
+</ul></li>
 <li class="chapter" data-level="8.4" data-path="lab8.html"><a href="lab8.html#wrap-up-7"><i class="fa fa-check"></i><b>8.4</b> Wrap-up</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -405,7 +410,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 2 TRUE                               9486 0.949</code></pre>
 
 <div class="exercise">
-<span id="exr:unnamed-chunk-12" class="exercise"><strong>Exercise 8.2  </strong></span>In the table above, “FALSE” means that the simulated sample mean fell outside the confidence interval and we would (incorrectly) reject the null hypothesis. How close is it to the alpha level we decided on earlier?
+<span id="exr:unnamed-chunk-12" class="exercise"><strong>Exercise 8.2  </strong></span>In the table above, the row labeled “FALSE” corresponds to simulated sample means that fell outside the confidence interval, which would lead us to (incorrectly) reject the null hypothesis. How close is the probability “p” in that column to the alpha level we decided on earlier?
 </div>
 </div>
 </div>
@@ -496,9 +501,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="lab8.html#cb316-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="at">q =</span> ci_lower, <span class="at">mean =</span> null_mean <span class="sc">+</span> effect_size, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size)) <span class="sc">+</span></span>
 <span id="cb316-2"><a href="lab8.html#cb316-2" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="at">q =</span> ci_upper, <span class="at">mean =</span> null_mean <span class="sc">+</span> effect_size, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span></code></pre></div>
 <pre><code>## [1] 0.2944317</code></pre>
+<p>.</p>
 
 <div class="exercise">
-<span id="exr:unnamed-chunk-26" class="exercise"><strong>Exercise 7.8  </strong></span>Try changing <code>alpha_level</code> in the code above to different values and then re-run it to make a histogram and calculate power. Try to find an alpha level where the power ends up as close as you can get it to 0.8 without going over. What alpha level did you find?
+<span id="exr:unnamed-chunk-26" class="exercise"><strong>Exercise 7.8  </strong></span>Try changing <code>alpha_level</code> in the code above to different values and then re-run the code to make a histogram and calculate power. Try to find an alpha level where the power ends up as close as you can get it to 0.8 without going over. What alpha level did you find?
 </div>
 </div>
 <div id="population-standard-deviation" class="section level3" number="8.2.4">
@@ -536,8 +542,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Above, the <code>$</code> pulls out the <code>Improvement</code> column from our <code>feedback_learning</code> dataset, so <code>null_sd</code> is now the standard deviation of the improvement values we actually observed.</p>
 <p>Also, notice that the sample size they had was 69, so let’s make sure to adjust that as well:</p>
 <div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="lab8.html#cb323-1" aria-hidden="true" tabindex="-1"></a>sample_size <span class="ot">&lt;-</span> <span class="dv">69</span></span></code></pre></div>
-<div id="confidence-interval-limits" class="section level4" number="8.3.0.1">
-<h4><span class="header-section-number">8.3.0.1</span> Confidence interval limits</h4>
+<div id="confidence-interval-limits" class="section level3" number="8.3.1">
+<h3><span class="header-section-number">8.3.1</span> Confidence interval limits</h3>
 <p>Now, we find the upper and lower limits of our confidence interval:</p>
 <div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="lab8.html#cb324-1" aria-hidden="true" tabindex="-1"></a>ci_lower <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="at">p =</span> alpha_level <span class="sc">/</span> <span class="dv">2</span>, <span class="at">mean =</span> null_mean, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span>
 <span id="cb324-2"><a href="lab8.html#cb324-2" aria-hidden="true" tabindex="-1"></a>ci_upper <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="at">p =</span> <span class="dv">1</span> <span class="sc">-</span> alpha_level <span class="sc">/</span> <span class="dv">2</span>, <span class="at">mean =</span> null_mean, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span></code></pre></div>
@@ -545,8 +551,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="lab8.html#cb325-1" aria-hidden="true" tabindex="-1"></a>sample_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(feedback_learning<span class="sc">$</span>Improvement)</span></code></pre></div>
 <p>Because this falls outside the confidence interval, we <strong>reject</strong> the null hypothesis!</p>
 </div>
-<div id="the-p-value" class="section level4" number="8.3.0.2">
-<h4><span class="header-section-number">8.3.0.2</span> The <span class="math inline">\(p\)</span> value</h4>
+<div id="the-p-value" class="section level3" number="8.3.2">
+<h3><span class="header-section-number">8.3.2</span> The <span class="math inline">\(p\)</span> value</h3>
 <p>Let’s also find the <span class="math inline">\(p\)</span> value, the probability that we would observe a result at least as extreme as our result if the null hypothesis were true. Because the sample mean is <em>larger</em> than the mean according to the null hypothesis, we need to find the probability of being <em>above</em> the sample mean:</p>
 <div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="lab8.html#cb326-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="at">q =</span> sample_mean, <span class="at">mean =</span> null_mean, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span></code></pre></div>
 <pre><code>## [1] 0.0004771661</code></pre>
@@ -559,8 +565,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="exr:unnamed-chunk-36" class="exercise"><strong>Exercise 8.7  </strong></span>By rejecting the null hypothesis, our results are statistically significant. Do you believe they are practically significant? In other words, do you believe that the improvement in scores resulting from the learning activity is large enough to care about? Why or why not?
 </div>
 </div>
-<div id="estimated-power" class="section level4" number="8.3.0.3">
-<h4><span class="header-section-number">8.3.0.3</span> Estimated power</h4>
+<div id="estimated-power" class="section level3" number="8.3.3">
+<h3><span class="header-section-number">8.3.3</span> Estimated power</h3>
 <p>Finally, let’s try something interesting. Assume that the sample mean reflects the actual effect size:</p>
 <div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="lab8.html#cb330-1" aria-hidden="true" tabindex="-1"></a>effect_size <span class="ot">&lt;-</span> sample_mean</span></code></pre></div>
 <p>Now we can use this to simulate plausible sample means we might have observed if the effect size were equal to the sample mean. As a result, we can see what the power of this test <strong>would be</strong> if applied to similar studies in the future. All we need to do now is run the <em>very same code</em> we used in our simulations above to visualize and calculate the <em>power</em> that this study had.</p>
