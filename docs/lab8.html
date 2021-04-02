@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Lab 8 Statistical Power | Labs</title>
+  <meta name="description" content="Laboratory exercises for APSY210." />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Lab 8 Statistical Power | Labs" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Laboratory exercises for APSY210." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Lab 8 Statistical Power | Labs" />
+  
+  <meta name="twitter:description" content="Laboratory exercises for APSY210." />
+  
+
+<meta name="author" content="Greg Cox" />
+
+
+<meta name="date" content="2021-04-02" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="lab7.html"/>
+<link rel="next" href="references.html"/>
+<script src="libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Labs</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="1" data-path="lab1.html"><a href="lab1.html"><i class="fa fa-check"></i><b>1</b> Exploring Data with R</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="lab1.html"><a href="lab1.html#r-and-rstudio"><i class="fa fa-check"></i><b>1.1</b> R and RStudio</a></li>
+<li class="chapter" data-level="1.2" data-path="lab1.html"><a href="lab1.html#meet-your-data"><i class="fa fa-check"></i><b>1.2</b> Meet your data</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="lab1.html"><a href="lab1.html#check-out-the-variables"><i class="fa fa-check"></i><b>1.2.1</b> Check out the variables</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="lab1.html"><a href="lab1.html#answering-questions-with-data"><i class="fa fa-check"></i><b>1.3</b> Answering questions with data</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="lab1.html"><a href="lab1.html#frequency-tables"><i class="fa fa-check"></i><b>1.3.1</b> Frequency tables</a></li>
+<li class="chapter" data-level="1.3.2" data-path="lab1.html"><a href="lab1.html#bar-charts"><i class="fa fa-check"></i><b>1.3.2</b> Bar charts</a></li>
+<li class="chapter" data-level="1.3.3" data-path="lab1.html"><a href="lab1.html#histograms"><i class="fa fa-check"></i><b>1.3.3</b> Histograms</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="lab1.html"><a href="lab1.html#wrap-up"><i class="fa fa-check"></i><b>1.4</b> Wrap-up</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="lab2.html"><a href="lab2.html"><i class="fa fa-check"></i><b>2</b> Central tendency and variability</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="lab2.html"><a href="lab2.html#simple-cases"><i class="fa fa-check"></i><b>2.1</b> Simple cases</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="lab2.html"><a href="lab2.html#central-tendency"><i class="fa fa-check"></i><b>2.1.1</b> Central tendency</a></li>
+<li class="chapter" data-level="2.1.2" data-path="lab2.html"><a href="lab2.html#variability"><i class="fa fa-check"></i><b>2.1.2</b> Variability</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="lab2.html"><a href="lab2.html#dealing-with-real-data"><i class="fa fa-check"></i><b>2.2</b> Dealing with real data</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="lab2.html"><a href="lab2.html#setting-the-stage"><i class="fa fa-check"></i><b>2.2.1</b> Setting the stage</a></li>
+<li class="chapter" data-level="2.2.2" data-path="lab2.html"><a href="lab2.html#getting-the-data"><i class="fa fa-check"></i><b>2.2.2</b> Getting the data</a></li>
+<li class="chapter" data-level="2.2.3" data-path="lab2.html"><a href="lab2.html#visualizing-the-data"><i class="fa fa-check"></i><b>2.2.3</b> Visualizing the data</a></li>
+<li class="chapter" data-level="2.2.4" data-path="lab2.html"><a href="lab2.html#central-tendency-1"><i class="fa fa-check"></i><b>2.2.4</b> Central tendency</a></li>
+<li class="chapter" data-level="2.2.5" data-path="lab2.html"><a href="lab2.html#variability-1"><i class="fa fa-check"></i><b>2.2.5</b> Variability</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="lab2.html"><a href="lab2.html#wrap-up-1"><i class="fa fa-check"></i><b>2.3</b> Wrap-up</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="lab3.html"><a href="lab3.html"><i class="fa fa-check"></i><b>3</b> Scatterplots and correlation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="lab3.html"><a href="lab3.html#calculating-the-pearson-correlation-coefficient"><i class="fa fa-check"></i><b>3.1</b> Calculating the Pearson correlation coefficient</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="lab3.html"><a href="lab3.html#from-x-to-z"><i class="fa fa-check"></i><b>3.1.1</b> From <span class="math inline">\(X\)</span> to <span class="math inline">\(z\)</span></a></li>
+<li class="chapter" data-level="3.1.2" data-path="lab3.html"><a href="lab3.html#finding-the-correlation-coefficient"><i class="fa fa-check"></i><b>3.1.2</b> Finding the correlation coefficient</a></li>
+<li class="chapter" data-level="3.1.3" data-path="lab3.html"><a href="lab3.html#dealing-with-real-data-1"><i class="fa fa-check"></i><b>3.1.3</b> Dealing with real data</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="lab3.html"><a href="lab3.html#scatterplots"><i class="fa fa-check"></i><b>3.2</b> Scatterplots</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="lab3.html"><a href="lab3.html#making-a-group-of-scatterplots"><i class="fa fa-check"></i><b>3.2.1</b> Making a group of scatterplots</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="lab3.html"><a href="lab3.html#some-bigger-data"><i class="fa fa-check"></i><b>3.3</b> Some bigger data</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="lab3.html"><a href="lab3.html#import-the-data"><i class="fa fa-check"></i><b>3.3.1</b> Import the data</a></li>
+<li class="chapter" data-level="3.3.2" data-path="lab3.html"><a href="lab3.html#experience-and-memory-for-barbies"><i class="fa fa-check"></i><b>3.3.2</b> Experience and memory for Barbies</a></li>
+<li class="chapter" data-level="3.3.3" data-path="lab3.html"><a href="lab3.html#experience-and-memory-for-transformers"><i class="fa fa-check"></i><b>3.3.3</b> Experience and memory for Transformers</a></li>
+<li class="chapter" data-level="3.3.4" data-path="lab3.html"><a href="lab3.html#experience-with-barbies-and-memory-for-transformers"><i class="fa fa-check"></i><b>3.3.4</b> Experience with Barbies and memory for Transformers</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="lab3.html"><a href="lab3.html#wrap-up-2"><i class="fa fa-check"></i><b>3.4</b> Wrap-up</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="lab4.html"><a href="lab4.html"><i class="fa fa-check"></i><b>4</b> Probability and simulation</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="lab4.html"><a href="lab4.html#simulation-basics"><i class="fa fa-check"></i><b>4.1</b> Simulation basics</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="lab4.html"><a href="lab4.html#single-coin-flips"><i class="fa fa-check"></i><b>4.1.1</b> Single coin flips</a></li>
+<li class="chapter" data-level="4.1.2" data-path="lab4.html"><a href="lab4.html#a-sequence-of-coin-flips"><i class="fa fa-check"></i><b>4.1.2</b> A sequence of coin flips</a></li>
+<li class="chapter" data-level="4.1.3" data-path="lab4.html"><a href="lab4.html#remembering-simulated-results"><i class="fa fa-check"></i><b>4.1.3</b> Remembering simulated results</a></li>
+<li class="chapter" data-level="4.1.4" data-path="lab4.html"><a href="lab4.html#turning-simulated-results-into-data"><i class="fa fa-check"></i><b>4.1.4</b> Turning simulated results into “data”</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="lab4.html"><a href="lab4.html#estimating-probabilities"><i class="fa fa-check"></i><b>4.2</b> Estimating probabilities</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="lab4.html"><a href="lab4.html#frequency-table"><i class="fa fa-check"></i><b>4.2.1</b> Frequency table</a></li>
+<li class="chapter" data-level="4.2.2" data-path="lab4.html"><a href="lab4.html#estimating-probability-from-frequency"><i class="fa fa-check"></i><b>4.2.2</b> Estimating probability from frequency</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="lab4.html"><a href="lab4.html#more-advanced-simulation-tricks"><i class="fa fa-check"></i><b>4.3</b> More advanced simulation tricks</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="lab4.html"><a href="lab4.html#making-up-our-own-probabilities"><i class="fa fa-check"></i><b>4.3.1</b> Making up our own probabilities</a></li>
+<li class="chapter" data-level="4.3.2" data-path="lab4.html"><a href="lab4.html#expanding-the-sample-space"><i class="fa fa-check"></i><b>4.3.2</b> Expanding the sample space</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="lab4.html"><a href="lab4.html#estimating-probabilities-in-data"><i class="fa fa-check"></i><b>4.4</b> Estimating probabilities in data</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="lab4.html"><a href="lab4.html#what-was-kobes-hit-rate"><i class="fa fa-check"></i><b>4.4.1</b> What was Kobe’s hit rate?</a></li>
+<li class="chapter" data-level="4.4.2" data-path="lab4.html"><a href="lab4.html#a-simulated-kobe"><i class="fa fa-check"></i><b>4.4.2</b> A simulated Kobe</a></li>
+<li class="chapter" data-level="4.4.3" data-path="lab4.html"><a href="lab4.html#hot--or-cold-handed"><i class="fa fa-check"></i><b>4.4.3</b> Hot- or cold-handed</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="lab4.html"><a href="lab4.html#wrap-up-3"><i class="fa fa-check"></i><b>4.5</b> Wrap-up</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="lab5.html"><a href="lab5.html"><i class="fa fa-check"></i><b>5</b> Models: The Binomial and the Normal</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="lab5.html"><a href="lab5.html#the-binomial-distribution-in-r"><i class="fa fa-check"></i><b>5.1</b> The binomial distribution in R</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="lab5.html"><a href="lab5.html#translating-from-sample-to-rbinom"><i class="fa fa-check"></i><b>5.1.1</b> Translating from <code>sample</code> to <code>rbinom</code></a></li>
+<li class="chapter" data-level="5.1.2" data-path="lab5.html"><a href="lab5.html#outcomes-from-different-sequences-of-events"><i class="fa fa-check"></i><b>5.1.2</b> Outcomes from different sequences of events</a></li>
+<li class="chapter" data-level="5.1.3" data-path="lab5.html"><a href="lab5.html#simulated-relative-frequencies-and-probabilities"><i class="fa fa-check"></i><b>5.1.3</b> Simulated relative frequencies and probabilities</a></li>
+<li class="chapter" data-level="5.1.4" data-path="lab5.html"><a href="lab5.html#calculating-binomial-probabilities-directly"><i class="fa fa-check"></i><b>5.1.4</b> Calculating binomial probabilities directly</a></li>
+<li class="chapter" data-level="5.1.5" data-path="lab5.html"><a href="lab5.html#cumulative-probabilities-with-the-binomial"><i class="fa fa-check"></i><b>5.1.5</b> Cumulative probabilities with the binomial</a></li>
+<li class="chapter" data-level="5.1.6" data-path="lab5.html"><a href="lab5.html#summary-of-rs-built-in-binomial-distribution"><i class="fa fa-check"></i><b>5.1.6</b> Summary of R’s built-in binomial distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="lab5.html"><a href="lab5.html#the-normal-distribution-in-r"><i class="fa fa-check"></i><b>5.2</b> The normal distribution in R</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="lab5.html"><a href="lab5.html#simulating-outcomes-from-a-normal-distribution"><i class="fa fa-check"></i><b>5.2.1</b> Simulating outcomes from a normal distribution</a></li>
+<li class="chapter" data-level="5.2.2" data-path="lab5.html"><a href="lab5.html#the-mean-and-standard-deviation"><i class="fa fa-check"></i><b>5.2.2</b> The mean and standard deviation</a></li>
+<li class="chapter" data-level="5.2.3" data-path="lab5.html"><a href="lab5.html#calculating-probabilities-with-the-normal-distribution"><i class="fa fa-check"></i><b>5.2.3</b> Calculating probabilities with the normal distribution</a></li>
+<li class="chapter" data-level="5.2.4" data-path="lab5.html"><a href="lab5.html#finding-quantiles-with-the-normal-distribution"><i class="fa fa-check"></i><b>5.2.4</b> Finding “quantiles” with the normal distribution</a></li>
+<li class="chapter" data-level="5.2.5" data-path="lab5.html"><a href="lab5.html#summary-of-rs-built-in-normal-distribution"><i class="fa fa-check"></i><b>5.2.5</b> Summary of R’s built-in normal distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="lab5.html"><a href="lab5.html#wrap-up-4"><i class="fa fa-check"></i><b>5.3</b> Wrap-up</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="lab6.html"><a href="lab6.html"><i class="fa fa-check"></i><b>6</b> Sampling and the Central Limit Theorem: The Wisdom of Large Samples</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="lab6.html"><a href="lab6.html#before-we-begin"><i class="fa fa-check"></i><b>6.1</b> Before we begin…</a></li>
+<li class="chapter" data-level="6.2" data-path="lab6.html"><a href="lab6.html#heights"><i class="fa fa-check"></i><b>6.2</b> Heights</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="lab6.html"><a href="lab6.html#a-simulated-population"><i class="fa fa-check"></i><b>6.2.1</b> A simulated population</a></li>
+<li class="chapter" data-level="6.2.2" data-path="lab6.html"><a href="lab6.html#a-sample-from-our-simulated-population"><i class="fa fa-check"></i><b>6.2.2</b> A sample from our simulated population</a></li>
+<li class="chapter" data-level="6.2.3" data-path="lab6.html"><a href="lab6.html#many-samples-from-our-simulated-population"><i class="fa fa-check"></i><b>6.2.3</b> Many samples from our simulated population</a></li>
+<li class="chapter" data-level="6.2.4" data-path="lab6.html"><a href="lab6.html#many-larger-samples"><i class="fa fa-check"></i><b>6.2.4</b> Many larger samples</a></li>
+<li class="chapter" data-level="6.2.5" data-path="lab6.html"><a href="lab6.html#the-probability-of-being-wrong"><i class="fa fa-check"></i><b>6.2.5</b> The probability of being wrong</a></li>
+<li class="chapter" data-level="6.2.6" data-path="lab6.html"><a href="lab6.html#biased-samples"><i class="fa fa-check"></i><b>6.2.6</b> Biased samples</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="lab6.html"><a href="lab6.html#the-wisdom-of-the-crowd"><i class="fa fa-check"></i><b>6.3</b> The Wisdom of the Crowd</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="lab6.html"><a href="lab6.html#grab-the-data"><i class="fa fa-check"></i><b>6.3.1</b> Grab the data</a></li>
+<li class="chapter" data-level="6.3.2" data-path="lab6.html"><a href="lab6.html#make-a-histogram"><i class="fa fa-check"></i><b>6.3.2</b> Make a histogram</a></li>
+<li class="chapter" data-level="6.3.3" data-path="lab6.html"><a href="lab6.html#what-is-the-right-answer"><i class="fa fa-check"></i><b>6.3.3</b> What is the right answer?</a></li>
+<li class="chapter" data-level="6.3.4" data-path="lab6.html"><a href="lab6.html#what-about-the-average"><i class="fa fa-check"></i><b>6.3.4</b> What about the average?</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="lab6.html"><a href="lab6.html#wrap-up-5"><i class="fa fa-check"></i><b>6.4</b> Wrap-up</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="lab7.html"><a href="lab7.html"><i class="fa fa-check"></i><b>7</b> Confidence intervals and hypothesis testing</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="lab7.html"><a href="lab7.html#be-still-my-artificial-heart"><i class="fa fa-check"></i><b>7.1</b> Be still, my (artificial) heart</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="lab7.html"><a href="lab7.html#constructing-confidence-intervals"><i class="fa fa-check"></i><b>7.1.1</b> Constructing confidence intervals</a></li>
+<li class="chapter" data-level="7.1.2" data-path="lab7.html"><a href="lab7.html#compare-our-sample-to-the-confidence-interval"><i class="fa fa-check"></i><b>7.1.2</b> Compare our sample to the confidence interval</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="lab7.html"><a href="lab7.html#lay-your-weary-head-to-rest"><i class="fa fa-check"></i><b>7.2</b> Lay your weary head to rest</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="lab7.html"><a href="lab7.html#figure-out-what-parameters-would-describe-the-population-if-the-hypothesis-were-true-1"><i class="fa fa-check"></i><b>7.2.1</b> Figure out what parameters would describe the population <em>if</em> the hypothesis were true</a></li>
+<li class="chapter" data-level="7.2.2" data-path="lab7.html"><a href="lab7.html#decide-how-wide-to-make-our-confidence-interval-1"><i class="fa fa-check"></i><b>7.2.2</b> Decide how wide to make our confidence interval</a></li>
+<li class="chapter" data-level="7.2.3" data-path="lab7.html"><a href="lab7.html#figure-out-the-upper-and-lower-boundaries-of-the-confidence-interval-1"><i class="fa fa-check"></i><b>7.2.3</b> Figure out the upper and lower boundaries of the confidence interval</a></li>
+<li class="chapter" data-level="7.2.4" data-path="lab7.html"><a href="lab7.html#compare-our-sample-to-the-confidence-interval-1"><i class="fa fa-check"></i><b>7.2.4</b> Compare our sample to the confidence interval</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="lab7.html"><a href="lab7.html#wrap-up-6"><i class="fa fa-check"></i><b>7.3</b> Wrap-up</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="lab8.html"><a href="lab8.html"><i class="fa fa-check"></i><b>8</b> Statistical Power</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="lab8.html"><a href="lab8.html#the-power-of-positive-feedback"><i class="fa fa-check"></i><b>8.1</b> The Power of Positive Feedback</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="lab8.html"><a href="lab8.html#look-at-the-data"><i class="fa fa-check"></i><b>8.1.1</b> Look at the data</a></li>
+<li class="chapter" data-level="8.1.2" data-path="lab8.html"><a href="lab8.html#specifying-our-null-hypothesis"><i class="fa fa-check"></i><b>8.1.2</b> Specifying our null hypothesis</a></li>
+<li class="chapter" data-level="8.1.3" data-path="lab8.html"><a href="lab8.html#building-our-confidence-interval"><i class="fa fa-check"></i><b>8.1.3</b> Building our confidence interval</a></li>
+<li class="chapter" data-level="8.1.4" data-path="lab8.html"><a href="lab8.html#visualizing-the-distribution-of-sample-means"><i class="fa fa-check"></i><b>8.1.4</b> Visualizing the distribution of sample means</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="lab8.html"><a href="lab8.html#achieving-a-target-level-of-power"><i class="fa fa-check"></i><b>8.2</b> Achieving a target level of power</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="lab8.html"><a href="lab8.html#effect-size"><i class="fa fa-check"></i><b>8.2.1</b> Effect size</a></li>
+<li class="chapter" data-level="8.2.2" data-path="lab8.html"><a href="lab8.html#sample-size"><i class="fa fa-check"></i><b>8.2.2</b> Sample size</a></li>
+<li class="chapter" data-level="8.2.3" data-path="lab8.html"><a href="lab8.html#alpha-level"><i class="fa fa-check"></i><b>8.2.3</b> Alpha level</a></li>
+<li class="chapter" data-level="8.2.4" data-path="lab8.html"><a href="lab8.html#population-standard-deviation"><i class="fa fa-check"></i><b>8.2.4</b> Population standard deviation</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="lab8.html"><a href="lab8.html#using-data-to-test-the-null-hypothesis"><i class="fa fa-check"></i><b>8.3</b> Using data to test the null hypothesis</a></li>
+<li class="chapter" data-level="8.4" data-path="lab8.html"><a href="lab8.html#wrap-up-7"><i class="fa fa-check"></i><b>8.4</b> Wrap-up</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Labs</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="lab8" class="section level1" number="8">
+<h1><span class="header-section-number">Lab 8</span> Statistical Power</h1>
+<p><img src="img/polarbear.png" width="100%" /></p>
+<p>If we conduct a null hypothesis test and decide to <em>reject</em> the null hypothesis, there are two possibilities: Either we <em>incorrectly</em> rejected the null hypothesis, in which case we made a <strong>Type I error</strong>; or we <em>correctly</em> rejected the null hypothesis (and thereby avoided a <strong>Type II error</strong>). We’ve seen that <em>we</em> get to decide the probability of a Type I error because it is the same thing as our “alpha level.” But what is the probability that we <em>correctly</em> reject the null hypothesis? This probability is called the <strong>power</strong> of our test and is often called “beta” (<span class="math inline">\(\beta\)</span>).</p>
+<p>The challenge in figuring out what “beta” is that we do not know ahead of time how far from the null hypothesis our results might be. The difference between the true population parameters and those assumed by the null hypothesis is called <strong>effect size</strong>. We already encountered this last session, in which we wondered how different the heart rates in a sample would need to be before we could always reject the null hypothesis. What we were doing was changing the “effect size” and seeing that, with a bigger effect size, <em>power</em> also increased.</p>
+<p>In this session, we will explore the factors that contribute to power and conduct a null hypothesis test on real data to assess the effectiveness of a computer-based learning activity.</p>
+<p>Before we begin, let’s make sure to load the <code>tidyverse</code> package from R’s library.</p>
+<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="lab8.html#cb288-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
+## ✓ tibble  3.0.5     ✓ dplyr   1.0.3
+## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
+## ✓ readr   1.4.0     ✓ forcats 0.5.0</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<div id="the-power-of-positive-feedback" class="section level2" number="8.1">
+<h2><span class="header-section-number">8.1</span> The Power of Positive Feedback</h2>
+<p>We will be looking at a study reported by <span class="citation"><a href="references.html#ref-DayEtAl2015" role="doc-biblioref">Day et al.</a> (<a href="references.html#ref-DayEtAl2015" role="doc-biblioref">2015</a>)</span>. They were interested in how to convey to middle school students the concept of “positive feedback.” Positive feedback occurs whenever changing one part of a system leads to changes in another part of a system, which then causes additional change in the first part (A increases B and B increases A). Positive feedback is common in many natural, social, and technological systems. For example, having more wealth (A) allows you to put money into investments (B) which has the potential to give you even more wealth (A).</p>
+<p><span class="citation"><a href="references.html#ref-DayEtAl2015" role="doc-biblioref">Day et al.</a> (<a href="references.html#ref-DayEtAl2015" role="doc-biblioref">2015</a>)</span> wondered whether students could learn the concept of positive feedback by playing with a computer simulation of the relationship between ice and climate. The ice covering Earth’s north and south poles helps keep the planet cool because ice reflects sunlight rather than absorbing it (think of how dark clothes get warmer in sunlight than light colored clothes). Positive feedback occurs because if the global temperature increases (A), this melts the ice (B), which then leads to more warming (A) because there is less ice to reflect sunlight back into space (for crossword puzzle fans, the technical term for how reflective a surface is “albedo”). The simulation was meant to illustrate this relationship to students so they could identify similar kinds of positive feedback situations elsewhere.</p>
+<p>Although their whole study looked at a number of things, we will focus on one particular <strong>research question</strong>: Can students learn the concept of positive feedback from a computer simulation?</p>
+<div id="look-at-the-data" class="section level3" number="8.1.1">
+<h3><span class="header-section-number">8.1.1</span> Look at the data</h3>
+<p>Let’s first take a look at their data to get a sense of how they addressed these two research questions. Load it into R:</p>
+<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="lab8.html#cb292-1" aria-hidden="true" tabindex="-1"></a>feedback_learning <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/learning_subset.csv&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   ID = col_double(),
+##   Period = col_double(),
+##   AdvPlacement = col_double(),
+##   Grade = col_double(),
+##   Gender = col_character(),
+##   Pretest = col_double(),
+##   Posttest = col_double(),
+##   Improvement = col_double()
+## )</code></pre>
+<p>Click on the new “feedback_learning” data that’s now in R’s environment (upper right panel). Each row represents data from a single student and there are several columns. For now, let’s focus on the last three columns:</p>
+<ul>
+<li>Pretest: This is a score (between 8 and 40) on a test designed to measure understanding of the concept of positive feedback. This test was given prior to doing the computer simulation activity. The score is based on 8 questions which can give between 1 and 5 points.</li>
+<li>Posttest: This is another score (between 8 and 40) on a similar test, but given <em>after</em> the activity.</li>
+<li><strong>Improvement</strong>: This is the difference between the posttest and pretest scores, and this is how we <em>operationalize</em> the construct of “learning.” If a student does better after the activity than before, they will have a positive improvement. If they do worse, they will have a negative improvement. And if they don’t learn anything, their improvement is zero.</li>
+</ul>
+<p>In the next section, we will do some computer simulations ourselves! Specifically, we will explore various factors that affect our <strong>power</strong> to detect whether the activity actually led to student learning or not.</p>
+
+<div class="exercise">
+<span id="exr:unnamed-chunk-4" class="exercise"><strong>Exercise 8.1  </strong></span>We are going to use the normal distribution as our <em>model</em> of the average improvement. Why is the normal distribution more appropriate than the binomial distribution? (<em>Hint: think about what kinds of values a normal distribution can produce and what kinds of values a binomial distribution can produce.</em>)
+</div>
+</div>
+<div id="specifying-our-null-hypothesis" class="section level3" number="8.1.2">
+<h3><span class="header-section-number">8.1.2</span> Specifying our null hypothesis</h3>
+<p>If the answer to the research question (above) was “no,” then we should expect no difference between the pre- and posttest scores. This tells us that our <strong>null hypothesis</strong> is that the population mean “Improvement” is zero. We will do a <strong>two-tailed test</strong> because we want to be open to the possibility that the activity actually <em>harmed</em> students’ understanding. This gives us our null and alternative hypotheses:</p>
+<p><strong>Null hypothesis (<span class="math inline">\(H_0\)</span>)</strong>: <span class="math inline">\(\mu = 0\)</span></p>
+<p><strong>Alternative hypothesis (<span class="math inline">\(H_1\)</span>)</strong>: <span class="math inline">\(\mu \neq 0\)</span></p>
+<p>We are still missing something: Although we know what the population <em>mean</em> would be if the null hypothesis were true, what about the population <em>standard deviation</em>? In other words, what would be the typical variability between students on these tests? For the moment, let’s speculate that the population standard deviation is <span class="math inline">\(\sigma = 5\)</span>, representing the range of scores on a <em>single</em> question on the test. What we are saying is that we think the typical variability between students is around one question’s worth of points.</p>
+<p>To make things easier for us later on, let’s give these numbers special labels in R:</p>
+<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="lab8.html#cb294-1" aria-hidden="true" tabindex="-1"></a>null_mean <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb294-2"><a href="lab8.html#cb294-2" aria-hidden="true" tabindex="-1"></a>null_sd <span class="ot">&lt;-</span> <span class="dv">5</span></span></code></pre></div>
+<p>Finally, we need to think about the <em>sample size</em> so that we can use the Central Limit Theorem to figure out where to put the boundaries of our confidence interval. For now, let’s assume that we will have a sample of 30 students and give that number a special label as well:</p>
+<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="lab8.html#cb295-1" aria-hidden="true" tabindex="-1"></a>sample_size <span class="ot">&lt;-</span> <span class="dv">30</span></span></code></pre></div>
+</div>
+<div id="building-our-confidence-interval" class="section level3" number="8.1.3">
+<h3><span class="header-section-number">8.1.3</span> Building our confidence interval</h3>
+<p>Let’s say that we will reject the null hypothesis if the sample we get has less than a 0.05 probability of happening if the null hypothesis were true. In other words, we are setting (for now) our <em>alpha level</em> to 0.05, and as a result we need to find a 95% confidence interval. Let’s give this a label so we can use it in R:</p>
+<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="lab8.html#cb296-1" aria-hidden="true" tabindex="-1"></a>alpha_level <span class="ot">&lt;-</span> <span class="fl">0.05</span></span></code></pre></div>
+<p>As mentioned above, we will use the normal distribution to find the upper and lower boundaries.</p>
+<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="lab8.html#cb297-1" aria-hidden="true" tabindex="-1"></a>ci_lower <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="at">p =</span> alpha_level <span class="sc">/</span> <span class="dv">2</span>, <span class="at">mean =</span> null_mean, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span>
+<span id="cb297-2"><a href="lab8.html#cb297-2" aria-hidden="true" tabindex="-1"></a>ci_upper <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="at">p =</span> <span class="dv">1</span> <span class="sc">-</span> alpha_level <span class="sc">/</span> <span class="dv">2</span>, <span class="at">mean =</span> null_mean, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span></code></pre></div>
+<p>Notice that, in addition to giving labels to the lower and upper ends of our confidence interval (<code>ci_lower</code> and <code>ci_upper</code>, respectively), we used the labels we made earlier to specify the <code>mean</code> and <code>sd</code> in <code>qnorm</code>. Very handy!</p>
+</div>
+<div id="visualizing-the-distribution-of-sample-means" class="section level3" number="8.1.4">
+<h3><span class="header-section-number">8.1.4</span> Visualizing the distribution of sample means</h3>
+<p>Finally, let’s visualize the distribution of sample means that we would get if the null hypothesis were true. Like we’ve done before, we will use colors to distinguish between samples that fall outside our confidence interval—and into the <em>critical region</em> leading us to reject the null hypothesis—from those that fall inside it.</p>
+<p>First, let’s simulate a large number of possible sample means assuming the null hypothesis is true:</p>
+<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="lab8.html#cb298-1" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span><span class="dv">10000</span>, <span class="at">mean =</span> null_mean, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span>
+<span id="cb298-2"><a href="lab8.html#cb298-2" aria-hidden="true" tabindex="-1"></a>sample_means <span class="ot">&lt;-</span> <span class="fu">tibble</span>(M)</span></code></pre></div>
+<p>Now let’s make a colored histogram so we can see how often sample means fall inside or outside our confidence interval.</p>
+<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="lab8.html#cb299-1" aria-hidden="true" tabindex="-1"></a>sample_means <span class="sc">%&gt;%</span></span>
+<span id="cb299-2"><a href="lab8.html#cb299-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> M, <span class="at">fill =</span> (M <span class="sc">&gt;</span> ci_lower) <span class="sc">&amp;</span> (M <span class="sc">&lt;</span> ci_upper))) <span class="sc">+</span></span>
+<span id="cb299-3"><a href="lab8.html#cb299-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.5</span>)</span></code></pre></div>
+<p><img src="08-power_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>We can also check and see how often one of the sample means from the null hypothesis ends up outside the confidence interval, leading us to make a Type I error by incorrectly rejecting the null hypothesis:</p>
+<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="lab8.html#cb300-1" aria-hidden="true" tabindex="-1"></a>sample_means <span class="sc">%&gt;%</span></span>
+<span id="cb300-2"><a href="lab8.html#cb300-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>((M <span class="sc">&gt;</span> ci_lower) <span class="sc">&amp;</span> (M <span class="sc">&lt;</span> ci_upper)) <span class="sc">%&gt;%</span></span>
+<span id="cb300-3"><a href="lab8.html#cb300-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb300-4"><a href="lab8.html#cb300-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">p =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div>
+<pre><code>## # A tibble: 2 x 3
+##   `(M &gt; ci_lower) &amp; (M &lt; ci_upper)`     n      p
+## * &lt;lgl&gt;                             &lt;int&gt;  &lt;dbl&gt;
+## 1 FALSE                               514 0.0514
+## 2 TRUE                               9486 0.949</code></pre>
+
+<div class="exercise">
+<span id="exr:unnamed-chunk-12" class="exercise"><strong>Exercise 8.2  </strong></span>In the table above, “FALSE” means that the simulated sample mean fell outside the confidence interval and we would (incorrectly) reject the null hypothesis. How close is it to the alpha level we decided on earlier?
+</div>
+</div>
+</div>
+<div id="achieving-a-target-level-of-power" class="section level2" number="8.2">
+<h2><span class="header-section-number">8.2</span> Achieving a target level of power</h2>
+<p>A typical goal in many research areas is to have at least an 0.8 probability of correctly rejecting the null hypothesis. In this section, we will imagine different scenarios with the aim of achieving this level of power.</p>
+<div id="effect-size" class="section level3" number="8.2.1">
+<h3><span class="header-section-number">8.2.1</span> Effect size</h3>
+<p><strong>Effect size</strong> is the difference between the actual population parameters and the population parameters we assume in the null hypothesis. In that sense, the null hypothesis assumes the “effect size” is zero.</p>
+<p>In this case, “effect size” refers to how much test scores improve as a function of the learning activity. Let’s imagine what the distribution of sample means would look like if the effect size were 1, in other words, if the learning activity improved scores by, on average, a single point.</p>
+<p>First, let’s put a label on this guess to make our lives easier:</p>
+<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="lab8.html#cb302-1" aria-hidden="true" tabindex="-1"></a>effect_size <span class="ot">&lt;-</span> <span class="dv">1</span></span></code></pre></div>
+<p>Now, let’s do something similar to what we did above and simulate a whole bunch of sample means assuming this effect size:</p>
+<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="lab8.html#cb303-1" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span><span class="dv">10000</span>, <span class="at">mean =</span> null_mean <span class="sc">+</span> effect_size, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span>
+<span id="cb303-2"><a href="lab8.html#cb303-2" aria-hidden="true" tabindex="-1"></a>sample_means <span class="ot">&lt;-</span> <span class="fu">tibble</span>(M)</span></code></pre></div>
+<p>And we can visualize what this distribution looks like, along with how much of it falls in the critical region, leading us to <em>correctly</em> reject the null hypothesis.</p>
+<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="lab8.html#cb304-1" aria-hidden="true" tabindex="-1"></a>sample_means <span class="sc">%&gt;%</span></span>
+<span id="cb304-2"><a href="lab8.html#cb304-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> M, <span class="at">fill =</span> (M <span class="sc">&gt;</span> ci_lower) <span class="sc">&amp;</span> (M <span class="sc">&lt;</span> ci_upper))) <span class="sc">+</span></span>
+<span id="cb304-3"><a href="lab8.html#cb304-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.5</span>)</span></code></pre></div>
+<p><img src="08-power_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p>We can approximate the probability of correctly rejecting the null hypothesis using our simulation:</p>
+<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="lab8.html#cb305-1" aria-hidden="true" tabindex="-1"></a>sample_means <span class="sc">%&gt;%</span></span>
+<span id="cb305-2"><a href="lab8.html#cb305-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>((M <span class="sc">&gt;</span> ci_lower) <span class="sc">&amp;</span> (M <span class="sc">&lt;</span> ci_upper)) <span class="sc">%&gt;%</span></span>
+<span id="cb305-3"><a href="lab8.html#cb305-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb305-4"><a href="lab8.html#cb305-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">p =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div>
+<pre><code>## # A tibble: 2 x 3
+##   `(M &gt; ci_lower) &amp; (M &lt; ci_upper)`     n     p
+## * &lt;lgl&gt;                             &lt;int&gt; &lt;dbl&gt;
+## 1 FALSE                              1954 0.195
+## 2 TRUE                               8046 0.805</code></pre>
+<p>But we can also find <em>power</em> exactly by using the normal distribution:</p>
+<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="lab8.html#cb307-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="at">q =</span> ci_lower, <span class="at">mean =</span> null_mean <span class="sc">+</span> effect_size, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size)) <span class="sc">+</span></span>
+<span id="cb307-2"><a href="lab8.html#cb307-2" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="at">q =</span> ci_upper, <span class="at">mean =</span> null_mean <span class="sc">+</span> effect_size, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span></code></pre></div>
+<pre><code>## [1] 0.1947752</code></pre>
+
+<div class="exercise">
+<span id="exr:unnamed-chunk-18" class="exercise"><strong>Exercise 8.3  </strong></span>Try setting <code>effect_size</code> to different values (e.g., <code>effect_size &lt;- 0.5</code>) and then re-run the lines of code we just used (i.e., simulate new sample means, make a histogram, and calculate power using the normal distribution). Try to find an effect size where the power ends up as close as you can get it to 0.8 without going over. What effect size did you find?
+</div>
+</div>
+<div id="sample-size" class="section level3" number="8.2.2">
+<h3><span class="header-section-number">8.2.2</span> Sample size</h3>
+<p>Now let’s reset our hypothetical effect size back to 1 point.</p>
+<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="lab8.html#cb309-1" aria-hidden="true" tabindex="-1"></a>effect_size <span class="ot">&lt;-</span> <span class="dv">1</span></span></code></pre></div>
+<p>Now instead of messing around with effect size, let’s see if we can change the <strong>sample size</strong> to try and achieve a power of 0.8. This is a bit trickier because we also have to adjust our confidence interval limits, because they also depend on sample size.</p>
+<p>For example, let’s try increasing our sample size to 40.</p>
+<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="lab8.html#cb310-1" aria-hidden="true" tabindex="-1"></a>sample_size <span class="ot">&lt;-</span> <span class="dv">40</span></span></code></pre></div>
+<p>Now, we have to re-calculate our confidence interval limits in addition to everything else:</p>
+<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="lab8.html#cb311-1" aria-hidden="true" tabindex="-1"></a>ci_lower <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="at">p =</span> alpha_level <span class="sc">/</span> <span class="dv">2</span>, <span class="at">mean =</span> null_mean, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span>
+<span id="cb311-2"><a href="lab8.html#cb311-2" aria-hidden="true" tabindex="-1"></a>ci_upper <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="at">p =</span> <span class="dv">1</span> <span class="sc">-</span> alpha_level <span class="sc">/</span> <span class="dv">2</span>, <span class="at">mean =</span> null_mean, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span>
+<span id="cb311-3"><a href="lab8.html#cb311-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb311-4"><a href="lab8.html#cb311-4" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span><span class="dv">10000</span>, <span class="at">mean =</span> null_mean <span class="sc">+</span> effect_size, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span>
+<span id="cb311-5"><a href="lab8.html#cb311-5" aria-hidden="true" tabindex="-1"></a>sample_means <span class="ot">&lt;-</span> <span class="fu">tibble</span>(M)</span>
+<span id="cb311-6"><a href="lab8.html#cb311-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb311-7"><a href="lab8.html#cb311-7" aria-hidden="true" tabindex="-1"></a>sample_means <span class="sc">%&gt;%</span></span>
+<span id="cb311-8"><a href="lab8.html#cb311-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> M, <span class="at">fill =</span> (M <span class="sc">&gt;</span> ci_lower) <span class="sc">&amp;</span> (M <span class="sc">&lt;</span> ci_upper))) <span class="sc">+</span></span>
+<span id="cb311-9"><a href="lab8.html#cb311-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.5</span>)</span></code></pre></div>
+<p><img src="08-power_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="lab8.html#cb312-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="at">q =</span> ci_lower, <span class="at">mean =</span> null_mean <span class="sc">+</span> effect_size, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size)) <span class="sc">+</span></span>
+<span id="cb312-2"><a href="lab8.html#cb312-2" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="at">q =</span> ci_upper, <span class="at">mean =</span> null_mean <span class="sc">+</span> effect_size, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span></code></pre></div>
+<pre><code>## [1] 0.2441412</code></pre>
+
+<div class="exercise">
+<span id="exr:unnamed-chunk-22" class="exercise"><strong>Exercise 8.4  </strong></span>Try setting <code>sample_size</code> to different values (e.g., <code>sample_size &lt;- 13</code>) and then re-run the lines of code we just used (i.e., find the CI limits, simulate new sample means, make a histogram, and calculate power using the normal distribution). Try to find a sample size where the power ends up as close as you can get it to 0.8 without going over. What sample size did you find?
+</div>
+</div>
+<div id="alpha-level" class="section level3" number="8.2.3">
+<h3><span class="header-section-number">8.2.3</span> Alpha level</h3>
+<p>Let’s put the sample size back to its original value of 30.</p>
+<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb314-1"><a href="lab8.html#cb314-1" aria-hidden="true" tabindex="-1"></a>sample_size <span class="ot">&lt;-</span> <span class="dv">30</span></span></code></pre></div>
+<p>Now, we are going to mess around with the <strong>alpha level</strong> in order to achieve 0.8 power. In other words, we are changing the width of our confidence interval so that it allows us to correctly reject the null hypothesis 80% of the time.</p>
+
+<div class="exercise">
+<span id="exr:unnamed-chunk-24" class="exercise"><strong>Exercise 8.5  </strong></span>Is there a potential problem with messing with the alpha level this way? Are we increasing the probability of making a different kind of error?
+</div>
+<p>For example, the code below is based on changing our alpha level from 0.05 to 0.1. Once again, we have to re-do our confidence interval:</p>
+<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb315-1"><a href="lab8.html#cb315-1" aria-hidden="true" tabindex="-1"></a>alpha_level <span class="ot">&lt;-</span> <span class="fl">0.1</span></span>
+<span id="cb315-2"><a href="lab8.html#cb315-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb315-3"><a href="lab8.html#cb315-3" aria-hidden="true" tabindex="-1"></a>ci_lower <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="at">p =</span> alpha_level <span class="sc">/</span> <span class="dv">2</span>, <span class="at">mean =</span> null_mean, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span>
+<span id="cb315-4"><a href="lab8.html#cb315-4" aria-hidden="true" tabindex="-1"></a>ci_upper <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="at">p =</span> <span class="dv">1</span> <span class="sc">-</span> alpha_level <span class="sc">/</span> <span class="dv">2</span>, <span class="at">mean =</span> null_mean, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span>
+<span id="cb315-5"><a href="lab8.html#cb315-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb315-6"><a href="lab8.html#cb315-6" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span><span class="dv">10000</span>, <span class="at">mean =</span> null_mean <span class="sc">+</span> effect_size, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span>
+<span id="cb315-7"><a href="lab8.html#cb315-7" aria-hidden="true" tabindex="-1"></a>sample_means <span class="ot">&lt;-</span> <span class="fu">tibble</span>(M)</span>
+<span id="cb315-8"><a href="lab8.html#cb315-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb315-9"><a href="lab8.html#cb315-9" aria-hidden="true" tabindex="-1"></a>sample_means <span class="sc">%&gt;%</span></span>
+<span id="cb315-10"><a href="lab8.html#cb315-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> M, <span class="at">fill =</span> (M <span class="sc">&gt;</span> ci_lower) <span class="sc">&amp;</span> (M <span class="sc">&lt;</span> ci_upper))) <span class="sc">+</span></span>
+<span id="cb315-11"><a href="lab8.html#cb315-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.5</span>)</span></code></pre></div>
+<p><img src="08-power_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="lab8.html#cb316-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="at">q =</span> ci_lower, <span class="at">mean =</span> null_mean <span class="sc">+</span> effect_size, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size)) <span class="sc">+</span></span>
+<span id="cb316-2"><a href="lab8.html#cb316-2" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="at">q =</span> ci_upper, <span class="at">mean =</span> null_mean <span class="sc">+</span> effect_size, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span></code></pre></div>
+<pre><code>## [1] 0.2944317</code></pre>
+
+<div class="exercise">
+<span id="exr:unnamed-chunk-26" class="exercise"><strong>Exercise 7.8  </strong></span>Try changing <code>alpha_level</code> in the code above to different values and then re-run it to make a histogram and calculate power. Try to find an alpha level where the power ends up as close as you can get it to 0.8 without going over. What alpha level did you find?
+</div>
+</div>
+<div id="population-standard-deviation" class="section level3" number="8.2.4">
+<h3><span class="header-section-number">8.2.4</span> Population standard deviation</h3>
+<p>There’s one final thing that can affect power, and that is the <strong>population standard deviation (<span class="math inline">\(\sigma\)</span>)</strong>. Obviously, this is not something we can actually control in the real world, but it is important to consider when thinking about the power to correctly reject the null hypothesis. If the population is more variable, it will be harder to detect any differences that are the result of our intervention.</p>
+<p>Let’s first reset our alpha level back to 0.05</p>
+<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb318-1"><a href="lab8.html#cb318-1" aria-hidden="true" tabindex="-1"></a>alpha_level <span class="ot">&lt;-</span> <span class="fl">0.05</span></span></code></pre></div>
+<p>As above, when we mess with the population standard deviation, this trickles down into every aspect of our hypothesis test, since <code>null_sd</code> appears pretty often. For example, let’s try making the population twice as variable as it was before by setting <code>null_sd</code> to 10.</p>
+<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb319-1"><a href="lab8.html#cb319-1" aria-hidden="true" tabindex="-1"></a>null_sd <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb319-2"><a href="lab8.html#cb319-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb319-3"><a href="lab8.html#cb319-3" aria-hidden="true" tabindex="-1"></a>ci_lower <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="at">p =</span> alpha_level <span class="sc">/</span> <span class="dv">2</span>, <span class="at">mean =</span> null_mean, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span>
+<span id="cb319-4"><a href="lab8.html#cb319-4" aria-hidden="true" tabindex="-1"></a>ci_upper <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="at">p =</span> <span class="dv">1</span> <span class="sc">-</span> alpha_level <span class="sc">/</span> <span class="dv">2</span>, <span class="at">mean =</span> null_mean, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span>
+<span id="cb319-5"><a href="lab8.html#cb319-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb319-6"><a href="lab8.html#cb319-6" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span><span class="dv">10000</span>, <span class="at">mean =</span> null_mean <span class="sc">+</span> effect_size, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span>
+<span id="cb319-7"><a href="lab8.html#cb319-7" aria-hidden="true" tabindex="-1"></a>sample_means <span class="ot">&lt;-</span> <span class="fu">tibble</span>(M)</span>
+<span id="cb319-8"><a href="lab8.html#cb319-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb319-9"><a href="lab8.html#cb319-9" aria-hidden="true" tabindex="-1"></a>sample_means <span class="sc">%&gt;%</span></span>
+<span id="cb319-10"><a href="lab8.html#cb319-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> M, <span class="at">fill =</span> (M <span class="sc">&gt;</span> ci_lower) <span class="sc">&amp;</span> (M <span class="sc">&lt;</span> ci_upper))) <span class="sc">+</span></span>
+<span id="cb319-11"><a href="lab8.html#cb319-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.5</span>)</span></code></pre></div>
+<p><img src="08-power_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="lab8.html#cb320-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="at">q =</span> ci_lower, <span class="at">mean =</span> null_mean <span class="sc">+</span> effect_size, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size)) <span class="sc">+</span></span>
+<span id="cb320-2"><a href="lab8.html#cb320-2" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="at">q =</span> ci_upper, <span class="at">mean =</span> null_mean <span class="sc">+</span> effect_size, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span></code></pre></div>
+<pre><code>## [1] 0.08501566</code></pre>
+
+<div class="exercise">
+<span id="exr:unnamed-chunk-29" class="exercise"><strong>Exercise 8.6  </strong></span>Try changing <code>null_sd</code> in the code above to different values and then re-run the code following it to make a histogram and calculate power. Try to find a population SD where the power ends up as close as you can get it to 0.8 without going over. What population SD did you find?
+</div>
+</div>
+</div>
+<div id="using-data-to-test-the-null-hypothesis" class="section level2" number="8.3">
+<h2><span class="header-section-number">8.3</span> Using data to test the null hypothesis</h2>
+<p>Now that we’ve explored the factors that contribute to the <strong>power</strong> of this—and any—null hypothesis test, let’s see how the data actually played out.</p>
+<p>First, remember that we had to make a reasonable guess about the population SD before. Now, we are going to <em>estimate</em> it using the sample SD of our actual data. This has some consequences we will discuss later in the course, but for now we will accept this as is:</p>
+<div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb322-1"><a href="lab8.html#cb322-1" aria-hidden="true" tabindex="-1"></a>null_sd <span class="ot">&lt;-</span> <span class="fu">sd</span>(feedback_learning<span class="sc">$</span>Improvement)</span></code></pre></div>
+<p>Above, the <code>$</code> pulls out the <code>Improvement</code> column from our <code>feedback_learning</code> dataset, so <code>null_sd</code> is now the standard deviation of the improvement values we actually observed.</p>
+<p>Also, notice that the sample size they had was 69, so let’s make sure to adjust that as well:</p>
+<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="lab8.html#cb323-1" aria-hidden="true" tabindex="-1"></a>sample_size <span class="ot">&lt;-</span> <span class="dv">69</span></span></code></pre></div>
+<div id="confidence-interval-limits" class="section level4" number="8.3.0.1">
+<h4><span class="header-section-number">8.3.0.1</span> Confidence interval limits</h4>
+<p>Now, we find the upper and lower limits of our confidence interval:</p>
+<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="lab8.html#cb324-1" aria-hidden="true" tabindex="-1"></a>ci_lower <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="at">p =</span> alpha_level <span class="sc">/</span> <span class="dv">2</span>, <span class="at">mean =</span> null_mean, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span>
+<span id="cb324-2"><a href="lab8.html#cb324-2" aria-hidden="true" tabindex="-1"></a>ci_upper <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="at">p =</span> <span class="dv">1</span> <span class="sc">-</span> alpha_level <span class="sc">/</span> <span class="dv">2</span>, <span class="at">mean =</span> null_mean, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span></code></pre></div>
+<p>And we can find the sample mean (and give it a label, since we’ll be using it later):</p>
+<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="lab8.html#cb325-1" aria-hidden="true" tabindex="-1"></a>sample_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(feedback_learning<span class="sc">$</span>Improvement)</span></code></pre></div>
+<p>Because this falls outside the confidence interval, we <strong>reject</strong> the null hypothesis!</p>
+</div>
+<div id="the-p-value" class="section level4" number="8.3.0.2">
+<h4><span class="header-section-number">8.3.0.2</span> The <span class="math inline">\(p\)</span> value</h4>
+<p>Let’s also find the <span class="math inline">\(p\)</span> value, the probability that we would observe a result at least as extreme as our result if the null hypothesis were true. Because the sample mean is <em>larger</em> than the mean according to the null hypothesis, we need to find the probability of being <em>above</em> the sample mean:</p>
+<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="lab8.html#cb326-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="at">q =</span> sample_mean, <span class="at">mean =</span> null_mean, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span></code></pre></div>
+<pre><code>## [1] 0.0004771661</code></pre>
+<p>But remember that because this is a <strong>two-tailed</strong> test, we need to multiply the number above by 2, to account for <em>both</em> the upper and lower parts of the critical region.</p>
+<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb328-1"><a href="lab8.html#cb328-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="at">q =</span> sample_mean, <span class="at">mean =</span> null_mean, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size)))</span></code></pre></div>
+<pre><code>## [1] 0.0009543322</code></pre>
+<p>This is the final <span class="math inline">\(p\)</span> value, and we can see that it is less than our alpha level of 0.05.</p>
+
+<div class="exercise">
+<span id="exr:unnamed-chunk-36" class="exercise"><strong>Exercise 8.7  </strong></span>By rejecting the null hypothesis, our results are statistically significant. Do you believe they are practically significant? In other words, do you believe that the improvement in scores resulting from the learning activity is large enough to care about? Why or why not?
+</div>
+</div>
+<div id="estimated-power" class="section level4" number="8.3.0.3">
+<h4><span class="header-section-number">8.3.0.3</span> Estimated power</h4>
+<p>Finally, let’s try something interesting. Assume that the sample mean reflects the actual effect size:</p>
+<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="lab8.html#cb330-1" aria-hidden="true" tabindex="-1"></a>effect_size <span class="ot">&lt;-</span> sample_mean</span></code></pre></div>
+<p>Now we can use this to simulate plausible sample means we might have observed if the effect size were equal to the sample mean. As a result, we can see what the power of this test <strong>would be</strong> if applied to similar studies in the future. All we need to do now is run the <em>very same code</em> we used in our simulations above to visualize and calculate the <em>power</em> that this study had.</p>
+<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="lab8.html#cb331-1" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span><span class="dv">10000</span>, <span class="at">mean =</span> null_mean <span class="sc">+</span> effect_size, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span>
+<span id="cb331-2"><a href="lab8.html#cb331-2" aria-hidden="true" tabindex="-1"></a>sample_means <span class="ot">&lt;-</span> <span class="fu">tibble</span>(M)</span>
+<span id="cb331-3"><a href="lab8.html#cb331-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb331-4"><a href="lab8.html#cb331-4" aria-hidden="true" tabindex="-1"></a>sample_means <span class="sc">%&gt;%</span></span>
+<span id="cb331-5"><a href="lab8.html#cb331-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> M, <span class="at">fill =</span> (M <span class="sc">&gt;</span> ci_lower) <span class="sc">&amp;</span> (M <span class="sc">&lt;</span> ci_upper))) <span class="sc">+</span></span>
+<span id="cb331-6"><a href="lab8.html#cb331-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.5</span>)</span></code></pre></div>
+<p><img src="08-power_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
+<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="lab8.html#cb332-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="at">q =</span> ci_lower, <span class="at">mean =</span> null_mean <span class="sc">+</span> effect_size, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size)) <span class="sc">+</span></span>
+<span id="cb332-2"><a href="lab8.html#cb332-2" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="at">q =</span> ci_upper, <span class="at">mean =</span> null_mean <span class="sc">+</span> effect_size, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span></code></pre></div>
+<pre><code>## [1] 0.9104759</code></pre>
+
+<div class="exercise">
+<span id="exr:unnamed-chunk-39" class="exercise"><strong>Exercise 8.8  </strong></span>Based on the power we just calculated, do you feel more confident believing that we correctly rejected the null hypothesis? Does this change your opinion about whether the results are practically significant? Why or why not?
+</div>
+</div>
+</div>
+<div id="wrap-up-7" class="section level2" number="8.4">
+<h2><span class="header-section-number">8.4</span> Wrap-up</h2>
+<p>We conducted simulations to see how effect size, sample size, alpha level, and population variability all affect the <strong>power</strong> of a test to correctly reject the null hypothesis. We conducted such a test on actual data studying whether a computer simulation learning activity increased student understanding of the concept of “positive feedback.” In addition, we saw how to use an observed effect size to calculate the power of a test.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="lab7.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["APSY210 Labs.pdf", "APSY210 Labs.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
