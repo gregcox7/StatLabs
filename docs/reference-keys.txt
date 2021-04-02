@@ -136,3 +136,17 @@ confidence-interval-limits
 the-p-value
 estimated-power
 wrap-up-7
+coderef
+binomial-distribution
+probability-of-observing-an-outcome-exactly-equal-to-a-given-value
+probability-of-observing-a-value-less-than-or-equal-to-a-given-value
+probability-of-observing-a-value-greater-than-a-given-value
+probability-of-observing-a-value-inside-an-interval-between-an-upper-and-lower-value
+probability-of-observing-a-value-outside-an-interval-between-an-upper-and-lower-value
+the-value-for-which-there-is-a-given-probability-of-observing-an-outcome-less-than-or-equal-to-that-value
+normal-distribution
+probability-of-observing-a-value-less-than-or-equal-to-a-given-value-1
+probability-of-observing-a-value-greater-than-a-given-value-1
+probability-of-observing-a-value-inside-an-interval-between-an-upper-and-lower-value-1
+probability-of-observing-a-value-outside-an-interval-between-an-upper-and-lower-value-1
+the-value-for-which-there-is-a-given-probability-of-observing-an-outcome-less-than-or-equal-to-that-value-1
