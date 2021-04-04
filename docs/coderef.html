@@ -24,7 +24,7 @@
 <meta name="author" content="Greg Cox" />
 
 
-<meta name="date" content="2021-04-02" />
+<meta name="date" content="2021-04-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -307,6 +307,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="A.1.4" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-inside-an-interval-between-an-upper-and-lower-value"><i class="fa fa-check"></i><b>A.1.4</b> Probability of observing a value inside an interval between an upper and lower value</a></li>
 <li class="chapter" data-level="A.1.5" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-outside-an-interval-between-an-upper-and-lower-value"><i class="fa fa-check"></i><b>A.1.5</b> Probability of observing a value outside an interval between an upper and lower value</a></li>
 <li class="chapter" data-level="A.1.6" data-path="coderef.html"><a href="coderef.html#the-value-for-which-there-is-a-given-probability-of-observing-an-outcome-less-than-or-equal-to-that-value"><i class="fa fa-check"></i><b>A.1.6</b> The value for which there is a given probability of observing an outcome less than or equal to that value</a></li>
+<li class="chapter" data-level="A.1.7" data-path="coderef.html"><a href="coderef.html#testing-a-null-hypothesis"><i class="fa fa-check"></i><b>A.1.7</b> Testing a null hypothesis</a></li>
 </ul></li>
 <li class="chapter" data-level="A.2" data-path="coderef.html"><a href="coderef.html#normal-distribution"><i class="fa fa-check"></i><b>A.2</b> Normal distribution</a>
 <ul>
@@ -315,6 +316,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="A.2.3" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-inside-an-interval-between-an-upper-and-lower-value-1"><i class="fa fa-check"></i><b>A.2.3</b> Probability of observing a value inside an interval between an upper and lower value</a></li>
 <li class="chapter" data-level="A.2.4" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-outside-an-interval-between-an-upper-and-lower-value-1"><i class="fa fa-check"></i><b>A.2.4</b> Probability of observing a value outside an interval between an upper and lower value</a></li>
 <li class="chapter" data-level="A.2.5" data-path="coderef.html"><a href="coderef.html#the-value-for-which-there-is-a-given-probability-of-observing-an-outcome-less-than-or-equal-to-that-value-1"><i class="fa fa-check"></i><b>A.2.5</b> The value for which there is a given probability of observing an outcome less than or equal to that value</a></li>
+<li class="chapter" data-level="A.2.6" data-path="coderef.html"><a href="coderef.html#testing-a-null-hypothesis-1"><i class="fa fa-check"></i><b>A.2.6</b> Testing a null hypothesis</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -386,48 +388,157 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb347-1"><a href="coderef.html#cb347-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qbinom</span>(<span class="at">p =</span> given_probability, <span class="at">prob =</span> this_prob, <span class="at">size =</span> this_size)</span></code></pre></div>
 <pre><code>## [1] 2</code></pre>
 </div>
+<div id="testing-a-null-hypothesis" class="section level3" number="9.1.7">
+<h3><span class="header-section-number">A.1.7</span> Testing a null hypothesis</h3>
+<p>The following are important bits of code for conducting null hypothesis tests with the binomial distribution. For the following examples, I have told R to remember the following labeled values, in addition to the ones above.</p>
+<div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="coderef.html#cb349-1" aria-hidden="true" tabindex="-1"></a>null_prob <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
+<span id="cb349-2"><a href="coderef.html#cb349-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb349-3"><a href="coderef.html#cb349-3" aria-hidden="true" tabindex="-1"></a>sample_value <span class="ot">&lt;-</span> <span class="dv">6</span></span>
+<span id="cb349-4"><a href="coderef.html#cb349-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb349-5"><a href="coderef.html#cb349-5" aria-hidden="true" tabindex="-1"></a>alpha_level <span class="ot">&lt;-</span> <span class="fl">0.1</span></span></code></pre></div>
+<div id="one-tailed-test-alternative-is-that-probability-is-less-than-null-probability" class="section level4" number="9.1.7.1">
+<h4><span class="header-section-number">A.1.7.1</span> One-tailed test (alternative is that probability is <em>less</em> than null probability)</h4>
+<div id="boundary-of-confidence-interval" class="section level5" number="9.1.7.1.1">
+<h5><span class="header-section-number">A.1.7.1.1</span> Boundary of confidence interval</h5>
+<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb350-1"><a href="coderef.html#cb350-1" aria-hidden="true" tabindex="-1"></a>ci_boundary <span class="ot">&lt;-</span> <span class="fu">qbinom</span>(<span class="at">p =</span> alpha_level, <span class="at">prob =</span> null_prob, <span class="at">size =</span> this_size)</span></code></pre></div>
+</div>
+<div id="p-value" class="section level5" number="9.1.7.1.2">
+<h5><span class="header-section-number">A.1.7.1.2</span> <span class="math inline">\(p\)</span> value</h5>
+<div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb351-1"><a href="coderef.html#cb351-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pbinom</span>(<span class="at">q =</span> sample_value, <span class="at">prob =</span> null_prob, <span class="at">size =</span> this_size)</span></code></pre></div>
+<pre><code>## [1] 0.828125</code></pre>
+</div>
+</div>
+<div id="one-tailed-test-alternative-is-that-probability-is-greater-than-null-probability" class="section level4" number="9.1.7.2">
+<h4><span class="header-section-number">A.1.7.2</span> One-tailed test (alternative is that probability is <em>greater</em> than null probability)</h4>
+<div id="boundary-of-confidence-interval-1" class="section level5" number="9.1.7.2.1">
+<h5><span class="header-section-number">A.1.7.2.1</span> Boundary of confidence interval</h5>
+<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb353-1"><a href="coderef.html#cb353-1" aria-hidden="true" tabindex="-1"></a>ci_boundary <span class="ot">&lt;-</span> <span class="fu">qbinom</span>(<span class="at">p =</span> <span class="dv">1</span> <span class="sc">-</span> alpha_level, <span class="at">prob =</span> null_prob, <span class="at">size =</span> this_size)</span></code></pre></div>
+</div>
+<div id="p-value-1" class="section level5" number="9.1.7.2.2">
+<h5><span class="header-section-number">A.1.7.2.2</span> <span class="math inline">\(p\)</span> value</h5>
+<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb354-1"><a href="coderef.html#cb354-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pbinom</span>(<span class="at">q =</span> sample_value <span class="sc">-</span> <span class="dv">1</span>, <span class="at">prob =</span> null_prob, <span class="at">size =</span> this_size)</span></code></pre></div>
+<pre><code>## [1] 0.3769531</code></pre>
+</div>
+</div>
+</div>
 </div>
 <div id="normal-distribution" class="section level2" number="9.2">
 <h2><span class="header-section-number">A.2</span> Normal distribution</h2>
 <p>For the following examples, I am using the following labeled values so you can see the kind of result R will give you.</p>
-<div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="coderef.html#cb349-1" aria-hidden="true" tabindex="-1"></a>this_mean <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb349-2"><a href="coderef.html#cb349-2" aria-hidden="true" tabindex="-1"></a>this_sd <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb349-3"><a href="coderef.html#cb349-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb349-4"><a href="coderef.html#cb349-4" aria-hidden="true" tabindex="-1"></a>given_value <span class="ot">&lt;-</span> <span class="fl">1.5</span></span>
-<span id="cb349-5"><a href="coderef.html#cb349-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb349-6"><a href="coderef.html#cb349-6" aria-hidden="true" tabindex="-1"></a>upper_value <span class="ot">&lt;-</span> <span class="dv">2</span></span>
-<span id="cb349-7"><a href="coderef.html#cb349-7" aria-hidden="true" tabindex="-1"></a>lower_value <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span></span>
-<span id="cb349-8"><a href="coderef.html#cb349-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb349-9"><a href="coderef.html#cb349-9" aria-hidden="true" tabindex="-1"></a>given_probability <span class="ot">&lt;-</span> <span class="fl">0.2</span></span></code></pre></div>
+<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb356-1"><a href="coderef.html#cb356-1" aria-hidden="true" tabindex="-1"></a>this_mean <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb356-2"><a href="coderef.html#cb356-2" aria-hidden="true" tabindex="-1"></a>this_sd <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb356-3"><a href="coderef.html#cb356-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb356-4"><a href="coderef.html#cb356-4" aria-hidden="true" tabindex="-1"></a>given_value <span class="ot">&lt;-</span> <span class="fl">1.5</span></span>
+<span id="cb356-5"><a href="coderef.html#cb356-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb356-6"><a href="coderef.html#cb356-6" aria-hidden="true" tabindex="-1"></a>upper_value <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb356-7"><a href="coderef.html#cb356-7" aria-hidden="true" tabindex="-1"></a>lower_value <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb356-8"><a href="coderef.html#cb356-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb356-9"><a href="coderef.html#cb356-9" aria-hidden="true" tabindex="-1"></a>given_probability <span class="ot">&lt;-</span> <span class="fl">0.2</span></span></code></pre></div>
 <p>To use these bits of code yourself, just replace the label with the appropriate number or assign a new value under the same label (e.g., <code>this_mean &lt;- -4</code>).</p>
 <div id="probability-of-observing-a-value-less-than-or-equal-to-a-given-value-1" class="section level3" number="9.2.1">
 <h3><span class="header-section-number">A.2.1</span> Probability of observing a value less than or equal to a given value</h3>
-<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb350-1"><a href="coderef.html#cb350-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="at">q =</span> given_value, <span class="at">mean =</span> this_mean, <span class="at">sd =</span> this_sd)</span></code></pre></div>
+<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb357-1"><a href="coderef.html#cb357-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="at">q =</span> given_value, <span class="at">mean =</span> this_mean, <span class="at">sd =</span> this_sd)</span></code></pre></div>
 <pre><code>## [1] 0.9331928</code></pre>
 </div>
 <div id="probability-of-observing-a-value-greater-than-a-given-value-1" class="section level3" number="9.2.2">
 <h3><span class="header-section-number">A.2.2</span> Probability of observing a value greater than a given value</h3>
-<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="coderef.html#cb352-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="at">q =</span> given_value, <span class="at">mean =</span> this_mean, <span class="at">sd =</span> this_sd)</span></code></pre></div>
+<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb359-1"><a href="coderef.html#cb359-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="at">q =</span> given_value, <span class="at">mean =</span> this_mean, <span class="at">sd =</span> this_sd)</span></code></pre></div>
 <pre><code>## [1] 0.0668072</code></pre>
 </div>
 <div id="probability-of-observing-a-value-inside-an-interval-between-an-upper-and-lower-value-1" class="section level3" number="9.2.3">
 <h3><span class="header-section-number">A.2.3</span> Probability of observing a value inside an interval between an upper and lower value</h3>
-<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb354-1"><a href="coderef.html#cb354-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="at">q =</span> upper_value, <span class="at">mean =</span> this_mean, <span class="at">sd =</span> this_sd) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="at">q =</span> lower_value, <span class="at">mean =</span> this_mean, <span class="at">sd =</span> this_sd)</span></code></pre></div>
+<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="coderef.html#cb361-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="at">q =</span> upper_value, <span class="at">mean =</span> this_mean, <span class="at">sd =</span> this_sd) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="at">q =</span> lower_value, <span class="at">mean =</span> this_mean, <span class="at">sd =</span> this_sd)</span></code></pre></div>
 <pre><code>## [1] 0.8185946</code></pre>
 </div>
 <div id="probability-of-observing-a-value-outside-an-interval-between-an-upper-and-lower-value-1" class="section level3" number="9.2.4">
 <h3><span class="header-section-number">A.2.4</span> Probability of observing a value outside an interval between an upper and lower value</h3>
-<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb356-1"><a href="coderef.html#cb356-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> (<span class="fu">pnorm</span>(<span class="at">q =</span> upper_value, <span class="at">mean =</span> this_mean, <span class="at">sd =</span> this_sd) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="at">q =</span> lower_value, <span class="at">mean =</span> this_mean, <span class="at">sd =</span> this_sd))</span></code></pre></div>
+<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb363-1"><a href="coderef.html#cb363-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> (<span class="fu">pnorm</span>(<span class="at">q =</span> upper_value, <span class="at">mean =</span> this_mean, <span class="at">sd =</span> this_sd) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="at">q =</span> lower_value, <span class="at">mean =</span> this_mean, <span class="at">sd =</span> this_sd))</span></code></pre></div>
 <pre><code>## [1] 0.1814054</code></pre>
 <p>or</p>
-<div class="sourceCode" id="cb358"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb358-1"><a href="coderef.html#cb358-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="at">q =</span> upper_value, <span class="at">mean =</span> this_mean, <span class="at">sd =</span> this_sd) <span class="sc">+</span> <span class="fu">pnorm</span>(<span class="at">q =</span> lower_value, <span class="at">mean =</span> this_mean, <span class="at">sd =</span> this_sd)</span></code></pre></div>
+<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb365-1"><a href="coderef.html#cb365-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="at">q =</span> upper_value, <span class="at">mean =</span> this_mean, <span class="at">sd =</span> this_sd) <span class="sc">+</span> <span class="fu">pnorm</span>(<span class="at">q =</span> lower_value, <span class="at">mean =</span> this_mean, <span class="at">sd =</span> this_sd)</span></code></pre></div>
 <pre><code>## [1] 0.1814054</code></pre>
 </div>
 <div id="the-value-for-which-there-is-a-given-probability-of-observing-an-outcome-less-than-or-equal-to-that-value-1" class="section level3" number="9.2.5">
 <h3><span class="header-section-number">A.2.5</span> The value for which there is a given probability of observing an outcome less than or equal to that value</h3>
-<div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb360-1"><a href="coderef.html#cb360-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="at">p =</span> given_probability, <span class="at">mean =</span> this_mean, <span class="at">sd =</span> this_sd)</span></code></pre></div>
+<div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb367-1"><a href="coderef.html#cb367-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="at">p =</span> given_probability, <span class="at">mean =</span> this_mean, <span class="at">sd =</span> this_sd)</span></code></pre></div>
 <pre><code>## [1] -0.8416212</code></pre>
+</div>
+<div id="testing-a-null-hypothesis-1" class="section level3" number="9.2.6">
+<h3><span class="header-section-number">A.2.6</span> Testing a null hypothesis</h3>
+<p>The following are important bits of code for conducting null hypothesis tests with the normal distribution (see <a href="lab8.html#lab8">this lab</a> for additional examples). For the following examples, I have told R to remember the following labeled values.</p>
+<div class="sourceCode" id="cb369"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb369-1"><a href="coderef.html#cb369-1" aria-hidden="true" tabindex="-1"></a>null_mean <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb369-2"><a href="coderef.html#cb369-2" aria-hidden="true" tabindex="-1"></a>null_sd <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb369-3"><a href="coderef.html#cb369-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb369-4"><a href="coderef.html#cb369-4" aria-hidden="true" tabindex="-1"></a>sample_size <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb369-5"><a href="coderef.html#cb369-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb369-6"><a href="coderef.html#cb369-6" aria-hidden="true" tabindex="-1"></a>sample_mean <span class="ot">&lt;-</span> <span class="fl">0.3</span></span>
+<span id="cb369-7"><a href="coderef.html#cb369-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb369-8"><a href="coderef.html#cb369-8" aria-hidden="true" tabindex="-1"></a>effect_size <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
+<span id="cb369-9"><a href="coderef.html#cb369-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb369-10"><a href="coderef.html#cb369-10" aria-hidden="true" tabindex="-1"></a>alpha_level <span class="ot">&lt;-</span> <span class="fl">0.1</span></span></code></pre></div>
+<div id="standard-error-of-the-mean" class="section level4" number="9.2.6.1">
+<h4><span class="header-section-number">A.2.6.1</span> Standard error of the mean</h4>
+<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb370-1"><a href="coderef.html#cb370-1" aria-hidden="true" tabindex="-1"></a>null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size)</span></code></pre></div>
+<pre><code>## [1] 0.1825742</code></pre>
+</div>
+<div id="one-tailed-test-alternative-is-that-mean-is-less-than-null-mean" class="section level4" number="9.2.6.2">
+<h4><span class="header-section-number">A.2.6.2</span> One-tailed test (alternative is that mean is <em>less</em> than null mean)</h4>
+<div id="boundary-of-confidence-interval-2" class="section level5" number="9.2.6.2.1">
+<h5><span class="header-section-number">A.2.6.2.1</span> Boundary of confidence interval</h5>
+<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb372-1"><a href="coderef.html#cb372-1" aria-hidden="true" tabindex="-1"></a>ci_boundary <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="at">p =</span> alpha_level, <span class="at">mean =</span> null_mean, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span></code></pre></div>
+</div>
+<div id="p-value-2" class="section level5" number="9.2.6.2.2">
+<h5><span class="header-section-number">A.2.6.2.2</span> <span class="math inline">\(p\)</span> value</h5>
+<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="coderef.html#cb373-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="at">q =</span> sample_mean, <span class="at">mean =</span> null_mean, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span></code></pre></div>
+<pre><code>## [1] 0.9498259</code></pre>
+</div>
+<div id="power" class="section level5" number="9.2.6.2.3">
+<h5><span class="header-section-number">A.2.6.2.3</span> Power</h5>
+<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb375-1"><a href="coderef.html#cb375-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="at">q =</span> ci_boundary, <span class="at">mean =</span> null_mean <span class="sc">+</span> effect_size, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span></code></pre></div>
+<pre><code>## [1] 2.907878e-05</code></pre>
+</div>
+</div>
+<div id="one-tailed-test-alternative-is-that-mean-is-greater-than-null-mean" class="section level4" number="9.2.6.3">
+<h4><span class="header-section-number">A.2.6.3</span> One-tailed test (alternative is that mean is <em>greater</em> than null mean)</h4>
+<div id="boundary-of-confidence-interval-3" class="section level5" number="9.2.6.3.1">
+<h5><span class="header-section-number">A.2.6.3.1</span> Boundary of confidence interval</h5>
+<div class="sourceCode" id="cb377"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb377-1"><a href="coderef.html#cb377-1" aria-hidden="true" tabindex="-1"></a>ci_boundary <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="at">p =</span> <span class="dv">1</span> <span class="sc">-</span> alpha_level, <span class="at">mean =</span> null_mean, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span></code></pre></div>
+</div>
+<div id="p-value-3" class="section level5" number="9.2.6.3.2">
+<h5><span class="header-section-number">A.2.6.3.2</span> <span class="math inline">\(p\)</span> value</h5>
+<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="coderef.html#cb378-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="at">q =</span> sample_mean, <span class="at">mean =</span> null_mean, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span></code></pre></div>
+<pre><code>## [1] 0.05017412</code></pre>
+</div>
+<div id="power-1" class="section level5" number="9.2.6.3.3">
+<h5><span class="header-section-number">A.2.6.3.3</span> Power</h5>
+<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb380-1"><a href="coderef.html#cb380-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="at">q =</span> ci_boundary, <span class="at">mean =</span> null_mean <span class="sc">+</span> effect_size, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span></code></pre></div>
+<pre><code>## [1] 0.9274503</code></pre>
+</div>
+</div>
+<div id="two-tailed-test" class="section level4" number="9.2.6.4">
+<h4><span class="header-section-number">A.2.6.4</span> Two-tailed test</h4>
+<div id="boundaries-of-confidence-interval" class="section level5" number="9.2.6.4.1">
+<h5><span class="header-section-number">A.2.6.4.1</span> Boundaries of confidence interval</h5>
+<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb382-1"><a href="coderef.html#cb382-1" aria-hidden="true" tabindex="-1"></a>ci_lower <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="at">p =</span> alpha_level <span class="sc">/</span> <span class="dv">2</span>, <span class="at">mean =</span> null_mean, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span>
+<span id="cb382-2"><a href="coderef.html#cb382-2" aria-hidden="true" tabindex="-1"></a>ci_upper <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="at">p =</span> <span class="dv">1</span> <span class="sc">-</span> alpha_level <span class="sc">/</span> <span class="dv">2</span>, <span class="at">mean =</span> null_mean, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span></code></pre></div>
+</div>
+<div id="p-value-4" class="section level5" number="9.2.6.4.2">
+<h5><span class="header-section-number">A.2.6.4.2</span> <span class="math inline">\(p\)</span> value</h5>
+<p>If <code>sample_mean &gt; null_mean</code>:</p>
+<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb383-1"><a href="coderef.html#cb383-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="at">q =</span> sample_mean, <span class="at">mean =</span> null_mean, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size)))</span></code></pre></div>
+<pre><code>## [1] 0.1003482</code></pre>
+<p>If <code>sample_mean &lt;= null_mean</code>:</p>
+<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb385-1"><a href="coderef.html#cb385-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">*</span> <span class="fu">pnorm</span>(<span class="at">q =</span> sample_mean, <span class="at">mean =</span> null_mean, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span></code></pre></div>
+<pre><code>## [1] 0.1003482</code></pre>
+</div>
+<div id="power-2" class="section level5" number="9.2.6.4.3">
+<h5><span class="header-section-number">A.2.6.4.3</span> Power</h5>
+<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb387-1"><a href="coderef.html#cb387-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="at">q =</span> ci_lower, <span class="at">mean =</span> null_mean <span class="sc">+</span> effect_size, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size)) <span class="sc">+</span></span>
+<span id="cb387-2"><a href="coderef.html#cb387-2" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="at">q =</span> ci_upper, <span class="at">mean =</span> null_mean <span class="sc">+</span> effect_size, <span class="at">sd =</span> null_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span></code></pre></div>
+<pre><code>## [1] 0.8629755</code></pre>
 
+</div>
+</div>
 </div>
 </div>
 </div>
