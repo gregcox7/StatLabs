@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Lab 9 \(t\) tests | Labs</title>
+  <meta name="description" content="Laboratory exercises for APSY210." />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Lab 9 \(t\) tests | Labs" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Laboratory exercises for APSY210." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Lab 9 \(t\) tests | Labs" />
+  
+  <meta name="twitter:description" content="Laboratory exercises for APSY210." />
+  
+
+<meta name="author" content="Greg Cox" />
+
+
+<meta name="date" content="2021-04-16" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="lab8.html"/>
+<link rel="next" href="coderef.html"/>
+<script src="libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Labs</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="1" data-path="lab1.html"><a href="lab1.html"><i class="fa fa-check"></i><b>1</b> Exploring Data with R</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="lab1.html"><a href="lab1.html#r-and-rstudio"><i class="fa fa-check"></i><b>1.1</b> R and RStudio</a></li>
+<li class="chapter" data-level="1.2" data-path="lab1.html"><a href="lab1.html#meet-your-data"><i class="fa fa-check"></i><b>1.2</b> Meet your data</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="lab1.html"><a href="lab1.html#check-out-the-variables"><i class="fa fa-check"></i><b>1.2.1</b> Check out the variables</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="lab1.html"><a href="lab1.html#answering-questions-with-data"><i class="fa fa-check"></i><b>1.3</b> Answering questions with data</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="lab1.html"><a href="lab1.html#frequency-tables"><i class="fa fa-check"></i><b>1.3.1</b> Frequency tables</a></li>
+<li class="chapter" data-level="1.3.2" data-path="lab1.html"><a href="lab1.html#bar-charts"><i class="fa fa-check"></i><b>1.3.2</b> Bar charts</a></li>
+<li class="chapter" data-level="1.3.3" data-path="lab1.html"><a href="lab1.html#histograms"><i class="fa fa-check"></i><b>1.3.3</b> Histograms</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="lab1.html"><a href="lab1.html#wrap-up"><i class="fa fa-check"></i><b>1.4</b> Wrap-up</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="lab2.html"><a href="lab2.html"><i class="fa fa-check"></i><b>2</b> Central tendency and variability</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="lab2.html"><a href="lab2.html#simple-cases"><i class="fa fa-check"></i><b>2.1</b> Simple cases</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="lab2.html"><a href="lab2.html#central-tendency"><i class="fa fa-check"></i><b>2.1.1</b> Central tendency</a></li>
+<li class="chapter" data-level="2.1.2" data-path="lab2.html"><a href="lab2.html#variability"><i class="fa fa-check"></i><b>2.1.2</b> Variability</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="lab2.html"><a href="lab2.html#dealing-with-real-data"><i class="fa fa-check"></i><b>2.2</b> Dealing with real data</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="lab2.html"><a href="lab2.html#setting-the-stage"><i class="fa fa-check"></i><b>2.2.1</b> Setting the stage</a></li>
+<li class="chapter" data-level="2.2.2" data-path="lab2.html"><a href="lab2.html#getting-the-data"><i class="fa fa-check"></i><b>2.2.2</b> Getting the data</a></li>
+<li class="chapter" data-level="2.2.3" data-path="lab2.html"><a href="lab2.html#visualizing-the-data"><i class="fa fa-check"></i><b>2.2.3</b> Visualizing the data</a></li>
+<li class="chapter" data-level="2.2.4" data-path="lab2.html"><a href="lab2.html#central-tendency-1"><i class="fa fa-check"></i><b>2.2.4</b> Central tendency</a></li>
+<li class="chapter" data-level="2.2.5" data-path="lab2.html"><a href="lab2.html#variability-1"><i class="fa fa-check"></i><b>2.2.5</b> Variability</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="lab2.html"><a href="lab2.html#wrap-up-1"><i class="fa fa-check"></i><b>2.3</b> Wrap-up</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="lab3.html"><a href="lab3.html"><i class="fa fa-check"></i><b>3</b> Scatterplots and correlation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="lab3.html"><a href="lab3.html#calculating-the-pearson-correlation-coefficient"><i class="fa fa-check"></i><b>3.1</b> Calculating the Pearson correlation coefficient</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="lab3.html"><a href="lab3.html#from-x-to-z"><i class="fa fa-check"></i><b>3.1.1</b> From <span class="math inline">\(X\)</span> to <span class="math inline">\(z\)</span></a></li>
+<li class="chapter" data-level="3.1.2" data-path="lab3.html"><a href="lab3.html#finding-the-correlation-coefficient"><i class="fa fa-check"></i><b>3.1.2</b> Finding the correlation coefficient</a></li>
+<li class="chapter" data-level="3.1.3" data-path="lab3.html"><a href="lab3.html#dealing-with-real-data-1"><i class="fa fa-check"></i><b>3.1.3</b> Dealing with real data</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="lab3.html"><a href="lab3.html#scatterplots"><i class="fa fa-check"></i><b>3.2</b> Scatterplots</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="lab3.html"><a href="lab3.html#making-a-group-of-scatterplots"><i class="fa fa-check"></i><b>3.2.1</b> Making a group of scatterplots</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="lab3.html"><a href="lab3.html#some-bigger-data"><i class="fa fa-check"></i><b>3.3</b> Some bigger data</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="lab3.html"><a href="lab3.html#import-the-data"><i class="fa fa-check"></i><b>3.3.1</b> Import the data</a></li>
+<li class="chapter" data-level="3.3.2" data-path="lab3.html"><a href="lab3.html#experience-and-memory-for-barbies"><i class="fa fa-check"></i><b>3.3.2</b> Experience and memory for Barbies</a></li>
+<li class="chapter" data-level="3.3.3" data-path="lab3.html"><a href="lab3.html#experience-and-memory-for-transformers"><i class="fa fa-check"></i><b>3.3.3</b> Experience and memory for Transformers</a></li>
+<li class="chapter" data-level="3.3.4" data-path="lab3.html"><a href="lab3.html#experience-with-barbies-and-memory-for-transformers"><i class="fa fa-check"></i><b>3.3.4</b> Experience with Barbies and memory for Transformers</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="lab3.html"><a href="lab3.html#wrap-up-2"><i class="fa fa-check"></i><b>3.4</b> Wrap-up</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="lab4.html"><a href="lab4.html"><i class="fa fa-check"></i><b>4</b> Probability and simulation</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="lab4.html"><a href="lab4.html#simulation-basics"><i class="fa fa-check"></i><b>4.1</b> Simulation basics</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="lab4.html"><a href="lab4.html#single-coin-flips"><i class="fa fa-check"></i><b>4.1.1</b> Single coin flips</a></li>
+<li class="chapter" data-level="4.1.2" data-path="lab4.html"><a href="lab4.html#a-sequence-of-coin-flips"><i class="fa fa-check"></i><b>4.1.2</b> A sequence of coin flips</a></li>
+<li class="chapter" data-level="4.1.3" data-path="lab4.html"><a href="lab4.html#remembering-simulated-results"><i class="fa fa-check"></i><b>4.1.3</b> Remembering simulated results</a></li>
+<li class="chapter" data-level="4.1.4" data-path="lab4.html"><a href="lab4.html#turning-simulated-results-into-data"><i class="fa fa-check"></i><b>4.1.4</b> Turning simulated results into “data”</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="lab4.html"><a href="lab4.html#estimating-probabilities"><i class="fa fa-check"></i><b>4.2</b> Estimating probabilities</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="lab4.html"><a href="lab4.html#frequency-table"><i class="fa fa-check"></i><b>4.2.1</b> Frequency table</a></li>
+<li class="chapter" data-level="4.2.2" data-path="lab4.html"><a href="lab4.html#estimating-probability-from-frequency"><i class="fa fa-check"></i><b>4.2.2</b> Estimating probability from frequency</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="lab4.html"><a href="lab4.html#more-advanced-simulation-tricks"><i class="fa fa-check"></i><b>4.3</b> More advanced simulation tricks</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="lab4.html"><a href="lab4.html#making-up-our-own-probabilities"><i class="fa fa-check"></i><b>4.3.1</b> Making up our own probabilities</a></li>
+<li class="chapter" data-level="4.3.2" data-path="lab4.html"><a href="lab4.html#expanding-the-sample-space"><i class="fa fa-check"></i><b>4.3.2</b> Expanding the sample space</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="lab4.html"><a href="lab4.html#estimating-probabilities-in-data"><i class="fa fa-check"></i><b>4.4</b> Estimating probabilities in data</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="lab4.html"><a href="lab4.html#what-was-kobes-hit-rate"><i class="fa fa-check"></i><b>4.4.1</b> What was Kobe’s hit rate?</a></li>
+<li class="chapter" data-level="4.4.2" data-path="lab4.html"><a href="lab4.html#a-simulated-kobe"><i class="fa fa-check"></i><b>4.4.2</b> A simulated Kobe</a></li>
+<li class="chapter" data-level="4.4.3" data-path="lab4.html"><a href="lab4.html#hot--or-cold-handed"><i class="fa fa-check"></i><b>4.4.3</b> Hot- or cold-handed</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="lab4.html"><a href="lab4.html#wrap-up-3"><i class="fa fa-check"></i><b>4.5</b> Wrap-up</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="lab5.html"><a href="lab5.html"><i class="fa fa-check"></i><b>5</b> Models: The Binomial and the Normal</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="lab5.html"><a href="lab5.html#the-binomial-distribution-in-r"><i class="fa fa-check"></i><b>5.1</b> The binomial distribution in R</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="lab5.html"><a href="lab5.html#translating-from-sample-to-rbinom"><i class="fa fa-check"></i><b>5.1.1</b> Translating from <code>sample</code> to <code>rbinom</code></a></li>
+<li class="chapter" data-level="5.1.2" data-path="lab5.html"><a href="lab5.html#outcomes-from-different-sequences-of-events"><i class="fa fa-check"></i><b>5.1.2</b> Outcomes from different sequences of events</a></li>
+<li class="chapter" data-level="5.1.3" data-path="lab5.html"><a href="lab5.html#simulated-relative-frequencies-and-probabilities"><i class="fa fa-check"></i><b>5.1.3</b> Simulated relative frequencies and probabilities</a></li>
+<li class="chapter" data-level="5.1.4" data-path="lab5.html"><a href="lab5.html#calculating-binomial-probabilities-directly"><i class="fa fa-check"></i><b>5.1.4</b> Calculating binomial probabilities directly</a></li>
+<li class="chapter" data-level="5.1.5" data-path="lab5.html"><a href="lab5.html#cumulative-probabilities-with-the-binomial"><i class="fa fa-check"></i><b>5.1.5</b> Cumulative probabilities with the binomial</a></li>
+<li class="chapter" data-level="5.1.6" data-path="lab5.html"><a href="lab5.html#summary-of-rs-built-in-binomial-distribution"><i class="fa fa-check"></i><b>5.1.6</b> Summary of R’s built-in binomial distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="lab5.html"><a href="lab5.html#the-normal-distribution-in-r"><i class="fa fa-check"></i><b>5.2</b> The normal distribution in R</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="lab5.html"><a href="lab5.html#simulating-outcomes-from-a-normal-distribution"><i class="fa fa-check"></i><b>5.2.1</b> Simulating outcomes from a normal distribution</a></li>
+<li class="chapter" data-level="5.2.2" data-path="lab5.html"><a href="lab5.html#the-mean-and-standard-deviation"><i class="fa fa-check"></i><b>5.2.2</b> The mean and standard deviation</a></li>
+<li class="chapter" data-level="5.2.3" data-path="lab5.html"><a href="lab5.html#calculating-probabilities-with-the-normal-distribution"><i class="fa fa-check"></i><b>5.2.3</b> Calculating probabilities with the normal distribution</a></li>
+<li class="chapter" data-level="5.2.4" data-path="lab5.html"><a href="lab5.html#finding-quantiles-with-the-normal-distribution"><i class="fa fa-check"></i><b>5.2.4</b> Finding “quantiles” with the normal distribution</a></li>
+<li class="chapter" data-level="5.2.5" data-path="lab5.html"><a href="lab5.html#summary-of-rs-built-in-normal-distribution"><i class="fa fa-check"></i><b>5.2.5</b> Summary of R’s built-in normal distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="lab5.html"><a href="lab5.html#wrap-up-4"><i class="fa fa-check"></i><b>5.3</b> Wrap-up</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="lab6.html"><a href="lab6.html"><i class="fa fa-check"></i><b>6</b> Sampling and the Central Limit Theorem: The Wisdom of Large Samples</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="lab6.html"><a href="lab6.html#before-we-begin"><i class="fa fa-check"></i><b>6.1</b> Before we begin…</a></li>
+<li class="chapter" data-level="6.2" data-path="lab6.html"><a href="lab6.html#heights"><i class="fa fa-check"></i><b>6.2</b> Heights</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="lab6.html"><a href="lab6.html#a-simulated-population"><i class="fa fa-check"></i><b>6.2.1</b> A simulated population</a></li>
+<li class="chapter" data-level="6.2.2" data-path="lab6.html"><a href="lab6.html#a-sample-from-our-simulated-population"><i class="fa fa-check"></i><b>6.2.2</b> A sample from our simulated population</a></li>
+<li class="chapter" data-level="6.2.3" data-path="lab6.html"><a href="lab6.html#many-samples-from-our-simulated-population"><i class="fa fa-check"></i><b>6.2.3</b> Many samples from our simulated population</a></li>
+<li class="chapter" data-level="6.2.4" data-path="lab6.html"><a href="lab6.html#many-larger-samples"><i class="fa fa-check"></i><b>6.2.4</b> Many larger samples</a></li>
+<li class="chapter" data-level="6.2.5" data-path="lab6.html"><a href="lab6.html#the-probability-of-being-wrong"><i class="fa fa-check"></i><b>6.2.5</b> The probability of being wrong</a></li>
+<li class="chapter" data-level="6.2.6" data-path="lab6.html"><a href="lab6.html#biased-samples"><i class="fa fa-check"></i><b>6.2.6</b> Biased samples</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="lab6.html"><a href="lab6.html#the-wisdom-of-the-crowd"><i class="fa fa-check"></i><b>6.3</b> The Wisdom of the Crowd</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="lab6.html"><a href="lab6.html#grab-the-data"><i class="fa fa-check"></i><b>6.3.1</b> Grab the data</a></li>
+<li class="chapter" data-level="6.3.2" data-path="lab6.html"><a href="lab6.html#make-a-histogram"><i class="fa fa-check"></i><b>6.3.2</b> Make a histogram</a></li>
+<li class="chapter" data-level="6.3.3" data-path="lab6.html"><a href="lab6.html#what-is-the-right-answer"><i class="fa fa-check"></i><b>6.3.3</b> What is the right answer?</a></li>
+<li class="chapter" data-level="6.3.4" data-path="lab6.html"><a href="lab6.html#what-about-the-average"><i class="fa fa-check"></i><b>6.3.4</b> What about the average?</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="lab6.html"><a href="lab6.html#wrap-up-5"><i class="fa fa-check"></i><b>6.4</b> Wrap-up</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="lab7.html"><a href="lab7.html"><i class="fa fa-check"></i><b>7</b> Confidence intervals and hypothesis testing</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="lab7.html"><a href="lab7.html#be-still-my-artificial-heart"><i class="fa fa-check"></i><b>7.1</b> Be still, my (artificial) heart</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="lab7.html"><a href="lab7.html#constructing-confidence-intervals"><i class="fa fa-check"></i><b>7.1.1</b> Constructing confidence intervals</a></li>
+<li class="chapter" data-level="7.1.2" data-path="lab7.html"><a href="lab7.html#compare-our-sample-to-the-confidence-interval"><i class="fa fa-check"></i><b>7.1.2</b> Compare our sample to the confidence interval</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="lab7.html"><a href="lab7.html#lay-your-weary-head-to-rest"><i class="fa fa-check"></i><b>7.2</b> Lay your weary head to rest</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="lab7.html"><a href="lab7.html#figure-out-what-parameters-would-describe-the-population-if-the-hypothesis-were-true-1"><i class="fa fa-check"></i><b>7.2.1</b> Figure out what parameters would describe the population <em>if</em> the hypothesis were true</a></li>
+<li class="chapter" data-level="7.2.2" data-path="lab7.html"><a href="lab7.html#decide-how-wide-to-make-our-confidence-interval-1"><i class="fa fa-check"></i><b>7.2.2</b> Decide how wide to make our confidence interval</a></li>
+<li class="chapter" data-level="7.2.3" data-path="lab7.html"><a href="lab7.html#figure-out-the-upper-and-lower-boundaries-of-the-confidence-interval-1"><i class="fa fa-check"></i><b>7.2.3</b> Figure out the upper and lower boundaries of the confidence interval</a></li>
+<li class="chapter" data-level="7.2.4" data-path="lab7.html"><a href="lab7.html#compare-our-sample-to-the-confidence-interval-1"><i class="fa fa-check"></i><b>7.2.4</b> Compare our sample to the confidence interval</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="lab7.html"><a href="lab7.html#wrap-up-6"><i class="fa fa-check"></i><b>7.3</b> Wrap-up</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="lab8.html"><a href="lab8.html"><i class="fa fa-check"></i><b>8</b> Statistical Power</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="lab8.html"><a href="lab8.html#the-power-of-positive-feedback"><i class="fa fa-check"></i><b>8.1</b> The Power of Positive Feedback</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="lab8.html"><a href="lab8.html#look-at-the-data"><i class="fa fa-check"></i><b>8.1.1</b> Look at the data</a></li>
+<li class="chapter" data-level="8.1.2" data-path="lab8.html"><a href="lab8.html#specifying-our-null-hypothesis"><i class="fa fa-check"></i><b>8.1.2</b> Specifying our null hypothesis</a></li>
+<li class="chapter" data-level="8.1.3" data-path="lab8.html"><a href="lab8.html#building-our-confidence-interval"><i class="fa fa-check"></i><b>8.1.3</b> Building our confidence interval</a></li>
+<li class="chapter" data-level="8.1.4" data-path="lab8.html"><a href="lab8.html#visualizing-the-distribution-of-sample-means"><i class="fa fa-check"></i><b>8.1.4</b> Visualizing the distribution of sample means</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="lab8.html"><a href="lab8.html#achieving-a-target-level-of-power"><i class="fa fa-check"></i><b>8.2</b> Achieving a target level of power</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="lab8.html"><a href="lab8.html#effect-size"><i class="fa fa-check"></i><b>8.2.1</b> Effect size</a></li>
+<li class="chapter" data-level="8.2.2" data-path="lab8.html"><a href="lab8.html#sample-size"><i class="fa fa-check"></i><b>8.2.2</b> Sample size</a></li>
+<li class="chapter" data-level="8.2.3" data-path="lab8.html"><a href="lab8.html#alpha-level"><i class="fa fa-check"></i><b>8.2.3</b> Alpha level</a></li>
+<li class="chapter" data-level="8.2.4" data-path="lab8.html"><a href="lab8.html#population-standard-deviation"><i class="fa fa-check"></i><b>8.2.4</b> Population standard deviation</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="lab8.html"><a href="lab8.html#using-data-to-test-the-null-hypothesis"><i class="fa fa-check"></i><b>8.3</b> Using data to test the null hypothesis</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="lab8.html"><a href="lab8.html#confidence-interval-limits"><i class="fa fa-check"></i><b>8.3.1</b> Confidence interval limits</a></li>
+<li class="chapter" data-level="8.3.2" data-path="lab8.html"><a href="lab8.html#the-p-value"><i class="fa fa-check"></i><b>8.3.2</b> The <span class="math inline">\(p\)</span> value</a></li>
+<li class="chapter" data-level="8.3.3" data-path="lab8.html"><a href="lab8.html#estimated-power"><i class="fa fa-check"></i><b>8.3.3</b> Estimated power</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="lab8.html"><a href="lab8.html#wrap-up-7"><i class="fa fa-check"></i><b>8.4</b> Wrap-up</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="lab9.html"><a href="lab9.html"><i class="fa fa-check"></i><b>9</b> <span class="math inline">\(t\)</span> tests</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="lab9.html"><a href="lab9.html#t-tests-on-tiny-data"><i class="fa fa-check"></i><b>9.1</b> <span class="math inline">\(t\)</span> tests on tiny data</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="lab9.html"><a href="lab9.html#one-sample-t-test"><i class="fa fa-check"></i><b>9.1.1</b> One-sample <span class="math inline">\(t\)</span> test</a></li>
+<li class="chapter" data-level="9.1.2" data-path="lab9.html"><a href="lab9.html#paired-sample-t-test"><i class="fa fa-check"></i><b>9.1.2</b> Paired sample <span class="math inline">\(t\)</span> test</a></li>
+<li class="chapter" data-level="9.1.3" data-path="lab9.html"><a href="lab9.html#independent-samples-t-test"><i class="fa fa-check"></i><b>9.1.3</b> Independent samples <span class="math inline">\(t\)</span> test</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="lab9.html"><a href="lab9.html#t-tests-with-real-data"><i class="fa fa-check"></i><b>9.2</b> <span class="math inline">\(t\)</span> tests with real data</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="lab9.html"><a href="lab9.html#check-out-the-data"><i class="fa fa-check"></i><b>9.2.1</b> Check out the data</a></li>
+<li class="chapter" data-level="9.2.2" data-path="lab9.html"><a href="lab9.html#did-infants-show-any-prior-bias"><i class="fa fa-check"></i><b>9.2.2</b> Did infants show any prior bias?</a></li>
+<li class="chapter" data-level="9.2.3" data-path="lab9.html"><a href="lab9.html#do-infants-prefer-to-look-at-the-singer-of-the-familiar-melody"><i class="fa fa-check"></i><b>9.2.3</b> Do infants prefer to look at the singer of the familiar melody?</a></li>
+<li class="chapter" data-level="9.2.4" data-path="lab9.html"><a href="lab9.html#did-their-preferences-change"><i class="fa fa-check"></i><b>9.2.4</b> Did their preferences change?</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="lab9.html"><a href="lab9.html#wrap-up-8"><i class="fa fa-check"></i><b>9.3</b> Wrap-up</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="coderef.html"><a href="coderef.html"><i class="fa fa-check"></i><b>A</b> R Code Reference</a>
+<ul>
+<li class="chapter" data-level="A.1" data-path="coderef.html"><a href="coderef.html#binomial-distribution"><i class="fa fa-check"></i><b>A.1</b> Binomial distribution</a>
+<ul>
+<li class="chapter" data-level="A.1.1" data-path="coderef.html"><a href="coderef.html#probability-of-observing-an-outcome-exactly-equal-to-a-given-value"><i class="fa fa-check"></i><b>A.1.1</b> Probability of observing an outcome exactly equal to a given value</a></li>
+<li class="chapter" data-level="A.1.2" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-less-than-or-equal-to-a-given-value"><i class="fa fa-check"></i><b>A.1.2</b> Probability of observing a value less than or equal to a given value</a></li>
+<li class="chapter" data-level="A.1.3" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-greater-than-a-given-value"><i class="fa fa-check"></i><b>A.1.3</b> Probability of observing a value greater than a given value</a></li>
+<li class="chapter" data-level="A.1.4" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-inside-an-interval-between-an-upper-and-lower-value"><i class="fa fa-check"></i><b>A.1.4</b> Probability of observing a value inside an interval between an upper and lower value</a></li>
+<li class="chapter" data-level="A.1.5" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-outside-an-interval-between-an-upper-and-lower-value"><i class="fa fa-check"></i><b>A.1.5</b> Probability of observing a value outside an interval between an upper and lower value</a></li>
+<li class="chapter" data-level="A.1.6" data-path="coderef.html"><a href="coderef.html#the-value-for-which-there-is-a-given-probability-of-observing-an-outcome-less-than-or-equal-to-that-value"><i class="fa fa-check"></i><b>A.1.6</b> The value for which there is a given probability of observing an outcome less than or equal to that value</a></li>
+<li class="chapter" data-level="A.1.7" data-path="coderef.html"><a href="coderef.html#testing-a-null-hypothesis"><i class="fa fa-check"></i><b>A.1.7</b> Testing a null hypothesis</a></li>
+</ul></li>
+<li class="chapter" data-level="A.2" data-path="coderef.html"><a href="coderef.html#normal-distribution"><i class="fa fa-check"></i><b>A.2</b> Normal distribution</a>
+<ul>
+<li class="chapter" data-level="A.2.1" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-less-than-or-equal-to-a-given-value-1"><i class="fa fa-check"></i><b>A.2.1</b> Probability of observing a value less than or equal to a given value</a></li>
+<li class="chapter" data-level="A.2.2" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-greater-than-a-given-value-1"><i class="fa fa-check"></i><b>A.2.2</b> Probability of observing a value greater than a given value</a></li>
+<li class="chapter" data-level="A.2.3" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-inside-an-interval-between-an-upper-and-lower-value-1"><i class="fa fa-check"></i><b>A.2.3</b> Probability of observing a value inside an interval between an upper and lower value</a></li>
+<li class="chapter" data-level="A.2.4" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-outside-an-interval-between-an-upper-and-lower-value-1"><i class="fa fa-check"></i><b>A.2.4</b> Probability of observing a value outside an interval between an upper and lower value</a></li>
+<li class="chapter" data-level="A.2.5" data-path="coderef.html"><a href="coderef.html#the-value-for-which-there-is-a-given-probability-of-observing-an-outcome-less-than-or-equal-to-that-value-1"><i class="fa fa-check"></i><b>A.2.5</b> The value for which there is a given probability of observing an outcome less than or equal to that value</a></li>
+<li class="chapter" data-level="A.2.6" data-path="coderef.html"><a href="coderef.html#testing-a-null-hypothesis-1"><i class="fa fa-check"></i><b>A.2.6</b> Testing a null hypothesis</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Labs</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="lab9" class="section level1" number="9">
+<h1><span class="header-section-number">Lab 9</span> <span class="math inline">\(t\)</span> tests</h1>
+<p><img src="img/lullaby.png" width="100%" /></p>
+<p>In this session, we will see how we can use R to do all the calculations involved in conducting the various types of <span class="math inline">\(t\)</span> test we have been learning about. In addition, we will begin to get acquainted with some more advanced R functions that make it easier to do these tests on real data, including some helpful visualizations for understanding the relationship between <span class="math inline">\(t\)</span> values and <span class="math inline">\(p\)</span> values.</p>
+<p>For this session, we are going to need to load both our standard <code>tidyverse</code> package as well as the <code>infer</code> package from R’s library.</p>
+<div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="lab9.html#cb334-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
+## ✓ tibble  3.0.5     ✓ dplyr   1.0.3
+## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
+## ✓ readr   1.4.0     ✓ forcats 0.5.0</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="lab9.html#cb338-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(infer)</span></code></pre></div>
+<div id="t-tests-on-tiny-data" class="section level2" number="9.1">
+<h2><span class="header-section-number">9.1</span> <span class="math inline">\(t\)</span> tests on tiny data</h2>
+<p>To get acquainted with how <span class="math inline">\(t\)</span> tests work in R, let’s first try them out on some simple artificial data before applying them to some real data. Imagine that we’re designing an advertisement and want to make sure it is attention-grabbing. The ad will be embedded in a webpage. We use an eye tracker to monitor people’s eye movements over the course of 1 minute while looking at a fake webpage containing the ad. We <em>operationalize</em> the construct of attention-grabbing by measuring the proportion of that time that a person is looking at the ad.</p>
+<p>The result is, for each person, a number between 0 (never looked at the ad) and 1 (only looked at the ad). Here are measurements from a sample of <span class="math inline">\(N = 5\)</span> individuals:</p>
+<div class="sourceCode" id="cb339"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb339-1"><a href="lab9.html#cb339-1" aria-hidden="true" tabindex="-1"></a>X_1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.507</span>, <span class="fl">0.052</span>, <span class="fl">0.172</span>, <span class="fl">0.066</span>, <span class="fl">0.204</span>)</span></code></pre></div>
+<p>Notice that we have labeled them <code>X_1</code> because we will soon have more than one set of measurements.</p>
+<div id="one-sample-t-test" class="section level3" number="9.1.1">
+<h3><span class="header-section-number">9.1.1</span> One-sample <span class="math inline">\(t\)</span> test</h3>
+<p>If participants were looking at the ad half the time on average, their population mean would be <span class="math inline">\(\mu = 0.5\)</span>. Our first <strong>research question</strong> is therefore, “do people look at the ad more than half the time?”</p>
+<div id="state-your-hypotheses" class="section level4" number="9.1.1.1">
+<h4><span class="header-section-number">9.1.1.1</span> State your hypotheses</h4>
+<p>Given this research question, our <strong>null hypothesis</strong> is that the mean ad proportion is less than or equal to 0.5 (<span class="math inline">\(H_0\)</span>: <span class="math inline">\(\mu \leq 0.5\)</span>) while our <strong>alternative hypothesis</strong> is that the mean ad proportion is more than 0.5 (<span class="math inline">\(H_1\)</span>: <span class="math inline">\(\mu &gt; 0.5\)</span>). This is, therefore, a <strong>one-sided</strong> test.</p>
+</div>
+<div id="set-your-alpha-level" class="section level4" number="9.1.1.2">
+<h4><span class="header-section-number">9.1.1.2</span> Set your alpha level</h4>
+<p>Let’s adopt a relatively lenient alpha level of 0.1.</p>
+</div>
+<div id="find-the-t-value" class="section level4" number="9.1.1.3">
+<h4><span class="header-section-number">9.1.1.3</span> Find the <span class="math inline">\(t\)</span> value</h4>
+<p>To get the ingredients we need for the <span class="math inline">\(t\)</span> value, we need to know the deviation of the <em>sample mean</em> from the null hypothesis as well as the <em>estimated standard error</em> of the mean. The deviation from the null hypothesis is the difference between the sample mean and that specified by the null hypothesis, which is 0.5.</p>
+<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb340-1"><a href="lab9.html#cb340-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(X_1) <span class="sc">-</span> <span class="fl">0.5</span></span></code></pre></div>
+<pre><code>## [1] -0.2998</code></pre>
+<p>Meanwhile, the <em>estimated standard error</em> is the sample standard deviation (<code>sd(X_1)</code>) divided by the square root of the sample size (<code>length(X_1)</code>).</p>
+<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="lab9.html#cb342-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(X_1) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(X_1))</span></code></pre></div>
+<pre><code>## [1] 0.08213063</code></pre>
+<p>Taking the ratio of the above two quantities gives us our <span class="math inline">\(t\)</span> value:</p>
+<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="lab9.html#cb344-1" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> (<span class="fu">mean</span>(X_1) <span class="sc">-</span> <span class="fl">0.5</span>) <span class="sc">/</span> (<span class="fu">sd</span>(X_1) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(X_1)))</span>
+<span id="cb344-2"><a href="lab9.html#cb344-2" aria-hidden="true" tabindex="-1"></a>t</span></code></pre></div>
+<pre><code>## [1] -3.650283</code></pre>
+</div>
+<div id="find-the-p-value" class="section level4" number="9.1.1.4">
+<h4><span class="header-section-number">9.1.1.4</span> Find the <span class="math inline">\(p\)</span> value</h4>
+<p>Because this is a <em>one-sided</em> test and the alternative hypothesis is that the population mean is <em>greater</em> than 0.5, we need to to know the probability of observing a value that is <em>at least as <strong>large</strong></em> as the one we have. We also need to know the degrees of freedom, which in this case is <span class="math inline">\(5 - 1 = 4\)</span> (<code>length(X_1) - 1</code>).</p>
+<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb346-1"><a href="lab9.html#cb346-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pt</span>(<span class="at">q =</span> t, <span class="at">df =</span> <span class="fu">length</span>(X_1) <span class="sc">-</span> <span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## [1] 0.989117</code></pre>
+</div>
+<div id="decide-whether-or-not-to-reject-the-null-hypothesis" class="section level4" number="9.1.1.5">
+<h4><span class="header-section-number">9.1.1.5</span> Decide whether or not to reject the null hypothesis</h4>
+<p>Since the <span class="math inline">\(p\)</span> value is <em>bigger</em> than our alpha level, we <strong>fail to reject</strong> the null hypothesis. We have no evidence that people look at the ad more than half the time.</p>
+</div>
+</div>
+<div id="paired-sample-t-test" class="section level3" number="9.1.2">
+<h3><span class="header-section-number">9.1.2</span> Paired sample <span class="math inline">\(t\)</span> test</h3>
+<p>Perhaps spurred by the disappointing results of that one-sample <span class="math inline">\(t\)</span> test, we decide to change the colors in the ad and bring the same sample of 5 people back. Again, we record the proportion of the time that they spend looking at our new ad, which we label <code>X_2</code>:</p>
+<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb348-1"><a href="lab9.html#cb348-1" aria-hidden="true" tabindex="-1"></a>X_2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.907</span>, <span class="fl">0.115</span>, <span class="fl">0.548</span>, <span class="fl">0.202</span>, <span class="fl">0.347</span>)</span></code></pre></div>
+<p>Now we have a <em>pair</em> of measurements from each person. So the first entry in <code>X_1</code> and the first entry in <code>X_2</code> come from the same person, same for the second entry, third entry, etc. Our <strong>research question</strong> now is, “did changing the ad affect how much people looked at it at all?”</p>
+<p>To address this question, we will do a <strong>paired sample <span class="math inline">\(t\)</span> test</strong>. This involves looking at the <em>differences</em> for each person, which we can find in R like so (we will also give them a label <code>D</code> to make it easier):</p>
+<div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="lab9.html#cb349-1" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> X_2 <span class="sc">-</span> X_1</span></code></pre></div>
+<p>(<em>Note that you can do the subtraction in any order, the important thing is to remember which order you picked so you know what the difference means!</em>)</p>
+<div id="state-your-hypotheses-1" class="section level4" number="9.1.2.1">
+<h4><span class="header-section-number">9.1.2.1</span> State your hypotheses</h4>
+<p>Notice that now our question is about any kind of effect, so this will be a <strong>two-tailed</strong> test. The <strong>null hypothesis</strong> is that the mean difference is zero (<span class="math inline">\(H_0\)</span>: <span class="math inline">\(\mu_D = 0\)</span>) and the <strong>alternative hypothesis</strong> is that the mean difference is <em>not</em> zero (<span class="math inline">\(H_1\)</span>: <span class="math inline">\(\mu_D \neq 0\)</span>).</p>
+</div>
+<div id="set-your-alpha-level-1" class="section level4" number="9.1.2.2">
+<h4><span class="header-section-number">9.1.2.2</span> Set your alpha level</h4>
+<p>Again, let’s keep our alpha level from before and say that our alpha level is 0.1.</p>
+</div>
+<div id="find-the-t-value-1" class="section level4" number="9.1.2.3">
+<h4><span class="header-section-number">9.1.2.3</span> Find the <span class="math inline">\(t\)</span> value</h4>
+<p>Remember that the paired sample <span class="math inline">\(t\)</span> test is much like the one-sample <span class="math inline">\(t\)</span> test, only instead of using raw measurements, we use the <em>differences</em> which we labeled <code>D</code>.</p>
+<pre><code>## [1] 3.256259</code></pre>
+
+<div class="exercise">
+<span id="exr:unnamed-chunk-12" class="exercise"><strong>Exercise 8.2  </strong></span>Modify the slice of code we used in the previous section to find the <span class="math inline">\(t\)</span> value given above and make sure that it is labeled <code>t_D</code> (the “D” is for “difference”). What code did you write to find this new <span class="math inline">\(t\)</span> value? <em>Hint: remember what the mean from the null hypothesis is!</em>
+</div>
+</div>
+<div id="find-the-p-value-1" class="section level4" number="9.1.2.4">
+<h4><span class="header-section-number">9.1.2.4</span> Find the <span class="math inline">\(p\)</span> value</h4>
+<p>Since the <span class="math inline">\(t\)</span> value is positive, this means it is on the upper end of the <span class="math inline">\(t\)</span> distribution. To find the probability of seeing a value that is at least as high as the one we saw, we can use</p>
+<div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb351-1"><a href="lab9.html#cb351-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pt</span>(<span class="at">q =</span> t_D, <span class="at">df =</span> <span class="fu">length</span>(D) <span class="sc">-</span> <span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## [1] 0.01559538</code></pre>
+<p>But remember that we have to multiply that by <code>2</code> since this is a <em>two-tailed test</em>. So this is our <span class="math inline">\(p\)</span> value:</p>
+<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb353-1"><a href="lab9.html#cb353-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pt</span>(<span class="at">q =</span> t_D, <span class="at">df =</span> <span class="fu">length</span>(D) <span class="sc">-</span> <span class="dv">1</span>))</span></code></pre></div>
+<pre><code>## [1] 0.03119075</code></pre>
+</div>
+<div id="decide-whether-or-not-to-reject-the-null-hypothesis-1" class="section level4" number="9.1.2.5">
+<h4><span class="header-section-number">9.1.2.5</span> Decide whether or not to reject the null hypothesis</h4>
+<p>Since the <span class="math inline">\(p\)</span> value is <em>smaller</em> than our alpha level, we <strong>reject</strong> the null hypothesis. We have reason to believe that changing the ad really did affect each individual’s viewing patterns.</p>
+
+<div class="exercise">
+<span id="exr:unnamed-chunk-15" class="exercise"><strong>Exercise 9.1  </strong></span>Although the test we just did was only about differences in <em>any</em> direction, based on the <span class="math inline">\(t\)</span> value does it seem like changing the ad increased or decreased the proportion of time people spent looking at the ad?
+</div>
+</div>
+</div>
+<div id="independent-samples-t-test" class="section level3" number="9.1.3">
+<h3><span class="header-section-number">9.1.3</span> Independent samples <span class="math inline">\(t\)</span> test</h3>
+<p>Let’s imagine that, instead of bringing back the same sample of 5 people to view our new ad, we brought in a different sample. While we’re imagining, let’s say that this new sample still produce the <em>same</em> measurements. So our “data” is the same, only now it is not “paired,” it comes from two <em>independent samples</em>.</p>
+<p>Our <strong>research question</strong> remains the same: “did changing the ad affect how much people looked at it at all?” But now, to address this question, we will do an <strong>independent samples <span class="math inline">\(t\)</span> test</strong>.</p>
+<div id="state-your-hypotheses-2" class="section level4" number="9.1.3.1">
+<h4><span class="header-section-number">9.1.3.1</span> State your hypotheses</h4>
+<p>Because we have two samples from (potentially) two populations, our null and alternative hypotheses are about a difference in population parameters. This is still a <strong>two-tailed</strong> test. The <strong>null hypothesis</strong> is that the mean difference is zero (<span class="math inline">\(H_0\)</span>: <span class="math inline">\(\mu_2 - \mu_1 = 0\)</span>) and the <strong>alternative hypothesis</strong> is that the mean difference is <em>not</em> zero (<span class="math inline">\(H_1\)</span>: <span class="math inline">\(\mu_2 - \mu_1 \neq 0\)</span>).</p>
+<p>Notice that we are keeping the order of the subtraction (2 minus 1) the same as above, to make it easier to compare.</p>
+</div>
+<div id="set-your-alpha-level-2" class="section level4" number="9.1.3.2">
+<h4><span class="header-section-number">9.1.3.2</span> Set your alpha level</h4>
+<p>Again, let’s keep our alpha level from before and say that our alpha level is 0.1.</p>
+</div>
+<div id="find-the-t-value-2" class="section level4" number="9.1.3.3">
+<h4><span class="header-section-number">9.1.3.3</span> Find the <span class="math inline">\(t\)</span> value</h4>
+<p>To find the <span class="math inline">\(t\)</span> value, remember that we first have to find the <strong>pooled sample standard deviation</strong>. In mathematical terms, this is <span class="math inline">\(\hat{\sigma}_P = \sqrt{\frac{df_1 \hat{\sigma}^2_1 + df_2 \hat{\sigma}^2_2}{df_1 + df_2}}\)</span>. We can write that out in R like so:</p>
+<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb355-1"><a href="lab9.html#cb355-1" aria-hidden="true" tabindex="-1"></a>df_1 <span class="ot">&lt;-</span> <span class="fu">length</span>(X_1) <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb355-2"><a href="lab9.html#cb355-2" aria-hidden="true" tabindex="-1"></a>df_2 <span class="ot">&lt;-</span> <span class="fu">length</span>(X_2) <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb355-3"><a href="lab9.html#cb355-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb355-4"><a href="lab9.html#cb355-4" aria-hidden="true" tabindex="-1"></a>sd_pooled <span class="ot">&lt;-</span> <span class="fu">sqrt</span>((df_1 <span class="sc">*</span> <span class="fu">sd</span>(X_1)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> df_2 <span class="sc">*</span> <span class="fu">sd</span>(X_2)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (df_1 <span class="sc">+</span> df_2))</span>
+<span id="cb355-5"><a href="lab9.html#cb355-5" aria-hidden="true" tabindex="-1"></a>sd_pooled</span></code></pre></div>
+<pre><code>## [1] 0.2584249</code></pre>
+<p>With our pooled SD in hand, we can now find the <span class="math inline">\(t\)</span> value</p>
+<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb357-1"><a href="lab9.html#cb357-1" aria-hidden="true" tabindex="-1"></a>t_Indep <span class="ot">&lt;-</span> (<span class="fu">mean</span>(X_2) <span class="sc">-</span> <span class="fu">mean</span>(X_1)) <span class="sc">/</span> (sd_pooled <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">/</span> <span class="fu">length</span>(X_1) <span class="sc">+</span> <span class="dv">1</span> <span class="sc">/</span> <span class="fu">length</span>(X_2)))</span>
+<span id="cb357-2"><a href="lab9.html#cb357-2" aria-hidden="true" tabindex="-1"></a>t_Indep</span></code></pre></div>
+<pre><code>## [1] 1.368067</code></pre>
+</div>
+<div id="find-the-p-value-2" class="section level4" number="9.1.3.4">
+<h4><span class="header-section-number">9.1.3.4</span> Find the <span class="math inline">\(p\)</span> value</h4>
+<p>Again, since the <span class="math inline">\(t\)</span> value is positive, this means it is on the upper end of the <span class="math inline">\(t\)</span> distribution. To find the probability of seeing a value that is at least as high as the one we saw, we can use</p>
+<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb359-1"><a href="lab9.html#cb359-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pt</span>(<span class="at">q =</span> t_Indep, <span class="at">df =</span> <span class="fu">length</span>(X_1) <span class="sc">+</span> <span class="fu">length</span>(X_2) <span class="sc">-</span> <span class="dv">2</span>)</span></code></pre></div>
+<pre><code>## [1] 0.1042398</code></pre>
+<p>Note that we have a different number of <strong>degrees of freedom</strong> here because we are treating these data as being from two independent samples. But again we have to multiply the probability above by <code>2</code> since this is a <em>two-tailed test</em>. So this is our final <span class="math inline">\(p\)</span> value:</p>
+<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="lab9.html#cb361-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pt</span>(<span class="at">q =</span> t_Indep, <span class="at">df =</span> <span class="fu">length</span>(X_1) <span class="sc">+</span> <span class="fu">length</span>(X_2) <span class="sc">-</span> <span class="dv">2</span>))</span></code></pre></div>
+<pre><code>## [1] 0.2084797</code></pre>
+</div>
+<div id="decide-whether-or-not-to-reject-the-null-hypothesis-2" class="section level4" number="9.1.3.5">
+<h4><span class="header-section-number">9.1.3.5</span> Decide whether or not to reject the null hypothesis</h4>
+<p>This time, the <span class="math inline">\(p\)</span> value is <em>bigger</em> than our alpha level, so we <strong>fail to reject</strong> the null hypothesis. Funny—the same data lead us to different conclusions depending on whether it came from just one sample versus two independent samples!</p>
+
+<div class="exercise">
+<span id="exr:unnamed-chunk-20" class="exercise"><strong>Exercise 7.6  </strong></span>Why do you think we were able to reject the null hypothesis using the paired samples <span class="math inline">\(t\)</span> test, but not with the independent samples <span class="math inline">\(t\)</span> test, even though the actual data were the same in both cases? Think about the fact that there is variability both between different individuals and within a single individual (e.g., if you do something multiple times, chances are you won’t act exactly the same each time). Does one type of test effectively eliminate one of these kinds of variability? How might that affect the ability to the test to detect particular kinds of differences?
+</div>
+</div>
+</div>
+</div>
+<div id="t-tests-with-real-data" class="section level2" number="9.2">
+<h2><span class="header-section-number">9.2</span> <span class="math inline">\(t\)</span> tests with real data</h2>
+<p>We’ve now seen how to do all the calculations for a <span class="math inline">\(t\)</span> test in R. Because R was built for statistics, you won’t be surprised that it can automate many of those things for us, as we’ll see. As usual, though, when a computer does the “mindless” work, we have to be even more “mindful” of how to interpret the results it gives us.</p>
+<p>In this example, we will look at a study by Sam Mehr, Lee Ann Song (aptly named), and Liz Spelke <span class="citation">(<a href="references.html#ref-MehrEtAl2016" role="doc-biblioref">Mehr et al., 2016</a>)</span>. They wanted to see whether music is an important social cue for infants. Specifically, they wondered whether infants tend to prefer people who sing familiar songs. The idea is that someone singing a song you know is probably a member of the same social group as you are.</p>
+<p>They conducted an experiment in which a child’s parents were taught a new melody and were instructed to sing it to their child at home over the course of 1–2 weeks. After this exposure period, the parents brought their infant back to the lab. The infant was seated in front of a screen showing videos of two unfamiliar adults just smiling in silence. They recorded the proportion of the time that the infant looked at each individual during this “before” phase. Then, one of these unfamiliar people sang the melody that the parents had been singing for 1–2 weeks, while the other sang a totally new song. Finally, during the “after” phase, the infant saw the same videos of each person silently smiling and the researchers recorded the proportion of the time spent looking at the person who sang the familiar song.</p>
+<p>The overall aim of this experiment is to see whether infants will prefer to look at the singer of the familiar melody after hearing them sing it, even though they’ve never seen this person before.</p>
+<div id="check-out-the-data" class="section level3" number="9.2.1">
+<h3><span class="header-section-number">9.2.1</span> Check out the data</h3>
+<p>First, let’s get the data into R:</p>
+<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb363-1"><a href="lab9.html#cb363-1" aria-hidden="true" tabindex="-1"></a>lullaby <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/lullaby_wide.csv&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   id = col_double(),
+##   Before = col_double(),
+##   After = col_double()
+## )</code></pre>
+<p>Have a look at the data by clicking on <code>lullaby</code> in RStudio’s “Environment” pane. Each row is data from a specific infant. There are three variables in this dataset:</p>
+<ul>
+<li>“id”: Identifies each infant in the study.</li>
+<li>“Before”: In the phase before the infants heard anyone sing, what proportion of the time did they look at the person who would eventually sing the familiar melody?</li>
+<li>“After”: In the phase after the infants heard the two people sing, what proportion of the time did they look at the person who sang the familiar melody?</li>
+</ul>
+<p>Let’s summarize the looking preferences for infants before and after hearing the people sing:</p>
+<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb365-1"><a href="lab9.html#cb365-1" aria-hidden="true" tabindex="-1"></a>lullaby <span class="sc">%&gt;%</span></span>
+<span id="cb365-2"><a href="lab9.html#cb365-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">M_before =</span> <span class="fu">mean</span>(Before), <span class="at">S_before =</span> <span class="fu">sd</span>(Before), <span class="at">M_after =</span> <span class="fu">mean</span>(After), <span class="at">S_after =</span> <span class="fu">sd</span>(After))</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 4
+##   M_before S_before M_after S_after
+##      &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+## 1    0.521    0.177   0.593   0.179</code></pre>
+
+<div class="exercise">
+<span id="exr:unnamed-chunk-23" class="exercise"><strong>Exercise 7.7  </strong></span>Based on the sample means and standard deviations we just found, does it seem like there might be a preference to look more at the person who would sing the familiar melody, either before or after hearing them sing?
+</div>
+</div>
+<div id="did-infants-show-any-prior-bias" class="section level3" number="9.2.2">
+<h3><span class="header-section-number">9.2.2</span> Did infants show any prior bias?</h3>
+<p>Before we can ask whether infants prefer to look at someone who sings a familiar melody, we need to see whether they show any kind of <em>bias</em> to look at one person or another <em>before</em> hearing them sing. If they did show a bias to look at one of the individuals before hearing them, then we wouldn’t be able to attribute their behavior to the familiarity of the song.</p>
+<p>Let’s first inspect the data by making a histogram:</p>
+<div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb367-1"><a href="lab9.html#cb367-1" aria-hidden="true" tabindex="-1"></a>lullaby <span class="sc">%&gt;%</span></span>
+<span id="cb367-2"><a href="lab9.html#cb367-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Before)) <span class="sc">+</span></span>
+<span id="cb367-3"><a href="lab9.html#cb367-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">binwidth=</span><span class="fl">0.1</span>)</span></code></pre></div>
+<p><img src="09-ttests_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+
+<div class="exercise">
+<span id="exr:unnamed-chunk-25" class="exercise"><strong>Exercise 9.2  </strong></span>Based on the histogram above, does it seem like there are any outliers or skew that are very far from a normal distribution?
+</div>
+<p>Our <strong>research question</strong> is, “do infants prefer to look at one person over the other, even before hearing them sing?” We will address this question using a <strong>one-sample <span class="math inline">\(t\)</span> test</strong>.</p>
+<div id="state-your-hypotheses-3" class="section level4" number="9.2.2.1">
+<h4><span class="header-section-number">9.2.2.1</span> State your hypotheses</h4>
+<p>An unbiased infant would look equally often at both people, so the proportion of the time they looked at the singer of the familiar song would be 0.5. This is our <strong>null hypothesis</strong>: <span class="math inline">\(H_0\)</span>: <span class="math inline">\(\mu = 0\)</span>. So our <strong>alternative hypothesis</strong> is just that <span class="math inline">\(H_1\)</span>: <span class="math inline">\(\mu \neq 0\)</span>.</p>
+</div>
+<div id="set-your-alpha-level-3" class="section level4" number="9.2.2.2">
+<h4><span class="header-section-number">9.2.2.2</span> Set your alpha level</h4>
+<p>Let’s choose an alpha level of 0.05, same as the one <span class="citation"><a href="references.html#ref-MehrEtAl2016" role="doc-biblioref">Mehr et al.</a> (<a href="references.html#ref-MehrEtAl2016" role="doc-biblioref">2016</a>)</span> chose.</p>
+</div>
+<div id="find-the-t-value-3" class="section level4" number="9.2.2.3">
+<h4><span class="header-section-number">9.2.2.3</span> Find the <span class="math inline">\(t\)</span> value</h4>
+<p>R’s <code>infer</code> package makes it easy to get our <span class="math inline">\(t\)</span> value. Let’s first look at the code for doing this, then explain line-by-line what it means:</p>
+<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb368-1"><a href="lab9.html#cb368-1" aria-hidden="true" tabindex="-1"></a>lullaby <span class="sc">%&gt;%</span></span>
+<span id="cb368-2"><a href="lab9.html#cb368-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> Before) <span class="sc">%&gt;%</span></span>
+<span id="cb368-3"><a href="lab9.html#cb368-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">&#39;point&#39;</span>, <span class="at">mu =</span> <span class="fl">0.5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb368-4"><a href="lab9.html#cb368-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">&#39;t&#39;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##    stat
+##   &lt;dbl&gt;
+## 1 0.674</code></pre>
+<p>The first line, like usual, tells R what data to work with. In the second line, we <code>specify</code> that the variable we want to use for our test is the <code>Before</code> variable. The variable we are interested in is called a <code>response</code> variable. In the third line, we tell R that our null hypothesis is a “point” (that is, a single value) at <code>mu = 0.5</code>. Finally, the fourth line tells R to <code>calculate</code> the <code>t</code> <code>stat</code>istic based on what we told it in the first 3 lines.</p>
+<p>Let’s tell R to remember that <span class="math inline">\(t\)</span> value. We’ll call it <code>t_before</code>, since it refers to the looking <em>before</em> the infants heard anything.</p>
+<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb370-1"><a href="lab9.html#cb370-1" aria-hidden="true" tabindex="-1"></a>t_before <span class="ot">&lt;-</span> lullaby <span class="sc">%&gt;%</span></span>
+<span id="cb370-2"><a href="lab9.html#cb370-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> Before) <span class="sc">%&gt;%</span></span>
+<span id="cb370-3"><a href="lab9.html#cb370-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">&#39;point&#39;</span>, <span class="at">mu =</span> <span class="fl">0.5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb370-4"><a href="lab9.html#cb370-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">&#39;t&#39;</span>)</span></code></pre></div>
+</div>
+<div id="find-the-p-value-3" class="section level4" number="9.2.2.4">
+<h4><span class="header-section-number">9.2.2.4</span> Find the <span class="math inline">\(p\)</span> value</h4>
+<p>We can do something fancy now and <code>visualize</code> the appropriate <span class="math inline">\(t\)</span> distribution corresponding to our null hypothesis:</p>
+<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb371-1"><a href="lab9.html#cb371-1" aria-hidden="true" tabindex="-1"></a>t_before <span class="sc">%&gt;%</span></span>
+<span id="cb371-2"><a href="lab9.html#cb371-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>(<span class="at">method =</span> <span class="st">&#39;theoretical&#39;</span>)</span></code></pre></div>
+<pre><code>## Warning: Check to make sure the conditions have been met for the theoretical
+## method. {infer} currently does not check these for you.</code></pre>
+<p><img src="09-ttests_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<p>The first line tells R to use the <span class="math inline">\(t\)</span> value we just found as “data.” The second line instructs R to visualize the <code>theoretical</code> <span class="math inline">\(t\)</span> distribution if the null hypothesis were true. This distribution is what will let us calculate the <span class="math inline">\(p\)</span> value.</p>
+<p>In fact, we can visualize what the <span class="math inline">\(p\)</span> value will be by showing where the <span class="math inline">\(t\)</span> statistic for our sample falls on the <span class="math inline">\(t\)</span> distribution:</p>
+<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="lab9.html#cb373-1" aria-hidden="true" tabindex="-1"></a>t_before <span class="sc">%&gt;%</span></span>
+<span id="cb373-2"><a href="lab9.html#cb373-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>(<span class="at">method =</span> <span class="st">&#39;theoretical&#39;</span>) <span class="sc">+</span></span>
+<span id="cb373-3"><a href="lab9.html#cb373-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> t_before, <span class="at">direction =</span> <span class="st">&#39;two-sided&#39;</span>)</span></code></pre></div>
+<pre><code>## Warning: Check to make sure the conditions have been met for the theoretical
+## method. {infer} currently does not check these for you.</code></pre>
+<p><img src="09-ttests_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<p>All we did was add a third line where we told R to <code>shade</code> the area of the <span class="math inline">\(t\)</span> distribution that is <em>at least as extreme</em> as our sample (that’s what <code>obs_stat = t_before</code> did). What counts as “extreme” depends on whether our test is one- or two-sided, so we had to tell R that the <code>direction</code> of our test was <code>two-sided</code>. The <em>area</em> of the shaded region on the plot above is what our <span class="math inline">\(p\)</span> value is.</p>
+<p>But of course, we can’t get a number just by looking at a graph. Here’s how we actually get all the numbers we need out of R:</p>
+<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb375-1"><a href="lab9.html#cb375-1" aria-hidden="true" tabindex="-1"></a>lullaby <span class="sc">%&gt;%</span></span>
+<span id="cb375-2"><a href="lab9.html#cb375-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">t_test</span>(<span class="at">response =</span> Before,</span>
+<span id="cb375-3"><a href="lab9.html#cb375-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">alternative =</span> <span class="st">&#39;two-sided&#39;</span>,</span>
+<span id="cb375-4"><a href="lab9.html#cb375-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">mu =</span> <span class="fl">0.5</span>,</span>
+<span id="cb375-5"><a href="lab9.html#cb375-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">conf_level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 6
+##   statistic  t_df p_value alternative lower_ci upper_ci
+##       &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;          &lt;dbl&gt;    &lt;dbl&gt;
+## 1     0.674    31   0.505 two.sided      0.457    0.585</code></pre>
+<p>The first line, as usual, tells R what data to use. The remaining lines tell R all about the <code>t_test</code> we want to perform. We tell R that the <code>response</code> variable (the one we want to test) is <code>Preference</code>; that we are doing a test with an <code>alternative</code> hypothesis that is <code>two-sided</code>; that the mean according to the null hypothesis is <code>mu = 0.5</code>; and that our confidence level (<code>conf_level</code>) is 0.95, which is one minus our alpha level.</p>
+<p>The output we got from R told us a lot:</p>
+<ul>
+<li><code>statistic</code>: The value of the <span class="math inline">\(t\)</span> statistic.</li>
+<li><code>t_df</code>: The number of degrees of freedom.</li>
+<li><code>p_value</code>: The <span class="math inline">\(p\)</span> value.</li>
+<li><code>alternative</code>: Reminding us that we were doing a two-sided test.</li>
+<li><code>lower_ci</code>: The lower limit of the <em>updated</em> confidence interval (assuming the population mean is equal to the sample mean). The width of the interval is defined by the <code>conf_level</code> we told R already.</li>
+<li><code>upper_ci</code>: The upper limit of the <em>updated</em> confidence interval (assuming the population mean is equal to the sample mean).</li>
+</ul>
+</div>
+<div id="decide-whether-or-not-to-reject-the-null-hypothesis-3" class="section level4" number="9.2.2.5">
+<h4><span class="header-section-number">9.2.2.5</span> Decide whether or not to reject the null hypothesis</h4>
+<p>Finally, we can use the <span class="math inline">\(p\)</span> value we just found, in combination with the alpha level from above (which we decided was 0.05) to say that we <strong>fail to reject</strong> the null hypothesis. As a result, we have no reason to believe that there is any bias in who the infants look at before hearing them sing.</p>
+</div>
+</div>
+<div id="do-infants-prefer-to-look-at-the-singer-of-the-familiar-melody" class="section level3" number="9.2.3">
+<h3><span class="header-section-number">9.2.3</span> Do infants prefer to look at the singer of the familiar melody?</h3>
+<p>What about where infants look <em>after</em> they hear the two people sing? Do they show any kind of preference? Again, we can use a <strong>one-sample <span class="math inline">\(t\)</span> test</strong> to find out. In fact, all we need to do is reuse different bits of code from the previous section, just changing the variable of interest from “Before” to “After.”</p>
+<p>Let’s begin by making a histogram of the <code>After</code> variable.</p>
+<p><img src="09-ttests_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+
+<div class="exercise">
+<span id="exr:unnamed-chunk-32" class="exercise"><strong>Exercise 9.3  </strong></span>What code did you use to make the histogram above? Do you see any evidence of outliers or skew that are very different from what we might see in a normal distribution?
+</div>
+<p>Our <strong>research question</strong> is, “do infants prefer to look at one person over the other <em>after</em> hearing them sing?”</p>
+<div id="state-your-hypotheses-4" class="section level4" number="9.2.3.1">
+<h4><span class="header-section-number">9.2.3.1</span> State your hypotheses</h4>
+<p>Again, an infant without any preference would look equally often at both people, so the proportion of the time they looked at the singer of the familiar song would be 0.5. This is, again, our <strong>null hypothesis</strong>: <span class="math inline">\(H_0\)</span>: <span class="math inline">\(\mu = 0\)</span>. Again, our <strong>alternative hypothesis</strong> is just that <span class="math inline">\(H_1\)</span>: <span class="math inline">\(\mu \neq 0\)</span>.</p>
+</div>
+<div id="set-your-alpha-level-4" class="section level4" number="9.2.3.2">
+<h4><span class="header-section-number">9.2.3.2</span> Set your alpha level</h4>
+<p>Let’s keep our alpha level of 0.05.</p>
+</div>
+<div id="find-the-t-value-4" class="section level4" number="9.2.3.3">
+<h4><span class="header-section-number">9.2.3.3</span> Find the <span class="math inline">\(t\)</span> value</h4>
+<p>Let’s tell R to remember our <em>new</em> <span class="math inline">\(t\)</span> value so that we can visualize it like we did before. We’re going to call this new <span class="math inline">\(t\)</span> value <code>t_after</code> to keep it distinct.</p>
+
+<div class="exercise">
+<span id="exr:unnamed-chunk-34" class="exercise"><strong>Exercise 9.4  </strong></span>What code did you use to make <code>t_after</code>? (<em>Hint: what do you change in the code we used above to make <code>t_before</code>?</em>)
+</div>
+</div>
+<div id="find-the-p-value-4" class="section level4" number="9.2.3.4">
+<h4><span class="header-section-number">9.2.3.4</span> Find the <span class="math inline">\(p\)</span> value</h4>
+<p>Let’s visualize our <span class="math inline">\(t\)</span> statistic to get a sense of what the <span class="math inline">\(p\)</span> value will be</p>
+<div class="sourceCode" id="cb377"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb377-1"><a href="lab9.html#cb377-1" aria-hidden="true" tabindex="-1"></a>t_after <span class="sc">%&gt;%</span></span>
+<span id="cb377-2"><a href="lab9.html#cb377-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>(<span class="at">method =</span> <span class="st">&#39;theoretical&#39;</span>) <span class="sc">+</span></span>
+<span id="cb377-3"><a href="lab9.html#cb377-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> t_after, <span class="at">direction =</span> <span class="st">&#39;two-sided&#39;</span>)</span></code></pre></div>
+<pre><code>## Warning: Check to make sure the conditions have been met for the theoretical
+## method. {infer} currently does not check these for you.</code></pre>
+<p><img src="09-ttests_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
+<p>Finally, let’s get the whole shebang:</p>
+<pre><code>## # A tibble: 1 x 6
+##   statistic  t_df p_value alternative lower_ci upper_ci
+##       &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;          &lt;dbl&gt;    &lt;dbl&gt;
+## 1      2.96    31 0.00586 two.sided      0.529    0.658</code></pre>
+
+<div class="exercise">
+<span id="exr:unnamed-chunk-37" class="exercise"><strong>Exercise 9.5  </strong></span>What code did you use to get the <code>t_test</code> output above?
+</div>
+</div>
+<div id="decide-whether-or-not-to-reject-the-null-hypothesis-4" class="section level4" number="9.2.3.5">
+<h4><span class="header-section-number">9.2.3.5</span> Decide whether or not to reject the null hypothesis</h4>
+<p>Comparing the <span class="math inline">\(p\)</span> value we just found to our alpha level of 0.05, we <strong>reject</strong> the null hypothesis. We have reason to believe that the infants have a <em>preference</em> to look at one singer over the other.</p>
+</div>
+</div>
+<div id="did-their-preferences-change" class="section level3" number="9.2.4">
+<h3><span class="header-section-number">9.2.4</span> Did their preferences change?</h3>
+<p>Based on what we’ve done so far, it seems like before hearing the two people sing, the infants didn’t look at either one more than the other, but <em>after</em> hearing them sing, the infants did show a preference. Now let’s ask a more direct <strong>research question</strong>: For each infant, did hearing someone sing a familiar song lead that infant to prefer looking at that person? This question can be addressed using a <strong>paired samples <span class="math inline">\(t\)</span> test</strong>.</p>
+<div id="state-your-hypotheses-5" class="section level4" number="9.2.4.1">
+<h4><span class="header-section-number">9.2.4.1</span> State your hypotheses</h4>
+<p>Based on the way our research question is phrased, we are looking at a <strong>one-tailed test</strong> because we are asking about a difference in a specific direction—an <em>increase</em> in preferential looking. So our <strong>null hypothesis</strong> is that the difference in preference is less than or equal to zero (<span class="math inline">\(H_0\)</span>: <span class="math inline">\(\mu_D \leq 0\)</span>) while our <strong>alternative hypothesis</strong> is that the difference is greater than zero (<span class="math inline">\(H_0\)</span>: <span class="math inline">\(\mu_D &gt; 0\)</span>).</p>
+</div>
+<div id="set-your-alpha-level-5" class="section level4" number="9.2.4.2">
+<h4><span class="header-section-number">9.2.4.2</span> Set your alpha level</h4>
+<p>Let’s stay consistent and say that our <strong>alpha level</strong> is still 0.05.</p>
+</div>
+<div id="find-the-t-value-5" class="section level4" number="9.2.4.3">
+<h4><span class="header-section-number">9.2.4.3</span> Find the <span class="math inline">\(t\)</span> value</h4>
+<p>Like we did above, we need to first find the <em>difference</em> for each infant between their looking preferences before and after hearing the people sing. We can do that in R using the <code>mutate</code> function, which we’ve previously used to calculate probabilities based on relative frequency.</p>
+<p>The code below creates a new variable called <code>Difference</code> by subtracting the <code>Before</code> preference from the <code>After</code> preference:</p>
+<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb380-1"><a href="lab9.html#cb380-1" aria-hidden="true" tabindex="-1"></a>lullaby <span class="sc">%&gt;%</span></span>
+<span id="cb380-2"><a href="lab9.html#cb380-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Difference =</span> After <span class="sc">-</span> Before)</span></code></pre></div>
+<pre><code>## # A tibble: 32 x 4
+##       id Before After Difference
+##    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
+##  1   101  0.437 0.603     0.166 
+##  2   102  0.413 0.683     0.270 
+##  3   103  0.754 0.724    -0.0304
+##  4   104  0.439 0.282    -0.157 
+##  5   105  0.475 0.499     0.0239
+##  6   106  0.871 0.951     0.0800
+##  7   107  0.237 0.418     0.181 
+##  8   108  0.759 0.938     0.179 
+##  9   109  0.416 0.5       0.0837
+## 10   110  0.800 0.586    -0.213 
+## # … with 22 more rows</code></pre>
+<p>We can insert that second line of code above in order to calculate the <span class="math inline">\(t\)</span> statistic corresponding to our difference scores:</p>
+<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb382-1"><a href="lab9.html#cb382-1" aria-hidden="true" tabindex="-1"></a>t_diff <span class="ot">&lt;-</span> lullaby <span class="sc">%&gt;%</span></span>
+<span id="cb382-2"><a href="lab9.html#cb382-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Difference =</span> After <span class="sc">-</span> Before) <span class="sc">%&gt;%</span></span>
+<span id="cb382-3"><a href="lab9.html#cb382-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> Difference) <span class="sc">%&gt;%</span></span>
+<span id="cb382-4"><a href="lab9.html#cb382-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">&#39;point&#39;</span>, <span class="at">mu =</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb382-5"><a href="lab9.html#cb382-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">&#39;t&#39;</span>)</span></code></pre></div>
+
+<div class="exercise">
+<span id="exr:unnamed-chunk-40" class="exercise"><strong>Exercise 9.6  </strong></span>Compare the code used to make <code>t_diff</code> with the code we previously used to make <code>t_before</code> and <code>t_after</code>. What is similar and what is different?
+</div>
+</div>
+<div id="find-the-p-value-5" class="section level4" number="9.2.4.4">
+<h4><span class="header-section-number">9.2.4.4</span> Find the <span class="math inline">\(p\)</span> value</h4>
+<p>Now that we have found <code>t_diff</code>, let’s see where our sample falls on the <span class="math inline">\(t\)</span> distribution corresponding to the null hypothesis:</p>
+<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb383-1"><a href="lab9.html#cb383-1" aria-hidden="true" tabindex="-1"></a>t_diff <span class="sc">%&gt;%</span></span>
+<span id="cb383-2"><a href="lab9.html#cb383-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>(<span class="at">method =</span> <span class="st">&#39;theoretical&#39;</span>) <span class="sc">+</span></span>
+<span id="cb383-3"><a href="lab9.html#cb383-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> t_diff, <span class="at">direction =</span> <span class="st">&#39;greater&#39;</span>)</span></code></pre></div>
+<pre><code>## Warning: Check to make sure the conditions have been met for the theoretical
+## method. {infer} currently does not check these for you.</code></pre>
+<p><img src="09-ttests_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
+
+<div class="exercise">
+<span id="exr:unnamed-chunk-42" class="exercise"><strong>Exercise 9.7  </strong></span>Compare the visualization of the <span class="math inline">\(t\)</span> distribution for <code>t_diff</code> to the ones we made for <code>t_before</code> and <code>t_after</code>. Is there a difference in which sides of the distribution are shaded? Why might this be?
+</div>
+<p>Finally, we can obtain the <span class="math inline">\(p\)</span> value along with the rest of the results of the <span class="math inline">\(t\)</span> test:</p>
+<pre><code>## # A tibble: 1 x 6
+##   statistic  t_df p_value alternative lower_ci upper_ci
+##       &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;          &lt;dbl&gt;    &lt;dbl&gt;
+## 1      2.42    31  0.0109 greater       0.0216      Inf</code></pre>
+
+<div class="exercise">
+<span id="exr:unnamed-chunk-44" class="exercise"><strong>Exercise 9.8  </strong></span>How did you modify the code we used above for the previous two <span class="math inline">\(t\)</span> tests to get the result above? Do you notice anything different about the output we got from R for this one-tailed test, relative to the two-tailed tests we did above?
+</div>
+</div>
+<div id="decide-whether-or-not-to-reject-the-null-hypothesis-5" class="section level4" number="9.2.4.5">
+<h4><span class="header-section-number">9.2.4.5</span> Decide whether or not to reject the null hypothesis</h4>
+<p>Comparing the <span class="math inline">\(p\)</span> value we just found to our alpha level of 0.05, we <strong>reject</strong> the null hypothesis. We have reason to believe that infants’ preferences <em>changed</em> after hearing the two people sing, such that they look more often at the singer of the familiar melody.</p>
+</div>
+</div>
+</div>
+<div id="wrap-up-8" class="section level2" number="9.3">
+<h2><span class="header-section-number">9.3</span> Wrap-up</h2>
+<p>In this session, we saw both how to conduct all the individual calculations in a <span class="math inline">\(t\)</span> test as well as how to use R to do a <span class="math inline">\(t\)</span> test “all at once.” We saw how to do one-sample, paired samples, and independent samples <span class="math inline">\(t\)</span> tests in step-by-step form. We also saw how to do one-sample and paired samples <span class="math inline">\(t\)</span> tests in a fancier form with helpful visual aids that are better suited for dealing with real data. We can also do independent samples <span class="math inline">\(t\)</span> tests in this fancier way, but we will have to wait until next week to see a demonstration. Nonetheless, it is clear that R has powerful facilities for doing the kinds of hypothesis tests that are the bread and butter of inferential statistics.</p>
+
+</div>
+</div>
+
+
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="lab8.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="coderef.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["APSY210 Labs.pdf", "APSY210 Labs.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
