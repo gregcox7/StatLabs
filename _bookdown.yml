@@ -1,6 +1,7 @@
 book_filename: "APSY210 Labs"
 new_session: yes
 delete_merged_file: true
+before_chapter_script: "prep_chapter.R"
 language:
   ui:
     chapter_name: "Lab "

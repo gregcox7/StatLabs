@@ -24,7 +24,7 @@
 <meta name="author" content="Greg Cox" />
 
 
-<meta name="date" content="2021-04-16" />
+<meta name="date" content="2021-04-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -314,7 +314,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.3" data-path="lab9.html"><a href="lab9.html#wrap-up-8"><i class="fa fa-check"></i><b>9.3</b> Wrap-up</a></li>
 </ul></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
-<li class="chapter" data-level="A" data-path="coderef.html"><a href="coderef.html"><i class="fa fa-check"></i><b>A</b> R Code Reference</a>
+<li class="chapter" data-level="A" data-path="coderef.html"><a href="coderef.html"><i class="fa fa-check"></i><b>A</b> Distributions</a>
 <ul>
 <li class="chapter" data-level="A.1" data-path="coderef.html"><a href="coderef.html#binomial-distribution"><i class="fa fa-check"></i><b>A.1</b> Binomial distribution</a>
 <ul>
@@ -334,6 +334,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="A.2.4" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-outside-an-interval-between-an-upper-and-lower-value-1"><i class="fa fa-check"></i><b>A.2.4</b> Probability of observing a value outside an interval between an upper and lower value</a></li>
 <li class="chapter" data-level="A.2.5" data-path="coderef.html"><a href="coderef.html#the-value-for-which-there-is-a-given-probability-of-observing-an-outcome-less-than-or-equal-to-that-value-1"><i class="fa fa-check"></i><b>A.2.5</b> The value for which there is a given probability of observing an outcome less than or equal to that value</a></li>
 <li class="chapter" data-level="A.2.6" data-path="coderef.html"><a href="coderef.html#testing-a-null-hypothesis-1"><i class="fa fa-check"></i><b>A.2.6</b> Testing a null hypothesis</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="hyptests.html"><a href="hyptests.html"><i class="fa fa-check"></i><b>B</b> Hypothesis Tests</a>
+<ul>
+<li class="chapter" data-level="B.1" data-path="hyptests.html"><a href="hyptests.html#t-tests"><i class="fa fa-check"></i><b>B.1</b> <span class="math inline">\(t\)</span> tests</a>
+<ul>
+<li class="chapter" data-level="B.1.1" data-path="hyptests.html"><a href="hyptests.html#one-sample-t-test-1"><i class="fa fa-check"></i><b>B.1.1</b> One-sample <span class="math inline">\(t\)</span> test</a></li>
+<li class="chapter" data-level="B.1.2" data-path="hyptests.html"><a href="hyptests.html#paired-samples-t-test"><i class="fa fa-check"></i><b>B.1.2</b> Paired samples <span class="math inline">\(t\)</span> test</a></li>
+<li class="chapter" data-level="B.1.3" data-path="hyptests.html"><a href="hyptests.html#independent-samples-t-test-1"><i class="fa fa-check"></i><b>B.1.3</b> Independent samples <span class="math inline">\(t\)</span> test</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -399,7 +408,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>From the description above, we know the population mean (<span class="math inline">\(\mu = 71\)</span>) and standard deviation (<span class="math inline">\(\sigma = 9\)</span>). Let us assume that our sample size is <span class="math inline">\(n = 40\)</span>, which is typical for this kind of research. The central limit theorem tells us that our sample means will, then, have a normal distribution with mean <span class="math inline">\(\mu = 71\)</span> and <strong>standard error of the mean</strong> <span class="math inline">\(\frac{\sigma}{\sqrt{n}} = \frac{9}{\sqrt{40}}\)</span>. We can use R to calculate what the standard error is.</p>
 
 <div class="exercise">
-<span id="exr:unnamed-chunk-3" class="exercise"><strong>Exercise 7.1  </strong></span>What R code would give us the standard error of the mean?
+<p><span id="exr:unnamed-chunk-3" class="exercise"><strong>Exercise 7.1  </strong></span>What R code would give us the standard error of the mean?</p>
 </div>
 <pre><code>## [1] 1.423025</code></pre>
 </div>
@@ -419,7 +428,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>## [1] 73.78908</code></pre>
 
 <div class="exercise">
-<span id="exr:unnamed-chunk-7" class="exercise"><strong>Exercise 7.2  </strong></span>Based on the upper and lower boundaries we just found, what is the <em>margin of error</em>?
+<p><span id="exr:unnamed-chunk-7" class="exercise"><strong>Exercise 7.2  </strong></span>Based on the upper and lower boundaries we just found, what is the <em>margin of error</em>?</p>
 </div>
 </div>
 <div id="visualization" class="section level4" number="7.1.1.4">
@@ -453,14 +462,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="lab7.html#cb275-1" aria-hidden="true" tabindex="-1"></a>heart_rate_sample <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">40</span>, <span class="at">mean =</span> <span class="dv">71</span>, <span class="at">sd =</span> <span class="dv">9</span>)</span></code></pre></div>
 
 <div class="exercise">
-<span id="exr:unnamed-chunk-14" class="exercise"><strong>Exercise 7.3  </strong></span>Compare the code just we used to simulate a sample of heart rates with the code we used to simulate sample means. Why is the mean the same? Why is the standard deviation different?
+<p><span id="exr:unnamed-chunk-14" class="exercise"><strong>Exercise 7.3  </strong></span>Compare the code just we used to simulate a sample of heart rates with the code we used to simulate sample means. Why is the mean the same? Why is the standard deviation different?</p>
 </div>
 <div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="lab7.html#cb276-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(heart_rate_sample)</span></code></pre></div>
 <pre><code>## [1] 70.02283</code></pre>
 <p>Is the sample mean outside the confidence interval, which would lead us to <em>reject</em> the null hypothesis, even though it is actually true?</p>
 
 <div class="exercise">
-<span id="exr:unnamed-chunk-16" class="exercise"><strong>Exercise 7.4  </strong></span>Try running the previous two lines of code a few more times (simulate a new sample and find its mean). How many times did it take before you simulated a sample with a mean that fell <em>outside</em> the 95% confidence interval?
+<p><span id="exr:unnamed-chunk-16" class="exercise"><strong>Exercise 7.4  </strong></span>Try running the previous two lines of code a few more times (simulate a new sample and find its mean). How many times did it take before you simulated a sample with a mean that fell <em>outside</em> the 95% confidence interval?</p>
 </div>
 </div>
 <div id="when-the-null-hypothesis-is-false" class="section level4" number="7.1.2.2">
@@ -473,11 +482,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>## [1] 74.82869</code></pre>
 
 <div class="exercise">
-<span id="exr:unnamed-chunk-19" class="exercise"><strong>Exercise 7.5  </strong></span>Run the previous two lines of code 10 times. Out of those ten times, how often did the sample mean fall outside the 95% confidence interval?
+<p><span id="exr:unnamed-chunk-19" class="exercise"><strong>Exercise 7.5  </strong></span>Run the previous two lines of code 10 times. Out of those ten times, how often did the sample mean fall outside the 95% confidence interval?</p>
 </div>
 
 <div class="exercise">
-<span id="exr:unnamed-chunk-20" class="exercise"><strong>Exercise 7.6  </strong></span>In the code we just used, we assumed that our samples came from a population with a mean of 74. How much bigger do you think this mean would need to be before almost all samples would fall outside the 95% confidence interval? 75? 76? 100? Why?
+<p><span id="exr:unnamed-chunk-20" class="exercise"><strong>Exercise 7.6  </strong></span>In the code we just used, we assumed that our samples came from a population with a mean of 74. How much bigger do you think this mean would need to be before almost all samples would fall outside the 95% confidence interval? 75? 76? 100? Why?</p>
 </div>
 </div>
 </div>
@@ -500,7 +509,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="07-confidence_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
 
 <div class="exercise">
-<span id="exr:unnamed-chunk-23" class="exercise"><strong>Exercise 7.7  </strong></span>Describe the shape of the distribution of number of hours slept. Does it seem symmetrical, skewed? How many modes does the distribution seem to have?
+<p><span id="exr:unnamed-chunk-23" class="exercise"><strong>Exercise 7.7  </strong></span>Describe the shape of the distribution of number of hours slept. Does it seem symmetrical, skewed? How many modes does the distribution seem to have?</p>
 </div>
 <div id="figure-out-what-parameters-would-describe-the-population-if-the-hypothesis-were-true-1" class="section level3" number="7.2.1">
 <h3><span class="header-section-number">7.2.1</span> Figure out what parameters would describe the population <em>if</em> the hypothesis were true</h3>
@@ -520,7 +529,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>## [1] 8.245596</code></pre>
 
 <div class="exercise">
-<span id="exr:unnamed-chunk-26" class="exercise"><strong>Exercise 7.8  </strong></span>What is the R code for finding those lower and upper boundaries of the 99% confidence interval? <em>Hint: what do you need to change in the code we used for finding the confidence interval boundaries in the heart rate example above?</em>
+<p><span id="exr:unnamed-chunk-26" class="exercise"><strong>Exercise 7.8  </strong></span>What is the R code for finding those lower and upper boundaries of the 99% confidence interval? <em>Hint: what do you need to change in the code we used for finding the confidence interval boundaries in the heart rate example above?</em></p>
 </div>
 </div>
 <div id="compare-our-sample-to-the-confidence-interval-1" class="section level3" number="7.2.4">
@@ -535,7 +544,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>That is definitely outside the bounds of our 99% confidence interval! As a result, we <strong>reject</strong> the hypothesis that the mean number of hours slept by the population of college students is equal to the recommended amount of <span class="math inline">\(\mu = 8\)</span> hours.</p>
 
 <div class="exercise">
-<span id="exr:unnamed-chunk-28" class="exercise"><strong>Exercise 7.9  </strong></span>Although we rejected the null hypothesis in this case, take a look at the histogram we made above of the complete distribution of student sleep time. Is it the case that every single student sleeps less than the recommended amount? What does this mean for how we should interpret the results of our hypothesis test?
+<p><span id="exr:unnamed-chunk-28" class="exercise"><strong>Exercise 7.9  </strong></span>Although we rejected the null hypothesis in this case, take a look at the histogram we made above of the complete distribution of student sleep time. Is it the case that every single student sleeps less than the recommended amount? What does this mean for how we should interpret the results of our hypothesis test?</p>
 </div>
 </div>
 </div>

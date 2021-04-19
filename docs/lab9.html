@@ -24,7 +24,7 @@
 <meta name="author" content="Greg Cox" />
 
 
-<meta name="date" content="2021-04-16" />
+<meta name="date" content="2021-04-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -314,7 +314,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.3" data-path="lab9.html"><a href="lab9.html#wrap-up-8"><i class="fa fa-check"></i><b>9.3</b> Wrap-up</a></li>
 </ul></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
-<li class="chapter" data-level="A" data-path="coderef.html"><a href="coderef.html"><i class="fa fa-check"></i><b>A</b> R Code Reference</a>
+<li class="chapter" data-level="A" data-path="coderef.html"><a href="coderef.html"><i class="fa fa-check"></i><b>A</b> Distributions</a>
 <ul>
 <li class="chapter" data-level="A.1" data-path="coderef.html"><a href="coderef.html#binomial-distribution"><i class="fa fa-check"></i><b>A.1</b> Binomial distribution</a>
 <ul>
@@ -334,6 +334,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="A.2.4" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-outside-an-interval-between-an-upper-and-lower-value-1"><i class="fa fa-check"></i><b>A.2.4</b> Probability of observing a value outside an interval between an upper and lower value</a></li>
 <li class="chapter" data-level="A.2.5" data-path="coderef.html"><a href="coderef.html#the-value-for-which-there-is-a-given-probability-of-observing-an-outcome-less-than-or-equal-to-that-value-1"><i class="fa fa-check"></i><b>A.2.5</b> The value for which there is a given probability of observing an outcome less than or equal to that value</a></li>
 <li class="chapter" data-level="A.2.6" data-path="coderef.html"><a href="coderef.html#testing-a-null-hypothesis-1"><i class="fa fa-check"></i><b>A.2.6</b> Testing a null hypothesis</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="hyptests.html"><a href="hyptests.html"><i class="fa fa-check"></i><b>B</b> Hypothesis Tests</a>
+<ul>
+<li class="chapter" data-level="B.1" data-path="hyptests.html"><a href="hyptests.html#t-tests"><i class="fa fa-check"></i><b>B.1</b> <span class="math inline">\(t\)</span> tests</a>
+<ul>
+<li class="chapter" data-level="B.1.1" data-path="hyptests.html"><a href="hyptests.html#one-sample-t-test-1"><i class="fa fa-check"></i><b>B.1.1</b> One-sample <span class="math inline">\(t\)</span> test</a></li>
+<li class="chapter" data-level="B.1.2" data-path="hyptests.html"><a href="hyptests.html#paired-samples-t-test"><i class="fa fa-check"></i><b>B.1.2</b> Paired samples <span class="math inline">\(t\)</span> test</a></li>
+<li class="chapter" data-level="B.1.3" data-path="hyptests.html"><a href="hyptests.html#independent-samples-t-test-1"><i class="fa fa-check"></i><b>B.1.3</b> Independent samples <span class="math inline">\(t\)</span> test</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -435,7 +444,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>## [1] 3.256259</code></pre>
 
 <div class="exercise">
-<span id="exr:unnamed-chunk-12" class="exercise"><strong>Exercise 8.2  </strong></span>Modify the slice of code we used in the previous section to find the <span class="math inline">\(t\)</span> value given above and make sure that it is labeled <code>t_D</code> (the “D” is for “difference”). What code did you write to find this new <span class="math inline">\(t\)</span> value? <em>Hint: remember what the mean from the null hypothesis is!</em>
+<p><span id="exr:unnamed-chunk-12" class="exercise"><strong>Exercise 8.2  </strong></span>Modify the slice of code we used in the previous section to find the <span class="math inline">\(t\)</span> value given above and make sure that it is labeled <code>t_D</code> (the “D” is for “difference”). What code did you write to find this new <span class="math inline">\(t\)</span> value? <em>Hint: remember what the mean from the null hypothesis is!</em></p>
 </div>
 </div>
 <div id="find-the-p-value-1" class="section level4" number="9.1.2.4">
@@ -452,7 +461,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Since the <span class="math inline">\(p\)</span> value is <em>smaller</em> than our alpha level, we <strong>reject</strong> the null hypothesis. We have reason to believe that changing the ad really did affect each individual’s viewing patterns.</p>
 
 <div class="exercise">
-<span id="exr:unnamed-chunk-15" class="exercise"><strong>Exercise 9.1  </strong></span>Although the test we just did was only about differences in <em>any</em> direction, based on the <span class="math inline">\(t\)</span> value does it seem like changing the ad increased or decreased the proportion of time people spent looking at the ad?
+<p><span id="exr:unnamed-chunk-15" class="exercise"><strong>Exercise 9.1  </strong></span>Although the test we just did was only about differences in <em>any</em> direction, based on the <span class="math inline">\(t\)</span> value does it seem like changing the ad increased or decreased the proportion of time people spent looking at the ad?</p>
 </div>
 </div>
 </div>
@@ -497,7 +506,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>This time, the <span class="math inline">\(p\)</span> value is <em>bigger</em> than our alpha level, so we <strong>fail to reject</strong> the null hypothesis. Funny—the same data lead us to different conclusions depending on whether it came from just one sample versus two independent samples!</p>
 
 <div class="exercise">
-<span id="exr:unnamed-chunk-20" class="exercise"><strong>Exercise 7.6  </strong></span>Why do you think we were able to reject the null hypothesis using the paired samples <span class="math inline">\(t\)</span> test, but not with the independent samples <span class="math inline">\(t\)</span> test, even though the actual data were the same in both cases? Think about the fact that there is variability both between different individuals and within a single individual (e.g., if you do something multiple times, chances are you won’t act exactly the same each time). Does one type of test effectively eliminate one of these kinds of variability? How might that affect the ability to the test to detect particular kinds of differences?
+<p><span id="exr:unnamed-chunk-20" class="exercise"><strong>Exercise 7.6  </strong></span>Why do you think we were able to reject the null hypothesis using the paired samples <span class="math inline">\(t\)</span> test, but not with the independent samples <span class="math inline">\(t\)</span> test, even though the actual data were the same in both cases? Think about the fact that there is variability both between different individuals and within a single individual (e.g., if you do something multiple times, chances are you won’t act exactly the same each time). Does one type of test effectively eliminate one of these kinds of variability? How might that affect the ability to the test to detect particular kinds of differences?</p>
 </div>
 </div>
 </div>
@@ -534,7 +543,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 1    0.521    0.177   0.593   0.179</code></pre>
 
 <div class="exercise">
-<span id="exr:unnamed-chunk-23" class="exercise"><strong>Exercise 7.7  </strong></span>Based on the sample means and standard deviations we just found, does it seem like there might be a preference to look more at the person who would sing the familiar melody, either before or after hearing them sing?
+<p><span id="exr:unnamed-chunk-23" class="exercise"><strong>Exercise 7.7  </strong></span>Based on the sample means and standard deviations we just found, does it seem like there might be a preference to look more at the person who would sing the familiar melody, either before or after hearing them sing?</p>
 </div>
 </div>
 <div id="did-infants-show-any-prior-bias" class="section level3" number="9.2.2">
@@ -547,7 +556,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="09-ttests_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
 
 <div class="exercise">
-<span id="exr:unnamed-chunk-25" class="exercise"><strong>Exercise 9.2  </strong></span>Based on the histogram above, does it seem like there are any outliers or skew that are very far from a normal distribution?
+<p><span id="exr:unnamed-chunk-25" class="exercise"><strong>Exercise 9.2  </strong></span>Based on the histogram above, does it seem like there are any outliers or skew that are very far from a normal distribution?</p>
 </div>
 <p>Our <strong>research question</strong> is, “do infants prefer to look at one person over the other, even before hearing them sing?” We will address this question using a <strong>one-sample <span class="math inline">\(t\)</span> test</strong>.</p>
 <div id="state-your-hypotheses-3" class="section level4" number="9.2.2.1">
@@ -626,7 +635,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="09-ttests_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
 
 <div class="exercise">
-<span id="exr:unnamed-chunk-32" class="exercise"><strong>Exercise 9.3  </strong></span>What code did you use to make the histogram above? Do you see any evidence of outliers or skew that are very different from what we might see in a normal distribution?
+<p><span id="exr:unnamed-chunk-32" class="exercise"><strong>Exercise 9.3  </strong></span>What code did you use to make the histogram above? Do you see any evidence of outliers or skew that are very different from what we might see in a normal distribution?</p>
 </div>
 <p>Our <strong>research question</strong> is, “do infants prefer to look at one person over the other <em>after</em> hearing them sing?”</p>
 <div id="state-your-hypotheses-4" class="section level4" number="9.2.3.1">
@@ -642,7 +651,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Let’s tell R to remember our <em>new</em> <span class="math inline">\(t\)</span> value so that we can visualize it like we did before. We’re going to call this new <span class="math inline">\(t\)</span> value <code>t_after</code> to keep it distinct.</p>
 
 <div class="exercise">
-<span id="exr:unnamed-chunk-34" class="exercise"><strong>Exercise 9.4  </strong></span>What code did you use to make <code>t_after</code>? (<em>Hint: what do you change in the code we used above to make <code>t_before</code>?</em>)
+<p><span id="exr:unnamed-chunk-34" class="exercise"><strong>Exercise 9.4  </strong></span>What code did you use to make <code>t_after</code>? (<em>Hint: what do you change in the code we used above to make <code>t_before</code>?</em>)</p>
 </div>
 </div>
 <div id="find-the-p-value-4" class="section level4" number="9.2.3.4">
@@ -661,7 +670,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 1      2.96    31 0.00586 two.sided      0.529    0.658</code></pre>
 
 <div class="exercise">
-<span id="exr:unnamed-chunk-37" class="exercise"><strong>Exercise 9.5  </strong></span>What code did you use to get the <code>t_test</code> output above?
+<p><span id="exr:unnamed-chunk-37" class="exercise"><strong>Exercise 9.5  </strong></span>What code did you use to get the <code>t_test</code> output above?</p>
 </div>
 </div>
 <div id="decide-whether-or-not-to-reject-the-null-hypothesis-4" class="section level4" number="9.2.3.5">
@@ -708,7 +717,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb382-5"><a href="lab9.html#cb382-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">&#39;t&#39;</span>)</span></code></pre></div>
 
 <div class="exercise">
-<span id="exr:unnamed-chunk-40" class="exercise"><strong>Exercise 9.6  </strong></span>Compare the code used to make <code>t_diff</code> with the code we previously used to make <code>t_before</code> and <code>t_after</code>. What is similar and what is different?
+<p><span id="exr:unnamed-chunk-40" class="exercise"><strong>Exercise 9.6  </strong></span>Compare the code used to make <code>t_diff</code> with the code we previously used to make <code>t_before</code> and <code>t_after</code>. What is similar and what is different?</p>
 </div>
 </div>
 <div id="find-the-p-value-5" class="section level4" number="9.2.4.4">
@@ -722,7 +731,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="09-ttests_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
 
 <div class="exercise">
-<span id="exr:unnamed-chunk-42" class="exercise"><strong>Exercise 9.7  </strong></span>Compare the visualization of the <span class="math inline">\(t\)</span> distribution for <code>t_diff</code> to the ones we made for <code>t_before</code> and <code>t_after</code>. Is there a difference in which sides of the distribution are shaded? Why might this be?
+<p><span id="exr:unnamed-chunk-42" class="exercise"><strong>Exercise 9.7  </strong></span>Compare the visualization of the <span class="math inline">\(t\)</span> distribution for <code>t_diff</code> to the ones we made for <code>t_before</code> and <code>t_after</code>. Is there a difference in which sides of the distribution are shaded? Why might this be?</p>
 </div>
 <p>Finally, we can obtain the <span class="math inline">\(p\)</span> value along with the rest of the results of the <span class="math inline">\(t\)</span> test:</p>
 <pre><code>## # A tibble: 1 x 6
@@ -731,7 +740,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 1      2.42    31  0.0109 greater       0.0216      Inf</code></pre>
 
 <div class="exercise">
-<span id="exr:unnamed-chunk-44" class="exercise"><strong>Exercise 9.8  </strong></span>How did you modify the code we used above for the previous two <span class="math inline">\(t\)</span> tests to get the result above? Do you notice anything different about the output we got from R for this one-tailed test, relative to the two-tailed tests we did above?
+<p><span id="exr:unnamed-chunk-44" class="exercise"><strong>Exercise 9.8  </strong></span>How did you modify the code we used above for the previous two <span class="math inline">\(t\)</span> tests to get the result above? Do you notice anything different about the output we got from R for this one-tailed test, relative to the two-tailed tests we did above?</p>
 </div>
 </div>
 <div id="decide-whether-or-not-to-reject-the-null-hypothesis-5" class="section level4" number="9.2.4.5">

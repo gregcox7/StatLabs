@@ -138,6 +138,7 @@ t_D
 
 ```{exercise}
 Modify the slice of code we used in the previous section to find the $t$ value given above and make sure that it is labeled `t_D` (the "D" is for "difference").  What code did you write to find this new $t$ value?  *Hint: remember what the mean from the null hypothesis is!*
+
 ```
 
 #### Find the $p$ value
@@ -160,6 +161,7 @@ Since the $p$ value is *smaller* than our alpha level, we **reject** the null hy
 
 ```{exercise}
 Although the test we just did was only about differences in *any* direction, based on the $t$ value does it seem like changing the ad increased or decreased the proportion of time people spent looking at the ad?
+
 ```
 
 ### Independent samples $t$ test
@@ -217,6 +219,7 @@ This time, the $p$ value is *bigger* than our alpha level, so we **fail to rejec
 
 ```{exercise}
 Why do you think we were able to reject the null hypothesis using the paired samples $t$ test, but not with the independent samples $t$ test, even though the actual data were the same in both cases?  Think about the fact that there is variability both between different individuals and within a single individual (e.g., if you do something multiple times, chances are you won't act exactly the same each time).  Does one type of test effectively eliminate one of these kinds of variability?  How might that affect the ability to the test to detect particular kinds of differences?
+
 ```
 
 ## $t$ tests with real data
@@ -252,6 +255,7 @@ lullaby %>%
 
 ```{exercise}
 Based on the sample means and standard deviations we just found, does it seem like there might be a preference to look more at the person who would sing the familiar melody, either before or after hearing them sing?
+
 ```
 
 ### Did infants show any prior bias?
@@ -268,6 +272,7 @@ lullaby %>%
 
 ```{exercise}
 Based on the histogram above, does it seem like there are any outliers or skew that are very far from a normal distribution?
+
 ```
 
 Our **research question** is, "do infants prefer to look at one person over the other, even before hearing them sing?"  We will address this question using a **one-sample $t$ test**.
@@ -362,6 +367,7 @@ lullaby %>%
 
 ```{exercise}
 What code did you use to make the histogram above?  Do you see any evidence of outliers or skew that are very different from what we might see in a normal distribution?
+
 ```
 
 Our **research question** is, "do infants prefer to look at one person over the other *after* hearing them sing?"
@@ -387,6 +393,7 @@ t_after <- lullaby %>%
 
 ```{exercise}
 What code did you use to make `t_after`?  (*Hint: what do you change in the code we used above to make `t_before`?*)
+
 ```
 
 #### Find the $p$ value
@@ -411,6 +418,7 @@ lullaby %>%
 
 ```{exercise}
 What code did you use to get the `t_test` output above?
+
 ```
 
 #### Decide whether or not to reject the null hypothesis
@@ -452,6 +460,7 @@ t_diff <- lullaby %>%
 
 ```{exercise}
 Compare the code used to make `t_diff` with the code we previously used to make `t_before` and `t_after`.  What is similar and what is different?
+
 ```
 
 #### Find the $p$ value
@@ -466,6 +475,7 @@ t_diff %>%
 
 ```{exercise}
 Compare the visualization of the $t$ distribution for `t_diff` to the ones we made for `t_before` and `t_after`.  Is there a difference in which sides of the distribution are shaded?  Why might this be?
+
 ```
 
 Finally, we can obtain the $p$ value along with the rest of the results of the $t$ test:
@@ -481,6 +491,7 @@ lullaby %>%
 
 ```{exercise}
 How did you modify the code we used above for the previous two $t$ tests to get the result above?  Do you notice anything different about the output we got from R for this one-tailed test, relative to the two-tailed tests we did above?
+
 ```
 
 #### Decide whether or not to reject the null hypothesis

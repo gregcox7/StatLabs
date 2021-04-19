@@ -1,6 +1,6 @@
 # (APPENDIX) Appendix {-}
 
-# R Code Reference {#coderef}
+# Distributions {#coderef}
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)

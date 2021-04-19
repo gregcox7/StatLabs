@@ -1,0 +1,143 @@
+# Hypothesis Tests {#hyptests}
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(results = 'hold')
+# knitr::opts_chunk$set(class.source = 'code-style')
+# knitr::opts_chunk$set(class.output = 'out-style')
+set.seed(12222)
+```
+
+## $t$ tests
+
+### One-sample $t$ test
+
+For the following example, I've labeled the collection of observed data as `X`.  If you put your own collection of values under the same label, the following code will give you what you need to do a $t$ test on your own data.
+
+```{r}
+X <- c(-0.58, 1.02, 1.25, -0.02, 1.15)
+```
+
+1. Translate your **research question** into a **null** and **alternative** hypothesis.
+
+I will assume in this example that the population mean if the null hypothesis is true is $\mu = 0$, but you can replace this with your own `null_mean` as you need.
+
+```{r}
+null_mean <- 0
+```
+
+2. Decide on an **alpha level**.
+
+3. Find the $t$ value ($t = \frac{\bar{X} - \mu}{\hat{\sigma} / \sqrt{N}}$):
+
+```{r}
+t <- (mean(X) - null_mean) / (sd(X) / sqrt(length(X)))
+```
+
+4. Find the $p$ value.
+
+Direction of test    | Is $t$ value positive or negative? | Code
+---------------------|------------------------------------|------------------------------------
+One-tailed (less)    | NA                                 | `pt(q = t, df = length(X) - 1)`
+One-tailed (greater) | NA                                 | `1 - pt(q = t, df = length(X) - 1)`
+Two-tailed           | Positive                           | `2 * (1 - pt(q = t, df = length(X) - 1))`
+Two-tailed           | Negative                           | `2 * pt(q = t, df = length(X) - 1)`
+
+5. Decide whether or not to reject the null hypothesis.
+
+If the $p$ value is less than the alpha level, you *reject* the null hypothesis, otherwise you *fail to reject* it.
+
+### Paired samples $t$ test
+
+For the following example, I've labeled the pairs of observed values as `X_1` and `X_2`.  If you put your own collection of values under the same labels, the following code will give you what you need to do a $t$ test on your own data.
+
+```{r}
+X_1 <- c(-0.58, 1.02, 1.25, -0.02, 1.15)
+X_2 <- c(-2.05, -0.92, -1.18, -0.16, 0.73)
+```
+
+We then need to get the *difference* between each pair of values, like so:
+
+```{r}
+D <- X_1 - X_2
+```
+
+Remember to keep track of the order in which you did the subtraction!
+
+1. Translate your **research question** into a **null** and **alternative** hypothesis.
+
+I will assume in this example that the population mean difference if the null hypothesis is true is $\mu_D = 0$, since this is the most common use for a paired-sample $t$ test, but you can replace this with your own `null_mean` as you need.
+
+```{r}
+null_mean <- 0
+```
+
+2. Decide on an **alpha level**.
+
+3. Find the $t$ value ($t = \frac{\bar{D} - \mu_D}{\hat{\sigma}_D / \sqrt{N}}$).
+
+```{r}
+t <- (mean(D) - null_mean) / (sd(D) / sqrt(length(D)))
+```
+
+4. Find the $p$ value.
+
+Direction of test    | Is $t$ value positive or negative? | Code
+---------------------|------------------------------------|------------------------------------
+One-tailed (less)    | NA                                 | `pt(q = t, df = length(D) - 1)`
+One-tailed (greater) | NA                                 | `1 - pt(q = t, df = length(D) - 1)`
+Two-tailed           | Positive                           | `2 * (1 - pt(q = t, df = length(D) - 1))`
+Two-tailed           | Negative                           | `2 * pt(q = t, df = length(D) - 1)`
+
+5. Decide whether or not to reject the null hypothesis.
+
+If the $p$ value is less than the alpha level, you *reject* the null hypothesis, otherwise you *fail to reject* it.
+
+### Independent samples $t$ test
+
+For the following example, I've labeled the pairs of observed values as `X_1` and `X_2`.  Note that they are different from above and that they are not the same size.  If you put your own collection of values under the same labels, the following code will give you what you need to do a $t$ test on your own data.
+
+```{r}
+X_1 <- c(-0.87, -0.13, 0.13, -0.14, -0.45, -1)
+X_2 <- c(0.06, -0.99, 0.47, 0.86, 0.06)
+```
+
+1. Translate your **research question** into a **null** and **alternative** hypothesis.
+
+I will assume in this example that the difference in population means if the null hypothesis is true is $\mu_1 - \mu_2 = 0$, since this is the most common use for a independent samples $t$ test, but you can replace this with your own `null_mean` as you need.
+
+```{r}
+null_mean <- 0
+```
+
+2. Decide on an **alpha level**.
+
+3. Find the $t$ value.
+
+First, we need to find the pooled sample standard deviation ($\hat{\sigma}_P = \sqrt{\frac{df_1 \hat{\sigma}_1^2 + df_2 \hat{\sigma}_2^2}{df_1 + df_2}}$)
+
+```{r}
+df_1 <- length(X_1) - 1
+df_2 <- length(X_2) - 1
+
+sd_pooled <- sqrt((df_1 * sd(X_1)^2 + df_2 * sd(X_2)^2) / (df_1 + df_2))
+```
+
+Now we can get the $t$ value ($t = \frac{\bar{X}_1 - \bar{X}_2 - (\mu_1 - \mu_2)}{\hat{\sigma}_P \sqrt{\frac{1}{N_1} + \frac{1}{N_2}}}$):
+
+```{r}
+t <- (mean(X_1) - mean(X_2) - null_mean) / (sd_pooled * sqrt(1 / length(X_1) + 1 / length(X_2)))
+```
+
+4. Find the $p$ value.
+
+Direction of test    | Is $t$ value positive or negative? | Code
+---------------------|------------------------------------|------------------------------------
+One-tailed (less)    | NA                                 | `pt(q = t, df = df_1 + df_2)`
+One-tailed (greater) | NA                                 | `1 - pt(q = t, df = df_1 + df_2)`
+Two-tailed           | Positive                           | `2 * (1 - pt(q = t, df = df_1 + df_2))`
+Two-tailed           | Negative                           | `2 * pt(q = t, df = df_1 + df_2)`
+
+5. Decide whether or not to reject the null hypothesis.
+
+If the $p$ value is less than the alpha level, you *reject* the null hypothesis, otherwise you *fail to reject* it.

@@ -220,3 +220,8 @@ two-tailed-test
 boundaries-of-confidence-interval
 p-value-4
 power-2
+hyptests
+t-tests
+one-sample-t-test-1
+paired-samples-t-test
+independent-samples-t-test-1
