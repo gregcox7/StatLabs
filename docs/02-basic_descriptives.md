@@ -146,9 +146,9 @@ library(tidyverse)
 
 ```
 ## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
-## ✓ tibble  3.0.5     ✓ dplyr   1.0.3
-## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
-## ✓ readr   1.4.0     ✓ forcats 0.5.0
+## ✓ tibble  3.1.1     ✓ dplyr   1.0.5
+## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
+## ✓ readr   1.4.0     ✓ forcats 0.5.1
 ```
 
 ```
@@ -253,7 +253,7 @@ rats %>%
 ```
 ## # A tibble: 2 x 2
 ##   Diet           M
-## * <chr>      <dbl>
+##   <chr>      <dbl>
 ## 1 Free        684.
 ## 2 Restricted  969.
 ```
@@ -266,7 +266,7 @@ Just like we did with the simple data above, we can swap out `mean` in the last 
 ```
 ## # A tibble: 2 x 2
 ##   Diet           M
-## * <chr>      <dbl>
+##   <chr>      <dbl>
 ## 1 Free        710 
 ## 2 Restricted 1036.
 ```
@@ -287,7 +287,7 @@ rats %>%
 ```
 ## # A tibble: 2 x 3
 ##   Diet           M    SD
-## * <chr>      <dbl> <dbl>
+##   <chr>      <dbl> <dbl>
 ## 1 Free        684.  134.
 ## 2 Restricted  969.  285.
 ```
@@ -298,7 +298,7 @@ And, of course, we can create a table that summarizes the mean, median, standard
 ```
 ## # A tibble: 2 x 5
 ##   Diet        Mean Median Variance    SD
-## * <chr>      <dbl>  <dbl>    <dbl> <dbl>
+##   <chr>      <dbl>  <dbl>    <dbl> <dbl>
 ## 1 Free        684.   710    17979.  134.
 ## 2 Restricted  969.  1036.   80986.  285.
 ```

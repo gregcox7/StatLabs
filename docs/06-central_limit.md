@@ -34,9 +34,9 @@ library(tidyverse)
 
 ```
 ## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
-## ✓ tibble  3.0.5     ✓ dplyr   1.0.3
-## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
-## ✓ readr   1.4.0     ✓ forcats 0.5.0
+## ✓ tibble  3.1.1     ✓ dplyr   1.0.5
+## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
+## ✓ readr   1.4.0     ✓ forcats 0.5.1
 ```
 
 ```
@@ -196,7 +196,7 @@ many_samples_size10 %>%
 ```
 ## # A tibble: 1,000 x 2
 ##    replicate     M
-##  *     <int> <dbl>
+##        <int> <dbl>
 ##  1         1  64.7
 ##  2         2  67.3
 ##  3         3  62.5
@@ -315,7 +315,7 @@ sample_means_size10 %>%
 ```
 ## # A tibble: 2 x 3
 ##   `M > 64`     n     p
-## * <lgl>    <int> <dbl>
+##   <lgl>    <int> <dbl>
 ## 1 FALSE      497 0.497
 ## 2 TRUE       503 0.503
 ```
@@ -335,7 +335,7 @@ sample_means_size10 %>%
 ```
 ## # A tibble: 2 x 3
 ##   `63 < M & M < 65`     n     p
-## * <lgl>             <int> <dbl>
+##   <lgl>             <int> <dbl>
 ## 1 FALSE               600   0.6
 ## 2 TRUE                400   0.4
 ```
@@ -346,7 +346,7 @@ By comparison, how many of our samples of size 100 had sample means that were wi
 ```
 ## # A tibble: 2 x 3
 ##   `63 < M & M < 65`     n     p
-## * <lgl>             <int> <dbl>
+##   <lgl>             <int> <dbl>
 ## 1 FALSE                97 0.097
 ## 2 TRUE                903 0.903
 ```
@@ -543,7 +543,7 @@ wisdom_data %>%
 ```
 ## # A tibble: 2 x 3
 ##   `guess < 32.3`     n     p
-## * <lgl>          <int> <dbl>
+##   <lgl>          <int> <dbl>
 ## 1 FALSE            155 0.329
 ## 2 TRUE             316 0.671
 ```
@@ -571,7 +571,7 @@ Huh, not too bad!  The difference between the mean guess and the right answer is
 ```
 ## # A tibble: 2 x 3
 ##   `27 < guess & guess < 37.6`     n     p
-## * <lgl>                       <int> <dbl>
+##   <lgl>                       <int> <dbl>
 ## 1 FALSE                         380 0.807
 ## 2 TRUE                           91 0.193
 ```

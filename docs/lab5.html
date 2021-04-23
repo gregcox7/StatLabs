@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Lab 5 Models: The Binomial and the Normal | Labs</title>
   <meta name="description" content="Laboratory exercises for APSY210." />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Lab 5 Models: The Binomial and the Normal | Labs" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Greg Cox" />
 
 
-<meta name="date" content="2021-04-18" />
+<meta name="date" content="2021-04-23" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="lab4.html"/>
 <link rel="next" href="lab6.html"/>
-<script src="libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,6 +51,8 @@
 
 
 
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -115,6 +117,29 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -313,6 +338,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="9.3" data-path="lab9.html"><a href="lab9.html#wrap-up-8"><i class="fa fa-check"></i><b>9.3</b> Wrap-up</a></li>
 </ul></li>
+<li class="chapter" data-level="10" data-path="lab10.html"><a href="lab10.html"><i class="fa fa-check"></i><b>10</b> Comparing Independent Samples</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="lab10.html"><a href="lab10.html#get-to-know-the-data"><i class="fa fa-check"></i><b>10.1</b> Get to know the data</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="lab10.html"><a href="lab10.html#batting-average"><i class="fa fa-check"></i><b>10.1.1</b> Batting average</a></li>
+<li class="chapter" data-level="10.1.2" data-path="lab10.html"><a href="lab10.html#batting-average-by-position"><i class="fa fa-check"></i><b>10.1.2</b> Batting average by position</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="lab10.html"><a href="lab10.html#independent-samples-t-test-infield-vs.-outfield"><i class="fa fa-check"></i><b>10.2</b> Independent samples <span class="math inline">\(t\)</span> test: Infield vs. Outfield</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="lab10.html"><a href="lab10.html#filtering-data-with-filter"><i class="fa fa-check"></i><b>10.2.1</b> Filtering data with <code>filter</code></a></li>
+<li class="chapter" data-level="10.2.2" data-path="lab10.html"><a href="lab10.html#doing-the-t-test"><i class="fa fa-check"></i><b>10.2.2</b> Doing the <span class="math inline">\(t\)</span> test</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="lab10.html"><a href="lab10.html#analysis-of-variance-batting-average-by-position"><i class="fa fa-check"></i><b>10.3</b> Analysis of Variance: Batting average by position</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="lab10.html"><a href="lab10.html#doing-the-anova"><i class="fa fa-check"></i><b>10.3.1</b> Doing the ANOVA</a></li>
+<li class="chapter" data-level="10.3.2" data-path="lab10.html"><a href="lab10.html#post-hoc-pairwise-tests"><i class="fa fa-check"></i><b>10.3.2</b> Post hoc pairwise tests</a></li>
+<li class="chapter" data-level="10.3.3" data-path="lab10.html"><a href="lab10.html#no-pitchers-allowed"><i class="fa fa-check"></i><b>10.3.3</b> No Pitchers Allowed?</a></li>
+<li class="chapter" data-level="10.3.4" data-path="lab10.html"><a href="lab10.html#slugging-average"><i class="fa fa-check"></i><b>10.3.4</b> Slugging Average</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="lab10.html"><a href="lab10.html#wrap-up-9"><i class="fa fa-check"></i><b>10.4</b> Wrap-up</a></li>
+</ul></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="A" data-path="coderef.html"><a href="coderef.html"><i class="fa fa-check"></i><b>A</b> Distributions</a>
 <ul>
@@ -340,9 +386,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="B.1" data-path="hyptests.html"><a href="hyptests.html#t-tests"><i class="fa fa-check"></i><b>B.1</b> <span class="math inline">\(t\)</span> tests</a>
 <ul>
-<li class="chapter" data-level="B.1.1" data-path="hyptests.html"><a href="hyptests.html#one-sample-t-test-1"><i class="fa fa-check"></i><b>B.1.1</b> One-sample <span class="math inline">\(t\)</span> test</a></li>
-<li class="chapter" data-level="B.1.2" data-path="hyptests.html"><a href="hyptests.html#paired-samples-t-test"><i class="fa fa-check"></i><b>B.1.2</b> Paired samples <span class="math inline">\(t\)</span> test</a></li>
-<li class="chapter" data-level="B.1.3" data-path="hyptests.html"><a href="hyptests.html#independent-samples-t-test-1"><i class="fa fa-check"></i><b>B.1.3</b> Independent samples <span class="math inline">\(t\)</span> test</a></li>
+<li class="chapter" data-level="B.1.1" data-path="hyptests.html"><a href="hyptests.html#doing-them-step-by-step"><i class="fa fa-check"></i><b>B.1.1</b> Doing them step-by-step</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -386,9 +430,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="lab5.html#cb153-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
 <pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
 <pre><code>## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
-## ✓ tibble  3.0.5     ✓ dplyr   1.0.3
-## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
-## ✓ readr   1.4.0     ✓ forcats 0.5.0</code></pre>
+## ✓ tibble  3.1.1     ✓ dplyr   1.0.5
+## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
+## ✓ readr   1.4.0     ✓ forcats 0.5.1</code></pre>
 <pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
@@ -410,7 +454,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb157-9"><a href="lab5.html#cb157-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">p =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div>
 <pre><code>## # A tibble: 2 x 3
 ##   result     n     p
-## * &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
+##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
 ## 1 Heads    619 0.619
 ## 2 Tails    381 0.381</code></pre>
 <p>We can use the number of flips (1000) and the probability of heads (0.6) as the <em>parameters</em> of the binomial distribution. R has several important distributions “built in,” including the binomial and normal. R provides functions that allow us to directly sample from those distributions without having to use the <code>sample</code> function explicitly.</p>
@@ -446,12 +490,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb169-4"><a href="lab5.html#cb169-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">p =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div>
 <pre><code>## # A tibble: 7 x 3
 ##   result     n     p
-## *  &lt;int&gt; &lt;int&gt; &lt;dbl&gt;
+##    &lt;int&gt; &lt;int&gt; &lt;dbl&gt;
 ## 1      0     7 0.007
 ## 2      1    42 0.042
 ## 3      2   176 0.176
 ## 4      3   288 0.288
-## 5      4   290 0.290
+## 5      4   290 0.29 
 ## 6      5   164 0.164
 ## 7      6    33 0.033</code></pre>
 <p>Sometimes the outcome is a tie (3 games out of 6), sometimes the Yankees win the majority of games, and sometimes the Mets win the majority (when the Yankees win fewer than 3 games). The important thing to note is that <em>these are probabilities of a number of wins out of a sequence of games, not the probability of winning any single game</em>. In other words, the <strong>sample space</strong> is not just win/lose, it is the <em>number</em> of wins out of 6 games<a href="#fn50" class="footnote-ref" id="fnref50"><sup>50</sup></a>.</p>
@@ -544,7 +588,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb188-8"><a href="lab5.html#cb188-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">p =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div>
 <pre><code>## # A tibble: 10,000 x 3
 ##    result     n      p
-##  *  &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt;
+##     &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt;
 ##  1   41.1     1 0.0001
 ##  2   43.1     1 0.0001
 ##  3   43.2     1 0.0001
@@ -717,6 +761,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {

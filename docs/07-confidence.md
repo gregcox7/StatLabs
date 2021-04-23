@@ -31,9 +31,9 @@ library(tidyverse)
 
 ```
 ## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
-## ✓ tibble  3.0.5     ✓ dplyr   1.0.3
-## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
-## ✓ readr   1.4.0     ✓ forcats 0.5.0
+## ✓ tibble  3.1.1     ✓ dplyr   1.0.5
+## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
+## ✓ readr   1.4.0     ✓ forcats 0.5.1
 ```
 
 ```
@@ -60,7 +60,8 @@ If we can *reject* this null hypothesis, then we have reason to believe that our
 
 From the description above, we know the population mean ($\mu = 71$) and standard deviation ($\sigma = 9$).  Let us assume that our sample size is $n = 40$, which is typical for this kind of research.  The central limit theorem tells us that our sample means will, then, have a normal distribution with mean $\mu = 71$ and **standard error of the mean** $\frac{\sigma}{\sqrt{n}} = \frac{9}{\sqrt{40}}$.  We can use R to calculate what the standard error is.
 
-\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:unnamed-chunk-3"><strong>(\#exr:unnamed-chunk-3) </strong></span>What R code would give us the standard error of the mean?
+\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:ex0701"><strong>(\#exr:ex0701) </strong></span>
+What R code would give us the standard error of the mean?
 </div>\EndKnitrBlock{exercise}
 
 
@@ -100,7 +101,8 @@ qnorm(p = 0.975, mean = 71, sd = 9 / sqrt(40))
 ## [1] 73.78908
 ```
 
-\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:unnamed-chunk-7"><strong>(\#exr:unnamed-chunk-7) </strong></span>Based on the upper and lower boundaries we just found, what is the *margin of error*?
+\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:ex0702"><strong>(\#exr:ex0702) </strong></span>
+Based on the upper and lower boundaries we just found, what is the *margin of error*?
 </div>\EndKnitrBlock{exercise}
 
 #### Visualization
@@ -130,7 +132,7 @@ sample_means_size40 %>%
     geom_histogram(binwidth=0.5)
 ```
 
-<img src="07-confidence_files/figure-html/unnamed-chunk-10-1.png" width="672" />
+<img src="07-confidence_files/figure-html/unnamed-chunk-8-1.png" width="672" />
 
 Now we need to color in this histogram depending on whether the sample mean is inside or outside the confidence interval.  To do that, let's tell R to remember the upper and lower boundaries we found earlier
 
@@ -149,7 +151,7 @@ sample_means_size40 %>%
     geom_histogram(binwidth=0.5)
 ```
 
-<img src="07-confidence_files/figure-html/unnamed-chunk-12-1.png" width="672" />
+<img src="07-confidence_files/figure-html/unnamed-chunk-10-1.png" width="672" />
 
 ### Compare our sample to the confidence interval
 
@@ -164,7 +166,8 @@ First, let's imagine that the sample of individuals we get actually does come fr
 heart_rate_sample <- rnorm(n = 40, mean = 71, sd = 9)
 ```
 
-\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:unnamed-chunk-14"><strong>(\#exr:unnamed-chunk-14) </strong></span>Compare the code just we used to simulate a sample of heart rates with the code we used to simulate sample means.  Why is the mean the same?  Why is the standard deviation different?
+\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:ex0703"><strong>(\#exr:ex0703) </strong></span>
+Compare the code just we used to simulate a sample of heart rates with the code we used to simulate sample means.  Why is the mean the same?  Why is the standard deviation different?
 </div>\EndKnitrBlock{exercise}
 
 
@@ -178,7 +181,7 @@ mean(heart_rate_sample)
 
 Is the sample mean outside the confidence interval, which would lead us to *reject* the null hypothesis, even though it is actually true?
 
-\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:unnamed-chunk-16"><strong>(\#exr:unnamed-chunk-16) </strong></span>Try running the previous two lines of code a few more times (simulate a new sample and find its mean).  How many times did it take before you simulated a sample with a mean that fell *outside* the 95% confidence interval?
+\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:ex0704"><strong>(\#exr:ex0704) </strong></span>Try running the previous two lines of code a few more times (simulate a new sample and find its mean).  How many times did it take before you simulated a sample with a mean that fell *outside* the 95% confidence interval?
 </div>\EndKnitrBlock{exercise}
 
 #### When the null hypothesis is *false*
@@ -203,10 +206,12 @@ mean(heart_rate_sample)
 ## [1] 74.82869
 ```
 
-\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:unnamed-chunk-19"><strong>(\#exr:unnamed-chunk-19) </strong></span>Run the previous two lines of code 10 times.  Out of those ten times, how often did the sample mean fall outside the 95% confidence interval?
+\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:ex0705"><strong>(\#exr:ex0705) </strong></span>
+Run the previous two lines of code 10 times.  Out of those ten times, how often did the sample mean fall outside the 95% confidence interval?
 </div>\EndKnitrBlock{exercise}
 
-\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:unnamed-chunk-20"><strong>(\#exr:unnamed-chunk-20) </strong></span>In the code we just used, we assumed that our samples came from a population with a mean of 74.  How much bigger do you think this mean would need to be before almost all samples would fall outside the 95% confidence interval?  75?  76?  100?  Why?
+\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:ex0706"><strong>(\#exr:ex0706) </strong></span>
+In the code we just used, we assumed that our samples came from a population with a mean of 74.  How much bigger do you think this mean would need to be before almost all samples would fall outside the 95% confidence interval?  75?  76?  100?  Why?
 </div>\EndKnitrBlock{exercise}
 
 ## Lay your weary head to rest
@@ -239,9 +244,10 @@ student_sleep %>%
     geom_histogram(binwidth = 1)
 ```
 
-<img src="07-confidence_files/figure-html/unnamed-chunk-22-1.png" width="672" />
+<img src="07-confidence_files/figure-html/unnamed-chunk-16-1.png" width="672" />
 
-\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:unnamed-chunk-23"><strong>(\#exr:unnamed-chunk-23) </strong></span>Describe the shape of the distribution of number of hours slept.  Does it seem symmetrical, skewed?  How many modes does the distribution seem to have?
+\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:ex0707"><strong>(\#exr:ex0707) </strong></span>
+Describe the shape of the distribution of number of hours slept.  Does it seem symmetrical, skewed?  How many modes does the distribution seem to have?
 </div>\EndKnitrBlock{exercise}
 
 ### Figure out what parameters would describe the population *if* the hypothesis were true
@@ -272,7 +278,8 @@ while the upper boundary is
 ## [1] 8.245596
 ```
 
-\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:unnamed-chunk-26"><strong>(\#exr:unnamed-chunk-26) </strong></span>What is the R code for finding those lower and upper boundaries of the 99% confidence interval?  *Hint: what do you need to change in the code we used for finding the confidence interval boundaries in the heart rate example above?*
+\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:ex0708"><strong>(\#exr:ex0708) </strong></span>
+What is the R code for finding those lower and upper boundaries of the 99% confidence interval?  *Hint: what do you need to change in the code we used for finding the confidence interval boundaries in the heart rate example above?*
 </div>\EndKnitrBlock{exercise}
 
 ### Compare our sample to the confidence interval
@@ -294,7 +301,8 @@ student_sleep %>%
 
 That is definitely outside the bounds of our 99% confidence interval!  As a result, we **reject** the hypothesis that the mean number of hours slept by the population of college students is equal to the recommended amount of $\mu = 8$ hours.
 
-\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:unnamed-chunk-28"><strong>(\#exr:unnamed-chunk-28) </strong></span>Although we rejected the null hypothesis in this case, take a look at the histogram we made above of the complete distribution of student sleep time.  Is it the case that every single student sleeps less than the recommended amount?  What does this mean for how we should interpret the results of our hypothesis test?
+\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:ex0709"><strong>(\#exr:ex0709) </strong></span>
+Although we rejected the null hypothesis in this case, take a look at the histogram we made above of the complete distribution of student sleep time.  Is it the case that every single student sleeps less than the recommended amount?  What does this mean for how we should interpret the results of our hypothesis test?
 </div>\EndKnitrBlock{exercise}
 
 ## Wrap-up

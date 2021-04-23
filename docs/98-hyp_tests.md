@@ -4,7 +4,9 @@
 
 ## $t$ tests
 
-### One-sample $t$ test
+### Doing them step-by-step
+
+#### One-sample $t$ test
 
 For the following example, I've labeled the collection of observed data as `X`.  If you put your own collection of values under the same label, the following code will give you what you need to do a $t$ test on your own data.
 
@@ -44,7 +46,7 @@ Two-tailed           | Negative                           | `2 * pt(q = t, df = 
 
 If the $p$ value is less than the alpha level, you *reject* the null hypothesis, otherwise you *fail to reject* it.
 
-### Paired samples $t$ test
+#### Paired samples $t$ test
 
 For the following example, I've labeled the pairs of observed values as `X_1` and `X_2`.  If you put your own collection of values under the same labels, the following code will give you what you need to do a $t$ test on your own data.
 
@@ -94,7 +96,7 @@ Two-tailed           | Negative                           | `2 * pt(q = t, df = 
 
 If the $p$ value is less than the alpha level, you *reject* the null hypothesis, otherwise you *fail to reject* it.
 
-### Independent samples $t$ test
+#### Independent samples $t$ test
 
 For the following example, I've labeled the pairs of observed values as `X_1` and `X_2`.  Note that they are different from above and that they are not the same size.  If you put your own collection of values under the same labels, the following code will give you what you need to do a $t$ test on your own data.
 
@@ -146,3 +148,50 @@ Two-tailed           | Negative                           | `2 * pt(q = t, df = 
 5. Decide whether or not to reject the null hypothesis.
 
 If the $p$ value is less than the alpha level, you *reject* the null hypothesis, otherwise you *fail to reject* it.
+
+<!-- ### Doing them all at once -->
+
+<!-- If we're going to do $t$ tests all at once, we need to make sure we have loaded the `tidyverse` and `infer` packages: -->
+
+<!-- ```{r} -->
+<!-- library(tidyverse) -->
+<!-- library(infer) -->
+<!-- ``` -->
+
+<!-- For the following examples,  -->
+
+<!-- #### One-sample $t$ test -->
+
+<!-- 1. Translate your **research question** into a **null** and **alternative** hypothesis. -->
+
+<!-- I will assume in this example that the population mean according to our null hypothesis is $\mu = 0$, but you can change this as you need: -->
+
+<!-- ```{r} -->
+<!-- null_mean <- 0 -->
+<!-- ``` -->
+
+<!-- 2. Decide on an **alpha level**. -->
+
+<!-- 3. Find the $t$ value. -->
+
+<!-- First, let's calculate the $t$ value and get R to remember it under the label `t`: -->
+
+<!-- ```{r} -->
+<!-- t <- my_data %>% -->
+<!--     specify(response = X) %>% -->
+<!--     hypothesize(null = 'point', mu = null_mean) %>% -->
+<!--     calculate(stat = 't') -->
+<!-- ``` -->
+
+<!-- 4. Find the $p$ value. -->
+
+<!-- Direction of test    | Is $t$ value positive or negative? | Code -->
+<!-- ---------------------|------------------------------------|------------------------------------ -->
+<!-- One-tailed (less)    | NA                                 | `pt(q = t, df = df_1 + df_2)` -->
+<!-- One-tailed (greater) | NA                                 | `1 - pt(q = t, df = df_1 + df_2)` -->
+<!-- Two-tailed           | Positive                           | `2 * (1 - pt(q = t, df = df_1 + df_2))` -->
+<!-- Two-tailed           | Negative                           | `2 * pt(q = t, df = df_1 + df_2)` -->
+
+<!-- 5. Decide whether or not to reject the null hypothesis. -->
+
+<!-- If the $p$ value is less than the alpha level, you *reject* the null hypothesis, otherwise you *fail to reject* it. -->

@@ -19,9 +19,9 @@ library(tidyverse)
 
 ```
 ## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
-## ✓ tibble  3.0.5     ✓ dplyr   1.0.3
-## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
-## ✓ readr   1.4.0     ✓ forcats 0.5.0
+## ✓ tibble  3.1.1     ✓ dplyr   1.0.5
+## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
+## ✓ readr   1.4.0     ✓ forcats 0.5.1
 ```
 
 ```
@@ -151,7 +151,8 @@ Remember that the paired sample $t$ test is much like the one-sample $t$ test, o
 ## [1] 3.256259
 ```
 
-\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:unnamed-chunk-12"><strong>(\#exr:unnamed-chunk-12) </strong></span>Modify the slice of code we used in the previous section to find the $t$ value given above and make sure that it is labeled `t_D` (the "D" is for "difference").  What code did you write to find this new $t$ value?  *Hint: remember what the mean from the null hypothesis is!*
+\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:ex0901"><strong>(\#exr:ex0901) </strong></span>
+Modify the slice of code we used in the previous section to find the $t$ value given above and make sure that it is labeled `t_D` (the "D" is for "difference").  What code did you write to find this new $t$ value?  *Hint: remember what the mean from the null hypothesis is!*
 </div>\EndKnitrBlock{exercise}
 
 #### Find the $p$ value
@@ -182,7 +183,8 @@ But remember that we have to multiply that by `2` since this is a *two-tailed te
 
 Since the $p$ value is *smaller* than our alpha level, we **reject** the null hypothesis.  We have reason to believe that changing the ad really did affect each individual's viewing patterns.
 
-\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:unnamed-chunk-15"><strong>(\#exr:unnamed-chunk-15) </strong></span>Although the test we just did was only about differences in *any* direction, based on the $t$ value does it seem like changing the ad increased or decreased the proportion of time people spent looking at the ad?
+\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:ex0902"><strong>(\#exr:ex0902) </strong></span>
+Although the test we just did was only about differences in *any* direction, based on the $t$ value does it seem like changing the ad increased or decreased the proportion of time people spent looking at the ad?
 </div>\EndKnitrBlock{exercise}
 
 ### Independent samples $t$ test
@@ -258,7 +260,8 @@ Note that we have a different number of **degrees of freedom** here because we a
 
 This time, the $p$ value is *bigger* than our alpha level, so we **fail to reject** the null hypothesis.  Funny---the same data lead us to different conclusions depending on whether it came from just one sample versus two independent samples!
 
-\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:unnamed-chunk-20"><strong>(\#exr:unnamed-chunk-20) </strong></span>Why do you think we were able to reject the null hypothesis using the paired samples $t$ test, but not with the independent samples $t$ test, even though the actual data were the same in both cases?  Think about the fact that there is variability both between different individuals and within a single individual (e.g., if you do something multiple times, chances are you won't act exactly the same each time).  Does one type of test effectively eliminate one of these kinds of variability?  How might that affect the ability to the test to detect particular kinds of differences?
+\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:ex0903"><strong>(\#exr:ex0903) </strong></span>
+Why do you think we were able to reject the null hypothesis using the paired samples $t$ test, but not with the independent samples $t$ test, even though the actual data were the same in both cases?  Think about the fact that there is variability both between different individuals and within a single individual (e.g., if you do something multiple times, chances are you won't act exactly the same each time).  Does one type of test effectively eliminate one of these kinds of variability?  How might that affect the ability to the test to detect particular kinds of differences?
 </div>\EndKnitrBlock{exercise}
 
 ## $t$ tests with real data
@@ -311,7 +314,8 @@ lullaby %>%
 ## 1    0.521    0.177   0.593   0.179
 ```
 
-\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:unnamed-chunk-23"><strong>(\#exr:unnamed-chunk-23) </strong></span>Based on the sample means and standard deviations we just found, does it seem like there might be a preference to look more at the person who would sing the familiar melody, either before or after hearing them sing?
+\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:ex0904"><strong>(\#exr:ex0904) </strong></span>
+Based on the sample means and standard deviations we just found, does it seem like there might be a preference to look more at the person who would sing the familiar melody, either before or after hearing them sing?
 </div>\EndKnitrBlock{exercise}
 
 ### Did infants show any prior bias?
@@ -327,9 +331,10 @@ lullaby %>%
     geom_histogram(binwidth=0.1)
 ```
 
-<img src="09-ttests_files/figure-html/unnamed-chunk-24-1.png" width="672" />
+<img src="09-ttests_files/figure-html/unnamed-chunk-20-1.png" width="672" />
 
-\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:unnamed-chunk-25"><strong>(\#exr:unnamed-chunk-25) </strong></span>Based on the histogram above, does it seem like there are any outliers or skew that are very far from a normal distribution?
+\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:ex0905"><strong>(\#exr:ex0905) </strong></span>
+Based on the histogram above, does it seem like there are any outliers or skew that are very far from a normal distribution?
 </div>\EndKnitrBlock{exercise}
 
 Our **research question** is, "do infants prefer to look at one person over the other, even before hearing them sing?"  We will address this question using a **one-sample $t$ test**.
@@ -388,7 +393,7 @@ t_before %>%
 ## method. {infer} currently does not check these for you.
 ```
 
-<img src="09-ttests_files/figure-html/unnamed-chunk-28-1.png" width="672" />
+<img src="09-ttests_files/figure-html/unnamed-chunk-23-1.png" width="672" />
 
 The first line tells R to use the $t$ value we just found as "data".  The second line instructs R to visualize the `theoretical` $t$ distribution if the null hypothesis were true.  This distribution is what will let us calculate the $p$ value.
 
@@ -406,7 +411,7 @@ t_before %>%
 ## method. {infer} currently does not check these for you.
 ```
 
-<img src="09-ttests_files/figure-html/unnamed-chunk-29-1.png" width="672" />
+<img src="09-ttests_files/figure-html/unnamed-chunk-24-1.png" width="672" />
 
 All we did was add a third line where we told R to `shade` the area of the $t$ distribution that is *at least as extreme* as our sample (that's what `obs_stat = t_before` did).  What counts as "extreme" depends on whether our test is one- or two-sided, so we had to tell R that the `direction` of our test was `two-sided`.  The *area* of the shaded region on the plot above is what our $p$ value is.
 
@@ -449,9 +454,10 @@ What about where infants look *after* they hear the two people sing?  Do they sh
 
 Let's begin by making a histogram of the `After` variable.
 
-<img src="09-ttests_files/figure-html/unnamed-chunk-31-1.png" width="672" />
+<img src="09-ttests_files/figure-html/unnamed-chunk-26-1.png" width="672" />
 
-\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:unnamed-chunk-32"><strong>(\#exr:unnamed-chunk-32) </strong></span>What code did you use to make the histogram above?  Do you see any evidence of outliers or skew that are very different from what we might see in a normal distribution?
+\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:ex0906"><strong>(\#exr:ex0906) </strong></span>
+What code did you use to make the histogram above?  Do you see any evidence of outliers or skew that are very different from what we might see in a normal distribution?
 </div>\EndKnitrBlock{exercise}
 
 Our **research question** is, "do infants prefer to look at one person over the other *after* hearing them sing?"
@@ -470,7 +476,8 @@ Let's tell R to remember our *new* $t$ value so that we can visualize it like we
 
 
 
-\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:unnamed-chunk-34"><strong>(\#exr:unnamed-chunk-34) </strong></span>What code did you use to make `t_after`?  (*Hint: what do you change in the code we used above to make `t_before`?*)
+\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:ex0907"><strong>(\#exr:ex0907) </strong></span>
+What code did you use to make `t_after`?  (*Hint: what do you change in the code we used above to make `t_before`?*)
 </div>\EndKnitrBlock{exercise}
 
 #### Find the $p$ value
@@ -489,7 +496,7 @@ t_after %>%
 ## method. {infer} currently does not check these for you.
 ```
 
-<img src="09-ttests_files/figure-html/unnamed-chunk-35-1.png" width="672" />
+<img src="09-ttests_files/figure-html/unnamed-chunk-28-1.png" width="672" />
 
 Finally, let's get the whole shebang:
 
@@ -501,7 +508,8 @@ Finally, let's get the whole shebang:
 ## 1      2.96    31 0.00586 two.sided      0.529    0.658
 ```
 
-\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:unnamed-chunk-37"><strong>(\#exr:unnamed-chunk-37) </strong></span>What code did you use to get the `t_test` output above?
+\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:ex0908"><strong>(\#exr:ex0908) </strong></span>
+What code did you use to get the `t_test` output above?
 </div>\EndKnitrBlock{exercise}
 
 #### Decide whether or not to reject the null hypothesis
@@ -560,7 +568,8 @@ t_diff <- lullaby %>%
     calculate(stat = 't')
 ```
 
-\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:unnamed-chunk-40"><strong>(\#exr:unnamed-chunk-40) </strong></span>Compare the code used to make `t_diff` with the code we previously used to make `t_before` and `t_after`.  What is similar and what is different?
+\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:ex0909"><strong>(\#exr:ex0909) </strong></span>
+Compare the code used to make `t_diff` with the code we previously used to make `t_before` and `t_after`.  What is similar and what is different?
 </div>\EndKnitrBlock{exercise}
 
 #### Find the $p$ value
@@ -579,9 +588,10 @@ t_diff %>%
 ## method. {infer} currently does not check these for you.
 ```
 
-<img src="09-ttests_files/figure-html/unnamed-chunk-41-1.png" width="672" />
+<img src="09-ttests_files/figure-html/unnamed-chunk-32-1.png" width="672" />
 
-\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:unnamed-chunk-42"><strong>(\#exr:unnamed-chunk-42) </strong></span>Compare the visualization of the $t$ distribution for `t_diff` to the ones we made for `t_before` and `t_after`.  Is there a difference in which sides of the distribution are shaded?  Why might this be?
+\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:ex0910"><strong>(\#exr:ex0910) </strong></span>
+Compare the visualization of the $t$ distribution for `t_diff` to the ones we made for `t_before` and `t_after`.  Is there a difference in which sides of the distribution are shaded?  Why might this be?
 </div>\EndKnitrBlock{exercise}
 
 Finally, we can obtain the $p$ value along with the rest of the results of the $t$ test:
@@ -594,7 +604,8 @@ Finally, we can obtain the $p$ value along with the rest of the results of the $
 ## 1      2.42    31  0.0109 greater       0.0216      Inf
 ```
 
-\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:unnamed-chunk-44"><strong>(\#exr:unnamed-chunk-44) </strong></span>How did you modify the code we used above for the previous two $t$ tests to get the result above?  Do you notice anything different about the output we got from R for this one-tailed test, relative to the two-tailed tests we did above?
+\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:ex0911"><strong>(\#exr:ex0911) </strong></span>
+How did you modify the code we used above for the previous two $t$ tests to get the result above?  Do you notice anything different about the output we got from R for this one-tailed test, relative to the two-tailed tests we did above?
 </div>\EndKnitrBlock{exercise}
 
 #### Decide whether or not to reject the null hypothesis

@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Lab 4 Probability and simulation | Labs</title>
   <meta name="description" content="Laboratory exercises for APSY210." />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Lab 4 Probability and simulation | Labs" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Greg Cox" />
 
 
-<meta name="date" content="2021-04-18" />
+<meta name="date" content="2021-04-23" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="lab3.html"/>
 <link rel="next" href="lab5.html"/>
-<script src="libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,6 +51,8 @@
 
 
 
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -115,6 +117,29 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -313,6 +338,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="9.3" data-path="lab9.html"><a href="lab9.html#wrap-up-8"><i class="fa fa-check"></i><b>9.3</b> Wrap-up</a></li>
 </ul></li>
+<li class="chapter" data-level="10" data-path="lab10.html"><a href="lab10.html"><i class="fa fa-check"></i><b>10</b> Comparing Independent Samples</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="lab10.html"><a href="lab10.html#get-to-know-the-data"><i class="fa fa-check"></i><b>10.1</b> Get to know the data</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="lab10.html"><a href="lab10.html#batting-average"><i class="fa fa-check"></i><b>10.1.1</b> Batting average</a></li>
+<li class="chapter" data-level="10.1.2" data-path="lab10.html"><a href="lab10.html#batting-average-by-position"><i class="fa fa-check"></i><b>10.1.2</b> Batting average by position</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="lab10.html"><a href="lab10.html#independent-samples-t-test-infield-vs.-outfield"><i class="fa fa-check"></i><b>10.2</b> Independent samples <span class="math inline">\(t\)</span> test: Infield vs. Outfield</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="lab10.html"><a href="lab10.html#filtering-data-with-filter"><i class="fa fa-check"></i><b>10.2.1</b> Filtering data with <code>filter</code></a></li>
+<li class="chapter" data-level="10.2.2" data-path="lab10.html"><a href="lab10.html#doing-the-t-test"><i class="fa fa-check"></i><b>10.2.2</b> Doing the <span class="math inline">\(t\)</span> test</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="lab10.html"><a href="lab10.html#analysis-of-variance-batting-average-by-position"><i class="fa fa-check"></i><b>10.3</b> Analysis of Variance: Batting average by position</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="lab10.html"><a href="lab10.html#doing-the-anova"><i class="fa fa-check"></i><b>10.3.1</b> Doing the ANOVA</a></li>
+<li class="chapter" data-level="10.3.2" data-path="lab10.html"><a href="lab10.html#post-hoc-pairwise-tests"><i class="fa fa-check"></i><b>10.3.2</b> Post hoc pairwise tests</a></li>
+<li class="chapter" data-level="10.3.3" data-path="lab10.html"><a href="lab10.html#no-pitchers-allowed"><i class="fa fa-check"></i><b>10.3.3</b> No Pitchers Allowed?</a></li>
+<li class="chapter" data-level="10.3.4" data-path="lab10.html"><a href="lab10.html#slugging-average"><i class="fa fa-check"></i><b>10.3.4</b> Slugging Average</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="lab10.html"><a href="lab10.html#wrap-up-9"><i class="fa fa-check"></i><b>10.4</b> Wrap-up</a></li>
+</ul></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="A" data-path="coderef.html"><a href="coderef.html"><i class="fa fa-check"></i><b>A</b> Distributions</a>
 <ul>
@@ -340,9 +386,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="B.1" data-path="hyptests.html"><a href="hyptests.html#t-tests"><i class="fa fa-check"></i><b>B.1</b> <span class="math inline">\(t\)</span> tests</a>
 <ul>
-<li class="chapter" data-level="B.1.1" data-path="hyptests.html"><a href="hyptests.html#one-sample-t-test-1"><i class="fa fa-check"></i><b>B.1.1</b> One-sample <span class="math inline">\(t\)</span> test</a></li>
-<li class="chapter" data-level="B.1.2" data-path="hyptests.html"><a href="hyptests.html#paired-samples-t-test"><i class="fa fa-check"></i><b>B.1.2</b> Paired samples <span class="math inline">\(t\)</span> test</a></li>
-<li class="chapter" data-level="B.1.3" data-path="hyptests.html"><a href="hyptests.html#independent-samples-t-test-1"><i class="fa fa-check"></i><b>B.1.3</b> Independent samples <span class="math inline">\(t\)</span> test</a></li>
+<li class="chapter" data-level="B.1.1" data-path="hyptests.html"><a href="hyptests.html#doing-them-step-by-step"><i class="fa fa-check"></i><b>B.1.1</b> Doing them step-by-step</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -375,9 +419,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="lab4.html#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
 <pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
 <pre><code>## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
-## ✓ tibble  3.0.5     ✓ dplyr   1.0.3
-## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
-## ✓ readr   1.4.0     ✓ forcats 0.5.0</code></pre>
+## ✓ tibble  3.1.1     ✓ dplyr   1.0.5
+## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
+## ✓ readr   1.4.0     ✓ forcats 0.5.1</code></pre>
 <pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
@@ -480,7 +524,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb129-3"><a href="lab4.html#cb129-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">n=</span><span class="fu">n</span>())</span></code></pre></div>
 <pre><code>## # A tibble: 2 x 2
 ##   result     n
-## * &lt;chr&gt;  &lt;int&gt;
+##   &lt;chr&gt;  &lt;int&gt;
 ## 1 Heads     26
 ## 2 Tails     24</code></pre>
 <p>The summary above is a frequency table, which we have used before.<a href="#fn40" class="footnote-ref" id="fnref40"><sup>40</sup></a></p>
@@ -494,7 +538,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb131-4"><a href="lab4.html#cb131-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">p =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div>
 <pre><code>## # A tibble: 2 x 3
 ##   result     n     p
-## * &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
+##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
 ## 1 Heads     26  0.52
 ## 2 Tails     24  0.48</code></pre>
 <p>The final line is called <code>mutate</code> because we are “mutating” the frequency counts to produce an estimate of the probability. We get that estimate (<code>p</code>) by taking the frequency of each outcome, <code>n</code>, and dividing it by the total number of outcomes (<code>sum(n)</code>).</p>
@@ -510,13 +554,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb133-9"><a href="lab4.html#cb133-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">p =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div>
 <pre><code>## # A tibble: 2 x 3
 ##   result     n     p
-## * &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
+##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
 ## 1 Heads    520  0.52
 ## 2 Tails    480  0.48</code></pre>
 <p>Now let’s try it with an even longer sequence of 10000 flips.<a href="#fn41" class="footnote-ref" id="fnref41"><sup>41</sup></a></p>
 <pre><code>## # A tibble: 2 x 3
 ##   result     n     p
-## * &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
+##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
 ## 1 Heads   4999 0.500
 ## 2 Tails   5001 0.500</code></pre>
 </div>
@@ -539,7 +583,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb136-9"><a href="lab4.html#cb136-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">p =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div>
 <pre><code>## # A tibble: 2 x 3
 ##   result     n     p
-## * &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
+##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
 ## 1 Heads    609 0.609
 ## 2 Tails    391 0.391</code></pre>
 <p>Notice the main difference is that we added another part to the <code>sample</code> line. By adding <code>prob = c(0.6, 0.4)</code>, we told R that the <code>prob</code>ability of the <em>corresponding</em> outcomes in the sample space (<code>c("Heads", "Tails")</code>) should be 0.6 and 0.4, respectively. If we reverse the order of the probabilities, notice that “Tails” now comes out ahead:</p>
@@ -554,13 +598,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb138-9"><a href="lab4.html#cb138-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">p =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div>
 <pre><code>## # A tibble: 2 x 3
 ##   result     n     p
-## * &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
+##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
 ## 1 Heads    398 0.398
 ## 2 Tails    602 0.602</code></pre>
 <p>The first rule is that the first number in the collection of probabilities (after <code>prob</code>) gives the probability of the first outcome in the sample space, the second number gives the probability of the second outcome in the sample space, and so on. Now let’s try simulating 1000 flips where the probability of heads is 0.7:<a href="#fn42" class="footnote-ref" id="fnref42"><sup>42</sup></a></p>
 <pre><code>## # A tibble: 2 x 3
 ##   result     n     p
-## * &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
+##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
 ## 1 Heads    672 0.672
 ## 2 Tails    328 0.328</code></pre>
 <p>Notice that the <strong>relative frequency</strong> of the different outcomes is always close to the probabilities we give to R.</p>
@@ -579,14 +623,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb141-9"><a href="lab4.html#cb141-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">p =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div>
 <pre><code>## # A tibble: 3 x 3
 ##   result     n     p
-## * &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
+##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
 ## 1 Heads    338 0.338
 ## 2 Side     342 0.342
 ## 3 Tails    320 0.32</code></pre>
 <p>Notice that the code above did not specify any <code>prob</code>abilities. As a result, all three outcomes in our sample space ended up happening about equally often. Let’s specify those probabilities to try and get the coin to come up on its side with probability 0.1, but otherwise come up heads or tails with equal probability and simulated 1000 flips. The result will look something like this:<a href="#fn43" class="footnote-ref" id="fnref43"><sup>43</sup></a></p>
 <pre><code>## # A tibble: 3 x 3
 ##   result     n     p
-## * &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
+##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
 ## 1 Heads    464 0.464
 ## 2 Side     100 0.1  
 ## 3 Tails    436 0.436</code></pre>
@@ -616,7 +660,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb146-4"><a href="lab4.html#cb146-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">p =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div>
 <pre><code>## # A tibble: 2 x 3
 ##   shot      n     p
-## * &lt;chr&gt; &lt;int&gt; &lt;dbl&gt;
+##   &lt;chr&gt; &lt;int&gt; &lt;dbl&gt;
 ## 1 H        57 0.432
 ## 2 M        75 0.568</code></pre>
 </div>
@@ -634,7 +678,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb148-9"><a href="lab4.html#cb148-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">p =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div>
 <pre><code>## # A tibble: 2 x 3
 ##   result     n     p
-## * &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
+##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
 ## 1 H        520  0.52
 ## 2 M        480  0.48</code></pre>
 <p>Does this simulated Kobe look much like the real one? What should we change to make it look more like the real Kobe?<a href="#fn45" class="footnote-ref" id="fnref45"><sup>45</sup></a></p>
@@ -710,6 +754,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {

@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Lab 3 Scatterplots and correlation | Labs</title>
   <meta name="description" content="Laboratory exercises for APSY210." />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Lab 3 Scatterplots and correlation | Labs" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Greg Cox" />
 
 
-<meta name="date" content="2021-04-18" />
+<meta name="date" content="2021-04-23" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="lab2.html"/>
 <link rel="next" href="lab4.html"/>
-<script src="libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,6 +51,8 @@
 
 
 
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -115,6 +117,29 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -313,6 +338,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="9.3" data-path="lab9.html"><a href="lab9.html#wrap-up-8"><i class="fa fa-check"></i><b>9.3</b> Wrap-up</a></li>
 </ul></li>
+<li class="chapter" data-level="10" data-path="lab10.html"><a href="lab10.html"><i class="fa fa-check"></i><b>10</b> Comparing Independent Samples</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="lab10.html"><a href="lab10.html#get-to-know-the-data"><i class="fa fa-check"></i><b>10.1</b> Get to know the data</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="lab10.html"><a href="lab10.html#batting-average"><i class="fa fa-check"></i><b>10.1.1</b> Batting average</a></li>
+<li class="chapter" data-level="10.1.2" data-path="lab10.html"><a href="lab10.html#batting-average-by-position"><i class="fa fa-check"></i><b>10.1.2</b> Batting average by position</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="lab10.html"><a href="lab10.html#independent-samples-t-test-infield-vs.-outfield"><i class="fa fa-check"></i><b>10.2</b> Independent samples <span class="math inline">\(t\)</span> test: Infield vs. Outfield</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="lab10.html"><a href="lab10.html#filtering-data-with-filter"><i class="fa fa-check"></i><b>10.2.1</b> Filtering data with <code>filter</code></a></li>
+<li class="chapter" data-level="10.2.2" data-path="lab10.html"><a href="lab10.html#doing-the-t-test"><i class="fa fa-check"></i><b>10.2.2</b> Doing the <span class="math inline">\(t\)</span> test</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="lab10.html"><a href="lab10.html#analysis-of-variance-batting-average-by-position"><i class="fa fa-check"></i><b>10.3</b> Analysis of Variance: Batting average by position</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="lab10.html"><a href="lab10.html#doing-the-anova"><i class="fa fa-check"></i><b>10.3.1</b> Doing the ANOVA</a></li>
+<li class="chapter" data-level="10.3.2" data-path="lab10.html"><a href="lab10.html#post-hoc-pairwise-tests"><i class="fa fa-check"></i><b>10.3.2</b> Post hoc pairwise tests</a></li>
+<li class="chapter" data-level="10.3.3" data-path="lab10.html"><a href="lab10.html#no-pitchers-allowed"><i class="fa fa-check"></i><b>10.3.3</b> No Pitchers Allowed?</a></li>
+<li class="chapter" data-level="10.3.4" data-path="lab10.html"><a href="lab10.html#slugging-average"><i class="fa fa-check"></i><b>10.3.4</b> Slugging Average</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="lab10.html"><a href="lab10.html#wrap-up-9"><i class="fa fa-check"></i><b>10.4</b> Wrap-up</a></li>
+</ul></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="A" data-path="coderef.html"><a href="coderef.html"><i class="fa fa-check"></i><b>A</b> Distributions</a>
 <ul>
@@ -340,9 +386,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="B.1" data-path="hyptests.html"><a href="hyptests.html#t-tests"><i class="fa fa-check"></i><b>B.1</b> <span class="math inline">\(t\)</span> tests</a>
 <ul>
-<li class="chapter" data-level="B.1.1" data-path="hyptests.html"><a href="hyptests.html#one-sample-t-test-1"><i class="fa fa-check"></i><b>B.1.1</b> One-sample <span class="math inline">\(t\)</span> test</a></li>
-<li class="chapter" data-level="B.1.2" data-path="hyptests.html"><a href="hyptests.html#paired-samples-t-test"><i class="fa fa-check"></i><b>B.1.2</b> Paired samples <span class="math inline">\(t\)</span> test</a></li>
-<li class="chapter" data-level="B.1.3" data-path="hyptests.html"><a href="hyptests.html#independent-samples-t-test-1"><i class="fa fa-check"></i><b>B.1.3</b> Independent samples <span class="math inline">\(t\)</span> test</a></li>
+<li class="chapter" data-level="B.1.1" data-path="hyptests.html"><a href="hyptests.html#doing-them-step-by-step"><i class="fa fa-check"></i><b>B.1.1</b> Doing them step-by-step</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -379,9 +423,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="lab3.html#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
 <pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
 <pre><code>## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
-## ✓ tibble  3.0.5     ✓ dplyr   1.0.3
-## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
-## ✓ readr   1.4.0     ✓ forcats 0.5.0</code></pre>
+## ✓ tibble  3.1.1     ✓ dplyr   1.0.5
+## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
+## ✓ readr   1.4.0     ✓ forcats 0.5.1</code></pre>
 <pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
@@ -481,7 +525,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##   X = col_double(),
 ##   Y = col_double()
 ## )</code></pre>
-<p>These data are artificial and were devised by <span class="citation"><a href="references.html#ref-Anscombe1973" role="doc-biblioref">Anscombe</a> (<a href="references.html#ref-Anscombe1973" role="doc-biblioref">1973</a>)</span> to illustrate the importance of not interpreting a correlation coefficient without visualizing your data.</p>
+<p>These data are artificial and were devised by <span class="citation"><a href="#ref-Anscombe1973" role="doc-biblioref">Anscombe</a> (<a href="#ref-Anscombe1973" role="doc-biblioref">1973</a>)</span> to illustrate the importance of not interpreting a correlation coefficient without visualizing your data.</p>
 </div>
 <div id="correlations-for-different-sets-of-measurements" class="section level4" number="3.1.3.2">
 <h4><span class="header-section-number">3.1.3.2</span> Correlations for different sets of measurements</h4>
@@ -492,7 +536,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb93-3"><a href="lab3.html#cb93-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">r =</span> <span class="fu">cor</span>(X, Y))</span></code></pre></div>
 <pre><code>## # A tibble: 4 x 2
 ##   Group     r
-## * &lt;chr&gt; &lt;dbl&gt;
+##   &lt;chr&gt; &lt;dbl&gt;
 ## 1 A     0.816
 ## 2 B     0.816
 ## 3 C     0.816
@@ -517,7 +561,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="some-bigger-data" class="section level2" number="3.3">
 <h2><span class="header-section-number">3.3</span> Some bigger data</h2>
-<p>Now that we’ve seen how to find correlation coefficients and make scatterplots, let’s apply these tools to some real data. These data come from a study by <span class="citation"><a href="references.html#ref-RyanGauthier2016" role="doc-biblioref">Ryan &amp; Gauthier</a> (<a href="references.html#ref-RyanGauthier2016" role="doc-biblioref">2016</a>)</span>, who studied differences in how well people can remember different kinds of objects. The point of this is to understand how we develop the ability to make fine visual distinctions between some things (e.g., between different peoples’ faces) but not others (e.g., leaves or snowflakes). They reasoned that the more experience someone has in dealing with a particular category of things, the better they’ll be at noticing and remembering the visual features that distinguish between members of that category.</p>
+<p>Now that we’ve seen how to find correlation coefficients and make scatterplots, let’s apply these tools to some real data. These data come from a study by <span class="citation"><a href="#ref-RyanGauthier2016" role="doc-biblioref">Ryan &amp; Gauthier</a> (<a href="#ref-RyanGauthier2016" role="doc-biblioref">2016</a>)</span>, who studied differences in how well people can remember different kinds of objects. The point of this is to understand how we develop the ability to make fine visual distinctions between some things (e.g., between different peoples’ faces) but not others (e.g., leaves or snowflakes). They reasoned that the more experience someone has in dealing with a particular category of things, the better they’ll be at noticing and remembering the visual features that distinguish between members of that category.</p>
 <p>Two of those categories were different types of toys: Barbies and Transformers. They measured how well their participants could tell apart pictures of Barbies that they had seen from pictures of Barbies they hadn’t seen. They did the same for pictures of Transformers. The final memory scores are a number correct out of 48. Finally, each participant indicated on a scale from 1 to 9 how much experience they had with each type of toy.</p>
 <p>The question is, “is experience with a type of toy <em>correlated with</em> better memory?”</p>
 <div id="import-the-data" class="section level3" number="3.3.1">
@@ -585,6 +629,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </div>
 </div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
+<div id="ref-Anscombe1973" class="csl-entry">
+Anscombe, F. J. (1973). Graphs in statistical analysis. <em>The American Statistician</em>, <em>27</em>(1), 17–21.
+</div>
+<div id="ref-RyanGauthier2016" class="csl-entry">
+Ryan, K. F., &amp; Gauthier, I. (2016). Gender differences in recognition of toy faces suggest a contribution of experience. <em>Vision Research</em>, <em>129</em>, 69–76.
+</div>
+</div>
 <div class="footnotes">
 <hr />
 <ol start="23">
@@ -634,6 +687,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {

@@ -33,9 +33,9 @@ library(tidyverse)
 
 ```
 ## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
-## ✓ tibble  3.0.5     ✓ dplyr   1.0.3
-## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
-## ✓ readr   1.4.0     ✓ forcats 0.5.0
+## ✓ tibble  3.1.1     ✓ dplyr   1.0.5
+## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
+## ✓ readr   1.4.0     ✓ forcats 0.5.1
 ```
 
 ```
@@ -70,7 +70,7 @@ coin_data %>%
 ```
 ## # A tibble: 2 x 3
 ##   result     n     p
-## * <chr>  <int> <dbl>
+##   <chr>  <int> <dbl>
 ## 1 Heads    619 0.619
 ## 2 Tails    381 0.381
 ```
@@ -158,12 +158,12 @@ subway_series %>%
 ```
 ## # A tibble: 7 x 3
 ##   result     n     p
-## *  <int> <int> <dbl>
+##    <int> <int> <dbl>
 ## 1      0     7 0.007
 ## 2      1    42 0.042
 ## 3      2   176 0.176
 ## 4      3   288 0.288
-## 5      4   290 0.290
+## 5      4   290 0.29 
 ## 6      5   164 0.164
 ## 7      6    33 0.033
 ```
@@ -320,7 +320,7 @@ height_data %>%
 ```
 ## # A tibble: 10,000 x 3
 ##    result     n      p
-##  *  <dbl> <int>  <dbl>
+##     <dbl> <int>  <dbl>
 ##  1   41.1     1 0.0001
 ##  2   43.1     1 0.0001
 ##  3   43.2     1 0.0001

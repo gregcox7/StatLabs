@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Lab 2 Central tendency and variability | Labs</title>
   <meta name="description" content="Laboratory exercises for APSY210." />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Lab 2 Central tendency and variability | Labs" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Greg Cox" />
 
 
-<meta name="date" content="2021-04-18" />
+<meta name="date" content="2021-04-23" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="lab1.html"/>
 <link rel="next" href="lab3.html"/>
-<script src="libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,6 +51,8 @@
 
 
 
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -115,6 +117,29 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -313,6 +338,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="9.3" data-path="lab9.html"><a href="lab9.html#wrap-up-8"><i class="fa fa-check"></i><b>9.3</b> Wrap-up</a></li>
 </ul></li>
+<li class="chapter" data-level="10" data-path="lab10.html"><a href="lab10.html"><i class="fa fa-check"></i><b>10</b> Comparing Independent Samples</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="lab10.html"><a href="lab10.html#get-to-know-the-data"><i class="fa fa-check"></i><b>10.1</b> Get to know the data</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="lab10.html"><a href="lab10.html#batting-average"><i class="fa fa-check"></i><b>10.1.1</b> Batting average</a></li>
+<li class="chapter" data-level="10.1.2" data-path="lab10.html"><a href="lab10.html#batting-average-by-position"><i class="fa fa-check"></i><b>10.1.2</b> Batting average by position</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="lab10.html"><a href="lab10.html#independent-samples-t-test-infield-vs.-outfield"><i class="fa fa-check"></i><b>10.2</b> Independent samples <span class="math inline">\(t\)</span> test: Infield vs. Outfield</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="lab10.html"><a href="lab10.html#filtering-data-with-filter"><i class="fa fa-check"></i><b>10.2.1</b> Filtering data with <code>filter</code></a></li>
+<li class="chapter" data-level="10.2.2" data-path="lab10.html"><a href="lab10.html#doing-the-t-test"><i class="fa fa-check"></i><b>10.2.2</b> Doing the <span class="math inline">\(t\)</span> test</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="lab10.html"><a href="lab10.html#analysis-of-variance-batting-average-by-position"><i class="fa fa-check"></i><b>10.3</b> Analysis of Variance: Batting average by position</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="lab10.html"><a href="lab10.html#doing-the-anova"><i class="fa fa-check"></i><b>10.3.1</b> Doing the ANOVA</a></li>
+<li class="chapter" data-level="10.3.2" data-path="lab10.html"><a href="lab10.html#post-hoc-pairwise-tests"><i class="fa fa-check"></i><b>10.3.2</b> Post hoc pairwise tests</a></li>
+<li class="chapter" data-level="10.3.3" data-path="lab10.html"><a href="lab10.html#no-pitchers-allowed"><i class="fa fa-check"></i><b>10.3.3</b> No Pitchers Allowed?</a></li>
+<li class="chapter" data-level="10.3.4" data-path="lab10.html"><a href="lab10.html#slugging-average"><i class="fa fa-check"></i><b>10.3.4</b> Slugging Average</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="lab10.html"><a href="lab10.html#wrap-up-9"><i class="fa fa-check"></i><b>10.4</b> Wrap-up</a></li>
+</ul></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="A" data-path="coderef.html"><a href="coderef.html"><i class="fa fa-check"></i><b>A</b> Distributions</a>
 <ul>
@@ -340,9 +386,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="B.1" data-path="hyptests.html"><a href="hyptests.html#t-tests"><i class="fa fa-check"></i><b>B.1</b> <span class="math inline">\(t\)</span> tests</a>
 <ul>
-<li class="chapter" data-level="B.1.1" data-path="hyptests.html"><a href="hyptests.html#one-sample-t-test-1"><i class="fa fa-check"></i><b>B.1.1</b> One-sample <span class="math inline">\(t\)</span> test</a></li>
-<li class="chapter" data-level="B.1.2" data-path="hyptests.html"><a href="hyptests.html#paired-samples-t-test"><i class="fa fa-check"></i><b>B.1.2</b> Paired samples <span class="math inline">\(t\)</span> test</a></li>
-<li class="chapter" data-level="B.1.3" data-path="hyptests.html"><a href="hyptests.html#independent-samples-t-test-1"><i class="fa fa-check"></i><b>B.1.3</b> Independent samples <span class="math inline">\(t\)</span> test</a></li>
+<li class="chapter" data-level="B.1.1" data-path="hyptests.html"><a href="hyptests.html#doing-them-step-by-step"><i class="fa fa-check"></i><b>B.1.1</b> Doing them step-by-step</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -436,9 +480,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="lab2.html#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
 <pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
 <pre><code>## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
-## ✓ tibble  3.0.5     ✓ dplyr   1.0.3
-## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
-## ✓ readr   1.4.0     ✓ forcats 0.5.0</code></pre>
+## ✓ tibble  3.1.1     ✓ dplyr   1.0.5
+## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
+## ✓ readr   1.4.0     ✓ forcats 0.5.1</code></pre>
 <pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
@@ -447,7 +491,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="getting-the-data" class="section level3" number="2.2.2">
 <h3><span class="header-section-number">2.2.2</span> Getting the data</h3>
-<p>The data we will be looking at come from a study by <span class="citation"><a href="references.html#ref-YuEtAl1982" role="doc-biblioref">Yu et al.</a> (<a href="references.html#ref-YuEtAl1982" role="doc-biblioref">1982</a>)</span>. They studied the lifespan of rats with two different diets: One group of rats was allowed to eat freely, however they wanted; another group was fed on a restricted diet with only about 60% of the calories that the free-eating rats had.</p>
+<p>The data we will be looking at come from a study by <span class="citation"><a href="#ref-YuEtAl1982" role="doc-biblioref">Yu et al.</a> (<a href="#ref-YuEtAl1982" role="doc-biblioref">1982</a>)</span>. They studied the lifespan of rats with two different diets: One group of rats was allowed to eat freely, however they wanted; another group was fed on a restricted diet with only about 60% of the calories that the free-eating rats had.</p>
 <p>We need to get this data into R. The following code will import the data into your current R session:</p>
 <div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="lab2.html#cb45-1" aria-hidden="true" tabindex="-1"></a>rats <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/ratlives.csv&#39;</span>)</span></code></pre></div>
 <pre><code>## 
@@ -494,14 +538,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb51-3"><a href="lab2.html#cb51-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">M =</span> <span class="fu">mean</span>(Lifespan))</span></code></pre></div>
 <pre><code>## # A tibble: 2 x 2
 ##   Diet           M
-## * &lt;chr&gt;      &lt;dbl&gt;
+##   &lt;chr&gt;      &lt;dbl&gt;
 ## 1 Free        684.
 ## 2 Restricted  969.</code></pre>
 <p>And just like that, R has calculated the mean lifespans of the rats in each group.<a href="#fn18" class="footnote-ref" id="fnref18"><sup>18</sup></a> Looking at the code, the first two lines are similar to how we got R to make frequency tables last time: We tell R what data we are working with (<code>rats</code>), tell R to group the data by a particular variable (<code>Diet</code>), and then tell R to make us a summary. The last line is again a <code>summarize</code> instruction, but it looks a bit different. Last time, we put <code>N = n()</code> inside the parentheses, which told R to count the number of individuals in each group and put those counts in a column labeled <code>N</code>. By saying <code>M = mean(Lifespan)</code>, we are telling R to find the mean lifespan of the rats in each group and put the result in a column labeled <code>M</code>. We replaced <code>N</code> with <code>M</code> and <code>n()</code> with <code>mean(Lifespan)</code>. In so doing, we changed the label (<code>N</code> to <code>M</code>) <em>and</em> changed the way we summarized the data (from <code>n()</code>, which just counted, to <code>mean(Lifespan)</code> which finds the mean Lifespan).</p>
 <p>Just like we did with the simple data above, we can swap out <code>mean</code> in the last line for different summaries. For example, we can create a table that gives us the <strong>median</strong> lifespan of the rats in each group:<a href="#fn19" class="footnote-ref" id="fnref19"><sup>19</sup></a></p>
 <pre><code>## # A tibble: 2 x 2
 ##   Diet           M
-## * &lt;chr&gt;      &lt;dbl&gt;
+##   &lt;chr&gt;      &lt;dbl&gt;
 ## 1 Free        710 
 ## 2 Restricted 1036.</code></pre>
 <p>Comparing the mean to the median gives us a sense of the extent to which the distributions of lifespans of the two groups of rats are skewed.<a href="#fn20" class="footnote-ref" id="fnref20"><sup>20</sup></a></p>
@@ -514,13 +558,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb54-3"><a href="lab2.html#cb54-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">M =</span> <span class="fu">mean</span>(Lifespan), <span class="at">SD =</span> <span class="fu">sd</span>(Lifespan))</span></code></pre></div>
 <pre><code>## # A tibble: 2 x 3
 ##   Diet           M    SD
-## * &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;
+##   &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;
 ## 1 Free        684.  134.
 ## 2 Restricted  969.  285.</code></pre>
 <p>And, of course, we can create a table that summarizes the mean, median, standard deviation, and variance all at once!<a href="#fn21" class="footnote-ref" id="fnref21"><sup>21</sup></a></p>
 <pre><code>## # A tibble: 2 x 5
 ##   Diet        Mean Median Variance    SD
-## * &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
+##   &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
 ## 1 Free        684.   710    17979.  134.
 ## 2 Restricted  969.  1036.   80986.  285.</code></pre>
 <p>These numerical summaries of central tendency and variability provide a concise description of the lifespans of rats under the two different diets. This description helps us see whether there is any benefit to a restricted diet on lifespan.<a href="#fn22" class="footnote-ref" id="fnref22"><sup>22</sup></a></p>
@@ -530,6 +574,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">2.3</span> Wrap-up</h2>
 <p>Today we saw how to use R to find various numerical descriptive statistics, both in simple cases and with real data. We focused on two measures of central tendency, the <strong>mean</strong> and the <strong>median</strong>, as well as two measures of variability, the <strong>variance</strong> and the <strong>standard deviation</strong>. We saw how these quantities are useful in summarizing complex data, making it easier to draw conclusions about differences between groups. We also learned a new trick about how to visualize histograms from multiple groups.</p>
 
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
+<div id="ref-YuEtAl1982" class="csl-entry">
+Yu, B. P., Masoro, E. J., Murata, I., Bertrand, H. A., &amp; Lynd, F. T. (1982). Life span study of <span>SPF Fischer</span> 344 male rats fed ad libitum or restricted diets: Longevity, growth, lean body mass and disease. <em>Journal of Gerontology</em>, <em>37</em>(2), 130–141.
 </div>
 </div>
 <div class="footnotes">
@@ -579,6 +629,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {

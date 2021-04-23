@@ -79,7 +79,7 @@ titanic %>%
 ```
 ## # A tibble: 2 x 2
 ##   sex        n
-## * <chr>  <int>
+##   <chr>  <int>
 ## 1 Female   466
 ## 2 Male     843
 ```
@@ -103,7 +103,7 @@ titanic %>%
 ```
 ## # A tibble: 2 x 2
 ##   sex    Number
-## * <chr>   <int>
+##   <chr>   <int>
 ## 1 Female    466
 ## 2 Male      843
 ```
@@ -140,7 +140,7 @@ titanic %>%
 ```
 ## # A tibble: 3 x 2
 ##   residence     n
-## * <chr>     <int>
+##   <chr>     <int>
 ## 1 American    258
 ## 2 British     302
 ## 3 Other       749
@@ -220,7 +220,7 @@ Let's see how even a simple comparison is easier with a bar chart than a frequen
 ```
 ## # A tibble: 3 x 2
 ##   class     n
-## * <int> <int>
+##   <int> <int>
 ## 1     1   323
 ## 2     2   277
 ## 3     3   709
@@ -258,7 +258,7 @@ titanic %>%
 ```
 ## # A tibble: 99 x 2
 ##      age     n
-##  * <dbl> <int>
+##    <dbl> <int>
 ##  1 0.167     1
 ##  2 0.333     1
 ##  3 0.417     1

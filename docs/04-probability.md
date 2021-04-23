@@ -21,9 +21,9 @@ library(tidyverse)
 
 ```
 ## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
-## ✓ tibble  3.0.5     ✓ dplyr   1.0.3
-## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
-## ✓ readr   1.4.0     ✓ forcats 0.5.0
+## ✓ tibble  3.1.1     ✓ dplyr   1.0.5
+## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
+## ✓ readr   1.4.0     ✓ forcats 0.5.1
 ```
 
 ```
@@ -216,7 +216,7 @@ coin_data %>%
 ```
 ## # A tibble: 2 x 2
 ##   result     n
-## * <chr>  <int>
+##   <chr>  <int>
 ## 1 Heads     26
 ## 2 Tails     24
 ```
@@ -238,7 +238,7 @@ coin_data %>%
 ```
 ## # A tibble: 2 x 3
 ##   result     n     p
-## * <chr>  <int> <dbl>
+##   <chr>  <int> <dbl>
 ## 1 Heads     26  0.52
 ## 2 Tails     24  0.48
 ```
@@ -263,7 +263,7 @@ coin_data %>%
 ```
 ## # A tibble: 2 x 3
 ##   result     n     p
-## * <chr>  <int> <dbl>
+##   <chr>  <int> <dbl>
 ## 1 Heads    520  0.52
 ## 2 Tails    480  0.48
 ```
@@ -274,7 +274,7 @@ Now let's try it with an even longer sequence of 10000 flips.^[What would you ch
 ```
 ## # A tibble: 2 x 3
 ##   result     n     p
-## * <chr>  <int> <dbl>
+##   <chr>  <int> <dbl>
 ## 1 Heads   4999 0.500
 ## 2 Tails   5001 0.500
 ```
@@ -305,7 +305,7 @@ coin_data %>%
 ```
 ## # A tibble: 2 x 3
 ##   result     n     p
-## * <chr>  <int> <dbl>
+##   <chr>  <int> <dbl>
 ## 1 Heads    609 0.609
 ## 2 Tails    391 0.391
 ```
@@ -328,7 +328,7 @@ coin_data %>%
 ```
 ## # A tibble: 2 x 3
 ##   result     n     p
-## * <chr>  <int> <dbl>
+##   <chr>  <int> <dbl>
 ## 1 Heads    398 0.398
 ## 2 Tails    602 0.602
 ```
@@ -339,7 +339,7 @@ The first rule is that the first number in the collection of probabilities (afte
 ```
 ## # A tibble: 2 x 3
 ##   result     n     p
-## * <chr>  <int> <dbl>
+##   <chr>  <int> <dbl>
 ## 1 Heads    672 0.672
 ## 2 Tails    328 0.328
 ```
@@ -366,7 +366,7 @@ coin_data %>%
 ```
 ## # A tibble: 3 x 3
 ##   result     n     p
-## * <chr>  <int> <dbl>
+##   <chr>  <int> <dbl>
 ## 1 Heads    338 0.338
 ## 2 Side     342 0.342
 ## 3 Tails    320 0.32
@@ -378,7 +378,7 @@ Notice that the code above did not specify any `prob`abilities.  As a result, al
 ```
 ## # A tibble: 3 x 3
 ##   result     n     p
-## * <chr>  <int> <dbl>
+##   <chr>  <int> <dbl>
 ## 1 Heads    464 0.464
 ## 2 Side     100 0.1  
 ## 3 Tails    436 0.436
@@ -422,7 +422,7 @@ kobe %>%
 ```
 ## # A tibble: 2 x 3
 ##   shot      n     p
-## * <chr> <int> <dbl>
+##   <chr> <int> <dbl>
 ## 1 H        57 0.432
 ## 2 M        75 0.568
 ```
@@ -447,7 +447,7 @@ simulated_kobe_data %>%
 ```
 ## # A tibble: 2 x 3
 ##   result     n     p
-## * <chr>  <int> <dbl>
+##   <chr>  <int> <dbl>
 ## 1 H        520  0.52
 ## 2 M        480  0.48
 ```

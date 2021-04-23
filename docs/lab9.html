@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Lab 9 \(t\) tests | Labs</title>
   <meta name="description" content="Laboratory exercises for APSY210." />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Lab 9 \(t\) tests | Labs" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Greg Cox" />
 
 
-<meta name="date" content="2021-04-18" />
+<meta name="date" content="2021-04-23" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,8 +32,8 @@
   
   
 <link rel="prev" href="lab8.html"/>
-<link rel="next" href="coderef.html"/>
-<script src="libs/header-attrs-2.6/header-attrs.js"></script>
+<link rel="next" href="lab10.html"/>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,6 +51,8 @@
 
 
 
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -115,6 +117,29 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -313,6 +338,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="9.3" data-path="lab9.html"><a href="lab9.html#wrap-up-8"><i class="fa fa-check"></i><b>9.3</b> Wrap-up</a></li>
 </ul></li>
+<li class="chapter" data-level="10" data-path="lab10.html"><a href="lab10.html"><i class="fa fa-check"></i><b>10</b> Comparing Independent Samples</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="lab10.html"><a href="lab10.html#get-to-know-the-data"><i class="fa fa-check"></i><b>10.1</b> Get to know the data</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="lab10.html"><a href="lab10.html#batting-average"><i class="fa fa-check"></i><b>10.1.1</b> Batting average</a></li>
+<li class="chapter" data-level="10.1.2" data-path="lab10.html"><a href="lab10.html#batting-average-by-position"><i class="fa fa-check"></i><b>10.1.2</b> Batting average by position</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="lab10.html"><a href="lab10.html#independent-samples-t-test-infield-vs.-outfield"><i class="fa fa-check"></i><b>10.2</b> Independent samples <span class="math inline">\(t\)</span> test: Infield vs. Outfield</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="lab10.html"><a href="lab10.html#filtering-data-with-filter"><i class="fa fa-check"></i><b>10.2.1</b> Filtering data with <code>filter</code></a></li>
+<li class="chapter" data-level="10.2.2" data-path="lab10.html"><a href="lab10.html#doing-the-t-test"><i class="fa fa-check"></i><b>10.2.2</b> Doing the <span class="math inline">\(t\)</span> test</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="lab10.html"><a href="lab10.html#analysis-of-variance-batting-average-by-position"><i class="fa fa-check"></i><b>10.3</b> Analysis of Variance: Batting average by position</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="lab10.html"><a href="lab10.html#doing-the-anova"><i class="fa fa-check"></i><b>10.3.1</b> Doing the ANOVA</a></li>
+<li class="chapter" data-level="10.3.2" data-path="lab10.html"><a href="lab10.html#post-hoc-pairwise-tests"><i class="fa fa-check"></i><b>10.3.2</b> Post hoc pairwise tests</a></li>
+<li class="chapter" data-level="10.3.3" data-path="lab10.html"><a href="lab10.html#no-pitchers-allowed"><i class="fa fa-check"></i><b>10.3.3</b> No Pitchers Allowed?</a></li>
+<li class="chapter" data-level="10.3.4" data-path="lab10.html"><a href="lab10.html#slugging-average"><i class="fa fa-check"></i><b>10.3.4</b> Slugging Average</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="lab10.html"><a href="lab10.html#wrap-up-9"><i class="fa fa-check"></i><b>10.4</b> Wrap-up</a></li>
+</ul></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="A" data-path="coderef.html"><a href="coderef.html"><i class="fa fa-check"></i><b>A</b> Distributions</a>
 <ul>
@@ -340,9 +386,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="B.1" data-path="hyptests.html"><a href="hyptests.html#t-tests"><i class="fa fa-check"></i><b>B.1</b> <span class="math inline">\(t\)</span> tests</a>
 <ul>
-<li class="chapter" data-level="B.1.1" data-path="hyptests.html"><a href="hyptests.html#one-sample-t-test-1"><i class="fa fa-check"></i><b>B.1.1</b> One-sample <span class="math inline">\(t\)</span> test</a></li>
-<li class="chapter" data-level="B.1.2" data-path="hyptests.html"><a href="hyptests.html#paired-samples-t-test"><i class="fa fa-check"></i><b>B.1.2</b> Paired samples <span class="math inline">\(t\)</span> test</a></li>
-<li class="chapter" data-level="B.1.3" data-path="hyptests.html"><a href="hyptests.html#independent-samples-t-test-1"><i class="fa fa-check"></i><b>B.1.3</b> Independent samples <span class="math inline">\(t\)</span> test</a></li>
+<li class="chapter" data-level="B.1.1" data-path="hyptests.html"><a href="hyptests.html#doing-them-step-by-step"><i class="fa fa-check"></i><b>B.1.1</b> Doing them step-by-step</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -374,9 +418,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="lab9.html#cb334-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
 <pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
 <pre><code>## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
-## ✓ tibble  3.0.5     ✓ dplyr   1.0.3
-## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
-## ✓ readr   1.4.0     ✓ forcats 0.5.0</code></pre>
+## ✓ tibble  3.1.1     ✓ dplyr   1.0.5
+## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
+## ✓ readr   1.4.0     ✓ forcats 0.5.1</code></pre>
 <pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
@@ -444,7 +488,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>## [1] 3.256259</code></pre>
 
 <div class="exercise">
-<p><span id="exr:unnamed-chunk-12" class="exercise"><strong>Exercise 8.2  </strong></span>Modify the slice of code we used in the previous section to find the <span class="math inline">\(t\)</span> value given above and make sure that it is labeled <code>t_D</code> (the “D” is for “difference”). What code did you write to find this new <span class="math inline">\(t\)</span> value? <em>Hint: remember what the mean from the null hypothesis is!</em></p>
+<p><span id="exr:ex0901" class="exercise"><strong>Exercise 9.1  </strong></span>
+Modify the slice of code we used in the previous section to find the <span class="math inline">\(t\)</span> value given above and make sure that it is labeled <code>t_D</code> (the “D” is for “difference”). What code did you write to find this new <span class="math inline">\(t\)</span> value? <em>Hint: remember what the mean from the null hypothesis is!</em></p>
 </div>
 </div>
 <div id="find-the-p-value-1" class="section level4" number="9.1.2.4">
@@ -461,7 +506,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Since the <span class="math inline">\(p\)</span> value is <em>smaller</em> than our alpha level, we <strong>reject</strong> the null hypothesis. We have reason to believe that changing the ad really did affect each individual’s viewing patterns.</p>
 
 <div class="exercise">
-<p><span id="exr:unnamed-chunk-15" class="exercise"><strong>Exercise 9.1  </strong></span>Although the test we just did was only about differences in <em>any</em> direction, based on the <span class="math inline">\(t\)</span> value does it seem like changing the ad increased or decreased the proportion of time people spent looking at the ad?</p>
+<p><span id="exr:ex0902" class="exercise"><strong>Exercise 9.2  </strong></span>
+Although the test we just did was only about differences in <em>any</em> direction, based on the <span class="math inline">\(t\)</span> value does it seem like changing the ad increased or decreased the proportion of time people spent looking at the ad?</p>
 </div>
 </div>
 </div>
@@ -506,7 +552,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>This time, the <span class="math inline">\(p\)</span> value is <em>bigger</em> than our alpha level, so we <strong>fail to reject</strong> the null hypothesis. Funny—the same data lead us to different conclusions depending on whether it came from just one sample versus two independent samples!</p>
 
 <div class="exercise">
-<p><span id="exr:unnamed-chunk-20" class="exercise"><strong>Exercise 7.6  </strong></span>Why do you think we were able to reject the null hypothesis using the paired samples <span class="math inline">\(t\)</span> test, but not with the independent samples <span class="math inline">\(t\)</span> test, even though the actual data were the same in both cases? Think about the fact that there is variability both between different individuals and within a single individual (e.g., if you do something multiple times, chances are you won’t act exactly the same each time). Does one type of test effectively eliminate one of these kinds of variability? How might that affect the ability to the test to detect particular kinds of differences?</p>
+<p><span id="exr:ex0903" class="exercise"><strong>Exercise 9.3  </strong></span>
+Why do you think we were able to reject the null hypothesis using the paired samples <span class="math inline">\(t\)</span> test, but not with the independent samples <span class="math inline">\(t\)</span> test, even though the actual data were the same in both cases? Think about the fact that there is variability both between different individuals and within a single individual (e.g., if you do something multiple times, chances are you won’t act exactly the same each time). Does one type of test effectively eliminate one of these kinds of variability? How might that affect the ability to the test to detect particular kinds of differences?</p>
 </div>
 </div>
 </div>
@@ -514,7 +561,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="t-tests-with-real-data" class="section level2" number="9.2">
 <h2><span class="header-section-number">9.2</span> <span class="math inline">\(t\)</span> tests with real data</h2>
 <p>We’ve now seen how to do all the calculations for a <span class="math inline">\(t\)</span> test in R. Because R was built for statistics, you won’t be surprised that it can automate many of those things for us, as we’ll see. As usual, though, when a computer does the “mindless” work, we have to be even more “mindful” of how to interpret the results it gives us.</p>
-<p>In this example, we will look at a study by Sam Mehr, Lee Ann Song (aptly named), and Liz Spelke <span class="citation">(<a href="references.html#ref-MehrEtAl2016" role="doc-biblioref">Mehr et al., 2016</a>)</span>. They wanted to see whether music is an important social cue for infants. Specifically, they wondered whether infants tend to prefer people who sing familiar songs. The idea is that someone singing a song you know is probably a member of the same social group as you are.</p>
+<p>In this example, we will look at a study by Sam Mehr, Lee Ann Song (aptly named), and Liz Spelke <span class="citation">(<a href="#ref-MehrEtAl2016" role="doc-biblioref">Mehr et al., 2016</a>)</span>. They wanted to see whether music is an important social cue for infants. Specifically, they wondered whether infants tend to prefer people who sing familiar songs. The idea is that someone singing a song you know is probably a member of the same social group as you are.</p>
 <p>They conducted an experiment in which a child’s parents were taught a new melody and were instructed to sing it to their child at home over the course of 1–2 weeks. After this exposure period, the parents brought their infant back to the lab. The infant was seated in front of a screen showing videos of two unfamiliar adults just smiling in silence. They recorded the proportion of the time that the infant looked at each individual during this “before” phase. Then, one of these unfamiliar people sang the melody that the parents had been singing for 1–2 weeks, while the other sang a totally new song. Finally, during the “after” phase, the infant saw the same videos of each person silently smiling and the researchers recorded the proportion of the time spent looking at the person who sang the familiar song.</p>
 <p>The overall aim of this experiment is to see whether infants will prefer to look at the singer of the familiar melody after hearing them sing it, even though they’ve never seen this person before.</p>
 <div id="check-out-the-data" class="section level3" number="9.2.1">
@@ -543,7 +590,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 1    0.521    0.177   0.593   0.179</code></pre>
 
 <div class="exercise">
-<p><span id="exr:unnamed-chunk-23" class="exercise"><strong>Exercise 7.7  </strong></span>Based on the sample means and standard deviations we just found, does it seem like there might be a preference to look more at the person who would sing the familiar melody, either before or after hearing them sing?</p>
+<p><span id="exr:ex0904" class="exercise"><strong>Exercise 9.4  </strong></span>
+Based on the sample means and standard deviations we just found, does it seem like there might be a preference to look more at the person who would sing the familiar melody, either before or after hearing them sing?</p>
 </div>
 </div>
 <div id="did-infants-show-any-prior-bias" class="section level3" number="9.2.2">
@@ -553,10 +601,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb367-1"><a href="lab9.html#cb367-1" aria-hidden="true" tabindex="-1"></a>lullaby <span class="sc">%&gt;%</span></span>
 <span id="cb367-2"><a href="lab9.html#cb367-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Before)) <span class="sc">+</span></span>
 <span id="cb367-3"><a href="lab9.html#cb367-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">binwidth=</span><span class="fl">0.1</span>)</span></code></pre></div>
-<p><img src="09-ttests_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<p><img src="09-ttests_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
 
 <div class="exercise">
-<p><span id="exr:unnamed-chunk-25" class="exercise"><strong>Exercise 9.2  </strong></span>Based on the histogram above, does it seem like there are any outliers or skew that are very far from a normal distribution?</p>
+<p><span id="exr:ex0905" class="exercise"><strong>Exercise 9.5  </strong></span>
+Based on the histogram above, does it seem like there are any outliers or skew that are very far from a normal distribution?</p>
 </div>
 <p>Our <strong>research question</strong> is, “do infants prefer to look at one person over the other, even before hearing them sing?” We will address this question using a <strong>one-sample <span class="math inline">\(t\)</span> test</strong>.</p>
 <div id="state-your-hypotheses-3" class="section level4" number="9.2.2.1">
@@ -565,7 +614,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="set-your-alpha-level-3" class="section level4" number="9.2.2.2">
 <h4><span class="header-section-number">9.2.2.2</span> Set your alpha level</h4>
-<p>Let’s choose an alpha level of 0.05, same as the one <span class="citation"><a href="references.html#ref-MehrEtAl2016" role="doc-biblioref">Mehr et al.</a> (<a href="references.html#ref-MehrEtAl2016" role="doc-biblioref">2016</a>)</span> chose.</p>
+<p>Let’s choose an alpha level of 0.05, same as the one <span class="citation"><a href="#ref-MehrEtAl2016" role="doc-biblioref">Mehr et al.</a> (<a href="#ref-MehrEtAl2016" role="doc-biblioref">2016</a>)</span> chose.</p>
 </div>
 <div id="find-the-t-value-3" class="section level4" number="9.2.2.3">
 <h4><span class="header-section-number">9.2.2.3</span> Find the <span class="math inline">\(t\)</span> value</h4>
@@ -592,7 +641,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb371-2"><a href="lab9.html#cb371-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>(<span class="at">method =</span> <span class="st">&#39;theoretical&#39;</span>)</span></code></pre></div>
 <pre><code>## Warning: Check to make sure the conditions have been met for the theoretical
 ## method. {infer} currently does not check these for you.</code></pre>
-<p><img src="09-ttests_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<p><img src="09-ttests_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
 <p>The first line tells R to use the <span class="math inline">\(t\)</span> value we just found as “data.” The second line instructs R to visualize the <code>theoretical</code> <span class="math inline">\(t\)</span> distribution if the null hypothesis were true. This distribution is what will let us calculate the <span class="math inline">\(p\)</span> value.</p>
 <p>In fact, we can visualize what the <span class="math inline">\(p\)</span> value will be by showing where the <span class="math inline">\(t\)</span> statistic for our sample falls on the <span class="math inline">\(t\)</span> distribution:</p>
 <div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="lab9.html#cb373-1" aria-hidden="true" tabindex="-1"></a>t_before <span class="sc">%&gt;%</span></span>
@@ -600,7 +649,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb373-3"><a href="lab9.html#cb373-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> t_before, <span class="at">direction =</span> <span class="st">&#39;two-sided&#39;</span>)</span></code></pre></div>
 <pre><code>## Warning: Check to make sure the conditions have been met for the theoretical
 ## method. {infer} currently does not check these for you.</code></pre>
-<p><img src="09-ttests_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<p><img src="09-ttests_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
 <p>All we did was add a third line where we told R to <code>shade</code> the area of the <span class="math inline">\(t\)</span> distribution that is <em>at least as extreme</em> as our sample (that’s what <code>obs_stat = t_before</code> did). What counts as “extreme” depends on whether our test is one- or two-sided, so we had to tell R that the <code>direction</code> of our test was <code>two-sided</code>. The <em>area</em> of the shaded region on the plot above is what our <span class="math inline">\(p\)</span> value is.</p>
 <p>But of course, we can’t get a number just by looking at a graph. Here’s how we actually get all the numbers we need out of R:</p>
 <div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb375-1"><a href="lab9.html#cb375-1" aria-hidden="true" tabindex="-1"></a>lullaby <span class="sc">%&gt;%</span></span>
@@ -632,10 +681,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">9.2.3</span> Do infants prefer to look at the singer of the familiar melody?</h3>
 <p>What about where infants look <em>after</em> they hear the two people sing? Do they show any kind of preference? Again, we can use a <strong>one-sample <span class="math inline">\(t\)</span> test</strong> to find out. In fact, all we need to do is reuse different bits of code from the previous section, just changing the variable of interest from “Before” to “After.”</p>
 <p>Let’s begin by making a histogram of the <code>After</code> variable.</p>
-<p><img src="09-ttests_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+<p><img src="09-ttests_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
 
 <div class="exercise">
-<p><span id="exr:unnamed-chunk-32" class="exercise"><strong>Exercise 9.3  </strong></span>What code did you use to make the histogram above? Do you see any evidence of outliers or skew that are very different from what we might see in a normal distribution?</p>
+<p><span id="exr:ex0906" class="exercise"><strong>Exercise 9.6  </strong></span>
+What code did you use to make the histogram above? Do you see any evidence of outliers or skew that are very different from what we might see in a normal distribution?</p>
 </div>
 <p>Our <strong>research question</strong> is, “do infants prefer to look at one person over the other <em>after</em> hearing them sing?”</p>
 <div id="state-your-hypotheses-4" class="section level4" number="9.2.3.1">
@@ -651,7 +701,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Let’s tell R to remember our <em>new</em> <span class="math inline">\(t\)</span> value so that we can visualize it like we did before. We’re going to call this new <span class="math inline">\(t\)</span> value <code>t_after</code> to keep it distinct.</p>
 
 <div class="exercise">
-<p><span id="exr:unnamed-chunk-34" class="exercise"><strong>Exercise 9.4  </strong></span>What code did you use to make <code>t_after</code>? (<em>Hint: what do you change in the code we used above to make <code>t_before</code>?</em>)</p>
+<p><span id="exr:ex0907" class="exercise"><strong>Exercise 9.7  </strong></span>
+What code did you use to make <code>t_after</code>? (<em>Hint: what do you change in the code we used above to make <code>t_before</code>?</em>)</p>
 </div>
 </div>
 <div id="find-the-p-value-4" class="section level4" number="9.2.3.4">
@@ -662,7 +713,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb377-3"><a href="lab9.html#cb377-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> t_after, <span class="at">direction =</span> <span class="st">&#39;two-sided&#39;</span>)</span></code></pre></div>
 <pre><code>## Warning: Check to make sure the conditions have been met for the theoretical
 ## method. {infer} currently does not check these for you.</code></pre>
-<p><img src="09-ttests_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
+<p><img src="09-ttests_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
 <p>Finally, let’s get the whole shebang:</p>
 <pre><code>## # A tibble: 1 x 6
 ##   statistic  t_df p_value alternative lower_ci upper_ci
@@ -670,7 +721,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 1      2.96    31 0.00586 two.sided      0.529    0.658</code></pre>
 
 <div class="exercise">
-<p><span id="exr:unnamed-chunk-37" class="exercise"><strong>Exercise 9.5  </strong></span>What code did you use to get the <code>t_test</code> output above?</p>
+<p><span id="exr:ex0908" class="exercise"><strong>Exercise 9.8  </strong></span>
+What code did you use to get the <code>t_test</code> output above?</p>
 </div>
 </div>
 <div id="decide-whether-or-not-to-reject-the-null-hypothesis-4" class="section level4" number="9.2.3.5">
@@ -717,7 +769,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb382-5"><a href="lab9.html#cb382-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">&#39;t&#39;</span>)</span></code></pre></div>
 
 <div class="exercise">
-<p><span id="exr:unnamed-chunk-40" class="exercise"><strong>Exercise 9.6  </strong></span>Compare the code used to make <code>t_diff</code> with the code we previously used to make <code>t_before</code> and <code>t_after</code>. What is similar and what is different?</p>
+<p><span id="exr:ex0909" class="exercise"><strong>Exercise 9.9  </strong></span>
+Compare the code used to make <code>t_diff</code> with the code we previously used to make <code>t_before</code> and <code>t_after</code>. What is similar and what is different?</p>
 </div>
 </div>
 <div id="find-the-p-value-5" class="section level4" number="9.2.4.4">
@@ -728,10 +781,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb383-3"><a href="lab9.html#cb383-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> t_diff, <span class="at">direction =</span> <span class="st">&#39;greater&#39;</span>)</span></code></pre></div>
 <pre><code>## Warning: Check to make sure the conditions have been met for the theoretical
 ## method. {infer} currently does not check these for you.</code></pre>
-<p><img src="09-ttests_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
+<p><img src="09-ttests_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
 
 <div class="exercise">
-<p><span id="exr:unnamed-chunk-42" class="exercise"><strong>Exercise 9.7  </strong></span>Compare the visualization of the <span class="math inline">\(t\)</span> distribution for <code>t_diff</code> to the ones we made for <code>t_before</code> and <code>t_after</code>. Is there a difference in which sides of the distribution are shaded? Why might this be?</p>
+<p><span id="exr:ex0910" class="exercise"><strong>Exercise 9.10  </strong></span>
+Compare the visualization of the <span class="math inline">\(t\)</span> distribution for <code>t_diff</code> to the ones we made for <code>t_before</code> and <code>t_after</code>. Is there a difference in which sides of the distribution are shaded? Why might this be?</p>
 </div>
 <p>Finally, we can obtain the <span class="math inline">\(p\)</span> value along with the rest of the results of the <span class="math inline">\(t\)</span> test:</p>
 <pre><code>## # A tibble: 1 x 6
@@ -740,7 +794,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 1      2.42    31  0.0109 greater       0.0216      Inf</code></pre>
 
 <div class="exercise">
-<p><span id="exr:unnamed-chunk-44" class="exercise"><strong>Exercise 9.8  </strong></span>How did you modify the code we used above for the previous two <span class="math inline">\(t\)</span> tests to get the result above? Do you notice anything different about the output we got from R for this one-tailed test, relative to the two-tailed tests we did above?</p>
+<p><span id="exr:ex0911" class="exercise"><strong>Exercise 9.11  </strong></span>
+How did you modify the code we used above for the previous two <span class="math inline">\(t\)</span> tests to get the result above? Do you notice anything different about the output we got from R for this one-tailed test, relative to the two-tailed tests we did above?</p>
 </div>
 </div>
 <div id="decide-whether-or-not-to-reject-the-null-hypothesis-5" class="section level4" number="9.2.4.5">
@@ -755,16 +810,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </div>
 </div>
-
-
-
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
+<div id="ref-MehrEtAl2016" class="csl-entry">
+Mehr, S. A., Song, L. A., &amp; Spelke, E. S. (2016). For 5-month-old infants, melodies are social. <em>Psychological Science</em>, <em>27</em>(4), 486–501.
+</div>
+</div>
             </section>
 
           </div>
         </div>
       </div>
 <a href="lab8.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="coderef.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="lab10.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -787,6 +845,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {

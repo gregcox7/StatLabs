@@ -23,9 +23,9 @@ library(tidyverse)
 
 ```
 ## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
-## ✓ tibble  3.0.5     ✓ dplyr   1.0.3
-## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
-## ✓ readr   1.4.0     ✓ forcats 0.5.0
+## ✓ tibble  3.1.1     ✓ dplyr   1.0.5
+## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
+## ✓ readr   1.4.0     ✓ forcats 0.5.1
 ```
 
 ```
@@ -74,7 +74,8 @@ Click on the new "feedback_learning" data that's now in R's environment (upper r
 
 In the next section, we will do some computer simulations ourselves!  Specifically, we will explore various factors that affect our **power** to detect whether the activity actually led to student learning or not.
 
-\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:unnamed-chunk-4"><strong>(\#exr:unnamed-chunk-4) </strong></span>We are going to use the normal distribution as our *model* of the average improvement.  Why is the normal distribution more appropriate than the binomial distribution?  (*Hint: think about what kinds of values a normal distribution can produce and what kinds of values a binomial distribution can produce.*)
+\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:ex0801"><strong>(\#exr:ex0801) </strong></span>
+We are going to use the normal distribution as our *model* of the average improvement.  Why is the normal distribution more appropriate than the binomial distribution?  (*Hint: think about what kinds of values a normal distribution can produce and what kinds of values a binomial distribution can produce.*)
 </div>\EndKnitrBlock{exercise}
 
 ### Specifying our null hypothesis
@@ -142,7 +143,7 @@ sample_means %>%
     geom_histogram(binwidth = 0.5)
 ```
 
-<img src="08-power_files/figure-html/unnamed-chunk-10-1.png" width="672" />
+<img src="08-power_files/figure-html/unnamed-chunk-9-1.png" width="672" />
 
 We can also check and see how often one of the sample means from the null hypothesis ends up outside the confidence interval, leading us to make a Type I error by incorrectly rejecting the null hypothesis:
 
@@ -157,12 +158,13 @@ sample_means %>%
 ```
 ## # A tibble: 2 x 3
 ##   `(M > ci_lower) & (M < ci_upper)`     n      p
-## * <lgl>                             <int>  <dbl>
+##   <lgl>                             <int>  <dbl>
 ## 1 FALSE                               514 0.0514
 ## 2 TRUE                               9486 0.949
 ```
 
-\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:unnamed-chunk-12"><strong>(\#exr:unnamed-chunk-12) </strong></span>In the table above, the row labeled "FALSE" corresponds to simulated sample means that fell outside the confidence interval, which would lead us to (incorrectly) reject the null hypothesis.  How close is the probability "p" in that column to the alpha level we decided on earlier?
+\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:ex0802"><strong>(\#exr:ex0802) </strong></span>
+In the table above, the row labeled "FALSE" corresponds to simulated sample means that fell outside the confidence interval, which would lead us to (incorrectly) reject the null hypothesis.  How close is the probability "p" in that column to the alpha level we decided on earlier?
 </div>\EndKnitrBlock{exercise}
 
 ## Achieving a target level of power
@@ -199,7 +201,7 @@ sample_means %>%
     geom_histogram(binwidth = 0.5)
 ```
 
-<img src="08-power_files/figure-html/unnamed-chunk-15-1.png" width="672" />
+<img src="08-power_files/figure-html/unnamed-chunk-13-1.png" width="672" />
 
 We can approximate the probability of correctly rejecting the null hypothesis using our simulation:
 
@@ -214,7 +216,7 @@ sample_means %>%
 ```
 ## # A tibble: 2 x 3
 ##   `(M > ci_lower) & (M < ci_upper)`     n     p
-## * <lgl>                             <int> <dbl>
+##   <lgl>                             <int> <dbl>
 ## 1 FALSE                              1954 0.195
 ## 2 TRUE                               8046 0.805
 ```
@@ -231,7 +233,8 @@ pnorm(q = ci_lower, mean = null_mean + effect_size, sd = null_sd / sqrt(sample_s
 ## [1] 0.1947752
 ```
 
-\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:unnamed-chunk-18"><strong>(\#exr:unnamed-chunk-18) </strong></span>Try setting `effect_size` to different values (e.g., `effect_size <- 0.5`) and then re-run the lines of code we just used (i.e., simulate new sample means, make a histogram, and calculate power using the normal distribution).  Try to find an effect size where the power ends up as close as you can get it to 0.8 without going over.  What effect size did you find?
+\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:ex0803"><strong>(\#exr:ex0803) </strong></span>
+Try setting `effect_size` to different values (e.g., `effect_size <- 0.5`) and then re-run the lines of code we just used (i.e., simulate new sample means, make a histogram, and calculate power using the normal distribution).  Try to find an effect size where the power ends up as close as you can get it to 0.8 without going over.  What effect size did you find?
 </div>\EndKnitrBlock{exercise}
 
 ### Sample size
@@ -267,7 +270,7 @@ sample_means %>%
     geom_histogram(binwidth = 0.5)
 ```
 
-<img src="08-power_files/figure-html/unnamed-chunk-21-1.png" width="672" />
+<img src="08-power_files/figure-html/unnamed-chunk-18-1.png" width="672" />
 
 ```r
 pnorm(q = ci_lower, mean = null_mean + effect_size, sd = null_sd / sqrt(sample_size)) +
@@ -278,7 +281,8 @@ pnorm(q = ci_lower, mean = null_mean + effect_size, sd = null_sd / sqrt(sample_s
 ## [1] 0.2441412
 ```
 
-\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:unnamed-chunk-22"><strong>(\#exr:unnamed-chunk-22) </strong></span>Try setting `sample_size` to different values (e.g., `sample_size <- 13`) and then re-run the lines of code we just used (i.e., find the CI limits, simulate new sample means, make a histogram, and calculate power using the normal distribution).  Try to find a sample size where the power ends up as close as you can get it to 0.8 without going over.  What sample size did you find?
+\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:ex0804"><strong>(\#exr:ex0804) </strong></span>
+Try setting `sample_size` to different values (e.g., `sample_size <- 13`) and then re-run the lines of code we just used (i.e., find the CI limits, simulate new sample means, make a histogram, and calculate power using the normal distribution).  Try to find a sample size where the power ends up as close as you can get it to 0.8 without going over.  What sample size did you find?
 </div>\EndKnitrBlock{exercise}
 
 ### Alpha level
@@ -292,7 +296,8 @@ sample_size <- 30
 
 Now, we are going to mess around with the **alpha level** in order to achieve 0.8 power.  In other words, we are changing the width of our confidence interval so that it allows us to correctly reject the null hypothesis 80% of the time.
 
-\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:unnamed-chunk-24"><strong>(\#exr:unnamed-chunk-24) </strong></span>Is there a potential problem with messing with the alpha level this way?  Are we increasing the probability of making a different kind of error?
+\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:ex0805"><strong>(\#exr:ex0805) </strong></span>
+Is there a potential problem with messing with the alpha level this way?  Are we increasing the probability of making a different kind of error?
 </div>\EndKnitrBlock{exercise}
 
 For example, the code below is based on changing our alpha level from 0.05 to 0.1.  Once again, we have to re-do our confidence interval:
@@ -312,7 +317,7 @@ sample_means %>%
     geom_histogram(binwidth = 0.5)
 ```
 
-<img src="08-power_files/figure-html/unnamed-chunk-25-1.png" width="672" />
+<img src="08-power_files/figure-html/unnamed-chunk-20-1.png" width="672" />
 
 ```r
 pnorm(q = ci_lower, mean = null_mean + effect_size, sd = null_sd / sqrt(sample_size)) +
@@ -323,9 +328,8 @@ pnorm(q = ci_lower, mean = null_mean + effect_size, sd = null_sd / sqrt(sample_s
 ## [1] 0.2944317
 ```
 
-.
-
-\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:unnamed-chunk-26"><strong>(\#exr:unnamed-chunk-26) </strong></span>Try changing `alpha_level` in the code above to different values and then re-run the code to make a histogram and calculate power.  Try to find an alpha level where the power ends up as close as you can get it to 0.8 without going over.  What alpha level did you find?
+\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:ex0806"><strong>(\#exr:ex0806) </strong></span>
+Try changing `alpha_level` in the code above to different values and then re-run the code to make a histogram and calculate power.  Try to find an alpha level where the power ends up as close as you can get it to 0.8 without going over.  What alpha level did you find?
 </div>\EndKnitrBlock{exercise}
 
 ### Population standard deviation
@@ -356,7 +360,7 @@ sample_means %>%
     geom_histogram(binwidth = 0.5)
 ```
 
-<img src="08-power_files/figure-html/unnamed-chunk-28-1.png" width="672" />
+<img src="08-power_files/figure-html/unnamed-chunk-22-1.png" width="672" />
 
 ```r
 pnorm(q = ci_lower, mean = null_mean + effect_size, sd = null_sd / sqrt(sample_size)) +
@@ -367,7 +371,8 @@ pnorm(q = ci_lower, mean = null_mean + effect_size, sd = null_sd / sqrt(sample_s
 ## [1] 0.08501566
 ```
 
-\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:unnamed-chunk-29"><strong>(\#exr:unnamed-chunk-29) </strong></span>Try changing `null_sd` in the code above to different values and then re-run the code following it to make a histogram and calculate power.  Try to find a population SD where the power ends up as close as you can get it to 0.8 without going over.  What population SD did you find?
+\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:ex0807"><strong>(\#exr:ex0807) </strong></span>
+Try changing `null_sd` in the code above to different values and then re-run the code following it to make a histogram and calculate power.  Try to find a population SD where the power ends up as close as you can get it to 0.8 without going over.  What population SD did you find?
 </div>\EndKnitrBlock{exercise}
 
 ## Using data to test the null hypothesis
@@ -435,7 +440,8 @@ But remember that because this is a **two-tailed** test, we need to multiply the
 
 This is the final $p$ value, and we can see that it is less than our alpha level of 0.05.
 
-\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:unnamed-chunk-36"><strong>(\#exr:unnamed-chunk-36) </strong></span>By rejecting the null hypothesis, our results are statistically significant.  Do you believe they are practically significant?  In other words, do you believe that the improvement in scores resulting from the learning activity is large enough to care about?  Why or why not?
+\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:ex0808"><strong>(\#exr:ex0808) </strong></span>
+By rejecting the null hypothesis, our results are statistically significant.  Do you believe they are practically significant?  In other words, do you believe that the improvement in scores resulting from the learning activity is large enough to care about?  Why or why not?
 </div>\EndKnitrBlock{exercise}
 
 ### Estimated power
@@ -459,7 +465,7 @@ sample_means %>%
     geom_histogram(binwidth = 0.5)
 ```
 
-<img src="08-power_files/figure-html/unnamed-chunk-38-1.png" width="672" />
+<img src="08-power_files/figure-html/unnamed-chunk-30-1.png" width="672" />
 
 ```r
 pnorm(q = ci_lower, mean = null_mean + effect_size, sd = null_sd / sqrt(sample_size)) +
@@ -470,7 +476,8 @@ pnorm(q = ci_lower, mean = null_mean + effect_size, sd = null_sd / sqrt(sample_s
 ## [1] 0.9104759
 ```
 
-\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:unnamed-chunk-39"><strong>(\#exr:unnamed-chunk-39) </strong></span>Based on the power we just calculated, do you feel more confident believing that we correctly rejected the null hypothesis?  Does this change your opinion about whether the results are practically significant?  Why or why not?
+\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:ex0809"><strong>(\#exr:ex0809) </strong></span>
+Based on the power we just calculated, do you feel more confident believing that we correctly rejected the null hypothesis?  Does this change your opinion about whether the results are practically significant?  Why or why not?
 </div>\EndKnitrBlock{exercise}
 
 ## Wrap-up
