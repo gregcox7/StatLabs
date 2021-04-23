@@ -457,7 +457,15 @@ batting <- batting %>%
 
 #### Inspecting the data
 
-As before, let's construct a set of histograms so we can get a sense of whether there are any outliers or if any of the groups look like they might be very different from the others.  We will modify the code we used above for `AVG`, so you'll need to fill in the blanks to get something like the result below (play around with different `binwidth`s until you find one that seems good):
+First, let's get a sense of the central tendency (mean) and variability (standard deviation) of the slugging average for each position:
+
+```{r}
+batting %>%
+    group_by(Position) %>%
+    summarize(M = mean(SLG), S = sd(SLG))
+```
+
+Next, let's construct a set of histograms so we can get a sense of whether there are any outliers or if any of the groups look like they might be very different from the others.  We will modify the code we used above for `AVG`, so you'll need to fill in the blanks to get something like the result below (play around with different `binwidth`s until you find one that seems good):
 
 ```{r eval = FALSE}
 batting %>%

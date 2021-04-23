@@ -724,7 +724,32 @@ batting <- batting %>%
 
 #### Inspecting the data
 
-As before, let's construct a set of histograms so we can get a sense of whether there are any outliers or if any of the groups look like they might be very different from the others.  We will modify the code we used above for `AVG`, so you'll need to fill in the blanks to get something like the result below (play around with different `binwidth`s until you find one that seems good):
+First, let's get a sense of the central tendency (mean) and variability (standard deviation) of the slugging average for each position:
+
+
+```r
+batting %>%
+    group_by(Position) %>%
+    summarize(M = mean(SLG), S = sd(SLG))
+```
+
+```
+## # A tibble: 10 x 3
+##    Position     M      S
+##    <chr>    <dbl>  <dbl>
+##  1 1B       0.431 0.0979
+##  2 2B       0.349 0.111 
+##  3 3B       0.397 0.148 
+##  4 C        0.336 0.114 
+##  5 CF       0.354 0.119 
+##  6 DH       0.441 0.0528
+##  7 LF       0.399 0.113 
+##  8 P        0.123 0.237 
+##  9 RF       0.374 0.128 
+## 10 SS       0.355 0.110
+```
+
+Next, let's construct a set of histograms so we can get a sense of whether there are any outliers or if any of the groups look like they might be very different from the others.  We will modify the code we used above for `AVG`, so you'll need to fill in the blanks to get something like the result below (play around with different `binwidth`s until you find one that seems good):
 
 
 ```r
@@ -734,7 +759,7 @@ batting %>%
     facet_wrap("Position", scales = "free_y")
 ```
 
-<img src="10-indep_groups_files/figure-html/unnamed-chunk-33-1.png" width="672" />
+<img src="10-indep_groups_files/figure-html/unnamed-chunk-34-1.png" width="672" />
 
 \BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:ex1009"><strong>(\#exr:ex1009) </strong></span>
 What code did you write to make something like the set of histograms above?  What did you choose for your `binwidth`?

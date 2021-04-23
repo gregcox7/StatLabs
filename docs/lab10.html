@@ -917,12 +917,29 @@ What code did you write to do an ANOVA with <code>AVG</code> as the response var
 <span id="cb436-2"><a href="lab10.html#cb436-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">SLG =</span> (H <span class="sc">+</span> Doubles <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> Triples <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> HR) <span class="sc">/</span> AB)</span></code></pre></div>
 <div id="inspecting-the-data" class="section level4" number="10.3.4.1">
 <h4><span class="header-section-number">10.3.4.1</span> Inspecting the data</h4>
-<p>As before, let’s construct a set of histograms so we can get a sense of whether there are any outliers or if any of the groups look like they might be very different from the others. We will modify the code we used above for <code>AVG</code>, so you’ll need to fill in the blanks to get something like the result below (play around with different <code>binwidth</code>s until you find one that seems good):</p>
+<p>First, let’s get a sense of the central tendency (mean) and variability (standard deviation) of the slugging average for each position:</p>
 <div class="sourceCode" id="cb437"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb437-1"><a href="lab10.html#cb437-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%&gt;%</span></span>
-<span id="cb437-2"><a href="lab10.html#cb437-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___)) <span class="sc">+</span></span>
-<span id="cb437-3"><a href="lab10.html#cb437-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> ___) <span class="sc">+</span></span>
-<span id="cb437-4"><a href="lab10.html#cb437-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="st">&quot;Position&quot;</span>, <span class="at">scales =</span> <span class="st">&quot;free_y&quot;</span>)</span></code></pre></div>
-<p><img src="10-indep_groups_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
+<span id="cb437-2"><a href="lab10.html#cb437-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(Position) <span class="sc">%&gt;%</span></span>
+<span id="cb437-3"><a href="lab10.html#cb437-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">M =</span> <span class="fu">mean</span>(SLG), <span class="at">S =</span> <span class="fu">sd</span>(SLG))</span></code></pre></div>
+<pre><code>## # A tibble: 10 x 3
+##    Position     M      S
+##    &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;
+##  1 1B       0.431 0.0979
+##  2 2B       0.349 0.111 
+##  3 3B       0.397 0.148 
+##  4 C        0.336 0.114 
+##  5 CF       0.354 0.119 
+##  6 DH       0.441 0.0528
+##  7 LF       0.399 0.113 
+##  8 P        0.123 0.237 
+##  9 RF       0.374 0.128 
+## 10 SS       0.355 0.110</code></pre>
+<p>Next, let’s construct a set of histograms so we can get a sense of whether there are any outliers or if any of the groups look like they might be very different from the others. We will modify the code we used above for <code>AVG</code>, so you’ll need to fill in the blanks to get something like the result below (play around with different <code>binwidth</code>s until you find one that seems good):</p>
+<div class="sourceCode" id="cb439"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb439-1"><a href="lab10.html#cb439-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%&gt;%</span></span>
+<span id="cb439-2"><a href="lab10.html#cb439-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___)) <span class="sc">+</span></span>
+<span id="cb439-3"><a href="lab10.html#cb439-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> ___) <span class="sc">+</span></span>
+<span id="cb439-4"><a href="lab10.html#cb439-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="st">&quot;Position&quot;</span>, <span class="at">scales =</span> <span class="st">&quot;free_y&quot;</span>)</span></code></pre></div>
+<p><img src="10-indep_groups_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
 
 <div class="exercise">
 <p><span id="exr:ex1009" class="exercise"><strong>Exercise 10.9  </strong></span>
@@ -933,9 +950,9 @@ What code did you write to make something like the set of histograms above? What
 <div id="anova-including-pitchers" class="section level4" number="10.3.4.2">
 <h4><span class="header-section-number">10.3.4.2</span> ANOVA including pitchers</h4>
 <p>First, let’s run the ANOVA including all positions, including pitchers. Remember that we are now using slugging average (<code>SLG</code>) as the response variable. Fill in the blank to get the result below.</p>
-<div class="sourceCode" id="cb438"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb438-1"><a href="lab10.html#cb438-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%$%</span></span>
-<span id="cb438-2"><a href="lab10.html#cb438-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(___ <span class="sc">~</span> Position) <span class="sc">%&gt;%</span></span>
-<span id="cb438-3"><a href="lab10.html#cb438-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">anova</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb440"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb440-1"><a href="lab10.html#cb440-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%$%</span></span>
+<span id="cb440-2"><a href="lab10.html#cb440-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(___ <span class="sc">~</span> Position) <span class="sc">%&gt;%</span></span>
+<span id="cb440-3"><a href="lab10.html#cb440-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">anova</span>()</span></code></pre></div>
 <pre><code>## Analysis of Variance Table
 ## 
 ## Response: SLG
@@ -945,12 +962,12 @@ What code did you write to make something like the set of histograms above? What
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>Again, an extremely unlikely result if the null hypothesis were true! As a result, we reject the null hypothesis and can move on to conducting post hoc pairwise tests to see which groups differ from one another. Again, fill in the blank to get the result below:</p>
-<div class="sourceCode" id="cb440"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb440-1"><a href="lab10.html#cb440-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%$%</span></span>
-<span id="cb440-2"><a href="lab10.html#cb440-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pairwise.t.test</span>(</span>
-<span id="cb440-3"><a href="lab10.html#cb440-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">x =</span> ___,</span>
-<span id="cb440-4"><a href="lab10.html#cb440-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">g =</span> Position,</span>
-<span id="cb440-5"><a href="lab10.html#cb440-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">p.adjust.method =</span> <span class="st">&#39;bonferroni&#39;</span></span>
-<span id="cb440-6"><a href="lab10.html#cb440-6" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div>
+<div class="sourceCode" id="cb442"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb442-1"><a href="lab10.html#cb442-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%$%</span></span>
+<span id="cb442-2"><a href="lab10.html#cb442-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pairwise.t.test</span>(</span>
+<span id="cb442-3"><a href="lab10.html#cb442-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">x =</span> ___,</span>
+<span id="cb442-4"><a href="lab10.html#cb442-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">g =</span> Position,</span>
+<span id="cb442-5"><a href="lab10.html#cb442-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">p.adjust.method =</span> <span class="st">&#39;bonferroni&#39;</span></span>
+<span id="cb442-6"><a href="lab10.html#cb442-6" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div>
 <pre><code>## 
 ##  Pairwise comparisons using t tests with pooled SD 
 ## 
@@ -977,10 +994,10 @@ What did you put in the blank to get the correct pairwise <span class="math inli
 <div id="anova-excluding-pitchers" class="section level4" number="10.3.4.3">
 <h4><span class="header-section-number">10.3.4.3</span> ANOVA excluding pitchers</h4>
 <p>Just to be on the safe side, let’s see how that ANOVA would turn out if we had excluded pitchers. Now we need to insert a <code>filter</code> line. Fill in the blanks below to conduct the ANOVA:</p>
-<div class="sourceCode" id="cb442"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb442-1"><a href="lab10.html#cb442-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%&gt;%</span></span>
-<span id="cb442-2"><a href="lab10.html#cb442-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(___) <span class="sc">%$%</span></span>
-<span id="cb442-3"><a href="lab10.html#cb442-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(___ <span class="sc">~</span> Position) <span class="sc">%&gt;%</span></span>
-<span id="cb442-4"><a href="lab10.html#cb442-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">anova</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb444"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb444-1"><a href="lab10.html#cb444-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%&gt;%</span></span>
+<span id="cb444-2"><a href="lab10.html#cb444-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(___) <span class="sc">%$%</span></span>
+<span id="cb444-3"><a href="lab10.html#cb444-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(___ <span class="sc">~</span> Position) <span class="sc">%&gt;%</span></span>
+<span id="cb444-4"><a href="lab10.html#cb444-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">anova</span>()</span></code></pre></div>
 <pre><code>## Analysis of Variance Table
 ## 
 ## Response: SLG
@@ -995,13 +1012,13 @@ What did you put in the blank to get the correct pairwise <span class="math inli
 What code did you write to do an ANOVA using <code>SLG</code> as the response variable instead of <code>AVG</code>?</p>
 </div>
 <p>Interesting! Again, a result that would be very unlikely if the null hypothesis were true, even though we have excluded pitchers from the set of groups being compared. Time for some post hoc pairwise tests…</p>
-<div class="sourceCode" id="cb444"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb444-1"><a href="lab10.html#cb444-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%&gt;%</span></span>
-<span id="cb444-2"><a href="lab10.html#cb444-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(___) <span class="sc">%$%</span></span>
-<span id="cb444-3"><a href="lab10.html#cb444-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pairwise.t.test</span>(</span>
-<span id="cb444-4"><a href="lab10.html#cb444-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">x =</span> ___,</span>
-<span id="cb444-5"><a href="lab10.html#cb444-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">g =</span> Position,</span>
-<span id="cb444-6"><a href="lab10.html#cb444-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">p.adjust.method =</span> <span class="st">&#39;bonferroni&#39;</span></span>
-<span id="cb444-7"><a href="lab10.html#cb444-7" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div>
+<div class="sourceCode" id="cb446"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb446-1"><a href="lab10.html#cb446-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%&gt;%</span></span>
+<span id="cb446-2"><a href="lab10.html#cb446-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(___) <span class="sc">%$%</span></span>
+<span id="cb446-3"><a href="lab10.html#cb446-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pairwise.t.test</span>(</span>
+<span id="cb446-4"><a href="lab10.html#cb446-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">x =</span> ___,</span>
+<span id="cb446-5"><a href="lab10.html#cb446-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">g =</span> Position,</span>
+<span id="cb446-6"><a href="lab10.html#cb446-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">p.adjust.method =</span> <span class="st">&#39;bonferroni&#39;</span></span>
+<span id="cb446-7"><a href="lab10.html#cb446-7" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div>
 <pre><code>## 
 ##  Pairwise comparisons using t tests with pooled SD 
 ## 
