@@ -144,49 +144,258 @@ Two-tailed           | Negative                           | `2 * pt(q = t, df = 
 
 If the $p$ value is less than the alpha level, you *reject* the null hypothesis, otherwise you *fail to reject* it.
 
-<!-- ### Doing them all at once -->
+### Doing them all at once
 
-<!-- If we're going to do $t$ tests all at once, we need to make sure we have loaded the `tidyverse` and `infer` packages: -->
+If we're going to do $t$ tests all at once, we need to make sure we have loaded the `tidyverse` and `infer` packages:
 
-<!-- ```{r} -->
-<!-- library(tidyverse) -->
-<!-- library(infer) -->
-<!-- ``` -->
+```{r}
+library(tidyverse)
+library(infer)
+```
 
-<!-- For the following examples,  -->
+#### One-sample $t$ test
 
-<!-- #### One-sample $t$ test -->
+In this example, I'll use some simple artificial data:
 
-<!-- 1. Translate your **research question** into a **null** and **alternative** hypothesis. -->
+```{r}
+my_data <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/one_sample_t_test_data.csv")
+```
 
-<!-- I will assume in this example that the population mean according to our null hypothesis is $\mu = 0$, but you can change this as you need: -->
+```{r}
+my_data
+```
 
-<!-- ```{r} -->
-<!-- null_mean <- 0 -->
-<!-- ``` -->
+1. Translate your **research question** into a **null** and **alternative** hypothesis.
 
-<!-- 2. Decide on an **alpha level**. -->
+I will assume in this example that the population mean according to our null hypothesis is $\mu = 0$, but you can change this as you need:
 
-<!-- 3. Find the $t$ value. -->
+```{r}
+null_mean <- 0
+```
 
-<!-- First, let's calculate the $t$ value and get R to remember it under the label `t`: -->
+2. Decide on an **alpha level**.
 
-<!-- ```{r} -->
-<!-- t <- my_data %>% -->
-<!--     specify(response = X) %>% -->
-<!--     hypothesize(null = 'point', mu = null_mean) %>% -->
-<!--     calculate(stat = 't') -->
-<!-- ``` -->
+I will tell R to remember our choice of alpha level like so:
 
-<!-- 4. Find the $p$ value. -->
+```{r}
+alpha_level <- 0.05
+```
 
-<!-- Direction of test    | Is $t$ value positive or negative? | Code -->
-<!-- ---------------------|------------------------------------|------------------------------------ -->
-<!-- One-tailed (less)    | NA                                 | `pt(q = t, df = df_1 + df_2)` -->
-<!-- One-tailed (greater) | NA                                 | `1 - pt(q = t, df = df_1 + df_2)` -->
-<!-- Two-tailed           | Positive                           | `2 * (1 - pt(q = t, df = df_1 + df_2))` -->
-<!-- Two-tailed           | Negative                           | `2 * pt(q = t, df = df_1 + df_2)` -->
+3. Find the $t$ value.
 
-<!-- 5. Decide whether or not to reject the null hypothesis. -->
+4. Find the $p$ value.
 
-<!-- If the $p$ value is less than the alpha level, you *reject* the null hypothesis, otherwise you *fail to reject* it. -->
+Both the previous two steps are accomplished in the same chunk of code:
+
+```{r}
+my_data %>%
+    t_test(
+        response = X,
+        alternative = "two.sided",
+        mu = null_mean,
+        conf_level = 1 - alpha_level
+    )
+```
+
+To do this with your own data, make sure to tell R the name of your dataset (replace `my_data`) and the name of your response variable (replace `X`).  And make sure R is remembering the correct values for `null_mean` and `alpha_level`, which we set in steps 1 and 2 above.
+
+You will need to change what you put for `alternative` depending on your null and alternative hypotheses:
+
+Direction of test    | Code                       
+---------------------|----------------------------
+One-tailed (less)    | `alternative = "less"` 
+One-tailed (greater) | `alternative = "greater"`
+Two-tailed           | `alternative = "two.sided"`
+
+5. Decide whether or not to reject the null hypothesis.
+
+If the $p$ value is less than the alpha level, you *reject* the null hypothesis, otherwise you *fail to reject* it.
+
+#### Paired samples $t$ test
+
+In this example, I'll use some simple artificial data:
+
+```{r}
+my_data <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/paired_sample_t_test_data.csv")
+```
+
+```{r}
+my_data
+```
+
+**Preliminary step:** If the data does not already have a variable for the difference scores, we need to create it using the `mutate` function and then tell R to update the original data.
+
+```{r}
+my_data <- my_data %>%
+    mutate(D = X_1 - X_2)
+```
+
+1. Translate your **research question** into a **null** and **alternative** hypothesis.
+
+I will assume in this example that the population mean according to our null hypothesis is $\mu_D = 0$, but you can change this as you need:
+
+```{r}
+null_mean <- 0
+```
+
+2. Decide on an **alpha level**.
+
+I will tell R to remember our choice of alpha level like so:
+
+```{r}
+alpha_level <- 0.05
+```
+
+3. Find the $t$ value.
+
+4. Find the $p$ value.
+
+Both the previous two steps are accomplished in the same chunk of code:
+
+```{r}
+my_data %>%
+    t_test(
+        response = D,
+        alternative = "two.sided",
+        mu = null_mean,
+        conf_level = 1 - alpha_level
+    )
+```
+
+To do this with your own data, make sure to tell R the name of your dataset (replace `my_data`) and the name of your response variable (replace `D`).  And make sure R is remembering the correct values for `null_mean` and `alpha_level`, which we set in steps 1 and 2 above.
+
+You will need to change what you put for `alternative` depending on your null and alternative hypotheses:
+
+Direction of test    | Code                       
+---------------------|----------------------------
+One-tailed (less)    | `alternative = "less"` 
+One-tailed (greater) | `alternative = "greater"`
+Two-tailed           | `alternative = "two.sided"`
+
+5. Decide whether or not to reject the null hypothesis.
+
+If the $p$ value is less than the alpha level, you *reject* the null hypothesis, otherwise you *fail to reject* it.
+
+#### Independent samples $t$ test
+
+In this example, I'll use some simple artificial data:
+
+```{r}
+my_data <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/indep_samples_t_test_data.csv")
+```
+
+```{r}
+my_data
+```
+
+1. Translate your **research question** into a **null** and **alternative** hypothesis.
+
+I will assume in this example that the population mean according to our null hypothesis is $\mu_1 - \mu_2 = 0$, but you can change this as you need:
+
+```{r}
+null_mean <- 0
+```
+
+2. Decide on an **alpha level**.
+
+I will tell R to remember our choice of alpha level like so:
+
+```{r}
+alpha_level <- 0.05
+```
+
+3. Find the $t$ value.
+
+4. Find the $p$ value.
+
+Both the previous two steps are accomplished in the same chunk of code:
+
+```{r}
+my_data %>%
+    t_test(
+        X ~ Group,
+        alternative = "two.sided",
+        mu = null_mean,
+        var.equal = TRUE,
+        conf_level = 1 - alpha_level
+    )
+```
+
+To do this with your own data, make sure to tell R the name of your dataset (replace `my_data`), the name of your response variable (replace `X`), and the name of your explanatory variable that designates which of the two samples each observation came from (replace `Group`).  And make sure R is remembering the correct values for `null_mean` and `alpha_level`, which we set in steps 1 and 2 above.
+
+In the above example, we assumed that the variances between the two groups were approximately equal; this is what the line `var.equal = TRUE` means.  If we have reason to believe they are not equal, we can say `var.equal = FALSE`, but we won't be using that option in this course.
+
+You will need to change what you put for `alternative` depending on your null and alternative hypotheses:
+
+Direction of test    | Code                       
+---------------------|----------------------------
+One-tailed (less)    | `alternative = "less"` 
+One-tailed (greater) | `alternative = "greater"`
+Two-tailed           | `alternative = "two.sided"`
+
+5. Decide whether or not to reject the null hypothesis.
+
+If the $p$ value is less than the alpha level, you *reject* the null hypothesis, otherwise you *fail to reject* it.
+
+## Analysis of Variance (ANOVA)
+
+As we've seen, ANOVA is not something that is typically done by hand, so we will only illustrate how to do it all at once.  We will need to load the `magrittr` package from R's library:
+
+```{r}
+library(magrittr)
+```
+
+As we've seen, ANOVA has two stages:  First, we conduct an ANOVA to see if we have evidence that groups tend to differ from one another on average.  Second, if we are able to reject the null hypothesis with our ANOVA, we move on to conduct post hoc pairwise $t$ tests to see if we have evidence about which groups differ from one another.
+
+For these examples, we will use a simple example dataset:
+
+```{r}
+my_data <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/anova_data.csv")
+```
+
+### ANOVA
+
+1. Translate your **research question** into a **null** and **alternative** hypothesis.
+
+As we've seen, this part is easy because the null hypothesis in ANOVA is always the same:  The null hypothesis is that all samples come from populations that have equal means ($H_0$: $\mu_1 = \mu_2 = \cdots = \mu_G$).  The alternative hypothesis is that the samples come from populations with means that are not all equal; in other words, at least one population mean is different from the others.
+
+2. Decide on an **alpha level**.
+
+Let's assume that we have adopted an alpha level of 0.05.
+
+3. Find the $F$ value.
+
+4. Find the $p$ value.
+
+Both the previous two steps are accomplished in the same chunk of code:
+
+```{r}
+my_data %$%
+    lm(X ~ Group) %>%
+    anova()
+```
+
+To do this with your own data, make sure to tell R the name of your dataset (replace `my_data`), the name of your response variable (replace `X`), and the name of your explanatory variable that designates which sample each observation came from (replace `Group`).
+
+5. Decide whether or not to reject the null hypothesis.
+
+If the $p$ value is less than the alpha level, you *reject* the null hypothesis, otherwise you *fail to reject* it.
+
+### Post hoc pairwise $t$ tests
+
+If we reject the ANOVA null hypothesis (as we did in the above example), then we proceed to do "post hoc" pairwise $t$ tests.  The purpose of these tests is to see if we have evidence about which groups differ from one another.
+
+"Under the hood", R is doing independent samples $t$ tests between each pair of groups in our data.  Each of those tests is two-tailed, meaning the null hypothesis for each of these tests is $H_0$: $\mu_1 - \mu_2 = 0$ (step 1).  We retain the same alpha level that we used in our ANOVA (step 2).  R does not show us the $t$ values (step 3), only the $p$ values (step 4) from each test.  These $p$ values are "adjusted" in order to avoid increasing the probability of a Type I error, and we have to tell R what adjustment to use.  Finally, it us up to us to decide whether or not to reject the null hypothesis *in each test* based on the $p$ values and our alpha level.
+
+This is how it is done in R:
+
+```{r}
+my_data %$%
+    pairwise.t.test(
+        x = X,
+        g = Group,
+        p.adjust.method = 'bonferroni'
+    )
+```
+
+As above, remember that you'll need to swap out `my_data` for your own data, as well as changing the names of the response variable (in `x = ___`) and the explanatory variable (in `g = ___`).

@@ -270,3 +270,10 @@ doing-them-step-by-step
 one-sample-t-test-1
 paired-samples-t-test
 independent-samples-t-test-1
+doing-them-all-at-once
+one-sample-t-test-2
+paired-samples-t-test-1
+independent-samples-t-test-2
+analysis-of-variance-anova
+anova
+post-hoc-pairwise-t-tests
