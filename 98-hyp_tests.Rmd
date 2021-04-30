@@ -339,9 +339,10 @@ If the $p$ value is less than the alpha level, you *reject* the null hypothesis,
 
 ## Analysis of Variance (ANOVA)
 
-As we've seen, ANOVA is not something that is typically done by hand, so we will only illustrate how to do it all at once.  We will need to load the `magrittr` package from R's library:
+As we've seen, ANOVA is not something that is typically done by hand, so we will only illustrate how to do it all at once.  To do ANOVA, we need to load both the `tidyverse` and the `magrittr` packages from R's library:
 
 ```{r}
+library(tidyverse)
 library(magrittr)
 ```
 

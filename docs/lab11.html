@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Lab 4 Probability and simulation | Labs</title>
+  <title>Lab 11 Linear Regression | Labs</title>
   <meta name="description" content="Laboratory exercises for APSY210." />
   <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Lab 4 Probability and simulation | Labs" />
+  <meta property="og:title" content="Lab 11 Linear Regression | Labs" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Lab 4 Probability and simulation | Labs" />
+  <meta name="twitter:title" content="Lab 11 Linear Regression | Labs" />
   
   <meta name="twitter:description" content="Laboratory exercises for APSY210." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="lab3.html"/>
-<link rel="next" href="lab5.html"/>
+<link rel="prev" href="lab10.html"/>
+<link rel="next" href="coderef.html"/>
 <script src="libs/header-attrs-2.7/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -436,13 +436,12 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="lab4" class="section level1" number="4">
-<h1><span class="header-section-number">Lab 4</span> Probability and simulation</h1>
-<p><img src="img/kobe.png" width="100%" /></p>
-<p>We have seen that there are two senses in which we can think about probability. On the one hand, we can think of the probability of an outcome as its <strong>long-run relative frequency</strong>. We can therefore <em>estimate</em> the probability that an outcome will happen by seeing how often it occurred in the past, relative to all the other possible outcomes in our sample space. But on the other hand, we can think of probability as a <strong>degree of belief</strong> about how likely something is to happen. This second perspective lets us think about probabilities for events that only happen once; until the event happens, all the possible outcomes have some probability of occurring. We can <em>imagine</em> rewinding the clock and seeing how often an event may have turned out differently.</p>
-<p>Actually, with computers, we can do better than just imagine what might happen. We can use the computer to <strong>simulate</strong> many repetitions of an event.</p>
-<p>Before we begin, make sure you have opened the tidyverse package from the library:</p>
-<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="lab4.html#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<div id="lab11" class="section level1" number="11">
+<h1><span class="header-section-number">Lab 11</span> Linear Regression</h1>
+<p><img src="img/colin_jackson.jpg" width="100%" /></p>
+<p>In this session, we will get acquainted with <strong>linear regression</strong>. This is an important technique in statistics because it allows us both to make <em>inferences</em> about relationships between variables, and because it allows us to make <em>predictions</em> that help us make decisions. We will work through how to do linear regression in R to do both inference and prediction.</p>
+<p>Before we begin, make sure to grab our usual <code>tidyverse</code> package from R’s library, as well as the <code>magrittr</code> package:</p>
+<div class="sourceCode" id="cb448"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb448-1"><a href="lab11.html#cb448-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
 <pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
 <pre><code>## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
 ## ✓ tibble  3.1.1     ✓ dplyr   1.0.5
@@ -451,313 +450,333 @@ div.csl-indent {
 <pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
-<div id="simulation-basics" class="section level2" number="4.1">
-<h2><span class="header-section-number">4.1</span> Simulation basics</h2>
-<p>To begin, let’s think about the simple scenario of flipping a coin. The <strong>sample space</strong> consists of two possible outcomes, “Heads” and “Tails.”</p>
-<div id="single-coin-flips" class="section level3" number="4.1.1">
-<h3><span class="header-section-number">4.1.1</span> Single coin flips</h3>
-<p>We can simulate a single coin flip in R using a “function” called <code>sample</code>:</p>
-<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="lab4.html#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="st">&quot;Heads&quot;</span>, <span class="st">&quot;Tails&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb110-2"><a href="lab4.html#cb110-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sample</span>(<span class="at">size =</span> <span class="dv">1</span>)</span></code></pre></div>
-<pre><code>## [1] &quot;Tails&quot;</code></pre>
-<p>The first line in the code above tells R our sample space, which is a <strong>collection</strong> of two outcomes, “Heads” and “Tails.” We use the <code>%&gt;%</code> to tell R to take that sample space and, on the next line, take a <strong>sample</strong> of <strong>size</strong> 1 from that space. By “sample of size 1,” that’s just a precise way of saying “a single flip.”</p>
-<p>Try running that same bit of code a few more times, so we can see that R is really simulating coin flips—you don’t know ahead of time whether it will come up heads or tails.<a href="#fn38" class="footnote-ref" id="fnref38"><sup>38</sup></a></p>
-<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="lab4.html#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="st">&quot;Heads&quot;</span>, <span class="st">&quot;Tails&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb112-2"><a href="lab4.html#cb112-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sample</span>(<span class="at">size =</span> <span class="dv">1</span>)</span></code></pre></div>
-<pre><code>## [1] &quot;Heads&quot;</code></pre>
-</div>
-<div id="a-sequence-of-coin-flips" class="section level3" number="4.1.2">
-<h3><span class="header-section-number">4.1.2</span> A sequence of coin flips</h3>
-<p>It is kind of fun to keep flipping our simulated coin, but it would take a long time to do this repeatedly. As you might have guessed, we can change the <code>size</code> of our sample to quickly give us a long sequence of coin flips. Let’s try that now and see if we can get a sequence of 10 flips.</p>
-<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="lab4.html#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="st">&quot;Heads&quot;</span>, <span class="st">&quot;Tails&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb114-2"><a href="lab4.html#cb114-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sample</span>(<span class="at">size =</span> <span class="dv">10</span>)</span></code></pre></div>
-<pre><code>## Error in sample.int(length(x), size, replace, prob): cannot take a sample larger than the population when &#39;replace = FALSE&#39;</code></pre>
-<p>We got an error! Why is that? It’s because, by default, when you tell R to draw samples, it does so <strong>without replacement</strong>. In other words, once it draws a sample from the sample space, whatever outcome it sampled doesn’t get put back into the space. This wasn’t a problem when we ran the single-sample code multiple times because we told R to start with a “fresh” sample space each time—that’s what the first line <code>c("Heads", "Tails") %&gt;%</code> means.</p>
-<p>Luckily, this is easily fixed by just telling R to sample with replacement like so:</p>
-<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="lab4.html#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="st">&quot;Heads&quot;</span>, <span class="st">&quot;Tails&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb116-2"><a href="lab4.html#cb116-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sample</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<pre><code>##  [1] &quot;Tails&quot; &quot;Heads&quot; &quot;Tails&quot; &quot;Heads&quot; &quot;Tails&quot; &quot;Heads&quot; &quot;Tails&quot; &quot;Tails&quot; &quot;Tails&quot;
-## [10] &quot;Tails&quot;</code></pre>
-<p>Just like R gave us “fresh” single flips, if we run the 10-flip code again, we will probably get a different sequence of outcomes:</p>
-<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="lab4.html#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="st">&quot;Heads&quot;</span>, <span class="st">&quot;Tails&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb118-2"><a href="lab4.html#cb118-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sample</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<pre><code>##  [1] &quot;Tails&quot; &quot;Heads&quot; &quot;Tails&quot; &quot;Heads&quot; &quot;Tails&quot; &quot;Heads&quot; &quot;Heads&quot; &quot;Tails&quot; &quot;Tails&quot;
-## [10] &quot;Tails&quot;</code></pre>
-<p>And for the computer, doing 50 flips is not much harder than just 10<a href="#fn39" class="footnote-ref" id="fnref39"><sup>39</sup></a>:</p>
-<pre><code>##  [1] &quot;Tails&quot; &quot;Tails&quot; &quot;Tails&quot; &quot;Heads&quot; &quot;Tails&quot; &quot;Heads&quot; &quot;Tails&quot; &quot;Tails&quot; &quot;Tails&quot;
-## [10] &quot;Tails&quot; &quot;Tails&quot; &quot;Tails&quot; &quot;Heads&quot; &quot;Tails&quot; &quot;Tails&quot; &quot;Tails&quot; &quot;Heads&quot; &quot;Tails&quot;
-## [19] &quot;Heads&quot; &quot;Heads&quot; &quot;Tails&quot; &quot;Heads&quot; &quot;Tails&quot; &quot;Tails&quot; &quot;Tails&quot; &quot;Tails&quot; &quot;Tails&quot;
-## [28] &quot;Heads&quot; &quot;Tails&quot; &quot;Heads&quot; &quot;Heads&quot; &quot;Tails&quot; &quot;Heads&quot; &quot;Tails&quot; &quot;Tails&quot; &quot;Tails&quot;
-## [37] &quot;Heads&quot; &quot;Tails&quot; &quot;Heads&quot; &quot;Heads&quot; &quot;Heads&quot; &quot;Tails&quot; &quot;Heads&quot; &quot;Tails&quot; &quot;Tails&quot;
-## [46] &quot;Heads&quot; &quot;Heads&quot; &quot;Tails&quot; &quot;Heads&quot; &quot;Tails&quot;</code></pre>
-</div>
-<div id="remembering-simulated-results" class="section level3" number="4.1.3">
-<h3><span class="header-section-number">4.1.3</span> Remembering simulated results</h3>
-<p>The problem with simulating so many outcomes is that now it is hard to keep track of them! And, as we’ve seen, we can’t just copy-and-paste the same line of code each time we want to refer back to our simulated outcomes, because that will produce a <em>new</em> sequence of outcomes. Instead, let’s tell R to remember the outcomes we simulated.</p>
-<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="lab4.html#cb121-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Heads&quot;</span>, <span class="st">&quot;Tails&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb121-2"><a href="lab4.html#cb121-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sample</span>(<span class="at">size =</span> <span class="dv">50</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<p>All we did was add <code>result &lt;-</code> to the beginning of our code. Like we saw last time, this will let R remember the particular sequence of outcomes under the label “result.” If we type “result” at the console, we’ll see that R looks back in its memory and tells us how that sequence of 50 flips turned out.</p>
-<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="lab4.html#cb122-1" aria-hidden="true" tabindex="-1"></a>result</span></code></pre></div>
-<pre><code>##  [1] &quot;Heads&quot; &quot;Tails&quot; &quot;Heads&quot; &quot;Tails&quot; &quot;Tails&quot; &quot;Heads&quot; &quot;Tails&quot; &quot;Heads&quot; &quot;Tails&quot;
-## [10] &quot;Heads&quot; &quot;Tails&quot; &quot;Tails&quot; &quot;Heads&quot; &quot;Tails&quot; &quot;Tails&quot; &quot;Tails&quot; &quot;Tails&quot; &quot;Tails&quot;
-## [19] &quot;Tails&quot; &quot;Heads&quot; &quot;Heads&quot; &quot;Heads&quot; &quot;Tails&quot; &quot;Heads&quot; &quot;Tails&quot; &quot;Heads&quot; &quot;Tails&quot;
-## [28] &quot;Heads&quot; &quot;Heads&quot; &quot;Tails&quot; &quot;Heads&quot; &quot;Heads&quot; &quot;Tails&quot; &quot;Heads&quot; &quot;Tails&quot; &quot;Heads&quot;
-## [37] &quot;Heads&quot; &quot;Heads&quot; &quot;Tails&quot; &quot;Tails&quot; &quot;Heads&quot; &quot;Heads&quot; &quot;Tails&quot; &quot;Heads&quot; &quot;Heads&quot;
-## [46] &quot;Heads&quot; &quot;Heads&quot; &quot;Tails&quot; &quot;Tails&quot; &quot;Heads&quot;</code></pre>
-<p>But if we simulate a new sequence of flips and tell R to remember it under the label “result,” it will forget the original sequence:</p>
-<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="lab4.html#cb124-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Heads&quot;</span>, <span class="st">&quot;Tails&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb124-2"><a href="lab4.html#cb124-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sample</span>(<span class="at">size =</span> <span class="dv">50</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb124-3"><a href="lab4.html#cb124-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb124-4"><a href="lab4.html#cb124-4" aria-hidden="true" tabindex="-1"></a>result</span></code></pre></div>
-<pre><code>##  [1] &quot;Tails&quot; &quot;Tails&quot; &quot;Heads&quot; &quot;Tails&quot; &quot;Heads&quot; &quot;Tails&quot; &quot;Heads&quot; &quot;Heads&quot; &quot;Heads&quot;
-## [10] &quot;Tails&quot; &quot;Tails&quot; &quot;Tails&quot; &quot;Tails&quot; &quot;Tails&quot; &quot;Tails&quot; &quot;Tails&quot; &quot;Heads&quot; &quot;Heads&quot;
-## [19] &quot;Heads&quot; &quot;Tails&quot; &quot;Heads&quot; &quot;Heads&quot; &quot;Heads&quot; &quot;Tails&quot; &quot;Heads&quot; &quot;Heads&quot; &quot;Tails&quot;
-## [28] &quot;Tails&quot; &quot;Heads&quot; &quot;Tails&quot; &quot;Heads&quot; &quot;Heads&quot; &quot;Tails&quot; &quot;Tails&quot; &quot;Heads&quot; &quot;Heads&quot;
-## [37] &quot;Heads&quot; &quot;Tails&quot; &quot;Heads&quot; &quot;Tails&quot; &quot;Heads&quot; &quot;Tails&quot; &quot;Heads&quot; &quot;Tails&quot; &quot;Heads&quot;
-## [46] &quot;Tails&quot; &quot;Heads&quot; &quot;Heads&quot; &quot;Tails&quot; &quot;Heads&quot;</code></pre>
-</div>
-<div id="turning-simulated-results-into-data" class="section level3" number="4.1.4">
-<h3><span class="header-section-number">4.1.4</span> Turning simulated results into “data”</h3>
-<p>Now that we can simulate long sequences of outcomes and get R to remember them, we are going to get R to treat those outcomes as if they were “data,” in other words, as if they were from a real coin instead of a simulated one. R keeps data in a special form called a “tibble.” We’ve seen this cutesy form of the word “table” before; every time we used R to summarize a dataset, it told us the result was a “tibble.”</p>
-<p>We can create a “tibble” from our simulated flips like this</p>
-<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="lab4.html#cb126-1" aria-hidden="true" tabindex="-1"></a>coin_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(result)</span></code></pre></div>
-<p>We’ve told R to take our flips, turn them into a <code>tibble</code>, and remember the result under the label “coin_data.” Now when we ask R to remember “coin_data,” we see it looks a bit different</p>
-<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="lab4.html#cb127-1" aria-hidden="true" tabindex="-1"></a>coin_data</span></code></pre></div>
-<pre><code>## # A tibble: 50 x 1
-##    result
-##    &lt;chr&gt; 
-##  1 Tails 
-##  2 Tails 
-##  3 Heads 
-##  4 Tails 
-##  5 Heads 
-##  6 Tails 
-##  7 Heads 
-##  8 Heads 
-##  9 Heads 
-## 10 Tails 
-## # … with 40 more rows</code></pre>
-</div>
-</div>
-<div id="estimating-probabilities" class="section level2" number="4.2">
-<h2><span class="header-section-number">4.2</span> Estimating probabilities</h2>
-<p>Now that R can treat our simulated flips like it would “real” data, we can summarize it just like we would “real” data. This will allow us to estimate the probabilities of different outcomes from their relative frequency.</p>
-<div id="frequency-table" class="section level3" number="4.2.1">
-<h3><span class="header-section-number">4.2.1</span> Frequency table</h3>
-<p>The first thing we want to know is how many flips were heads and how many were tails.</p>
-<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="lab4.html#cb129-1" aria-hidden="true" tabindex="-1"></a>coin_data <span class="sc">%&gt;%</span></span>
-<span id="cb129-2"><a href="lab4.html#cb129-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(result) <span class="sc">%&gt;%</span></span>
-<span id="cb129-3"><a href="lab4.html#cb129-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">n=</span><span class="fu">n</span>())</span></code></pre></div>
-<pre><code>## # A tibble: 2 x 2
-##   result     n
-##   &lt;chr&gt;  &lt;int&gt;
-## 1 Heads     26
-## 2 Tails     24</code></pre>
-<p>The summary above is a frequency table, which we have used before.<a href="#fn40" class="footnote-ref" id="fnref40"><sup>40</sup></a></p>
-</div>
-<div id="estimating-probability-from-frequency" class="section level3" number="4.2.2">
-<h3><span class="header-section-number">4.2.2</span> Estimating probability from frequency</h3>
-<p>Let’s use this frequency table to estimate the probability of getting either a heads or a tails. To do this, we need to add a line to the code above:</p>
-<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="lab4.html#cb131-1" aria-hidden="true" tabindex="-1"></a>coin_data <span class="sc">%&gt;%</span></span>
-<span id="cb131-2"><a href="lab4.html#cb131-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(result) <span class="sc">%&gt;%</span></span>
-<span id="cb131-3"><a href="lab4.html#cb131-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">n=</span><span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb131-4"><a href="lab4.html#cb131-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">p =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div>
-<pre><code>## # A tibble: 2 x 3
-##   result     n     p
-##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
-## 1 Heads     26  0.52
-## 2 Tails     24  0.48</code></pre>
-<p>The final line is called <code>mutate</code> because we are “mutating” the frequency counts to produce an estimate of the probability. We get that estimate (<code>p</code>) by taking the frequency of each outcome, <code>n</code>, and dividing it by the total number of outcomes (<code>sum(n)</code>).</p>
-<p>Let’s see how this works by simulating a longer sequence of coin flips (1000 flips) and replacing our old results:</p>
-<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="lab4.html#cb133-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Heads&quot;</span>, <span class="st">&quot;Tails&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb133-2"><a href="lab4.html#cb133-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sample</span>(<span class="at">size =</span> <span class="dv">1000</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb133-3"><a href="lab4.html#cb133-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb133-4"><a href="lab4.html#cb133-4" aria-hidden="true" tabindex="-1"></a>coin_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(result)</span>
-<span id="cb133-5"><a href="lab4.html#cb133-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb133-6"><a href="lab4.html#cb133-6" aria-hidden="true" tabindex="-1"></a>coin_data <span class="sc">%&gt;%</span></span>
-<span id="cb133-7"><a href="lab4.html#cb133-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(result) <span class="sc">%&gt;%</span></span>
-<span id="cb133-8"><a href="lab4.html#cb133-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">n=</span><span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb133-9"><a href="lab4.html#cb133-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">p =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div>
-<pre><code>## # A tibble: 2 x 3
-##   result     n     p
-##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
-## 1 Heads    520  0.52
-## 2 Tails    480  0.48</code></pre>
-<p>Now let’s try it with an even longer sequence of 10000 flips.<a href="#fn41" class="footnote-ref" id="fnref41"><sup>41</sup></a></p>
-<pre><code>## # A tibble: 2 x 3
-##   result     n     p
-##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
-## 1 Heads   4999 0.500
-## 2 Tails   5001 0.500</code></pre>
-</div>
-</div>
-<div id="more-advanced-simulation-tricks" class="section level2" number="4.3">
-<h2><span class="header-section-number">4.3</span> More advanced simulation tricks</h2>
-<p>So far, we have just been simulating flips of a fair coin. Now let’s see how we can simulate more complex situations.</p>
-<div id="making-up-our-own-probabilities" class="section level3" number="4.3.1">
-<h3><span class="header-section-number">4.3.1</span> Making up our own probabilities</h3>
-<p>By default, when you ask R to <code>sample</code>, it will assume that all the outcomes in the sample space have equal probability. That’s why when we asked R to simulate coin flips, heads and tails came up about equally often. Let’s mess with this and make ourselves a simulated <em>unfair</em> coin.</p>
-<p>The code below simulates 1000 flips of a coin that comes up heads with probability 0.6, rather than 0.5:</p>
-<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="lab4.html#cb136-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Heads&quot;</span>, <span class="st">&quot;Tails&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb136-2"><a href="lab4.html#cb136-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sample</span>(<span class="at">size =</span> <span class="dv">1000</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.6</span>, <span class="fl">0.4</span>))</span>
-<span id="cb136-3"><a href="lab4.html#cb136-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb136-4"><a href="lab4.html#cb136-4" aria-hidden="true" tabindex="-1"></a>coin_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(result)</span>
-<span id="cb136-5"><a href="lab4.html#cb136-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb136-6"><a href="lab4.html#cb136-6" aria-hidden="true" tabindex="-1"></a>coin_data <span class="sc">%&gt;%</span></span>
-<span id="cb136-7"><a href="lab4.html#cb136-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(result) <span class="sc">%&gt;%</span></span>
-<span id="cb136-8"><a href="lab4.html#cb136-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">n=</span><span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb136-9"><a href="lab4.html#cb136-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">p =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div>
-<pre><code>## # A tibble: 2 x 3
-##   result     n     p
-##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
-## 1 Heads    609 0.609
-## 2 Tails    391 0.391</code></pre>
-<p>Notice the main difference is that we added another part to the <code>sample</code> line. By adding <code>prob = c(0.6, 0.4)</code>, we told R that the <code>prob</code>ability of the <em>corresponding</em> outcomes in the sample space (<code>c("Heads", "Tails")</code>) should be 0.6 and 0.4, respectively. If we reverse the order of the probabilities, notice that “Tails” now comes out ahead:</p>
-<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="lab4.html#cb138-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Heads&quot;</span>, <span class="st">&quot;Tails&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb138-2"><a href="lab4.html#cb138-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sample</span>(<span class="at">size =</span> <span class="dv">1000</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.4</span>, <span class="fl">0.6</span>))</span>
-<span id="cb138-3"><a href="lab4.html#cb138-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb138-4"><a href="lab4.html#cb138-4" aria-hidden="true" tabindex="-1"></a>coin_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(result)</span>
-<span id="cb138-5"><a href="lab4.html#cb138-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb138-6"><a href="lab4.html#cb138-6" aria-hidden="true" tabindex="-1"></a>coin_data <span class="sc">%&gt;%</span></span>
-<span id="cb138-7"><a href="lab4.html#cb138-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(result) <span class="sc">%&gt;%</span></span>
-<span id="cb138-8"><a href="lab4.html#cb138-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">n=</span><span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb138-9"><a href="lab4.html#cb138-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">p =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div>
-<pre><code>## # A tibble: 2 x 3
-##   result     n     p
-##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
-## 1 Heads    398 0.398
-## 2 Tails    602 0.602</code></pre>
-<p>The first rule is that the first number in the collection of probabilities (after <code>prob</code>) gives the probability of the first outcome in the sample space, the second number gives the probability of the second outcome in the sample space, and so on. Now let’s try simulating 1000 flips where the probability of heads is 0.7:<a href="#fn42" class="footnote-ref" id="fnref42"><sup>42</sup></a></p>
-<pre><code>## # A tibble: 2 x 3
-##   result     n     p
-##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
-## 1 Heads    672 0.672
-## 2 Tails    328 0.328</code></pre>
-<p>Notice that the <strong>relative frequency</strong> of the different outcomes is always close to the probabilities we give to R.</p>
-</div>
-<div id="expanding-the-sample-space" class="section level3" number="4.3.2">
-<h3><span class="header-section-number">4.3.2</span> Expanding the sample space</h3>
-<p>In addition to messing with the probabilities, we can mess with the sample space. So far, we have been assuming that the coin can only come up heads or tails. What if the coin could land on its side? This would introduce a new possible <em>outcome</em> to our sample space. We need to change the first line of our simulation code to reflect this:</p>
-<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="lab4.html#cb141-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Heads&quot;</span>, <span class="st">&quot;Tails&quot;</span>, <span class="st">&quot;Side&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb141-2"><a href="lab4.html#cb141-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sample</span>(<span class="at">size =</span> <span class="dv">1000</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb141-3"><a href="lab4.html#cb141-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb141-4"><a href="lab4.html#cb141-4" aria-hidden="true" tabindex="-1"></a>coin_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(result)</span>
-<span id="cb141-5"><a href="lab4.html#cb141-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb141-6"><a href="lab4.html#cb141-6" aria-hidden="true" tabindex="-1"></a>coin_data <span class="sc">%&gt;%</span></span>
-<span id="cb141-7"><a href="lab4.html#cb141-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(result) <span class="sc">%&gt;%</span></span>
-<span id="cb141-8"><a href="lab4.html#cb141-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">n=</span><span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb141-9"><a href="lab4.html#cb141-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">p =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div>
-<pre><code>## # A tibble: 3 x 3
-##   result     n     p
-##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
-## 1 Heads    338 0.338
-## 2 Side     342 0.342
-## 3 Tails    320 0.32</code></pre>
-<p>Notice that the code above did not specify any <code>prob</code>abilities. As a result, all three outcomes in our sample space ended up happening about equally often. Let’s specify those probabilities to try and get the coin to come up on its side with probability 0.1, but otherwise come up heads or tails with equal probability and simulated 1000 flips. The result will look something like this:<a href="#fn43" class="footnote-ref" id="fnref43"><sup>43</sup></a></p>
-<pre><code>## # A tibble: 3 x 3
-##   result     n     p
-##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
-## 1 Heads    464 0.464
-## 2 Side     100 0.1  
-## 3 Tails    436 0.436</code></pre>
-</div>
-</div>
-<div id="estimating-probabilities-in-data" class="section level2" number="4.4">
-<h2><span class="header-section-number">4.4</span> Estimating probabilities in data</h2>
-<p>By now we are probably sick of coin flipping. Let’s take a break and watch some basketball. Specifically, let’s watch Kobe Bryant of the LA Lakers as they played against the Orlando Magic in the 2009 NBA finals. Use the following line of code to download a dataset consisting of every shooting attempt Kobe made that game, including whether or not it went in (i.e., was the shot a “Hit” or a “Miss”):</p>
-<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="lab4.html#cb144-1" aria-hidden="true" tabindex="-1"></a>kobe <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/kobe.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb452-1"><a href="lab11.html#cb452-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;magrittr&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     set_names</code></pre>
+<pre><code>## The following object is masked from &#39;package:tidyr&#39;:
+## 
+##     extract</code></pre>
+<div id="inference-the-answer-is-blowing-in-the-wind" class="section level2" number="11.1">
+<h2><span class="header-section-number">11.1</span> Inference: The Answer is Blowing in the Wind</h2>
+<p>We will get ourselves acquainted with linear regression in R using a small dataset. This dataset records the finishing times for <a href="https://en.wikipedia.org/wiki/Colin_Jackson">Colin Jackson</a> in the 110 meter hurdles that he competed in during the year 1990.</p>
+<p>Load the data into R:</p>
+<div class="sourceCode" id="cb456"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb456-1"><a href="lab11.html#cb456-1" aria-hidden="true" tabindex="-1"></a>wind_run_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/wind_run.csv&quot;</span>)</span></code></pre></div>
 <pre><code>## 
 ## ── Column specification ────────────────────────────────────────────────────────
 ## cols(
-##   vs = col_character(),
-##   game = col_double(),
-##   quarter = col_character(),
-##   time = col_time(format = &quot;&quot;),
-##   description = col_character(),
-##   shot = col_character(),
-##   prev_shot = col_character()
+##   Wind = col_double(),
+##   Time = col_double()
 ## )</code></pre>
-<div id="what-was-kobes-hit-rate" class="section level3" number="4.4.1">
-<h3><span class="header-section-number">4.4.1</span> What was Kobe’s hit rate?</h3>
-<p>The first question we should ask is how often Kobe’s shots go in (called his “field goal percentage”). We can modify the code we used to estimate probabilities from our simulated coin flips to do the same for Kobe’s real shot attempts:<a href="#fn44" class="footnote-ref" id="fnref44"><sup>44</sup></a></p>
-<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="lab4.html#cb146-1" aria-hidden="true" tabindex="-1"></a>kobe <span class="sc">%&gt;%</span></span>
-<span id="cb146-2"><a href="lab4.html#cb146-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(shot) <span class="sc">%&gt;%</span></span>
-<span id="cb146-3"><a href="lab4.html#cb146-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">n=</span><span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb146-4"><a href="lab4.html#cb146-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">p =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div>
-<pre><code>## # A tibble: 2 x 3
-##   shot      n     p
-##   &lt;chr&gt; &lt;int&gt; &lt;dbl&gt;
-## 1 H        57 0.432
-## 2 M        75 0.568</code></pre>
+<p>There are 21 total races, for which we have two variables observed:</p>
+<ul>
+<li><strong>Time</strong>: The amount of time Colin took to complete the race (in seconds).</li>
+<li><strong>Wind</strong>: The speed of the wind (in meters per second) during the race. Negative values are head winds, so they were blowing in Colin’s face. Positive values are tail winds, so they were blowing on his back.</li>
+</ul>
+<p>Let’s first make a <strong>scatterplot</strong> to see whether there might be a relationship between wind speed and finishing time:</p>
+<div class="sourceCode" id="cb458"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb458-1"><a href="lab11.html#cb458-1" aria-hidden="true" tabindex="-1"></a>wind_run_data <span class="sc">%&gt;%</span></span>
+<span id="cb458-2"><a href="lab11.html#cb458-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Wind, <span class="at">y =</span> Time)) <span class="sc">+</span></span>
+<span id="cb458-3"><a href="lab11.html#cb458-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>()</span></code></pre></div>
+<p><img src="11-regression_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+
+<div class="exercise">
+<p><span id="exr:ex1101" class="exercise"><strong>Exercise 11.1  </strong></span>Based on the scatterplot, how would you describe the relationship between wind speed and finishing time? Might they be correlated? If so, is the correlation positive or negative? Strong or weak?</p>
 </div>
-<div id="a-simulated-kobe" class="section level3" number="4.4.2">
-<h3><span class="header-section-number">4.4.2</span> A simulated Kobe</h3>
-<p>Using the estimates above, let’s see if we can construct a simulated Kobe Bryant that, like our simulated coin, will have roughly the same probability of making a basket as Kobe did. To do this, we need to specify our <strong>sample space</strong> (<code>c("H", "M")</code>, where “H” is for “hit” and “M” is for “miss”) and our <strong>probabilities</strong> (e.g., <code>prob = c(0.5, 0.5)</code> if we think hits and misses are equally likely). Since this is a simulated Kobe, we can make him attempt 1000 shots (or more):</p>
-<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="lab4.html#cb148-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;H&quot;</span>, <span class="st">&quot;M&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb148-2"><a href="lab4.html#cb148-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sample</span>(<span class="at">size =</span> <span class="dv">1000</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>))</span>
-<span id="cb148-3"><a href="lab4.html#cb148-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb148-4"><a href="lab4.html#cb148-4" aria-hidden="true" tabindex="-1"></a>simulated_kobe_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(result)</span>
-<span id="cb148-5"><a href="lab4.html#cb148-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb148-6"><a href="lab4.html#cb148-6" aria-hidden="true" tabindex="-1"></a>simulated_kobe_data <span class="sc">%&gt;%</span></span>
-<span id="cb148-7"><a href="lab4.html#cb148-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(result) <span class="sc">%&gt;%</span></span>
-<span id="cb148-8"><a href="lab4.html#cb148-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">n=</span><span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb148-9"><a href="lab4.html#cb148-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">p =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div>
-<pre><code>## # A tibble: 2 x 3
-##   result     n     p
-##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
-## 1 H        520  0.52
-## 2 M        480  0.48</code></pre>
-<p>Does this simulated Kobe look much like the real one? What should we change to make it look more like the real Kobe?<a href="#fn45" class="footnote-ref" id="fnref45"><sup>45</sup></a></p>
+<div id="what-a-line-is-made-of-slopes-and-intercepts" class="section level3" number="11.1.1">
+<h3><span class="header-section-number">11.1.1</span> What a line is made of: Slopes and Intercepts</h3>
+<p>Let’s see how well we can describe the relationship between wind speed and finishing time using a line. As we’ve seen, the equation for a line looks like this:</p>
+<p><span class="math display">\[
+\hat{Y} = b_1 X + b_0
+\]</span></p>
+<p>where <span class="math inline">\(b_1\)</span> is the <em>slope</em> and <span class="math inline">\(b_0\)</span> is the <em>intercept</em>. The slope describes how the response variable is predicted to change when the explanatory variable is increased by one. The intercept describes what the predicted response is when the explanatory variable equals zero.</p>
 </div>
-<div id="hot--or-cold-handed" class="section level3" number="4.4.3">
-<h3><span class="header-section-number">4.4.3</span> Hot- or cold-handed</h3>
-<p>Commentators at this particular game remarked that Kobe seemed to have a “hot hand.” In other words, they seemed to believe that once Kobe made a basket (“H”), he was <em>more likely</em> to make a basket on his next shot. This is a probability question! Specifically, it is a question about <strong>conditional probability</strong>. <em>Conditional on</em> whether Kobe’s previous shot was a hit or a miss, what is the probability that his next shot is a hit or a miss?</p>
-<p>We can address this question by modifying the code we used above to estimate probabilities:</p>
-<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="lab4.html#cb150-1" aria-hidden="true" tabindex="-1"></a>kobe <span class="sc">%&gt;%</span></span>
-<span id="cb150-2"><a href="lab4.html#cb150-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(prev_shot, shot) <span class="sc">%&gt;%</span></span>
-<span id="cb150-3"><a href="lab4.html#cb150-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">n=</span><span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb150-4"><a href="lab4.html#cb150-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">p =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div>
-<pre><code>## `summarise()` has grouped output by &#39;prev_shot&#39;. You can override using the `.groups` argument.</code></pre>
-<pre><code>## # A tibble: 4 x 4
-## # Groups:   prev_shot [2]
-##   prev_shot shot      n     p
-##   &lt;chr&gt;     &lt;chr&gt; &lt;int&gt; &lt;dbl&gt;
-## 1 H         H        21 0.368
-## 2 H         M        36 0.632
-## 3 M         H        36 0.48 
-## 4 M         M        39 0.52</code></pre>
-<p>Here, <code>prev_shot</code> refers to whether Kobe’s <code>prev</code>ious shot was a hit (“H”) or a miss (“M”). By adding <code>prev_shot</code> to the grouping in our second line, what we have done is tell R to count the number of times each <em>combination</em> of hit/miss on the previous shot and hit/miss on the current shot occurred.<a href="#fn46" class="footnote-ref" id="fnref46"><sup>46</sup></a> As a result, when we ask R in the final line to give us probabilities, it gives us the probability of a hit or miss on the current shot <em>conditional on</em> whether the previous shot was a hit or a miss.</p>
-<p>So, were the commentators right?<a href="#fn47" class="footnote-ref" id="fnref47"><sup>47</sup></a></p>
+<div id="adding-our-own-line" class="section level3" number="11.1.2">
+<h3><span class="header-section-number">11.1.2</span> Adding our own line</h3>
+<p>The following chunk of code adds a line to our scatterplot using <code>geom_abline</code>. Notice that we need to specify the <code>slope</code> and <code>intercept</code> of the line that we want to add.</p>
+<div class="sourceCode" id="cb459"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb459-1"><a href="lab11.html#cb459-1" aria-hidden="true" tabindex="-1"></a>wind_run_data <span class="sc">%&gt;%</span></span>
+<span id="cb459-2"><a href="lab11.html#cb459-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Wind, <span class="at">y =</span> Time)) <span class="sc">+</span></span>
+<span id="cb459-3"><a href="lab11.html#cb459-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb459-4"><a href="lab11.html#cb459-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="fl">0.1</span>, <span class="at">intercept =</span> <span class="fl">13.3</span>)</span></code></pre></div>
+<p><img src="11-regression_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+
+<div class="exercise">
+<p><span id="exr:ex1102" class="exercise"><strong>Exercise 11.2  </strong></span>Play around with the code above by changing the values for <code>slope</code> and <code>intercept</code> in the last line. See if you can find values for the slope and intercept that make the line run close to the points in the plot. What values did you find?</p>
 </div>
 </div>
-<div id="wrap-up-3" class="section level2" number="4.5">
-<h2><span class="header-section-number">4.5</span> Wrap-up</h2>
-<p>In this activity, we saw how we could use R to <strong>simulate</strong> outcomes of many repeated events. We could specify the <strong>sample space</strong> as well as the <strong>probability</strong> with which different outcomes could occur. We saw how the <strong>long-run relative frequency</strong> got close to these probabilities. Finally, we saw how we could use R to <strong>estimate</strong> probabilities from frequencies of different outcomes, including <strong>conditional probabilities</strong>.</p>
+<div id="adding-the-best-fitting-line" class="section level3" number="11.1.3">
+<h3><span class="header-section-number">11.1.3</span> Adding the best-fitting line</h3>
+<p>Now that we’ve got a reasonable guess about the best-fitting line, let’s see how close we were. We can add the best fitting line to our plot by adding another line to our code. This line is <code>stat_smooth(method = "lm")</code>. <code>stat_smooth</code> can draw various kinds of lines on top of our data that are meant to “smooth” the raw data and make it easier to see any important relationships there might be. In the parentheses, we tell R that the <code>method</code> it should use is <code>lm</code>, where <code>lm</code> stands for “linear model” (we’ve already seen <code>lm</code> and we’ll see it again shortly).</p>
+<p>Note that you’ll need to fill in the blanks in the code below with the slope and intercept you found in the last section.</p>
+<div class="sourceCode" id="cb460"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb460-1"><a href="lab11.html#cb460-1" aria-hidden="true" tabindex="-1"></a>wind_run_data <span class="sc">%&gt;%</span></span>
+<span id="cb460-2"><a href="lab11.html#cb460-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Wind, <span class="at">y =</span> Time)) <span class="sc">+</span></span>
+<span id="cb460-3"><a href="lab11.html#cb460-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb460-4"><a href="lab11.html#cb460-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_abline</span>(<span class="at">slope =</span> ___, <span class="at">intercept =</span> ___) <span class="sc">+</span></span>
+<span id="cb460-5"><a href="lab11.html#cb460-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">&#39;lm&#39;</span>)</span></code></pre></div>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="11-regression_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+
+<div class="exercise">
+<p><span id="exr:ex1103" class="exercise"><strong>Exercise 11.3  </strong></span>How close were you to the best-fitting line in blue? Notice that in addition to the line, there is a shaded region around the line. This shaded region is a visual representation of our <strong>uncertainty</strong> regarding the slope and intercept of the best-fitting line. Why do you think this region is narrower near the middle and gets wider toward the edges?</p>
+</div>
+</div>
+<div id="getting-the-slope-and-intercept" class="section level3" number="11.1.4">
+<h3><span class="header-section-number">11.1.4</span> Getting the slope and intercept</h3>
+<p>Being able to see the best-fitting line is great, but it doesn’t let us <em>do</em> anything with it. For example, if we want to predict Colin’s time under a stronger headwind (e.g., -4 m/s), we’ll need to actually know what <span class="math inline">\(b_1\)</span> and <span class="math inline">\(b_0\)</span> are.</p>
+<p>In class, we saw how to calculate the coefficients of the best-fitting line using the descriptive statistics for our data. Now, we will use R to do this. The code is shockingly similar to what we used for ANOVA last time:</p>
+<div class="sourceCode" id="cb462"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb462-1"><a href="lab11.html#cb462-1" aria-hidden="true" tabindex="-1"></a>wind_run_data <span class="sc">%$%</span></span>
+<span id="cb462-2"><a href="lab11.html#cb462-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(Time <span class="sc">~</span> Wind)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Time ~ Wind)
+## 
+## Coefficients:
+## (Intercept)         Wind  
+##     13.3218      -0.0846</code></pre>
+<p>Once again, the first line tells R what data we are working with. The second line tells R that we want to find the best-fitting “linear model” (<code>lm</code>) that describes the linear relationship between our response variable (<code>Time</code>) and our explanatory variable (<code>Wind</code>). R then told us the coefficients of that line. R labels the slope with the same name as the explanatory variable (<code>Wind</code> in this case).</p>
+</div>
+<div id="how-much-variance-does-wind-speed-explain" class="section level3" number="11.1.5">
+<h3><span class="header-section-number">11.1.5</span> How much variance does wind speed explain?</h3>
+<p>As we’ve seen, we can use <span class="math inline">\(r^2\)</span> to describe how much of the variability in Colin’s finishing time can be explained by wind speed. Because <span class="math inline">\(r^2\)</span> is the square of the Pearson correlation coefficient, we can find it by first calculating the correlation between finishing time and wind speed:</p>
+<div class="sourceCode" id="cb464"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb464-1"><a href="lab11.html#cb464-1" aria-hidden="true" tabindex="-1"></a>wind_run_data <span class="sc">%&gt;%</span></span>
+<span id="cb464-2"><a href="lab11.html#cb464-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">r =</span> <span class="fu">cor</span>(Time, Wind))</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##        r
+##    &lt;dbl&gt;
+## 1 -0.635</code></pre>
+<p>If we take the square of that result, we’ll get the value of <span class="math inline">\(r^2\)</span>:</p>
+<div class="sourceCode" id="cb466"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb466-1"><a href="lab11.html#cb466-1" aria-hidden="true" tabindex="-1"></a>(<span class="sc">-</span><span class="fl">0.635</span>)<span class="sc">^</span><span class="dv">2</span></span></code></pre></div>
+<pre><code>## [1] 0.403225</code></pre>
+
+<div class="exercise">
+<p><span id="exr:ex1104" class="exercise"><strong>Exercise 11.4  </strong></span>Based on the value for <span class="math inline">\(r^2\)</span>, do you think that wind speed has a big effect on Colin’s finishing times? A small effect? A moderate effect? Remember that <span class="math inline">\(r^2\)</span> is always between 0 (no effect) and 1 (explains everything).</p>
+</div>
+</div>
+<div id="making-predictions" class="section level3" number="11.1.6">
+<h3><span class="header-section-number">11.1.6</span> Making Predictions</h3>
+<p>We can now use the linear model to make predictions about how fast Colin will be expected to finish based on different wind speeds. First, let’s see what the model predicts for each of the observed wind speeds:</p>
+<div class="sourceCode" id="cb468"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb468-1"><a href="lab11.html#cb468-1" aria-hidden="true" tabindex="-1"></a>wind_run_data <span class="sc">%$%</span></span>
+<span id="cb468-2"><a href="lab11.html#cb468-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(Time <span class="sc">~</span> Wind) <span class="sc">%&gt;%</span></span>
+<span id="cb468-3"><a href="lab11.html#cb468-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>()</span></code></pre></div>
+<pre><code>##        1        2        3        4        5        6        7        8 
+## 13.56714 13.49100 13.45716 13.44024 13.38947 13.35563 13.35563 13.33871 
+##        9       10       11       12       13       14       15       16 
+## 13.33025 13.30487 13.30487 13.27949 13.27949 13.25411 13.23719 13.22873 
+##       17       18       19       20       21 
+## 13.22873 13.22027 13.13567 13.08490 13.07644</code></pre>
+<p>The result is what the model <em>predicts</em> Colin’s finishing time would have been for each race in our dataset. In other words, these are all the <span class="math inline">\(\hat{Y}_i\)</span>’s for each <span class="math inline">\(X_i\)</span> in our data. We can also get the <strong>residuals</strong> for each prediction, to see how far off it was:</p>
+<div class="sourceCode" id="cb470"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb470-1"><a href="lab11.html#cb470-1" aria-hidden="true" tabindex="-1"></a>wind_run_data <span class="sc">%$%</span></span>
+<span id="cb470-2"><a href="lab11.html#cb470-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(Time <span class="sc">~</span> Wind) <span class="sc">%&gt;%</span></span>
+<span id="cb470-3"><a href="lab11.html#cb470-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">residuals</span>()</span></code></pre></div>
+<pre><code>##            1            2            3            4            5            6 
+## -0.037139491  0.139002832 -0.067156136  0.089764380  0.240525929 -0.185633039 
+##            7            8            9           10           11           12 
+## -0.105633039 -0.108712522  0.299747736 -0.214871490 -0.124871490 -0.199490716 
+##           13           14           15           16           17           18 
+##  0.100509284  0.265890059 -0.127189425 -0.128729167 -0.028729167  0.009731091 
+##           19           20           21 
+##  0.084333672  0.055095221  0.043555479</code></pre>
+<p>To make a prediction about a <em>new</em> race, we need to add something to our “predict” line. Specifically, we need to give it “new data” about the Wind speed for each prediction we want to make. This is how we can do this:</p>
+<div class="sourceCode" id="cb472"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb472-1"><a href="lab11.html#cb472-1" aria-hidden="true" tabindex="-1"></a>future_wind <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">Wind =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>))</span></code></pre></div>
+<p>The previous line of code created a new dataset called <code>future_wind</code> that contains a single variable called <code>Wind</code> which has 3 values, -1, 0, and 1. We can get Colin’s predicted time for each of these three wind speeds like so:</p>
+<div class="sourceCode" id="cb473"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb473-1"><a href="lab11.html#cb473-1" aria-hidden="true" tabindex="-1"></a>wind_run_data <span class="sc">%$%</span></span>
+<span id="cb473-2"><a href="lab11.html#cb473-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(Time <span class="sc">~</span> Wind) <span class="sc">%&gt;%</span></span>
+<span id="cb473-3"><a href="lab11.html#cb473-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>(<span class="at">newdata =</span> future_wind)</span></code></pre></div>
+<pre><code>##        1        2        3 
+## 13.40639 13.32179 13.23719</code></pre>
+
+<div class="exercise">
+<p><span id="exr:ex1105" class="exercise"><strong>Exercise 11.5  </strong></span>Create a new “future_wind” dataset that contains the values -30 and 30, then use the preceding chunk of code to get predictions for how long Colin will take to finish under those two conditions. What were the predictions? Do they seem reasonable? Does it seem reasonable that someone would be running when the wind is blowing 30 meters per second (67 miles per hour)?</p>
+</div>
+</div>
+<div id="hypothesis-testing" class="section level3" number="11.1.7">
+<h3><span class="header-section-number">11.1.7</span> Hypothesis Testing</h3>
+<p>Based on the plots we made earlier, it certainly looks like there is an approximately linear relationship between Colin’s finishing times and wind speed. But the slope of the best-fitting line is only about -0.08, which seems kind of small. So it is worth asking the <strong>research question</strong>, “is there a relationship between finishing time and wind speed?”</p>
+<p>Let’s use our standard 5-step hypothesis testing procedure to address this question.</p>
+<ol style="list-style-type: decimal">
+<li>Translate your research question into a null and alternative hypothesis</li>
+</ol>
+<p>Our <strong>null hypothesis</strong> is that there is no such relationship, meaning that the true value of the slope is 0 (<span class="math inline">\(H_0\)</span>: <span class="math inline">\(b_1 = 0\)</span>). Our <strong>alternative hypothesis</strong> is that there is a relationship, meaning that the true value of the slope is not zero (<span class="math inline">\(H_1\)</span>: <span class="math inline">\(b_1 \neq 0\)</span>).</p>
+<ol start="2" style="list-style-type: decimal">
+<li>Select an alpha level</li>
+</ol>
+<p>We will select a reasonable <strong>alpha level</strong> of 0.05.</p>
+<ol start="3" style="list-style-type: decimal">
+<li><p>Find the <span class="math inline">\(F\)</span> value</p></li>
+<li><p>Find the <span class="math inline">\(p\)</span> value</p></li>
+</ol>
+<p>These two steps can be done using…the very same code we used for ANOVA! As we saw in class, linear regression and ANOVA can be thought of as addressing the same question, it is just that the explanatory variable in ANOVA is nominal while the explanatory variable in linear regression is interval or ratio. The following code gives us both the <span class="math inline">\(F\)</span> value and the <span class="math inline">\(p\)</span> value:</p>
+<div class="sourceCode" id="cb475"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb475-1"><a href="lab11.html#cb475-1" aria-hidden="true" tabindex="-1"></a>wind_run_data <span class="sc">%$%</span></span>
+<span id="cb475-2"><a href="lab11.html#cb475-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(Time <span class="sc">~</span> Wind) <span class="sc">%&gt;%</span></span>
+<span id="cb475-3"><a href="lab11.html#cb475-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">anova</span>()</span></code></pre></div>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: Time
+##           Df  Sum Sq  Mean Sq F value  Pr(&gt;F)   
+## Wind       1 0.31535 0.315350  12.844 0.00198 **
+## Residuals 19 0.46648 0.024551                   
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>As you can see, the basic structure of that code and what we used for ANOVA is the same, and the resulting output is nearly identical as well. The difference is in the type of explanatory variable: It is a nominal variable in ANOVA, whereas it is an interval or ratio scale variable in linear regression. The shared basic outline is this:</p>
+<div class="sourceCode" id="cb477"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb477-1"><a href="lab11.html#cb477-1" aria-hidden="true" tabindex="-1"></a>Name_of_Data <span class="sc">%$%</span></span>
+<span id="cb477-2"><a href="lab11.html#cb477-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(Name_of_Response_Variable <span class="sc">~</span> Name_of_Explanatory_Variable) <span class="sc">%&gt;%</span></span>
+<span id="cb477-3"><a href="lab11.html#cb477-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">anova</span>()</span></code></pre></div>
+<ol start="5" style="list-style-type: decimal">
+<li>Decide whether or not to reject the null hypothesis</li>
+</ol>
+
+<div class="exercise">
+<p><span id="exr:ex1106" class="exercise"><strong>Exercise 11.6  </strong></span>Based on the <span class="math inline">\(p\)</span> value reported in the table above, and based on the alpha level we chose in step 2, do we reject the null hypothesis? What does this tell us about the relationship between Colin’s performance and wind speed?</p>
+</div>
+</div>
+</div>
+<div id="making-decisions-housing-prices" class="section level2" number="11.2">
+<h2><span class="header-section-number">11.2</span> Making Decisions: Housing Prices</h2>
+<p>Linear regression is often helpful when we have to make a decision. Specifically, if we want to make a decision about a response variable—and all we know is an explanatory variable—linear regression allows us to use the relationship between the response and explanatory variables to make a reasonable guess.</p>
+<p>One setting in which these decisions are important is <em>purchasing</em>. The seller needs to decide how much to price what they are selling. The potential buyer needs to know whether they are paying a fair price.</p>
+<p>To see this in action, we will look at housing sale data from the lovely college town of Ames, Iowa.</p>
+<div class="sourceCode" id="cb478"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb478-1"><a href="lab11.html#cb478-1" aria-hidden="true" tabindex="-1"></a>ames <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/ames.csv&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   PID = col_double(),
+##   area = col_double(),
+##   price = col_double(),
+##   Street = col_character(),
+##   Alley = col_character(),
+##   Lot.Shape = col_character(),
+##   Land.Contour = col_character(),
+##   Utilities = col_character(),
+##   Lot.Config = col_character(),
+##   Land.Slope = col_character(),
+##   Neighborhood = col_character(),
+##   Year.Built = col_double(),
+##   Foundation = col_character(),
+##   Heating = col_character(),
+##   Electrical = col_character()
+## )</code></pre>
+<p>Although there are a lot of variables in this dataset, there are two that we will focus on:</p>
+<ul>
+<li><strong>area</strong>: The total livable area of the house, in square feet.</li>
+<li><strong>price</strong>: The final price for which the house sold.</li>
+</ul>
+<div id="visualize-the-data" class="section level3" number="11.2.1">
+<h3><span class="header-section-number">11.2.1</span> Visualize the data</h3>
+<p>First, let’s make a scatterplot to visualize the relationship between these variables. Fill in the blanks below.</p>
+<div class="sourceCode" id="cb480"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb480-1"><a href="lab11.html#cb480-1" aria-hidden="true" tabindex="-1"></a>ames <span class="sc">%&gt;%</span></span>
+<span id="cb480-2"><a href="lab11.html#cb480-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___, <span class="at">y =</span> ___)) <span class="sc">+</span></span>
+<span id="cb480-3"><a href="lab11.html#cb480-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">___</span>()</span></code></pre></div>
+<p><img src="11-regression_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+
+<div class="exercise">
+<p><span id="exr:ex1107" class="exercise"><strong>Exercise 11.7  </strong></span>What did you put in the blanks above? How would you describe the relationship between area and price? Are they positively or negatively correlated? Is the correlation strong or weak? Do you notice any “outliers,” points that seem really odd relative to the rest of the data?</p>
+</div>
+</div>
+<div id="find-the-best-fitting-line" class="section level3" number="11.2.2">
+<h3><span class="header-section-number">11.2.2</span> Find the best-fitting line</h3>
+<p>Now let’s add the best-fitting line to our scatterplot (again, be sure to fill in the blanks; see the Colin Jackson example above for examples):</p>
+<div class="sourceCode" id="cb481"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb481-1"><a href="lab11.html#cb481-1" aria-hidden="true" tabindex="-1"></a>ames <span class="sc">%&gt;%</span></span>
+<span id="cb481-2"><a href="lab11.html#cb481-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___, <span class="at">y =</span> ___)) <span class="sc">+</span></span>
+<span id="cb481-3"><a href="lab11.html#cb481-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">___</span>() <span class="sc">+</span></span>
+<span id="cb481-4"><a href="lab11.html#cb481-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_smooth</span>(<span class="at">method =</span> ___)</span></code></pre></div>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="11-regression_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p>And let’s get the coefficients (slope and intercept) of the best-fitting line:</p>
+<div class="sourceCode" id="cb483"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb483-1"><a href="lab11.html#cb483-1" aria-hidden="true" tabindex="-1"></a>ames <span class="sc">%$%</span></span>
+<span id="cb483-2"><a href="lab11.html#cb483-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(price <span class="sc">~</span> area)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = price ~ area)
+## 
+## Coefficients:
+## (Intercept)         area  
+##     13289.6        111.7</code></pre>
+
+<div class="exercise">
+<p><span id="exr:ex1108" class="exercise"><strong>Exercise 11.8  </strong></span>What does the intercept tell us about house prices and area? What does the slope tell us about house prices and area? Based on the scatterplot, do you think the linear model does a better job predicting prices for different sized houses?</p>
+</div>
+</div>
+<div id="make-predictions" class="section level3" number="11.2.3">
+<h3><span class="header-section-number">11.2.3</span> Make Predictions</h3>
+<p>Now let’s put ourselves in different scenarios and see how our linear model can help us make decisions.</p>
+<div id="how-to-set-the-price" class="section level4" number="11.2.3.1">
+<h4><span class="header-section-number">11.2.3.1</span> How to set the price?</h4>
+<p>Let’s imagine that there are two houses on the market, one with a 1000 square foot area, one with 2000 square foot area. Let’s first use our linear model to <em>predict</em> the price for these three houses:</p>
+<div class="sourceCode" id="cb485"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb485-1"><a href="lab11.html#cb485-1" aria-hidden="true" tabindex="-1"></a>new_price <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">area =</span> <span class="fu">c</span>(<span class="dv">1000</span>, <span class="dv">2000</span>))</span>
+<span id="cb485-2"><a href="lab11.html#cb485-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb485-3"><a href="lab11.html#cb485-3" aria-hidden="true" tabindex="-1"></a>ames <span class="sc">%$%</span></span>
+<span id="cb485-4"><a href="lab11.html#cb485-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(price <span class="sc">~</span> area) <span class="sc">%&gt;%</span></span>
+<span id="cb485-5"><a href="lab11.html#cb485-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>(<span class="at">newdata =</span> new_price)</span></code></pre></div>
+<pre><code>##        1        2 
+## 124983.6 236677.6</code></pre>
+<p>As above, the first result is the predicted price for the 1000 square foot house and the second result is the predicted price for the 2000 square foot house.</p>
+
+<div class="exercise">
+<p><span id="exr:ex1109" class="exercise"><strong>Exercise 11.9  </strong></span>Imagine you are a seller. Look at the scatterplot to get a sense of where these predicted prices fall relative to all the houses around the two sizes. Do you think the prices predicted from the linear model are too low, too high, or about average for these two houses? Do you think you might have more flexibility in setting the price of the smaller house (1000 sq. ft.) or the larger house (2000 sq. ft.)?</p>
+</div>
+</div>
+<div id="am-i-getting-a-fair-price" class="section level4" number="11.2.3.2">
+<h4><span class="header-section-number">11.2.3.2</span> Am I getting a fair price?</h4>
+<p>Now let’s imagine that we are looking to buy a house. We have three different options which are 1200, 2400, and 4500 square feet in size, respectively. The listed prices for each house are</p>
+<table>
+<thead>
+<tr class="header">
+<th>House Area (<span class="math inline">\(X\)</span>)</th>
+<th>1200 sq. ft</th>
+<th>2400 sq. ft</th>
+<th>4500 sq. ft</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Actual Price (<span class="math inline">\(Y\)</span>)</td>
+<td>$150000.00</td>
+<td>$400000.00</td>
+<td>$250000.00</td>
+</tr>
+</tbody>
+</table>
+<p>Let’s use our linear model to predict what the prices for these houses <em>would</em> be. By comparing these predictions to the actual prices, we can see which prices seem fair, which seem excessively high, and which might be a discount.</p>
+<p>First, fill in the blanks to get the predicted price for each of these houses:</p>
+<div class="sourceCode" id="cb487"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb487-1"><a href="lab11.html#cb487-1" aria-hidden="true" tabindex="-1"></a>new_price <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">___ =</span> <span class="fu">c</span>(___))</span>
+<span id="cb487-2"><a href="lab11.html#cb487-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb487-3"><a href="lab11.html#cb487-3" aria-hidden="true" tabindex="-1"></a>ames <span class="sc">%$%</span></span>
+<span id="cb487-4"><a href="lab11.html#cb487-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(price <span class="sc">~</span> area) <span class="sc">%&gt;%</span></span>
+<span id="cb487-5"><a href="lab11.html#cb487-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>(<span class="at">newdata =</span> new_price)</span></code></pre></div>
+<pre><code>##        1        2        3 
+## 147322.4 281355.2 515912.6</code></pre>
+
+<div class="exercise">
+<p><span id="exr:ex1110" class="exercise"><strong>Exercise 11.10  </strong></span>By comparing the actual prices to the predicted prices, which of the three houses seems like a good deal? Which seem to be overpriced?</p>
+</div>
+</div>
+</div>
+</div>
+<div id="wrap-up-10" class="section level2" number="11.3">
+<h2><span class="header-section-number">11.3</span> Wrap-up</h2>
+<p>Today, we saw how to do linear regression in R, including</p>
+<ol style="list-style-type: decimal">
+<li>How to visualize the best-fitting line that relates an explanatory variable and a response variable.</li>
+<li>How to get the coefficients of the best-fitting line.</li>
+<li>How to find the proportion of variance explained by the linear relationship (<span class="math inline">\(r^2\)</span>).</li>
+<li>How to make predictions using a linear model.</li>
+<li>How to test the null hypothesis that the slope of the line is zero, to draw inferences about whether there is a meaningful relationship between the explanatory and response variables.</li>
+<li>How to use predictions from the linear model to help make decisions.</li>
+</ol>
 
 </div>
 </div>
-<div class="footnotes">
-<hr />
-<ol start="38">
-<li id="fn38"><p>How many times did you have to run the coin-flip simulation before you got at least one “Heads” and at least one “Tails?”<a href="lab4.html#fnref38" class="footnote-back">↩︎</a></p></li>
-<li id="fn39"><p>What code would produce a sequence of 50 flips at once? <em>Hint: what is the number we had to change in the <code>sample</code> line to get 10 flips?</em><a href="lab4.html#fnref39" class="footnote-back">↩︎</a></p></li>
-<li id="fn40"><p>Compare the code we just used to produce a frequency table with the code we used to make frequency tables in Lab 1. What is similar and what is different?<a href="lab4.html#fnref40" class="footnote-back">↩︎</a></p></li>
-<li id="fn41"><p>What would you change in the code above to make it produce 10000 flips? Does it seem like the estimated probabilities are closer to 0.5 for both heads and tails with more flips?<a href="lab4.html#fnref41" class="footnote-back">↩︎</a></p></li>
-<li id="fn42"><p>How would you change our coin flipping code to do this? <em>Hint: remember that probabilities should always add up to 1.</em><a href="lab4.html#fnref42" class="footnote-back">↩︎</a></p></li>
-<li id="fn43"><p>What would you add to the simulation code to make the probability of heads, tails, and side come out this way? <em>Hint: Remember how we specified the probabilities for the unfair coin, and that all three probabilities should add up to 1.</em><a href="lab4.html#fnref43" class="footnote-back">↩︎</a></p></li>
-<li id="fn44"><p>Compare the code below to the code we used above to estimate probabilities from our simulated coin flips. What is similar and what is different?<a href="lab4.html#fnref44" class="footnote-back">↩︎</a></p></li>
-<li id="fn45"><p>Play around with the <code>prob</code>abilities in the code for simulating shots from Kobe Bryant until you find some probabilities that make his hit rate look similar to what we actually observed. What probabilities did you end up with?<a href="lab4.html#fnref45" class="footnote-back">↩︎</a></p></li>
-<li id="fn46"><p>Compare the code we just used with the code we used to get the number of passengers who did or did not survive on the <em>Titanic</em> in each class. What is similar and what is different?<a href="lab4.html#fnref46" class="footnote-back">↩︎</a></p></li>
-<li id="fn47"><p>Did Kobe have a “hot hand?” Did he have a “cold hand,” where missing a shot meant it was more likely he would miss his next shot? Was there something else going on? Or was there no particular difference depending on whether he made or missed his previous shot?<a href="lab4.html#fnref47" class="footnote-back">↩︎</a></p></li>
-</ol>
-</div>
+
+
+
             </section>
 
           </div>
         </div>
       </div>
-<a href="lab3.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="lab5.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="lab10.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="coderef.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

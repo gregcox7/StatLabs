@@ -24,7 +24,7 @@
 <meta name="author" content="Greg Cox" />
 
 
-<meta name="date" content="2021-04-23" />
+<meta name="date" content="2021-04-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -359,6 +359,26 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="10.4" data-path="lab10.html"><a href="lab10.html#wrap-up-9"><i class="fa fa-check"></i><b>10.4</b> Wrap-up</a></li>
 </ul></li>
+<li class="chapter" data-level="11" data-path="lab11.html"><a href="lab11.html"><i class="fa fa-check"></i><b>11</b> Linear Regression</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="lab11.html"><a href="lab11.html#inference-the-answer-is-blowing-in-the-wind"><i class="fa fa-check"></i><b>11.1</b> Inference: The Answer is Blowing in the Wind</a>
+<ul>
+<li class="chapter" data-level="11.1.1" data-path="lab11.html"><a href="lab11.html#what-a-line-is-made-of-slopes-and-intercepts"><i class="fa fa-check"></i><b>11.1.1</b> What a line is made of: Slopes and Intercepts</a></li>
+<li class="chapter" data-level="11.1.2" data-path="lab11.html"><a href="lab11.html#adding-our-own-line"><i class="fa fa-check"></i><b>11.1.2</b> Adding our own line</a></li>
+<li class="chapter" data-level="11.1.3" data-path="lab11.html"><a href="lab11.html#adding-the-best-fitting-line"><i class="fa fa-check"></i><b>11.1.3</b> Adding the best-fitting line</a></li>
+<li class="chapter" data-level="11.1.4" data-path="lab11.html"><a href="lab11.html#getting-the-slope-and-intercept"><i class="fa fa-check"></i><b>11.1.4</b> Getting the slope and intercept</a></li>
+<li class="chapter" data-level="11.1.5" data-path="lab11.html"><a href="lab11.html#how-much-variance-does-wind-speed-explain"><i class="fa fa-check"></i><b>11.1.5</b> How much variance does wind speed explain?</a></li>
+<li class="chapter" data-level="11.1.6" data-path="lab11.html"><a href="lab11.html#making-predictions"><i class="fa fa-check"></i><b>11.1.6</b> Making Predictions</a></li>
+<li class="chapter" data-level="11.1.7" data-path="lab11.html"><a href="lab11.html#hypothesis-testing"><i class="fa fa-check"></i><b>11.1.7</b> Hypothesis Testing</a></li>
+</ul></li>
+<li class="chapter" data-level="11.2" data-path="lab11.html"><a href="lab11.html#making-decisions-housing-prices"><i class="fa fa-check"></i><b>11.2</b> Making Decisions: Housing Prices</a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="lab11.html"><a href="lab11.html#visualize-the-data"><i class="fa fa-check"></i><b>11.2.1</b> Visualize the data</a></li>
+<li class="chapter" data-level="11.2.2" data-path="lab11.html"><a href="lab11.html#find-the-best-fitting-line"><i class="fa fa-check"></i><b>11.2.2</b> Find the best-fitting line</a></li>
+<li class="chapter" data-level="11.2.3" data-path="lab11.html"><a href="lab11.html#make-predictions"><i class="fa fa-check"></i><b>11.2.3</b> Make Predictions</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="lab11.html"><a href="lab11.html#wrap-up-10"><i class="fa fa-check"></i><b>11.3</b> Wrap-up</a></li>
+</ul></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="A" data-path="coderef.html"><a href="coderef.html"><i class="fa fa-check"></i><b>A</b> Distributions</a>
 <ul>
@@ -416,26 +436,26 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="hyptests" class="section level1" number="12">
+<div id="hyptests" class="section level1" number="13">
 <h1><span class="header-section-number">B</span> Hypothesis Tests</h1>
-<div id="t-tests" class="section level2" number="12.1">
+<div id="t-tests" class="section level2" number="13.1">
 <h2><span class="header-section-number">B.1</span> <span class="math inline">\(t\)</span> tests</h2>
-<div id="doing-them-step-by-step" class="section level3" number="12.1.1">
+<div id="doing-them-step-by-step" class="section level3" number="13.1.1">
 <h3><span class="header-section-number">B.1.1</span> Doing them step-by-step</h3>
-<div id="one-sample-t-test-1" class="section level4" number="12.1.1.1">
+<div id="one-sample-t-test-1" class="section level4" number="13.1.1.1">
 <h4><span class="header-section-number">B.1.1.1</span> One-sample <span class="math inline">\(t\)</span> test</h4>
 <p>For the following example, I’ve labeled the collection of observed data as <code>X</code>. If you put your own collection of values under the same label, the following code will give you what you need to do a <span class="math inline">\(t\)</span> test on your own data.</p>
-<div class="sourceCode" id="cb503"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb503-1"><a href="hyptests.html#cb503-1" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.58</span>, <span class="fl">1.02</span>, <span class="fl">1.25</span>, <span class="sc">-</span><span class="fl">0.02</span>, <span class="fl">1.15</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb544"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb544-1"><a href="hyptests.html#cb544-1" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.58</span>, <span class="fl">1.02</span>, <span class="fl">1.25</span>, <span class="sc">-</span><span class="fl">0.02</span>, <span class="fl">1.15</span>)</span></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>Translate your <strong>research question</strong> into a <strong>null</strong> and <strong>alternative</strong> hypothesis.</li>
 </ol>
 <p>I will assume in this example that the population mean if the null hypothesis is true is <span class="math inline">\(\mu = 0\)</span>, but you can replace this with your own <code>null_mean</code> as you need.</p>
-<div class="sourceCode" id="cb504"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb504-1"><a href="hyptests.html#cb504-1" aria-hidden="true" tabindex="-1"></a>null_mean <span class="ot">&lt;-</span> <span class="dv">0</span></span></code></pre></div>
+<div class="sourceCode" id="cb545"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb545-1"><a href="hyptests.html#cb545-1" aria-hidden="true" tabindex="-1"></a>null_mean <span class="ot">&lt;-</span> <span class="dv">0</span></span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li><p>Decide on an <strong>alpha level</strong>.</p></li>
 <li><p>Find the <span class="math inline">\(t\)</span> value (<span class="math inline">\(t = \frac{\bar{X} - \mu}{\hat{\sigma} / \sqrt{N}}\)</span>):</p></li>
 </ol>
-<div class="sourceCode" id="cb505"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb505-1"><a href="hyptests.html#cb505-1" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> (<span class="fu">mean</span>(X) <span class="sc">-</span> null_mean) <span class="sc">/</span> (<span class="fu">sd</span>(X) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(X)))</span></code></pre></div>
+<div class="sourceCode" id="cb546"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb546-1"><a href="hyptests.html#cb546-1" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> (<span class="fu">mean</span>(X) <span class="sc">-</span> null_mean) <span class="sc">/</span> (<span class="fu">sd</span>(X) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(X)))</span></code></pre></div>
 <ol start="4" style="list-style-type: decimal">
 <li>Find the <span class="math inline">\(p\)</span> value.</li>
 </ol>
@@ -475,24 +495,24 @@ div.csl-indent {
 </ol>
 <p>If the <span class="math inline">\(p\)</span> value is less than the alpha level, you <em>reject</em> the null hypothesis, otherwise you <em>fail to reject</em> it.</p>
 </div>
-<div id="paired-samples-t-test" class="section level4" number="12.1.1.2">
+<div id="paired-samples-t-test" class="section level4" number="13.1.1.2">
 <h4><span class="header-section-number">B.1.1.2</span> Paired samples <span class="math inline">\(t\)</span> test</h4>
 <p>For the following example, I’ve labeled the pairs of observed values as <code>X_1</code> and <code>X_2</code>. If you put your own collection of values under the same labels, the following code will give you what you need to do a <span class="math inline">\(t\)</span> test on your own data.</p>
-<div class="sourceCode" id="cb506"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb506-1"><a href="hyptests.html#cb506-1" aria-hidden="true" tabindex="-1"></a>X_1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.58</span>, <span class="fl">1.02</span>, <span class="fl">1.25</span>, <span class="sc">-</span><span class="fl">0.02</span>, <span class="fl">1.15</span>)</span>
-<span id="cb506-2"><a href="hyptests.html#cb506-2" aria-hidden="true" tabindex="-1"></a>X_2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">2.05</span>, <span class="sc">-</span><span class="fl">0.92</span>, <span class="sc">-</span><span class="fl">1.18</span>, <span class="sc">-</span><span class="fl">0.16</span>, <span class="fl">0.73</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb547"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb547-1"><a href="hyptests.html#cb547-1" aria-hidden="true" tabindex="-1"></a>X_1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.58</span>, <span class="fl">1.02</span>, <span class="fl">1.25</span>, <span class="sc">-</span><span class="fl">0.02</span>, <span class="fl">1.15</span>)</span>
+<span id="cb547-2"><a href="hyptests.html#cb547-2" aria-hidden="true" tabindex="-1"></a>X_2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">2.05</span>, <span class="sc">-</span><span class="fl">0.92</span>, <span class="sc">-</span><span class="fl">1.18</span>, <span class="sc">-</span><span class="fl">0.16</span>, <span class="fl">0.73</span>)</span></code></pre></div>
 <p>We then need to get the <em>difference</em> between each pair of values, like so:</p>
-<div class="sourceCode" id="cb507"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb507-1"><a href="hyptests.html#cb507-1" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> X_1 <span class="sc">-</span> X_2</span></code></pre></div>
+<div class="sourceCode" id="cb548"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb548-1"><a href="hyptests.html#cb548-1" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> X_1 <span class="sc">-</span> X_2</span></code></pre></div>
 <p>Remember to keep track of the order in which you did the subtraction!</p>
 <ol style="list-style-type: decimal">
 <li>Translate your <strong>research question</strong> into a <strong>null</strong> and <strong>alternative</strong> hypothesis.</li>
 </ol>
 <p>I will assume in this example that the population mean difference if the null hypothesis is true is <span class="math inline">\(\mu_D = 0\)</span>, since this is the most common use for a paired-sample <span class="math inline">\(t\)</span> test, but you can replace this with your own <code>null_mean</code> as you need.</p>
-<div class="sourceCode" id="cb508"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb508-1"><a href="hyptests.html#cb508-1" aria-hidden="true" tabindex="-1"></a>null_mean <span class="ot">&lt;-</span> <span class="dv">0</span></span></code></pre></div>
+<div class="sourceCode" id="cb549"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb549-1"><a href="hyptests.html#cb549-1" aria-hidden="true" tabindex="-1"></a>null_mean <span class="ot">&lt;-</span> <span class="dv">0</span></span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li><p>Decide on an <strong>alpha level</strong>.</p></li>
 <li><p>Find the <span class="math inline">\(t\)</span> value (<span class="math inline">\(t = \frac{\bar{D} - \mu_D}{\hat{\sigma}_D / \sqrt{N}}\)</span>).</p></li>
 </ol>
-<div class="sourceCode" id="cb509"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb509-1"><a href="hyptests.html#cb509-1" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> (<span class="fu">mean</span>(D) <span class="sc">-</span> null_mean) <span class="sc">/</span> (<span class="fu">sd</span>(D) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(D)))</span></code></pre></div>
+<div class="sourceCode" id="cb550"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb550-1"><a href="hyptests.html#cb550-1" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> (<span class="fu">mean</span>(D) <span class="sc">-</span> null_mean) <span class="sc">/</span> (<span class="fu">sd</span>(D) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(D)))</span></code></pre></div>
 <ol start="4" style="list-style-type: decimal">
 <li>Find the <span class="math inline">\(p\)</span> value.</li>
 </ol>
@@ -532,27 +552,27 @@ div.csl-indent {
 </ol>
 <p>If the <span class="math inline">\(p\)</span> value is less than the alpha level, you <em>reject</em> the null hypothesis, otherwise you <em>fail to reject</em> it.</p>
 </div>
-<div id="independent-samples-t-test-1" class="section level4" number="12.1.1.3">
+<div id="independent-samples-t-test-1" class="section level4" number="13.1.1.3">
 <h4><span class="header-section-number">B.1.1.3</span> Independent samples <span class="math inline">\(t\)</span> test</h4>
 <p>For the following example, I’ve labeled the pairs of observed values as <code>X_1</code> and <code>X_2</code>. Note that they are different from above and that they are not the same size. If you put your own collection of values under the same labels, the following code will give you what you need to do a <span class="math inline">\(t\)</span> test on your own data.</p>
-<div class="sourceCode" id="cb510"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb510-1"><a href="hyptests.html#cb510-1" aria-hidden="true" tabindex="-1"></a>X_1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.87</span>, <span class="sc">-</span><span class="fl">0.13</span>, <span class="fl">0.13</span>, <span class="sc">-</span><span class="fl">0.14</span>, <span class="sc">-</span><span class="fl">0.45</span>, <span class="sc">-</span><span class="dv">1</span>)</span>
-<span id="cb510-2"><a href="hyptests.html#cb510-2" aria-hidden="true" tabindex="-1"></a>X_2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.06</span>, <span class="sc">-</span><span class="fl">0.99</span>, <span class="fl">0.47</span>, <span class="fl">0.86</span>, <span class="fl">0.06</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb551"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb551-1"><a href="hyptests.html#cb551-1" aria-hidden="true" tabindex="-1"></a>X_1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.87</span>, <span class="sc">-</span><span class="fl">0.13</span>, <span class="fl">0.13</span>, <span class="sc">-</span><span class="fl">0.14</span>, <span class="sc">-</span><span class="fl">0.45</span>, <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb551-2"><a href="hyptests.html#cb551-2" aria-hidden="true" tabindex="-1"></a>X_2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.06</span>, <span class="sc">-</span><span class="fl">0.99</span>, <span class="fl">0.47</span>, <span class="fl">0.86</span>, <span class="fl">0.06</span>)</span></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>Translate your <strong>research question</strong> into a <strong>null</strong> and <strong>alternative</strong> hypothesis.</li>
 </ol>
 <p>I will assume in this example that the difference in population means if the null hypothesis is true is <span class="math inline">\(\mu_1 - \mu_2 = 0\)</span>, since this is the most common use for a independent samples <span class="math inline">\(t\)</span> test, but you can replace this with your own <code>null_mean</code> as you need.</p>
-<div class="sourceCode" id="cb511"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb511-1"><a href="hyptests.html#cb511-1" aria-hidden="true" tabindex="-1"></a>null_mean <span class="ot">&lt;-</span> <span class="dv">0</span></span></code></pre></div>
+<div class="sourceCode" id="cb552"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb552-1"><a href="hyptests.html#cb552-1" aria-hidden="true" tabindex="-1"></a>null_mean <span class="ot">&lt;-</span> <span class="dv">0</span></span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li><p>Decide on an <strong>alpha level</strong>.</p></li>
 <li><p>Find the <span class="math inline">\(t\)</span> value.</p></li>
 </ol>
 <p>First, we need to find the pooled sample standard deviation (<span class="math inline">\(\hat{\sigma}_P = \sqrt{\frac{df_1 \hat{\sigma}_1^2 + df_2 \hat{\sigma}_2^2}{df_1 + df_2}}\)</span>)</p>
-<div class="sourceCode" id="cb512"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb512-1"><a href="hyptests.html#cb512-1" aria-hidden="true" tabindex="-1"></a>df_1 <span class="ot">&lt;-</span> <span class="fu">length</span>(X_1) <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb512-2"><a href="hyptests.html#cb512-2" aria-hidden="true" tabindex="-1"></a>df_2 <span class="ot">&lt;-</span> <span class="fu">length</span>(X_2) <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb512-3"><a href="hyptests.html#cb512-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb512-4"><a href="hyptests.html#cb512-4" aria-hidden="true" tabindex="-1"></a>sd_pooled <span class="ot">&lt;-</span> <span class="fu">sqrt</span>((df_1 <span class="sc">*</span> <span class="fu">sd</span>(X_1)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> df_2 <span class="sc">*</span> <span class="fu">sd</span>(X_2)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (df_1 <span class="sc">+</span> df_2))</span></code></pre></div>
+<div class="sourceCode" id="cb553"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb553-1"><a href="hyptests.html#cb553-1" aria-hidden="true" tabindex="-1"></a>df_1 <span class="ot">&lt;-</span> <span class="fu">length</span>(X_1) <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb553-2"><a href="hyptests.html#cb553-2" aria-hidden="true" tabindex="-1"></a>df_2 <span class="ot">&lt;-</span> <span class="fu">length</span>(X_2) <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb553-3"><a href="hyptests.html#cb553-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb553-4"><a href="hyptests.html#cb553-4" aria-hidden="true" tabindex="-1"></a>sd_pooled <span class="ot">&lt;-</span> <span class="fu">sqrt</span>((df_1 <span class="sc">*</span> <span class="fu">sd</span>(X_1)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> df_2 <span class="sc">*</span> <span class="fu">sd</span>(X_2)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (df_1 <span class="sc">+</span> df_2))</span></code></pre></div>
 <p>Now we can get the <span class="math inline">\(t\)</span> value (<span class="math inline">\(t = \frac{\bar{X}_1 - \bar{X}_2 - (\mu_1 - \mu_2)}{\hat{\sigma}_P \sqrt{\frac{1}{N_1} + \frac{1}{N_2}}}\)</span>):</p>
-<div class="sourceCode" id="cb513"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb513-1"><a href="hyptests.html#cb513-1" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> (<span class="fu">mean</span>(X_1) <span class="sc">-</span> <span class="fu">mean</span>(X_2) <span class="sc">-</span> null_mean) <span class="sc">/</span> (sd_pooled <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">/</span> <span class="fu">length</span>(X_1) <span class="sc">+</span> <span class="dv">1</span> <span class="sc">/</span> <span class="fu">length</span>(X_2)))</span></code></pre></div>
+<div class="sourceCode" id="cb554"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb554-1"><a href="hyptests.html#cb554-1" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> (<span class="fu">mean</span>(X_1) <span class="sc">-</span> <span class="fu">mean</span>(X_2) <span class="sc">-</span> null_mean) <span class="sc">/</span> (sd_pooled <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">/</span> <span class="fu">length</span>(X_1) <span class="sc">+</span> <span class="dv">1</span> <span class="sc">/</span> <span class="fu">length</span>(X_2)))</span></code></pre></div>
 <ol start="4" style="list-style-type: decimal">
 <li>Find the <span class="math inline">\(p\)</span> value.</li>
 </ol>
@@ -593,10 +613,10 @@ div.csl-indent {
 <p>If the <span class="math inline">\(p\)</span> value is less than the alpha level, you <em>reject</em> the null hypothesis, otherwise you <em>fail to reject</em> it.</p>
 </div>
 </div>
-<div id="doing-them-all-at-once" class="section level3" number="12.1.2">
+<div id="doing-them-all-at-once" class="section level3" number="13.1.2">
 <h3><span class="header-section-number">B.1.2</span> Doing them all at once</h3>
 <p>If we’re going to do <span class="math inline">\(t\)</span> tests all at once, we need to make sure we have loaded the <code>tidyverse</code> and <code>infer</code> packages:</p>
-<div class="sourceCode" id="cb514"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb514-1"><a href="hyptests.html#cb514-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<div class="sourceCode" id="cb555"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb555-1"><a href="hyptests.html#cb555-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
 <pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
 <pre><code>## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
 ## ✓ tibble  3.1.1     ✓ dplyr   1.0.5
@@ -605,18 +625,18 @@ div.csl-indent {
 <pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
-<div class="sourceCode" id="cb518"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb518-1"><a href="hyptests.html#cb518-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(infer)</span></code></pre></div>
-<div id="one-sample-t-test-2" class="section level4" number="12.1.2.1">
+<div class="sourceCode" id="cb559"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb559-1"><a href="hyptests.html#cb559-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(infer)</span></code></pre></div>
+<div id="one-sample-t-test-2" class="section level4" number="13.1.2.1">
 <h4><span class="header-section-number">B.1.2.1</span> One-sample <span class="math inline">\(t\)</span> test</h4>
 <p>In this example, I’ll use some simple artificial data:</p>
-<div class="sourceCode" id="cb519"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb519-1"><a href="hyptests.html#cb519-1" aria-hidden="true" tabindex="-1"></a>my_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/one_sample_t_test_data.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb560"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb560-1"><a href="hyptests.html#cb560-1" aria-hidden="true" tabindex="-1"></a>my_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/one_sample_t_test_data.csv&quot;</span>)</span></code></pre></div>
 <pre><code>## 
 ## ── Column specification ────────────────────────────────────────────────────────
 ## cols(
 ##   ID = col_double(),
 ##   X = col_double()
 ## )</code></pre>
-<div class="sourceCode" id="cb521"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb521-1"><a href="hyptests.html#cb521-1" aria-hidden="true" tabindex="-1"></a>my_data</span></code></pre></div>
+<div class="sourceCode" id="cb562"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb562-1"><a href="hyptests.html#cb562-1" aria-hidden="true" tabindex="-1"></a>my_data</span></code></pre></div>
 <pre><code>## # A tibble: 5 x 2
 ##      ID     X
 ##   &lt;dbl&gt; &lt;dbl&gt;
@@ -629,24 +649,24 @@ div.csl-indent {
 <li>Translate your <strong>research question</strong> into a <strong>null</strong> and <strong>alternative</strong> hypothesis.</li>
 </ol>
 <p>I will assume in this example that the population mean according to our null hypothesis is <span class="math inline">\(\mu = 0\)</span>, but you can change this as you need:</p>
-<div class="sourceCode" id="cb523"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb523-1"><a href="hyptests.html#cb523-1" aria-hidden="true" tabindex="-1"></a>null_mean <span class="ot">&lt;-</span> <span class="dv">0</span></span></code></pre></div>
+<div class="sourceCode" id="cb564"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb564-1"><a href="hyptests.html#cb564-1" aria-hidden="true" tabindex="-1"></a>null_mean <span class="ot">&lt;-</span> <span class="dv">0</span></span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li>Decide on an <strong>alpha level</strong>.</li>
 </ol>
 <p>I will tell R to remember our choice of alpha level like so:</p>
-<div class="sourceCode" id="cb524"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb524-1"><a href="hyptests.html#cb524-1" aria-hidden="true" tabindex="-1"></a>alpha_level <span class="ot">&lt;-</span> <span class="fl">0.05</span></span></code></pre></div>
+<div class="sourceCode" id="cb565"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb565-1"><a href="hyptests.html#cb565-1" aria-hidden="true" tabindex="-1"></a>alpha_level <span class="ot">&lt;-</span> <span class="fl">0.05</span></span></code></pre></div>
 <ol start="3" style="list-style-type: decimal">
 <li><p>Find the <span class="math inline">\(t\)</span> value.</p></li>
 <li><p>Find the <span class="math inline">\(p\)</span> value.</p></li>
 </ol>
 <p>Both the previous two steps are accomplished in the same chunk of code:</p>
-<div class="sourceCode" id="cb525"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb525-1"><a href="hyptests.html#cb525-1" aria-hidden="true" tabindex="-1"></a>my_data <span class="sc">%&gt;%</span></span>
-<span id="cb525-2"><a href="hyptests.html#cb525-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">t_test</span>(</span>
-<span id="cb525-3"><a href="hyptests.html#cb525-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">response =</span> X,</span>
-<span id="cb525-4"><a href="hyptests.html#cb525-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">alternative =</span> <span class="st">&quot;two.sided&quot;</span>,</span>
-<span id="cb525-5"><a href="hyptests.html#cb525-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">mu =</span> null_mean,</span>
-<span id="cb525-6"><a href="hyptests.html#cb525-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">conf_level =</span> <span class="dv">1</span> <span class="sc">-</span> alpha_level</span>
-<span id="cb525-7"><a href="hyptests.html#cb525-7" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div>
+<div class="sourceCode" id="cb566"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb566-1"><a href="hyptests.html#cb566-1" aria-hidden="true" tabindex="-1"></a>my_data <span class="sc">%&gt;%</span></span>
+<span id="cb566-2"><a href="hyptests.html#cb566-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">t_test</span>(</span>
+<span id="cb566-3"><a href="hyptests.html#cb566-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">response =</span> X,</span>
+<span id="cb566-4"><a href="hyptests.html#cb566-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">alternative =</span> <span class="st">&quot;two.sided&quot;</span>,</span>
+<span id="cb566-5"><a href="hyptests.html#cb566-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">mu =</span> null_mean,</span>
+<span id="cb566-6"><a href="hyptests.html#cb566-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">conf_level =</span> <span class="dv">1</span> <span class="sc">-</span> alpha_level</span>
+<span id="cb566-7"><a href="hyptests.html#cb566-7" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div>
 <pre><code>## # A tibble: 1 x 6
 ##   statistic  t_df p_value alternative lower_ci upper_ci
 ##       &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;          &lt;dbl&gt;    &lt;dbl&gt;
@@ -680,10 +700,10 @@ div.csl-indent {
 </ol>
 <p>If the <span class="math inline">\(p\)</span> value is less than the alpha level, you <em>reject</em> the null hypothesis, otherwise you <em>fail to reject</em> it.</p>
 </div>
-<div id="paired-samples-t-test-1" class="section level4" number="12.1.2.2">
+<div id="paired-samples-t-test-1" class="section level4" number="13.1.2.2">
 <h4><span class="header-section-number">B.1.2.2</span> Paired samples <span class="math inline">\(t\)</span> test</h4>
 <p>In this example, I’ll use some simple artificial data:</p>
-<div class="sourceCode" id="cb527"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb527-1"><a href="hyptests.html#cb527-1" aria-hidden="true" tabindex="-1"></a>my_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/paired_sample_t_test_data.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb568"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb568-1"><a href="hyptests.html#cb568-1" aria-hidden="true" tabindex="-1"></a>my_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/paired_sample_t_test_data.csv&quot;</span>)</span></code></pre></div>
 <pre><code>## 
 ## ── Column specification ────────────────────────────────────────────────────────
 ## cols(
@@ -691,7 +711,7 @@ div.csl-indent {
 ##   X_1 = col_double(),
 ##   X_2 = col_double()
 ## )</code></pre>
-<div class="sourceCode" id="cb529"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb529-1"><a href="hyptests.html#cb529-1" aria-hidden="true" tabindex="-1"></a>my_data</span></code></pre></div>
+<div class="sourceCode" id="cb570"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb570-1"><a href="hyptests.html#cb570-1" aria-hidden="true" tabindex="-1"></a>my_data</span></code></pre></div>
 <pre><code>## # A tibble: 5 x 3
 ##      ID   X_1   X_2
 ##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -701,30 +721,30 @@ div.csl-indent {
 ## 4     4 -0.02 -0.16
 ## 5     5  1.15  0.73</code></pre>
 <p><strong>Preliminary step:</strong> If the data does not already have a variable for the difference scores, we need to create it using the <code>mutate</code> function and then tell R to update the original data.</p>
-<div class="sourceCode" id="cb531"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb531-1"><a href="hyptests.html#cb531-1" aria-hidden="true" tabindex="-1"></a>my_data <span class="ot">&lt;-</span> my_data <span class="sc">%&gt;%</span></span>
-<span id="cb531-2"><a href="hyptests.html#cb531-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">D =</span> X_1 <span class="sc">-</span> X_2)</span></code></pre></div>
+<div class="sourceCode" id="cb572"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb572-1"><a href="hyptests.html#cb572-1" aria-hidden="true" tabindex="-1"></a>my_data <span class="ot">&lt;-</span> my_data <span class="sc">%&gt;%</span></span>
+<span id="cb572-2"><a href="hyptests.html#cb572-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">D =</span> X_1 <span class="sc">-</span> X_2)</span></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>Translate your <strong>research question</strong> into a <strong>null</strong> and <strong>alternative</strong> hypothesis.</li>
 </ol>
 <p>I will assume in this example that the population mean according to our null hypothesis is <span class="math inline">\(\mu_D = 0\)</span>, but you can change this as you need:</p>
-<div class="sourceCode" id="cb532"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb532-1"><a href="hyptests.html#cb532-1" aria-hidden="true" tabindex="-1"></a>null_mean <span class="ot">&lt;-</span> <span class="dv">0</span></span></code></pre></div>
+<div class="sourceCode" id="cb573"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb573-1"><a href="hyptests.html#cb573-1" aria-hidden="true" tabindex="-1"></a>null_mean <span class="ot">&lt;-</span> <span class="dv">0</span></span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li>Decide on an <strong>alpha level</strong>.</li>
 </ol>
 <p>I will tell R to remember our choice of alpha level like so:</p>
-<div class="sourceCode" id="cb533"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb533-1"><a href="hyptests.html#cb533-1" aria-hidden="true" tabindex="-1"></a>alpha_level <span class="ot">&lt;-</span> <span class="fl">0.05</span></span></code></pre></div>
+<div class="sourceCode" id="cb574"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb574-1"><a href="hyptests.html#cb574-1" aria-hidden="true" tabindex="-1"></a>alpha_level <span class="ot">&lt;-</span> <span class="fl">0.05</span></span></code></pre></div>
 <ol start="3" style="list-style-type: decimal">
 <li><p>Find the <span class="math inline">\(t\)</span> value.</p></li>
 <li><p>Find the <span class="math inline">\(p\)</span> value.</p></li>
 </ol>
 <p>Both the previous two steps are accomplished in the same chunk of code:</p>
-<div class="sourceCode" id="cb534"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb534-1"><a href="hyptests.html#cb534-1" aria-hidden="true" tabindex="-1"></a>my_data <span class="sc">%&gt;%</span></span>
-<span id="cb534-2"><a href="hyptests.html#cb534-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">t_test</span>(</span>
-<span id="cb534-3"><a href="hyptests.html#cb534-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">response =</span> D,</span>
-<span id="cb534-4"><a href="hyptests.html#cb534-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">alternative =</span> <span class="st">&quot;two.sided&quot;</span>,</span>
-<span id="cb534-5"><a href="hyptests.html#cb534-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">mu =</span> null_mean,</span>
-<span id="cb534-6"><a href="hyptests.html#cb534-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">conf_level =</span> <span class="dv">1</span> <span class="sc">-</span> alpha_level</span>
-<span id="cb534-7"><a href="hyptests.html#cb534-7" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div>
+<div class="sourceCode" id="cb575"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb575-1"><a href="hyptests.html#cb575-1" aria-hidden="true" tabindex="-1"></a>my_data <span class="sc">%&gt;%</span></span>
+<span id="cb575-2"><a href="hyptests.html#cb575-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">t_test</span>(</span>
+<span id="cb575-3"><a href="hyptests.html#cb575-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">response =</span> D,</span>
+<span id="cb575-4"><a href="hyptests.html#cb575-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">alternative =</span> <span class="st">&quot;two.sided&quot;</span>,</span>
+<span id="cb575-5"><a href="hyptests.html#cb575-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">mu =</span> null_mean,</span>
+<span id="cb575-6"><a href="hyptests.html#cb575-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">conf_level =</span> <span class="dv">1</span> <span class="sc">-</span> alpha_level</span>
+<span id="cb575-7"><a href="hyptests.html#cb575-7" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div>
 <pre><code>## # A tibble: 1 x 6
 ##   statistic  t_df p_value alternative lower_ci upper_ci
 ##       &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;          &lt;dbl&gt;    &lt;dbl&gt;
@@ -758,10 +778,10 @@ div.csl-indent {
 </ol>
 <p>If the <span class="math inline">\(p\)</span> value is less than the alpha level, you <em>reject</em> the null hypothesis, otherwise you <em>fail to reject</em> it.</p>
 </div>
-<div id="independent-samples-t-test-2" class="section level4" number="12.1.2.3">
+<div id="independent-samples-t-test-2" class="section level4" number="13.1.2.3">
 <h4><span class="header-section-number">B.1.2.3</span> Independent samples <span class="math inline">\(t\)</span> test</h4>
 <p>In this example, I’ll use some simple artificial data:</p>
-<div class="sourceCode" id="cb536"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb536-1"><a href="hyptests.html#cb536-1" aria-hidden="true" tabindex="-1"></a>my_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/indep_samples_t_test_data.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb577"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb577-1"><a href="hyptests.html#cb577-1" aria-hidden="true" tabindex="-1"></a>my_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/indep_samples_t_test_data.csv&quot;</span>)</span></code></pre></div>
 <pre><code>## 
 ## ── Column specification ────────────────────────────────────────────────────────
 ## cols(
@@ -769,7 +789,7 @@ div.csl-indent {
 ##   Group = col_double(),
 ##   X = col_double()
 ## )</code></pre>
-<div class="sourceCode" id="cb538"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb538-1"><a href="hyptests.html#cb538-1" aria-hidden="true" tabindex="-1"></a>my_data</span></code></pre></div>
+<div class="sourceCode" id="cb579"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb579-1"><a href="hyptests.html#cb579-1" aria-hidden="true" tabindex="-1"></a>my_data</span></code></pre></div>
 <pre><code>## # A tibble: 11 x 3
 ##       ID Group     X
 ##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -788,25 +808,25 @@ div.csl-indent {
 <li>Translate your <strong>research question</strong> into a <strong>null</strong> and <strong>alternative</strong> hypothesis.</li>
 </ol>
 <p>I will assume in this example that the population mean according to our null hypothesis is <span class="math inline">\(\mu_1 - \mu_2 = 0\)</span>, but you can change this as you need:</p>
-<div class="sourceCode" id="cb540"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb540-1"><a href="hyptests.html#cb540-1" aria-hidden="true" tabindex="-1"></a>null_mean <span class="ot">&lt;-</span> <span class="dv">0</span></span></code></pre></div>
+<div class="sourceCode" id="cb581"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb581-1"><a href="hyptests.html#cb581-1" aria-hidden="true" tabindex="-1"></a>null_mean <span class="ot">&lt;-</span> <span class="dv">0</span></span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li>Decide on an <strong>alpha level</strong>.</li>
 </ol>
 <p>I will tell R to remember our choice of alpha level like so:</p>
-<div class="sourceCode" id="cb541"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb541-1"><a href="hyptests.html#cb541-1" aria-hidden="true" tabindex="-1"></a>alpha_level <span class="ot">&lt;-</span> <span class="fl">0.05</span></span></code></pre></div>
+<div class="sourceCode" id="cb582"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb582-1"><a href="hyptests.html#cb582-1" aria-hidden="true" tabindex="-1"></a>alpha_level <span class="ot">&lt;-</span> <span class="fl">0.05</span></span></code></pre></div>
 <ol start="3" style="list-style-type: decimal">
 <li><p>Find the <span class="math inline">\(t\)</span> value.</p></li>
 <li><p>Find the <span class="math inline">\(p\)</span> value.</p></li>
 </ol>
 <p>Both the previous two steps are accomplished in the same chunk of code:</p>
-<div class="sourceCode" id="cb542"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb542-1"><a href="hyptests.html#cb542-1" aria-hidden="true" tabindex="-1"></a>my_data <span class="sc">%&gt;%</span></span>
-<span id="cb542-2"><a href="hyptests.html#cb542-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">t_test</span>(</span>
-<span id="cb542-3"><a href="hyptests.html#cb542-3" aria-hidden="true" tabindex="-1"></a>        X <span class="sc">~</span> Group,</span>
-<span id="cb542-4"><a href="hyptests.html#cb542-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">alternative =</span> <span class="st">&quot;two.sided&quot;</span>,</span>
-<span id="cb542-5"><a href="hyptests.html#cb542-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">mu =</span> null_mean,</span>
-<span id="cb542-6"><a href="hyptests.html#cb542-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">var.equal =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb542-7"><a href="hyptests.html#cb542-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">conf_level =</span> <span class="dv">1</span> <span class="sc">-</span> alpha_level</span>
-<span id="cb542-8"><a href="hyptests.html#cb542-8" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div>
+<div class="sourceCode" id="cb583"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb583-1"><a href="hyptests.html#cb583-1" aria-hidden="true" tabindex="-1"></a>my_data <span class="sc">%&gt;%</span></span>
+<span id="cb583-2"><a href="hyptests.html#cb583-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">t_test</span>(</span>
+<span id="cb583-3"><a href="hyptests.html#cb583-3" aria-hidden="true" tabindex="-1"></a>        X <span class="sc">~</span> Group,</span>
+<span id="cb583-4"><a href="hyptests.html#cb583-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">alternative =</span> <span class="st">&quot;two.sided&quot;</span>,</span>
+<span id="cb583-5"><a href="hyptests.html#cb583-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">mu =</span> null_mean,</span>
+<span id="cb583-6"><a href="hyptests.html#cb583-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">var.equal =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb583-7"><a href="hyptests.html#cb583-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">conf_level =</span> <span class="dv">1</span> <span class="sc">-</span> alpha_level</span>
+<span id="cb583-8"><a href="hyptests.html#cb583-8" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div>
 <pre><code>## Warning: The statistic is based on a difference or ratio; by default, for
 ## difference-based statistics, the explanatory variable is subtracted in the order
 ## &quot;1&quot; - &quot;2&quot;, or divided in the order &quot;1&quot; / &quot;2&quot; for ratio-based statistics. To
@@ -847,10 +867,11 @@ div.csl-indent {
 </div>
 </div>
 </div>
-<div id="analysis-of-variance-anova" class="section level2" number="12.2">
+<div id="analysis-of-variance-anova" class="section level2" number="13.2">
 <h2><span class="header-section-number">B.2</span> Analysis of Variance (ANOVA)</h2>
-<p>As we’ve seen, ANOVA is not something that is typically done by hand, so we will only illustrate how to do it all at once. We will need to load the <code>magrittr</code> package from R’s library:</p>
-<div class="sourceCode" id="cb545"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb545-1"><a href="hyptests.html#cb545-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span></code></pre></div>
+<p>As we’ve seen, ANOVA is not something that is typically done by hand, so we will only illustrate how to do it all at once. To do ANOVA, we need to load both the <code>tidyverse</code> and the <code>magrittr</code> packages from R’s library:</p>
+<div class="sourceCode" id="cb586"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb586-1"><a href="hyptests.html#cb586-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb586-2"><a href="hyptests.html#cb586-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span></code></pre></div>
 <pre><code>## 
 ## Attaching package: &#39;magrittr&#39;</code></pre>
 <pre><code>## The following object is masked from &#39;package:purrr&#39;:
@@ -861,7 +882,7 @@ div.csl-indent {
 ##     extract</code></pre>
 <p>As we’ve seen, ANOVA has two stages: First, we conduct an ANOVA to see if we have evidence that groups tend to differ from one another on average. Second, if we are able to reject the null hypothesis with our ANOVA, we move on to conduct post hoc pairwise <span class="math inline">\(t\)</span> tests to see if we have evidence about which groups differ from one another.</p>
 <p>For these examples, we will use a simple example dataset:</p>
-<div class="sourceCode" id="cb549"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb549-1"><a href="hyptests.html#cb549-1" aria-hidden="true" tabindex="-1"></a>my_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/anova_data.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb590"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb590-1"><a href="hyptests.html#cb590-1" aria-hidden="true" tabindex="-1"></a>my_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/anova_data.csv&quot;</span>)</span></code></pre></div>
 <pre><code>## 
 ## ── Column specification ────────────────────────────────────────────────────────
 ## cols(
@@ -869,7 +890,7 @@ div.csl-indent {
 ##   Group = col_double(),
 ##   X = col_double()
 ## )</code></pre>
-<div id="anova" class="section level3" number="12.2.1">
+<div id="anova" class="section level3" number="13.2.1">
 <h3><span class="header-section-number">B.2.1</span> ANOVA</h3>
 <ol style="list-style-type: decimal">
 <li>Translate your <strong>research question</strong> into a <strong>null</strong> and <strong>alternative</strong> hypothesis.</li>
@@ -884,9 +905,9 @@ div.csl-indent {
 <li><p>Find the <span class="math inline">\(p\)</span> value.</p></li>
 </ol>
 <p>Both the previous two steps are accomplished in the same chunk of code:</p>
-<div class="sourceCode" id="cb551"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb551-1"><a href="hyptests.html#cb551-1" aria-hidden="true" tabindex="-1"></a>my_data <span class="sc">%$%</span></span>
-<span id="cb551-2"><a href="hyptests.html#cb551-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(X <span class="sc">~</span> Group) <span class="sc">%&gt;%</span></span>
-<span id="cb551-3"><a href="hyptests.html#cb551-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">anova</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb592"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb592-1"><a href="hyptests.html#cb592-1" aria-hidden="true" tabindex="-1"></a>my_data <span class="sc">%$%</span></span>
+<span id="cb592-2"><a href="hyptests.html#cb592-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(X <span class="sc">~</span> Group) <span class="sc">%&gt;%</span></span>
+<span id="cb592-3"><a href="hyptests.html#cb592-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">anova</span>()</span></code></pre></div>
 <pre><code>## Analysis of Variance Table
 ## 
 ## Response: X
@@ -901,17 +922,17 @@ div.csl-indent {
 </ol>
 <p>If the <span class="math inline">\(p\)</span> value is less than the alpha level, you <em>reject</em> the null hypothesis, otherwise you <em>fail to reject</em> it.</p>
 </div>
-<div id="post-hoc-pairwise-t-tests" class="section level3" number="12.2.2">
+<div id="post-hoc-pairwise-t-tests" class="section level3" number="13.2.2">
 <h3><span class="header-section-number">B.2.2</span> Post hoc pairwise <span class="math inline">\(t\)</span> tests</h3>
 <p>If we reject the ANOVA null hypothesis (as we did in the above example), then we proceed to do “post hoc” pairwise <span class="math inline">\(t\)</span> tests. The purpose of these tests is to see if we have evidence about which groups differ from one another.</p>
 <p>“Under the hood,” R is doing independent samples <span class="math inline">\(t\)</span> tests between each pair of groups in our data. Each of those tests is two-tailed, meaning the null hypothesis for each of these tests is <span class="math inline">\(H_0\)</span>: <span class="math inline">\(\mu_1 - \mu_2 = 0\)</span> (step 1). We retain the same alpha level that we used in our ANOVA (step 2). R does not show us the <span class="math inline">\(t\)</span> values (step 3), only the <span class="math inline">\(p\)</span> values (step 4) from each test. These <span class="math inline">\(p\)</span> values are “adjusted” in order to avoid increasing the probability of a Type I error, and we have to tell R what adjustment to use. Finally, it us up to us to decide whether or not to reject the null hypothesis <em>in each test</em> based on the <span class="math inline">\(p\)</span> values and our alpha level.</p>
 <p>This is how it is done in R:</p>
-<div class="sourceCode" id="cb553"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb553-1"><a href="hyptests.html#cb553-1" aria-hidden="true" tabindex="-1"></a>my_data <span class="sc">%$%</span></span>
-<span id="cb553-2"><a href="hyptests.html#cb553-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pairwise.t.test</span>(</span>
-<span id="cb553-3"><a href="hyptests.html#cb553-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">x =</span> X,</span>
-<span id="cb553-4"><a href="hyptests.html#cb553-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">g =</span> Group,</span>
-<span id="cb553-5"><a href="hyptests.html#cb553-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">p.adjust.method =</span> <span class="st">&#39;bonferroni&#39;</span></span>
-<span id="cb553-6"><a href="hyptests.html#cb553-6" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div>
+<div class="sourceCode" id="cb594"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb594-1"><a href="hyptests.html#cb594-1" aria-hidden="true" tabindex="-1"></a>my_data <span class="sc">%$%</span></span>
+<span id="cb594-2"><a href="hyptests.html#cb594-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pairwise.t.test</span>(</span>
+<span id="cb594-3"><a href="hyptests.html#cb594-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">x =</span> X,</span>
+<span id="cb594-4"><a href="hyptests.html#cb594-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">g =</span> Group,</span>
+<span id="cb594-5"><a href="hyptests.html#cb594-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">p.adjust.method =</span> <span class="st">&#39;bonferroni&#39;</span></span>
+<span id="cb594-6"><a href="hyptests.html#cb594-6" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div>
 <pre><code>## 
 ##  Pairwise comparisons using t tests with pooled SD 
 ## 
