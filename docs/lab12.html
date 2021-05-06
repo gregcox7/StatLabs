@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Lab 12 Exploring Data with R, Part II | Labs</title>
+  <meta name="description" content="Laboratory exercises for APSY210." />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Lab 12 Exploring Data with R, Part II | Labs" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Laboratory exercises for APSY210." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Lab 12 Exploring Data with R, Part II | Labs" />
+  
+  <meta name="twitter:description" content="Laboratory exercises for APSY210." />
+  
+
+<meta name="author" content="Greg Cox" />
+
+
+<meta name="date" content="2021-05-06" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="lab11.html"/>
+<link rel="next" href="coderef.html"/>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Labs</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="1" data-path="lab1.html"><a href="lab1.html"><i class="fa fa-check"></i><b>1</b> Exploring Data with R</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="lab1.html"><a href="lab1.html#r-and-rstudio"><i class="fa fa-check"></i><b>1.1</b> R and RStudio</a></li>
+<li class="chapter" data-level="1.2" data-path="lab1.html"><a href="lab1.html#meet-your-data"><i class="fa fa-check"></i><b>1.2</b> Meet your data</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="lab1.html"><a href="lab1.html#check-out-the-variables"><i class="fa fa-check"></i><b>1.2.1</b> Check out the variables</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="lab1.html"><a href="lab1.html#answering-questions-with-data"><i class="fa fa-check"></i><b>1.3</b> Answering questions with data</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="lab1.html"><a href="lab1.html#frequency-tables"><i class="fa fa-check"></i><b>1.3.1</b> Frequency tables</a></li>
+<li class="chapter" data-level="1.3.2" data-path="lab1.html"><a href="lab1.html#bar-charts"><i class="fa fa-check"></i><b>1.3.2</b> Bar charts</a></li>
+<li class="chapter" data-level="1.3.3" data-path="lab1.html"><a href="lab1.html#histograms"><i class="fa fa-check"></i><b>1.3.3</b> Histograms</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="lab1.html"><a href="lab1.html#wrap-up"><i class="fa fa-check"></i><b>1.4</b> Wrap-up</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="lab2.html"><a href="lab2.html"><i class="fa fa-check"></i><b>2</b> Central tendency and variability</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="lab2.html"><a href="lab2.html#simple-cases"><i class="fa fa-check"></i><b>2.1</b> Simple cases</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="lab2.html"><a href="lab2.html#central-tendency"><i class="fa fa-check"></i><b>2.1.1</b> Central tendency</a></li>
+<li class="chapter" data-level="2.1.2" data-path="lab2.html"><a href="lab2.html#variability"><i class="fa fa-check"></i><b>2.1.2</b> Variability</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="lab2.html"><a href="lab2.html#dealing-with-real-data"><i class="fa fa-check"></i><b>2.2</b> Dealing with real data</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="lab2.html"><a href="lab2.html#setting-the-stage"><i class="fa fa-check"></i><b>2.2.1</b> Setting the stage</a></li>
+<li class="chapter" data-level="2.2.2" data-path="lab2.html"><a href="lab2.html#getting-the-data"><i class="fa fa-check"></i><b>2.2.2</b> Getting the data</a></li>
+<li class="chapter" data-level="2.2.3" data-path="lab2.html"><a href="lab2.html#visualizing-the-data"><i class="fa fa-check"></i><b>2.2.3</b> Visualizing the data</a></li>
+<li class="chapter" data-level="2.2.4" data-path="lab2.html"><a href="lab2.html#central-tendency-1"><i class="fa fa-check"></i><b>2.2.4</b> Central tendency</a></li>
+<li class="chapter" data-level="2.2.5" data-path="lab2.html"><a href="lab2.html#variability-1"><i class="fa fa-check"></i><b>2.2.5</b> Variability</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="lab2.html"><a href="lab2.html#wrap-up-1"><i class="fa fa-check"></i><b>2.3</b> Wrap-up</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="lab3.html"><a href="lab3.html"><i class="fa fa-check"></i><b>3</b> Scatterplots and correlation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="lab3.html"><a href="lab3.html#calculating-the-pearson-correlation-coefficient"><i class="fa fa-check"></i><b>3.1</b> Calculating the Pearson correlation coefficient</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="lab3.html"><a href="lab3.html#from-x-to-z"><i class="fa fa-check"></i><b>3.1.1</b> From <span class="math inline">\(X\)</span> to <span class="math inline">\(z\)</span></a></li>
+<li class="chapter" data-level="3.1.2" data-path="lab3.html"><a href="lab3.html#finding-the-correlation-coefficient"><i class="fa fa-check"></i><b>3.1.2</b> Finding the correlation coefficient</a></li>
+<li class="chapter" data-level="3.1.3" data-path="lab3.html"><a href="lab3.html#dealing-with-real-data-1"><i class="fa fa-check"></i><b>3.1.3</b> Dealing with real data</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="lab3.html"><a href="lab3.html#scatterplots"><i class="fa fa-check"></i><b>3.2</b> Scatterplots</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="lab3.html"><a href="lab3.html#making-a-group-of-scatterplots"><i class="fa fa-check"></i><b>3.2.1</b> Making a group of scatterplots</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="lab3.html"><a href="lab3.html#some-bigger-data"><i class="fa fa-check"></i><b>3.3</b> Some bigger data</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="lab3.html"><a href="lab3.html#import-the-data"><i class="fa fa-check"></i><b>3.3.1</b> Import the data</a></li>
+<li class="chapter" data-level="3.3.2" data-path="lab3.html"><a href="lab3.html#experience-and-memory-for-barbies"><i class="fa fa-check"></i><b>3.3.2</b> Experience and memory for Barbies</a></li>
+<li class="chapter" data-level="3.3.3" data-path="lab3.html"><a href="lab3.html#experience-and-memory-for-transformers"><i class="fa fa-check"></i><b>3.3.3</b> Experience and memory for Transformers</a></li>
+<li class="chapter" data-level="3.3.4" data-path="lab3.html"><a href="lab3.html#experience-with-barbies-and-memory-for-transformers"><i class="fa fa-check"></i><b>3.3.4</b> Experience with Barbies and memory for Transformers</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="lab3.html"><a href="lab3.html#wrap-up-2"><i class="fa fa-check"></i><b>3.4</b> Wrap-up</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="lab4.html"><a href="lab4.html"><i class="fa fa-check"></i><b>4</b> Probability and simulation</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="lab4.html"><a href="lab4.html#simulation-basics"><i class="fa fa-check"></i><b>4.1</b> Simulation basics</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="lab4.html"><a href="lab4.html#single-coin-flips"><i class="fa fa-check"></i><b>4.1.1</b> Single coin flips</a></li>
+<li class="chapter" data-level="4.1.2" data-path="lab4.html"><a href="lab4.html#a-sequence-of-coin-flips"><i class="fa fa-check"></i><b>4.1.2</b> A sequence of coin flips</a></li>
+<li class="chapter" data-level="4.1.3" data-path="lab4.html"><a href="lab4.html#remembering-simulated-results"><i class="fa fa-check"></i><b>4.1.3</b> Remembering simulated results</a></li>
+<li class="chapter" data-level="4.1.4" data-path="lab4.html"><a href="lab4.html#turning-simulated-results-into-data"><i class="fa fa-check"></i><b>4.1.4</b> Turning simulated results into “data”</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="lab4.html"><a href="lab4.html#estimating-probabilities"><i class="fa fa-check"></i><b>4.2</b> Estimating probabilities</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="lab4.html"><a href="lab4.html#frequency-table"><i class="fa fa-check"></i><b>4.2.1</b> Frequency table</a></li>
+<li class="chapter" data-level="4.2.2" data-path="lab4.html"><a href="lab4.html#estimating-probability-from-frequency"><i class="fa fa-check"></i><b>4.2.2</b> Estimating probability from frequency</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="lab4.html"><a href="lab4.html#more-advanced-simulation-tricks"><i class="fa fa-check"></i><b>4.3</b> More advanced simulation tricks</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="lab4.html"><a href="lab4.html#making-up-our-own-probabilities"><i class="fa fa-check"></i><b>4.3.1</b> Making up our own probabilities</a></li>
+<li class="chapter" data-level="4.3.2" data-path="lab4.html"><a href="lab4.html#expanding-the-sample-space"><i class="fa fa-check"></i><b>4.3.2</b> Expanding the sample space</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="lab4.html"><a href="lab4.html#estimating-probabilities-in-data"><i class="fa fa-check"></i><b>4.4</b> Estimating probabilities in data</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="lab4.html"><a href="lab4.html#what-was-kobes-hit-rate"><i class="fa fa-check"></i><b>4.4.1</b> What was Kobe’s hit rate?</a></li>
+<li class="chapter" data-level="4.4.2" data-path="lab4.html"><a href="lab4.html#a-simulated-kobe"><i class="fa fa-check"></i><b>4.4.2</b> A simulated Kobe</a></li>
+<li class="chapter" data-level="4.4.3" data-path="lab4.html"><a href="lab4.html#hot--or-cold-handed"><i class="fa fa-check"></i><b>4.4.3</b> Hot- or cold-handed</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="lab4.html"><a href="lab4.html#wrap-up-3"><i class="fa fa-check"></i><b>4.5</b> Wrap-up</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="lab5.html"><a href="lab5.html"><i class="fa fa-check"></i><b>5</b> Models: The Binomial and the Normal</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="lab5.html"><a href="lab5.html#the-binomial-distribution-in-r"><i class="fa fa-check"></i><b>5.1</b> The binomial distribution in R</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="lab5.html"><a href="lab5.html#translating-from-sample-to-rbinom"><i class="fa fa-check"></i><b>5.1.1</b> Translating from <code>sample</code> to <code>rbinom</code></a></li>
+<li class="chapter" data-level="5.1.2" data-path="lab5.html"><a href="lab5.html#outcomes-from-different-sequences-of-events"><i class="fa fa-check"></i><b>5.1.2</b> Outcomes from different sequences of events</a></li>
+<li class="chapter" data-level="5.1.3" data-path="lab5.html"><a href="lab5.html#simulated-relative-frequencies-and-probabilities"><i class="fa fa-check"></i><b>5.1.3</b> Simulated relative frequencies and probabilities</a></li>
+<li class="chapter" data-level="5.1.4" data-path="lab5.html"><a href="lab5.html#calculating-binomial-probabilities-directly"><i class="fa fa-check"></i><b>5.1.4</b> Calculating binomial probabilities directly</a></li>
+<li class="chapter" data-level="5.1.5" data-path="lab5.html"><a href="lab5.html#cumulative-probabilities-with-the-binomial"><i class="fa fa-check"></i><b>5.1.5</b> Cumulative probabilities with the binomial</a></li>
+<li class="chapter" data-level="5.1.6" data-path="lab5.html"><a href="lab5.html#summary-of-rs-built-in-binomial-distribution"><i class="fa fa-check"></i><b>5.1.6</b> Summary of R’s built-in binomial distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="lab5.html"><a href="lab5.html#the-normal-distribution-in-r"><i class="fa fa-check"></i><b>5.2</b> The normal distribution in R</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="lab5.html"><a href="lab5.html#simulating-outcomes-from-a-normal-distribution"><i class="fa fa-check"></i><b>5.2.1</b> Simulating outcomes from a normal distribution</a></li>
+<li class="chapter" data-level="5.2.2" data-path="lab5.html"><a href="lab5.html#the-mean-and-standard-deviation"><i class="fa fa-check"></i><b>5.2.2</b> The mean and standard deviation</a></li>
+<li class="chapter" data-level="5.2.3" data-path="lab5.html"><a href="lab5.html#calculating-probabilities-with-the-normal-distribution"><i class="fa fa-check"></i><b>5.2.3</b> Calculating probabilities with the normal distribution</a></li>
+<li class="chapter" data-level="5.2.4" data-path="lab5.html"><a href="lab5.html#finding-quantiles-with-the-normal-distribution"><i class="fa fa-check"></i><b>5.2.4</b> Finding “quantiles” with the normal distribution</a></li>
+<li class="chapter" data-level="5.2.5" data-path="lab5.html"><a href="lab5.html#summary-of-rs-built-in-normal-distribution"><i class="fa fa-check"></i><b>5.2.5</b> Summary of R’s built-in normal distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="lab5.html"><a href="lab5.html#wrap-up-4"><i class="fa fa-check"></i><b>5.3</b> Wrap-up</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="lab6.html"><a href="lab6.html"><i class="fa fa-check"></i><b>6</b> Sampling and the Central Limit Theorem: The Wisdom of Large Samples</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="lab6.html"><a href="lab6.html#before-we-begin"><i class="fa fa-check"></i><b>6.1</b> Before we begin…</a></li>
+<li class="chapter" data-level="6.2" data-path="lab6.html"><a href="lab6.html#heights"><i class="fa fa-check"></i><b>6.2</b> Heights</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="lab6.html"><a href="lab6.html#a-simulated-population"><i class="fa fa-check"></i><b>6.2.1</b> A simulated population</a></li>
+<li class="chapter" data-level="6.2.2" data-path="lab6.html"><a href="lab6.html#a-sample-from-our-simulated-population"><i class="fa fa-check"></i><b>6.2.2</b> A sample from our simulated population</a></li>
+<li class="chapter" data-level="6.2.3" data-path="lab6.html"><a href="lab6.html#many-samples-from-our-simulated-population"><i class="fa fa-check"></i><b>6.2.3</b> Many samples from our simulated population</a></li>
+<li class="chapter" data-level="6.2.4" data-path="lab6.html"><a href="lab6.html#many-larger-samples"><i class="fa fa-check"></i><b>6.2.4</b> Many larger samples</a></li>
+<li class="chapter" data-level="6.2.5" data-path="lab6.html"><a href="lab6.html#the-probability-of-being-wrong"><i class="fa fa-check"></i><b>6.2.5</b> The probability of being wrong</a></li>
+<li class="chapter" data-level="6.2.6" data-path="lab6.html"><a href="lab6.html#biased-samples"><i class="fa fa-check"></i><b>6.2.6</b> Biased samples</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="lab6.html"><a href="lab6.html#the-wisdom-of-the-crowd"><i class="fa fa-check"></i><b>6.3</b> The Wisdom of the Crowd</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="lab6.html"><a href="lab6.html#grab-the-data"><i class="fa fa-check"></i><b>6.3.1</b> Grab the data</a></li>
+<li class="chapter" data-level="6.3.2" data-path="lab6.html"><a href="lab6.html#make-a-histogram"><i class="fa fa-check"></i><b>6.3.2</b> Make a histogram</a></li>
+<li class="chapter" data-level="6.3.3" data-path="lab6.html"><a href="lab6.html#what-is-the-right-answer"><i class="fa fa-check"></i><b>6.3.3</b> What is the right answer?</a></li>
+<li class="chapter" data-level="6.3.4" data-path="lab6.html"><a href="lab6.html#what-about-the-average"><i class="fa fa-check"></i><b>6.3.4</b> What about the average?</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="lab6.html"><a href="lab6.html#wrap-up-5"><i class="fa fa-check"></i><b>6.4</b> Wrap-up</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="lab7.html"><a href="lab7.html"><i class="fa fa-check"></i><b>7</b> Confidence intervals and hypothesis testing</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="lab7.html"><a href="lab7.html#be-still-my-artificial-heart"><i class="fa fa-check"></i><b>7.1</b> Be still, my (artificial) heart</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="lab7.html"><a href="lab7.html#constructing-confidence-intervals"><i class="fa fa-check"></i><b>7.1.1</b> Constructing confidence intervals</a></li>
+<li class="chapter" data-level="7.1.2" data-path="lab7.html"><a href="lab7.html#compare-our-sample-to-the-confidence-interval"><i class="fa fa-check"></i><b>7.1.2</b> Compare our sample to the confidence interval</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="lab7.html"><a href="lab7.html#lay-your-weary-head-to-rest"><i class="fa fa-check"></i><b>7.2</b> Lay your weary head to rest</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="lab7.html"><a href="lab7.html#figure-out-what-parameters-would-describe-the-population-if-the-hypothesis-were-true-1"><i class="fa fa-check"></i><b>7.2.1</b> Figure out what parameters would describe the population <em>if</em> the hypothesis were true</a></li>
+<li class="chapter" data-level="7.2.2" data-path="lab7.html"><a href="lab7.html#decide-how-wide-to-make-our-confidence-interval-1"><i class="fa fa-check"></i><b>7.2.2</b> Decide how wide to make our confidence interval</a></li>
+<li class="chapter" data-level="7.2.3" data-path="lab7.html"><a href="lab7.html#figure-out-the-upper-and-lower-boundaries-of-the-confidence-interval-1"><i class="fa fa-check"></i><b>7.2.3</b> Figure out the upper and lower boundaries of the confidence interval</a></li>
+<li class="chapter" data-level="7.2.4" data-path="lab7.html"><a href="lab7.html#compare-our-sample-to-the-confidence-interval-1"><i class="fa fa-check"></i><b>7.2.4</b> Compare our sample to the confidence interval</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="lab7.html"><a href="lab7.html#wrap-up-6"><i class="fa fa-check"></i><b>7.3</b> Wrap-up</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="lab8.html"><a href="lab8.html"><i class="fa fa-check"></i><b>8</b> Statistical Power</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="lab8.html"><a href="lab8.html#the-power-of-positive-feedback"><i class="fa fa-check"></i><b>8.1</b> The Power of Positive Feedback</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="lab8.html"><a href="lab8.html#look-at-the-data"><i class="fa fa-check"></i><b>8.1.1</b> Look at the data</a></li>
+<li class="chapter" data-level="8.1.2" data-path="lab8.html"><a href="lab8.html#specifying-our-null-hypothesis"><i class="fa fa-check"></i><b>8.1.2</b> Specifying our null hypothesis</a></li>
+<li class="chapter" data-level="8.1.3" data-path="lab8.html"><a href="lab8.html#building-our-confidence-interval"><i class="fa fa-check"></i><b>8.1.3</b> Building our confidence interval</a></li>
+<li class="chapter" data-level="8.1.4" data-path="lab8.html"><a href="lab8.html#visualizing-the-distribution-of-sample-means"><i class="fa fa-check"></i><b>8.1.4</b> Visualizing the distribution of sample means</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="lab8.html"><a href="lab8.html#achieving-a-target-level-of-power"><i class="fa fa-check"></i><b>8.2</b> Achieving a target level of power</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="lab8.html"><a href="lab8.html#effect-size"><i class="fa fa-check"></i><b>8.2.1</b> Effect size</a></li>
+<li class="chapter" data-level="8.2.2" data-path="lab8.html"><a href="lab8.html#sample-size"><i class="fa fa-check"></i><b>8.2.2</b> Sample size</a></li>
+<li class="chapter" data-level="8.2.3" data-path="lab8.html"><a href="lab8.html#alpha-level"><i class="fa fa-check"></i><b>8.2.3</b> Alpha level</a></li>
+<li class="chapter" data-level="8.2.4" data-path="lab8.html"><a href="lab8.html#population-standard-deviation"><i class="fa fa-check"></i><b>8.2.4</b> Population standard deviation</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="lab8.html"><a href="lab8.html#using-data-to-test-the-null-hypothesis"><i class="fa fa-check"></i><b>8.3</b> Using data to test the null hypothesis</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="lab8.html"><a href="lab8.html#confidence-interval-limits"><i class="fa fa-check"></i><b>8.3.1</b> Confidence interval limits</a></li>
+<li class="chapter" data-level="8.3.2" data-path="lab8.html"><a href="lab8.html#the-p-value"><i class="fa fa-check"></i><b>8.3.2</b> The <span class="math inline">\(p\)</span> value</a></li>
+<li class="chapter" data-level="8.3.3" data-path="lab8.html"><a href="lab8.html#estimated-power"><i class="fa fa-check"></i><b>8.3.3</b> Estimated power</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="lab8.html"><a href="lab8.html#wrap-up-7"><i class="fa fa-check"></i><b>8.4</b> Wrap-up</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="lab9.html"><a href="lab9.html"><i class="fa fa-check"></i><b>9</b> <span class="math inline">\(t\)</span> tests</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="lab9.html"><a href="lab9.html#t-tests-on-tiny-data"><i class="fa fa-check"></i><b>9.1</b> <span class="math inline">\(t\)</span> tests on tiny data</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="lab9.html"><a href="lab9.html#one-sample-t-test"><i class="fa fa-check"></i><b>9.1.1</b> One-sample <span class="math inline">\(t\)</span> test</a></li>
+<li class="chapter" data-level="9.1.2" data-path="lab9.html"><a href="lab9.html#paired-sample-t-test"><i class="fa fa-check"></i><b>9.1.2</b> Paired sample <span class="math inline">\(t\)</span> test</a></li>
+<li class="chapter" data-level="9.1.3" data-path="lab9.html"><a href="lab9.html#independent-samples-t-test"><i class="fa fa-check"></i><b>9.1.3</b> Independent samples <span class="math inline">\(t\)</span> test</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="lab9.html"><a href="lab9.html#t-tests-with-real-data"><i class="fa fa-check"></i><b>9.2</b> <span class="math inline">\(t\)</span> tests with real data</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="lab9.html"><a href="lab9.html#check-out-the-data"><i class="fa fa-check"></i><b>9.2.1</b> Check out the data</a></li>
+<li class="chapter" data-level="9.2.2" data-path="lab9.html"><a href="lab9.html#did-infants-show-any-prior-bias"><i class="fa fa-check"></i><b>9.2.2</b> Did infants show any prior bias?</a></li>
+<li class="chapter" data-level="9.2.3" data-path="lab9.html"><a href="lab9.html#do-infants-prefer-to-look-at-the-singer-of-the-familiar-melody"><i class="fa fa-check"></i><b>9.2.3</b> Do infants prefer to look at the singer of the familiar melody?</a></li>
+<li class="chapter" data-level="9.2.4" data-path="lab9.html"><a href="lab9.html#did-their-preferences-change"><i class="fa fa-check"></i><b>9.2.4</b> Did their preferences change?</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="lab9.html"><a href="lab9.html#wrap-up-8"><i class="fa fa-check"></i><b>9.3</b> Wrap-up</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="lab10.html"><a href="lab10.html"><i class="fa fa-check"></i><b>10</b> Comparing Independent Samples</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="lab10.html"><a href="lab10.html#get-to-know-the-data"><i class="fa fa-check"></i><b>10.1</b> Get to know the data</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="lab10.html"><a href="lab10.html#batting-average"><i class="fa fa-check"></i><b>10.1.1</b> Batting average</a></li>
+<li class="chapter" data-level="10.1.2" data-path="lab10.html"><a href="lab10.html#batting-average-by-position"><i class="fa fa-check"></i><b>10.1.2</b> Batting average by position</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="lab10.html"><a href="lab10.html#independent-samples-t-test-infield-vs.-outfield"><i class="fa fa-check"></i><b>10.2</b> Independent samples <span class="math inline">\(t\)</span> test: Infield vs. Outfield</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="lab10.html"><a href="lab10.html#filtering-data-with-filter"><i class="fa fa-check"></i><b>10.2.1</b> Filtering data with <code>filter</code></a></li>
+<li class="chapter" data-level="10.2.2" data-path="lab10.html"><a href="lab10.html#doing-the-t-test"><i class="fa fa-check"></i><b>10.2.2</b> Doing the <span class="math inline">\(t\)</span> test</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="lab10.html"><a href="lab10.html#analysis-of-variance-batting-average-by-position"><i class="fa fa-check"></i><b>10.3</b> Analysis of Variance: Batting average by position</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="lab10.html"><a href="lab10.html#doing-the-anova"><i class="fa fa-check"></i><b>10.3.1</b> Doing the ANOVA</a></li>
+<li class="chapter" data-level="10.3.2" data-path="lab10.html"><a href="lab10.html#post-hoc-pairwise-tests"><i class="fa fa-check"></i><b>10.3.2</b> Post hoc pairwise tests</a></li>
+<li class="chapter" data-level="10.3.3" data-path="lab10.html"><a href="lab10.html#no-pitchers-allowed"><i class="fa fa-check"></i><b>10.3.3</b> No Pitchers Allowed?</a></li>
+<li class="chapter" data-level="10.3.4" data-path="lab10.html"><a href="lab10.html#slugging-average"><i class="fa fa-check"></i><b>10.3.4</b> Slugging Average</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="lab10.html"><a href="lab10.html#wrap-up-9"><i class="fa fa-check"></i><b>10.4</b> Wrap-up</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="lab11.html"><a href="lab11.html"><i class="fa fa-check"></i><b>11</b> Linear Regression</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="lab11.html"><a href="lab11.html#inference-the-answer-is-blowing-in-the-wind"><i class="fa fa-check"></i><b>11.1</b> Inference: The Answer is Blowing in the Wind</a>
+<ul>
+<li class="chapter" data-level="11.1.1" data-path="lab11.html"><a href="lab11.html#what-a-line-is-made-of-slopes-and-intercepts"><i class="fa fa-check"></i><b>11.1.1</b> What a line is made of: Slopes and Intercepts</a></li>
+<li class="chapter" data-level="11.1.2" data-path="lab11.html"><a href="lab11.html#adding-our-own-line"><i class="fa fa-check"></i><b>11.1.2</b> Adding our own line</a></li>
+<li class="chapter" data-level="11.1.3" data-path="lab11.html"><a href="lab11.html#adding-the-best-fitting-line"><i class="fa fa-check"></i><b>11.1.3</b> Adding the best-fitting line</a></li>
+<li class="chapter" data-level="11.1.4" data-path="lab11.html"><a href="lab11.html#getting-the-slope-and-intercept"><i class="fa fa-check"></i><b>11.1.4</b> Getting the slope and intercept</a></li>
+<li class="chapter" data-level="11.1.5" data-path="lab11.html"><a href="lab11.html#how-much-variance-does-wind-speed-explain"><i class="fa fa-check"></i><b>11.1.5</b> How much variance does wind speed explain?</a></li>
+<li class="chapter" data-level="11.1.6" data-path="lab11.html"><a href="lab11.html#making-predictions"><i class="fa fa-check"></i><b>11.1.6</b> Making Predictions</a></li>
+<li class="chapter" data-level="11.1.7" data-path="lab11.html"><a href="lab11.html#hypothesis-testing"><i class="fa fa-check"></i><b>11.1.7</b> Hypothesis Testing</a></li>
+</ul></li>
+<li class="chapter" data-level="11.2" data-path="lab11.html"><a href="lab11.html#making-decisions-housing-prices"><i class="fa fa-check"></i><b>11.2</b> Making Decisions: Housing Prices</a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="lab11.html"><a href="lab11.html#visualize-the-data"><i class="fa fa-check"></i><b>11.2.1</b> Visualize the data</a></li>
+<li class="chapter" data-level="11.2.2" data-path="lab11.html"><a href="lab11.html#find-the-best-fitting-line"><i class="fa fa-check"></i><b>11.2.2</b> Find the best-fitting line</a></li>
+<li class="chapter" data-level="11.2.3" data-path="lab11.html"><a href="lab11.html#make-predictions"><i class="fa fa-check"></i><b>11.2.3</b> Make Predictions</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="lab11.html"><a href="lab11.html#wrap-up-10"><i class="fa fa-check"></i><b>11.3</b> Wrap-up</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="lab12.html"><a href="lab12.html"><i class="fa fa-check"></i><b>12</b> Exploring Data with R, Part II</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="lab12.html"><a href="lab12.html#meet-your-data-1"><i class="fa fa-check"></i><b>12.1</b> Meet your data</a></li>
+<li class="chapter" data-level="12.2" data-path="lab12.html"><a href="lab12.html#answering-questions-with-data-1"><i class="fa fa-check"></i><b>12.2</b> Answering questions with data</a>
+<ul>
+<li class="chapter" data-level="12.2.1" data-path="lab12.html"><a href="lab12.html#does-ridership-vary-by-season"><i class="fa fa-check"></i><b>12.2.1</b> Does ridership vary by season?</a></li>
+<li class="chapter" data-level="12.2.2" data-path="lab12.html"><a href="lab12.html#does-ridership-vary-with-actual-temperature"><i class="fa fa-check"></i><b>12.2.2</b> Does ridership vary with actual temperature?</a></li>
+<li class="chapter" data-level="12.2.3" data-path="lab12.html"><a href="lab12.html#does-ridership-vary-with-perceived-temperature"><i class="fa fa-check"></i><b>12.2.3</b> Does ridership vary with <em>perceived</em> temperature?</a></li>
+<li class="chapter" data-level="12.2.4" data-path="lab12.html"><a href="lab12.html#whats-up-with-those-weird-days"><i class="fa fa-check"></i><b>12.2.4</b> What’s up with those weird days?</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="lab12.html"><a href="lab12.html#wrap-up-11"><i class="fa fa-check"></i><b>12.3</b> Wrap-up</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="coderef.html"><a href="coderef.html"><i class="fa fa-check"></i><b>A</b> Distributions</a>
+<ul>
+<li class="chapter" data-level="A.1" data-path="coderef.html"><a href="coderef.html#binomial-distribution"><i class="fa fa-check"></i><b>A.1</b> Binomial distribution</a>
+<ul>
+<li class="chapter" data-level="A.1.1" data-path="coderef.html"><a href="coderef.html#probability-of-observing-an-outcome-exactly-equal-to-a-given-value"><i class="fa fa-check"></i><b>A.1.1</b> Probability of observing an outcome exactly equal to a given value</a></li>
+<li class="chapter" data-level="A.1.2" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-less-than-or-equal-to-a-given-value"><i class="fa fa-check"></i><b>A.1.2</b> Probability of observing a value less than or equal to a given value</a></li>
+<li class="chapter" data-level="A.1.3" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-greater-than-a-given-value"><i class="fa fa-check"></i><b>A.1.3</b> Probability of observing a value greater than a given value</a></li>
+<li class="chapter" data-level="A.1.4" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-inside-an-interval-between-an-upper-and-lower-value"><i class="fa fa-check"></i><b>A.1.4</b> Probability of observing a value inside an interval between an upper and lower value</a></li>
+<li class="chapter" data-level="A.1.5" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-outside-an-interval-between-an-upper-and-lower-value"><i class="fa fa-check"></i><b>A.1.5</b> Probability of observing a value outside an interval between an upper and lower value</a></li>
+<li class="chapter" data-level="A.1.6" data-path="coderef.html"><a href="coderef.html#the-value-for-which-there-is-a-given-probability-of-observing-an-outcome-less-than-or-equal-to-that-value"><i class="fa fa-check"></i><b>A.1.6</b> The value for which there is a given probability of observing an outcome less than or equal to that value</a></li>
+<li class="chapter" data-level="A.1.7" data-path="coderef.html"><a href="coderef.html#testing-a-null-hypothesis"><i class="fa fa-check"></i><b>A.1.7</b> Testing a null hypothesis</a></li>
+</ul></li>
+<li class="chapter" data-level="A.2" data-path="coderef.html"><a href="coderef.html#normal-distribution"><i class="fa fa-check"></i><b>A.2</b> Normal distribution</a>
+<ul>
+<li class="chapter" data-level="A.2.1" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-less-than-or-equal-to-a-given-value-1"><i class="fa fa-check"></i><b>A.2.1</b> Probability of observing a value less than or equal to a given value</a></li>
+<li class="chapter" data-level="A.2.2" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-greater-than-a-given-value-1"><i class="fa fa-check"></i><b>A.2.2</b> Probability of observing a value greater than a given value</a></li>
+<li class="chapter" data-level="A.2.3" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-inside-an-interval-between-an-upper-and-lower-value-1"><i class="fa fa-check"></i><b>A.2.3</b> Probability of observing a value inside an interval between an upper and lower value</a></li>
+<li class="chapter" data-level="A.2.4" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-outside-an-interval-between-an-upper-and-lower-value-1"><i class="fa fa-check"></i><b>A.2.4</b> Probability of observing a value outside an interval between an upper and lower value</a></li>
+<li class="chapter" data-level="A.2.5" data-path="coderef.html"><a href="coderef.html#the-value-for-which-there-is-a-given-probability-of-observing-an-outcome-less-than-or-equal-to-that-value-1"><i class="fa fa-check"></i><b>A.2.5</b> The value for which there is a given probability of observing an outcome less than or equal to that value</a></li>
+<li class="chapter" data-level="A.2.6" data-path="coderef.html"><a href="coderef.html#testing-a-null-hypothesis-1"><i class="fa fa-check"></i><b>A.2.6</b> Testing a null hypothesis</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="hyptests.html"><a href="hyptests.html"><i class="fa fa-check"></i><b>B</b> Hypothesis Tests</a>
+<ul>
+<li class="chapter" data-level="B.1" data-path="hyptests.html"><a href="hyptests.html#t-tests"><i class="fa fa-check"></i><b>B.1</b> <span class="math inline">\(t\)</span> tests</a>
+<ul>
+<li class="chapter" data-level="B.1.1" data-path="hyptests.html"><a href="hyptests.html#doing-them-step-by-step"><i class="fa fa-check"></i><b>B.1.1</b> Doing them step-by-step</a></li>
+<li class="chapter" data-level="B.1.2" data-path="hyptests.html"><a href="hyptests.html#doing-them-all-at-once"><i class="fa fa-check"></i><b>B.1.2</b> Doing them all at once</a></li>
+</ul></li>
+<li class="chapter" data-level="B.2" data-path="hyptests.html"><a href="hyptests.html#analysis-of-variance-anova"><i class="fa fa-check"></i><b>B.2</b> Analysis of Variance (ANOVA)</a>
+<ul>
+<li class="chapter" data-level="B.2.1" data-path="hyptests.html"><a href="hyptests.html#anova"><i class="fa fa-check"></i><b>B.2.1</b> ANOVA</a></li>
+<li class="chapter" data-level="B.2.2" data-path="hyptests.html"><a href="hyptests.html#post-hoc-pairwise-t-tests"><i class="fa fa-check"></i><b>B.2.2</b> Post hoc pairwise <span class="math inline">\(t\)</span> tests</a></li>
+</ul></li>
+<li class="chapter" data-level="B.3" data-path="hyptests.html"><a href="hyptests.html#linear-regression"><i class="fa fa-check"></i><b>B.3</b> Linear Regression</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Labs</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="lab12" class="section level1" number="12">
+<h1><span class="header-section-number">Lab 12</span> Exploring Data with R, Part II</h1>
+<p><img src="img/bike.png" width="100%" /></p>
+<p>In this session, we will do a bit of exploration with data. This is in keeping with the theme of our first session, only now enriched by the new tools and understanding we have developed since then.</p>
+<p>Also in keeping with the theme of exploration, we will be looking at a single dataset about bike sharing. These data were recorded in 2011 and 2012 in Washington, DC. They record the number of riders in a new bike sharing program on each day. We will explore patterns in how bike sharing behavior changes across the year, with the weather, and during specific events. This may not be quite a satisfying as exploring on a real bike, but it comes pretty close.</p>
+<p>To begin, let’s make sure we have our packages loaded from the library. We will need <code>tidyverse</code> and <code>magrittr</code>:</p>
+<div class="sourceCode" id="cb489"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb489-1"><a href="lab12.html#cb489-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
+## ✓ tibble  3.1.1     ✓ dplyr   1.0.5
+## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
+## ✓ readr   1.4.0     ✓ forcats 0.5.1</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<div class="sourceCode" id="cb493"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb493-1"><a href="lab12.html#cb493-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;magrittr&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     set_names</code></pre>
+<pre><code>## The following object is masked from &#39;package:tidyr&#39;:
+## 
+##     extract</code></pre>
+<div id="meet-your-data-1" class="section level2" number="12.1">
+<h2><span class="header-section-number">12.1</span> Meet your data</h2>
+<p>Download the data into your R session with the following bit of code:</p>
+<div class="sourceCode" id="cb497"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb497-1"><a href="lab12.html#cb497-1" aria-hidden="true" tabindex="-1"></a>bike_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/bike.csv&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   date = col_date(format = &quot;&quot;),
+##   year = col_double(),
+##   season = col_character(),
+##   month = col_double(),
+##   day = col_character(),
+##   holiday = col_logical(),
+##   workday = col_logical(),
+##   weather = col_character(),
+##   celsius_actual = col_double(),
+##   celsius_feelslike = col_double(),
+##   humidity = col_double(),
+##   windspeed = col_double(),
+##   num_riders = col_double()
+## )</code></pre>
+<p>Click on the data in RStudio’s “Environment” pane to get a sense of what is here. Each row corresponds to a specific day. Most of the variables are pretty self-explanatory. Our <strong>response variable</strong> of interest is <code>num_riders</code>, the number of people who used the bike share that day.</p>
+<p>First, let’s make ourselves a histogram to get a sense of how ridership is distributed from day to day.</p>
+<div class="sourceCode" id="cb499"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb499-1"><a href="lab12.html#cb499-1" aria-hidden="true" tabindex="-1"></a>bike_data <span class="sc">%&gt;%</span></span>
+<span id="cb499-2"><a href="lab12.html#cb499-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> num_riders)) <span class="sc">+</span></span>
+<span id="cb499-3"><a href="lab12.html#cb499-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">300</span>)</span></code></pre></div>
+<p><img src="12-exploring_again_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+
+<div class="exercise">
+<p><span id="exr:ex1201" class="exercise"><strong>Exercise 12.1  </strong></span>Based on the histogram, describe the shape of the distribution. Does it seem skewed at all? Does it seem like there is just one mode, or many modes?</p>
+</div>
+</div>
+<div id="answering-questions-with-data-1" class="section level2" number="12.2">
+<h2><span class="header-section-number">12.2</span> Answering questions with data</h2>
+<p>The histogram we just made shows how daily ridership is distributed over the two years we have records for, but it doesn’t tell us <em>why</em> ridership looks the way it does. Fortunately, our dataset contains many other variables that will let us understand why people choose to use bikes differently on different days.</p>
+<p>The first thing we’ll do is make a <strong>scatterplot</strong> with the date on the horizontal axis and the number of riders on the vertical axis.</p>
+
+<div class="exercise">
+<p><span id="exr:ex1202" class="exercise"><strong>Exercise 12.2  </strong></span>Fill in the blanks in the code below to reproduce the scatterplot shown (hint: what are the names of the variables we want to put on the two axes? And what <code>geom</code> have we used to make scatterplots before?). What big trends do you see, and what shape do those trends seem to have?</p>
+</div>
+<div class="sourceCode" id="cb500"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb500-1"><a href="lab12.html#cb500-1" aria-hidden="true" tabindex="-1"></a>bike_data <span class="sc">%&gt;%</span></span>
+<span id="cb500-2"><a href="lab12.html#cb500-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___, <span class="at">y =</span> ___)) <span class="sc">+</span></span>
+<span id="cb500-3"><a href="lab12.html#cb500-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">___</span>()</span></code></pre></div>
+<p><img src="12-exploring_again_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<div id="does-ridership-vary-by-season" class="section level3" number="12.2.1">
+<h3><span class="header-section-number">12.2.1</span> Does ridership vary by season?</h3>
+<p>It looks like the time of year might be an important explanatory variable, so let’s try to answer the <strong>research question</strong>, <em>does ridership vary by season?</em></p>
+<div id="visualization-1" class="section level4" number="12.2.1.1">
+<h4><span class="header-section-number">12.2.1.1</span> Visualization</h4>
+<p>Before doing any kind of hypothesis test, let’s add a bit of color to the scatterplot we made above…literally! This will highlight any differences between seasons.</p>
+
+<div class="exercise">
+<p><span id="exr:ex1203" class="exercise"><strong>Exercise 12.3  </strong></span>Fill in the blanks in the code below to reproduce the scatterplot shown (hint: how did you fill in the blanks in the last exercise?). Does it seem like season explains a lot of the differences in bike riding? Does it look like there are other changes in bike riding over time that seasons might not explain?</p>
+</div>
+<div class="sourceCode" id="cb501"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb501-1"><a href="lab12.html#cb501-1" aria-hidden="true" tabindex="-1"></a>bike_data <span class="sc">%&gt;%</span></span>
+<span id="cb501-2"><a href="lab12.html#cb501-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___, <span class="at">y =</span> ___, <span class="at">color =</span> season)) <span class="sc">+</span></span>
+<span id="cb501-3"><a href="lab12.html#cb501-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">___</span>()</span></code></pre></div>
+<p><img src="12-exploring_again_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+</div>
+<div id="hypothesis-testing-1" class="section level4" number="12.2.1.2">
+<h4><span class="header-section-number">12.2.1.2</span> Hypothesis testing</h4>
+<p>To see whether we have statistical evidence in favor of the idea that the seasons explain bike riding, we will conduct an <strong>Analysis of Variance</strong>.</p>
+<ol style="list-style-type: decimal">
+<li>Translate your research question into a null and alternative hypothesis</li>
+</ol>
+<p>As usual, the null hypothesis in ANOVA is that the population mean ridership is the same across all four seasons (<span class="math inline">\(H_0\)</span>: <span class="math inline">\(\mu_1 = \mu_2 = \mu_3 = \mu_4\)</span>). The alternative hypothesis is that mean ridership is <em>not</em> the same across all four seasons (i.e., at least one season is different on average from the others).</p>
+<ol start="2" style="list-style-type: decimal">
+<li>Select an alpha level</li>
+</ol>
+<p>We’ll try a more conservative alpha level this time, say 0.01.</p>
+<ol start="3" style="list-style-type: decimal">
+<li><p>Find the <span class="math inline">\(F\)</span> value</p></li>
+<li><p>Find the <span class="math inline">\(p\)</span> value</p></li>
+<li><p>Decide whether or not to reject the null hypothesis</p></li>
+</ol>
+<p>As usual, we will do steps 3 and 4 using a bit of R code and you’ll do step 5 based on the results.</p>
+
+<div class="exercise">
+<p><span id="exr:ex1204" class="exercise"><strong>Exercise 12.4  </strong></span>Fill in the blanks in the code below to reproduce the ANOVA table shown (hint: what are the names of the explanatory and response variable? What is the final line when we did ANOVA in prior labs?). Do you reject the null hypothesis? What does this say about how ridership varies by season?</p>
+</div>
+<div class="sourceCode" id="cb502"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb502-1"><a href="lab12.html#cb502-1" aria-hidden="true" tabindex="-1"></a>bike_data <span class="sc">%$%</span></span>
+<span id="cb502-2"><a href="lab12.html#cb502-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(___ <span class="sc">~</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb502-3"><a href="lab12.html#cb502-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">___</span>()</span></code></pre></div>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: num_riders
+##            Df     Sum Sq   Mean Sq F value    Pr(&gt;F)    
+## season      3  950595868 316865289  128.77 &lt; 2.2e-16 ***
+## Residuals 727 1788939524   2460715                      
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<div id="how-much-does-season-explain" class="section level4" number="12.2.1.3">
+<h4><span class="header-section-number">12.2.1.3</span> How much does season explain?</h4>
+<p>Finally, let’s ask how much of the variability in ridership can be explained by differences in season? This question is answered by the quantity <span class="math inline">\(\eta^2\)</span>, and we can get it directly from the entries in the ANOVA table we just made. As we know, the formula for <span class="math inline">\(\eta^2\)</span> is</p>
+<p><span class="math display">\[
+\eta^2 = \frac{SS_B}{SS_B + SS_W}
+\]</span>
+The numbers we need are given in the “Sum Sq.” column in the ANOVA table, so we can calculate <span class="math inline">\(\eta^2\)</span> in R like so:</p>
+<div class="sourceCode" id="cb504"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb504-1"><a href="lab12.html#cb504-1" aria-hidden="true" tabindex="-1"></a><span class="dv">950595868</span> <span class="sc">/</span> (<span class="dv">950595868</span> <span class="sc">+</span> <span class="dv">1788939524</span>)</span></code></pre></div>
+<pre><code>## [1] 0.3469916</code></pre>
+<p>The result above tells us the proportion of variability in ridership that can be explained by differences between seasons. That’s pretty respectable, but can we do better?</p>
+</div>
+</div>
+<div id="does-ridership-vary-with-actual-temperature" class="section level3" number="12.2.2">
+<h3><span class="header-section-number">12.2.2</span> Does ridership vary with actual temperature?</h3>
+<p>As we saw above, it looked like there were substantial changes in ridership not just between seasons, but within seasons as well. For example, ridership tends to increase over the winter. Perhaps this is because of warming temperatures? In other words, can differences in ridership be explained by differences in <em>temperature</em>?</p>
+<p>Note that our data includes <strong>two</strong> measures of temperature: A measure of the <em>actual</em> temperature that day (<code>celsius_actual</code>), and a measure of what the temperature <em>felt like</em> that day (<code>celsius_feelslike</code>).</p>
+<p>We will first look at actual temperatures and then look at “felt like” temperatures in the next section.</p>
+<div id="from-celsius-to-fahrenheit" class="section level4" number="12.2.2.1">
+<h4><span class="header-section-number">12.2.2.1</span> From Celsius to Fahrenheit</h4>
+<p>For some reason, despite the fact that these data were recorded in the US, temperature was measured in degrees Celsius. For those of us who still think in degrees Fahrenheit, it will be useful to convert these temperatures. We can do this using <code>mutate</code>. We then tell R to remember the <code>mutate</code>d dataset under the same name <code>bike_data</code>, so that we can use this variable later.</p>
+<div class="sourceCode" id="cb506"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb506-1"><a href="lab12.html#cb506-1" aria-hidden="true" tabindex="-1"></a>bike_data <span class="ot">&lt;-</span> bike_data <span class="sc">%&gt;%</span></span>
+<span id="cb506-2"><a href="lab12.html#cb506-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">fahrenheit_actual =</span> <span class="fl">1.8</span> <span class="sc">*</span> celsius_actual <span class="sc">+</span> <span class="dv">32</span>)</span></code></pre></div>
+<p><strong>If you get an error</strong> about not finding the new temperature variable we just made, make sure you’ve run the chunk of code above!</p>
+</div>
+<div id="visualization-2" class="section level4" number="12.2.2.2">
+<h4><span class="header-section-number">12.2.2.2</span> Visualization</h4>
+<p>As above, let’s make ourselves a visualization so we can get a sense of how much temperature will be able to explain changes in bike riding behavior. Again, we will color in our scatterplot above. But now we will color it in based on temperature, not season.</p>
+
+<div class="exercise">
+<p><span id="exr:ex1205" class="exercise"><strong>Exercise 12.5  </strong></span>Fill in the blanks in the code below to reproduce the scatterplot shown (hint: how did you fill in the blanks in the last exercise? What is the name of the new temperature variable we just made?). Does it seem like temperature could account for a lot of differences in bike riding? Does it seem like a better explanation than the seasons?</p>
+</div>
+<div class="sourceCode" id="cb507"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb507-1"><a href="lab12.html#cb507-1" aria-hidden="true" tabindex="-1"></a>bike_data <span class="sc">%&gt;%</span></span>
+<span id="cb507-2"><a href="lab12.html#cb507-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___, <span class="at">y =</span> ___, <span class="at">color =</span> ___)) <span class="sc">+</span></span>
+<span id="cb507-3"><a href="lab12.html#cb507-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">___</span>()</span></code></pre></div>
+<p><img src="12-exploring_again_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p>Interesting! Now let’s try looking at another scatterplot, this time with temperature on the horizontal axis and number of riders on the vertical axis, and no color.</p>
+
+<div class="exercise">
+<p><span id="exr:ex1206" class="exercise"><strong>Exercise 12.6  </strong></span>Fill in the blanks in the code below to reproduce the scatterplot shown (hint: what variables are we putting on which axes?). Does it seems like there is a positive or negative correlation between temperature and ridership? Does this correlation seem weak or strong?</p>
+</div>
+<div class="sourceCode" id="cb508"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb508-1"><a href="lab12.html#cb508-1" aria-hidden="true" tabindex="-1"></a>bike_data <span class="sc">%&gt;%</span></span>
+<span id="cb508-2"><a href="lab12.html#cb508-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___, <span class="at">y =</span> ___)) <span class="sc">+</span></span>
+<span id="cb508-3"><a href="lab12.html#cb508-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">___</span>()</span></code></pre></div>
+<p><img src="12-exploring_again_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+</div>
+<div id="hypothesis-testing-2" class="section level4" number="12.2.2.3">
+<h4><span class="header-section-number">12.2.2.3</span> Hypothesis testing</h4>
+<p>To see whether we have statistical evidence in favor of the idea that actual temperature explains bike riding, we will conduct an <strong>linear regression</strong> analysis.</p>
+<ol style="list-style-type: decimal">
+<li>Translate your research question into a null and alternative hypothesis</li>
+</ol>
+<p>The null hypothesis is that the slope of the linear relationship between actual temperature and ridership is zero (<span class="math inline">\(H_0\)</span>: <span class="math inline">\(b_1 = 0\)</span>). The alternative hypothesis is that this slope is not equal to zero (<span class="math inline">\(H_1\)</span>: <span class="math inline">\(b_1 \neq 0\)</span>).</p>
+<ol start="2" style="list-style-type: decimal">
+<li>Select an alpha level</li>
+</ol>
+<p>We’ll keep our alpha level from before at 0.01.</p>
+<ol start="3" style="list-style-type: decimal">
+<li><p>Find the <span class="math inline">\(F\)</span> value</p></li>
+<li><p>Find the <span class="math inline">\(p\)</span> value</p></li>
+<li><p>Decide whether or not to reject the null hypothesis</p></li>
+</ol>
+<p>Again, we will do steps 3 and 4 using a bit of R code and you’ll do step 5 based on the results.</p>
+
+<div class="exercise">
+<p><span id="exr:ex1207" class="exercise"><strong>Exercise 12.7  </strong></span>Fill in the blanks in the code below to reproduce the table shown (hint: what are the names of the explanatory and response variable? What should the final line be?). Do you reject the null hypothesis? What does this say about how ridership varies with actual temperature?</p>
+</div>
+<div class="sourceCode" id="cb509"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb509-1"><a href="lab12.html#cb509-1" aria-hidden="true" tabindex="-1"></a>bike_data <span class="sc">%$%</span></span>
+<span id="cb509-2"><a href="lab12.html#cb509-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(___ <span class="sc">~</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb509-3"><a href="lab12.html#cb509-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">___</span>()</span></code></pre></div>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: num_riders
+##                    Df     Sum Sq    Mean Sq F value    Pr(&gt;F)    
+## fahrenheit_actual   1 1078688585 1078688585  473.47 &lt; 2.2e-16 ***
+## Residuals         729 1660846807    2278254                      
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<div id="how-much-does-season-explain-1" class="section level4" number="12.2.2.4">
+<h4><span class="header-section-number">12.2.2.4</span> How much does season explain?</h4>
+<p>How much of the variability in ridership can be explained by differences in actual temperature? Again, we can answer this question using numbers from the table above to find <span class="math inline">\(r^2\)</span>, the proportion of variance in the response variable that can be explained by the explanatory variable. As we know, the formula for <span class="math inline">\(r^2\)</span> is</p>
+<p><span class="math display">\[
+r^2 = \frac{SS_{\text{Model}}}{SS_{\text{Model}} + SS_{\text{Resid}}}
+\]</span>
+By grabbing the relevant numbers from the “Sum Sq.” column above, we can calculate this in R like so:</p>
+<div class="sourceCode" id="cb511"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb511-1"><a href="lab12.html#cb511-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1078688585</span> <span class="sc">/</span> (<span class="dv">1078688585</span> <span class="sc">+</span> <span class="dv">1660846807</span>)</span></code></pre></div>
+<pre><code>## [1] 0.3937487</code></pre>
+<p>The result above is the proportion of variability in ridership that can be explained by differences in actual temperature.</p>
+<p>We will also want to get the intercept and slope of this linear relationship.</p>
+
+<div class="exercise">
+<p><span id="exr:ex1208" class="exercise"><strong>Exercise 12.8  </strong></span>Fill in the blanks in the code below to get the slope and intercept of the line describing the relationship between actual temperature and bike ridership. Based on these results, if the actual temperature increases by one degree Fahrenheit, how many more riders would we expect to see?</p>
+</div>
+<div class="sourceCode" id="cb513"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb513-1"><a href="lab12.html#cb513-1" aria-hidden="true" tabindex="-1"></a>bike_data <span class="sc">%$%</span></span>
+<span id="cb513-2"><a href="lab12.html#cb513-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(___ <span class="sc">~</span> ___)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = num_riders ~ fahrenheit_actual)
+## 
+## Coefficients:
+##       (Intercept)  fahrenheit_actual  
+##          -1664.80              89.98</code></pre>
+</div>
+</div>
+<div id="does-ridership-vary-with-perceived-temperature" class="section level3" number="12.2.3">
+<h3><span class="header-section-number">12.2.3</span> Does ridership vary with <em>perceived</em> temperature?</h3>
+<p>It looks like we can do a good job explaining changes in ridership in terms of changes in temperature. But we just used the actual (thermometer) temperature. Maybe what matters more is the temperature it <em>feels like</em> on any given day, which is not just a matter of the thermometer, but also cloud cover, wind, humidity, etc.</p>
+<p>The temperature that it <em>felt like</em> on each day is given in our dataset by the variable <code>celsius_feelslike</code>. Let’s repeat the analyses from the previous section using this different temperature variable and see if we can explain any more variance in riding behavior.</p>
+<div id="from-celsius-to-fahrenheit-1" class="section level4" number="12.2.3.1">
+<h4><span class="header-section-number">12.2.3.1</span> From Celsius to Fahrenheit</h4>
+<p>Again, we will convert the “felt like” temperature to Fahrenheit and use this for our analyses instead of Celsius.</p>
+<div class="sourceCode" id="cb515"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb515-1"><a href="lab12.html#cb515-1" aria-hidden="true" tabindex="-1"></a>bike_data <span class="ot">&lt;-</span> bike_data <span class="sc">%&gt;%</span></span>
+<span id="cb515-2"><a href="lab12.html#cb515-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">fahrenheit_feelslike =</span> <span class="fl">1.8</span> <span class="sc">*</span> celsius_feelslike <span class="sc">+</span> <span class="dv">32</span>)</span></code></pre></div>
+<p>Again, <strong>if you get an error</strong> about not finding the new temperature variable we just made, make sure you’ve run the chunk of code above!</p>
+</div>
+<div id="visualization-3" class="section level4" number="12.2.3.2">
+<h4><span class="header-section-number">12.2.3.2</span> Visualization</h4>
+<p>As above, let’s make ourselves a visualization so we can get a sense of how much temperature will be able to explain changes in bike riding behavior. Again, we will color in our scatterplot above. But now we will color it in based on temperature, not season.</p>
+
+<div class="exercise">
+<p><span id="exr:ex1209" class="exercise"><strong>Exercise 12.9  </strong></span>Fill in the blanks in the code below to reproduce the scatterplot shown (hint: how did you fill in the blanks in the last exercise? What is the name of the new temperature variable we just made?). Does this look any different than when we colored the plot using actual temperature? Are there any points that seem to have an unusual “felt like” temperature compared to nearby points?</p>
+</div>
+<div class="sourceCode" id="cb516"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb516-1"><a href="lab12.html#cb516-1" aria-hidden="true" tabindex="-1"></a>bike_data <span class="sc">%&gt;%</span></span>
+<span id="cb516-2"><a href="lab12.html#cb516-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___, <span class="at">y =</span> ___, <span class="at">color =</span> ___)) <span class="sc">+</span></span>
+<span id="cb516-3"><a href="lab12.html#cb516-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">___</span>()</span></code></pre></div>
+<p><img src="12-exploring_again_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+</div>
+<div id="hypothesis-testing-3" class="section level4" number="12.2.3.3">
+<h4><span class="header-section-number">12.2.3.3</span> Hypothesis testing</h4>
+<p>To see whether we have statistical evidence in favor of the idea that the “felt like” temperature explains bike riding, we will conduct an <strong>linear regression</strong> analysis.</p>
+<ol style="list-style-type: decimal">
+<li>Translate your research question into a null and alternative hypothesis</li>
+</ol>
+<p>The null hypothesis is that the slope of the linear relationship between “felt like” temperature and ridership is zero (<span class="math inline">\(H_0\)</span>: <span class="math inline">\(b_1 = 0\)</span>). The alternative hypothesis is that this slope is not equal to zero (<span class="math inline">\(H_1\)</span>: <span class="math inline">\(b_1 \neq 0\)</span>).</p>
+<ol start="2" style="list-style-type: decimal">
+<li>Select an alpha level</li>
+</ol>
+<p>We’ll keep our alpha level from before at 0.01.</p>
+<ol start="3" style="list-style-type: decimal">
+<li><p>Find the <span class="math inline">\(F\)</span> value</p></li>
+<li><p>Find the <span class="math inline">\(p\)</span> value</p></li>
+<li><p>Decide whether or not to reject the null hypothesis</p></li>
+</ol>
+<p>Again, we will do steps 3 and 4 using a bit of R code and you’ll do step 5 based on the results.</p>
+
+<div class="exercise">
+<p><span id="exr:ex1210" class="exercise"><strong>Exercise 12.10  </strong></span>Fill in the blanks in the code below to reproduce the table shown (hint: what are the names of the explanatory and response variable? What should the final line be?). Do you reject the null hypothesis? What does this say about how ridership varies with felt-like temperature?</p>
+</div>
+<div class="sourceCode" id="cb517"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb517-1"><a href="lab12.html#cb517-1" aria-hidden="true" tabindex="-1"></a>bike_data <span class="sc">%$%</span></span>
+<span id="cb517-2"><a href="lab12.html#cb517-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(___ <span class="sc">~</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb517-3"><a href="lab12.html#cb517-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">___</span>()</span></code></pre></div>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: num_riders
+##                       Df     Sum Sq    Mean Sq F value    Pr(&gt;F)    
+## fahrenheit_feelslike   1 1091003307 1091003307  482.45 &lt; 2.2e-16 ***
+## Residuals            729 1648532085    2261361                      
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<div id="how-much-does-season-explain-2" class="section level4" number="12.2.3.4">
+<h4><span class="header-section-number">12.2.3.4</span> How much does season explain?</h4>
+<p>How much of the variability in ridership can be explained by differences in <em>felt like</em> temperature? Again, we can answer this question using numbers from the table above to find <span class="math inline">\(r^2\)</span>, the proportion of variance in the response variable that can be explained by the explanatory variable. The numbers we need are given in the “Sum Sq.” column in the able above, so we can calculate this in R like so:</p>
+<div class="sourceCode" id="cb519"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb519-1"><a href="lab12.html#cb519-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1091003307</span> <span class="sc">/</span> (<span class="dv">1091003307</span> <span class="sc">+</span> <span class="dv">1648532085</span>)</span></code></pre></div>
+<pre><code>## [1] 0.3982439</code></pre>
+<p>The result above is the proportion of variability in ridership that can be explained by differences in actual temperature.</p>
+
+<div class="exercise">
+<p><span id="exr:ex1211" class="exercise"><strong>Exercise 12.11  </strong></span>Is the proportion of variance explained by “felt like” temperature any higher than the proportion of variance explained by actual temperature? Which of the three variables we’ve looked at does a better job explaining riding behavior, season, actual temperature, or “felt like” temperature?</p>
+</div>
+<p>Finally, we will also want to get the intercept and slope of this linear relationship.</p>
+
+<div class="exercise">
+<p><span id="exr:ex1212" class="exercise"><strong>Exercise 12.12  </strong></span>Fill in the blanks in the code below to get the slope and intercept of the line describing the relationship between “felt like” temperature and bike ridership. Based on these results, if the “felt like” temperature increases by one degree Fahrenheit, how many more riders would we expect to see?</p>
+</div>
+<div class="sourceCode" id="cb521"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb521-1"><a href="lab12.html#cb521-1" aria-hidden="true" tabindex="-1"></a>bike_data <span class="sc">%$%</span></span>
+<span id="cb521-2"><a href="lab12.html#cb521-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(___ <span class="sc">~</span> ___)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = num_riders ~ fahrenheit_feelslike)
+## 
+## Coefficients:
+##          (Intercept)  fahrenheit_feelslike  
+##             -1721.49                 83.35</code></pre>
+</div>
+</div>
+<div id="whats-up-with-those-weird-days" class="section level3" number="12.2.4">
+<h3><span class="header-section-number">12.2.4</span> What’s up with those weird days?</h3>
+<p>In all the scatterplots we’ve made above, you may have noticed that there are some summer days that would normally have large numbers of riders, but actually have very low ridership. It’s a bit hard to see the actual days on the plots, so here are a few of these apparent “outlier” days with very low ridership:</p>
+<ul>
+<li>2011-08-27</li>
+<li>2012-04-22</li>
+<li>2012-10-29</li>
+</ul>
+
+<div class="exercise">
+<p><span id="exr:ex1213" class="exercise"><strong>Exercise 12.13  </strong></span>Use your search engine of choice to do a search using each of the dates given above plus the term “Washington DC” (where these data were recorded). What unusual events were happening on each of these three days in the DC area that might explain the abnormally low ridership on these days?</p>
+</div>
+</div>
+</div>
+<div id="wrap-up-11" class="section level2" number="12.3">
+<h2><span class="header-section-number">12.3</span> Wrap-up</h2>
+<p>We have explored an interesting dataset with the aim of explaining why bike riding behavior change from day to day. We have illustrated the power of both visualization and inferential statistics for helping us use data to answer interesting questions. We have also discovered outliers and gone beyond our data to understand why they might have occurred.</p>
+
+</div>
+</div>
+
+
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="lab11.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="coderef.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["APSY210 Labs.pdf", "APSY210 Labs.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -354,6 +354,12 @@ For these examples, we will use a simple example dataset:
 my_data <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/anova_data.csv")
 ```
 
+This is what this example looks like:
+
+```{r}
+my_data
+```
+
 ### ANOVA
 
 1. Translate your **research question** into a **null** and **alternative** hypothesis.
@@ -400,3 +406,49 @@ my_data %$%
 ```
 
 As above, remember that you'll need to swap out `my_data` for your own data, as well as changing the names of the response variable (in `x = ___`) and the explanatory variable (in `g = ___`).
+
+## Linear Regression
+
+With linear regression, we are interested in asking whether the linear relationship between the explanatory and response variables---this relationship is a "**linear model**"---actually helps explain differences in the response variable.  The resulting hypothesis test procedure is very similar to that for ANOVA.
+
+The difference is that ANOVA asks about an explanatory variable that is on a *nominal* scale, i.e., it just tells us which group an observation came from; linear regression asks about an explanatory variable that is on an *interval* or *ratio* scale, i.e., it tells us a specific number that is on a meaningful scale.
+
+For this example, we will use a simple artificial dataset:
+
+```{r}
+my_data <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/linreg_example_data.csv")
+```
+
+This is what the data look like:
+
+```{r}
+my_data
+```
+
+We will use the `X` variable as the **explanatory** variable and the `Y` variable as the **response** variable.
+
+1. Translate your **research question** into a **null** and **alternative** hypothesis.
+
+As with ANOVA, this part is easy because the null hypothesis in linear regression is always the same:  The null hypothesis is that the true value of the *slope* of the linear relationship is zero ($H_0$: $b_1 = 0$).  The alternative hypothesis is that the true value of the slope is not equal to zero ($H_1$: $b_1 \neq 0$).
+
+2. Decide on an **alpha level**.
+
+Let's assume that we have adopted an alpha level of 0.05.
+
+3. Find the $F$ value.
+
+4. Find the $p$ value.
+
+Both the previous two steps are accomplished in the same chunk of code:
+
+```{r}
+my_data %$%
+    lm(Y ~ X) %>%
+    anova()
+```
+
+To do this with your own data, make sure to tell R the name of your dataset (replace `my_data`), the name of your response variable (replace `X`), and the name of your explanatory variable (replace `Y`).
+
+5. Decide whether or not to reject the null hypothesis.
+
+If the $p$ value is less than the alpha level, you *reject* the null hypothesis, otherwise you *fail to reject* it.

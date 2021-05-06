@@ -521,6 +521,34 @@ my_data <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/da
 ## )
 ```
 
+This is what this example looks like:
+
+
+```r
+my_data
+```
+
+```
+## # A tibble: 15 x 3
+##       ID Group     X
+##    <dbl> <dbl> <dbl>
+##  1     1     1 -0.58
+##  2     2     1 -0.29
+##  3     3     1 -1.01
+##  4     4     1 -1.81
+##  5     5     1 -0.47
+##  6     6     1 -0.23
+##  7     7     2 -0.21
+##  8     8     2  0.96
+##  9     9     2  0.5 
+## 10    10     2  0.8 
+## 11    11     3  0.68
+## 12    12     3  0.53
+## 13    13     3 -0.31
+## 14    14     3  1.53
+## 15    15     3  0.52
+```
+
 ### ANOVA
 
 1. Translate your **research question** into a **null** and **alternative** hypothesis.
@@ -593,3 +621,89 @@ my_data %$%
 ```
 
 As above, remember that you'll need to swap out `my_data` for your own data, as well as changing the names of the response variable (in `x = ___`) and the explanatory variable (in `g = ___`).
+
+## Linear Regression
+
+With linear regression, we are interested in asking whether the linear relationship between the explanatory and response variables---this relationship is a "**linear model**"---actually helps explain differences in the response variable.  The resulting hypothesis test procedure is very similar to that for ANOVA.
+
+The difference is that ANOVA asks about an explanatory variable that is on a *nominal* scale, i.e., it just tells us which group an observation came from; linear regression asks about an explanatory variable that is on an *interval* or *ratio* scale, i.e., it tells us a specific number that is on a meaningful scale.
+
+For this example, we will use a simple artificial dataset:
+
+
+```r
+my_data <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/linreg_example_data.csv")
+```
+
+```
+## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   X = col_double(),
+##   Y = col_double()
+## )
+```
+
+This is what the data look like:
+
+
+```r
+my_data
+```
+
+```
+## # A tibble: 30 x 2
+##        X      Y
+##    <dbl>  <dbl>
+##  1 -1.85 -2.02 
+##  2 -1.78 -3.82 
+##  3 -1.53 -4.28 
+##  4 -1.53 -0.400
+##  5 -1.33 -2.72 
+##  6 -1.03 -0.768
+##  7 -0.96 -0.861
+##  8 -0.84 -1.61 
+##  9 -0.63 -0.529
+## 10 -0.59 -0.806
+## # … with 20 more rows
+```
+
+We will use the `X` variable as the **explanatory** variable and the `Y` variable as the **response** variable.
+
+1. Translate your **research question** into a **null** and **alternative** hypothesis.
+
+As with ANOVA, this part is easy because the null hypothesis in linear regression is always the same:  The null hypothesis is that the true value of the *slope* of the linear relationship is zero ($H_0$: $b_1 = 0$).  The alternative hypothesis is that the true value of the slope is not equal to zero ($H_1$: $b_1 \neq 0$).
+
+2. Decide on an **alpha level**.
+
+Let's assume that we have adopted an alpha level of 0.05.
+
+3. Find the $F$ value.
+
+4. Find the $p$ value.
+
+Both the previous two steps are accomplished in the same chunk of code:
+
+
+```r
+my_data %$%
+    lm(Y ~ X) %>%
+    anova()
+```
+
+```
+## Analysis of Variance Table
+## 
+## Response: Y
+##           Df Sum Sq Mean Sq F value    Pr(>F)    
+## X          1 24.141 24.1408  33.078 3.581e-06 ***
+## Residuals 28 20.435  0.7298                      
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+To do this with your own data, make sure to tell R the name of your dataset (replace `my_data`), the name of your response variable (replace `X`), and the name of your explanatory variable (replace `Y`).
+
+5. Decide whether or not to reject the null hypothesis.
+
+If the $p$ value is less than the alpha level, you *reject* the null hypothesis, otherwise you *fail to reject* it.
