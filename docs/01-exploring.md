@@ -366,8 +366,6 @@ Make a bar chart to help answer the question, "where did most passengers board t
 
 What code did you use?  And where did most passengers board the *Titanic*?
 
-Attach a copy of the bar chart you made.  You can do this using the "Export" menu in the "Plots" pane in RStudio.
-
 :::
 
 ### Histograms
@@ -441,7 +439,7 @@ titanic %>%
 <img src="01-exploring_files/figure-html/unnamed-chunk-19-1.png" width="672" />
 
 ::: {.exercise}
-Try making several different histograms of passenger age with different bin widths by changing the number "10" in the code above to different values.  Find a bin width that you believe gives the best visual summary of the age distribution across passengers.  Why do you think the bin width you chose is best?  Attach a copy of the histogram you made using your favorite bin width.
+Try making several different histograms of passenger age with different bin widths by changing the number "10" in the code above to different values.  What bin width do you believe gives the best visual summary of the age distribution across passengers, and why?
 
 :::
 
