@@ -28,14 +28,14 @@ library(tidyverse)
 ```
 
 ```
-## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──
+## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
 ```
 
 ```
-## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
-## ✓ tibble  3.1.1     ✓ dplyr   1.0.5
+## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+## ✓ tibble  3.1.3     ✓ dplyr   1.0.5
 ## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
-## ✓ readr   1.4.0     ✓ forcats 0.5.1
+## ✓ readr   2.0.0     ✓ forcats 0.5.1
 ```
 
 ```
@@ -68,7 +68,7 @@ coin_data %>%
 ```
 
 ```
-## # A tibble: 2 x 3
+## # A tibble: 2 × 3
 ##   result     n     p
 ##   <chr>  <int> <dbl>
 ## 1 Heads    619 0.619
@@ -156,7 +156,7 @@ subway_series %>%
 ```
 
 ```
-## # A tibble: 7 x 3
+## # A tibble: 7 × 3
 ##   result     n     p
 ##    <int> <int> <dbl>
 ## 1      0     7 0.007
@@ -318,7 +318,7 @@ height_data %>%
 ```
 
 ```
-## # A tibble: 10,000 x 3
+## # A tibble: 10,000 × 3
 ##    result     n      p
 ##     <dbl> <int>  <dbl>
 ##  1   41.1     1 0.0001
@@ -360,7 +360,7 @@ height_data %>%
 ```
 
 ```
-## # A tibble: 1 x 2
+## # A tibble: 1 × 2
 ##       M     S
 ##   <dbl> <dbl>
 ## 1  64.0  6.04
@@ -379,7 +379,7 @@ height_data %>%
 ```
 
 ```
-## # A tibble: 1 x 2
+## # A tibble: 1 × 2
 ##       M     S
 ##   <dbl> <dbl>
 ## 1  64.0  5.95

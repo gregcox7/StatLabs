@@ -18,14 +18,14 @@ library(tidyverse)
 ```
 
 ```
-## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──
+## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
 ```
 
 ```
-## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
-## ✓ tibble  3.1.1     ✓ dplyr   1.0.5
+## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+## ✓ tibble  3.1.3     ✓ dplyr   1.0.5
 ## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
-## ✓ readr   1.4.0     ✓ forcats 0.5.1
+## ✓ readr   2.0.0     ✓ forcats 0.5.1
 ```
 
 ```
@@ -52,18 +52,20 @@ feedback_learning <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLa
 ```
 
 ```
-## 
+## Rows: 69 Columns: 8
+```
+
+```
 ## ── Column specification ────────────────────────────────────────────────────────
-## cols(
-##   ID = col_double(),
-##   Period = col_double(),
-##   AdvPlacement = col_double(),
-##   Grade = col_double(),
-##   Gender = col_character(),
-##   Pretest = col_double(),
-##   Posttest = col_double(),
-##   Improvement = col_double()
-## )
+## Delimiter: ","
+## chr (1): Gender
+## dbl (7): ID, Period, AdvPlacement, Grade, Pretest, Posttest, Improvement
+```
+
+```
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
 Click on the new "feedback_learning" data that's now in R's environment (upper right panel).  Each row represents data from a single student and there are several columns.  For now, let's focus on the last three columns:
@@ -156,11 +158,11 @@ sample_means %>%
 ```
 
 ```
-## # A tibble: 2 x 3
+## # A tibble: 2 × 3
 ##   `(M > ci_lower) & (M < ci_upper)`     n      p
 ##   <lgl>                             <int>  <dbl>
-## 1 FALSE                               514 0.0514
-## 2 TRUE                               9486 0.949
+## 1 FALSE                               533 0.0533
+## 2 TRUE                               9467 0.947
 ```
 
 \BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:ex0802"><strong>(\#exr:ex0802) </strong></span>
@@ -214,7 +216,7 @@ sample_means %>%
 ```
 
 ```
-## # A tibble: 2 x 3
+## # A tibble: 2 × 3
 ##   `(M > ci_lower) & (M < ci_upper)`     n     p
 ##   <lgl>                             <int> <dbl>
 ## 1 FALSE                              1954 0.195

@@ -1,7 +1,8 @@
 --- 
 title: "Labs"
 author: "Greg Cox"
-date: "2021-05-06"
+date: "2021-08-25"
+knit: bookdown::render_book
 site: bookdown::bookdown_site
 documentclass: book
 bibliography:
@@ -10,11 +11,11 @@ bibliography:
 # biblio-style: apalike
 csl: apa.csl
 link-citations: yes
-description: Laboratory exercises for APSY210.
+description: Laboratory activities for APSY210.
 ---
 
 # Overview {-}
 
-This is a collection of laboratory exercises as a part of APSY210.
+This is a collection of laboratory activities as a part of APSY210.
 
 

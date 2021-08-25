@@ -1,559 +1,219 @@
 <!DOCTYPE html>
-<html lang="" xml:lang="">
+<html lang="en">
 <head>
-
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Lab 1 Exploring Data with R | Labs</title>
-  <meta name="description" content="Laboratory exercises for APSY210." />
-  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
-
-  <meta property="og:title" content="Lab 1 Exploring Data with R | Labs" />
-  <meta property="og:type" content="book" />
-  
-  
-  <meta property="og:description" content="Laboratory exercises for APSY210." />
-  
-
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Lab 1 Exploring Data with R | Labs" />
-  
-  <meta name="twitter:description" content="Laboratory exercises for APSY210." />
-  
-
-<meta name="author" content="Greg Cox" />
-
-
-<meta name="date" content="2021-05-06" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  
-  
-<link rel="prev" href="index.html"/>
-<link rel="next" href="lab2.html"/>
-<script src="libs/header-attrs-2.7/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
-<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
-
-
-
-
-
-
-
-
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
-
-
-<style type="text/css">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-</style>
-
-<style type="text/css">
-/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}
-</style>
-
-<link rel="stylesheet" href="style.css" type="text/css" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Lab 1 Exploring Data with R | Labs</title>
+<meta name="author" content="Greg Cox">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.9/header-attrs.js"></script><script src="libs/jquery-3.5.1/jquery-3.5.1.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.5.3/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.5.3/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.4/tabs.js"></script><script src="libs/bs3compat-0.2.4/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/mark.min.js"></script><!-- CSS --><link rel="stylesheet" href="css/ims-style.css">
 </head>
+<body data-spy="scroll" data-target="#toc">
 
-<body>
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
 
-
-
-  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
-
-    <div class="book-summary">
-      <nav role="navigation">
-
-<ul class="summary">
-<li><a href="./">Labs</a></li>
-
-<li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
-<li class="chapter" data-level="1" data-path="lab1.html"><a href="lab1.html"><i class="fa fa-check"></i><b>1</b> Exploring Data with R</a>
-<ul>
-<li class="chapter" data-level="1.1" data-path="lab1.html"><a href="lab1.html#r-and-rstudio"><i class="fa fa-check"></i><b>1.1</b> R and RStudio</a></li>
-<li class="chapter" data-level="1.2" data-path="lab1.html"><a href="lab1.html#meet-your-data"><i class="fa fa-check"></i><b>1.2</b> Meet your data</a>
-<ul>
-<li class="chapter" data-level="1.2.1" data-path="lab1.html"><a href="lab1.html#check-out-the-variables"><i class="fa fa-check"></i><b>1.2.1</b> Check out the variables</a></li>
-</ul></li>
-<li class="chapter" data-level="1.3" data-path="lab1.html"><a href="lab1.html#answering-questions-with-data"><i class="fa fa-check"></i><b>1.3</b> Answering questions with data</a>
-<ul>
-<li class="chapter" data-level="1.3.1" data-path="lab1.html"><a href="lab1.html#frequency-tables"><i class="fa fa-check"></i><b>1.3.1</b> Frequency tables</a></li>
-<li class="chapter" data-level="1.3.2" data-path="lab1.html"><a href="lab1.html#bar-charts"><i class="fa fa-check"></i><b>1.3.2</b> Bar charts</a></li>
-<li class="chapter" data-level="1.3.3" data-path="lab1.html"><a href="lab1.html#histograms"><i class="fa fa-check"></i><b>1.3.3</b> Histograms</a></li>
-</ul></li>
-<li class="chapter" data-level="1.4" data-path="lab1.html"><a href="lab1.html#wrap-up"><i class="fa fa-check"></i><b>1.4</b> Wrap-up</a></li>
-</ul></li>
-<li class="chapter" data-level="2" data-path="lab2.html"><a href="lab2.html"><i class="fa fa-check"></i><b>2</b> Central tendency and variability</a>
-<ul>
-<li class="chapter" data-level="2.1" data-path="lab2.html"><a href="lab2.html#simple-cases"><i class="fa fa-check"></i><b>2.1</b> Simple cases</a>
-<ul>
-<li class="chapter" data-level="2.1.1" data-path="lab2.html"><a href="lab2.html#central-tendency"><i class="fa fa-check"></i><b>2.1.1</b> Central tendency</a></li>
-<li class="chapter" data-level="2.1.2" data-path="lab2.html"><a href="lab2.html#variability"><i class="fa fa-check"></i><b>2.1.2</b> Variability</a></li>
-</ul></li>
-<li class="chapter" data-level="2.2" data-path="lab2.html"><a href="lab2.html#dealing-with-real-data"><i class="fa fa-check"></i><b>2.2</b> Dealing with real data</a>
-<ul>
-<li class="chapter" data-level="2.2.1" data-path="lab2.html"><a href="lab2.html#setting-the-stage"><i class="fa fa-check"></i><b>2.2.1</b> Setting the stage</a></li>
-<li class="chapter" data-level="2.2.2" data-path="lab2.html"><a href="lab2.html#getting-the-data"><i class="fa fa-check"></i><b>2.2.2</b> Getting the data</a></li>
-<li class="chapter" data-level="2.2.3" data-path="lab2.html"><a href="lab2.html#visualizing-the-data"><i class="fa fa-check"></i><b>2.2.3</b> Visualizing the data</a></li>
-<li class="chapter" data-level="2.2.4" data-path="lab2.html"><a href="lab2.html#central-tendency-1"><i class="fa fa-check"></i><b>2.2.4</b> Central tendency</a></li>
-<li class="chapter" data-level="2.2.5" data-path="lab2.html"><a href="lab2.html#variability-1"><i class="fa fa-check"></i><b>2.2.5</b> Variability</a></li>
-</ul></li>
-<li class="chapter" data-level="2.3" data-path="lab2.html"><a href="lab2.html#wrap-up-1"><i class="fa fa-check"></i><b>2.3</b> Wrap-up</a></li>
-</ul></li>
-<li class="chapter" data-level="3" data-path="lab3.html"><a href="lab3.html"><i class="fa fa-check"></i><b>3</b> Scatterplots and correlation</a>
-<ul>
-<li class="chapter" data-level="3.1" data-path="lab3.html"><a href="lab3.html#calculating-the-pearson-correlation-coefficient"><i class="fa fa-check"></i><b>3.1</b> Calculating the Pearson correlation coefficient</a>
-<ul>
-<li class="chapter" data-level="3.1.1" data-path="lab3.html"><a href="lab3.html#from-x-to-z"><i class="fa fa-check"></i><b>3.1.1</b> From <span class="math inline">\(X\)</span> to <span class="math inline">\(z\)</span></a></li>
-<li class="chapter" data-level="3.1.2" data-path="lab3.html"><a href="lab3.html#finding-the-correlation-coefficient"><i class="fa fa-check"></i><b>3.1.2</b> Finding the correlation coefficient</a></li>
-<li class="chapter" data-level="3.1.3" data-path="lab3.html"><a href="lab3.html#dealing-with-real-data-1"><i class="fa fa-check"></i><b>3.1.3</b> Dealing with real data</a></li>
-</ul></li>
-<li class="chapter" data-level="3.2" data-path="lab3.html"><a href="lab3.html#scatterplots"><i class="fa fa-check"></i><b>3.2</b> Scatterplots</a>
-<ul>
-<li class="chapter" data-level="3.2.1" data-path="lab3.html"><a href="lab3.html#making-a-group-of-scatterplots"><i class="fa fa-check"></i><b>3.2.1</b> Making a group of scatterplots</a></li>
-</ul></li>
-<li class="chapter" data-level="3.3" data-path="lab3.html"><a href="lab3.html#some-bigger-data"><i class="fa fa-check"></i><b>3.3</b> Some bigger data</a>
-<ul>
-<li class="chapter" data-level="3.3.1" data-path="lab3.html"><a href="lab3.html#import-the-data"><i class="fa fa-check"></i><b>3.3.1</b> Import the data</a></li>
-<li class="chapter" data-level="3.3.2" data-path="lab3.html"><a href="lab3.html#experience-and-memory-for-barbies"><i class="fa fa-check"></i><b>3.3.2</b> Experience and memory for Barbies</a></li>
-<li class="chapter" data-level="3.3.3" data-path="lab3.html"><a href="lab3.html#experience-and-memory-for-transformers"><i class="fa fa-check"></i><b>3.3.3</b> Experience and memory for Transformers</a></li>
-<li class="chapter" data-level="3.3.4" data-path="lab3.html"><a href="lab3.html#experience-with-barbies-and-memory-for-transformers"><i class="fa fa-check"></i><b>3.3.4</b> Experience with Barbies and memory for Transformers</a></li>
-</ul></li>
-<li class="chapter" data-level="3.4" data-path="lab3.html"><a href="lab3.html#wrap-up-2"><i class="fa fa-check"></i><b>3.4</b> Wrap-up</a></li>
-</ul></li>
-<li class="chapter" data-level="4" data-path="lab4.html"><a href="lab4.html"><i class="fa fa-check"></i><b>4</b> Probability and simulation</a>
-<ul>
-<li class="chapter" data-level="4.1" data-path="lab4.html"><a href="lab4.html#simulation-basics"><i class="fa fa-check"></i><b>4.1</b> Simulation basics</a>
-<ul>
-<li class="chapter" data-level="4.1.1" data-path="lab4.html"><a href="lab4.html#single-coin-flips"><i class="fa fa-check"></i><b>4.1.1</b> Single coin flips</a></li>
-<li class="chapter" data-level="4.1.2" data-path="lab4.html"><a href="lab4.html#a-sequence-of-coin-flips"><i class="fa fa-check"></i><b>4.1.2</b> A sequence of coin flips</a></li>
-<li class="chapter" data-level="4.1.3" data-path="lab4.html"><a href="lab4.html#remembering-simulated-results"><i class="fa fa-check"></i><b>4.1.3</b> Remembering simulated results</a></li>
-<li class="chapter" data-level="4.1.4" data-path="lab4.html"><a href="lab4.html#turning-simulated-results-into-data"><i class="fa fa-check"></i><b>4.1.4</b> Turning simulated results into “data”</a></li>
-</ul></li>
-<li class="chapter" data-level="4.2" data-path="lab4.html"><a href="lab4.html#estimating-probabilities"><i class="fa fa-check"></i><b>4.2</b> Estimating probabilities</a>
-<ul>
-<li class="chapter" data-level="4.2.1" data-path="lab4.html"><a href="lab4.html#frequency-table"><i class="fa fa-check"></i><b>4.2.1</b> Frequency table</a></li>
-<li class="chapter" data-level="4.2.2" data-path="lab4.html"><a href="lab4.html#estimating-probability-from-frequency"><i class="fa fa-check"></i><b>4.2.2</b> Estimating probability from frequency</a></li>
-</ul></li>
-<li class="chapter" data-level="4.3" data-path="lab4.html"><a href="lab4.html#more-advanced-simulation-tricks"><i class="fa fa-check"></i><b>4.3</b> More advanced simulation tricks</a>
-<ul>
-<li class="chapter" data-level="4.3.1" data-path="lab4.html"><a href="lab4.html#making-up-our-own-probabilities"><i class="fa fa-check"></i><b>4.3.1</b> Making up our own probabilities</a></li>
-<li class="chapter" data-level="4.3.2" data-path="lab4.html"><a href="lab4.html#expanding-the-sample-space"><i class="fa fa-check"></i><b>4.3.2</b> Expanding the sample space</a></li>
-</ul></li>
-<li class="chapter" data-level="4.4" data-path="lab4.html"><a href="lab4.html#estimating-probabilities-in-data"><i class="fa fa-check"></i><b>4.4</b> Estimating probabilities in data</a>
-<ul>
-<li class="chapter" data-level="4.4.1" data-path="lab4.html"><a href="lab4.html#what-was-kobes-hit-rate"><i class="fa fa-check"></i><b>4.4.1</b> What was Kobe’s hit rate?</a></li>
-<li class="chapter" data-level="4.4.2" data-path="lab4.html"><a href="lab4.html#a-simulated-kobe"><i class="fa fa-check"></i><b>4.4.2</b> A simulated Kobe</a></li>
-<li class="chapter" data-level="4.4.3" data-path="lab4.html"><a href="lab4.html#hot--or-cold-handed"><i class="fa fa-check"></i><b>4.4.3</b> Hot- or cold-handed</a></li>
-</ul></li>
-<li class="chapter" data-level="4.5" data-path="lab4.html"><a href="lab4.html#wrap-up-3"><i class="fa fa-check"></i><b>4.5</b> Wrap-up</a></li>
-</ul></li>
-<li class="chapter" data-level="5" data-path="lab5.html"><a href="lab5.html"><i class="fa fa-check"></i><b>5</b> Models: The Binomial and the Normal</a>
-<ul>
-<li class="chapter" data-level="5.1" data-path="lab5.html"><a href="lab5.html#the-binomial-distribution-in-r"><i class="fa fa-check"></i><b>5.1</b> The binomial distribution in R</a>
-<ul>
-<li class="chapter" data-level="5.1.1" data-path="lab5.html"><a href="lab5.html#translating-from-sample-to-rbinom"><i class="fa fa-check"></i><b>5.1.1</b> Translating from <code>sample</code> to <code>rbinom</code></a></li>
-<li class="chapter" data-level="5.1.2" data-path="lab5.html"><a href="lab5.html#outcomes-from-different-sequences-of-events"><i class="fa fa-check"></i><b>5.1.2</b> Outcomes from different sequences of events</a></li>
-<li class="chapter" data-level="5.1.3" data-path="lab5.html"><a href="lab5.html#simulated-relative-frequencies-and-probabilities"><i class="fa fa-check"></i><b>5.1.3</b> Simulated relative frequencies and probabilities</a></li>
-<li class="chapter" data-level="5.1.4" data-path="lab5.html"><a href="lab5.html#calculating-binomial-probabilities-directly"><i class="fa fa-check"></i><b>5.1.4</b> Calculating binomial probabilities directly</a></li>
-<li class="chapter" data-level="5.1.5" data-path="lab5.html"><a href="lab5.html#cumulative-probabilities-with-the-binomial"><i class="fa fa-check"></i><b>5.1.5</b> Cumulative probabilities with the binomial</a></li>
-<li class="chapter" data-level="5.1.6" data-path="lab5.html"><a href="lab5.html#summary-of-rs-built-in-binomial-distribution"><i class="fa fa-check"></i><b>5.1.6</b> Summary of R’s built-in binomial distribution</a></li>
-</ul></li>
-<li class="chapter" data-level="5.2" data-path="lab5.html"><a href="lab5.html#the-normal-distribution-in-r"><i class="fa fa-check"></i><b>5.2</b> The normal distribution in R</a>
-<ul>
-<li class="chapter" data-level="5.2.1" data-path="lab5.html"><a href="lab5.html#simulating-outcomes-from-a-normal-distribution"><i class="fa fa-check"></i><b>5.2.1</b> Simulating outcomes from a normal distribution</a></li>
-<li class="chapter" data-level="5.2.2" data-path="lab5.html"><a href="lab5.html#the-mean-and-standard-deviation"><i class="fa fa-check"></i><b>5.2.2</b> The mean and standard deviation</a></li>
-<li class="chapter" data-level="5.2.3" data-path="lab5.html"><a href="lab5.html#calculating-probabilities-with-the-normal-distribution"><i class="fa fa-check"></i><b>5.2.3</b> Calculating probabilities with the normal distribution</a></li>
-<li class="chapter" data-level="5.2.4" data-path="lab5.html"><a href="lab5.html#finding-quantiles-with-the-normal-distribution"><i class="fa fa-check"></i><b>5.2.4</b> Finding “quantiles” with the normal distribution</a></li>
-<li class="chapter" data-level="5.2.5" data-path="lab5.html"><a href="lab5.html#summary-of-rs-built-in-normal-distribution"><i class="fa fa-check"></i><b>5.2.5</b> Summary of R’s built-in normal distribution</a></li>
-</ul></li>
-<li class="chapter" data-level="5.3" data-path="lab5.html"><a href="lab5.html#wrap-up-4"><i class="fa fa-check"></i><b>5.3</b> Wrap-up</a></li>
-</ul></li>
-<li class="chapter" data-level="6" data-path="lab6.html"><a href="lab6.html"><i class="fa fa-check"></i><b>6</b> Sampling and the Central Limit Theorem: The Wisdom of Large Samples</a>
-<ul>
-<li class="chapter" data-level="6.1" data-path="lab6.html"><a href="lab6.html#before-we-begin"><i class="fa fa-check"></i><b>6.1</b> Before we begin…</a></li>
-<li class="chapter" data-level="6.2" data-path="lab6.html"><a href="lab6.html#heights"><i class="fa fa-check"></i><b>6.2</b> Heights</a>
-<ul>
-<li class="chapter" data-level="6.2.1" data-path="lab6.html"><a href="lab6.html#a-simulated-population"><i class="fa fa-check"></i><b>6.2.1</b> A simulated population</a></li>
-<li class="chapter" data-level="6.2.2" data-path="lab6.html"><a href="lab6.html#a-sample-from-our-simulated-population"><i class="fa fa-check"></i><b>6.2.2</b> A sample from our simulated population</a></li>
-<li class="chapter" data-level="6.2.3" data-path="lab6.html"><a href="lab6.html#many-samples-from-our-simulated-population"><i class="fa fa-check"></i><b>6.2.3</b> Many samples from our simulated population</a></li>
-<li class="chapter" data-level="6.2.4" data-path="lab6.html"><a href="lab6.html#many-larger-samples"><i class="fa fa-check"></i><b>6.2.4</b> Many larger samples</a></li>
-<li class="chapter" data-level="6.2.5" data-path="lab6.html"><a href="lab6.html#the-probability-of-being-wrong"><i class="fa fa-check"></i><b>6.2.5</b> The probability of being wrong</a></li>
-<li class="chapter" data-level="6.2.6" data-path="lab6.html"><a href="lab6.html#biased-samples"><i class="fa fa-check"></i><b>6.2.6</b> Biased samples</a></li>
-</ul></li>
-<li class="chapter" data-level="6.3" data-path="lab6.html"><a href="lab6.html#the-wisdom-of-the-crowd"><i class="fa fa-check"></i><b>6.3</b> The Wisdom of the Crowd</a>
-<ul>
-<li class="chapter" data-level="6.3.1" data-path="lab6.html"><a href="lab6.html#grab-the-data"><i class="fa fa-check"></i><b>6.3.1</b> Grab the data</a></li>
-<li class="chapter" data-level="6.3.2" data-path="lab6.html"><a href="lab6.html#make-a-histogram"><i class="fa fa-check"></i><b>6.3.2</b> Make a histogram</a></li>
-<li class="chapter" data-level="6.3.3" data-path="lab6.html"><a href="lab6.html#what-is-the-right-answer"><i class="fa fa-check"></i><b>6.3.3</b> What is the right answer?</a></li>
-<li class="chapter" data-level="6.3.4" data-path="lab6.html"><a href="lab6.html#what-about-the-average"><i class="fa fa-check"></i><b>6.3.4</b> What about the average?</a></li>
-</ul></li>
-<li class="chapter" data-level="6.4" data-path="lab6.html"><a href="lab6.html#wrap-up-5"><i class="fa fa-check"></i><b>6.4</b> Wrap-up</a></li>
-</ul></li>
-<li class="chapter" data-level="7" data-path="lab7.html"><a href="lab7.html"><i class="fa fa-check"></i><b>7</b> Confidence intervals and hypothesis testing</a>
-<ul>
-<li class="chapter" data-level="7.1" data-path="lab7.html"><a href="lab7.html#be-still-my-artificial-heart"><i class="fa fa-check"></i><b>7.1</b> Be still, my (artificial) heart</a>
-<ul>
-<li class="chapter" data-level="7.1.1" data-path="lab7.html"><a href="lab7.html#constructing-confidence-intervals"><i class="fa fa-check"></i><b>7.1.1</b> Constructing confidence intervals</a></li>
-<li class="chapter" data-level="7.1.2" data-path="lab7.html"><a href="lab7.html#compare-our-sample-to-the-confidence-interval"><i class="fa fa-check"></i><b>7.1.2</b> Compare our sample to the confidence interval</a></li>
-</ul></li>
-<li class="chapter" data-level="7.2" data-path="lab7.html"><a href="lab7.html#lay-your-weary-head-to-rest"><i class="fa fa-check"></i><b>7.2</b> Lay your weary head to rest</a>
-<ul>
-<li class="chapter" data-level="7.2.1" data-path="lab7.html"><a href="lab7.html#figure-out-what-parameters-would-describe-the-population-if-the-hypothesis-were-true-1"><i class="fa fa-check"></i><b>7.2.1</b> Figure out what parameters would describe the population <em>if</em> the hypothesis were true</a></li>
-<li class="chapter" data-level="7.2.2" data-path="lab7.html"><a href="lab7.html#decide-how-wide-to-make-our-confidence-interval-1"><i class="fa fa-check"></i><b>7.2.2</b> Decide how wide to make our confidence interval</a></li>
-<li class="chapter" data-level="7.2.3" data-path="lab7.html"><a href="lab7.html#figure-out-the-upper-and-lower-boundaries-of-the-confidence-interval-1"><i class="fa fa-check"></i><b>7.2.3</b> Figure out the upper and lower boundaries of the confidence interval</a></li>
-<li class="chapter" data-level="7.2.4" data-path="lab7.html"><a href="lab7.html#compare-our-sample-to-the-confidence-interval-1"><i class="fa fa-check"></i><b>7.2.4</b> Compare our sample to the confidence interval</a></li>
-</ul></li>
-<li class="chapter" data-level="7.3" data-path="lab7.html"><a href="lab7.html#wrap-up-6"><i class="fa fa-check"></i><b>7.3</b> Wrap-up</a></li>
-</ul></li>
-<li class="chapter" data-level="8" data-path="lab8.html"><a href="lab8.html"><i class="fa fa-check"></i><b>8</b> Statistical Power</a>
-<ul>
-<li class="chapter" data-level="8.1" data-path="lab8.html"><a href="lab8.html#the-power-of-positive-feedback"><i class="fa fa-check"></i><b>8.1</b> The Power of Positive Feedback</a>
-<ul>
-<li class="chapter" data-level="8.1.1" data-path="lab8.html"><a href="lab8.html#look-at-the-data"><i class="fa fa-check"></i><b>8.1.1</b> Look at the data</a></li>
-<li class="chapter" data-level="8.1.2" data-path="lab8.html"><a href="lab8.html#specifying-our-null-hypothesis"><i class="fa fa-check"></i><b>8.1.2</b> Specifying our null hypothesis</a></li>
-<li class="chapter" data-level="8.1.3" data-path="lab8.html"><a href="lab8.html#building-our-confidence-interval"><i class="fa fa-check"></i><b>8.1.3</b> Building our confidence interval</a></li>
-<li class="chapter" data-level="8.1.4" data-path="lab8.html"><a href="lab8.html#visualizing-the-distribution-of-sample-means"><i class="fa fa-check"></i><b>8.1.4</b> Visualizing the distribution of sample means</a></li>
-</ul></li>
-<li class="chapter" data-level="8.2" data-path="lab8.html"><a href="lab8.html#achieving-a-target-level-of-power"><i class="fa fa-check"></i><b>8.2</b> Achieving a target level of power</a>
-<ul>
-<li class="chapter" data-level="8.2.1" data-path="lab8.html"><a href="lab8.html#effect-size"><i class="fa fa-check"></i><b>8.2.1</b> Effect size</a></li>
-<li class="chapter" data-level="8.2.2" data-path="lab8.html"><a href="lab8.html#sample-size"><i class="fa fa-check"></i><b>8.2.2</b> Sample size</a></li>
-<li class="chapter" data-level="8.2.3" data-path="lab8.html"><a href="lab8.html#alpha-level"><i class="fa fa-check"></i><b>8.2.3</b> Alpha level</a></li>
-<li class="chapter" data-level="8.2.4" data-path="lab8.html"><a href="lab8.html#population-standard-deviation"><i class="fa fa-check"></i><b>8.2.4</b> Population standard deviation</a></li>
-</ul></li>
-<li class="chapter" data-level="8.3" data-path="lab8.html"><a href="lab8.html#using-data-to-test-the-null-hypothesis"><i class="fa fa-check"></i><b>8.3</b> Using data to test the null hypothesis</a>
-<ul>
-<li class="chapter" data-level="8.3.1" data-path="lab8.html"><a href="lab8.html#confidence-interval-limits"><i class="fa fa-check"></i><b>8.3.1</b> Confidence interval limits</a></li>
-<li class="chapter" data-level="8.3.2" data-path="lab8.html"><a href="lab8.html#the-p-value"><i class="fa fa-check"></i><b>8.3.2</b> The <span class="math inline">\(p\)</span> value</a></li>
-<li class="chapter" data-level="8.3.3" data-path="lab8.html"><a href="lab8.html#estimated-power"><i class="fa fa-check"></i><b>8.3.3</b> Estimated power</a></li>
-</ul></li>
-<li class="chapter" data-level="8.4" data-path="lab8.html"><a href="lab8.html#wrap-up-7"><i class="fa fa-check"></i><b>8.4</b> Wrap-up</a></li>
-</ul></li>
-<li class="chapter" data-level="9" data-path="lab9.html"><a href="lab9.html"><i class="fa fa-check"></i><b>9</b> <span class="math inline">\(t\)</span> tests</a>
-<ul>
-<li class="chapter" data-level="9.1" data-path="lab9.html"><a href="lab9.html#t-tests-on-tiny-data"><i class="fa fa-check"></i><b>9.1</b> <span class="math inline">\(t\)</span> tests on tiny data</a>
-<ul>
-<li class="chapter" data-level="9.1.1" data-path="lab9.html"><a href="lab9.html#one-sample-t-test"><i class="fa fa-check"></i><b>9.1.1</b> One-sample <span class="math inline">\(t\)</span> test</a></li>
-<li class="chapter" data-level="9.1.2" data-path="lab9.html"><a href="lab9.html#paired-sample-t-test"><i class="fa fa-check"></i><b>9.1.2</b> Paired sample <span class="math inline">\(t\)</span> test</a></li>
-<li class="chapter" data-level="9.1.3" data-path="lab9.html"><a href="lab9.html#independent-samples-t-test"><i class="fa fa-check"></i><b>9.1.3</b> Independent samples <span class="math inline">\(t\)</span> test</a></li>
-</ul></li>
-<li class="chapter" data-level="9.2" data-path="lab9.html"><a href="lab9.html#t-tests-with-real-data"><i class="fa fa-check"></i><b>9.2</b> <span class="math inline">\(t\)</span> tests with real data</a>
-<ul>
-<li class="chapter" data-level="9.2.1" data-path="lab9.html"><a href="lab9.html#check-out-the-data"><i class="fa fa-check"></i><b>9.2.1</b> Check out the data</a></li>
-<li class="chapter" data-level="9.2.2" data-path="lab9.html"><a href="lab9.html#did-infants-show-any-prior-bias"><i class="fa fa-check"></i><b>9.2.2</b> Did infants show any prior bias?</a></li>
-<li class="chapter" data-level="9.2.3" data-path="lab9.html"><a href="lab9.html#do-infants-prefer-to-look-at-the-singer-of-the-familiar-melody"><i class="fa fa-check"></i><b>9.2.3</b> Do infants prefer to look at the singer of the familiar melody?</a></li>
-<li class="chapter" data-level="9.2.4" data-path="lab9.html"><a href="lab9.html#did-their-preferences-change"><i class="fa fa-check"></i><b>9.2.4</b> Did their preferences change?</a></li>
-</ul></li>
-<li class="chapter" data-level="9.3" data-path="lab9.html"><a href="lab9.html#wrap-up-8"><i class="fa fa-check"></i><b>9.3</b> Wrap-up</a></li>
-</ul></li>
-<li class="chapter" data-level="10" data-path="lab10.html"><a href="lab10.html"><i class="fa fa-check"></i><b>10</b> Comparing Independent Samples</a>
-<ul>
-<li class="chapter" data-level="10.1" data-path="lab10.html"><a href="lab10.html#get-to-know-the-data"><i class="fa fa-check"></i><b>10.1</b> Get to know the data</a>
-<ul>
-<li class="chapter" data-level="10.1.1" data-path="lab10.html"><a href="lab10.html#batting-average"><i class="fa fa-check"></i><b>10.1.1</b> Batting average</a></li>
-<li class="chapter" data-level="10.1.2" data-path="lab10.html"><a href="lab10.html#batting-average-by-position"><i class="fa fa-check"></i><b>10.1.2</b> Batting average by position</a></li>
-</ul></li>
-<li class="chapter" data-level="10.2" data-path="lab10.html"><a href="lab10.html#independent-samples-t-test-infield-vs.-outfield"><i class="fa fa-check"></i><b>10.2</b> Independent samples <span class="math inline">\(t\)</span> test: Infield vs. Outfield</a>
-<ul>
-<li class="chapter" data-level="10.2.1" data-path="lab10.html"><a href="lab10.html#filtering-data-with-filter"><i class="fa fa-check"></i><b>10.2.1</b> Filtering data with <code>filter</code></a></li>
-<li class="chapter" data-level="10.2.2" data-path="lab10.html"><a href="lab10.html#doing-the-t-test"><i class="fa fa-check"></i><b>10.2.2</b> Doing the <span class="math inline">\(t\)</span> test</a></li>
-</ul></li>
-<li class="chapter" data-level="10.3" data-path="lab10.html"><a href="lab10.html#analysis-of-variance-batting-average-by-position"><i class="fa fa-check"></i><b>10.3</b> Analysis of Variance: Batting average by position</a>
-<ul>
-<li class="chapter" data-level="10.3.1" data-path="lab10.html"><a href="lab10.html#doing-the-anova"><i class="fa fa-check"></i><b>10.3.1</b> Doing the ANOVA</a></li>
-<li class="chapter" data-level="10.3.2" data-path="lab10.html"><a href="lab10.html#post-hoc-pairwise-tests"><i class="fa fa-check"></i><b>10.3.2</b> Post hoc pairwise tests</a></li>
-<li class="chapter" data-level="10.3.3" data-path="lab10.html"><a href="lab10.html#no-pitchers-allowed"><i class="fa fa-check"></i><b>10.3.3</b> No Pitchers Allowed?</a></li>
-<li class="chapter" data-level="10.3.4" data-path="lab10.html"><a href="lab10.html#slugging-average"><i class="fa fa-check"></i><b>10.3.4</b> Slugging Average</a></li>
-</ul></li>
-<li class="chapter" data-level="10.4" data-path="lab10.html"><a href="lab10.html#wrap-up-9"><i class="fa fa-check"></i><b>10.4</b> Wrap-up</a></li>
-</ul></li>
-<li class="chapter" data-level="11" data-path="lab11.html"><a href="lab11.html"><i class="fa fa-check"></i><b>11</b> Linear Regression</a>
-<ul>
-<li class="chapter" data-level="11.1" data-path="lab11.html"><a href="lab11.html#inference-the-answer-is-blowing-in-the-wind"><i class="fa fa-check"></i><b>11.1</b> Inference: The Answer is Blowing in the Wind</a>
-<ul>
-<li class="chapter" data-level="11.1.1" data-path="lab11.html"><a href="lab11.html#what-a-line-is-made-of-slopes-and-intercepts"><i class="fa fa-check"></i><b>11.1.1</b> What a line is made of: Slopes and Intercepts</a></li>
-<li class="chapter" data-level="11.1.2" data-path="lab11.html"><a href="lab11.html#adding-our-own-line"><i class="fa fa-check"></i><b>11.1.2</b> Adding our own line</a></li>
-<li class="chapter" data-level="11.1.3" data-path="lab11.html"><a href="lab11.html#adding-the-best-fitting-line"><i class="fa fa-check"></i><b>11.1.3</b> Adding the best-fitting line</a></li>
-<li class="chapter" data-level="11.1.4" data-path="lab11.html"><a href="lab11.html#getting-the-slope-and-intercept"><i class="fa fa-check"></i><b>11.1.4</b> Getting the slope and intercept</a></li>
-<li class="chapter" data-level="11.1.5" data-path="lab11.html"><a href="lab11.html#how-much-variance-does-wind-speed-explain"><i class="fa fa-check"></i><b>11.1.5</b> How much variance does wind speed explain?</a></li>
-<li class="chapter" data-level="11.1.6" data-path="lab11.html"><a href="lab11.html#making-predictions"><i class="fa fa-check"></i><b>11.1.6</b> Making Predictions</a></li>
-<li class="chapter" data-level="11.1.7" data-path="lab11.html"><a href="lab11.html#hypothesis-testing"><i class="fa fa-check"></i><b>11.1.7</b> Hypothesis Testing</a></li>
-</ul></li>
-<li class="chapter" data-level="11.2" data-path="lab11.html"><a href="lab11.html#making-decisions-housing-prices"><i class="fa fa-check"></i><b>11.2</b> Making Decisions: Housing Prices</a>
-<ul>
-<li class="chapter" data-level="11.2.1" data-path="lab11.html"><a href="lab11.html#visualize-the-data"><i class="fa fa-check"></i><b>11.2.1</b> Visualize the data</a></li>
-<li class="chapter" data-level="11.2.2" data-path="lab11.html"><a href="lab11.html#find-the-best-fitting-line"><i class="fa fa-check"></i><b>11.2.2</b> Find the best-fitting line</a></li>
-<li class="chapter" data-level="11.2.3" data-path="lab11.html"><a href="lab11.html#make-predictions"><i class="fa fa-check"></i><b>11.2.3</b> Make Predictions</a></li>
-</ul></li>
-<li class="chapter" data-level="11.3" data-path="lab11.html"><a href="lab11.html#wrap-up-10"><i class="fa fa-check"></i><b>11.3</b> Wrap-up</a></li>
-</ul></li>
-<li class="chapter" data-level="12" data-path="lab12.html"><a href="lab12.html"><i class="fa fa-check"></i><b>12</b> Exploring Data with R, Part II</a>
-<ul>
-<li class="chapter" data-level="12.1" data-path="lab12.html"><a href="lab12.html#meet-your-data-1"><i class="fa fa-check"></i><b>12.1</b> Meet your data</a></li>
-<li class="chapter" data-level="12.2" data-path="lab12.html"><a href="lab12.html#answering-questions-with-data-1"><i class="fa fa-check"></i><b>12.2</b> Answering questions with data</a>
-<ul>
-<li class="chapter" data-level="12.2.1" data-path="lab12.html"><a href="lab12.html#does-ridership-vary-by-season"><i class="fa fa-check"></i><b>12.2.1</b> Does ridership vary by season?</a></li>
-<li class="chapter" data-level="12.2.2" data-path="lab12.html"><a href="lab12.html#does-ridership-vary-with-actual-temperature"><i class="fa fa-check"></i><b>12.2.2</b> Does ridership vary with actual temperature?</a></li>
-<li class="chapter" data-level="12.2.3" data-path="lab12.html"><a href="lab12.html#does-ridership-vary-with-perceived-temperature"><i class="fa fa-check"></i><b>12.2.3</b> Does ridership vary with <em>perceived</em> temperature?</a></li>
-<li class="chapter" data-level="12.2.4" data-path="lab12.html"><a href="lab12.html#whats-up-with-those-weird-days"><i class="fa fa-check"></i><b>12.2.4</b> What’s up with those weird days?</a></li>
-</ul></li>
-<li class="chapter" data-level="12.3" data-path="lab12.html"><a href="lab12.html#wrap-up-11"><i class="fa fa-check"></i><b>12.3</b> Wrap-up</a></li>
-</ul></li>
-<li class="appendix"><span><b>Appendix</b></span></li>
-<li class="chapter" data-level="A" data-path="coderef.html"><a href="coderef.html"><i class="fa fa-check"></i><b>A</b> Distributions</a>
-<ul>
-<li class="chapter" data-level="A.1" data-path="coderef.html"><a href="coderef.html#binomial-distribution"><i class="fa fa-check"></i><b>A.1</b> Binomial distribution</a>
-<ul>
-<li class="chapter" data-level="A.1.1" data-path="coderef.html"><a href="coderef.html#probability-of-observing-an-outcome-exactly-equal-to-a-given-value"><i class="fa fa-check"></i><b>A.1.1</b> Probability of observing an outcome exactly equal to a given value</a></li>
-<li class="chapter" data-level="A.1.2" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-less-than-or-equal-to-a-given-value"><i class="fa fa-check"></i><b>A.1.2</b> Probability of observing a value less than or equal to a given value</a></li>
-<li class="chapter" data-level="A.1.3" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-greater-than-a-given-value"><i class="fa fa-check"></i><b>A.1.3</b> Probability of observing a value greater than a given value</a></li>
-<li class="chapter" data-level="A.1.4" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-inside-an-interval-between-an-upper-and-lower-value"><i class="fa fa-check"></i><b>A.1.4</b> Probability of observing a value inside an interval between an upper and lower value</a></li>
-<li class="chapter" data-level="A.1.5" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-outside-an-interval-between-an-upper-and-lower-value"><i class="fa fa-check"></i><b>A.1.5</b> Probability of observing a value outside an interval between an upper and lower value</a></li>
-<li class="chapter" data-level="A.1.6" data-path="coderef.html"><a href="coderef.html#the-value-for-which-there-is-a-given-probability-of-observing-an-outcome-less-than-or-equal-to-that-value"><i class="fa fa-check"></i><b>A.1.6</b> The value for which there is a given probability of observing an outcome less than or equal to that value</a></li>
-<li class="chapter" data-level="A.1.7" data-path="coderef.html"><a href="coderef.html#testing-a-null-hypothesis"><i class="fa fa-check"></i><b>A.1.7</b> Testing a null hypothesis</a></li>
-</ul></li>
-<li class="chapter" data-level="A.2" data-path="coderef.html"><a href="coderef.html#normal-distribution"><i class="fa fa-check"></i><b>A.2</b> Normal distribution</a>
-<ul>
-<li class="chapter" data-level="A.2.1" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-less-than-or-equal-to-a-given-value-1"><i class="fa fa-check"></i><b>A.2.1</b> Probability of observing a value less than or equal to a given value</a></li>
-<li class="chapter" data-level="A.2.2" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-greater-than-a-given-value-1"><i class="fa fa-check"></i><b>A.2.2</b> Probability of observing a value greater than a given value</a></li>
-<li class="chapter" data-level="A.2.3" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-inside-an-interval-between-an-upper-and-lower-value-1"><i class="fa fa-check"></i><b>A.2.3</b> Probability of observing a value inside an interval between an upper and lower value</a></li>
-<li class="chapter" data-level="A.2.4" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-outside-an-interval-between-an-upper-and-lower-value-1"><i class="fa fa-check"></i><b>A.2.4</b> Probability of observing a value outside an interval between an upper and lower value</a></li>
-<li class="chapter" data-level="A.2.5" data-path="coderef.html"><a href="coderef.html#the-value-for-which-there-is-a-given-probability-of-observing-an-outcome-less-than-or-equal-to-that-value-1"><i class="fa fa-check"></i><b>A.2.5</b> The value for which there is a given probability of observing an outcome less than or equal to that value</a></li>
-<li class="chapter" data-level="A.2.6" data-path="coderef.html"><a href="coderef.html#testing-a-null-hypothesis-1"><i class="fa fa-check"></i><b>A.2.6</b> Testing a null hypothesis</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="B" data-path="hyptests.html"><a href="hyptests.html"><i class="fa fa-check"></i><b>B</b> Hypothesis Tests</a>
-<ul>
-<li class="chapter" data-level="B.1" data-path="hyptests.html"><a href="hyptests.html#t-tests"><i class="fa fa-check"></i><b>B.1</b> <span class="math inline">\(t\)</span> tests</a>
-<ul>
-<li class="chapter" data-level="B.1.1" data-path="hyptests.html"><a href="hyptests.html#doing-them-step-by-step"><i class="fa fa-check"></i><b>B.1.1</b> Doing them step-by-step</a></li>
-<li class="chapter" data-level="B.1.2" data-path="hyptests.html"><a href="hyptests.html#doing-them-all-at-once"><i class="fa fa-check"></i><b>B.1.2</b> Doing them all at once</a></li>
-</ul></li>
-<li class="chapter" data-level="B.2" data-path="hyptests.html"><a href="hyptests.html#analysis-of-variance-anova"><i class="fa fa-check"></i><b>B.2</b> Analysis of Variance (ANOVA)</a>
-<ul>
-<li class="chapter" data-level="B.2.1" data-path="hyptests.html"><a href="hyptests.html#anova"><i class="fa fa-check"></i><b>B.2.1</b> ANOVA</a></li>
-<li class="chapter" data-level="B.2.2" data-path="hyptests.html"><a href="hyptests.html#post-hoc-pairwise-t-tests"><i class="fa fa-check"></i><b>B.2.2</b> Post hoc pairwise <span class="math inline">\(t\)</span> tests</a></li>
-</ul></li>
-<li class="chapter" data-level="B.3" data-path="hyptests.html"><a href="hyptests.html#linear-regression"><i class="fa fa-check"></i><b>B.3</b> Linear Regression</a></li>
-</ul></li>
-<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
-<li class="divider"></li>
-<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
-
-</ul>
-
-      </nav>
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Labs</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
     </div>
 
-    <div class="book-body">
-      <div class="body-inner">
-        <div class="book-header" role="navigation">
-          <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Labs</a>
-          </h1>
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Overview</a></li>
+<li><a class="active" href="lab1.html"><span class="header-section-number">1</span> Exploring Data with R</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/gregcox7/StatLabs">View book source <i class="fab fa-github"></i></a></p>
         </div>
-
-        <div class="page-wrapper" tabindex="-1" role="main">
-          <div class="page-inner">
-
-            <section class="normal" id="section-">
-<div id="lab1" class="section level1" number="1">
-<h1><span class="header-section-number">Lab 1</span> Exploring Data with R</h1>
-<p><img src="img/titanic.png" width="100%" /></p>
-<p>In this session, we will learn a bit about data and how to look at it in R. This will largely involve copying and pasting code from this document into your own RStudio window and interpreting the results, though you will also have to make some tweaks to that code on your own. The big point is to get a feel for the power of the tools we will be learning to use in the rest of the semester.</p>
-<p>For most of what we will be doing, this document shows both the R code and, below it, the result that code is expected to produce. The questions you will need to answer for the accompanying assignment are presented as numbered footnotes.</p>
-<p>Another big point is that even though statistics is about dealing with data, those data are <em>meaningful</em>. They are not just numbers or names, they are a peek into the world. They offer glimpses of someone’s life, of the workings of some natural process, of some social structure, etc. Any dataset will be limited in how wide of a glimpse it gives us, and the point of statistics is how to learn and make decisions based on that glimpse.</p>
-<p>The primary skills developed in this activity are:</p>
-<ol style="list-style-type: decimal">
-<li>Viewing data in R</li>
-<li>Making frequency tables</li>
-<li>Making bar charts</li>
-<li>Making histograms</li>
-</ol>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="lab1" class="section level1" number="1">
+<h1>
+<span class="header-section-number">Lab 1</span> Exploring Data with R<a class="anchor" aria-label="anchor" href="#lab1"><i class="fas fa-link"></i></a>
+</h1>
+<div class="inline-figure"><img src="img/titanic.png" width="100%"></div>
+<p>In this session, we will learn a bit about data and how to explore it using R/RStudio. The point is to learn a bit more about data and variables and to get a feel for the power of the tools we will be learning to use in the rest of the semester.</p>
+<p>As you follow along in this activity, you will be asked to run bits of code in RStudio. This code can be copied-and-pasted into the “Console” at the lower left of RStudio. You will also be asked to modify code and run it yourself, which again you can do by typing your code into the console.</p>
+<p>When the document shows you a snippet of code, it also shows typical R output that should result from running that code. For example, the following snippet of code adds two numbers; the way R prints the result is shown below the snippet of code.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fl">2</span> <span class="op">+</span> <span class="fl">3</span></code></pre></div>
+<pre class="Rout text-muted"><code>## [1] 5</code></pre>
+<p>Another point of today’s activity is to illustrate how even though statistics is about dealing with data, those data are <em>meaningful</em>. They are not just numbers or names, they are a peek into the world. They offer glimpses of someone’s life, of the workings of some natural process, of some social structure, etc. Any dataset will be limited in how wide of a glimpse it gives us, and the point of statistics is how to learn and make decisions based on that glimpse.</p>
 <div id="r-and-rstudio" class="section level2" number="1.1">
-<h2><span class="header-section-number">1.1</span> R and RStudio</h2>
-<p>All of our labs will make use of RStudio, a graphical interface to the statistical computing language R. The R language represents the current state of the art in both academic and industrial research. It is likely to remain relevant for many years to come because it is free and open-source, meaning both that it is widely accessible and that improvements and extensions are relatively easy to make. In fact, many of the best features of R that we will be using are extensions made by people outside the “core” development team for R. These extensions are called “packages,” and they represent bundles of code that are useful for doing statistics.</p>
-<p>RStudio makes it easier to work with the R language, and it is also free and can be installed on computers running any modern operating system (Windows, Mac, Linux, etc.). RStudio is already installed on the computers in the Technology-Enhanced Classrooms and the Library Public Computing Sites on campus. If you are working on your own computer, you will have an easier time of it if you install RStudio on it. Installing RStudio requires installing R, but you only need to do this once. Follow the installation instructions for <strong>RStudio Desktop</strong> here: <a href="https://rstudio.com/products/rstudio/download/" class="uri">https://rstudio.com/products/rstudio/download/</a></p>
-<p>You can also use RStudio in a browser! This way, even if you don’t have access to a computer with RStudio installed locally, you can use it if you have access to the internet. You can run RStudio online here: <a href="https://rstudio.cloud/" class="uri">https://rstudio.cloud/</a>. The downside with this is that there is a cap to the amount of time you can spend using the online version, so you are better off using a local installation whenever possible.</p>
-<p>This first lab will use the cloud version so we can jump right in. Access the first Lab here:</p>
-<p><a href="https://rstudio.cloud/project/2118415" class="uri">https://rstudio.cloud/project/2118415</a></p>
-<p>Note that you may need to create an account, but it is free to do so.</p>
-<!-- ## Tidyverse -->
-<!-- Once you have RStudio up and running, there's one more thing you need to do to make sure you can do the labs in the course.  Open up RStudio, paste the line below into your console, and hit enter: -->
-<!-- ```{r eval = FALSE} -->
-<!-- install.packages("tidyverse") -->
-<!-- ``` -->
-<!-- This will install a package called "tidyverse" that we will be using in class that will make R much more useful for us.  You only need to do this once on any particular computer, and it may already be installed.  If so, running this won't hurt, it'll just make sure you've got everything we need. -->
+<h2>
+<span class="header-section-number">1.1</span> R and RStudio<a class="anchor" aria-label="anchor" href="#r-and-rstudio"><i class="fas fa-link"></i></a>
+</h2>
+<p>All of our labs will make use of RStudio, a graphical interface to the statistical computing language R. The R language represents the current state of the art for statistical computing in both academic and industrial research. It is likely to remain relevant for many years to come because it is free and open-source, meaning both that it is widely accessible and that improvements and extensions are being made continuously by a large community of professionals and hobbyists. In fact, many of the best features of R that we will be using are extensions made by people outside the “core” development team for R. These extensions are called “packages,” and they represent bundles of code that are useful for doing statistics.</p>
+<p>RStudio is an interface that makes it easier to work with the R language, and it is also free and can be installed on computers running any modern operating system (Windows, Mac, Linux, etc.). R and RStudio are both already installed on the computers in the Technology-Enhanced Classrooms and the Library Public Computing Sites on campus. If you are working on your own computer, you will have an easier time of it if you install RStudio on it. Installing RStudio requires installing R first.</p>
+<div id="installation-on-your-own-computer" class="section level3" number="1.1.1">
+<h3>
+<span class="header-section-number">1.1.1</span> Installation on your own computer<a class="anchor" aria-label="anchor" href="#installation-on-your-own-computer"><i class="fas fa-link"></i></a>
+</h3>
+<p>You can <strong>install R</strong> on your own computer by following the instructions here: <a href="https://cran.rstudio.com/" class="uri">https://cran.rstudio.com/</a></p>
+<p>After installing R, you can install <strong>RStudio Desktop</strong> by following the instructions here: <a href="https://rstudio.com/products/rstudio/download/" class="uri">https://rstudio.com/products/rstudio/download/</a></p>
+</div>
+<div id="running-r-in-a-browser" class="section level3" number="1.1.2">
+<h3>
+<span class="header-section-number">1.1.2</span> Running R in a browser<a class="anchor" aria-label="anchor" href="#running-r-in-a-browser"><i class="fas fa-link"></i></a>
+</h3>
+<p>Even if you don’t have access to a computer with RStudio installed locally, you can use it if you have access to the internet. You can run RStudio online here: <a href="https://rstudio.cloud/" class="uri">https://rstudio.cloud/</a>. The downside with this is that there is a cap to the amount of time you can spend using the online version, so you are better off using a local installation whenever possible. You may need to create an account to use the online version, but it is free to do so.</p>
+</div>
+<div id="required-packages" class="section level3" number="1.1.3">
+<h3>
+<span class="header-section-number">1.1.3</span> Required packages<a class="anchor" aria-label="anchor" href="#required-packages"><i class="fas fa-link"></i></a>
+</h3>
+<p>Once you have RStudio up and running, try the following line of code.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-info"><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+<pre class="Rout text-info"><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+## ✓ tibble  3.1.3     ✓ dplyr   1.0.5
+## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
+## ✓ readr   2.0.0     ✓ forcats 0.5.1</code></pre>
+<pre class="Rout text-info"><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<p>If you are working on a computer on campus, you should see some messages similar to the ones shown above. These messages tell us that R has loaded some helpful “packages” from its “library” that we will use. You may notice some messages about “conflicts,” but these are nothing we need to worry about.</p>
+<p>If you are working on your own computer or on the online version of RStudio, you might have gotten an error when you tried to run that last line. If you did get an error, run the following line to install the “tidyverse” package that we will need for this course.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"tidyverse"</span><span class="op">)</span></code></pre></div>
+<p>Installing the “tidyverse” package takes a while, but you’ll only need to do it once. After it is installed, you can just run <code><a href="https://tidyverse.tidyverse.org">library(tidyverse)</a></code> when you start RStudio and have everything you need.</p>
+</div>
 </div>
 <div id="meet-your-data" class="section level2" number="1.2">
-<h2><span class="header-section-number">1.2</span> Meet your data</h2>
+<h2>
+<span class="header-section-number">1.2</span> Meet your data<a class="anchor" aria-label="anchor" href="#meet-your-data"><i class="fas fa-link"></i></a>
+</h2>
 <p>The data we will be looking at are passenger records from the RMS <em>Titanic</em>, an oceanliner which famously sank on April 15, 1912. Though the liner was not filled to capacity, lax safety precautions—including a failure to carry enough lifeboats—meant that many of her passengers died because they were unable to evacuate when the ship struck an iceberg.</p>
-<!-- ### Load the data -->
-<!-- Open up a browser and head to the course Blackboard page.  Under the "Datasets" folder, you will find a file called "titanic.csv".  Download the file and make sure you take note of where you saved it. -->
-<!-- Make sure RStudio is running.  You can load the data into RStudio by going to **File** > **Import Dataset** > **From text (readr)...** and finding the "titanic.csv" file wherever you put it.  If you are doing this using the online version of RStudio, you will first have to **Upload** the file to your workspace using the "Files" panel on the right. -->
-<div id="check-out-the-variables" class="section level3" number="1.2.1">
-<h3><span class="header-section-number">1.2.1</span> Check out the variables</h3>
+<div id="load-the-data" class="section level3" number="1.2.1">
+<h3>
+<span class="header-section-number">1.2.1</span> Load the data<a class="anchor" aria-label="anchor" href="#load-the-data"><i class="fas fa-link"></i></a>
+</h3>
+<p>Run the following line of code at the console to load our data into your RStudio “environment”:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">titanic</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/titanic.csv"</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-info"><code>## Rows: 1309 Columns: 11</code></pre>
+<pre class="Rout text-info"><code>## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: ","
+## chr (7): residence, sex, name, ticket, cabin, embarked, hometown
+## dbl (3): class, age, fare
+## lgl (1): survived</code></pre>
+<pre class="Rout text-info"><code>## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<p>You should now see “titanic” pop up in the upper right hand pane of the RStudio window. Click on “titanic” in the upper right to take a look at the data.</p>
+</div>
+<div id="check-out-the-variables" class="section level3" number="1.2.2">
+<h3>
+<span class="header-section-number">1.2.2</span> Check out the variables<a class="anchor" aria-label="anchor" href="#check-out-the-variables"><i class="fas fa-link"></i></a>
+</h3>
 <p>This is what RStudio looks like (with some helpful colored labels):</p>
-<p><img src="img/rstudio_window.png" width="100%" /></p>
-<p>In the upper left of the RStudio screen, you’ll see a bunch of columns. These are our data in “raw” form. Each row represents a specific passenger and each column represents a different <em>variable</em>. Based on the names of each variable and the types of <em>values</em> it seems to take, can you figure out what each variable is? In other words, what does each column tell us about a person?<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
+<div class="inline-figure"><img src="img/rstudio_window.png" width="100%"></div>
+<p>In the upper left of the RStudio screen, you’ll see a bunch of columns. These are our data in “raw” form. Each row represents a specific passenger (“case”) and each column represents a different <em>variable</em>.</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-1" class="exercise"><strong>Exercise 1.1  </strong></span>Find an example of each of the following types of variable in the dataset. Explain your reasoning for each choice.</p>
+<ol style="list-style-type: lower-alpha">
+<li>Numerical (either discrete or continuous)</li>
+<li>Ordinal categorical</li>
+<li>Nominal categorical</li>
+</ol>
+</div>
 </div>
 </div>
 <div id="answering-questions-with-data" class="section level2" number="1.3">
-<h2><span class="header-section-number">1.3</span> Answering questions with data</h2>
-<p>Now that we’ve gotten acquainted with the kind of data we have, we can begin using it to answer some questions. This will involve simplifying the data, turning it into a summary form that makes it easier to understand. These summaries fall under the heading of “descriptive statistics,” because they are meant to <em>describe</em> important aspects of the data. The three types of summaries we will explore today are <strong>frequency tables</strong>, <strong>bar charts</strong>, and <strong>histograms</strong>.</p>
+<h2>
+<span class="header-section-number">1.3</span> Answering questions with data<a class="anchor" aria-label="anchor" href="#answering-questions-with-data"><i class="fas fa-link"></i></a>
+</h2>
+<p>Now that we’ve gotten acquainted with the kind of data we have, we can begin using it to answer some questions. This will involve simplifying the data, turning it into a summary form that makes it easier to understand. These summaries fall under the heading of “descriptive statistics,” because they are meant to <em>describe</em> important aspects of the data. The four types of summaries we will explore today are <strong>frequency tables</strong>, <strong>proportions</strong>, <strong>bar charts</strong>, and <strong>histograms</strong>. The questions we will attempt to answer are all about <em>who</em> survived and <em>who</em> perished on the <em>Titanic</em>.</p>
 <div id="frequency-tables" class="section level3" number="1.3.1">
-<h3><span class="header-section-number">1.3.1</span> Frequency tables</h3>
-<p>The first question is, who was actually aboard the <em>Titanic</em>? One way we could answer this question is to read the names of all 1300 or so people in our dataset, but this would not be particularly efficient or informative. What we are going to do instead is <em>simplify</em>, and focus on specific aspects of each person.</p>
-<p>Let’s first ask <strong>how many passengers were male or female</strong>. One way to answer this question is by constructing a <strong>frequency table</strong>. In the RStudio window, see the big open space just below our data? This is called the “console” and is where we will do most of our work. Copy and paste the code below into the “Console.” The code should appear right after the “&gt;.” Once it is there, hit <strong>enter</strong> to run it and see the results.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="lab1.html#cb1-1" aria-hidden="true" tabindex="-1"></a>titanic <span class="sc">%&gt;%</span></span>
-<span id="cb1-2"><a href="lab1.html#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sex) <span class="sc">%&gt;%</span></span>
-<span id="cb1-3"><a href="lab1.html#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>())</span></code></pre></div>
-<pre><code>## # A tibble: 2 x 2
-##   sex        n
-##   &lt;chr&gt;  &lt;int&gt;
-## 1 Female   466
-## 2 Male     843</code></pre>
-<p>We got a table that counted the frequency of males and females on the passenger list. We went from 1300 or so rows with multiple variables each to just two numbers. A pretty concise summary! But how did we do it? Let’s break down that bit of code:</p>
+<h3>
+<span class="header-section-number">1.3.1</span> Frequency tables<a class="anchor" aria-label="anchor" href="#frequency-tables"><i class="fas fa-link"></i></a>
+</h3>
+<p>One way we could answer literally the question, “who survived and who died on the <em>Titanic</em>?” would be to read the names of each of the 1300 or so passengers in our dataset. The problem is that this would not give us much of a sense of <em>why</em> particular people might have survived versus not. Treating survival as a <strong>response variable</strong>, we would like to treat other variables in these data as <strong>explanatory variables</strong>. This gives us a sense of the <em>types</em> of people who were more or less likely to have survived, and what this tells us about the <em>Titanic</em> disaster as a whole.</p>
+<p>To begin, the first thing we can do as construct a <strong>frequency table</strong> that simply counts the number of people who survived and the number of people who died. This summary will give us a sense of the scale of the disaster. In the RStudio window, see the big open space just below our data? This is called the “console” and is where we will do most of our work. Copy and paste the code below into the “Console.” The code should appear right after the “&gt;.” Once it is there, hit <strong>enter</strong> to run it and see the results.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">titanic</span> <span class="op">%&gt;%</span>
+  <span class="fu">group_by</span><span class="op">(</span><span class="va">survived</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">summarize</span><span class="op">(</span>n <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-muted"><code>## # A tibble: 2 × 2
+##   survived     n
+##   &lt;lgl&gt;    &lt;int&gt;
+## 1 FALSE      809
+## 2 TRUE       500</code></pre>
+<p>We got a table that counted the number of people who did and did not survive. We went from 1300 or so rows with multiple variables each to just two numbers. A pretty concise summary! But how did we do it? Let’s break down that bit of code:</p>
 <ul>
-<li><code>titanic</code> is our original dataset.</li>
-<li><code>group_by(sex)</code> tells R to group that dataset by sex.</li>
-<li><code>summarize(n=n())</code> tells R to take our grouped dataset and <em>summarize</em> it by counting the <code>n</code>umber of people in each group and labeling the resulting number “<code>n</code>.”</li>
-<li>The funky symbol <code>%&gt;%</code> connects the three steps above and makes sure R does them in the order we want.</li>
+<li>
+<code>titanic</code> is the name of our dataset.</li>
+<li>
+<code>group_by(survived)</code> tells R to group the cases in that dataset by whether they survived (<code>TRUE</code>) or not (<code>FALSE</code>).</li>
+<li>
+<code>summarize(n=n())</code> tells R to take our grouped cases and <em>summarize</em> them by counting the <code>n</code>umber of people in each group and labeling the resulting number “<code>n</code>.”</li>
+<li>The funky symbol <code>%&gt;%</code> connects the three steps above and makes sure R does them in the order we want. This symbol is called a “pipe.”</li>
 </ul>
 <p>Let’s try a few things to get a sense of why that code did what it did. What happens if we change <code>n = n()</code> in the last line to <code>Number = n()</code>?</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="lab1.html#cb3-1" aria-hidden="true" tabindex="-1"></a>titanic <span class="sc">%&gt;%</span></span>
-<span id="cb3-2"><a href="lab1.html#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sex) <span class="sc">%&gt;%</span></span>
-<span id="cb3-3"><a href="lab1.html#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">Number =</span> <span class="fu">n</span>())</span></code></pre></div>
-<pre><code>## # A tibble: 2 x 2
-##   sex    Number
-##   &lt;chr&gt;   &lt;int&gt;
-## 1 Female    466
-## 2 Male      843</code></pre>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">titanic</span> <span class="op">%&gt;%</span>
+  <span class="fu">group_by</span><span class="op">(</span><span class="va">survived</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">summarize</span><span class="op">(</span>Number <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-muted"><code>## # A tibble: 2 × 2
+##   survived Number
+##   &lt;lgl&gt;     &lt;int&gt;
+## 1 FALSE       809
+## 2 TRUE        500</code></pre>
 <p>Everything looks the same except that instead of the column being labeled “n,” it is labeled “Number.” So the bit before the equals sign is how the frequency table will be labeled.</p>
-<p>Now let’s try something that seems like a small change: Instead of <code>n = n()</code> in the last line, let’s write <code>n = m()</code>. Only one letter different, surely it can’t be that big of a difference?</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="lab1.html#cb5-1" aria-hidden="true" tabindex="-1"></a>titanic <span class="sc">%&gt;%</span></span>
-<span id="cb5-2"><a href="lab1.html#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sex) <span class="sc">%&gt;%</span></span>
-<span id="cb5-3"><a href="lab1.html#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">m</span>())</span></code></pre></div>
-<pre><code>## Error: Problem with `summarise()` input `n`.
-## x could not find function &quot;m&quot;
+<p>Now let’s try something that seems like a small change: Instead of <code>n = n()</code> in the last line, let’s write <code>n = m()</code>. Only one letter, surely it can’t be that big of a difference?</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">titanic</span> <span class="op">%&gt;%</span>
+  <span class="fu">group_by</span><span class="op">(</span><span class="va">survived</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">summarize</span><span class="op">(</span>n <span class="op">=</span> <span class="fu">m</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-danger"><code>## Error: Problem with `summarise()` input `n`.
+## x could not find function "m"
 ## ℹ Input `n` is `m()`.
-## ℹ The error occurred in group 1: sex = &quot;Female&quot;.</code></pre>
+## ℹ The error occurred in group 1: survived = FALSE.</code></pre>
 <p>R doesn’t like it! It reports an error because it doesn’t know what to do with <code>m()</code>. That’s because <code>n()</code> is a <strong>function</strong>, it is an instruction that tells R to count the <code>n</code>umber of something. On the other hand, <code>m()</code> doesn’t mean anything to R so it throws up its hands.</p>
-<p>We saw that we know not just the sex of each passenger, the “residence” variable tells us whether each person is American, British, or something else. Let’s modify our code to get a frequency table for country of residence instead of sex:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="lab1.html#cb7-1" aria-hidden="true" tabindex="-1"></a>titanic <span class="sc">%&gt;%</span></span>
-<span id="cb7-2"><a href="lab1.html#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(residence) <span class="sc">%&gt;%</span></span>
-<span id="cb7-3"><a href="lab1.html#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>())</span></code></pre></div>
-<pre><code>## # A tibble: 3 x 2
-##   residence     n
-##   &lt;chr&gt;     &lt;int&gt;
-## 1 American    258
-## 2 British     302
-## 3 Other       749</code></pre>
-<p>Easy! So all we need to do to get a frequency table for a particular variable is to put the name of that variable in the parentheses in the <code>group_by</code> line. Since we’re on a roll, let’s see if we can count the number of passengers with or without college degrees:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="lab1.html#cb9-1" aria-hidden="true" tabindex="-1"></a>titanic <span class="sc">%&gt;%</span></span>
-<span id="cb9-2"><a href="lab1.html#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(degree) <span class="sc">%&gt;%</span></span>
-<span id="cb9-3"><a href="lab1.html#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>())</span></code></pre></div>
-<pre><code>## Error: Must group by variables found in `.data`.
+<p>We can also get counts based on other variables. For example, let’s ask how many passengers there were in each “class” by changing the grouping variable in our code:</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">titanic</span> <span class="op">%&gt;%</span>
+  <span class="fu">group_by</span><span class="op">(</span><span class="va">class</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">summarize</span><span class="op">(</span>n <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-muted"><code>## # A tibble: 3 × 2
+##   class     n
+##   &lt;dbl&gt; &lt;int&gt;
+## 1     1   323
+## 2     2   277
+## 3     3   709</code></pre>
+<p>Since we’re on a roll, let’s see if we can count the number of passengers with or without college degrees:</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">titanic</span> <span class="op">%&gt;%</span>
+  <span class="fu">group_by</span><span class="op">(</span><span class="va">degree</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">summarize</span><span class="op">(</span>n <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-danger"><code>## Error: Must group by variables found in `.data`.
 ## * Column `degree` is not found.</code></pre>
-<p>No dice! R tells us that it can’t find a column labeled “degree,” and indeed, there is no such variable in our data since it was not recorded. This illustrates that the variable in the parens in the <code>group_by</code> line can’t be just anything, it has to be the name of a variable (spelled exactly the same!) that exists in our data.</p>
-<p>Finally, let’s construct a frequency table using multiple variables at once. This lets us answer questions like, <strong>how many British women were aboard the <em>Titanic</em></strong>? We can put multiple variables in the <code>group_by</code> line:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="lab1.html#cb11-1" aria-hidden="true" tabindex="-1"></a>titanic <span class="sc">%&gt;%</span></span>
-<span id="cb11-2"><a href="lab1.html#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(residence, sex) <span class="sc">%&gt;%</span></span>
-<span id="cb11-3"><a href="lab1.html#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>())</span></code></pre></div>
-<pre><code>## `summarise()` has grouped output by &#39;residence&#39;. You can override using the `.groups` argument.</code></pre>
-<pre><code>## # A tibble: 6 x 3
+<p>Didn’t work! We got an error message.</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-2" class="exercise"><strong>Exercise 1.2  </strong></span>Explain in your own words why trying to put <code>degree</code> in the <code>group_by</code> didn’t work.</p>
+</div>
+<p>Finally, let’s construct a frequency table using multiple variables. This lets us answer more complex questions like, <strong>how many British women were aboard the <em>Titanic</em></strong>? That question involves two variables, <code>residence</code> (where people were from) and <code>sex</code> (whether classified as male or female). We can put both of those variables in the <code>group_by</code> line to find our answer.</p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">titanic</span> <span class="op">%&gt;%</span>
+  <span class="fu">group_by</span><span class="op">(</span><span class="va">residence</span>, <span class="va">sex</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">summarize</span><span class="op">(</span>n <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-info"><code>## `summarise()` has grouped output by 'residence'. You can override using the `.groups` argument.</code></pre>
+<pre class="Rout text-muted"><code>## # A tibble: 6 × 3
 ## # Groups:   residence [3]
 ##   residence sex        n
 ##   &lt;chr&gt;     &lt;chr&gt;  &lt;int&gt;
@@ -563,50 +223,93 @@ div.csl-indent {
 ## 4 British   Male     208
 ## 5 Other     Female   264
 ## 6 Other     Male     485</code></pre>
-<p>Now we can begin to address a few more questions. This time, you will have to figure out how to fiddle with our code for making frequency tables. Write code that will produce the frequency table below:<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></p>
-<pre><code>## `summarise()` has grouped output by &#39;class&#39;. You can override using the `.groups` argument.</code></pre>
-<pre><code>## # A tibble: 6 x 3
-## # Groups:   class [3]
-##   class survived     n
-##   &lt;int&gt; &lt;lgl&gt;    &lt;int&gt;
-## 1     1 FALSE      123
-## 2     1 TRUE       200
-## 3     2 FALSE      158
-## 4     2 TRUE       119
-## 5     3 FALSE      528
-## 6     3 TRUE       181</code></pre>
-<p>This table breaks down the number of people who did or did not survive the sinking of the <em>Titanic</em> by their “class,” with first-class being the most expensive with the most amenities and third-class being the least expensive with the least amenities. Do you notice any patterns?<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a></p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-3" class="exercise"><strong>Exercise 1.3  </strong></span>Make a frequency table that answers the question, “how many second class passengers survived?” You will find it helpful to try filling in the blank below:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="lab1.html#cb25-1" aria-hidden="true" tabindex="-1"></a>titanic <span class="sc">%&gt;%</span></span>
+<span id="cb25-2"><a href="lab1.html#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(___) <span class="sc">%&gt;%</span></span>
+<span id="cb25-3"><a href="lab1.html#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>())</span></code></pre></div>
+<p>What was the final code that you used? And how many second class passengers survived?</p>
 </div>
-<div id="bar-charts" class="section level3" number="1.3.2">
-<h3><span class="header-section-number">1.3.2</span> Bar charts</h3>
-<p>Trying to find patterns among six numbers in a frequency table is not impossible, but it’s also not easy. Bar charts make numerical relationships easy to see visually, so we don’t need to compare a bunch of numbers.</p>
-<p>Let’s see how even a simple comparison is easier with a bar chart than a frequency table. First, let’s make a frequency table for the number of passengers in each class:<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a></p>
-<pre><code>## # A tibble: 3 x 2
-##   class     n
-##   &lt;int&gt; &lt;int&gt;
-## 1     1   323
-## 2     2   277
-## 3     3   709</code></pre>
-<p>Now, use the following code to instead construct a <strong>bar chart</strong> that displays the same information as the table, but in a visual form:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="lab1.html#cb17-1" aria-hidden="true" tabindex="-1"></a>titanic <span class="sc">%&gt;%</span></span>
-<span id="cb17-2"><a href="lab1.html#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> class)) <span class="sc">+</span></span>
-<span id="cb17-3"><a href="lab1.html#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code></pre></div>
-<p><img src="01-exploring_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
-<p>Pretty neat! It is now easy to see how much more 3rd class passengers there are than 1st or 2nd, and that interestingly, there are fewer 2nd class than 1st class passengers<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a>. Notice that the code we used is similar to what we’ve been using, but differs in some important ways:</p>
+</div>
+<div id="proportions" class="section level3" number="1.3.2">
+<h3>
+<span class="header-section-number">1.3.2</span> Proportions<a class="anchor" aria-label="anchor" href="#proportions"><i class="fas fa-link"></i></a>
+</h3>
+<p>You may have heard that, when trying to evacuate the <em>Titanic</em>, there was a rule to put “women and children first” onto lifeboats. This suggests a <strong>hypothesis</strong>, assuming this rule was actually followed: female passengers should have survived more often than male passengers.</p>
+<p>To see if the data are consistent with this hypothesis, we can begin by using code similar to what we’ve been using to count the number of male and female passengers who either did or did not survive.</p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">titanic</span> <span class="op">%&gt;%</span>
+  <span class="fu">group_by</span><span class="op">(</span><span class="va">sex</span>, <span class="va">survived</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">summarize</span><span class="op">(</span>n <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-info"><code>## `summarise()` has grouped output by 'sex'. You can override using the `.groups` argument.</code></pre>
+<pre class="Rout text-muted"><code>## # A tibble: 4 × 3
+## # Groups:   sex [2]
+##   sex    survived     n
+##   &lt;chr&gt;  &lt;lgl&gt;    &lt;int&gt;
+## 1 Female FALSE      127
+## 2 Female TRUE       339
+## 3 Male   FALSE      682
+## 4 Male   TRUE       161</code></pre>
+<p>While this table contains all the information we need to test this hypothesis, it is hard to read because there were different numbers of male and female passengers. What we want to know is whether a greater <em>proportion</em> of female passengers survived, compared to the <em>proportion</em> of male passengers who survived.</p>
+<p>As we’ve seen, we find proportions by taking a count and dividing by a sum of counts. Specifically, if we have some group “A” and want to find the proportion of the elements in group “A” that have some characteristic “B,” we find</p>
+<p><span class="math display">\[
+\text{Proportion of A that are B} = \frac{\text{Number of A that are B}}{\text{Total number of A's}}
+\]</span>
+We can do this in code by adding a line to the code we used to make our counts.</p>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">titanic</span> <span class="op">%&gt;%</span>
+  <span class="fu">group_by</span><span class="op">(</span><span class="va">sex</span>, <span class="va">survived</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">summarize</span><span class="op">(</span>n <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">mutate</span><span class="op">(</span>p <span class="op">=</span> <span class="va">n</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-info"><code>## `summarise()` has grouped output by 'sex'. You can override using the `.groups` argument.</code></pre>
+<pre class="Rout text-muted"><code>## # A tibble: 4 × 4
+## # Groups:   sex [2]
+##   sex    survived     n     p
+##   &lt;chr&gt;  &lt;lgl&gt;    &lt;int&gt; &lt;dbl&gt;
+## 1 Female FALSE      127 0.273
+## 2 Female TRUE       339 0.727
+## 3 Male   FALSE      682 0.809
+## 4 Male   TRUE       161 0.191</code></pre>
+<p>The new column <code>p</code> is a proportion and represents the proportion of people in each group (either male or female) who either did or did not survive. It is now easier to see that this proportion is much higher for female than male passengers, consistent with our hypothesis.</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-4" class="exercise"><strong>Exercise 1.4  </strong></span>Write code to answer the question, “which Class (1st, 2nd, or 3rd) had the highest proportion of survivors?” Again, you will find it helpful to start from code we already used and modify it accordingly.</p>
+<p>What code did you use? And which Class had the highest proportion of survivors?</p>
+</div>
+</div>
+<div id="bar-charts" class="section level3" number="1.3.3">
+<h3>
+<span class="header-section-number">1.3.3</span> Bar charts<a class="anchor" aria-label="anchor" href="#bar-charts"><i class="fas fa-link"></i></a>
+</h3>
+<p>If we are looking for patterns or trends in data, it is often easier to see them with a visualization rather than a table of numbers. Bar charts make numerical relationships easy to see visually, so we don’t need to compare a bunch of numbers.</p>
+<p>For example, above we made a table to count the number of passengers in each class. A bar chart conveys the same information in terms of the height of the bars.</p>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">titanic</span> <span class="op">%&gt;%</span>
+  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">class</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">geom_bar</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="01-exploring_files/figure-html/unnamed-chunk-16-1.png" width="672"></div>
+<p>Pretty neat! It is now easy to see how much more 3rd class passengers there are than 1st or 2nd, and that interestingly, there are fewer 2nd class than 1st class passengers. Notice that the code we used is similar to what we’ve been using, but differs in some important ways:</p>
 <ul>
 <li>The first line is the same, telling R what dataset we are using (<code>titanic</code>).</li>
-<li>The second line tells R that we want to make a <code>plot</code> and that we want to put the variable <code>class</code> along the horizontal axis of that plot (the <code>x</code> axis). The “gg” in front of “plot” refers to the “<strong>g</strong>rammar of <strong>g</strong>raphics,” which is language R uses to describe plots. In this language, different parts of a plot are called “<strong>aes</strong>thetics,” which is why <code>x = class</code> falls inside a parenthetical labeled <code>aes</code>(thetic).</li>
+<li>The second line tells R that we want to make a <code>plot</code> and that we want to put the variable <code>class</code> along the horizontal axis of that plot (the <code>x</code> axis). The “gg” in front of “plot” refers to the “<strong>g</strong>rammar of <strong>g</strong>raphics,” which is the language R uses to describe plots. In this language, different parts of a plot are called “<strong>aes</strong>thetics,” which is why <code>x = class</code> falls inside a parenthetical labeled <code>aes</code>(thetic).</li>
 <li>The final line just tells R that we want to make a <code>bar</code> chart. In the grammar of graphics, different types of charts are called <code>geom</code>s.</li>
-<li>Notice that the second 2 lines are connected by a <code>+</code> rather than our <code>%&gt;%</code> symbol. This is a historical accident, but the meaning of the two symbols is basically the same: they are telling R the order in which it should follow our instructions.</li>
+<li>Notice that the second 2 lines are connected by a <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code> rather than the <code>%&gt;%</code> symbol. This is a historical accident, but the meaning of the two symbols is basically the same. Both of them are telling R the order in which it should follow our instructions.</li>
 </ul>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-5" class="exercise"><strong>Exercise 1.5  </strong></span>Make a bar chart to help answer the question, “where did most passengers board the <em>Titanic</em>?” The relevant information is in the <code>embarked</code> variable. Try modifying the code we just used to make your bar chart.</p>
+<p>What code did you use? And where did most passengers board the <em>Titanic</em>?</p>
+<p>Attach a copy of the bar chart you made. You can do this using the “Export” menu in the “Plots” pane in RStudio.</p>
 </div>
-<div id="histograms" class="section level3" number="1.3.3">
-<h3><span class="header-section-number">1.3.3</span> Histograms</h3>
-<p>So far, we have been summarizing <em>discrete</em> variables. There are also some continuous variables in our data, for example the age of each passenger as well as how much they paid for their tickets. Let’s try making a frequency table to figure out how many people of different ages sailed on the <em>Titanic</em>:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="lab1.html#cb18-1" aria-hidden="true" tabindex="-1"></a>titanic <span class="sc">%&gt;%</span></span>
-<span id="cb18-2"><a href="lab1.html#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(age) <span class="sc">%&gt;%</span></span>
-<span id="cb18-3"><a href="lab1.html#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>())</span></code></pre></div>
-<pre><code>## # A tibble: 99 x 2
+</div>
+<div id="histograms" class="section level3" number="1.3.4">
+<h3>
+<span class="header-section-number">1.3.4</span> Histograms<a class="anchor" aria-label="anchor" href="#histograms"><i class="fas fa-link"></i></a>
+</h3>
+<p>So far, we have been summarizing <em>categorical</em> variables. There are also some numerical variables in our data, for example the age of each passenger as well as how much they paid for their tickets. Let’s try making a frequency table to figure out how many people of different ages sailed on the <em>Titanic</em>:</p>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">titanic</span> <span class="op">%&gt;%</span>
+  <span class="fu">group_by</span><span class="op">(</span><span class="va">age</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">summarize</span><span class="op">(</span>n <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-muted"><code>## # A tibble: 99 × 2
 ##      age     n
 ##    &lt;dbl&gt; &lt;int&gt;
 ##  1 0.167     1
@@ -620,117 +323,98 @@ div.csl-indent {
 ##  9 2        12
 ## 10 3         7
 ## # … with 89 more rows</code></pre>
-<p>Well that’s not very helpful! R didn’t even bother to show us the whole table. Though we can see something interesting: Age is measured in years, and for passengers at least one year old, their age is a whole number. But there are fractions of years for passengers less than a year old—these ages were <em>measured</em> in months rather than years.</p>
-<p>The main point is that even though age can be measured in a more or less fine-grained manner, it is effectively <em>continuous</em>. We don’t want to know how many passengers were exactly 31.3491 years old, we want to get a sense of whether there are more younger than older passengers, whether there might be different clusters or age groups, that sort of thing. In other words, we want to know something about how people are <em>distributed</em> across different age ranges.</p>
-<p>We can construct a summary that conveys this information using a <strong>histogram</strong>. This is very similar to a bar chart; the difference is that bar charts are for discrete variables while histograms are for continuous variables. The code below constructs a histogram to summarize passenger age:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="lab1.html#cb20-1" aria-hidden="true" tabindex="-1"></a>titanic <span class="sc">%&gt;%</span></span>
-<span id="cb20-2"><a href="lab1.html#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> age)) <span class="sc">+</span></span>
-<span id="cb20-3"><a href="lab1.html#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span></code></pre></div>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<pre><code>## Warning: Removed 263 rows containing non-finite values (stat_bin).</code></pre>
-<p><img src="01-exploring_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
-<p>The resulting histogram shows a bunch of bars, the height of which indicate the number of passengers within a particular age range.<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a></p>
-<p>Notice that we got a couple messages from R in addition to our plot, one about “non-finite values” and another about “picking a better value.” When R says, “non-finite values,” it is talking about people for whom their age was not recorded. This is an unfortunate thing about real data: sometimes it has missing pieces. This didn’t stop R from making the plot we wanted using the non-missing data, but R wanted to warn us just in case.</p>
+<p>Well that’s not very helpful! R didn’t even bother to show us the whole thing. Though we can see something interesting: Age is measured in years, and for passengers at least one year old, their age is a whole number. But there are fractions of years for passengers less than a year old—these ages were <em>measured</em> in months rather than years.</p>
+<p>The main point is that even though age can be measured in a more or less fine-grained manner, age is effectively <em>continuous</em>. We don’t want to know how many passengers were exactly 31.3491 years old, we want to get a general sense of the <em>distribution</em> of ages across passengers.</p>
+<p>We can construct a summary that conveys this information using a <strong>histogram</strong>. A histogram is very similar to a bar chart; the difference is that bar charts are for categorical variables while histograms are for numerical variables. The code below constructs a histogram to summarize passenger age:</p>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">titanic</span> <span class="op">%&gt;%</span>
+  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">age</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">geom_histogram</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-info"><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre class="Rout text-warning"><code>## Warning: Removed 263 rows containing non-finite values (stat_bin).</code></pre>
+<div class="inline-figure"><img src="01-exploring_files/figure-html/unnamed-chunk-18-1.png" width="672"></div>
+<p>The resulting histogram shows a bunch of bars, the height of which indicate the number of passengers within a particular age range. Notice that we got a couple messages from R in addition to our plot, one about “non-finite values” and another about “picking a better value.” When R says, “non-finite values,” it is talking about people for whom their age was not recorded. This is an unfortunate thing about real data: sometimes it has missing pieces. This didn’t stop R from making the plot we wanted using the non-missing data, but R wanted to warn us just in case.</p>
 <p>The message about “picking a better value” is important: When you make a histogram, you are looking at how many things fall within a particular range of values, say, between ages 4 and 8. How do you decide those ranges? If you don’t tell R how to do that, it will decide on its own to divide up the range of values into 30 “bins,” each of which corresponds to a range of values that is the same width. This is usually not what we want.</p>
-<p>Instead, we should decide how big or small we want those ranges to be. The following code tells R to make our histogram using “bins” that are 5 years “wide” (0-4, 5-9, 10-14, etc.):</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="lab1.html#cb23-1" aria-hidden="true" tabindex="-1"></a>titanic <span class="sc">%&gt;%</span></span>
-<span id="cb23-2"><a href="lab1.html#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> age)) <span class="sc">+</span></span>
-<span id="cb23-3"><a href="lab1.html#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>)</span></code></pre></div>
-<pre><code>## Warning: Removed 263 rows containing non-finite values (stat_bin).</code></pre>
-<p><img src="01-exploring_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
-<p>Here’s what it looks like when we set the width of each bin to be just 1 year<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a>:</p>
-<pre><code>## Warning: Removed 263 rows containing non-finite values (stat_bin).</code></pre>
-<p><img src="01-exploring_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
-<p>And here’s what it looks like when we set the width of each bin to be 10 years<a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a>:</p>
-<pre><code>## Warning: Removed 263 rows containing non-finite values (stat_bin).</code></pre>
-<p><img src="01-exploring_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
-<p>Choosing different bin widths makes the resulting histogram look very different. There is not necessarily one “right” answer, so being able to quickly see the differences between different histograms makes R very handy.<a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a></p>
+<p>Instead, we should decide how big or small we want those ranges to be. The following code tells R to make our histogram using “bins” that are 10 years “wide” (0-9, 10-19, etc.):</p>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">titanic</span> <span class="op">%&gt;%</span>
+  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">age</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">geom_histogram</span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-warning"><code>## Warning: Removed 263 rows containing non-finite values (stat_bin).</code></pre>
+<div class="inline-figure"><img src="01-exploring_files/figure-html/unnamed-chunk-19-1.png" width="672"></div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-6" class="exercise"><strong>Exercise 1.6  </strong></span>Try making several different histograms of passenger age with different bin widths by changing the number “10” in the code above to different values. Find a bin width that you believe gives the best visual summary of the age distribution across passengers. Why do you think the bin width you chose is best? Attach a copy of the histogram you made using your favorite bin width.</p>
+</div>
 </div>
 </div>
 <div id="wrap-up" class="section level2" number="1.4">
-<h2><span class="header-section-number">1.4</span> Wrap-up</h2>
+<h2>
+<span class="header-section-number">1.4</span> Wrap-up<a class="anchor" aria-label="anchor" href="#wrap-up"><i class="fas fa-link"></i></a>
+</h2>
 <p>Today we began our adventure by using RStudio to explore some data. We saw how to look at data and how to summarize it in various helpful ways. These were frequency tables, bar charts, and histograms.</p>
 <ul>
 <li>Frequency tables count the number of times a particular value of a particular variable (or combination of values across multiple variables) occurs in our dataset.</li>
-<li>Bar charts display those counts in a visual form that makes it easier to compare frequencies.</li>
-<li>Histograms let us visually summarize counts of continuous variables by putting them in “bins,” the width of which we need to decide.</li>
+<li>We can use the counts in frequency tables to calculate proportions, which are better at conveying relative values.</li>
+<li>Bar charts display counts of categorical variables in a visual form that makes it easier to compare them.</li>
+<li>Histograms let us visually summarize counts of numerical variables by putting them in “bins,” the width of which we need to decide.</li>
+</ul>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="index.html">Overview</a></div>
+<div class="next"><a href="references.html">References</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#lab1"><span class="header-section-number">1</span> Exploring Data with R</a></li>
+<li>
+<a class="nav-link" href="#r-and-rstudio"><span class="header-section-number">1.1</span> R and RStudio</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#installation-on-your-own-computer"><span class="header-section-number">1.1.1</span> Installation on your own computer</a></li>
+<li><a class="nav-link" href="#running-r-in-a-browser"><span class="header-section-number">1.1.2</span> Running R in a browser</a></li>
+<li><a class="nav-link" href="#required-packages"><span class="header-section-number">1.1.3</span> Required packages</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#meet-your-data"><span class="header-section-number">1.2</span> Meet your data</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#load-the-data"><span class="header-section-number">1.2.1</span> Load the data</a></li>
+<li><a class="nav-link" href="#check-out-the-variables"><span class="header-section-number">1.2.2</span> Check out the variables</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#answering-questions-with-data"><span class="header-section-number">1.3</span> Answering questions with data</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#frequency-tables"><span class="header-section-number">1.3.1</span> Frequency tables</a></li>
+<li><a class="nav-link" href="#proportions"><span class="header-section-number">1.3.2</span> Proportions</a></li>
+<li><a class="nav-link" href="#bar-charts"><span class="header-section-number">1.3.3</span> Bar charts</a></li>
+<li><a class="nav-link" href="#histograms"><span class="header-section-number">1.3.4</span> Histograms</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#wrap-up"><span class="header-section-number">1.4</span> Wrap-up</a></li>
 </ul>
 
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/gregcox7/StatLabs/blob/master/01-exploring.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/gregcox7/StatLabs/edit/master/01-exploring.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
 </div>
+    </nav>
 </div>
-<div class="footnotes">
-<hr />
-<ol start="1">
-<li id="fn1"><p>For each variable in the dataset, say whether it is a) Discrete or Continuous; b) what scale it is measured on (nominal, ordinal, interval, or ratio); and c) what you think it means based on the name of the variable and/or what values it takes.<a href="lab1.html#fnref1" class="footnote-back">↩︎</a></p></li>
-<li id="fn2"><p>What code did you write to make a frequency table for number of people of each class who did or did not survive?<a href="lab1.html#fnref2" class="footnote-back">↩︎</a></p></li>
-<li id="fn3"><p>Were there more people in third class than first class? For each of the three classes, is the number of survivors more than the number who died?<a href="lab1.html#fnref3" class="footnote-back">↩︎</a></p></li>
-<li id="fn4"><p>What R code would produce this frequency table?<a href="lab1.html#fnref4" class="footnote-back">↩︎</a></p></li>
-<li id="fn5"><p>What about the bar chart conveys the same information as the frequency table? In other words, what is the visual aspect of the bar chart that represents the numbers in the table?<a href="lab1.html#fnref5" class="footnote-back">↩︎</a></p></li>
-<li id="fn6"><p>Compare the code we used to make a histogram to what we used to make a bar chart above. What is different between them?<a href="lab1.html#fnref6" class="footnote-back">↩︎</a></p></li>
-<li id="fn7"><p>What code would produce this plot?<a href="lab1.html#fnref7" class="footnote-back">↩︎</a></p></li>
-<li id="fn8"><p>What code would produce this plot?<a href="lab1.html#fnref8" class="footnote-back">↩︎</a></p></li>
-<li id="fn9"><p>What bin width do you think makes the best histogram for passenger ages? Why? Do you think different bin widths might be better in different circumstances?<a href="lab1.html#fnref9" class="footnote-back">↩︎</a></p></li>
-</ol>
-</div>
-            </section>
 
-          </div>
-        </div>
-      </div>
-<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="lab2.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
-    </div>
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2021-08-25.</p>
   </div>
-<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
-<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
-<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
-<script>
-gitbook.require(["gitbook"], function(gitbook) {
-gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": null,
-"text": null
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": ["APSY210 Labs.pdf", "APSY210 Labs.epub"],
-"toc": {
-"collapse": "subsection"
-}
-});
-});
-</script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
@@ -744,5 +428,4 @@ gitbook.start({
   })();
 </script>
 </body>
-
 </html>

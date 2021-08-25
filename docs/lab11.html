@@ -1,504 +1,123 @@
 <!DOCTYPE html>
-<html lang="" xml:lang="">
+<html lang="en">
 <head>
-
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Lab 11 Linear Regression | Labs</title>
-  <meta name="description" content="Laboratory exercises for APSY210." />
-  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
-
-  <meta property="og:title" content="Lab 11 Linear Regression | Labs" />
-  <meta property="og:type" content="book" />
-  
-  
-  <meta property="og:description" content="Laboratory exercises for APSY210." />
-  
-
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Lab 11 Linear Regression | Labs" />
-  
-  <meta name="twitter:description" content="Laboratory exercises for APSY210." />
-  
-
-<meta name="author" content="Greg Cox" />
-
-
-<meta name="date" content="2021-05-06" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  
-  
-<link rel="prev" href="lab10.html"/>
-<link rel="next" href="lab12.html"/>
-<script src="libs/header-attrs-2.7/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
-<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
-
-
-
-
-
-
-
-
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
-
-
-<style type="text/css">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-</style>
-
-<style type="text/css">
-/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}
-</style>
-
-<link rel="stylesheet" href="style.css" type="text/css" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Lab 11 Linear Regression | Labs</title>
+<meta name="author" content="Greg Cox">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.9/header-attrs.js"></script><script src="libs/jquery-3.5.1/jquery-3.5.1.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.5.3/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.5.3/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.4/tabs.js"></script><script src="libs/bs3compat-0.2.4/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/mark.min.js"></script><!-- CSS --><link rel="stylesheet" href="css/ims-style.css">
 </head>
+<body data-spy="scroll" data-target="#toc">
 
-<body>
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
 
-
-
-  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
-
-    <div class="book-summary">
-      <nav role="navigation">
-
-<ul class="summary">
-<li><a href="./">Labs</a></li>
-
-<li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
-<li class="chapter" data-level="1" data-path="lab1.html"><a href="lab1.html"><i class="fa fa-check"></i><b>1</b> Exploring Data with R</a>
-<ul>
-<li class="chapter" data-level="1.1" data-path="lab1.html"><a href="lab1.html#r-and-rstudio"><i class="fa fa-check"></i><b>1.1</b> R and RStudio</a></li>
-<li class="chapter" data-level="1.2" data-path="lab1.html"><a href="lab1.html#meet-your-data"><i class="fa fa-check"></i><b>1.2</b> Meet your data</a>
-<ul>
-<li class="chapter" data-level="1.2.1" data-path="lab1.html"><a href="lab1.html#check-out-the-variables"><i class="fa fa-check"></i><b>1.2.1</b> Check out the variables</a></li>
-</ul></li>
-<li class="chapter" data-level="1.3" data-path="lab1.html"><a href="lab1.html#answering-questions-with-data"><i class="fa fa-check"></i><b>1.3</b> Answering questions with data</a>
-<ul>
-<li class="chapter" data-level="1.3.1" data-path="lab1.html"><a href="lab1.html#frequency-tables"><i class="fa fa-check"></i><b>1.3.1</b> Frequency tables</a></li>
-<li class="chapter" data-level="1.3.2" data-path="lab1.html"><a href="lab1.html#bar-charts"><i class="fa fa-check"></i><b>1.3.2</b> Bar charts</a></li>
-<li class="chapter" data-level="1.3.3" data-path="lab1.html"><a href="lab1.html#histograms"><i class="fa fa-check"></i><b>1.3.3</b> Histograms</a></li>
-</ul></li>
-<li class="chapter" data-level="1.4" data-path="lab1.html"><a href="lab1.html#wrap-up"><i class="fa fa-check"></i><b>1.4</b> Wrap-up</a></li>
-</ul></li>
-<li class="chapter" data-level="2" data-path="lab2.html"><a href="lab2.html"><i class="fa fa-check"></i><b>2</b> Central tendency and variability</a>
-<ul>
-<li class="chapter" data-level="2.1" data-path="lab2.html"><a href="lab2.html#simple-cases"><i class="fa fa-check"></i><b>2.1</b> Simple cases</a>
-<ul>
-<li class="chapter" data-level="2.1.1" data-path="lab2.html"><a href="lab2.html#central-tendency"><i class="fa fa-check"></i><b>2.1.1</b> Central tendency</a></li>
-<li class="chapter" data-level="2.1.2" data-path="lab2.html"><a href="lab2.html#variability"><i class="fa fa-check"></i><b>2.1.2</b> Variability</a></li>
-</ul></li>
-<li class="chapter" data-level="2.2" data-path="lab2.html"><a href="lab2.html#dealing-with-real-data"><i class="fa fa-check"></i><b>2.2</b> Dealing with real data</a>
-<ul>
-<li class="chapter" data-level="2.2.1" data-path="lab2.html"><a href="lab2.html#setting-the-stage"><i class="fa fa-check"></i><b>2.2.1</b> Setting the stage</a></li>
-<li class="chapter" data-level="2.2.2" data-path="lab2.html"><a href="lab2.html#getting-the-data"><i class="fa fa-check"></i><b>2.2.2</b> Getting the data</a></li>
-<li class="chapter" data-level="2.2.3" data-path="lab2.html"><a href="lab2.html#visualizing-the-data"><i class="fa fa-check"></i><b>2.2.3</b> Visualizing the data</a></li>
-<li class="chapter" data-level="2.2.4" data-path="lab2.html"><a href="lab2.html#central-tendency-1"><i class="fa fa-check"></i><b>2.2.4</b> Central tendency</a></li>
-<li class="chapter" data-level="2.2.5" data-path="lab2.html"><a href="lab2.html#variability-1"><i class="fa fa-check"></i><b>2.2.5</b> Variability</a></li>
-</ul></li>
-<li class="chapter" data-level="2.3" data-path="lab2.html"><a href="lab2.html#wrap-up-1"><i class="fa fa-check"></i><b>2.3</b> Wrap-up</a></li>
-</ul></li>
-<li class="chapter" data-level="3" data-path="lab3.html"><a href="lab3.html"><i class="fa fa-check"></i><b>3</b> Scatterplots and correlation</a>
-<ul>
-<li class="chapter" data-level="3.1" data-path="lab3.html"><a href="lab3.html#calculating-the-pearson-correlation-coefficient"><i class="fa fa-check"></i><b>3.1</b> Calculating the Pearson correlation coefficient</a>
-<ul>
-<li class="chapter" data-level="3.1.1" data-path="lab3.html"><a href="lab3.html#from-x-to-z"><i class="fa fa-check"></i><b>3.1.1</b> From <span class="math inline">\(X\)</span> to <span class="math inline">\(z\)</span></a></li>
-<li class="chapter" data-level="3.1.2" data-path="lab3.html"><a href="lab3.html#finding-the-correlation-coefficient"><i class="fa fa-check"></i><b>3.1.2</b> Finding the correlation coefficient</a></li>
-<li class="chapter" data-level="3.1.3" data-path="lab3.html"><a href="lab3.html#dealing-with-real-data-1"><i class="fa fa-check"></i><b>3.1.3</b> Dealing with real data</a></li>
-</ul></li>
-<li class="chapter" data-level="3.2" data-path="lab3.html"><a href="lab3.html#scatterplots"><i class="fa fa-check"></i><b>3.2</b> Scatterplots</a>
-<ul>
-<li class="chapter" data-level="3.2.1" data-path="lab3.html"><a href="lab3.html#making-a-group-of-scatterplots"><i class="fa fa-check"></i><b>3.2.1</b> Making a group of scatterplots</a></li>
-</ul></li>
-<li class="chapter" data-level="3.3" data-path="lab3.html"><a href="lab3.html#some-bigger-data"><i class="fa fa-check"></i><b>3.3</b> Some bigger data</a>
-<ul>
-<li class="chapter" data-level="3.3.1" data-path="lab3.html"><a href="lab3.html#import-the-data"><i class="fa fa-check"></i><b>3.3.1</b> Import the data</a></li>
-<li class="chapter" data-level="3.3.2" data-path="lab3.html"><a href="lab3.html#experience-and-memory-for-barbies"><i class="fa fa-check"></i><b>3.3.2</b> Experience and memory for Barbies</a></li>
-<li class="chapter" data-level="3.3.3" data-path="lab3.html"><a href="lab3.html#experience-and-memory-for-transformers"><i class="fa fa-check"></i><b>3.3.3</b> Experience and memory for Transformers</a></li>
-<li class="chapter" data-level="3.3.4" data-path="lab3.html"><a href="lab3.html#experience-with-barbies-and-memory-for-transformers"><i class="fa fa-check"></i><b>3.3.4</b> Experience with Barbies and memory for Transformers</a></li>
-</ul></li>
-<li class="chapter" data-level="3.4" data-path="lab3.html"><a href="lab3.html#wrap-up-2"><i class="fa fa-check"></i><b>3.4</b> Wrap-up</a></li>
-</ul></li>
-<li class="chapter" data-level="4" data-path="lab4.html"><a href="lab4.html"><i class="fa fa-check"></i><b>4</b> Probability and simulation</a>
-<ul>
-<li class="chapter" data-level="4.1" data-path="lab4.html"><a href="lab4.html#simulation-basics"><i class="fa fa-check"></i><b>4.1</b> Simulation basics</a>
-<ul>
-<li class="chapter" data-level="4.1.1" data-path="lab4.html"><a href="lab4.html#single-coin-flips"><i class="fa fa-check"></i><b>4.1.1</b> Single coin flips</a></li>
-<li class="chapter" data-level="4.1.2" data-path="lab4.html"><a href="lab4.html#a-sequence-of-coin-flips"><i class="fa fa-check"></i><b>4.1.2</b> A sequence of coin flips</a></li>
-<li class="chapter" data-level="4.1.3" data-path="lab4.html"><a href="lab4.html#remembering-simulated-results"><i class="fa fa-check"></i><b>4.1.3</b> Remembering simulated results</a></li>
-<li class="chapter" data-level="4.1.4" data-path="lab4.html"><a href="lab4.html#turning-simulated-results-into-data"><i class="fa fa-check"></i><b>4.1.4</b> Turning simulated results into “data”</a></li>
-</ul></li>
-<li class="chapter" data-level="4.2" data-path="lab4.html"><a href="lab4.html#estimating-probabilities"><i class="fa fa-check"></i><b>4.2</b> Estimating probabilities</a>
-<ul>
-<li class="chapter" data-level="4.2.1" data-path="lab4.html"><a href="lab4.html#frequency-table"><i class="fa fa-check"></i><b>4.2.1</b> Frequency table</a></li>
-<li class="chapter" data-level="4.2.2" data-path="lab4.html"><a href="lab4.html#estimating-probability-from-frequency"><i class="fa fa-check"></i><b>4.2.2</b> Estimating probability from frequency</a></li>
-</ul></li>
-<li class="chapter" data-level="4.3" data-path="lab4.html"><a href="lab4.html#more-advanced-simulation-tricks"><i class="fa fa-check"></i><b>4.3</b> More advanced simulation tricks</a>
-<ul>
-<li class="chapter" data-level="4.3.1" data-path="lab4.html"><a href="lab4.html#making-up-our-own-probabilities"><i class="fa fa-check"></i><b>4.3.1</b> Making up our own probabilities</a></li>
-<li class="chapter" data-level="4.3.2" data-path="lab4.html"><a href="lab4.html#expanding-the-sample-space"><i class="fa fa-check"></i><b>4.3.2</b> Expanding the sample space</a></li>
-</ul></li>
-<li class="chapter" data-level="4.4" data-path="lab4.html"><a href="lab4.html#estimating-probabilities-in-data"><i class="fa fa-check"></i><b>4.4</b> Estimating probabilities in data</a>
-<ul>
-<li class="chapter" data-level="4.4.1" data-path="lab4.html"><a href="lab4.html#what-was-kobes-hit-rate"><i class="fa fa-check"></i><b>4.4.1</b> What was Kobe’s hit rate?</a></li>
-<li class="chapter" data-level="4.4.2" data-path="lab4.html"><a href="lab4.html#a-simulated-kobe"><i class="fa fa-check"></i><b>4.4.2</b> A simulated Kobe</a></li>
-<li class="chapter" data-level="4.4.3" data-path="lab4.html"><a href="lab4.html#hot--or-cold-handed"><i class="fa fa-check"></i><b>4.4.3</b> Hot- or cold-handed</a></li>
-</ul></li>
-<li class="chapter" data-level="4.5" data-path="lab4.html"><a href="lab4.html#wrap-up-3"><i class="fa fa-check"></i><b>4.5</b> Wrap-up</a></li>
-</ul></li>
-<li class="chapter" data-level="5" data-path="lab5.html"><a href="lab5.html"><i class="fa fa-check"></i><b>5</b> Models: The Binomial and the Normal</a>
-<ul>
-<li class="chapter" data-level="5.1" data-path="lab5.html"><a href="lab5.html#the-binomial-distribution-in-r"><i class="fa fa-check"></i><b>5.1</b> The binomial distribution in R</a>
-<ul>
-<li class="chapter" data-level="5.1.1" data-path="lab5.html"><a href="lab5.html#translating-from-sample-to-rbinom"><i class="fa fa-check"></i><b>5.1.1</b> Translating from <code>sample</code> to <code>rbinom</code></a></li>
-<li class="chapter" data-level="5.1.2" data-path="lab5.html"><a href="lab5.html#outcomes-from-different-sequences-of-events"><i class="fa fa-check"></i><b>5.1.2</b> Outcomes from different sequences of events</a></li>
-<li class="chapter" data-level="5.1.3" data-path="lab5.html"><a href="lab5.html#simulated-relative-frequencies-and-probabilities"><i class="fa fa-check"></i><b>5.1.3</b> Simulated relative frequencies and probabilities</a></li>
-<li class="chapter" data-level="5.1.4" data-path="lab5.html"><a href="lab5.html#calculating-binomial-probabilities-directly"><i class="fa fa-check"></i><b>5.1.4</b> Calculating binomial probabilities directly</a></li>
-<li class="chapter" data-level="5.1.5" data-path="lab5.html"><a href="lab5.html#cumulative-probabilities-with-the-binomial"><i class="fa fa-check"></i><b>5.1.5</b> Cumulative probabilities with the binomial</a></li>
-<li class="chapter" data-level="5.1.6" data-path="lab5.html"><a href="lab5.html#summary-of-rs-built-in-binomial-distribution"><i class="fa fa-check"></i><b>5.1.6</b> Summary of R’s built-in binomial distribution</a></li>
-</ul></li>
-<li class="chapter" data-level="5.2" data-path="lab5.html"><a href="lab5.html#the-normal-distribution-in-r"><i class="fa fa-check"></i><b>5.2</b> The normal distribution in R</a>
-<ul>
-<li class="chapter" data-level="5.2.1" data-path="lab5.html"><a href="lab5.html#simulating-outcomes-from-a-normal-distribution"><i class="fa fa-check"></i><b>5.2.1</b> Simulating outcomes from a normal distribution</a></li>
-<li class="chapter" data-level="5.2.2" data-path="lab5.html"><a href="lab5.html#the-mean-and-standard-deviation"><i class="fa fa-check"></i><b>5.2.2</b> The mean and standard deviation</a></li>
-<li class="chapter" data-level="5.2.3" data-path="lab5.html"><a href="lab5.html#calculating-probabilities-with-the-normal-distribution"><i class="fa fa-check"></i><b>5.2.3</b> Calculating probabilities with the normal distribution</a></li>
-<li class="chapter" data-level="5.2.4" data-path="lab5.html"><a href="lab5.html#finding-quantiles-with-the-normal-distribution"><i class="fa fa-check"></i><b>5.2.4</b> Finding “quantiles” with the normal distribution</a></li>
-<li class="chapter" data-level="5.2.5" data-path="lab5.html"><a href="lab5.html#summary-of-rs-built-in-normal-distribution"><i class="fa fa-check"></i><b>5.2.5</b> Summary of R’s built-in normal distribution</a></li>
-</ul></li>
-<li class="chapter" data-level="5.3" data-path="lab5.html"><a href="lab5.html#wrap-up-4"><i class="fa fa-check"></i><b>5.3</b> Wrap-up</a></li>
-</ul></li>
-<li class="chapter" data-level="6" data-path="lab6.html"><a href="lab6.html"><i class="fa fa-check"></i><b>6</b> Sampling and the Central Limit Theorem: The Wisdom of Large Samples</a>
-<ul>
-<li class="chapter" data-level="6.1" data-path="lab6.html"><a href="lab6.html#before-we-begin"><i class="fa fa-check"></i><b>6.1</b> Before we begin…</a></li>
-<li class="chapter" data-level="6.2" data-path="lab6.html"><a href="lab6.html#heights"><i class="fa fa-check"></i><b>6.2</b> Heights</a>
-<ul>
-<li class="chapter" data-level="6.2.1" data-path="lab6.html"><a href="lab6.html#a-simulated-population"><i class="fa fa-check"></i><b>6.2.1</b> A simulated population</a></li>
-<li class="chapter" data-level="6.2.2" data-path="lab6.html"><a href="lab6.html#a-sample-from-our-simulated-population"><i class="fa fa-check"></i><b>6.2.2</b> A sample from our simulated population</a></li>
-<li class="chapter" data-level="6.2.3" data-path="lab6.html"><a href="lab6.html#many-samples-from-our-simulated-population"><i class="fa fa-check"></i><b>6.2.3</b> Many samples from our simulated population</a></li>
-<li class="chapter" data-level="6.2.4" data-path="lab6.html"><a href="lab6.html#many-larger-samples"><i class="fa fa-check"></i><b>6.2.4</b> Many larger samples</a></li>
-<li class="chapter" data-level="6.2.5" data-path="lab6.html"><a href="lab6.html#the-probability-of-being-wrong"><i class="fa fa-check"></i><b>6.2.5</b> The probability of being wrong</a></li>
-<li class="chapter" data-level="6.2.6" data-path="lab6.html"><a href="lab6.html#biased-samples"><i class="fa fa-check"></i><b>6.2.6</b> Biased samples</a></li>
-</ul></li>
-<li class="chapter" data-level="6.3" data-path="lab6.html"><a href="lab6.html#the-wisdom-of-the-crowd"><i class="fa fa-check"></i><b>6.3</b> The Wisdom of the Crowd</a>
-<ul>
-<li class="chapter" data-level="6.3.1" data-path="lab6.html"><a href="lab6.html#grab-the-data"><i class="fa fa-check"></i><b>6.3.1</b> Grab the data</a></li>
-<li class="chapter" data-level="6.3.2" data-path="lab6.html"><a href="lab6.html#make-a-histogram"><i class="fa fa-check"></i><b>6.3.2</b> Make a histogram</a></li>
-<li class="chapter" data-level="6.3.3" data-path="lab6.html"><a href="lab6.html#what-is-the-right-answer"><i class="fa fa-check"></i><b>6.3.3</b> What is the right answer?</a></li>
-<li class="chapter" data-level="6.3.4" data-path="lab6.html"><a href="lab6.html#what-about-the-average"><i class="fa fa-check"></i><b>6.3.4</b> What about the average?</a></li>
-</ul></li>
-<li class="chapter" data-level="6.4" data-path="lab6.html"><a href="lab6.html#wrap-up-5"><i class="fa fa-check"></i><b>6.4</b> Wrap-up</a></li>
-</ul></li>
-<li class="chapter" data-level="7" data-path="lab7.html"><a href="lab7.html"><i class="fa fa-check"></i><b>7</b> Confidence intervals and hypothesis testing</a>
-<ul>
-<li class="chapter" data-level="7.1" data-path="lab7.html"><a href="lab7.html#be-still-my-artificial-heart"><i class="fa fa-check"></i><b>7.1</b> Be still, my (artificial) heart</a>
-<ul>
-<li class="chapter" data-level="7.1.1" data-path="lab7.html"><a href="lab7.html#constructing-confidence-intervals"><i class="fa fa-check"></i><b>7.1.1</b> Constructing confidence intervals</a></li>
-<li class="chapter" data-level="7.1.2" data-path="lab7.html"><a href="lab7.html#compare-our-sample-to-the-confidence-interval"><i class="fa fa-check"></i><b>7.1.2</b> Compare our sample to the confidence interval</a></li>
-</ul></li>
-<li class="chapter" data-level="7.2" data-path="lab7.html"><a href="lab7.html#lay-your-weary-head-to-rest"><i class="fa fa-check"></i><b>7.2</b> Lay your weary head to rest</a>
-<ul>
-<li class="chapter" data-level="7.2.1" data-path="lab7.html"><a href="lab7.html#figure-out-what-parameters-would-describe-the-population-if-the-hypothesis-were-true-1"><i class="fa fa-check"></i><b>7.2.1</b> Figure out what parameters would describe the population <em>if</em> the hypothesis were true</a></li>
-<li class="chapter" data-level="7.2.2" data-path="lab7.html"><a href="lab7.html#decide-how-wide-to-make-our-confidence-interval-1"><i class="fa fa-check"></i><b>7.2.2</b> Decide how wide to make our confidence interval</a></li>
-<li class="chapter" data-level="7.2.3" data-path="lab7.html"><a href="lab7.html#figure-out-the-upper-and-lower-boundaries-of-the-confidence-interval-1"><i class="fa fa-check"></i><b>7.2.3</b> Figure out the upper and lower boundaries of the confidence interval</a></li>
-<li class="chapter" data-level="7.2.4" data-path="lab7.html"><a href="lab7.html#compare-our-sample-to-the-confidence-interval-1"><i class="fa fa-check"></i><b>7.2.4</b> Compare our sample to the confidence interval</a></li>
-</ul></li>
-<li class="chapter" data-level="7.3" data-path="lab7.html"><a href="lab7.html#wrap-up-6"><i class="fa fa-check"></i><b>7.3</b> Wrap-up</a></li>
-</ul></li>
-<li class="chapter" data-level="8" data-path="lab8.html"><a href="lab8.html"><i class="fa fa-check"></i><b>8</b> Statistical Power</a>
-<ul>
-<li class="chapter" data-level="8.1" data-path="lab8.html"><a href="lab8.html#the-power-of-positive-feedback"><i class="fa fa-check"></i><b>8.1</b> The Power of Positive Feedback</a>
-<ul>
-<li class="chapter" data-level="8.1.1" data-path="lab8.html"><a href="lab8.html#look-at-the-data"><i class="fa fa-check"></i><b>8.1.1</b> Look at the data</a></li>
-<li class="chapter" data-level="8.1.2" data-path="lab8.html"><a href="lab8.html#specifying-our-null-hypothesis"><i class="fa fa-check"></i><b>8.1.2</b> Specifying our null hypothesis</a></li>
-<li class="chapter" data-level="8.1.3" data-path="lab8.html"><a href="lab8.html#building-our-confidence-interval"><i class="fa fa-check"></i><b>8.1.3</b> Building our confidence interval</a></li>
-<li class="chapter" data-level="8.1.4" data-path="lab8.html"><a href="lab8.html#visualizing-the-distribution-of-sample-means"><i class="fa fa-check"></i><b>8.1.4</b> Visualizing the distribution of sample means</a></li>
-</ul></li>
-<li class="chapter" data-level="8.2" data-path="lab8.html"><a href="lab8.html#achieving-a-target-level-of-power"><i class="fa fa-check"></i><b>8.2</b> Achieving a target level of power</a>
-<ul>
-<li class="chapter" data-level="8.2.1" data-path="lab8.html"><a href="lab8.html#effect-size"><i class="fa fa-check"></i><b>8.2.1</b> Effect size</a></li>
-<li class="chapter" data-level="8.2.2" data-path="lab8.html"><a href="lab8.html#sample-size"><i class="fa fa-check"></i><b>8.2.2</b> Sample size</a></li>
-<li class="chapter" data-level="8.2.3" data-path="lab8.html"><a href="lab8.html#alpha-level"><i class="fa fa-check"></i><b>8.2.3</b> Alpha level</a></li>
-<li class="chapter" data-level="8.2.4" data-path="lab8.html"><a href="lab8.html#population-standard-deviation"><i class="fa fa-check"></i><b>8.2.4</b> Population standard deviation</a></li>
-</ul></li>
-<li class="chapter" data-level="8.3" data-path="lab8.html"><a href="lab8.html#using-data-to-test-the-null-hypothesis"><i class="fa fa-check"></i><b>8.3</b> Using data to test the null hypothesis</a>
-<ul>
-<li class="chapter" data-level="8.3.1" data-path="lab8.html"><a href="lab8.html#confidence-interval-limits"><i class="fa fa-check"></i><b>8.3.1</b> Confidence interval limits</a></li>
-<li class="chapter" data-level="8.3.2" data-path="lab8.html"><a href="lab8.html#the-p-value"><i class="fa fa-check"></i><b>8.3.2</b> The <span class="math inline">\(p\)</span> value</a></li>
-<li class="chapter" data-level="8.3.3" data-path="lab8.html"><a href="lab8.html#estimated-power"><i class="fa fa-check"></i><b>8.3.3</b> Estimated power</a></li>
-</ul></li>
-<li class="chapter" data-level="8.4" data-path="lab8.html"><a href="lab8.html#wrap-up-7"><i class="fa fa-check"></i><b>8.4</b> Wrap-up</a></li>
-</ul></li>
-<li class="chapter" data-level="9" data-path="lab9.html"><a href="lab9.html"><i class="fa fa-check"></i><b>9</b> <span class="math inline">\(t\)</span> tests</a>
-<ul>
-<li class="chapter" data-level="9.1" data-path="lab9.html"><a href="lab9.html#t-tests-on-tiny-data"><i class="fa fa-check"></i><b>9.1</b> <span class="math inline">\(t\)</span> tests on tiny data</a>
-<ul>
-<li class="chapter" data-level="9.1.1" data-path="lab9.html"><a href="lab9.html#one-sample-t-test"><i class="fa fa-check"></i><b>9.1.1</b> One-sample <span class="math inline">\(t\)</span> test</a></li>
-<li class="chapter" data-level="9.1.2" data-path="lab9.html"><a href="lab9.html#paired-sample-t-test"><i class="fa fa-check"></i><b>9.1.2</b> Paired sample <span class="math inline">\(t\)</span> test</a></li>
-<li class="chapter" data-level="9.1.3" data-path="lab9.html"><a href="lab9.html#independent-samples-t-test"><i class="fa fa-check"></i><b>9.1.3</b> Independent samples <span class="math inline">\(t\)</span> test</a></li>
-</ul></li>
-<li class="chapter" data-level="9.2" data-path="lab9.html"><a href="lab9.html#t-tests-with-real-data"><i class="fa fa-check"></i><b>9.2</b> <span class="math inline">\(t\)</span> tests with real data</a>
-<ul>
-<li class="chapter" data-level="9.2.1" data-path="lab9.html"><a href="lab9.html#check-out-the-data"><i class="fa fa-check"></i><b>9.2.1</b> Check out the data</a></li>
-<li class="chapter" data-level="9.2.2" data-path="lab9.html"><a href="lab9.html#did-infants-show-any-prior-bias"><i class="fa fa-check"></i><b>9.2.2</b> Did infants show any prior bias?</a></li>
-<li class="chapter" data-level="9.2.3" data-path="lab9.html"><a href="lab9.html#do-infants-prefer-to-look-at-the-singer-of-the-familiar-melody"><i class="fa fa-check"></i><b>9.2.3</b> Do infants prefer to look at the singer of the familiar melody?</a></li>
-<li class="chapter" data-level="9.2.4" data-path="lab9.html"><a href="lab9.html#did-their-preferences-change"><i class="fa fa-check"></i><b>9.2.4</b> Did their preferences change?</a></li>
-</ul></li>
-<li class="chapter" data-level="9.3" data-path="lab9.html"><a href="lab9.html#wrap-up-8"><i class="fa fa-check"></i><b>9.3</b> Wrap-up</a></li>
-</ul></li>
-<li class="chapter" data-level="10" data-path="lab10.html"><a href="lab10.html"><i class="fa fa-check"></i><b>10</b> Comparing Independent Samples</a>
-<ul>
-<li class="chapter" data-level="10.1" data-path="lab10.html"><a href="lab10.html#get-to-know-the-data"><i class="fa fa-check"></i><b>10.1</b> Get to know the data</a>
-<ul>
-<li class="chapter" data-level="10.1.1" data-path="lab10.html"><a href="lab10.html#batting-average"><i class="fa fa-check"></i><b>10.1.1</b> Batting average</a></li>
-<li class="chapter" data-level="10.1.2" data-path="lab10.html"><a href="lab10.html#batting-average-by-position"><i class="fa fa-check"></i><b>10.1.2</b> Batting average by position</a></li>
-</ul></li>
-<li class="chapter" data-level="10.2" data-path="lab10.html"><a href="lab10.html#independent-samples-t-test-infield-vs.-outfield"><i class="fa fa-check"></i><b>10.2</b> Independent samples <span class="math inline">\(t\)</span> test: Infield vs. Outfield</a>
-<ul>
-<li class="chapter" data-level="10.2.1" data-path="lab10.html"><a href="lab10.html#filtering-data-with-filter"><i class="fa fa-check"></i><b>10.2.1</b> Filtering data with <code>filter</code></a></li>
-<li class="chapter" data-level="10.2.2" data-path="lab10.html"><a href="lab10.html#doing-the-t-test"><i class="fa fa-check"></i><b>10.2.2</b> Doing the <span class="math inline">\(t\)</span> test</a></li>
-</ul></li>
-<li class="chapter" data-level="10.3" data-path="lab10.html"><a href="lab10.html#analysis-of-variance-batting-average-by-position"><i class="fa fa-check"></i><b>10.3</b> Analysis of Variance: Batting average by position</a>
-<ul>
-<li class="chapter" data-level="10.3.1" data-path="lab10.html"><a href="lab10.html#doing-the-anova"><i class="fa fa-check"></i><b>10.3.1</b> Doing the ANOVA</a></li>
-<li class="chapter" data-level="10.3.2" data-path="lab10.html"><a href="lab10.html#post-hoc-pairwise-tests"><i class="fa fa-check"></i><b>10.3.2</b> Post hoc pairwise tests</a></li>
-<li class="chapter" data-level="10.3.3" data-path="lab10.html"><a href="lab10.html#no-pitchers-allowed"><i class="fa fa-check"></i><b>10.3.3</b> No Pitchers Allowed?</a></li>
-<li class="chapter" data-level="10.3.4" data-path="lab10.html"><a href="lab10.html#slugging-average"><i class="fa fa-check"></i><b>10.3.4</b> Slugging Average</a></li>
-</ul></li>
-<li class="chapter" data-level="10.4" data-path="lab10.html"><a href="lab10.html#wrap-up-9"><i class="fa fa-check"></i><b>10.4</b> Wrap-up</a></li>
-</ul></li>
-<li class="chapter" data-level="11" data-path="lab11.html"><a href="lab11.html"><i class="fa fa-check"></i><b>11</b> Linear Regression</a>
-<ul>
-<li class="chapter" data-level="11.1" data-path="lab11.html"><a href="lab11.html#inference-the-answer-is-blowing-in-the-wind"><i class="fa fa-check"></i><b>11.1</b> Inference: The Answer is Blowing in the Wind</a>
-<ul>
-<li class="chapter" data-level="11.1.1" data-path="lab11.html"><a href="lab11.html#what-a-line-is-made-of-slopes-and-intercepts"><i class="fa fa-check"></i><b>11.1.1</b> What a line is made of: Slopes and Intercepts</a></li>
-<li class="chapter" data-level="11.1.2" data-path="lab11.html"><a href="lab11.html#adding-our-own-line"><i class="fa fa-check"></i><b>11.1.2</b> Adding our own line</a></li>
-<li class="chapter" data-level="11.1.3" data-path="lab11.html"><a href="lab11.html#adding-the-best-fitting-line"><i class="fa fa-check"></i><b>11.1.3</b> Adding the best-fitting line</a></li>
-<li class="chapter" data-level="11.1.4" data-path="lab11.html"><a href="lab11.html#getting-the-slope-and-intercept"><i class="fa fa-check"></i><b>11.1.4</b> Getting the slope and intercept</a></li>
-<li class="chapter" data-level="11.1.5" data-path="lab11.html"><a href="lab11.html#how-much-variance-does-wind-speed-explain"><i class="fa fa-check"></i><b>11.1.5</b> How much variance does wind speed explain?</a></li>
-<li class="chapter" data-level="11.1.6" data-path="lab11.html"><a href="lab11.html#making-predictions"><i class="fa fa-check"></i><b>11.1.6</b> Making Predictions</a></li>
-<li class="chapter" data-level="11.1.7" data-path="lab11.html"><a href="lab11.html#hypothesis-testing"><i class="fa fa-check"></i><b>11.1.7</b> Hypothesis Testing</a></li>
-</ul></li>
-<li class="chapter" data-level="11.2" data-path="lab11.html"><a href="lab11.html#making-decisions-housing-prices"><i class="fa fa-check"></i><b>11.2</b> Making Decisions: Housing Prices</a>
-<ul>
-<li class="chapter" data-level="11.2.1" data-path="lab11.html"><a href="lab11.html#visualize-the-data"><i class="fa fa-check"></i><b>11.2.1</b> Visualize the data</a></li>
-<li class="chapter" data-level="11.2.2" data-path="lab11.html"><a href="lab11.html#find-the-best-fitting-line"><i class="fa fa-check"></i><b>11.2.2</b> Find the best-fitting line</a></li>
-<li class="chapter" data-level="11.2.3" data-path="lab11.html"><a href="lab11.html#make-predictions"><i class="fa fa-check"></i><b>11.2.3</b> Make Predictions</a></li>
-</ul></li>
-<li class="chapter" data-level="11.3" data-path="lab11.html"><a href="lab11.html#wrap-up-10"><i class="fa fa-check"></i><b>11.3</b> Wrap-up</a></li>
-</ul></li>
-<li class="chapter" data-level="12" data-path="lab12.html"><a href="lab12.html"><i class="fa fa-check"></i><b>12</b> Exploring Data with R, Part II</a>
-<ul>
-<li class="chapter" data-level="12.1" data-path="lab12.html"><a href="lab12.html#meet-your-data-1"><i class="fa fa-check"></i><b>12.1</b> Meet your data</a></li>
-<li class="chapter" data-level="12.2" data-path="lab12.html"><a href="lab12.html#answering-questions-with-data-1"><i class="fa fa-check"></i><b>12.2</b> Answering questions with data</a>
-<ul>
-<li class="chapter" data-level="12.2.1" data-path="lab12.html"><a href="lab12.html#does-ridership-vary-by-season"><i class="fa fa-check"></i><b>12.2.1</b> Does ridership vary by season?</a></li>
-<li class="chapter" data-level="12.2.2" data-path="lab12.html"><a href="lab12.html#does-ridership-vary-with-actual-temperature"><i class="fa fa-check"></i><b>12.2.2</b> Does ridership vary with actual temperature?</a></li>
-<li class="chapter" data-level="12.2.3" data-path="lab12.html"><a href="lab12.html#does-ridership-vary-with-perceived-temperature"><i class="fa fa-check"></i><b>12.2.3</b> Does ridership vary with <em>perceived</em> temperature?</a></li>
-<li class="chapter" data-level="12.2.4" data-path="lab12.html"><a href="lab12.html#whats-up-with-those-weird-days"><i class="fa fa-check"></i><b>12.2.4</b> What’s up with those weird days?</a></li>
-</ul></li>
-<li class="chapter" data-level="12.3" data-path="lab12.html"><a href="lab12.html#wrap-up-11"><i class="fa fa-check"></i><b>12.3</b> Wrap-up</a></li>
-</ul></li>
-<li class="appendix"><span><b>Appendix</b></span></li>
-<li class="chapter" data-level="A" data-path="coderef.html"><a href="coderef.html"><i class="fa fa-check"></i><b>A</b> Distributions</a>
-<ul>
-<li class="chapter" data-level="A.1" data-path="coderef.html"><a href="coderef.html#binomial-distribution"><i class="fa fa-check"></i><b>A.1</b> Binomial distribution</a>
-<ul>
-<li class="chapter" data-level="A.1.1" data-path="coderef.html"><a href="coderef.html#probability-of-observing-an-outcome-exactly-equal-to-a-given-value"><i class="fa fa-check"></i><b>A.1.1</b> Probability of observing an outcome exactly equal to a given value</a></li>
-<li class="chapter" data-level="A.1.2" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-less-than-or-equal-to-a-given-value"><i class="fa fa-check"></i><b>A.1.2</b> Probability of observing a value less than or equal to a given value</a></li>
-<li class="chapter" data-level="A.1.3" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-greater-than-a-given-value"><i class="fa fa-check"></i><b>A.1.3</b> Probability of observing a value greater than a given value</a></li>
-<li class="chapter" data-level="A.1.4" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-inside-an-interval-between-an-upper-and-lower-value"><i class="fa fa-check"></i><b>A.1.4</b> Probability of observing a value inside an interval between an upper and lower value</a></li>
-<li class="chapter" data-level="A.1.5" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-outside-an-interval-between-an-upper-and-lower-value"><i class="fa fa-check"></i><b>A.1.5</b> Probability of observing a value outside an interval between an upper and lower value</a></li>
-<li class="chapter" data-level="A.1.6" data-path="coderef.html"><a href="coderef.html#the-value-for-which-there-is-a-given-probability-of-observing-an-outcome-less-than-or-equal-to-that-value"><i class="fa fa-check"></i><b>A.1.6</b> The value for which there is a given probability of observing an outcome less than or equal to that value</a></li>
-<li class="chapter" data-level="A.1.7" data-path="coderef.html"><a href="coderef.html#testing-a-null-hypothesis"><i class="fa fa-check"></i><b>A.1.7</b> Testing a null hypothesis</a></li>
-</ul></li>
-<li class="chapter" data-level="A.2" data-path="coderef.html"><a href="coderef.html#normal-distribution"><i class="fa fa-check"></i><b>A.2</b> Normal distribution</a>
-<ul>
-<li class="chapter" data-level="A.2.1" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-less-than-or-equal-to-a-given-value-1"><i class="fa fa-check"></i><b>A.2.1</b> Probability of observing a value less than or equal to a given value</a></li>
-<li class="chapter" data-level="A.2.2" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-greater-than-a-given-value-1"><i class="fa fa-check"></i><b>A.2.2</b> Probability of observing a value greater than a given value</a></li>
-<li class="chapter" data-level="A.2.3" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-inside-an-interval-between-an-upper-and-lower-value-1"><i class="fa fa-check"></i><b>A.2.3</b> Probability of observing a value inside an interval between an upper and lower value</a></li>
-<li class="chapter" data-level="A.2.4" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-outside-an-interval-between-an-upper-and-lower-value-1"><i class="fa fa-check"></i><b>A.2.4</b> Probability of observing a value outside an interval between an upper and lower value</a></li>
-<li class="chapter" data-level="A.2.5" data-path="coderef.html"><a href="coderef.html#the-value-for-which-there-is-a-given-probability-of-observing-an-outcome-less-than-or-equal-to-that-value-1"><i class="fa fa-check"></i><b>A.2.5</b> The value for which there is a given probability of observing an outcome less than or equal to that value</a></li>
-<li class="chapter" data-level="A.2.6" data-path="coderef.html"><a href="coderef.html#testing-a-null-hypothesis-1"><i class="fa fa-check"></i><b>A.2.6</b> Testing a null hypothesis</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="B" data-path="hyptests.html"><a href="hyptests.html"><i class="fa fa-check"></i><b>B</b> Hypothesis Tests</a>
-<ul>
-<li class="chapter" data-level="B.1" data-path="hyptests.html"><a href="hyptests.html#t-tests"><i class="fa fa-check"></i><b>B.1</b> <span class="math inline">\(t\)</span> tests</a>
-<ul>
-<li class="chapter" data-level="B.1.1" data-path="hyptests.html"><a href="hyptests.html#doing-them-step-by-step"><i class="fa fa-check"></i><b>B.1.1</b> Doing them step-by-step</a></li>
-<li class="chapter" data-level="B.1.2" data-path="hyptests.html"><a href="hyptests.html#doing-them-all-at-once"><i class="fa fa-check"></i><b>B.1.2</b> Doing them all at once</a></li>
-</ul></li>
-<li class="chapter" data-level="B.2" data-path="hyptests.html"><a href="hyptests.html#analysis-of-variance-anova"><i class="fa fa-check"></i><b>B.2</b> Analysis of Variance (ANOVA)</a>
-<ul>
-<li class="chapter" data-level="B.2.1" data-path="hyptests.html"><a href="hyptests.html#anova"><i class="fa fa-check"></i><b>B.2.1</b> ANOVA</a></li>
-<li class="chapter" data-level="B.2.2" data-path="hyptests.html"><a href="hyptests.html#post-hoc-pairwise-t-tests"><i class="fa fa-check"></i><b>B.2.2</b> Post hoc pairwise <span class="math inline">\(t\)</span> tests</a></li>
-</ul></li>
-<li class="chapter" data-level="B.3" data-path="hyptests.html"><a href="hyptests.html#linear-regression"><i class="fa fa-check"></i><b>B.3</b> Linear Regression</a></li>
-</ul></li>
-<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
-<li class="divider"></li>
-<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
-
-</ul>
-
-      </nav>
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Labs</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
     </div>
 
-    <div class="book-body">
-      <div class="body-inner">
-        <div class="book-header" role="navigation">
-          <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Labs</a>
-          </h1>
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Overview</a></li>
+<li><a class="" href="lab1.html"><span class="header-section-number">1</span> Exploring Data with R</a></li>
+<li><a class="" href="lab2.html"><span class="header-section-number">2</span> Central tendency and variability</a></li>
+<li><a class="" href="lab3.html"><span class="header-section-number">3</span> Scatterplots and correlation</a></li>
+<li><a class="" href="lab4.html"><span class="header-section-number">4</span> Probability and simulation</a></li>
+<li><a class="" href="lab5.html"><span class="header-section-number">5</span> Models: The Binomial and the Normal</a></li>
+<li><a class="" href="lab6.html"><span class="header-section-number">6</span> Sampling and the Central Limit Theorem: The Wisdom of Large Samples</a></li>
+<li><a class="" href="lab7.html"><span class="header-section-number">7</span> Confidence intervals and hypothesis testing</a></li>
+<li><a class="" href="lab8.html"><span class="header-section-number">8</span> Statistical Power</a></li>
+<li><a class="" href="lab9.html"><span class="header-section-number">9</span> \(t\) tests</a></li>
+<li><a class="" href="lab10.html"><span class="header-section-number">10</span> Comparing Independent Samples</a></li>
+<li><a class="active" href="lab11.html"><span class="header-section-number">11</span> Linear Regression</a></li>
+<li><a class="" href="lab12.html"><span class="header-section-number">12</span> Exploring Data with R, Part II</a></li>
+<li class="book-part">Appendix</li>
+<li><a class="" href="coderef.html"><span class="header-section-number">A</span> Distributions</a></li>
+<li><a class="" href="hyptests.html"><span class="header-section-number">B</span> Hypothesis Tests</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/gregcox7/StatLabs">View book source <i class="fab fa-github"></i></a></p>
         </div>
-
-        <div class="page-wrapper" tabindex="-1" role="main">
-          <div class="page-inner">
-
-            <section class="normal" id="section-">
-<div id="lab11" class="section level1" number="11">
-<h1><span class="header-section-number">Lab 11</span> Linear Regression</h1>
-<p><img src="img/colin_jackson.jpg" width="100%" /></p>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="lab11" class="section level1" number="11">
+<h1>
+<span class="header-section-number">Lab 11</span> Linear Regression<a class="anchor" aria-label="anchor" href="#lab11"><i class="fas fa-link"></i></a>
+</h1>
+<div class="inline-figure"><img src="img/colin_jackson.jpg" width="100%"></div>
 <p>In this session, we will get acquainted with <strong>linear regression</strong>. This is an important technique in statistics because it allows us both to make <em>inferences</em> about relationships between variables, and because it allows us to make <em>predictions</em> that help us make decisions. We will work through how to do linear regression in R to do both inference and prediction.</p>
 <p>Before we begin, make sure to grab our usual <code>tidyverse</code> package from R’s library, as well as the <code>magrittr</code> package:</p>
-<div class="sourceCode" id="cb448"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb448-1"><a href="lab11.html#cb448-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
-<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
-<pre><code>## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
-## ✓ tibble  3.1.1     ✓ dplyr   1.0.5
+<div class="sourceCode" id="cb466"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></code></pre></div>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+## ✓ tibble  3.1.3     ✓ dplyr   1.0.5
 ## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
-## ✓ readr   1.4.0     ✓ forcats 0.5.1</code></pre>
+## ✓ readr   2.0.0     ✓ forcats 0.5.1</code></pre>
 <pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
-<div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb452-1"><a href="lab11.html#cb452-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span></code></pre></div>
+<div class="sourceCode" id="cb470"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span></code></pre></div>
 <pre><code>## 
-## Attaching package: &#39;magrittr&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## Attaching package: 'magrittr'</code></pre>
+<pre><code>## The following object is masked from 'package:purrr':
 ## 
 ##     set_names</code></pre>
-<pre><code>## The following object is masked from &#39;package:tidyr&#39;:
+<pre><code>## The following object is masked from 'package:tidyr':
 ## 
 ##     extract</code></pre>
 <div id="inference-the-answer-is-blowing-in-the-wind" class="section level2" number="11.1">
-<h2><span class="header-section-number">11.1</span> Inference: The Answer is Blowing in the Wind</h2>
+<h2>
+<span class="header-section-number">11.1</span> Inference: The Answer is Blowing in the Wind<a class="anchor" aria-label="anchor" href="#inference-the-answer-is-blowing-in-the-wind"><i class="fas fa-link"></i></a>
+</h2>
 <p>We will get ourselves acquainted with linear regression in R using a small dataset. This dataset records the finishing times for <a href="https://en.wikipedia.org/wiki/Colin_Jackson">Colin Jackson</a> in the 110 meter hurdles that he competed in during the year 1990.</p>
 <p>Load the data into R:</p>
-<div class="sourceCode" id="cb456"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb456-1"><a href="lab11.html#cb456-1" aria-hidden="true" tabindex="-1"></a>wind_run_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/wind_run.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb474"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">wind_run_data</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/wind_run.csv"</span><span class="op">)</span></code></pre></div>
+<pre><code>## Rows: 21 Columns: 2</code></pre>
+<pre><code>## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: ","
+## dbl (2): Wind, Time</code></pre>
 <pre><code>## 
-## ── Column specification ────────────────────────────────────────────────────────
-## cols(
-##   Wind = col_double(),
-##   Time = col_double()
-## )</code></pre>
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <p>There are 21 total races, for which we have two variables observed:</p>
 <ul>
-<li><strong>Time</strong>: The amount of time Colin took to complete the race (in seconds).</li>
-<li><strong>Wind</strong>: The speed of the wind (in meters per second) during the race. Negative values are head winds, so they were blowing in Colin’s face. Positive values are tail winds, so they were blowing on his back.</li>
+<li>
+<strong>Time</strong>: The amount of time Colin took to complete the race (in seconds).</li>
+<li>
+<strong>Wind</strong>: The speed of the wind (in meters per second) during the race. Negative values are head winds, so they were blowing in Colin’s face. Positive values are tail winds, so they were blowing on his back.</li>
 </ul>
 <p>Let’s first make a <strong>scatterplot</strong> to see whether there might be a relationship between wind speed and finishing time:</p>
-<div class="sourceCode" id="cb458"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb458-1"><a href="lab11.html#cb458-1" aria-hidden="true" tabindex="-1"></a>wind_run_data <span class="sc">%&gt;%</span></span>
-<span id="cb458-2"><a href="lab11.html#cb458-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Wind, <span class="at">y =</span> Time)) <span class="sc">+</span></span>
-<span id="cb458-3"><a href="lab11.html#cb458-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>()</span></code></pre></div>
-<p><img src="11-regression_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<div class="sourceCode" id="cb478"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">wind_run_data</span> <span class="op">%&gt;%</span>
+    <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">Wind</span>, y <span class="op">=</span> <span class="va">Time</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="11-regression_files/figure-html/unnamed-chunk-4-1.png" width="672"></div>
 
 <div class="exercise">
 <p><span id="exr:ex1101" class="exercise"><strong>Exercise 11.1  </strong></span>Based on the scatterplot, how would you describe the relationship between wind speed and finishing time? Might they be correlated? If so, is the correlation positive or negative? Strong or weak?</p>
 </div>
 <div id="what-a-line-is-made-of-slopes-and-intercepts" class="section level3" number="11.1.1">
-<h3><span class="header-section-number">11.1.1</span> What a line is made of: Slopes and Intercepts</h3>
+<h3>
+<span class="header-section-number">11.1.1</span> What a line is made of: Slopes and Intercepts<a class="anchor" aria-label="anchor" href="#what-a-line-is-made-of-slopes-and-intercepts"><i class="fas fa-link"></i></a>
+</h3>
 <p>Let’s see how well we can describe the relationship between wind speed and finishing time using a line. As we’ve seen, the equation for a line looks like this:</p>
 <p><span class="math display">\[
 \hat{Y} = b_1 X + b_0
@@ -506,40 +125,48 @@ div.csl-indent {
 <p>where <span class="math inline">\(b_1\)</span> is the <em>slope</em> and <span class="math inline">\(b_0\)</span> is the <em>intercept</em>. The slope describes how the response variable is predicted to change when the explanatory variable is increased by one. The intercept describes what the predicted response is when the explanatory variable equals zero.</p>
 </div>
 <div id="adding-our-own-line" class="section level3" number="11.1.2">
-<h3><span class="header-section-number">11.1.2</span> Adding our own line</h3>
+<h3>
+<span class="header-section-number">11.1.2</span> Adding our own line<a class="anchor" aria-label="anchor" href="#adding-our-own-line"><i class="fas fa-link"></i></a>
+</h3>
 <p>The following chunk of code adds a line to our scatterplot using <code>geom_abline</code>. Notice that we need to specify the <code>slope</code> and <code>intercept</code> of the line that we want to add.</p>
-<div class="sourceCode" id="cb459"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb459-1"><a href="lab11.html#cb459-1" aria-hidden="true" tabindex="-1"></a>wind_run_data <span class="sc">%&gt;%</span></span>
-<span id="cb459-2"><a href="lab11.html#cb459-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Wind, <span class="at">y =</span> Time)) <span class="sc">+</span></span>
-<span id="cb459-3"><a href="lab11.html#cb459-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb459-4"><a href="lab11.html#cb459-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="fl">0.1</span>, <span class="at">intercept =</span> <span class="fl">13.3</span>)</span></code></pre></div>
-<p><img src="11-regression_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<div class="sourceCode" id="cb479"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">wind_run_data</span> <span class="op">%&gt;%</span>
+    <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">Wind</span>, y <span class="op">=</span> <span class="va">Time</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">geom_abline</span><span class="op">(</span>slope <span class="op">=</span> <span class="fl">0.1</span>, intercept <span class="op">=</span> <span class="fl">13.3</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="11-regression_files/figure-html/unnamed-chunk-5-1.png" width="672"></div>
 
 <div class="exercise">
 <p><span id="exr:ex1102" class="exercise"><strong>Exercise 11.2  </strong></span>Play around with the code above by changing the values for <code>slope</code> and <code>intercept</code> in the last line. See if you can find values for the slope and intercept that make the line run close to the points in the plot. What values did you find?</p>
 </div>
 </div>
 <div id="adding-the-best-fitting-line" class="section level3" number="11.1.3">
-<h3><span class="header-section-number">11.1.3</span> Adding the best-fitting line</h3>
+<h3>
+<span class="header-section-number">11.1.3</span> Adding the best-fitting line<a class="anchor" aria-label="anchor" href="#adding-the-best-fitting-line"><i class="fas fa-link"></i></a>
+</h3>
 <p>Now that we’ve got a reasonable guess about the best-fitting line, let’s see how close we were. We can add the best fitting line to our plot by adding another line to our code. This line is <code>stat_smooth(method = "lm")</code>. <code>stat_smooth</code> can draw various kinds of lines on top of our data that are meant to “smooth” the raw data and make it easier to see any important relationships there might be. In the parentheses, we tell R that the <code>method</code> it should use is <code>lm</code>, where <code>lm</code> stands for “linear model” (we’ve already seen <code>lm</code> and we’ll see it again shortly).</p>
 <p>Note that you’ll need to fill in the blanks in the code below with the slope and intercept you found in the last section.</p>
-<div class="sourceCode" id="cb460"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb460-1"><a href="lab11.html#cb460-1" aria-hidden="true" tabindex="-1"></a>wind_run_data <span class="sc">%&gt;%</span></span>
-<span id="cb460-2"><a href="lab11.html#cb460-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Wind, <span class="at">y =</span> Time)) <span class="sc">+</span></span>
-<span id="cb460-3"><a href="lab11.html#cb460-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb460-4"><a href="lab11.html#cb460-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_abline</span>(<span class="at">slope =</span> ___, <span class="at">intercept =</span> ___) <span class="sc">+</span></span>
-<span id="cb460-5"><a href="lab11.html#cb460-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">&#39;lm&#39;</span>)</span></code></pre></div>
-<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<p><img src="11-regression_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<div class="sourceCode" id="cb480"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb480-1"><a href="lab11.html#cb480-1" aria-hidden="true" tabindex="-1"></a>wind_run_data <span class="sc">%&gt;%</span></span>
+<span id="cb480-2"><a href="lab11.html#cb480-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Wind, <span class="at">y =</span> Time)) <span class="sc">+</span></span>
+<span id="cb480-3"><a href="lab11.html#cb480-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb480-4"><a href="lab11.html#cb480-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_abline</span>(<span class="at">slope =</span> ___, <span class="at">intercept =</span> ___) <span class="sc">+</span></span>
+<span id="cb480-5"><a href="lab11.html#cb480-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">'lm'</span>)</span></code></pre></div>
+<pre><code>## `geom_smooth()` using formula 'y ~ x'</code></pre>
+<div class="inline-figure"><img src="11-regression_files/figure-html/unnamed-chunk-7-1.png" width="672"></div>
 
 <div class="exercise">
 <p><span id="exr:ex1103" class="exercise"><strong>Exercise 11.3  </strong></span>How close were you to the best-fitting line in blue? Notice that in addition to the line, there is a shaded region around the line. This shaded region is a visual representation of our <strong>uncertainty</strong> regarding the slope and intercept of the best-fitting line. Why do you think this region is narrower near the middle and gets wider toward the edges?</p>
 </div>
 </div>
 <div id="getting-the-slope-and-intercept" class="section level3" number="11.1.4">
-<h3><span class="header-section-number">11.1.4</span> Getting the slope and intercept</h3>
+<h3>
+<span class="header-section-number">11.1.4</span> Getting the slope and intercept<a class="anchor" aria-label="anchor" href="#getting-the-slope-and-intercept"><i class="fas fa-link"></i></a>
+</h3>
 <p>Being able to see the best-fitting line is great, but it doesn’t let us <em>do</em> anything with it. For example, if we want to predict Colin’s time under a stronger headwind (e.g., -4 m/s), we’ll need to actually know what <span class="math inline">\(b_1\)</span> and <span class="math inline">\(b_0\)</span> are.</p>
 <p>In class, we saw how to calculate the coefficients of the best-fitting line using the descriptive statistics for our data. Now, we will use R to do this. The code is shockingly similar to what we used for ANOVA last time:</p>
-<div class="sourceCode" id="cb462"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb462-1"><a href="lab11.html#cb462-1" aria-hidden="true" tabindex="-1"></a>wind_run_data <span class="sc">%$%</span></span>
-<span id="cb462-2"><a href="lab11.html#cb462-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(Time <span class="sc">~</span> Wind)</span></code></pre></div>
+<div class="sourceCode" id="cb482"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">wind_run_data</span> <span class="op">%$%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Time</span> <span class="op">~</span> <span class="va">Wind</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = Time ~ Wind)
@@ -550,16 +177,20 @@ div.csl-indent {
 <p>Once again, the first line tells R what data we are working with. The second line tells R that we want to find the best-fitting “linear model” (<code>lm</code>) that describes the linear relationship between our response variable (<code>Time</code>) and our explanatory variable (<code>Wind</code>). R then told us the coefficients of that line. R labels the slope with the same name as the explanatory variable (<code>Wind</code> in this case).</p>
 </div>
 <div id="how-much-variance-does-wind-speed-explain" class="section level3" number="11.1.5">
-<h3><span class="header-section-number">11.1.5</span> How much variance does wind speed explain?</h3>
+<h3>
+<span class="header-section-number">11.1.5</span> How much variance does wind speed explain?<a class="anchor" aria-label="anchor" href="#how-much-variance-does-wind-speed-explain"><i class="fas fa-link"></i></a>
+</h3>
 <p>As we’ve seen, we can use <span class="math inline">\(r^2\)</span> to describe how much of the variability in Colin’s finishing time can be explained by wind speed. Because <span class="math inline">\(r^2\)</span> is the square of the Pearson correlation coefficient, we can find it by first calculating the correlation between finishing time and wind speed:</p>
-<div class="sourceCode" id="cb464"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb464-1"><a href="lab11.html#cb464-1" aria-hidden="true" tabindex="-1"></a>wind_run_data <span class="sc">%&gt;%</span></span>
-<span id="cb464-2"><a href="lab11.html#cb464-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">r =</span> <span class="fu">cor</span>(Time, Wind))</span></code></pre></div>
-<pre><code>## # A tibble: 1 x 1
+<div class="sourceCode" id="cb484"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">wind_run_data</span> <span class="op">%&gt;%</span>
+    <span class="fu">summarize</span><span class="op">(</span>r <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">Time</span>, <span class="va">Wind</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre><code>## # A tibble: 1 × 1
 ##        r
 ##    &lt;dbl&gt;
 ## 1 -0.635</code></pre>
 <p>If we take the square of that result, we’ll get the value of <span class="math inline">\(r^2\)</span>:</p>
-<div class="sourceCode" id="cb466"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb466-1"><a href="lab11.html#cb466-1" aria-hidden="true" tabindex="-1"></a>(<span class="sc">-</span><span class="fl">0.635</span>)<span class="sc">^</span><span class="dv">2</span></span></code></pre></div>
+<div class="sourceCode" id="cb486"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="op">(</span><span class="op">-</span><span class="fl">0.635</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span></code></pre></div>
 <pre><code>## [1] 0.403225</code></pre>
 
 <div class="exercise">
@@ -567,11 +198,14 @@ div.csl-indent {
 </div>
 </div>
 <div id="making-predictions" class="section level3" number="11.1.6">
-<h3><span class="header-section-number">11.1.6</span> Making Predictions</h3>
+<h3>
+<span class="header-section-number">11.1.6</span> Making Predictions<a class="anchor" aria-label="anchor" href="#making-predictions"><i class="fas fa-link"></i></a>
+</h3>
 <p>We can now use the linear model to make predictions about how fast Colin will be expected to finish based on different wind speeds. First, let’s see what the model predicts for each of the observed wind speeds:</p>
-<div class="sourceCode" id="cb468"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb468-1"><a href="lab11.html#cb468-1" aria-hidden="true" tabindex="-1"></a>wind_run_data <span class="sc">%$%</span></span>
-<span id="cb468-2"><a href="lab11.html#cb468-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(Time <span class="sc">~</span> Wind) <span class="sc">%&gt;%</span></span>
-<span id="cb468-3"><a href="lab11.html#cb468-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb488"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">wind_run_data</span> <span class="op">%$%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Time</span> <span class="op">~</span> <span class="va">Wind</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code>##        1        2        3        4        5        6        7        8 
 ## 13.56714 13.49100 13.45716 13.44024 13.38947 13.35563 13.35563 13.33871 
 ##        9       10       11       12       13       14       15       16 
@@ -579,9 +213,10 @@ div.csl-indent {
 ##       17       18       19       20       21 
 ## 13.22873 13.22027 13.13567 13.08490 13.07644</code></pre>
 <p>The result is what the model <em>predicts</em> Colin’s finishing time would have been for each race in our dataset. In other words, these are all the <span class="math inline">\(\hat{Y}_i\)</span>’s for each <span class="math inline">\(X_i\)</span> in our data. We can also get the <strong>residuals</strong> for each prediction, to see how far off it was:</p>
-<div class="sourceCode" id="cb470"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb470-1"><a href="lab11.html#cb470-1" aria-hidden="true" tabindex="-1"></a>wind_run_data <span class="sc">%$%</span></span>
-<span id="cb470-2"><a href="lab11.html#cb470-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(Time <span class="sc">~</span> Wind) <span class="sc">%&gt;%</span></span>
-<span id="cb470-3"><a href="lab11.html#cb470-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">residuals</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb490"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">wind_run_data</span> <span class="op">%$%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Time</span> <span class="op">~</span> <span class="va">Wind</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/residuals.html">residuals</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code>##            1            2            3            4            5            6 
 ## -0.037139491  0.139002832 -0.067156136  0.089764380  0.240525929 -0.185633039 
 ##            7            8            9           10           11           12 
@@ -591,11 +226,13 @@ div.csl-indent {
 ##           19           20           21 
 ##  0.084333672  0.055095221  0.043555479</code></pre>
 <p>To make a prediction about a <em>new</em> race, we need to add something to our “predict” line. Specifically, we need to give it “new data” about the Wind speed for each prediction we want to make. This is how we can do this:</p>
-<div class="sourceCode" id="cb472"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb472-1"><a href="lab11.html#cb472-1" aria-hidden="true" tabindex="-1"></a>future_wind <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">Wind =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb492"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">future_wind</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span>Wind <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>The previous line of code created a new dataset called <code>future_wind</code> that contains a single variable called <code>Wind</code> which has 3 values, -1, 0, and 1. We can get Colin’s predicted time for each of these three wind speeds like so:</p>
-<div class="sourceCode" id="cb473"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb473-1"><a href="lab11.html#cb473-1" aria-hidden="true" tabindex="-1"></a>wind_run_data <span class="sc">%$%</span></span>
-<span id="cb473-2"><a href="lab11.html#cb473-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(Time <span class="sc">~</span> Wind) <span class="sc">%&gt;%</span></span>
-<span id="cb473-3"><a href="lab11.html#cb473-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>(<span class="at">newdata =</span> future_wind)</span></code></pre></div>
+<div class="sourceCode" id="cb493"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">wind_run_data</span> <span class="op">%$%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Time</span> <span class="op">~</span> <span class="va">Wind</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span>newdata <span class="op">=</span> <span class="va">future_wind</span><span class="op">)</span></code></pre></div>
 <pre><code>##        1        2        3 
 ## 13.40639 13.32179 13.23719</code></pre>
 
@@ -604,7 +241,9 @@ div.csl-indent {
 </div>
 </div>
 <div id="hypothesis-testing" class="section level3" number="11.1.7">
-<h3><span class="header-section-number">11.1.7</span> Hypothesis Testing</h3>
+<h3>
+<span class="header-section-number">11.1.7</span> Hypothesis Testing<a class="anchor" aria-label="anchor" href="#hypothesis-testing"><i class="fas fa-link"></i></a>
+</h3>
 <p>Based on the plots we made earlier, it certainly looks like there is an approximately linear relationship between Colin’s finishing times and wind speed. But the slope of the best-fitting line is only about -0.08, which seems kind of small. So it is worth asking the <strong>research question</strong>, “is there a relationship between finishing time and wind speed?”</p>
 <p>Let’s use our standard 5-step hypothesis testing procedure to address this question.</p>
 <ol style="list-style-type: decimal">
@@ -620,9 +259,10 @@ div.csl-indent {
 <li><p>Find the <span class="math inline">\(p\)</span> value</p></li>
 </ol>
 <p>These two steps can be done using…the very same code we used for ANOVA! As we saw in class, linear regression and ANOVA can be thought of as addressing the same question, it is just that the explanatory variable in ANOVA is nominal while the explanatory variable in linear regression is interval or ratio. The following code gives us both the <span class="math inline">\(F\)</span> value and the <span class="math inline">\(p\)</span> value:</p>
-<div class="sourceCode" id="cb475"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb475-1"><a href="lab11.html#cb475-1" aria-hidden="true" tabindex="-1"></a>wind_run_data <span class="sc">%$%</span></span>
-<span id="cb475-2"><a href="lab11.html#cb475-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(Time <span class="sc">~</span> Wind) <span class="sc">%&gt;%</span></span>
-<span id="cb475-3"><a href="lab11.html#cb475-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">anova</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb495"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">wind_run_data</span> <span class="op">%$%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Time</span> <span class="op">~</span> <span class="va">Wind</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code>## Analysis of Variance Table
 ## 
 ## Response: Time
@@ -630,74 +270,73 @@ div.csl-indent {
 ## Wind       1 0.31535 0.315350  12.844 0.00198 **
 ## Residuals 19 0.46648 0.024551                   
 ## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p>As you can see, the basic structure of that code and what we used for ANOVA is the same, and the resulting output is nearly identical as well. The difference is in the type of explanatory variable: It is a nominal variable in ANOVA, whereas it is an interval or ratio scale variable in linear regression. The shared basic outline is this:</p>
-<div class="sourceCode" id="cb477"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb477-1"><a href="lab11.html#cb477-1" aria-hidden="true" tabindex="-1"></a>Name_of_Data <span class="sc">%$%</span></span>
-<span id="cb477-2"><a href="lab11.html#cb477-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(Name_of_Response_Variable <span class="sc">~</span> Name_of_Explanatory_Variable) <span class="sc">%&gt;%</span></span>
-<span id="cb477-3"><a href="lab11.html#cb477-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">anova</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb497"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">Name_of_Data</span> <span class="op">%$%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Name_of_Response_Variable</span> <span class="op">~</span> <span class="va">Name_of_Explanatory_Variable</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <ol start="5" style="list-style-type: decimal">
 <li>Decide whether or not to reject the null hypothesis</li>
 </ol>
-
 <div class="exercise">
 <p><span id="exr:ex1106" class="exercise"><strong>Exercise 11.6  </strong></span>Based on the <span class="math inline">\(p\)</span> value reported in the table above, and based on the alpha level we chose in step 2, do we reject the null hypothesis? What does this tell us about the relationship between Colin’s performance and wind speed?</p>
 </div>
 </div>
 </div>
 <div id="making-decisions-housing-prices" class="section level2" number="11.2">
-<h2><span class="header-section-number">11.2</span> Making Decisions: Housing Prices</h2>
+<h2>
+<span class="header-section-number">11.2</span> Making Decisions: Housing Prices<a class="anchor" aria-label="anchor" href="#making-decisions-housing-prices"><i class="fas fa-link"></i></a>
+</h2>
 <p>Linear regression is often helpful when we have to make a decision. Specifically, if we want to make a decision about a response variable—and all we know is an explanatory variable—linear regression allows us to use the relationship between the response and explanatory variables to make a reasonable guess.</p>
 <p>One setting in which these decisions are important is <em>purchasing</em>. The seller needs to decide how much to price what they are selling. The potential buyer needs to know whether they are paying a fair price.</p>
 <p>To see this in action, we will look at housing sale data from the lovely college town of Ames, Iowa.</p>
-<div class="sourceCode" id="cb478"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb478-1"><a href="lab11.html#cb478-1" aria-hidden="true" tabindex="-1"></a>ames <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/ames.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb498"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">ames</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/ames.csv"</span><span class="op">)</span></code></pre></div>
+<pre><code>## Rows: 2930 Columns: 15</code></pre>
+<pre><code>## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: ","
+## chr (11): Street, Alley, Lot.Shape, Land.Contour, Utilities, Lot.Config, Lan...
+## dbl  (4): PID, area, price, Year.Built</code></pre>
 <pre><code>## 
-## ── Column specification ────────────────────────────────────────────────────────
-## cols(
-##   PID = col_double(),
-##   area = col_double(),
-##   price = col_double(),
-##   Street = col_character(),
-##   Alley = col_character(),
-##   Lot.Shape = col_character(),
-##   Land.Contour = col_character(),
-##   Utilities = col_character(),
-##   Lot.Config = col_character(),
-##   Land.Slope = col_character(),
-##   Neighborhood = col_character(),
-##   Year.Built = col_double(),
-##   Foundation = col_character(),
-##   Heating = col_character(),
-##   Electrical = col_character()
-## )</code></pre>
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <p>Although there are a lot of variables in this dataset, there are two that we will focus on:</p>
 <ul>
-<li><strong>area</strong>: The total livable area of the house, in square feet.</li>
-<li><strong>price</strong>: The final price for which the house sold.</li>
+<li>
+<strong>area</strong>: The total livable area of the house, in square feet.</li>
+<li>
+<strong>price</strong>: The final price for which the house sold.</li>
 </ul>
 <div id="visualize-the-data" class="section level3" number="11.2.1">
-<h3><span class="header-section-number">11.2.1</span> Visualize the data</h3>
+<h3>
+<span class="header-section-number">11.2.1</span> Visualize the data<a class="anchor" aria-label="anchor" href="#visualize-the-data"><i class="fas fa-link"></i></a>
+</h3>
 <p>First, let’s make a scatterplot to visualize the relationship between these variables. Fill in the blanks below.</p>
-<div class="sourceCode" id="cb480"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb480-1"><a href="lab11.html#cb480-1" aria-hidden="true" tabindex="-1"></a>ames <span class="sc">%&gt;%</span></span>
-<span id="cb480-2"><a href="lab11.html#cb480-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___, <span class="at">y =</span> ___)) <span class="sc">+</span></span>
-<span id="cb480-3"><a href="lab11.html#cb480-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">___</span>()</span></code></pre></div>
-<p><img src="11-regression_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<div class="sourceCode" id="cb502"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb502-1"><a href="lab11.html#cb502-1" aria-hidden="true" tabindex="-1"></a>ames <span class="sc">%&gt;%</span></span>
+<span id="cb502-2"><a href="lab11.html#cb502-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___, <span class="at">y =</span> ___)) <span class="sc">+</span></span>
+<span id="cb502-3"><a href="lab11.html#cb502-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">___</span>()</span></code></pre></div>
+<div class="inline-figure"><img src="11-regression_files/figure-html/unnamed-chunk-19-1.png" width="672"></div>
 
 <div class="exercise">
 <p><span id="exr:ex1107" class="exercise"><strong>Exercise 11.7  </strong></span>What did you put in the blanks above? How would you describe the relationship between area and price? Are they positively or negatively correlated? Is the correlation strong or weak? Do you notice any “outliers,” points that seem really odd relative to the rest of the data?</p>
 </div>
 </div>
 <div id="find-the-best-fitting-line" class="section level3" number="11.2.2">
-<h3><span class="header-section-number">11.2.2</span> Find the best-fitting line</h3>
+<h3>
+<span class="header-section-number">11.2.2</span> Find the best-fitting line<a class="anchor" aria-label="anchor" href="#find-the-best-fitting-line"><i class="fas fa-link"></i></a>
+</h3>
 <p>Now let’s add the best-fitting line to our scatterplot (again, be sure to fill in the blanks; see the Colin Jackson example above for examples):</p>
-<div class="sourceCode" id="cb481"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb481-1"><a href="lab11.html#cb481-1" aria-hidden="true" tabindex="-1"></a>ames <span class="sc">%&gt;%</span></span>
-<span id="cb481-2"><a href="lab11.html#cb481-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___, <span class="at">y =</span> ___)) <span class="sc">+</span></span>
-<span id="cb481-3"><a href="lab11.html#cb481-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">___</span>() <span class="sc">+</span></span>
-<span id="cb481-4"><a href="lab11.html#cb481-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_smooth</span>(<span class="at">method =</span> ___)</span></code></pre></div>
-<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<p><img src="11-regression_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<div class="sourceCode" id="cb503"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb503-1"><a href="lab11.html#cb503-1" aria-hidden="true" tabindex="-1"></a>ames <span class="sc">%&gt;%</span></span>
+<span id="cb503-2"><a href="lab11.html#cb503-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___, <span class="at">y =</span> ___)) <span class="sc">+</span></span>
+<span id="cb503-3"><a href="lab11.html#cb503-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">___</span>() <span class="sc">+</span></span>
+<span id="cb503-4"><a href="lab11.html#cb503-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_smooth</span>(<span class="at">method =</span> ___)</span></code></pre></div>
+<pre><code>## `geom_smooth()` using formula 'y ~ x'</code></pre>
+<div class="inline-figure"><img src="11-regression_files/figure-html/unnamed-chunk-21-1.png" width="672"></div>
 <p>And let’s get the coefficients (slope and intercept) of the best-fitting line:</p>
-<div class="sourceCode" id="cb483"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb483-1"><a href="lab11.html#cb483-1" aria-hidden="true" tabindex="-1"></a>ames <span class="sc">%$%</span></span>
-<span id="cb483-2"><a href="lab11.html#cb483-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(price <span class="sc">~</span> area)</span></code></pre></div>
+<div class="sourceCode" id="cb505"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">ames</span> <span class="op">%$%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">price</span> <span class="op">~</span> <span class="va">area</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = price ~ area)
@@ -711,16 +350,21 @@ div.csl-indent {
 </div>
 </div>
 <div id="make-predictions" class="section level3" number="11.2.3">
-<h3><span class="header-section-number">11.2.3</span> Make Predictions</h3>
+<h3>
+<span class="header-section-number">11.2.3</span> Make Predictions<a class="anchor" aria-label="anchor" href="#make-predictions"><i class="fas fa-link"></i></a>
+</h3>
 <p>Now let’s put ourselves in different scenarios and see how our linear model can help us make decisions.</p>
 <div id="how-to-set-the-price" class="section level4" number="11.2.3.1">
-<h4><span class="header-section-number">11.2.3.1</span> How to set the price?</h4>
+<h4>
+<span class="header-section-number">11.2.3.1</span> How to set the price?<a class="anchor" aria-label="anchor" href="#how-to-set-the-price"><i class="fas fa-link"></i></a>
+</h4>
 <p>Let’s imagine that there are two houses on the market, one with a 1000 square foot area, one with 2000 square foot area. Let’s first use our linear model to <em>predict</em> the price for these three houses:</p>
-<div class="sourceCode" id="cb485"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb485-1"><a href="lab11.html#cb485-1" aria-hidden="true" tabindex="-1"></a>new_price <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">area =</span> <span class="fu">c</span>(<span class="dv">1000</span>, <span class="dv">2000</span>))</span>
-<span id="cb485-2"><a href="lab11.html#cb485-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb485-3"><a href="lab11.html#cb485-3" aria-hidden="true" tabindex="-1"></a>ames <span class="sc">%$%</span></span>
-<span id="cb485-4"><a href="lab11.html#cb485-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(price <span class="sc">~</span> area) <span class="sc">%&gt;%</span></span>
-<span id="cb485-5"><a href="lab11.html#cb485-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>(<span class="at">newdata =</span> new_price)</span></code></pre></div>
+<div class="sourceCode" id="cb507"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">new_price</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span>area <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1000</span>, <span class="fl">2000</span><span class="op">)</span><span class="op">)</span>
+
+<span class="va">ames</span> <span class="op">%$%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">price</span> <span class="op">~</span> <span class="va">area</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span>newdata <span class="op">=</span> <span class="va">new_price</span><span class="op">)</span></code></pre></div>
 <pre><code>##        1        2 
 ## 124983.6 236677.6</code></pre>
 <p>As above, the first result is the predicted price for the 1000 square foot house and the second result is the predicted price for the 2000 square foot house.</p>
@@ -730,33 +374,31 @@ div.csl-indent {
 </div>
 </div>
 <div id="am-i-getting-a-fair-price" class="section level4" number="11.2.3.2">
-<h4><span class="header-section-number">11.2.3.2</span> Am I getting a fair price?</h4>
+<h4>
+<span class="header-section-number">11.2.3.2</span> Am I getting a fair price?<a class="anchor" aria-label="anchor" href="#am-i-getting-a-fair-price"><i class="fas fa-link"></i></a>
+</h4>
 <p>Now let’s imagine that we are looking to buy a house. We have three different options which are 1200, 2400, and 4500 square feet in size, respectively. The listed prices for each house are</p>
-<table>
-<thead>
-<tr class="header">
+<div class="inline-table"><table class="table table-sm">
+<thead><tr class="header">
 <th>House Area (<span class="math inline">\(X\)</span>)</th>
 <th>1200 sq. ft</th>
 <th>2400 sq. ft</th>
 <th>4500 sq. ft</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
+</tr></thead>
+<tbody><tr class="odd">
 <td>Actual Price (<span class="math inline">\(Y\)</span>)</td>
 <td>$150000.00</td>
 <td>$400000.00</td>
 <td>$250000.00</td>
-</tr>
-</tbody>
-</table>
+</tr></tbody>
+</table></div>
 <p>Let’s use our linear model to predict what the prices for these houses <em>would</em> be. By comparing these predictions to the actual prices, we can see which prices seem fair, which seem excessively high, and which might be a discount.</p>
 <p>First, fill in the blanks to get the predicted price for each of these houses:</p>
-<div class="sourceCode" id="cb487"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb487-1"><a href="lab11.html#cb487-1" aria-hidden="true" tabindex="-1"></a>new_price <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">___ =</span> <span class="fu">c</span>(___))</span>
-<span id="cb487-2"><a href="lab11.html#cb487-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb487-3"><a href="lab11.html#cb487-3" aria-hidden="true" tabindex="-1"></a>ames <span class="sc">%$%</span></span>
-<span id="cb487-4"><a href="lab11.html#cb487-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(price <span class="sc">~</span> area) <span class="sc">%&gt;%</span></span>
-<span id="cb487-5"><a href="lab11.html#cb487-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>(<span class="at">newdata =</span> new_price)</span></code></pre></div>
+<div class="sourceCode" id="cb509"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb509-1"><a href="lab11.html#cb509-1" aria-hidden="true" tabindex="-1"></a>new_price <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">___ =</span> <span class="fu">c</span>(___))</span>
+<span id="cb509-2"><a href="lab11.html#cb509-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb509-3"><a href="lab11.html#cb509-3" aria-hidden="true" tabindex="-1"></a>ames <span class="sc">%$%</span></span>
+<span id="cb509-4"><a href="lab11.html#cb509-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(price <span class="sc">~</span> area) <span class="sc">%&gt;%</span></span>
+<span id="cb509-5"><a href="lab11.html#cb509-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>(<span class="at">newdata =</span> new_price)</span></code></pre></div>
 <pre><code>##        1        2        3 
 ## 147322.4 281355.2 515912.6</code></pre>
 
@@ -767,7 +409,9 @@ div.csl-indent {
 </div>
 </div>
 <div id="wrap-up-10" class="section level2" number="11.3">
-<h2><span class="header-section-number">11.3</span> Wrap-up</h2>
+<h2>
+<span class="header-section-number">11.3</span> Wrap-up<a class="anchor" aria-label="anchor" href="#wrap-up-10"><i class="fas fa-link"></i></a>
+</h2>
 <p>Today, we saw how to do linear regression in R, including</p>
 <ol style="list-style-type: decimal">
 <li>How to visualize the best-fitting line that relates an explanatory variable and a response variable.</li>
@@ -777,68 +421,60 @@ div.csl-indent {
 <li>How to test the null hypothesis that the slope of the line is zero, to draw inferences about whether there is a meaningful relationship between the explanatory and response variables.</li>
 <li>How to use predictions from the linear model to help make decisions.</li>
 </ol>
-
 </div>
 </div>
-            </section>
+  <div class="chapter-nav">
+<div class="prev"><a href="lab10.html"><span class="header-section-number">10</span> Comparing Independent Samples</a></div>
+<div class="next"><a href="lab12.html"><span class="header-section-number">12</span> Exploring Data with R, Part II</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#lab11"><span class="header-section-number">11</span> Linear Regression</a></li>
+<li>
+<a class="nav-link" href="#inference-the-answer-is-blowing-in-the-wind"><span class="header-section-number">11.1</span> Inference: The Answer is Blowing in the Wind</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#what-a-line-is-made-of-slopes-and-intercepts"><span class="header-section-number">11.1.1</span> What a line is made of: Slopes and Intercepts</a></li>
+<li><a class="nav-link" href="#adding-our-own-line"><span class="header-section-number">11.1.2</span> Adding our own line</a></li>
+<li><a class="nav-link" href="#adding-the-best-fitting-line"><span class="header-section-number">11.1.3</span> Adding the best-fitting line</a></li>
+<li><a class="nav-link" href="#getting-the-slope-and-intercept"><span class="header-section-number">11.1.4</span> Getting the slope and intercept</a></li>
+<li><a class="nav-link" href="#how-much-variance-does-wind-speed-explain"><span class="header-section-number">11.1.5</span> How much variance does wind speed explain?</a></li>
+<li><a class="nav-link" href="#making-predictions"><span class="header-section-number">11.1.6</span> Making Predictions</a></li>
+<li><a class="nav-link" href="#hypothesis-testing"><span class="header-section-number">11.1.7</span> Hypothesis Testing</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#making-decisions-housing-prices"><span class="header-section-number">11.2</span> Making Decisions: Housing Prices</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#visualize-the-data"><span class="header-section-number">11.2.1</span> Visualize the data</a></li>
+<li><a class="nav-link" href="#find-the-best-fitting-line"><span class="header-section-number">11.2.2</span> Find the best-fitting line</a></li>
+<li><a class="nav-link" href="#make-predictions"><span class="header-section-number">11.2.3</span> Make Predictions</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#wrap-up-10"><span class="header-section-number">11.3</span> Wrap-up</a></li>
+</ul>
 
-          </div>
-        </div>
-      </div>
-<a href="lab10.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="lab12.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
-    </div>
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/gregcox7/StatLabs/blob/master/11-regression.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/gregcox7/StatLabs/edit/master/11-regression.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2021-08-18.</p>
   </div>
-<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
-<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
-<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
-<script>
-gitbook.require(["gitbook"], function(gitbook) {
-gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": null,
-"text": null
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": ["APSY210 Labs.pdf", "APSY210 Labs.epub"],
-"toc": {
-"collapse": "subsection"
-}
-});
-});
-</script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
@@ -852,5 +488,4 @@ gitbook.start({
   })();
 </script>
 </body>
-
 </html>

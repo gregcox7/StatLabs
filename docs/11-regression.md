@@ -14,14 +14,14 @@ library(tidyverse)
 ```
 
 ```
-## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──
+## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
 ```
 
 ```
-## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
-## ✓ tibble  3.1.1     ✓ dplyr   1.0.5
+## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+## ✓ tibble  3.1.3     ✓ dplyr   1.0.5
 ## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
-## ✓ readr   1.4.0     ✓ forcats 0.5.1
+## ✓ readr   2.0.0     ✓ forcats 0.5.1
 ```
 
 ```
@@ -63,12 +63,19 @@ wind_run_data <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/m
 ```
 
 ```
-## 
+## Rows: 21 Columns: 2
+```
+
+```
 ## ── Column specification ────────────────────────────────────────────────────────
-## cols(
-##   Wind = col_double(),
-##   Time = col_double()
-## )
+## Delimiter: ","
+## dbl (2): Wind, Time
+```
+
+```
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
 There are 21 total races, for which we have two variables observed:
@@ -177,7 +184,7 @@ wind_run_data %>%
 ```
 
 ```
-## # A tibble: 1 x 1
+## # A tibble: 1 × 1
 ##        r
 ##    <dbl>
 ## 1 -0.635
@@ -327,25 +334,20 @@ ames <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/
 ```
 
 ```
-## 
+## Rows: 2930 Columns: 15
+```
+
+```
 ## ── Column specification ────────────────────────────────────────────────────────
-## cols(
-##   PID = col_double(),
-##   area = col_double(),
-##   price = col_double(),
-##   Street = col_character(),
-##   Alley = col_character(),
-##   Lot.Shape = col_character(),
-##   Land.Contour = col_character(),
-##   Utilities = col_character(),
-##   Lot.Config = col_character(),
-##   Land.Slope = col_character(),
-##   Neighborhood = col_character(),
-##   Year.Built = col_double(),
-##   Foundation = col_character(),
-##   Heating = col_character(),
-##   Electrical = col_character()
-## )
+## Delimiter: ","
+## chr (11): Street, Alley, Lot.Shape, Land.Contour, Utilities, Lot.Config, Lan...
+## dbl  (4): PID, area, price, Year.Built
+```
+
+```
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
 Although there are a lot of variables in this dataset, there are two that we will focus on:

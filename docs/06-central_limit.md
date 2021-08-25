@@ -29,14 +29,14 @@ library(tidyverse)
 ```
 
 ```
-## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──
+## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
 ```
 
 ```
-## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
-## ✓ tibble  3.1.1     ✓ dplyr   1.0.5
+## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+## ✓ tibble  3.1.3     ✓ dplyr   1.0.5
 ## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
-## ✓ readr   1.4.0     ✓ forcats 0.5.1
+## ✓ readr   2.0.0     ✓ forcats 0.5.1
 ```
 
 ```
@@ -81,7 +81,7 @@ population %>%
 ```
 
 ```
-## # A tibble: 10 x 1
+## # A tibble: 10 × 1
 ##    height
 ##     <dbl>
 ##  1   55.2
@@ -107,7 +107,7 @@ population %>%
 ```
 
 ```
-## # A tibble: 10 x 1
+## # A tibble: 10 × 1
 ##    height
 ##     <dbl>
 ##  1   64.5
@@ -139,7 +139,7 @@ sample_heights %>%
 ```
 
 ```
-## # A tibble: 1 x 2
+## # A tibble: 1 × 2
 ##       M     S
 ##   <dbl> <dbl>
 ## 1  64.9  5.73
@@ -165,7 +165,7 @@ many_samples_size10
 ```
 
 ```
-## # A tibble: 10,000 x 2
+## # A tibble: 10,000 × 2
 ## # Groups:   replicate [1,000]
 ##    replicate height
 ##        <int>  <dbl>
@@ -194,7 +194,7 @@ many_samples_size10 %>%
 ```
 
 ```
-## # A tibble: 1,000 x 2
+## # A tibble: 1,000 × 2
 ##    replicate     M
 ##        <int> <dbl>
 ##  1         1  64.7
@@ -241,7 +241,7 @@ sample_means_size10 %>%
 ```
 
 ```
-## # A tibble: 1 x 2
+## # A tibble: 1 × 2
 ##      MM   SEM
 ##   <dbl> <dbl>
 ## 1  64.0  1.93
@@ -286,7 +286,7 @@ sample_means_size100 %>%
 ```
 
 ```
-## # A tibble: 1 x 2
+## # A tibble: 1 × 2
 ##      MM   SEM
 ##   <dbl> <dbl>
 ## 1  64.0 0.600
@@ -313,7 +313,7 @@ sample_means_size10 %>%
 ```
 
 ```
-## # A tibble: 2 x 3
+## # A tibble: 2 × 3
 ##   `M > 64`     n     p
 ##   <lgl>    <int> <dbl>
 ## 1 FALSE      497 0.497
@@ -333,7 +333,7 @@ sample_means_size10 %>%
 ```
 
 ```
-## # A tibble: 2 x 3
+## # A tibble: 2 × 3
 ##   `63 < M & M < 65`     n     p
 ##   <lgl>             <int> <dbl>
 ## 1 FALSE               600   0.6
@@ -344,7 +344,7 @@ By comparison, how many of our samples of size 100 had sample means that were wi
 
 
 ```
-## # A tibble: 2 x 3
+## # A tibble: 2 × 3
 ##   `63 < M & M < 65`     n     p
 ##   <lgl>             <int> <dbl>
 ## 1 FALSE                97 0.097
@@ -392,7 +392,7 @@ population %>%
 ```
 
 ```
-## # A tibble: 10 x 1
+## # A tibble: 10 × 1
 ##    height
 ##     <dbl>
 ##  1   65.6
@@ -462,7 +462,7 @@ biased_sample_means_size10 %>%
 ```
 
 ```
-## # A tibble: 1 x 2
+## # A tibble: 1 × 2
 ##      MM   SEM
 ##   <dbl> <dbl>
 ## 1  64.6  1.84
@@ -477,7 +477,7 @@ biased_sample_means_size100 %>%
 ```
 
 ```
-## # A tibble: 1 x 2
+## # A tibble: 1 × 2
 ##      MM   SEM
 ##   <dbl> <dbl>
 ## 1  64.6 0.606
@@ -499,14 +499,20 @@ wisdom_data <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/mai
 ```
 
 ```
-## 
+## Rows: 471 Columns: 4
+```
+
+```
 ## ── Column specification ────────────────────────────────────────────────────────
-## cols(
-##   age = col_double(),
-##   nationality = col_character(),
-##   sex = col_character(),
-##   guess = col_double()
-## )
+## Delimiter: ","
+## chr (2): nationality, sex
+## dbl (2): age, guess
+```
+
+```
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
 Taking a look at the data, each row represents a different person's answer to the question.  The answer they gave is in the "guess" column.  There is also some demographic information about each person (age, sex, nationality).
@@ -541,7 +547,7 @@ wisdom_data %>%
 ```
 
 ```
-## # A tibble: 2 x 3
+## # A tibble: 2 × 3
 ##   `guess < 32.3`     n     p
 ##   <lgl>          <int> <dbl>
 ## 1 FALSE            155 0.329
@@ -559,7 +565,7 @@ wisdom_data %>%
 ```
 
 ```
-## # A tibble: 1 x 1
+## # A tibble: 1 × 1
 ##       M
 ##   <dbl>
 ## 1  27.0
@@ -569,7 +575,7 @@ Huh, not too bad!  The difference between the mean guess and the right answer is
 
 
 ```
-## # A tibble: 2 x 3
+## # A tibble: 2 × 3
 ##   `27 < guess & guess < 37.6`     n     p
 ##   <lgl>                       <int> <dbl>
 ## 1 FALSE                         380 0.807

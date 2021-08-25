@@ -159,14 +159,14 @@ library(tidyverse)
 ```
 
 ```
-## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──
+## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
 ```
 
 ```
-## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
-## ✓ tibble  3.1.1     ✓ dplyr   1.0.5
+## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+## ✓ tibble  3.1.3     ✓ dplyr   1.0.5
 ## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
-## ✓ readr   1.4.0     ✓ forcats 0.5.1
+## ✓ readr   2.0.0     ✓ forcats 0.5.1
 ```
 
 ```
@@ -189,12 +189,19 @@ my_data <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/da
 ```
 
 ```
-## 
+## Rows: 5 Columns: 2
+```
+
+```
 ## ── Column specification ────────────────────────────────────────────────────────
-## cols(
-##   ID = col_double(),
-##   X = col_double()
-## )
+## Delimiter: ","
+## dbl (2): ID, X
+```
+
+```
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
 
@@ -203,7 +210,7 @@ my_data
 ```
 
 ```
-## # A tibble: 5 x 2
+## # A tibble: 5 × 2
 ##      ID     X
 ##   <dbl> <dbl>
 ## 1     1 -0.58
@@ -249,7 +256,7 @@ my_data %>%
 ```
 
 ```
-## # A tibble: 1 x 6
+## # A tibble: 1 × 6
 ##   statistic  t_df p_value alternative lower_ci upper_ci
 ##       <dbl> <dbl>   <dbl> <chr>          <dbl>    <dbl>
 ## 1      1.54     4   0.198 two.sided     -0.451     1.58
@@ -279,13 +286,19 @@ my_data <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/da
 ```
 
 ```
-## 
+## Rows: 5 Columns: 3
+```
+
+```
 ## ── Column specification ────────────────────────────────────────────────────────
-## cols(
-##   ID = col_double(),
-##   X_1 = col_double(),
-##   X_2 = col_double()
-## )
+## Delimiter: ","
+## dbl (3): ID, X_1, X_2
+```
+
+```
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
 
@@ -294,7 +307,7 @@ my_data
 ```
 
 ```
-## # A tibble: 5 x 3
+## # A tibble: 5 × 3
 ##      ID   X_1   X_2
 ##   <dbl> <dbl> <dbl>
 ## 1     1 -0.58 -2.05
@@ -348,7 +361,7 @@ my_data %>%
 ```
 
 ```
-## # A tibble: 1 x 6
+## # A tibble: 1 × 6
 ##   statistic  t_df p_value alternative lower_ci upper_ci
 ##       <dbl> <dbl>   <dbl> <chr>          <dbl>    <dbl>
 ## 1      2.92     4  0.0431 two.sided     0.0645     2.50
@@ -378,13 +391,19 @@ my_data <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/da
 ```
 
 ```
-## 
+## Rows: 11 Columns: 3
+```
+
+```
 ## ── Column specification ────────────────────────────────────────────────────────
-## cols(
-##   ID = col_double(),
-##   Group = col_double(),
-##   X = col_double()
-## )
+## Delimiter: ","
+## dbl (3): ID, Group, X
+```
+
+```
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
 
@@ -393,7 +412,7 @@ my_data
 ```
 
 ```
-## # A tibble: 11 x 3
+## # A tibble: 11 × 3
 ##       ID Group     X
 ##    <dbl> <dbl> <dbl>
 ##  1     1     1 -0.87
@@ -453,7 +472,7 @@ my_data %>%
 ```
 
 ```
-## # A tibble: 1 x 6
+## # A tibble: 1 × 6
 ##   statistic  t_df p_value alternative lower_ci upper_ci
 ##       <dbl> <dbl>   <dbl> <chr>          <dbl>    <dbl>
 ## 1     -1.46     9   0.179 two.sided      -1.28    0.277
@@ -512,13 +531,19 @@ my_data <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/da
 ```
 
 ```
-## 
+## Rows: 15 Columns: 3
+```
+
+```
 ## ── Column specification ────────────────────────────────────────────────────────
-## cols(
-##   ID = col_double(),
-##   Group = col_double(),
-##   X = col_double()
-## )
+## Delimiter: ","
+## dbl (3): ID, Group, X
+```
+
+```
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
 This is what this example looks like:
@@ -529,7 +554,7 @@ my_data
 ```
 
 ```
-## # A tibble: 15 x 3
+## # A tibble: 15 × 3
 ##       ID Group     X
 ##    <dbl> <dbl> <dbl>
 ##  1     1     1 -0.58
@@ -636,12 +661,19 @@ my_data <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/da
 ```
 
 ```
-## 
+## Rows: 30 Columns: 2
+```
+
+```
 ## ── Column specification ────────────────────────────────────────────────────────
-## cols(
-##   X = col_double(),
-##   Y = col_double()
-## )
+## Delimiter: ","
+## dbl (2): X, Y
+```
+
+```
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
 This is what the data look like:
@@ -652,7 +684,7 @@ my_data
 ```
 
 ```
-## # A tibble: 30 x 2
+## # A tibble: 30 × 2
 ##        X      Y
 ##    <dbl>  <dbl>
 ##  1 -1.85 -2.02 

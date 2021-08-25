@@ -30,14 +30,14 @@ library(tidyverse)
 ```
 
 ```
-## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──
+## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
 ```
 
 ```
-## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
-## ✓ tibble  3.1.1     ✓ dplyr   1.0.5
+## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+## ✓ tibble  3.1.3     ✓ dplyr   1.0.5
 ## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
-## ✓ readr   1.4.0     ✓ forcats 0.5.1
+## ✓ readr   2.0.0     ✓ forcats 0.5.1
 ```
 
 ```
@@ -78,24 +78,20 @@ batting <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/da
 ```
 
 ```
-## 
+## Rows: 984 Columns: 14
+```
+
+```
 ## ── Column specification ────────────────────────────────────────────────────────
-## cols(
-##   Name = col_character(),
-##   Team = col_character(),
-##   Group = col_character(),
-##   Position = col_character(),
-##   Games_Played = col_double(),
-##   AB = col_double(),
-##   R = col_double(),
-##   H = col_double(),
-##   Doubles = col_double(),
-##   Triples = col_double(),
-##   HR = col_double(),
-##   RBI = col_double(),
-##   Walks = col_double(),
-##   Strike_Outs = col_double()
-## )
+## Delimiter: ","
+## chr  (4): Name, Team, Group, Position
+## dbl (10): Games_Played, AB, R, H, Doubles, Triples, HR, RBI, Walks, Strike_Outs
+```
+
+```
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
 Click on the data in R's Environment pane to get a look.  Each row is a different player and each column tells us some useful information.  
@@ -139,7 +135,7 @@ batting %>%
 ```
 
 ```
-## # A tibble: 984 x 15
+## # A tibble: 984 × 15
 ##    Name      Team  Group Position Games_Played    AB     R     H Doubles Triples
 ##    <chr>     <chr> <chr> <chr>           <dbl> <dbl> <dbl> <dbl>   <dbl>   <dbl>
 ##  1 Allard, K ATL   Batt… P                   3     1     1     1       0       0
@@ -169,7 +165,7 @@ batting %>%
 ```
 
 ```
-## # A tibble: 984 x 15
+## # A tibble: 984 × 15
 ##    Name      Team  Group Position Games_Played    AB     R     H Doubles Triples
 ##    <chr>     <chr> <chr> <chr>           <dbl> <dbl> <dbl> <dbl>   <dbl>   <dbl>
 ##  1 Allard, K ATL   Batt… P                   3     1     1     1       0       0
@@ -198,7 +194,7 @@ batting %>%
 
 
 ```
-## # A tibble: 984 x 15
+## # A tibble: 984 × 15
 ##    Name      Team  Group Position Games_Played    AB     R     H Doubles Triples
 ##    <chr>     <chr> <chr> <chr>           <dbl> <dbl> <dbl> <dbl>   <dbl>   <dbl>
 ##  1 Allard, K ATL   Batt… P                   3     1     1     1       0       0
@@ -300,19 +296,19 @@ batting %>%
 ```
 
 ```
-## # A tibble: 511 x 15
-##    Name     Team  Group  Position Games_Played    AB     R     H Doubles Triples
-##    <chr>    <chr> <chr>  <chr>           <dbl> <dbl> <dbl> <dbl>   <dbl>   <dbl>
-##  1 Vincej,… SEA   Infie… SS                  1     4     0     2       0       0
-##  2 Zagunis… CHC   Outfi… RF                  5     5     0     2       1       0
-##  3 Jones, R SF    Infie… 3B                  5     8     2     3       0       0
-##  4 Betts, M BOS   Outfi… RF                136   520   129   180      47       5
-##  5 Lagares… NYM   Outfi… CF                 30    59     9    20       1       1
-##  6 Kang, J  PIT   Infie… 3B                  3     6     0     2       0       0
-##  7 Straw, M HOU   Outfi… CF                  9     9     4     3       0       0
-##  8 Martine… BOS   Outfi… LF                150   569   111   188      37       2
-##  9 McNeil,… NYM   Infie… 2B                 63   225    35    74      11       6
-## 10 Yelich,… MIL   Outfi… LF                147   574   118   187      34       7
+## # A tibble: 511 × 15
+##    Name        Team  Group Position Games_Played    AB     R     H Doubles Triples
+##    <chr>       <chr> <chr> <chr>           <dbl> <dbl> <dbl> <dbl>   <dbl>   <dbl>
+##  1 Vincej, Z   SEA   Infi… SS                  1     4     0     2       0       0
+##  2 Zagunis, M  CHC   Outf… RF                  5     5     0     2       1       0
+##  3 Jones, R    SF    Infi… 3B                  5     8     2     3       0       0
+##  4 Betts, M    BOS   Outf… RF                136   520   129   180      47       5
+##  5 Lagares, J  NYM   Outf… CF                 30    59     9    20       1       1
+##  6 Kang, J     PIT   Infi… 3B                  3     6     0     2       0       0
+##  7 Straw, M    HOU   Outf… CF                  9     9     4     3       0       0
+##  8 Martinez, J BOS   Outf… LF                150   569   111   188      37       2
+##  9 McNeil, J   NYM   Infi… 2B                 63   225    35    74      11       6
+## 10 Yelich, C   MIL   Outf… LF                147   574   118   187      34       7
 ## # … with 501 more rows, and 5 more variables: HR <dbl>, RBI <dbl>, Walks <dbl>,
 ## #   Strike_Outs <dbl>, AVG <dbl>
 ```
@@ -329,7 +325,7 @@ batting %>%
 
 
 ```
-## # A tibble: 978 x 15
+## # A tibble: 978 × 15
 ##    Name      Team  Group Position Games_Played    AB     R     H Doubles Triples
 ##    <chr>     <chr> <chr> <chr>           <dbl> <dbl> <dbl> <dbl>   <dbl>   <dbl>
 ##  1 Allard, K ATL   Batt… P                   3     1     1     1       0       0
@@ -359,19 +355,19 @@ batting %>%
 ```
 
 ```
-## # A tibble: 505 x 15
-##    Name     Team  Group  Position Games_Played    AB     R     H Doubles Triples
-##    <chr>    <chr> <chr>  <chr>           <dbl> <dbl> <dbl> <dbl>   <dbl>   <dbl>
-##  1 Vincej,… SEA   Infie… SS                  1     4     0     2       0       0
-##  2 Zagunis… CHC   Outfi… RF                  5     5     0     2       1       0
-##  3 Jones, R SF    Infie… 3B                  5     8     2     3       0       0
-##  4 Betts, M BOS   Outfi… RF                136   520   129   180      47       5
-##  5 Lagares… NYM   Outfi… CF                 30    59     9    20       1       1
-##  6 Kang, J  PIT   Infie… 3B                  3     6     0     2       0       0
-##  7 Straw, M HOU   Outfi… CF                  9     9     4     3       0       0
-##  8 Martine… BOS   Outfi… LF                150   569   111   188      37       2
-##  9 McNeil,… NYM   Infie… 2B                 63   225    35    74      11       6
-## 10 Yelich,… MIL   Outfi… LF                147   574   118   187      34       7
+## # A tibble: 505 × 15
+##    Name        Team  Group Position Games_Played    AB     R     H Doubles Triples
+##    <chr>       <chr> <chr> <chr>           <dbl> <dbl> <dbl> <dbl>   <dbl>   <dbl>
+##  1 Vincej, Z   SEA   Infi… SS                  1     4     0     2       0       0
+##  2 Zagunis, M  CHC   Outf… RF                  5     5     0     2       1       0
+##  3 Jones, R    SF    Infi… 3B                  5     8     2     3       0       0
+##  4 Betts, M    BOS   Outf… RF                136   520   129   180      47       5
+##  5 Lagares, J  NYM   Outf… CF                 30    59     9    20       1       1
+##  6 Kang, J     PIT   Infi… 3B                  3     6     0     2       0       0
+##  7 Straw, M    HOU   Outf… CF                  9     9     4     3       0       0
+##  8 Martinez, J BOS   Outf… LF                150   569   111   188      37       2
+##  9 McNeil, J   NYM   Infi… 2B                 63   225    35    74      11       6
+## 10 Yelich, C   MIL   Outf… LF                147   574   118   187      34       7
 ## # … with 495 more rows, and 5 more variables: HR <dbl>, RBI <dbl>, Walks <dbl>,
 ## #   Strike_Outs <dbl>, AVG <dbl>
 ```
@@ -472,7 +468,7 @@ batting %>%
 ```
 
 ```
-## # A tibble: 1 x 6
+## # A tibble: 1 × 6
 ##   statistic  t_df p_value alternative lower_ci upper_ci
 ##       <dbl> <dbl>   <dbl> <chr>          <dbl>    <dbl>
 ## 1     0.592   503   0.554 two.sided   -0.00764   0.0142
@@ -500,7 +496,7 @@ batting %>%
 ```
 
 ```
-## # A tibble: 1 x 6
+## # A tibble: 1 × 6
 ##   statistic  t_df p_value alternative lower_ci upper_ci
 ##       <dbl> <dbl>   <dbl> <chr>          <dbl>    <dbl>
 ## 1     0.590  473.   0.556 two.sided   -0.00768   0.0143
@@ -553,7 +549,7 @@ F_value
 ```
 
 ```
-## # A tibble: 1 x 1
+## # A tibble: 1 × 1
 ##    stat
 ##   <dbl>
 ## 1  33.4
@@ -623,7 +619,7 @@ batting %>%
 ```
 
 ```
-## # A tibble: 10 x 2
+## # A tibble: 10 × 2
 ##    Position      M
 ##    <chr>     <dbl>
 ##  1 1B       0.243 
@@ -734,7 +730,7 @@ batting %>%
 ```
 
 ```
-## # A tibble: 10 x 3
+## # A tibble: 10 × 3
 ##    Position     M      S
 ##    <chr>    <dbl>  <dbl>
 ##  1 1B       0.431 0.0979

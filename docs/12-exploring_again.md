@@ -16,14 +16,14 @@ library(tidyverse)
 ```
 
 ```
-## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──
+## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
 ```
 
 ```
-## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
-## ✓ tibble  3.1.1     ✓ dplyr   1.0.5
+## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+## ✓ tibble  3.1.3     ✓ dplyr   1.0.5
 ## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
-## ✓ readr   1.4.0     ✓ forcats 0.5.1
+## ✓ readr   2.0.0     ✓ forcats 0.5.1
 ```
 
 ```
@@ -63,23 +63,22 @@ bike_data <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/
 ```
 
 ```
-## 
+## Rows: 731 Columns: 13
+```
+
+```
 ## ── Column specification ────────────────────────────────────────────────────────
-## cols(
-##   date = col_date(format = ""),
-##   year = col_double(),
-##   season = col_character(),
-##   month = col_double(),
-##   day = col_character(),
-##   holiday = col_logical(),
-##   workday = col_logical(),
-##   weather = col_character(),
-##   celsius_actual = col_double(),
-##   celsius_feelslike = col_double(),
-##   humidity = col_double(),
-##   windspeed = col_double(),
-##   num_riders = col_double()
-## )
+## Delimiter: ","
+## chr  (3): season, day, weather
+## dbl  (7): year, month, celsius_actual, celsius_feelslike, humidity, windspee...
+## lgl  (2): holiday, workday
+## date (1): date
+```
+
+```
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
 Click on the data in RStudio's "Environment" pane to get a sense of what is here.  Each row corresponds to a specific day.  Most of the variables are pretty self-explanatory.  Our **response variable** of interest is `num_riders`, the number of people who used the bike share that day.

@@ -1,463 +1,71 @@
 <!DOCTYPE html>
-<html lang="" xml:lang="">
+<html lang="en">
 <head>
-
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Lab 10 Comparing Independent Samples | Labs</title>
-  <meta name="description" content="Laboratory exercises for APSY210." />
-  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
-
-  <meta property="og:title" content="Lab 10 Comparing Independent Samples | Labs" />
-  <meta property="og:type" content="book" />
-  
-  
-  <meta property="og:description" content="Laboratory exercises for APSY210." />
-  
-
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Lab 10 Comparing Independent Samples | Labs" />
-  
-  <meta name="twitter:description" content="Laboratory exercises for APSY210." />
-  
-
-<meta name="author" content="Greg Cox" />
-
-
-<meta name="date" content="2021-05-06" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  
-  
-<link rel="prev" href="lab9.html"/>
-<link rel="next" href="lab11.html"/>
-<script src="libs/header-attrs-2.7/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
-<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
-
-
-
-
-
-
-
-
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
-
-
-<style type="text/css">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-</style>
-
-<style type="text/css">
-/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}
-</style>
-
-<link rel="stylesheet" href="style.css" type="text/css" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Lab 10 Comparing Independent Samples | Labs</title>
+<meta name="author" content="Greg Cox">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.9/header-attrs.js"></script><script src="libs/jquery-3.5.1/jquery-3.5.1.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.5.3/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.5.3/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.4/tabs.js"></script><script src="libs/bs3compat-0.2.4/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/mark.min.js"></script><!-- CSS --><link rel="stylesheet" href="css/ims-style.css">
 </head>
+<body data-spy="scroll" data-target="#toc">
 
-<body>
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
 
-
-
-  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
-
-    <div class="book-summary">
-      <nav role="navigation">
-
-<ul class="summary">
-<li><a href="./">Labs</a></li>
-
-<li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
-<li class="chapter" data-level="1" data-path="lab1.html"><a href="lab1.html"><i class="fa fa-check"></i><b>1</b> Exploring Data with R</a>
-<ul>
-<li class="chapter" data-level="1.1" data-path="lab1.html"><a href="lab1.html#r-and-rstudio"><i class="fa fa-check"></i><b>1.1</b> R and RStudio</a></li>
-<li class="chapter" data-level="1.2" data-path="lab1.html"><a href="lab1.html#meet-your-data"><i class="fa fa-check"></i><b>1.2</b> Meet your data</a>
-<ul>
-<li class="chapter" data-level="1.2.1" data-path="lab1.html"><a href="lab1.html#check-out-the-variables"><i class="fa fa-check"></i><b>1.2.1</b> Check out the variables</a></li>
-</ul></li>
-<li class="chapter" data-level="1.3" data-path="lab1.html"><a href="lab1.html#answering-questions-with-data"><i class="fa fa-check"></i><b>1.3</b> Answering questions with data</a>
-<ul>
-<li class="chapter" data-level="1.3.1" data-path="lab1.html"><a href="lab1.html#frequency-tables"><i class="fa fa-check"></i><b>1.3.1</b> Frequency tables</a></li>
-<li class="chapter" data-level="1.3.2" data-path="lab1.html"><a href="lab1.html#bar-charts"><i class="fa fa-check"></i><b>1.3.2</b> Bar charts</a></li>
-<li class="chapter" data-level="1.3.3" data-path="lab1.html"><a href="lab1.html#histograms"><i class="fa fa-check"></i><b>1.3.3</b> Histograms</a></li>
-</ul></li>
-<li class="chapter" data-level="1.4" data-path="lab1.html"><a href="lab1.html#wrap-up"><i class="fa fa-check"></i><b>1.4</b> Wrap-up</a></li>
-</ul></li>
-<li class="chapter" data-level="2" data-path="lab2.html"><a href="lab2.html"><i class="fa fa-check"></i><b>2</b> Central tendency and variability</a>
-<ul>
-<li class="chapter" data-level="2.1" data-path="lab2.html"><a href="lab2.html#simple-cases"><i class="fa fa-check"></i><b>2.1</b> Simple cases</a>
-<ul>
-<li class="chapter" data-level="2.1.1" data-path="lab2.html"><a href="lab2.html#central-tendency"><i class="fa fa-check"></i><b>2.1.1</b> Central tendency</a></li>
-<li class="chapter" data-level="2.1.2" data-path="lab2.html"><a href="lab2.html#variability"><i class="fa fa-check"></i><b>2.1.2</b> Variability</a></li>
-</ul></li>
-<li class="chapter" data-level="2.2" data-path="lab2.html"><a href="lab2.html#dealing-with-real-data"><i class="fa fa-check"></i><b>2.2</b> Dealing with real data</a>
-<ul>
-<li class="chapter" data-level="2.2.1" data-path="lab2.html"><a href="lab2.html#setting-the-stage"><i class="fa fa-check"></i><b>2.2.1</b> Setting the stage</a></li>
-<li class="chapter" data-level="2.2.2" data-path="lab2.html"><a href="lab2.html#getting-the-data"><i class="fa fa-check"></i><b>2.2.2</b> Getting the data</a></li>
-<li class="chapter" data-level="2.2.3" data-path="lab2.html"><a href="lab2.html#visualizing-the-data"><i class="fa fa-check"></i><b>2.2.3</b> Visualizing the data</a></li>
-<li class="chapter" data-level="2.2.4" data-path="lab2.html"><a href="lab2.html#central-tendency-1"><i class="fa fa-check"></i><b>2.2.4</b> Central tendency</a></li>
-<li class="chapter" data-level="2.2.5" data-path="lab2.html"><a href="lab2.html#variability-1"><i class="fa fa-check"></i><b>2.2.5</b> Variability</a></li>
-</ul></li>
-<li class="chapter" data-level="2.3" data-path="lab2.html"><a href="lab2.html#wrap-up-1"><i class="fa fa-check"></i><b>2.3</b> Wrap-up</a></li>
-</ul></li>
-<li class="chapter" data-level="3" data-path="lab3.html"><a href="lab3.html"><i class="fa fa-check"></i><b>3</b> Scatterplots and correlation</a>
-<ul>
-<li class="chapter" data-level="3.1" data-path="lab3.html"><a href="lab3.html#calculating-the-pearson-correlation-coefficient"><i class="fa fa-check"></i><b>3.1</b> Calculating the Pearson correlation coefficient</a>
-<ul>
-<li class="chapter" data-level="3.1.1" data-path="lab3.html"><a href="lab3.html#from-x-to-z"><i class="fa fa-check"></i><b>3.1.1</b> From <span class="math inline">\(X\)</span> to <span class="math inline">\(z\)</span></a></li>
-<li class="chapter" data-level="3.1.2" data-path="lab3.html"><a href="lab3.html#finding-the-correlation-coefficient"><i class="fa fa-check"></i><b>3.1.2</b> Finding the correlation coefficient</a></li>
-<li class="chapter" data-level="3.1.3" data-path="lab3.html"><a href="lab3.html#dealing-with-real-data-1"><i class="fa fa-check"></i><b>3.1.3</b> Dealing with real data</a></li>
-</ul></li>
-<li class="chapter" data-level="3.2" data-path="lab3.html"><a href="lab3.html#scatterplots"><i class="fa fa-check"></i><b>3.2</b> Scatterplots</a>
-<ul>
-<li class="chapter" data-level="3.2.1" data-path="lab3.html"><a href="lab3.html#making-a-group-of-scatterplots"><i class="fa fa-check"></i><b>3.2.1</b> Making a group of scatterplots</a></li>
-</ul></li>
-<li class="chapter" data-level="3.3" data-path="lab3.html"><a href="lab3.html#some-bigger-data"><i class="fa fa-check"></i><b>3.3</b> Some bigger data</a>
-<ul>
-<li class="chapter" data-level="3.3.1" data-path="lab3.html"><a href="lab3.html#import-the-data"><i class="fa fa-check"></i><b>3.3.1</b> Import the data</a></li>
-<li class="chapter" data-level="3.3.2" data-path="lab3.html"><a href="lab3.html#experience-and-memory-for-barbies"><i class="fa fa-check"></i><b>3.3.2</b> Experience and memory for Barbies</a></li>
-<li class="chapter" data-level="3.3.3" data-path="lab3.html"><a href="lab3.html#experience-and-memory-for-transformers"><i class="fa fa-check"></i><b>3.3.3</b> Experience and memory for Transformers</a></li>
-<li class="chapter" data-level="3.3.4" data-path="lab3.html"><a href="lab3.html#experience-with-barbies-and-memory-for-transformers"><i class="fa fa-check"></i><b>3.3.4</b> Experience with Barbies and memory for Transformers</a></li>
-</ul></li>
-<li class="chapter" data-level="3.4" data-path="lab3.html"><a href="lab3.html#wrap-up-2"><i class="fa fa-check"></i><b>3.4</b> Wrap-up</a></li>
-</ul></li>
-<li class="chapter" data-level="4" data-path="lab4.html"><a href="lab4.html"><i class="fa fa-check"></i><b>4</b> Probability and simulation</a>
-<ul>
-<li class="chapter" data-level="4.1" data-path="lab4.html"><a href="lab4.html#simulation-basics"><i class="fa fa-check"></i><b>4.1</b> Simulation basics</a>
-<ul>
-<li class="chapter" data-level="4.1.1" data-path="lab4.html"><a href="lab4.html#single-coin-flips"><i class="fa fa-check"></i><b>4.1.1</b> Single coin flips</a></li>
-<li class="chapter" data-level="4.1.2" data-path="lab4.html"><a href="lab4.html#a-sequence-of-coin-flips"><i class="fa fa-check"></i><b>4.1.2</b> A sequence of coin flips</a></li>
-<li class="chapter" data-level="4.1.3" data-path="lab4.html"><a href="lab4.html#remembering-simulated-results"><i class="fa fa-check"></i><b>4.1.3</b> Remembering simulated results</a></li>
-<li class="chapter" data-level="4.1.4" data-path="lab4.html"><a href="lab4.html#turning-simulated-results-into-data"><i class="fa fa-check"></i><b>4.1.4</b> Turning simulated results into “data”</a></li>
-</ul></li>
-<li class="chapter" data-level="4.2" data-path="lab4.html"><a href="lab4.html#estimating-probabilities"><i class="fa fa-check"></i><b>4.2</b> Estimating probabilities</a>
-<ul>
-<li class="chapter" data-level="4.2.1" data-path="lab4.html"><a href="lab4.html#frequency-table"><i class="fa fa-check"></i><b>4.2.1</b> Frequency table</a></li>
-<li class="chapter" data-level="4.2.2" data-path="lab4.html"><a href="lab4.html#estimating-probability-from-frequency"><i class="fa fa-check"></i><b>4.2.2</b> Estimating probability from frequency</a></li>
-</ul></li>
-<li class="chapter" data-level="4.3" data-path="lab4.html"><a href="lab4.html#more-advanced-simulation-tricks"><i class="fa fa-check"></i><b>4.3</b> More advanced simulation tricks</a>
-<ul>
-<li class="chapter" data-level="4.3.1" data-path="lab4.html"><a href="lab4.html#making-up-our-own-probabilities"><i class="fa fa-check"></i><b>4.3.1</b> Making up our own probabilities</a></li>
-<li class="chapter" data-level="4.3.2" data-path="lab4.html"><a href="lab4.html#expanding-the-sample-space"><i class="fa fa-check"></i><b>4.3.2</b> Expanding the sample space</a></li>
-</ul></li>
-<li class="chapter" data-level="4.4" data-path="lab4.html"><a href="lab4.html#estimating-probabilities-in-data"><i class="fa fa-check"></i><b>4.4</b> Estimating probabilities in data</a>
-<ul>
-<li class="chapter" data-level="4.4.1" data-path="lab4.html"><a href="lab4.html#what-was-kobes-hit-rate"><i class="fa fa-check"></i><b>4.4.1</b> What was Kobe’s hit rate?</a></li>
-<li class="chapter" data-level="4.4.2" data-path="lab4.html"><a href="lab4.html#a-simulated-kobe"><i class="fa fa-check"></i><b>4.4.2</b> A simulated Kobe</a></li>
-<li class="chapter" data-level="4.4.3" data-path="lab4.html"><a href="lab4.html#hot--or-cold-handed"><i class="fa fa-check"></i><b>4.4.3</b> Hot- or cold-handed</a></li>
-</ul></li>
-<li class="chapter" data-level="4.5" data-path="lab4.html"><a href="lab4.html#wrap-up-3"><i class="fa fa-check"></i><b>4.5</b> Wrap-up</a></li>
-</ul></li>
-<li class="chapter" data-level="5" data-path="lab5.html"><a href="lab5.html"><i class="fa fa-check"></i><b>5</b> Models: The Binomial and the Normal</a>
-<ul>
-<li class="chapter" data-level="5.1" data-path="lab5.html"><a href="lab5.html#the-binomial-distribution-in-r"><i class="fa fa-check"></i><b>5.1</b> The binomial distribution in R</a>
-<ul>
-<li class="chapter" data-level="5.1.1" data-path="lab5.html"><a href="lab5.html#translating-from-sample-to-rbinom"><i class="fa fa-check"></i><b>5.1.1</b> Translating from <code>sample</code> to <code>rbinom</code></a></li>
-<li class="chapter" data-level="5.1.2" data-path="lab5.html"><a href="lab5.html#outcomes-from-different-sequences-of-events"><i class="fa fa-check"></i><b>5.1.2</b> Outcomes from different sequences of events</a></li>
-<li class="chapter" data-level="5.1.3" data-path="lab5.html"><a href="lab5.html#simulated-relative-frequencies-and-probabilities"><i class="fa fa-check"></i><b>5.1.3</b> Simulated relative frequencies and probabilities</a></li>
-<li class="chapter" data-level="5.1.4" data-path="lab5.html"><a href="lab5.html#calculating-binomial-probabilities-directly"><i class="fa fa-check"></i><b>5.1.4</b> Calculating binomial probabilities directly</a></li>
-<li class="chapter" data-level="5.1.5" data-path="lab5.html"><a href="lab5.html#cumulative-probabilities-with-the-binomial"><i class="fa fa-check"></i><b>5.1.5</b> Cumulative probabilities with the binomial</a></li>
-<li class="chapter" data-level="5.1.6" data-path="lab5.html"><a href="lab5.html#summary-of-rs-built-in-binomial-distribution"><i class="fa fa-check"></i><b>5.1.6</b> Summary of R’s built-in binomial distribution</a></li>
-</ul></li>
-<li class="chapter" data-level="5.2" data-path="lab5.html"><a href="lab5.html#the-normal-distribution-in-r"><i class="fa fa-check"></i><b>5.2</b> The normal distribution in R</a>
-<ul>
-<li class="chapter" data-level="5.2.1" data-path="lab5.html"><a href="lab5.html#simulating-outcomes-from-a-normal-distribution"><i class="fa fa-check"></i><b>5.2.1</b> Simulating outcomes from a normal distribution</a></li>
-<li class="chapter" data-level="5.2.2" data-path="lab5.html"><a href="lab5.html#the-mean-and-standard-deviation"><i class="fa fa-check"></i><b>5.2.2</b> The mean and standard deviation</a></li>
-<li class="chapter" data-level="5.2.3" data-path="lab5.html"><a href="lab5.html#calculating-probabilities-with-the-normal-distribution"><i class="fa fa-check"></i><b>5.2.3</b> Calculating probabilities with the normal distribution</a></li>
-<li class="chapter" data-level="5.2.4" data-path="lab5.html"><a href="lab5.html#finding-quantiles-with-the-normal-distribution"><i class="fa fa-check"></i><b>5.2.4</b> Finding “quantiles” with the normal distribution</a></li>
-<li class="chapter" data-level="5.2.5" data-path="lab5.html"><a href="lab5.html#summary-of-rs-built-in-normal-distribution"><i class="fa fa-check"></i><b>5.2.5</b> Summary of R’s built-in normal distribution</a></li>
-</ul></li>
-<li class="chapter" data-level="5.3" data-path="lab5.html"><a href="lab5.html#wrap-up-4"><i class="fa fa-check"></i><b>5.3</b> Wrap-up</a></li>
-</ul></li>
-<li class="chapter" data-level="6" data-path="lab6.html"><a href="lab6.html"><i class="fa fa-check"></i><b>6</b> Sampling and the Central Limit Theorem: The Wisdom of Large Samples</a>
-<ul>
-<li class="chapter" data-level="6.1" data-path="lab6.html"><a href="lab6.html#before-we-begin"><i class="fa fa-check"></i><b>6.1</b> Before we begin…</a></li>
-<li class="chapter" data-level="6.2" data-path="lab6.html"><a href="lab6.html#heights"><i class="fa fa-check"></i><b>6.2</b> Heights</a>
-<ul>
-<li class="chapter" data-level="6.2.1" data-path="lab6.html"><a href="lab6.html#a-simulated-population"><i class="fa fa-check"></i><b>6.2.1</b> A simulated population</a></li>
-<li class="chapter" data-level="6.2.2" data-path="lab6.html"><a href="lab6.html#a-sample-from-our-simulated-population"><i class="fa fa-check"></i><b>6.2.2</b> A sample from our simulated population</a></li>
-<li class="chapter" data-level="6.2.3" data-path="lab6.html"><a href="lab6.html#many-samples-from-our-simulated-population"><i class="fa fa-check"></i><b>6.2.3</b> Many samples from our simulated population</a></li>
-<li class="chapter" data-level="6.2.4" data-path="lab6.html"><a href="lab6.html#many-larger-samples"><i class="fa fa-check"></i><b>6.2.4</b> Many larger samples</a></li>
-<li class="chapter" data-level="6.2.5" data-path="lab6.html"><a href="lab6.html#the-probability-of-being-wrong"><i class="fa fa-check"></i><b>6.2.5</b> The probability of being wrong</a></li>
-<li class="chapter" data-level="6.2.6" data-path="lab6.html"><a href="lab6.html#biased-samples"><i class="fa fa-check"></i><b>6.2.6</b> Biased samples</a></li>
-</ul></li>
-<li class="chapter" data-level="6.3" data-path="lab6.html"><a href="lab6.html#the-wisdom-of-the-crowd"><i class="fa fa-check"></i><b>6.3</b> The Wisdom of the Crowd</a>
-<ul>
-<li class="chapter" data-level="6.3.1" data-path="lab6.html"><a href="lab6.html#grab-the-data"><i class="fa fa-check"></i><b>6.3.1</b> Grab the data</a></li>
-<li class="chapter" data-level="6.3.2" data-path="lab6.html"><a href="lab6.html#make-a-histogram"><i class="fa fa-check"></i><b>6.3.2</b> Make a histogram</a></li>
-<li class="chapter" data-level="6.3.3" data-path="lab6.html"><a href="lab6.html#what-is-the-right-answer"><i class="fa fa-check"></i><b>6.3.3</b> What is the right answer?</a></li>
-<li class="chapter" data-level="6.3.4" data-path="lab6.html"><a href="lab6.html#what-about-the-average"><i class="fa fa-check"></i><b>6.3.4</b> What about the average?</a></li>
-</ul></li>
-<li class="chapter" data-level="6.4" data-path="lab6.html"><a href="lab6.html#wrap-up-5"><i class="fa fa-check"></i><b>6.4</b> Wrap-up</a></li>
-</ul></li>
-<li class="chapter" data-level="7" data-path="lab7.html"><a href="lab7.html"><i class="fa fa-check"></i><b>7</b> Confidence intervals and hypothesis testing</a>
-<ul>
-<li class="chapter" data-level="7.1" data-path="lab7.html"><a href="lab7.html#be-still-my-artificial-heart"><i class="fa fa-check"></i><b>7.1</b> Be still, my (artificial) heart</a>
-<ul>
-<li class="chapter" data-level="7.1.1" data-path="lab7.html"><a href="lab7.html#constructing-confidence-intervals"><i class="fa fa-check"></i><b>7.1.1</b> Constructing confidence intervals</a></li>
-<li class="chapter" data-level="7.1.2" data-path="lab7.html"><a href="lab7.html#compare-our-sample-to-the-confidence-interval"><i class="fa fa-check"></i><b>7.1.2</b> Compare our sample to the confidence interval</a></li>
-</ul></li>
-<li class="chapter" data-level="7.2" data-path="lab7.html"><a href="lab7.html#lay-your-weary-head-to-rest"><i class="fa fa-check"></i><b>7.2</b> Lay your weary head to rest</a>
-<ul>
-<li class="chapter" data-level="7.2.1" data-path="lab7.html"><a href="lab7.html#figure-out-what-parameters-would-describe-the-population-if-the-hypothesis-were-true-1"><i class="fa fa-check"></i><b>7.2.1</b> Figure out what parameters would describe the population <em>if</em> the hypothesis were true</a></li>
-<li class="chapter" data-level="7.2.2" data-path="lab7.html"><a href="lab7.html#decide-how-wide-to-make-our-confidence-interval-1"><i class="fa fa-check"></i><b>7.2.2</b> Decide how wide to make our confidence interval</a></li>
-<li class="chapter" data-level="7.2.3" data-path="lab7.html"><a href="lab7.html#figure-out-the-upper-and-lower-boundaries-of-the-confidence-interval-1"><i class="fa fa-check"></i><b>7.2.3</b> Figure out the upper and lower boundaries of the confidence interval</a></li>
-<li class="chapter" data-level="7.2.4" data-path="lab7.html"><a href="lab7.html#compare-our-sample-to-the-confidence-interval-1"><i class="fa fa-check"></i><b>7.2.4</b> Compare our sample to the confidence interval</a></li>
-</ul></li>
-<li class="chapter" data-level="7.3" data-path="lab7.html"><a href="lab7.html#wrap-up-6"><i class="fa fa-check"></i><b>7.3</b> Wrap-up</a></li>
-</ul></li>
-<li class="chapter" data-level="8" data-path="lab8.html"><a href="lab8.html"><i class="fa fa-check"></i><b>8</b> Statistical Power</a>
-<ul>
-<li class="chapter" data-level="8.1" data-path="lab8.html"><a href="lab8.html#the-power-of-positive-feedback"><i class="fa fa-check"></i><b>8.1</b> The Power of Positive Feedback</a>
-<ul>
-<li class="chapter" data-level="8.1.1" data-path="lab8.html"><a href="lab8.html#look-at-the-data"><i class="fa fa-check"></i><b>8.1.1</b> Look at the data</a></li>
-<li class="chapter" data-level="8.1.2" data-path="lab8.html"><a href="lab8.html#specifying-our-null-hypothesis"><i class="fa fa-check"></i><b>8.1.2</b> Specifying our null hypothesis</a></li>
-<li class="chapter" data-level="8.1.3" data-path="lab8.html"><a href="lab8.html#building-our-confidence-interval"><i class="fa fa-check"></i><b>8.1.3</b> Building our confidence interval</a></li>
-<li class="chapter" data-level="8.1.4" data-path="lab8.html"><a href="lab8.html#visualizing-the-distribution-of-sample-means"><i class="fa fa-check"></i><b>8.1.4</b> Visualizing the distribution of sample means</a></li>
-</ul></li>
-<li class="chapter" data-level="8.2" data-path="lab8.html"><a href="lab8.html#achieving-a-target-level-of-power"><i class="fa fa-check"></i><b>8.2</b> Achieving a target level of power</a>
-<ul>
-<li class="chapter" data-level="8.2.1" data-path="lab8.html"><a href="lab8.html#effect-size"><i class="fa fa-check"></i><b>8.2.1</b> Effect size</a></li>
-<li class="chapter" data-level="8.2.2" data-path="lab8.html"><a href="lab8.html#sample-size"><i class="fa fa-check"></i><b>8.2.2</b> Sample size</a></li>
-<li class="chapter" data-level="8.2.3" data-path="lab8.html"><a href="lab8.html#alpha-level"><i class="fa fa-check"></i><b>8.2.3</b> Alpha level</a></li>
-<li class="chapter" data-level="8.2.4" data-path="lab8.html"><a href="lab8.html#population-standard-deviation"><i class="fa fa-check"></i><b>8.2.4</b> Population standard deviation</a></li>
-</ul></li>
-<li class="chapter" data-level="8.3" data-path="lab8.html"><a href="lab8.html#using-data-to-test-the-null-hypothesis"><i class="fa fa-check"></i><b>8.3</b> Using data to test the null hypothesis</a>
-<ul>
-<li class="chapter" data-level="8.3.1" data-path="lab8.html"><a href="lab8.html#confidence-interval-limits"><i class="fa fa-check"></i><b>8.3.1</b> Confidence interval limits</a></li>
-<li class="chapter" data-level="8.3.2" data-path="lab8.html"><a href="lab8.html#the-p-value"><i class="fa fa-check"></i><b>8.3.2</b> The <span class="math inline">\(p\)</span> value</a></li>
-<li class="chapter" data-level="8.3.3" data-path="lab8.html"><a href="lab8.html#estimated-power"><i class="fa fa-check"></i><b>8.3.3</b> Estimated power</a></li>
-</ul></li>
-<li class="chapter" data-level="8.4" data-path="lab8.html"><a href="lab8.html#wrap-up-7"><i class="fa fa-check"></i><b>8.4</b> Wrap-up</a></li>
-</ul></li>
-<li class="chapter" data-level="9" data-path="lab9.html"><a href="lab9.html"><i class="fa fa-check"></i><b>9</b> <span class="math inline">\(t\)</span> tests</a>
-<ul>
-<li class="chapter" data-level="9.1" data-path="lab9.html"><a href="lab9.html#t-tests-on-tiny-data"><i class="fa fa-check"></i><b>9.1</b> <span class="math inline">\(t\)</span> tests on tiny data</a>
-<ul>
-<li class="chapter" data-level="9.1.1" data-path="lab9.html"><a href="lab9.html#one-sample-t-test"><i class="fa fa-check"></i><b>9.1.1</b> One-sample <span class="math inline">\(t\)</span> test</a></li>
-<li class="chapter" data-level="9.1.2" data-path="lab9.html"><a href="lab9.html#paired-sample-t-test"><i class="fa fa-check"></i><b>9.1.2</b> Paired sample <span class="math inline">\(t\)</span> test</a></li>
-<li class="chapter" data-level="9.1.3" data-path="lab9.html"><a href="lab9.html#independent-samples-t-test"><i class="fa fa-check"></i><b>9.1.3</b> Independent samples <span class="math inline">\(t\)</span> test</a></li>
-</ul></li>
-<li class="chapter" data-level="9.2" data-path="lab9.html"><a href="lab9.html#t-tests-with-real-data"><i class="fa fa-check"></i><b>9.2</b> <span class="math inline">\(t\)</span> tests with real data</a>
-<ul>
-<li class="chapter" data-level="9.2.1" data-path="lab9.html"><a href="lab9.html#check-out-the-data"><i class="fa fa-check"></i><b>9.2.1</b> Check out the data</a></li>
-<li class="chapter" data-level="9.2.2" data-path="lab9.html"><a href="lab9.html#did-infants-show-any-prior-bias"><i class="fa fa-check"></i><b>9.2.2</b> Did infants show any prior bias?</a></li>
-<li class="chapter" data-level="9.2.3" data-path="lab9.html"><a href="lab9.html#do-infants-prefer-to-look-at-the-singer-of-the-familiar-melody"><i class="fa fa-check"></i><b>9.2.3</b> Do infants prefer to look at the singer of the familiar melody?</a></li>
-<li class="chapter" data-level="9.2.4" data-path="lab9.html"><a href="lab9.html#did-their-preferences-change"><i class="fa fa-check"></i><b>9.2.4</b> Did their preferences change?</a></li>
-</ul></li>
-<li class="chapter" data-level="9.3" data-path="lab9.html"><a href="lab9.html#wrap-up-8"><i class="fa fa-check"></i><b>9.3</b> Wrap-up</a></li>
-</ul></li>
-<li class="chapter" data-level="10" data-path="lab10.html"><a href="lab10.html"><i class="fa fa-check"></i><b>10</b> Comparing Independent Samples</a>
-<ul>
-<li class="chapter" data-level="10.1" data-path="lab10.html"><a href="lab10.html#get-to-know-the-data"><i class="fa fa-check"></i><b>10.1</b> Get to know the data</a>
-<ul>
-<li class="chapter" data-level="10.1.1" data-path="lab10.html"><a href="lab10.html#batting-average"><i class="fa fa-check"></i><b>10.1.1</b> Batting average</a></li>
-<li class="chapter" data-level="10.1.2" data-path="lab10.html"><a href="lab10.html#batting-average-by-position"><i class="fa fa-check"></i><b>10.1.2</b> Batting average by position</a></li>
-</ul></li>
-<li class="chapter" data-level="10.2" data-path="lab10.html"><a href="lab10.html#independent-samples-t-test-infield-vs.-outfield"><i class="fa fa-check"></i><b>10.2</b> Independent samples <span class="math inline">\(t\)</span> test: Infield vs. Outfield</a>
-<ul>
-<li class="chapter" data-level="10.2.1" data-path="lab10.html"><a href="lab10.html#filtering-data-with-filter"><i class="fa fa-check"></i><b>10.2.1</b> Filtering data with <code>filter</code></a></li>
-<li class="chapter" data-level="10.2.2" data-path="lab10.html"><a href="lab10.html#doing-the-t-test"><i class="fa fa-check"></i><b>10.2.2</b> Doing the <span class="math inline">\(t\)</span> test</a></li>
-</ul></li>
-<li class="chapter" data-level="10.3" data-path="lab10.html"><a href="lab10.html#analysis-of-variance-batting-average-by-position"><i class="fa fa-check"></i><b>10.3</b> Analysis of Variance: Batting average by position</a>
-<ul>
-<li class="chapter" data-level="10.3.1" data-path="lab10.html"><a href="lab10.html#doing-the-anova"><i class="fa fa-check"></i><b>10.3.1</b> Doing the ANOVA</a></li>
-<li class="chapter" data-level="10.3.2" data-path="lab10.html"><a href="lab10.html#post-hoc-pairwise-tests"><i class="fa fa-check"></i><b>10.3.2</b> Post hoc pairwise tests</a></li>
-<li class="chapter" data-level="10.3.3" data-path="lab10.html"><a href="lab10.html#no-pitchers-allowed"><i class="fa fa-check"></i><b>10.3.3</b> No Pitchers Allowed?</a></li>
-<li class="chapter" data-level="10.3.4" data-path="lab10.html"><a href="lab10.html#slugging-average"><i class="fa fa-check"></i><b>10.3.4</b> Slugging Average</a></li>
-</ul></li>
-<li class="chapter" data-level="10.4" data-path="lab10.html"><a href="lab10.html#wrap-up-9"><i class="fa fa-check"></i><b>10.4</b> Wrap-up</a></li>
-</ul></li>
-<li class="chapter" data-level="11" data-path="lab11.html"><a href="lab11.html"><i class="fa fa-check"></i><b>11</b> Linear Regression</a>
-<ul>
-<li class="chapter" data-level="11.1" data-path="lab11.html"><a href="lab11.html#inference-the-answer-is-blowing-in-the-wind"><i class="fa fa-check"></i><b>11.1</b> Inference: The Answer is Blowing in the Wind</a>
-<ul>
-<li class="chapter" data-level="11.1.1" data-path="lab11.html"><a href="lab11.html#what-a-line-is-made-of-slopes-and-intercepts"><i class="fa fa-check"></i><b>11.1.1</b> What a line is made of: Slopes and Intercepts</a></li>
-<li class="chapter" data-level="11.1.2" data-path="lab11.html"><a href="lab11.html#adding-our-own-line"><i class="fa fa-check"></i><b>11.1.2</b> Adding our own line</a></li>
-<li class="chapter" data-level="11.1.3" data-path="lab11.html"><a href="lab11.html#adding-the-best-fitting-line"><i class="fa fa-check"></i><b>11.1.3</b> Adding the best-fitting line</a></li>
-<li class="chapter" data-level="11.1.4" data-path="lab11.html"><a href="lab11.html#getting-the-slope-and-intercept"><i class="fa fa-check"></i><b>11.1.4</b> Getting the slope and intercept</a></li>
-<li class="chapter" data-level="11.1.5" data-path="lab11.html"><a href="lab11.html#how-much-variance-does-wind-speed-explain"><i class="fa fa-check"></i><b>11.1.5</b> How much variance does wind speed explain?</a></li>
-<li class="chapter" data-level="11.1.6" data-path="lab11.html"><a href="lab11.html#making-predictions"><i class="fa fa-check"></i><b>11.1.6</b> Making Predictions</a></li>
-<li class="chapter" data-level="11.1.7" data-path="lab11.html"><a href="lab11.html#hypothesis-testing"><i class="fa fa-check"></i><b>11.1.7</b> Hypothesis Testing</a></li>
-</ul></li>
-<li class="chapter" data-level="11.2" data-path="lab11.html"><a href="lab11.html#making-decisions-housing-prices"><i class="fa fa-check"></i><b>11.2</b> Making Decisions: Housing Prices</a>
-<ul>
-<li class="chapter" data-level="11.2.1" data-path="lab11.html"><a href="lab11.html#visualize-the-data"><i class="fa fa-check"></i><b>11.2.1</b> Visualize the data</a></li>
-<li class="chapter" data-level="11.2.2" data-path="lab11.html"><a href="lab11.html#find-the-best-fitting-line"><i class="fa fa-check"></i><b>11.2.2</b> Find the best-fitting line</a></li>
-<li class="chapter" data-level="11.2.3" data-path="lab11.html"><a href="lab11.html#make-predictions"><i class="fa fa-check"></i><b>11.2.3</b> Make Predictions</a></li>
-</ul></li>
-<li class="chapter" data-level="11.3" data-path="lab11.html"><a href="lab11.html#wrap-up-10"><i class="fa fa-check"></i><b>11.3</b> Wrap-up</a></li>
-</ul></li>
-<li class="chapter" data-level="12" data-path="lab12.html"><a href="lab12.html"><i class="fa fa-check"></i><b>12</b> Exploring Data with R, Part II</a>
-<ul>
-<li class="chapter" data-level="12.1" data-path="lab12.html"><a href="lab12.html#meet-your-data-1"><i class="fa fa-check"></i><b>12.1</b> Meet your data</a></li>
-<li class="chapter" data-level="12.2" data-path="lab12.html"><a href="lab12.html#answering-questions-with-data-1"><i class="fa fa-check"></i><b>12.2</b> Answering questions with data</a>
-<ul>
-<li class="chapter" data-level="12.2.1" data-path="lab12.html"><a href="lab12.html#does-ridership-vary-by-season"><i class="fa fa-check"></i><b>12.2.1</b> Does ridership vary by season?</a></li>
-<li class="chapter" data-level="12.2.2" data-path="lab12.html"><a href="lab12.html#does-ridership-vary-with-actual-temperature"><i class="fa fa-check"></i><b>12.2.2</b> Does ridership vary with actual temperature?</a></li>
-<li class="chapter" data-level="12.2.3" data-path="lab12.html"><a href="lab12.html#does-ridership-vary-with-perceived-temperature"><i class="fa fa-check"></i><b>12.2.3</b> Does ridership vary with <em>perceived</em> temperature?</a></li>
-<li class="chapter" data-level="12.2.4" data-path="lab12.html"><a href="lab12.html#whats-up-with-those-weird-days"><i class="fa fa-check"></i><b>12.2.4</b> What’s up with those weird days?</a></li>
-</ul></li>
-<li class="chapter" data-level="12.3" data-path="lab12.html"><a href="lab12.html#wrap-up-11"><i class="fa fa-check"></i><b>12.3</b> Wrap-up</a></li>
-</ul></li>
-<li class="appendix"><span><b>Appendix</b></span></li>
-<li class="chapter" data-level="A" data-path="coderef.html"><a href="coderef.html"><i class="fa fa-check"></i><b>A</b> Distributions</a>
-<ul>
-<li class="chapter" data-level="A.1" data-path="coderef.html"><a href="coderef.html#binomial-distribution"><i class="fa fa-check"></i><b>A.1</b> Binomial distribution</a>
-<ul>
-<li class="chapter" data-level="A.1.1" data-path="coderef.html"><a href="coderef.html#probability-of-observing-an-outcome-exactly-equal-to-a-given-value"><i class="fa fa-check"></i><b>A.1.1</b> Probability of observing an outcome exactly equal to a given value</a></li>
-<li class="chapter" data-level="A.1.2" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-less-than-or-equal-to-a-given-value"><i class="fa fa-check"></i><b>A.1.2</b> Probability of observing a value less than or equal to a given value</a></li>
-<li class="chapter" data-level="A.1.3" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-greater-than-a-given-value"><i class="fa fa-check"></i><b>A.1.3</b> Probability of observing a value greater than a given value</a></li>
-<li class="chapter" data-level="A.1.4" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-inside-an-interval-between-an-upper-and-lower-value"><i class="fa fa-check"></i><b>A.1.4</b> Probability of observing a value inside an interval between an upper and lower value</a></li>
-<li class="chapter" data-level="A.1.5" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-outside-an-interval-between-an-upper-and-lower-value"><i class="fa fa-check"></i><b>A.1.5</b> Probability of observing a value outside an interval between an upper and lower value</a></li>
-<li class="chapter" data-level="A.1.6" data-path="coderef.html"><a href="coderef.html#the-value-for-which-there-is-a-given-probability-of-observing-an-outcome-less-than-or-equal-to-that-value"><i class="fa fa-check"></i><b>A.1.6</b> The value for which there is a given probability of observing an outcome less than or equal to that value</a></li>
-<li class="chapter" data-level="A.1.7" data-path="coderef.html"><a href="coderef.html#testing-a-null-hypothesis"><i class="fa fa-check"></i><b>A.1.7</b> Testing a null hypothesis</a></li>
-</ul></li>
-<li class="chapter" data-level="A.2" data-path="coderef.html"><a href="coderef.html#normal-distribution"><i class="fa fa-check"></i><b>A.2</b> Normal distribution</a>
-<ul>
-<li class="chapter" data-level="A.2.1" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-less-than-or-equal-to-a-given-value-1"><i class="fa fa-check"></i><b>A.2.1</b> Probability of observing a value less than or equal to a given value</a></li>
-<li class="chapter" data-level="A.2.2" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-greater-than-a-given-value-1"><i class="fa fa-check"></i><b>A.2.2</b> Probability of observing a value greater than a given value</a></li>
-<li class="chapter" data-level="A.2.3" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-inside-an-interval-between-an-upper-and-lower-value-1"><i class="fa fa-check"></i><b>A.2.3</b> Probability of observing a value inside an interval between an upper and lower value</a></li>
-<li class="chapter" data-level="A.2.4" data-path="coderef.html"><a href="coderef.html#probability-of-observing-a-value-outside-an-interval-between-an-upper-and-lower-value-1"><i class="fa fa-check"></i><b>A.2.4</b> Probability of observing a value outside an interval between an upper and lower value</a></li>
-<li class="chapter" data-level="A.2.5" data-path="coderef.html"><a href="coderef.html#the-value-for-which-there-is-a-given-probability-of-observing-an-outcome-less-than-or-equal-to-that-value-1"><i class="fa fa-check"></i><b>A.2.5</b> The value for which there is a given probability of observing an outcome less than or equal to that value</a></li>
-<li class="chapter" data-level="A.2.6" data-path="coderef.html"><a href="coderef.html#testing-a-null-hypothesis-1"><i class="fa fa-check"></i><b>A.2.6</b> Testing a null hypothesis</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="B" data-path="hyptests.html"><a href="hyptests.html"><i class="fa fa-check"></i><b>B</b> Hypothesis Tests</a>
-<ul>
-<li class="chapter" data-level="B.1" data-path="hyptests.html"><a href="hyptests.html#t-tests"><i class="fa fa-check"></i><b>B.1</b> <span class="math inline">\(t\)</span> tests</a>
-<ul>
-<li class="chapter" data-level="B.1.1" data-path="hyptests.html"><a href="hyptests.html#doing-them-step-by-step"><i class="fa fa-check"></i><b>B.1.1</b> Doing them step-by-step</a></li>
-<li class="chapter" data-level="B.1.2" data-path="hyptests.html"><a href="hyptests.html#doing-them-all-at-once"><i class="fa fa-check"></i><b>B.1.2</b> Doing them all at once</a></li>
-</ul></li>
-<li class="chapter" data-level="B.2" data-path="hyptests.html"><a href="hyptests.html#analysis-of-variance-anova"><i class="fa fa-check"></i><b>B.2</b> Analysis of Variance (ANOVA)</a>
-<ul>
-<li class="chapter" data-level="B.2.1" data-path="hyptests.html"><a href="hyptests.html#anova"><i class="fa fa-check"></i><b>B.2.1</b> ANOVA</a></li>
-<li class="chapter" data-level="B.2.2" data-path="hyptests.html"><a href="hyptests.html#post-hoc-pairwise-t-tests"><i class="fa fa-check"></i><b>B.2.2</b> Post hoc pairwise <span class="math inline">\(t\)</span> tests</a></li>
-</ul></li>
-<li class="chapter" data-level="B.3" data-path="hyptests.html"><a href="hyptests.html#linear-regression"><i class="fa fa-check"></i><b>B.3</b> Linear Regression</a></li>
-</ul></li>
-<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
-<li class="divider"></li>
-<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
-
-</ul>
-
-      </nav>
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Labs</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
     </div>
 
-    <div class="book-body">
-      <div class="body-inner">
-        <div class="book-header" role="navigation">
-          <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Labs</a>
-          </h1>
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Overview</a></li>
+<li><a class="" href="lab1.html"><span class="header-section-number">1</span> Exploring Data with R</a></li>
+<li><a class="" href="lab2.html"><span class="header-section-number">2</span> Central tendency and variability</a></li>
+<li><a class="" href="lab3.html"><span class="header-section-number">3</span> Scatterplots and correlation</a></li>
+<li><a class="" href="lab4.html"><span class="header-section-number">4</span> Probability and simulation</a></li>
+<li><a class="" href="lab5.html"><span class="header-section-number">5</span> Models: The Binomial and the Normal</a></li>
+<li><a class="" href="lab6.html"><span class="header-section-number">6</span> Sampling and the Central Limit Theorem: The Wisdom of Large Samples</a></li>
+<li><a class="" href="lab7.html"><span class="header-section-number">7</span> Confidence intervals and hypothesis testing</a></li>
+<li><a class="" href="lab8.html"><span class="header-section-number">8</span> Statistical Power</a></li>
+<li><a class="" href="lab9.html"><span class="header-section-number">9</span> \(t\) tests</a></li>
+<li><a class="active" href="lab10.html"><span class="header-section-number">10</span> Comparing Independent Samples</a></li>
+<li><a class="" href="lab11.html"><span class="header-section-number">11</span> Linear Regression</a></li>
+<li><a class="" href="lab12.html"><span class="header-section-number">12</span> Exploring Data with R, Part II</a></li>
+<li class="book-part">Appendix</li>
+<li><a class="" href="coderef.html"><span class="header-section-number">A</span> Distributions</a></li>
+<li><a class="" href="hyptests.html"><span class="header-section-number">B</span> Hypothesis Tests</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/gregcox7/StatLabs">View book source <i class="fab fa-github"></i></a></p>
         </div>
-
-        <div class="page-wrapper" tabindex="-1" role="main">
-          <div class="page-inner">
-
-            <section class="normal" id="section-">
-<div id="lab10" class="section level1" number="10">
-<h1><span class="header-section-number">Lab 10</span> Comparing Independent Samples</h1>
-<p><img src="img/baseball_field.png" width="100%" /></p>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="lab10" class="section level1" number="10">
+<h1>
+<span class="header-section-number">Lab 10</span> Comparing Independent Samples<a class="anchor" aria-label="anchor" href="#lab10"><i class="fas fa-link"></i></a>
+</h1>
+<div class="inline-figure"><img src="img/baseball_field.png" width="100%"></div>
 <blockquote>
 <p>Put umpteen people in two groups at random.<br>
 Social dynamics make changes in tandem:<br>
 Members within groups will quickly conform;<br>
 Difference between groups will soon be the norm.</p>
-<p>— John Kruschke <span class="citation">(<a href="#ref-Kruschke2015" role="doc-biblioref">Kruschke, 2015</a>)</span></p>
+<p>— John Kruschke <span class="citation">(<a href="references.html#ref-Kruschke2015" role="doc-biblioref">Kruschke, 2015</a>)</span></p>
 </blockquote>
 <p>In this session, we will see how to compare multiple independent samples in R. Last time, we got a sense of how to compare two independent samples by using a <span class="math inline">\(t\)</span> test to test the null hypothesis that two samples come from populations with the same mean. We will see a bit more of that in this session, but of course <span class="math inline">\(t\)</span> tests are limited to comparing just two samples at a time. <strong>Analysis of Variance (ANOVA)</strong>, as we’ve seen, let’s us compare multiple samples all at once.</p>
 <p>In this session, we will cover</p>
@@ -469,56 +77,56 @@ Difference between groups will soon be the norm.</p>
 <ul>
 <li>Using <code>mutate</code> to make new variables out of ones we already have.</li>
 <li>Using <code>filter</code> to look at “subsets” of a whole dataset based on specific criteria.</li>
-</ul></li>
+</ul>
+</li>
 </ol>
 <p>Before we begin, let’s make sure we get our hands on the <code>tidyverse</code> package, as well as the <code>infer</code> package we used last time. We will also need the <code>magrittr</code> package.</p>
-<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb386-1"><a href="lab10.html#cb386-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
-<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
-<pre><code>## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
-## ✓ tibble  3.1.1     ✓ dplyr   1.0.5
+<div class="sourceCode" id="cb402"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></code></pre></div>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+## ✓ tibble  3.1.3     ✓ dplyr   1.0.5
 ## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
-## ✓ readr   1.4.0     ✓ forcats 0.5.1</code></pre>
+## ✓ readr   2.0.0     ✓ forcats 0.5.1</code></pre>
 <pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
-<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb390-1"><a href="lab10.html#cb390-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(infer)</span>
-<span id="cb390-2"><a href="lab10.html#cb390-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span></code></pre></div>
+<div class="sourceCode" id="cb406"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/infer">infer</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span></code></pre></div>
 <pre><code>## 
-## Attaching package: &#39;magrittr&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## Attaching package: 'magrittr'</code></pre>
+<pre><code>## The following object is masked from 'package:purrr':
 ## 
 ##     set_names</code></pre>
-<pre><code>## The following object is masked from &#39;package:tidyr&#39;:
+<pre><code>## The following object is masked from 'package:tidyr':
 ## 
 ##     extract</code></pre>
 <div id="get-to-know-the-data" class="section level2" number="10.1">
-<h2><span class="header-section-number">10.1</span> Get to know the data</h2>
+<h2>
+<span class="header-section-number">10.1</span> Get to know the data<a class="anchor" aria-label="anchor" href="#get-to-know-the-data"><i class="fas fa-link"></i></a>
+</h2>
 <p>The data for today’s session hearkens back to where many of us (at least who grew up in the United States) first encountered the idea of “statistics”: baseball. These are batting records for Major League players in the 2018 season:</p>
-<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="lab10.html#cb394-1" aria-hidden="true" tabindex="-1"></a>batting <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/batting2018.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb410"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">batting</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/batting2018.csv"</span><span class="op">)</span></code></pre></div>
+<pre><code>## Rows: 984 Columns: 14</code></pre>
+<pre><code>## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: ","
+## chr  (4): Name, Team, Group, Position
+## dbl (10): Games_Played, AB, R, H, Doubles, Triples, HR, RBI, Walks, Strike_Outs</code></pre>
 <pre><code>## 
-## ── Column specification ────────────────────────────────────────────────────────
-## cols(
-##   Name = col_character(),
-##   Team = col_character(),
-##   Group = col_character(),
-##   Position = col_character(),
-##   Games_Played = col_double(),
-##   AB = col_double(),
-##   R = col_double(),
-##   H = col_double(),
-##   Doubles = col_double(),
-##   Triples = col_double(),
-##   HR = col_double(),
-##   RBI = col_double(),
-##   Walks = col_double(),
-##   Strike_Outs = col_double()
-## )</code></pre>
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <p>Click on the data in R’s Environment pane to get a look. Each row is a different player and each column tells us some useful information.</p>
 <ul>
-<li><strong>Name</strong>: The player’s name.</li>
-<li><strong>Team</strong>: The team for which the player played.</li>
-<li><strong>Group</strong>: Depends on primary position played, groups them into infield, outfield, battery, and designated hitter.</li>
-<li><strong>Position</strong>: The primary position played. These are abbreviated:
+<li>
+<strong>Name</strong>: The player’s name.</li>
+<li>
+<strong>Team</strong>: The team for which the player played.</li>
+<li>
+<strong>Group</strong>: Depends on primary position played, groups them into infield, outfield, battery, and designated hitter.</li>
+<li>
+<strong>Position</strong>: The primary position played. These are abbreviated:
 <ul>
 <li>1B: First base</li>
 <li>2B: Second base</li>
@@ -530,23 +138,31 @@ Difference between groups will soon be the norm.</p>
 <li>P: Pitcher</li>
 <li>RF: Right field</li>
 <li>SS: Shortstop</li>
-</ul></li>
-<li><strong>Games_Played</strong>: The number of games played in the 2018 regular seaosn.</li>
-<li><strong>AB</strong>: Number of “at bats.”</li>
-<li><strong>R</strong>: Number of runs scored.</li>
-<li><strong>H</strong>: Number of hits while at bat.</li>
+</ul>
+</li>
+<li>
+<strong>Games_Played</strong>: The number of games played in the 2018 regular seaosn.</li>
+<li>
+<strong>AB</strong>: Number of “at bats.”</li>
+<li>
+<strong>R</strong>: Number of runs scored.</li>
+<li>
+<strong>H</strong>: Number of hits while at bat.</li>
 <li>etc.</li>
 </ul>
 <p>To get a sense of where the different positions in baseball are, take a look at this picture:</p>
-<p><img src="img/baseball_positions.png" width="100%" /></p>
+<div class="inline-figure"><img src="img/baseball_positions.png" width="100%"></div>
 <div id="batting-average" class="section level3" number="10.1.1">
-<h3><span class="header-section-number">10.1.1</span> Batting average</h3>
+<h3>
+<span class="header-section-number">10.1.1</span> Batting average<a class="anchor" aria-label="anchor" href="#batting-average"><i class="fas fa-link"></i></a>
+</h3>
 <p>A player’s “batting average” is the <em>proportion</em> of times they made a hit while at bat. For example, if a player had 400 at bats that season and had a hit 100 of those times, their batting average would be <span class="math inline">\(100 / 400 = 0.25\)</span>. Note that it is conventional in baseball stats to multiply that average by 1000 to get a number between 0 and 1000 instead of one between 0 and 1, but we’ll just keep things simple and stick with using a standard proportion between 0 and 1.</p>
 <p>If we were interested in studying the batting performance of just one player, we could use our old friend the <em>binomial</em> distribution. After all, we have a number of repeated events (at-bats) each of which can have an outcome of interest (a hit). But we are interested today in comparing different players, not studying the performance of a specific one.</p>
 <p>In particular, we’d like to find the batting averages for every player in our dataset. We have the relevant numbers already in our dataset in the H and AB columns. Specifically, the batting average for each player is <code>H / AB</code>, the number of hits made divided by the number of opportunities (at-bats). While we could do this by hand for each player, that would be pretty annoying. Instead, we can use R to do that work using <code>mutate</code>:</p>
-<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb396-1"><a href="lab10.html#cb396-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%&gt;%</span></span>
-<span id="cb396-2"><a href="lab10.html#cb396-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">AVG =</span> H <span class="sc">/</span> AB)</span></code></pre></div>
-<pre><code>## # A tibble: 984 x 15
+<div class="sourceCode" id="cb414"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">batting</span> <span class="op">%&gt;%</span>
+    <span class="fu">mutate</span><span class="op">(</span>AVG <span class="op">=</span> <span class="va">H</span> <span class="op">/</span> <span class="va">AB</span><span class="op">)</span></code></pre></div>
+<pre><code>## # A tibble: 984 × 15
 ##    Name      Team  Group Position Games_Played    AB     R     H Doubles Triples
 ##    &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;           &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
 ##  1 Allard, K ATL   Batt… P                   3     1     1     1       0       0
@@ -563,11 +179,14 @@ Difference between groups will soon be the norm.</p>
 ## #   Strike_Outs &lt;dbl&gt;, AVG &lt;dbl&gt;</code></pre>
 <p>As usual, the first line told R what data we were working with (<code>batting</code>). The second line <code>mutate</code>d two of the variables <code>H</code> and <code>AB</code> into <code>AVG</code>, each player’s batting average. Let’s spend a bit of time on that <code>mutate</code> line, because it is extremely useful.</p>
 <div id="making-new-variables-with-mutate" class="section level4" number="10.1.1.1">
-<h4><span class="header-section-number">10.1.1.1</span> Making new variables with <code>mutate</code></h4>
+<h4>
+<span class="header-section-number">10.1.1.1</span> Making new variables with <code>mutate</code><a class="anchor" aria-label="anchor" href="#making-new-variables-with-mutate"><i class="fas fa-link"></i></a>
+</h4>
 <p>First, note that “AVG” is just the name that we decided. We could replace “AVG” with a more descriptive name like “Batting_Average”:</p>
-<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb398-1"><a href="lab10.html#cb398-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%&gt;%</span></span>
-<span id="cb398-2"><a href="lab10.html#cb398-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Batting_Average =</span> H <span class="sc">/</span> AB)</span></code></pre></div>
-<pre><code>## # A tibble: 984 x 15
+<div class="sourceCode" id="cb416"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">batting</span> <span class="op">%&gt;%</span>
+    <span class="fu">mutate</span><span class="op">(</span>Batting_Average <span class="op">=</span> <span class="va">H</span> <span class="op">/</span> <span class="va">AB</span><span class="op">)</span></code></pre></div>
+<pre><code>## # A tibble: 984 × 15
 ##    Name      Team  Group Position Games_Played    AB     R     H Doubles Triples
 ##    &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;           &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
 ##  1 Allard, K ATL   Batt… P                   3     1     1     1       0       0
@@ -584,9 +203,9 @@ Difference between groups will soon be the norm.</p>
 ## #   Strike_Outs &lt;dbl&gt;, Batting_Average &lt;dbl&gt;</code></pre>
 <p>Now the new column is called “Batting_Average” instead of “AVG.”</p>
 <p>We can use this to make some more variables as well. Try using <code>mutate</code> to create a new variable called <code>Total_Bases</code> which will count the total number of bases earned by a player. This number is equal to <code>H + Doubles + 2 * Triples + 3 * HR</code>. After filling in the blank below, the result should look like the following:</p>
-<div class="sourceCode" id="cb400"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb400-1"><a href="lab10.html#cb400-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%&gt;%</span></span>
-<span id="cb400-2"><a href="lab10.html#cb400-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Total_Bases =</span> ___)</span></code></pre></div>
-<pre><code>## # A tibble: 984 x 15
+<div class="sourceCode" id="cb418"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb418-1"><a href="lab10.html#cb418-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%&gt;%</span></span>
+<span id="cb418-2"><a href="lab10.html#cb418-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Total_Bases =</span> ___)</span></code></pre></div>
+<pre><code>## # A tibble: 984 × 15
 ##    Name      Team  Group Position Games_Played    AB     R     H Doubles Triples
 ##    &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;           &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
 ##  1 Allard, K ATL   Batt… P                   3     1     1     1       0       0
@@ -608,28 +227,35 @@ What code did you write to use <code>mutate</code> to create the new <code>Total
 </div>
 </div>
 <div id="updating-our-data-with-new-variables" class="section level4" number="10.1.1.2">
-<h4><span class="header-section-number">10.1.1.2</span> Updating our data with new variables</h4>
+<h4>
+<span class="header-section-number">10.1.1.2</span> Updating our data with new variables<a class="anchor" aria-label="anchor" href="#updating-our-data-with-new-variables"><i class="fas fa-link"></i></a>
+</h4>
 <p>So far, we’ve left our original <code>batting</code> dataset untouched because we haven’t told R to remember the dataset with the new variables we’ve created. Since we’ll be using the batting average later, let’s tell R to replace our original <code>batting</code> data with the updated version including the <code>AVG</code> column:</p>
-<div class="sourceCode" id="cb402"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb402-1"><a href="lab10.html#cb402-1" aria-hidden="true" tabindex="-1"></a>batting <span class="ot">&lt;-</span> batting <span class="sc">%&gt;%</span></span>
-<span id="cb402-2"><a href="lab10.html#cb402-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">AVG =</span> H <span class="sc">/</span> AB)</span></code></pre></div>
+<div class="sourceCode" id="cb420"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">batting</span> <span class="op">&lt;-</span> <span class="va">batting</span> <span class="op">%&gt;%</span>
+    <span class="fu">mutate</span><span class="op">(</span>AVG <span class="op">=</span> <span class="va">H</span> <span class="op">/</span> <span class="va">AB</span><span class="op">)</span></code></pre></div>
 <p>By adding <code>batting &lt;-</code> to the beginning, we’ve told R to remember our updated data (with the new <code>AVG</code> column) under the same name (<code>batting</code>) as our original data.</p>
 </div>
 </div>
 <div id="batting-average-by-position" class="section level3" number="10.1.2">
-<h3><span class="header-section-number">10.1.2</span> Batting average by position</h3>
+<h3>
+<span class="header-section-number">10.1.2</span> Batting average by position<a class="anchor" aria-label="anchor" href="#batting-average-by-position"><i class="fas fa-link"></i></a>
+</h3>
 <p>Now let’s see whether the batting average looks much different between different positions. For example, we’d expect that pitchers would, in general, have pretty low batting averages because that’s not their job.</p>
 <p>To get a sense of the differences, we will make a set of histograms:</p>
-<div class="sourceCode" id="cb403"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb403-1"><a href="lab10.html#cb403-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%&gt;%</span></span>
-<span id="cb403-2"><a href="lab10.html#cb403-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> AVG)) <span class="sc">+</span></span>
-<span id="cb403-3"><a href="lab10.html#cb403-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.05</span>) <span class="sc">+</span></span>
-<span id="cb403-4"><a href="lab10.html#cb403-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="st">&quot;Position&quot;</span>)</span></code></pre></div>
-<p><img src="10-indep_groups_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<div class="sourceCode" id="cb421"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">batting</span> <span class="op">%&gt;%</span>
+    <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">AVG</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">geom_histogram</span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">facet_wrap</span><span class="op">(</span><span class="st">"Position"</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="10-indep_groups_files/figure-html/unnamed-chunk-10-1.png" width="672"></div>
 <p>That’s pretty hard to interpret! Let’s add an option to the last line (<code>facet_wrap</code>) to help us out. This option is <code>scales = "free_y"</code>, meaning that the <code>scale</code> of the vertical axes (the <code>y</code> axis) on each histogram are allowed to be different (they are “<code>free</code>”):</p>
-<div class="sourceCode" id="cb404"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb404-1"><a href="lab10.html#cb404-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%&gt;%</span></span>
-<span id="cb404-2"><a href="lab10.html#cb404-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> AVG)) <span class="sc">+</span></span>
-<span id="cb404-3"><a href="lab10.html#cb404-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.05</span>) <span class="sc">+</span></span>
-<span id="cb404-4"><a href="lab10.html#cb404-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="st">&quot;Position&quot;</span>, <span class="at">scales =</span> <span class="st">&quot;free_y&quot;</span>)</span></code></pre></div>
-<p><img src="10-indep_groups_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<div class="sourceCode" id="cb422"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">batting</span> <span class="op">%&gt;%</span>
+    <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">AVG</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">geom_histogram</span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">facet_wrap</span><span class="op">(</span><span class="st">"Position"</span>, scales <span class="op">=</span> <span class="st">"free_y"</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="10-indep_groups_files/figure-html/unnamed-chunk-11-1.png" width="672"></div>
 <p>This is a bit easier to see, and we can immediately tell there are some differences between different positions.</p>
 
 <div class="exercise">
@@ -637,11 +263,11 @@ What code did you write to use <code>mutate</code> to create the new <code>Total
 Why does the histogram for <code>DH</code> (Designated Hitter) look so different from the others? (Hint: look at the numbers on the vertical axis of the <code>DH</code> histogram.) What seems to be different about the histogram for <code>P</code> (Pitchers)?</p>
 </div>
 <p>To get a sense of what might be causing the unusual shape of the histogram for pitchers, let’s construct another histogram that looks at <code>AB</code>, the number of at-bats.</p>
-<div class="sourceCode" id="cb405"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb405-1"><a href="lab10.html#cb405-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%&gt;%</span></span>
-<span id="cb405-2"><a href="lab10.html#cb405-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___)) <span class="sc">+</span></span>
-<span id="cb405-3"><a href="lab10.html#cb405-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> ___) <span class="sc">+</span></span>
-<span id="cb405-4"><a href="lab10.html#cb405-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="st">&quot;Position&quot;</span>, <span class="at">scales =</span> <span class="st">&quot;free_y&quot;</span>)</span></code></pre></div>
-<p><img src="10-indep_groups_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<div class="sourceCode" id="cb423"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb423-1"><a href="lab10.html#cb423-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%&gt;%</span></span>
+<span id="cb423-2"><a href="lab10.html#cb423-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___)) <span class="sc">+</span></span>
+<span id="cb423-3"><a href="lab10.html#cb423-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> ___) <span class="sc">+</span></span>
+<span id="cb423-4"><a href="lab10.html#cb423-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="st">"Position"</span>, <span class="at">scales =</span> <span class="st">"free_y"</span>)</span></code></pre></div>
+<div class="inline-figure"><img src="10-indep_groups_files/figure-html/unnamed-chunk-13-1.png" width="672"></div>
 
 <div class="exercise">
 <p><span id="exr:ex1003" class="exercise"><strong>Exercise 10.3  </strong></span>
@@ -651,34 +277,39 @@ What code did you use to make histograms for at-bats (<code>AB</code>)? What did
 </div>
 </div>
 <div id="independent-samples-t-test-infield-vs.-outfield" class="section level2" number="10.2">
-<h2><span class="header-section-number">10.2</span> Independent samples <span class="math inline">\(t\)</span> test: Infield vs. Outfield</h2>
+<h2>
+<span class="header-section-number">10.2</span> Independent samples <span class="math inline">\(t\)</span> test: Infield vs. Outfield<a class="anchor" aria-label="anchor" href="#independent-samples-t-test-infield-vs.-outfield"><i class="fas fa-link"></i></a>
+</h2>
 <p>We will first use an independent samples <span class="math inline">\(t\)</span> test to compare batting averages between infielders and outfielders. An infielder is a player who plays a position within the bases (1B, 2B, 3B, and SS) while an outfielder is a player who plays a position further away (LF, CF, RF). Designated hitters (DH) do not play on the field at all, and pitchers and catchers are considered part of a different category (the “battery”). These groupings are given by the <strong>Group</strong> variable in our dataset.</p>
 <p>To compare just infielders to outfielders we need to <strong>filter</strong> our data so that it only contains players from those two groups.</p>
 <div id="filtering-data-with-filter" class="section level3" number="10.2.1">
-<h3><span class="header-section-number">10.2.1</span> Filtering data with <code>filter</code></h3>
+<h3>
+<span class="header-section-number">10.2.1</span> Filtering data with <code>filter</code><a class="anchor" aria-label="anchor" href="#filtering-data-with-filter"><i class="fas fa-link"></i></a>
+</h3>
 <p>R makes it easy to filter out data we don’t need from a particular analysis. The code for this is, helpfully, called <code>filter</code>. Let’s see it in operation:</p>
-<div class="sourceCode" id="cb406"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb406-1"><a href="lab10.html#cb406-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%&gt;%</span></span>
-<span id="cb406-2"><a href="lab10.html#cb406-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Group <span class="sc">!=</span> <span class="st">&quot;Battery&quot;</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 511 x 15
-##    Name     Team  Group  Position Games_Played    AB     R     H Doubles Triples
-##    &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;           &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
-##  1 Vincej,… SEA   Infie… SS                  1     4     0     2       0       0
-##  2 Zagunis… CHC   Outfi… RF                  5     5     0     2       1       0
-##  3 Jones, R SF    Infie… 3B                  5     8     2     3       0       0
-##  4 Betts, M BOS   Outfi… RF                136   520   129   180      47       5
-##  5 Lagares… NYM   Outfi… CF                 30    59     9    20       1       1
-##  6 Kang, J  PIT   Infie… 3B                  3     6     0     2       0       0
-##  7 Straw, M HOU   Outfi… CF                  9     9     4     3       0       0
-##  8 Martine… BOS   Outfi… LF                150   569   111   188      37       2
-##  9 McNeil,… NYM   Infie… 2B                 63   225    35    74      11       6
-## 10 Yelich,… MIL   Outfi… LF                147   574   118   187      34       7
+<div class="sourceCode" id="cb424"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">batting</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">Group</span> <span class="op">!=</span> <span class="st">"Battery"</span><span class="op">)</span></code></pre></div>
+<pre><code>## # A tibble: 511 × 15
+##    Name        Team  Group Position Games_Played    AB     R     H Doubles Triples
+##    &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;           &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+##  1 Vincej, Z   SEA   Infi… SS                  1     4     0     2       0       0
+##  2 Zagunis, M  CHC   Outf… RF                  5     5     0     2       1       0
+##  3 Jones, R    SF    Infi… 3B                  5     8     2     3       0       0
+##  4 Betts, M    BOS   Outf… RF                136   520   129   180      47       5
+##  5 Lagares, J  NYM   Outf… CF                 30    59     9    20       1       1
+##  6 Kang, J     PIT   Infi… 3B                  3     6     0     2       0       0
+##  7 Straw, M    HOU   Outf… CF                  9     9     4     3       0       0
+##  8 Martinez, J BOS   Outf… LF                150   569   111   188      37       2
+##  9 McNeil, J   NYM   Infi… 2B                 63   225    35    74      11       6
+## 10 Yelich, C   MIL   Outf… LF                147   574   118   187      34       7
 ## # … with 501 more rows, and 5 more variables: HR &lt;dbl&gt;, RBI &lt;dbl&gt;, Walks &lt;dbl&gt;,
 ## #   Strike_Outs &lt;dbl&gt;, AVG &lt;dbl&gt;</code></pre>
-<p>The second line <code>filters</code> the data according to the criteria in the parentheses. The <code>!=</code> symbol means “not equal,” so <code>Group != "Battery"</code> can be read as “group is not equal to battery (pitcher or catcher).” The result of the filtering operation is a subset of the original data that excludes players with battery positions, i.e., pitchers and catchers.</p>
+<p>The second line <code>filters</code> the data according to the criteria in the parentheses. The <code><a href="https://rdrr.io/r/base/Comparison.html">!=</a></code> symbol means “not equal,” so <code>Group != "Battery"</code> can be read as “group is not equal to battery (pitcher or catcher).” The result of the filtering operation is a subset of the original data that excludes players with battery positions, i.e., pitchers and catchers.</p>
 <p>We could also filter out designated hitters using a similar chunk of code.</p>
-<div class="sourceCode" id="cb408"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb408-1"><a href="lab10.html#cb408-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%&gt;%</span></span>
-<span id="cb408-2"><a href="lab10.html#cb408-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(___)</span></code></pre></div>
-<pre><code>## # A tibble: 978 x 15
+<div class="sourceCode" id="cb426"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb426-1"><a href="lab10.html#cb426-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%&gt;%</span></span>
+<span id="cb426-2"><a href="lab10.html#cb426-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(___)</span></code></pre></div>
+<pre><code>## # A tibble: 978 × 15
 ##    Name      Team  Group Position Games_Played    AB     R     H Doubles Triples
 ##    &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;           &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
 ##  1 Allard, K ATL   Batt… P                   3     1     1     1       0       0
@@ -699,136 +330,165 @@ What code did you use to make histograms for at-bats (<code>AB</code>)? What did
 What code would filter out designated hitters? <em>Hint: what is the abbreviation for designated hitters?</em></p>
 </div>
 <p>Finally, we can combine filters just by listing them. The following bit of code filters out both pitchers and catchers, so the resulting data includes only infield and outfield players.</p>
-<div class="sourceCode" id="cb410"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb410-1"><a href="lab10.html#cb410-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%&gt;%</span></span>
-<span id="cb410-2"><a href="lab10.html#cb410-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Group <span class="sc">!=</span> <span class="st">&quot;Battery&quot;</span>, Group <span class="sc">!=</span> <span class="st">&quot;DH&quot;</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 505 x 15
-##    Name     Team  Group  Position Games_Played    AB     R     H Doubles Triples
-##    &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;           &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
-##  1 Vincej,… SEA   Infie… SS                  1     4     0     2       0       0
-##  2 Zagunis… CHC   Outfi… RF                  5     5     0     2       1       0
-##  3 Jones, R SF    Infie… 3B                  5     8     2     3       0       0
-##  4 Betts, M BOS   Outfi… RF                136   520   129   180      47       5
-##  5 Lagares… NYM   Outfi… CF                 30    59     9    20       1       1
-##  6 Kang, J  PIT   Infie… 3B                  3     6     0     2       0       0
-##  7 Straw, M HOU   Outfi… CF                  9     9     4     3       0       0
-##  8 Martine… BOS   Outfi… LF                150   569   111   188      37       2
-##  9 McNeil,… NYM   Infie… 2B                 63   225    35    74      11       6
-## 10 Yelich,… MIL   Outfi… LF                147   574   118   187      34       7
+<div class="sourceCode" id="cb428"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">batting</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">Group</span> <span class="op">!=</span> <span class="st">"Battery"</span>, <span class="va">Group</span> <span class="op">!=</span> <span class="st">"DH"</span><span class="op">)</span></code></pre></div>
+<pre><code>## # A tibble: 505 × 15
+##    Name        Team  Group Position Games_Played    AB     R     H Doubles Triples
+##    &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;           &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+##  1 Vincej, Z   SEA   Infi… SS                  1     4     0     2       0       0
+##  2 Zagunis, M  CHC   Outf… RF                  5     5     0     2       1       0
+##  3 Jones, R    SF    Infi… 3B                  5     8     2     3       0       0
+##  4 Betts, M    BOS   Outf… RF                136   520   129   180      47       5
+##  5 Lagares, J  NYM   Outf… CF                 30    59     9    20       1       1
+##  6 Kang, J     PIT   Infi… 3B                  3     6     0     2       0       0
+##  7 Straw, M    HOU   Outf… CF                  9     9     4     3       0       0
+##  8 Martinez, J BOS   Outf… LF                150   569   111   188      37       2
+##  9 McNeil, J   NYM   Infi… 2B                 63   225    35    74      11       6
+## 10 Yelich, C   MIL   Outf… LF                147   574   118   187      34       7
 ## # … with 495 more rows, and 5 more variables: HR &lt;dbl&gt;, RBI &lt;dbl&gt;, Walks &lt;dbl&gt;,
 ## #   Strike_Outs &lt;dbl&gt;, AVG &lt;dbl&gt;</code></pre>
 </div>
 <div id="doing-the-t-test" class="section level3" number="10.2.2">
-<h3><span class="header-section-number">10.2.2</span> Doing the <span class="math inline">\(t\)</span> test</h3>
+<h3>
+<span class="header-section-number">10.2.2</span> Doing the <span class="math inline">\(t\)</span> test<a class="anchor" aria-label="anchor" href="#doing-the-t-test"><i class="fas fa-link"></i></a>
+</h3>
 <p>Last time, we saw how to carry out the individual components of the computation involved in an independent samples <span class="math inline">\(t\)</span> test, but today we will see how to do it in a more streamlined form similar to how we did it with one-sample and paired samples <span class="math inline">\(t\)</span> tests last time.</p>
 <p>First, let’s make ourselves more histograms to get a sense of whether there is anything we should be concerned about in our data</p>
-<div class="sourceCode" id="cb412"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb412-1"><a href="lab10.html#cb412-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%&gt;%</span></span>
-<span id="cb412-2"><a href="lab10.html#cb412-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Group <span class="sc">!=</span> <span class="st">&quot;Battery&quot;</span>, Group <span class="sc">!=</span> <span class="st">&quot;DH&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb412-3"><a href="lab10.html#cb412-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> AVG)) <span class="sc">+</span></span>
-<span id="cb412-4"><a href="lab10.html#cb412-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">binwidth=</span><span class="fl">0.05</span>) <span class="sc">+</span></span>
-<span id="cb412-5"><a href="lab10.html#cb412-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="st">&quot;Group&quot;</span>, <span class="at">scales =</span> <span class="st">&quot;free_y&quot;</span>)</span></code></pre></div>
-<p><img src="10-indep_groups_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<div class="sourceCode" id="cb430"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">batting</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">Group</span> <span class="op">!=</span> <span class="st">"Battery"</span>, <span class="va">Group</span> <span class="op">!=</span> <span class="st">"DH"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">AVG</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">geom_histogram</span><span class="op">(</span>binwidth<span class="op">=</span><span class="fl">0.05</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">facet_wrap</span><span class="op">(</span><span class="st">"Group"</span>, scales <span class="op">=</span> <span class="st">"free_y"</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="10-indep_groups_files/figure-html/unnamed-chunk-18-1.png" width="672"></div>
 <p>Nothing too wonky, so we should be good to go to conduct our <span class="math inline">\(t\)</span> test.</p>
 <div id="state-your-hypotheses-6" class="section level4" number="10.2.2.1">
-<h4><span class="header-section-number">10.2.2.1</span> State your hypotheses</h4>
+<h4>
+<span class="header-section-number">10.2.2.1</span> State your hypotheses<a class="anchor" aria-label="anchor" href="#state-your-hypotheses-6"><i class="fas fa-link"></i></a>
+</h4>
 <p>Our <strong>research question</strong> is, “is there a difference in batting averages between infield and outfield players?” Because our research question is about <em>any</em> kind of difference, we will be doing a <strong>two-sided</strong> test. Specifically, our <strong>null hypothesis</strong> is that there is no difference in the population mean batting average for infielders and outfielders (<span class="math inline">\(H_0\)</span>: <span class="math inline">\(\mu_1 - \mu_2 = 0\)</span>) while our <strong>alternative hypothesis</strong> is that there is some difference (<span class="math inline">\(H_1\)</span>: <span class="math inline">\(\mu_1 - \mu_2 \neq 0\)</span>).</p>
 </div>
 <div id="set-your-alpha-level-6" class="section level4" number="10.2.2.2">
-<h4><span class="header-section-number">10.2.2.2</span> Set your alpha level</h4>
+<h4>
+<span class="header-section-number">10.2.2.2</span> Set your alpha level<a class="anchor" aria-label="anchor" href="#set-your-alpha-level-6"><i class="fas fa-link"></i></a>
+</h4>
 <p>Let’s choose an <strong>alpha level of 0.05</strong>.</p>
 </div>
 <div id="find-the-t-value-6" class="section level4" number="10.2.2.3">
-<h4><span class="header-section-number">10.2.2.3</span> Find the <span class="math inline">\(t\)</span> value</h4>
+<h4>
+<span class="header-section-number">10.2.2.3</span> Find the <span class="math inline">\(t\)</span> value<a class="anchor" aria-label="anchor" href="#find-the-t-value-6"><i class="fas fa-link"></i></a>
+</h4>
 <p>We will use the <code>infer</code> package to visualize the <span class="math inline">\(t\)</span> test like last time. First, we need to get our <span class="math inline">\(t\)</span> value:</p>
-<div class="sourceCode" id="cb413"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb413-1"><a href="lab10.html#cb413-1" aria-hidden="true" tabindex="-1"></a>t_value <span class="ot">&lt;-</span> batting <span class="sc">%&gt;%</span></span>
-<span id="cb413-2"><a href="lab10.html#cb413-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Group <span class="sc">!=</span> <span class="st">&quot;Battery&quot;</span>, Group <span class="sc">!=</span> <span class="st">&quot;DH&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb413-3"><a href="lab10.html#cb413-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(AVG <span class="sc">~</span> Group) <span class="sc">%&gt;%</span></span>
-<span id="cb413-4"><a href="lab10.html#cb413-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">&#39;t&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb431"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">t_value</span> <span class="op">&lt;-</span> <span class="va">batting</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">Group</span> <span class="op">!=</span> <span class="st">"Battery"</span>, <span class="va">Group</span> <span class="op">!=</span> <span class="st">"DH"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span><span class="va">AVG</span> <span class="op">~</span> <span class="va">Group</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/calculate.html">calculate</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">'t'</span><span class="op">)</span></code></pre></div>
 <pre><code>## Warning: The statistic is based on a difference or ratio; by default, for
 ## difference-based statistics, the explanatory variable is subtracted in the
-## order &quot;Infield&quot; - &quot;Outfield&quot;, or divided in the order &quot;Infield&quot; / &quot;Outfield&quot;
+## order "Infield" - "Outfield", or divided in the order "Infield" / "Outfield"
 ## for ratio-based statistics. To specify this order yourself, supply `order =
-## c(&quot;Infield&quot;, &quot;Outfield&quot;)` to the calculate() function.</code></pre>
-<p>We told R to remember the result under the label <code>t_value</code>. Aside from that, the first two lines are the same as above and tell R what data we are working with; it takes two lines because the second line is the <code>filter</code>ing operation. The third line looks interesting: Remember that last time we used <code>specify</code> to tell R what our “response” variable was. Now, we have both a response variable and an “explanatory” variable, <code>Group</code>. By “explanatory,” we mean that the <code>Group</code> variable is what divides the response variable into two independent groups, and we are seeing if that variable <em>explains</em> differences between those groups. <code>AVG ~ Group</code> says that the variable on the left of the <code>~</code> (<code>AVG</code>) is the <strong>response</strong> variable (the one we want to analyze) and the variable on the right (<code>Group</code>) is what we are testing to see if it <strong>explains</strong> differences in our response variable. Finally, the last line just tells R to calculate the <span class="math inline">\(t\)</span> statistic.</p>
+## c("Infield", "Outfield")` to the calculate() function.</code></pre>
+<p>We told R to remember the result under the label <code>t_value</code>. Aside from that, the first two lines are the same as above and tell R what data we are working with; it takes two lines because the second line is the <code>filter</code>ing operation. The third line looks interesting: Remember that last time we used <code>specify</code> to tell R what our “response” variable was. Now, we have both a response variable and an “explanatory” variable, <code>Group</code>. By “explanatory,” we mean that the <code>Group</code> variable is what divides the response variable into two independent groups, and we are seeing if that variable <em>explains</em> differences between those groups. <code>AVG ~ Group</code> says that the variable on the left of the <code><a href="https://rdrr.io/r/base/tilde.html">~</a></code> (<code>AVG</code>) is the <strong>response</strong> variable (the one we want to analyze) and the variable on the right (<code>Group</code>) is what we are testing to see if it <strong>explains</strong> differences in our response variable. Finally, the last line just tells R to calculate the <span class="math inline">\(t\)</span> statistic.</p>
 </div>
 <div id="find-the-p-value-6" class="section level4" number="10.2.2.4">
-<h4><span class="header-section-number">10.2.2.4</span> Find the <span class="math inline">\(p\)</span> value</h4>
+<h4>
+<span class="header-section-number">10.2.2.4</span> Find the <span class="math inline">\(p\)</span> value<a class="anchor" aria-label="anchor" href="#find-the-p-value-6"><i class="fas fa-link"></i></a>
+</h4>
 <p>We can now visualize where our sample falls on the appropriate <span class="math inline">\(t\)</span> distribution:</p>
-<div class="sourceCode" id="cb415"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb415-1"><a href="lab10.html#cb415-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%&gt;%</span></span>
-<span id="cb415-2"><a href="lab10.html#cb415-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Group <span class="sc">!=</span> <span class="st">&quot;Battery&quot;</span>, Group <span class="sc">!=</span> <span class="st">&quot;DH&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb415-3"><a href="lab10.html#cb415-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(AVG <span class="sc">~</span> Group) <span class="sc">%&gt;%</span></span>
-<span id="cb415-4"><a href="lab10.html#cb415-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">&#39;point&#39;</span>, <span class="at">mu =</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb415-5"><a href="lab10.html#cb415-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>(<span class="at">method =</span> <span class="st">&#39;theoretical&#39;</span>) <span class="sc">+</span></span>
-<span id="cb415-6"><a href="lab10.html#cb415-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> t_value, <span class="at">direction =</span> <span class="st">&#39;two-sided&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb433"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">batting</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">Group</span> <span class="op">!=</span> <span class="st">"Battery"</span>, <span class="va">Group</span> <span class="op">!=</span> <span class="st">"DH"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span><span class="va">AVG</span> <span class="op">~</span> <span class="va">Group</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/hypothesize.html">hypothesize</a></span><span class="op">(</span>null <span class="op">=</span> <span class="st">'point'</span>, mu <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/visualize.html">visualize</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">'theoretical'</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/shade_p_value.html">shade_p_value</a></span><span class="op">(</span>obs_stat <span class="op">=</span> <span class="va">t_value</span>, direction <span class="op">=</span> <span class="st">'two-sided'</span><span class="op">)</span></code></pre></div>
 <pre><code>## Warning: Check to make sure the conditions have been met for the theoretical
 ## method. {infer} currently does not check these for you.</code></pre>
-<p><img src="10-indep_groups_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<div class="inline-figure"><img src="10-indep_groups_files/figure-html/unnamed-chunk-20-1.png" width="672"></div>
 
 <div class="exercise">
 <span id="exr:ex1005" class="exercise"><strong>Exercise 10.5  </strong></span>
 Based on the plot above and the amount of the <span class="math inline">\(t\)</span> distribution that is shaded in, do you think our <span class="math inline">\(p\)</span> value will be relatively high or relatively low?
 </div>
 <p>Finally, let’s get our full <span class="math inline">\(t\)</span> test results:</p>
-<div class="sourceCode" id="cb417"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb417-1"><a href="lab10.html#cb417-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%&gt;%</span></span>
-<span id="cb417-2"><a href="lab10.html#cb417-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Group <span class="sc">!=</span> <span class="st">&quot;Battery&quot;</span>, Group <span class="sc">!=</span> <span class="st">&quot;DH&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb417-3"><a href="lab10.html#cb417-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">t_test</span>(AVG <span class="sc">~</span> Group,</span>
-<span id="cb417-4"><a href="lab10.html#cb417-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">alternative =</span> <span class="st">&#39;two-sided&#39;</span>,</span>
-<span id="cb417-5"><a href="lab10.html#cb417-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">var.equal =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb417-6"><a href="lab10.html#cb417-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">mu =</span> <span class="dv">0</span>,</span>
-<span id="cb417-7"><a href="lab10.html#cb417-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">conf_level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb435"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">batting</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">Group</span> <span class="op">!=</span> <span class="st">"Battery"</span>, <span class="va">Group</span> <span class="op">!=</span> <span class="st">"DH"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/t_test.html">t_test</a></span><span class="op">(</span><span class="va">AVG</span> <span class="op">~</span> <span class="va">Group</span>,
+           alternative <span class="op">=</span> <span class="st">'two-sided'</span>,
+           var.equal <span class="op">=</span> <span class="cn">TRUE</span>,
+           mu <span class="op">=</span> <span class="fl">0</span>,
+           conf_level <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></code></pre></div>
 <pre><code>## Warning: The statistic is based on a difference or ratio; by default, for
 ## difference-based statistics, the explanatory variable is subtracted in the
-## order &quot;Infield&quot; - &quot;Outfield&quot;, or divided in the order &quot;Infield&quot; / &quot;Outfield&quot;
+## order "Infield" - "Outfield", or divided in the order "Infield" / "Outfield"
 ## for ratio-based statistics. To specify this order yourself, supply `order =
-## c(&quot;Infield&quot;, &quot;Outfield&quot;)`.</code></pre>
-<pre><code>## # A tibble: 1 x 6
+## c("Infield", "Outfield")`.</code></pre>
+<pre><code>## # A tibble: 1 × 6
 ##   statistic  t_df p_value alternative lower_ci upper_ci
 ##       &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;          &lt;dbl&gt;    &lt;dbl&gt;
 ## 1     0.592   503   0.554 two.sided   -0.00764   0.0142</code></pre>
 <p>As above, the first two lines tell R what data to use. The remaining lines tell R all about the <code>t_test</code> we want to perform. First, we use <code>AVG ~ Group</code> to say that we are testing a null hypothesis about how <code>AVG</code> differs between different values of <code>Group</code>. We are doing a test with an <code>alternative</code> hypothesis that is <code>two-sided</code>; that the mean difference according to the null hypothesis is <code>mu = 0</code>; and that our confidence level (<code>conf_level</code>) is 0.95, which is one minus our alpha level. The <code>var.equal = TRUE</code> line tells R that we are assuming the population <code>var</code>iances are <code>equal</code> between the two groups, so we can use the pooled sample standard deviation. If we had reason to believe the variances were not equal between groups, we could say <code>var.equal = FALSE</code> instead, like so:</p>
-<div class="sourceCode" id="cb420"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb420-1"><a href="lab10.html#cb420-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%&gt;%</span></span>
-<span id="cb420-2"><a href="lab10.html#cb420-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Group <span class="sc">!=</span> <span class="st">&quot;Battery&quot;</span>, Group <span class="sc">!=</span> <span class="st">&quot;DH&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb420-3"><a href="lab10.html#cb420-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">t_test</span>(AVG <span class="sc">~</span> Group,</span>
-<span id="cb420-4"><a href="lab10.html#cb420-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">alternative =</span> <span class="st">&#39;two-sided&#39;</span>,</span>
-<span id="cb420-5"><a href="lab10.html#cb420-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">var.equal =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb420-6"><a href="lab10.html#cb420-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">mu =</span> <span class="dv">0</span>,</span>
-<span id="cb420-7"><a href="lab10.html#cb420-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">conf_level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb438"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">batting</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">Group</span> <span class="op">!=</span> <span class="st">"Battery"</span>, <span class="va">Group</span> <span class="op">!=</span> <span class="st">"DH"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/t_test.html">t_test</a></span><span class="op">(</span><span class="va">AVG</span> <span class="op">~</span> <span class="va">Group</span>,
+           alternative <span class="op">=</span> <span class="st">'two-sided'</span>,
+           var.equal <span class="op">=</span> <span class="cn">FALSE</span>,
+           mu <span class="op">=</span> <span class="fl">0</span>,
+           conf_level <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></code></pre></div>
 <pre><code>## Warning: The statistic is based on a difference or ratio; by default, for
 ## difference-based statistics, the explanatory variable is subtracted in the
-## order &quot;Infield&quot; - &quot;Outfield&quot;, or divided in the order &quot;Infield&quot; / &quot;Outfield&quot;
+## order "Infield" - "Outfield", or divided in the order "Infield" / "Outfield"
 ## for ratio-based statistics. To specify this order yourself, supply `order =
-## c(&quot;Infield&quot;, &quot;Outfield&quot;)`.</code></pre>
-<pre><code>## # A tibble: 1 x 6
+## c("Infield", "Outfield")`.</code></pre>
+<pre><code>## # A tibble: 1 × 6
 ##   statistic  t_df p_value alternative lower_ci upper_ci
 ##       &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;          &lt;dbl&gt;    &lt;dbl&gt;
 ## 1     0.590  473.   0.556 two.sided   -0.00768   0.0143</code></pre>
 <p>We won’t get into the mathematics for this, but just point out that it is an option. For our purposes, we will always use <code>var.equal = TRUE</code>.</p>
 </div>
 <div id="decide-whether-or-not-to-reject-the-null-hypothesis-6" class="section level4" number="10.2.2.5">
-<h4><span class="header-section-number">10.2.2.5</span> Decide whether or not to reject the null hypothesis</h4>
+<h4>
+<span class="header-section-number">10.2.2.5</span> Decide whether or not to reject the null hypothesis<a class="anchor" aria-label="anchor" href="#decide-whether-or-not-to-reject-the-null-hypothesis-6"><i class="fas fa-link"></i></a>
+</h4>
 <p>Based on the <span class="math inline">\(p\)</span> value and our alpha level above, we <strong>fail to reject</strong> the null hypothesis. We have no reason to believe that infielders and outfielders have different batting averages.</p>
 </div>
 </div>
 </div>
 <div id="analysis-of-variance-batting-average-by-position" class="section level2" number="10.3">
-<h2><span class="header-section-number">10.3</span> Analysis of Variance: Batting average by position</h2>
+<h2>
+<span class="header-section-number">10.3</span> Analysis of Variance: Batting average by position<a class="anchor" aria-label="anchor" href="#analysis-of-variance-batting-average-by-position"><i class="fas fa-link"></i></a>
+</h2>
 <p>Maybe infielders and outfielders as two big groups don’t differ in their batting average. But what if we took a closer look and compared by specific positions? And what about the positions that we didn’t include before, pitchers, catchers, and designated hitters? To compare multiple independent samples, we will use <strong>Analysis of Variance (ANOVA)</strong>.</p>
 <div id="doing-the-anova" class="section level3" number="10.3.1">
-<h3><span class="header-section-number">10.3.1</span> Doing the ANOVA</h3>
+<h3>
+<span class="header-section-number">10.3.1</span> Doing the ANOVA<a class="anchor" aria-label="anchor" href="#doing-the-anova"><i class="fas fa-link"></i></a>
+</h3>
 <p>As we’ve seen, the steps of ANOVA are broadly similar to any other hypothesis test.</p>
 <div id="state-your-hypotheses-7" class="section level4" number="10.3.1.1">
-<h4><span class="header-section-number">10.3.1.1</span> State your hypotheses</h4>
+<h4>
+<span class="header-section-number">10.3.1.1</span> State your hypotheses<a class="anchor" aria-label="anchor" href="#state-your-hypotheses-7"><i class="fas fa-link"></i></a>
+</h4>
 <p>Our <strong>research question</strong> is, “is there a difference in batting average between positions?” Our <strong>null hypothesis</strong> is that the population mean batting average is the same for all positions (<span class="math inline">\(H_0\)</span>: <span class="math inline">\(\mu_{1B} = \mu_{2B} = \cdots = \mu_{SS}\)</span>). Our <strong>alternative hypothesis</strong> is that there is at least one position with a different population mean batting average from the others.</p>
 </div>
 <div id="set-your-alpha-level-7" class="section level4" number="10.3.1.2">
-<h4><span class="header-section-number">10.3.1.2</span> Set your alpha level</h4>
+<h4>
+<span class="header-section-number">10.3.1.2</span> Set your alpha level<a class="anchor" aria-label="anchor" href="#set-your-alpha-level-7"><i class="fas fa-link"></i></a>
+</h4>
 <p>Again, let’s keep our <strong>alpha level of 0.05</strong>.</p>
 </div>
 <div id="find-the-f-value" class="section level4" number="10.3.1.3">
-<h4><span class="header-section-number">10.3.1.3</span> Find the <span class="math inline">\(F\)</span> value</h4>
+<h4>
+<span class="header-section-number">10.3.1.3</span> Find the <span class="math inline">\(F\)</span> value<a class="anchor" aria-label="anchor" href="#find-the-f-value"><i class="fas fa-link"></i></a>
+</h4>
 <p>Similar to above, we can use R not only to find the <span class="math inline">\(F\)</span> value for our data, but to visualize where it falls on the distribution of <span class="math inline">\(F\)</span> values that we would observe if the null hypothesis were true.</p>
-<div class="sourceCode" id="cb423"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb423-1"><a href="lab10.html#cb423-1" aria-hidden="true" tabindex="-1"></a>F_value <span class="ot">&lt;-</span> batting <span class="sc">%&gt;%</span></span>
-<span id="cb423-2"><a href="lab10.html#cb423-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(AVG <span class="sc">~</span> Position) <span class="sc">%&gt;%</span></span>
-<span id="cb423-3"><a href="lab10.html#cb423-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">&quot;F&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb441"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">F_value</span> <span class="op">&lt;-</span> <span class="va">batting</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span><span class="va">AVG</span> <span class="op">~</span> <span class="va">Position</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/calculate.html">calculate</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"F"</span><span class="op">)</span></code></pre></div>
 <p>The block of code above calculated the <span class="math inline">\(F\)</span> value and told R to remember it under the label <code>F_value</code>. As usual, we began by telling R what data to work with (<code>batting</code>), then <code>specify</code> that our response variable is <code>AVG</code> and our explanatory variable is <code>Position</code>. Again, by “explanatory,” we mean that we are testing to see how well differences in the response variable can be “explained by” the fact that they came from different groups defined by the explanatory variable (<code>Position</code>). Finally, we get the <span class="math inline">\(F\)</span> value.</p>
 
 <div class="exercise">
@@ -836,28 +496,33 @@ Based on the plot above and the amount of the <span class="math inline">\(t\)</s
 Compare the code we just used to find <code>F_value</code> with the code we used above to find the <code>t_value</code> (comparing infielders and outfielders). What is similar and what is different? Is there a difference in how we told R what data to use? Is there a difference in how we “specified” the response variable and explanatory variable? Is there a difference in what we told R to “calculate?”
 </div>
 <p>Let’s check out that <span class="math inline">\(F\)</span> value now</p>
-<div class="sourceCode" id="cb424"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb424-1"><a href="lab10.html#cb424-1" aria-hidden="true" tabindex="-1"></a>F_value</span></code></pre></div>
-<pre><code>## # A tibble: 1 x 1
+<div class="sourceCode" id="cb442"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">F_value</span></code></pre></div>
+<pre><code>## # A tibble: 1 × 1
 ##    stat
 ##   &lt;dbl&gt;
 ## 1  33.4</code></pre>
 </div>
 <div id="find-the-p-value-7" class="section level4" number="10.3.1.4">
-<h4><span class="header-section-number">10.3.1.4</span> Find the <span class="math inline">\(p\)</span> value</h4>
+<h4>
+<span class="header-section-number">10.3.1.4</span> Find the <span class="math inline">\(p\)</span> value<a class="anchor" aria-label="anchor" href="#find-the-p-value-7"><i class="fas fa-link"></i></a>
+</h4>
 <p>The following code let’s us visualize the <span class="math inline">\(F\)</span> value for our data relative to the distribution of <span class="math inline">\(F\)</span> values that we would expect to see if the null hypothesis were true:</p>
-<div class="sourceCode" id="cb426"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb426-1"><a href="lab10.html#cb426-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%&gt;%</span></span>
-<span id="cb426-2"><a href="lab10.html#cb426-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specify</span>(AVG <span class="sc">~</span> Position) <span class="sc">%&gt;%</span></span>
-<span id="cb426-3"><a href="lab10.html#cb426-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">&quot;independence&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb426-4"><a href="lab10.html#cb426-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">visualize</span>(<span class="at">method =</span> <span class="st">&quot;theoretical&quot;</span>) <span class="sc">+</span></span>
-<span id="cb426-5"><a href="lab10.html#cb426-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">shade_p_value</span>(F_value, <span class="at">direction =</span> <span class="st">&quot;greater&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb444"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">batting</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span><span class="va">AVG</span> <span class="op">~</span> <span class="va">Position</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/hypothesize.html">hypothesize</a></span><span class="op">(</span>null <span class="op">=</span> <span class="st">"independence"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/visualize.html">visualize</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"theoretical"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/shade_p_value.html">shade_p_value</a></span><span class="op">(</span><span class="va">F_value</span>, direction <span class="op">=</span> <span class="st">"greater"</span><span class="op">)</span></code></pre></div>
 <pre><code>## Warning: Check to make sure the conditions have been met for the theoretical
 ## method. {infer} currently does not check these for you.</code></pre>
-<p><img src="10-indep_groups_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<div class="inline-figure"><img src="10-indep_groups_files/figure-html/unnamed-chunk-25-1.png" width="672"></div>
 <p>It’s pretty clear that our <span class="math inline">\(F\)</span> value is way out there!</p>
 <p>But let’s finally get our ANOVA table so we can see the <span class="math inline">\(p\)</span> value:</p>
-<div class="sourceCode" id="cb428"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb428-1"><a href="lab10.html#cb428-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%$%</span></span>
-<span id="cb428-2"><a href="lab10.html#cb428-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(AVG <span class="sc">~</span> Position) <span class="sc">%&gt;%</span></span>
-<span id="cb428-3"><a href="lab10.html#cb428-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">anova</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb446"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">batting</span> <span class="op">%$%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">AVG</span> <span class="op">~</span> <span class="va">Position</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code>## Analysis of Variance Table
 ## 
 ## Response: AVG
@@ -865,23 +530,28 @@ Compare the code we just used to find <code>F_value</code> with the code we used
 ## Position    9  4.1771 0.46413  33.392 &lt; 2.2e-16 ***
 ## Residuals 974 13.5378 0.01390                      
 ## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<p>The block of code above is how to do ANOVA in R. As usual, we first tell R what data to work with (<code>batting</code>). In the second line, we again define our response variable (<code>AVG</code>) and explanatory variable (<code>Position</code>) using the <code>~</code>. Finally, the last line tells R to do an <code>anova</code>.</p>
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+<p>The block of code above is how to do ANOVA in R. As usual, we first tell R what data to work with (<code>batting</code>). In the second line, we again define our response variable (<code>AVG</code>) and explanatory variable (<code>Position</code>) using the <code><a href="https://rdrr.io/r/base/tilde.html">~</a></code>. Finally, the last line tells R to do an <code>anova</code>.</p>
 <p>There are two things to note: First, the connection between the first and second lines uses the <code>$%$</code> symbol. The reason for this is not so critical in this class, but this is something to check if you ever encounter a problem. Second, the second line begins with <code>lm</code>, rather than <code>specify</code>. As we will see, <code>lm</code> is an important function in R that is used for other things too.</p>
 <p>Anyway, the output we get from R is a familiar ANOVA table and we can read from it that our <span class="math inline">\(p\)</span> value is extremely low, essentially equal to 0. In other words, if the null hypothesis were true, a result like ours would be exceedingly unlikely.</p>
 </div>
 <div id="decide-whether-or-not-to-reject-the-null-hypothesis-7" class="section level4" number="10.3.1.5">
-<h4><span class="header-section-number">10.3.1.5</span> Decide whether or not to reject the null hypothesis</h4>
+<h4>
+<span class="header-section-number">10.3.1.5</span> Decide whether or not to reject the null hypothesis<a class="anchor" aria-label="anchor" href="#decide-whether-or-not-to-reject-the-null-hypothesis-7"><i class="fas fa-link"></i></a>
+</h4>
 <p>Based on the fact that the <span class="math inline">\(p\)</span> value is much less than our alpha level, we <strong>reject</strong> the null hypothesis. We have reason to believe that batting averages do differ between different positions.</p>
 </div>
 </div>
 <div id="post-hoc-pairwise-tests" class="section level3" number="10.3.2">
-<h3><span class="header-section-number">10.3.2</span> Post hoc pairwise tests</h3>
+<h3>
+<span class="header-section-number">10.3.2</span> Post hoc pairwise tests<a class="anchor" aria-label="anchor" href="#post-hoc-pairwise-tests"><i class="fas fa-link"></i></a>
+</h3>
 <p>Since we rejected the null hypothesis at the end of our ANOVA, let’s use post hoc pairwise <span class="math inline">\(t\)</span> tests to see which specific pairs of positions are likely to differ from one another. We can get some sense of this by looking at the sample mean batting averages for each position:</p>
-<div class="sourceCode" id="cb430"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb430-1"><a href="lab10.html#cb430-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%&gt;%</span></span>
-<span id="cb430-2"><a href="lab10.html#cb430-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(Position) <span class="sc">%&gt;%</span></span>
-<span id="cb430-3"><a href="lab10.html#cb430-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">M =</span> <span class="fu">mean</span>(AVG))</span></code></pre></div>
-<pre><code>## # A tibble: 10 x 2
+<div class="sourceCode" id="cb448"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">batting</span> <span class="op">%&gt;%</span>
+    <span class="fu">group_by</span><span class="op">(</span><span class="va">Position</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">summarize</span><span class="op">(</span>M <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">AVG</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre><code>## # A tibble: 10 × 2
 ##    Position      M
 ##    &lt;chr&gt;     &lt;dbl&gt;
 ##  1 1B       0.243 
@@ -895,12 +565,13 @@ Compare the code we just used to find <code>F_value</code> with the code we used
 ##  9 RF       0.227 
 ## 10 SS       0.235</code></pre>
 <p>Hmm, it certainly looks like there’s one particularly low mean relative to the others. But to know whether we have statistical evidence for these differences, we use the following code in R to conduct post-hoc pairwise <span class="math inline">\(t\)</span> tests:</p>
-<div class="sourceCode" id="cb432"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb432-1"><a href="lab10.html#cb432-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%$%</span></span>
-<span id="cb432-2"><a href="lab10.html#cb432-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pairwise.t.test</span>(</span>
-<span id="cb432-3"><a href="lab10.html#cb432-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">x =</span> AVG,</span>
-<span id="cb432-4"><a href="lab10.html#cb432-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">g =</span> Position,</span>
-<span id="cb432-5"><a href="lab10.html#cb432-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">p.adjust.method =</span> <span class="st">&#39;bonferroni&#39;</span></span>
-<span id="cb432-6"><a href="lab10.html#cb432-6" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div>
+<div class="sourceCode" id="cb450"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">batting</span> <span class="op">%$%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/pairwise.t.test.html">pairwise.t.test</a></span><span class="op">(</span>
+        x <span class="op">=</span> <span class="va">AVG</span>,
+        g <span class="op">=</span> <span class="va">Position</span>,
+        p.adjust.method <span class="op">=</span> <span class="st">'bonferroni'</span>
+    <span class="op">)</span></code></pre></div>
 <pre><code>## 
 ##  Pairwise comparisons using t tests with pooled SD 
 ## 
@@ -918,7 +589,7 @@ Compare the code we just used to find <code>F_value</code> with the code we used
 ## SS 1.000   1.000   1.000   1.000   1.000   1.000 1.000   &lt; 2e-16 1.000
 ## 
 ## P value adjustment method: bonferroni</code></pre>
-<p>Notice that, again, we connected the first and second lines with <code>%$%</code>. By telling R <code>x = AVG</code>, we were saying that our response variable is <code>AVG</code>. By telling R <code>g = Position</code>, we were saying that the explanatory variable is <code>Position</code>. Finally, we told R to adjust the <span class="math inline">\(p\)</span> values for each of our pairwise <span class="math inline">\(t\)</span> tests using the <code>bonferroni</code> correction we discussed in class.</p>
+<p>Notice that, again, we connected the first and second lines with <code><a href="https://magrittr.tidyverse.org/reference/exposition.html">%$%</a></code>. By telling R <code>x = AVG</code>, we were saying that our response variable is <code>AVG</code>. By telling R <code>g = Position</code>, we were saying that the explanatory variable is <code>Position</code>. Finally, we told R to adjust the <span class="math inline">\(p\)</span> values for each of our pairwise <span class="math inline">\(t\)</span> tests using the <code>bonferroni</code> correction we discussed in class.</p>
 <p>The result is a big matrix of <span class="math inline">\(p\)</span> values. To see which pairs of groups are statistically significantly different from one another, we compare each <span class="math inline">\(p\)</span> value against our alpha level (0.05); as usual, if the <span class="math inline">\(p\)</span> value in the matrix is less than our alpha level, we can reject the null hypothesis that there is no difference on average.</p>
 
 <div class="exercise">
@@ -927,13 +598,15 @@ Based on the <span class="math inline">\(p\)</span> values in the table above, f
 </div>
 </div>
 <div id="no-pitchers-allowed" class="section level3" number="10.3.3">
-<h3><span class="header-section-number">10.3.3</span> No Pitchers Allowed?</h3>
+<h3>
+<span class="header-section-number">10.3.3</span> No Pitchers Allowed?<a class="anchor" aria-label="anchor" href="#no-pitchers-allowed"><i class="fas fa-link"></i></a>
+</h3>
 <p>At the beginning of the session, we saw that the batting averages for pitchers seemed odd relative to other positions, largely because they are not at bat as often. And we saw with our post hoc pairwise tests that all the statistically significant pairwise differences between positions involved pitchers. If we excluded pitchers from the set of groups being compared, would we still have evidence that positions differ in batting average?</p>
 <p>Let’s see! You will need to add a line to our ANOVA code that filters out pitchers. You’ll need to fill in the blank part of the following slice of code:</p>
-<div class="sourceCode" id="cb434"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb434-1"><a href="lab10.html#cb434-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%&gt;%</span></span>
-<span id="cb434-2"><a href="lab10.html#cb434-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(___) <span class="sc">%$%</span></span>
-<span id="cb434-3"><a href="lab10.html#cb434-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(AVG <span class="sc">~</span> Position) <span class="sc">%&gt;%</span></span>
-<span id="cb434-4"><a href="lab10.html#cb434-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">anova</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb452-1"><a href="lab10.html#cb452-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%&gt;%</span></span>
+<span id="cb452-2"><a href="lab10.html#cb452-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(___) <span class="sc">%$%</span></span>
+<span id="cb452-3"><a href="lab10.html#cb452-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(AVG <span class="sc">~</span> Position) <span class="sc">%&gt;%</span></span>
+<span id="cb452-4"><a href="lab10.html#cb452-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">anova</span>()</span></code></pre></div>
 <p>The result of running your new ANOVA will be the following:</p>
 <pre><code>## Analysis of Variance Table
 ## 
@@ -948,19 +621,25 @@ What code did you write to do an ANOVA with <code>AVG</code> as the response var
 </div>
 </div>
 <div id="slugging-average" class="section level3" number="10.3.4">
-<h3><span class="header-section-number">10.3.4</span> Slugging Average</h3>
+<h3>
+<span class="header-section-number">10.3.4</span> Slugging Average<a class="anchor" aria-label="anchor" href="#slugging-average"><i class="fas fa-link"></i></a>
+</h3>
 <p>It looks like, if pitchers are excluded, we no longer have any evidence that positions differ in their batting averages, since we would fail to reject the null hypothesis at our alpha level of 0.05.</p>
 <p>But maybe we would find evidence for a difference in some other measure of batting performance? Let’s use <code>mutate</code> to once again create a new variable for us to analyze, this time the “slugging average.” The slugging average is the average number of bases made on each at-bat. The slugging average is therefore a more sensitive measure of batting ability than just the batting average, because it takes into account how <em>good</em> a hit was, not just whether it was made.</p>
 <p>The slugging average is the total number of bases won (which we found above) divided by the number of at-bats.</p>
-<div class="sourceCode" id="cb436"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb436-1"><a href="lab10.html#cb436-1" aria-hidden="true" tabindex="-1"></a>batting <span class="ot">&lt;-</span> batting <span class="sc">%&gt;%</span></span>
-<span id="cb436-2"><a href="lab10.html#cb436-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">SLG =</span> (H <span class="sc">+</span> Doubles <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> Triples <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> HR) <span class="sc">/</span> AB)</span></code></pre></div>
+<div class="sourceCode" id="cb454"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">batting</span> <span class="op">&lt;-</span> <span class="va">batting</span> <span class="op">%&gt;%</span>
+    <span class="fu">mutate</span><span class="op">(</span>SLG <span class="op">=</span> <span class="op">(</span><span class="va">H</span> <span class="op">+</span> <span class="va">Doubles</span> <span class="op">+</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">Triples</span> <span class="op">+</span> <span class="fl">3</span> <span class="op">*</span> <span class="va">HR</span><span class="op">)</span> <span class="op">/</span> <span class="va">AB</span><span class="op">)</span></code></pre></div>
 <div id="inspecting-the-data" class="section level4" number="10.3.4.1">
-<h4><span class="header-section-number">10.3.4.1</span> Inspecting the data</h4>
+<h4>
+<span class="header-section-number">10.3.4.1</span> Inspecting the data<a class="anchor" aria-label="anchor" href="#inspecting-the-data"><i class="fas fa-link"></i></a>
+</h4>
 <p>First, let’s get a sense of the central tendency (mean) and variability (standard deviation) of the slugging average for each position:</p>
-<div class="sourceCode" id="cb437"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb437-1"><a href="lab10.html#cb437-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%&gt;%</span></span>
-<span id="cb437-2"><a href="lab10.html#cb437-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(Position) <span class="sc">%&gt;%</span></span>
-<span id="cb437-3"><a href="lab10.html#cb437-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">M =</span> <span class="fu">mean</span>(SLG), <span class="at">S =</span> <span class="fu">sd</span>(SLG))</span></code></pre></div>
-<pre><code>## # A tibble: 10 x 3
+<div class="sourceCode" id="cb455"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">batting</span> <span class="op">%&gt;%</span>
+    <span class="fu">group_by</span><span class="op">(</span><span class="va">Position</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">summarize</span><span class="op">(</span>M <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">SLG</span><span class="op">)</span>, S <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">SLG</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre><code>## # A tibble: 10 × 3
 ##    Position     M      S
 ##    &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;
 ##  1 1B       0.431 0.0979
@@ -974,11 +653,11 @@ What code did you write to do an ANOVA with <code>AVG</code> as the response var
 ##  9 RF       0.374 0.128 
 ## 10 SS       0.355 0.110</code></pre>
 <p>Next, let’s construct a set of histograms so we can get a sense of whether there are any outliers or if any of the groups look like they might be very different from the others. We will modify the code we used above for <code>AVG</code>, so you’ll need to fill in the blanks to get something like the result below (play around with different <code>binwidth</code>s until you find one that seems good):</p>
-<div class="sourceCode" id="cb439"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb439-1"><a href="lab10.html#cb439-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%&gt;%</span></span>
-<span id="cb439-2"><a href="lab10.html#cb439-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___)) <span class="sc">+</span></span>
-<span id="cb439-3"><a href="lab10.html#cb439-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> ___) <span class="sc">+</span></span>
-<span id="cb439-4"><a href="lab10.html#cb439-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="st">&quot;Position&quot;</span>, <span class="at">scales =</span> <span class="st">&quot;free_y&quot;</span>)</span></code></pre></div>
-<p><img src="10-indep_groups_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
+<div class="sourceCode" id="cb457"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb457-1"><a href="lab10.html#cb457-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%&gt;%</span></span>
+<span id="cb457-2"><a href="lab10.html#cb457-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___)) <span class="sc">+</span></span>
+<span id="cb457-3"><a href="lab10.html#cb457-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> ___) <span class="sc">+</span></span>
+<span id="cb457-4"><a href="lab10.html#cb457-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="st">"Position"</span>, <span class="at">scales =</span> <span class="st">"free_y"</span>)</span></code></pre></div>
+<div class="inline-figure"><img src="10-indep_groups_files/figure-html/unnamed-chunk-34-1.png" width="672"></div>
 
 <div class="exercise">
 <p><span id="exr:ex1009" class="exercise"><strong>Exercise 10.9  </strong></span>
@@ -987,11 +666,13 @@ What code did you write to make something like the set of histograms above? What
 <p>Again, there might be something weird about pitchers, so we’ll try the ANOVA both with and without including them.</p>
 </div>
 <div id="anova-including-pitchers" class="section level4" number="10.3.4.2">
-<h4><span class="header-section-number">10.3.4.2</span> ANOVA including pitchers</h4>
+<h4>
+<span class="header-section-number">10.3.4.2</span> ANOVA including pitchers<a class="anchor" aria-label="anchor" href="#anova-including-pitchers"><i class="fas fa-link"></i></a>
+</h4>
 <p>First, let’s run the ANOVA including all positions, including pitchers. Remember that we are now using slugging average (<code>SLG</code>) as the response variable. Fill in the blank to get the result below.</p>
-<div class="sourceCode" id="cb440"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb440-1"><a href="lab10.html#cb440-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%$%</span></span>
-<span id="cb440-2"><a href="lab10.html#cb440-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(___ <span class="sc">~</span> Position) <span class="sc">%&gt;%</span></span>
-<span id="cb440-3"><a href="lab10.html#cb440-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">anova</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb458"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb458-1"><a href="lab10.html#cb458-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%$%</span></span>
+<span id="cb458-2"><a href="lab10.html#cb458-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(___ <span class="sc">~</span> Position) <span class="sc">%&gt;%</span></span>
+<span id="cb458-3"><a href="lab10.html#cb458-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">anova</span>()</span></code></pre></div>
 <pre><code>## Analysis of Variance Table
 ## 
 ## Response: SLG
@@ -999,14 +680,14 @@ What code did you write to make something like the set of histograms above? What
 ## Position    9 14.549 1.61659  54.954 &lt; 2.2e-16 ***
 ## Residuals 974 28.652 0.02942                      
 ## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p>Again, an extremely unlikely result if the null hypothesis were true! As a result, we reject the null hypothesis and can move on to conducting post hoc pairwise tests to see which groups differ from one another. Again, fill in the blank to get the result below:</p>
-<div class="sourceCode" id="cb442"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb442-1"><a href="lab10.html#cb442-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%$%</span></span>
-<span id="cb442-2"><a href="lab10.html#cb442-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pairwise.t.test</span>(</span>
-<span id="cb442-3"><a href="lab10.html#cb442-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">x =</span> ___,</span>
-<span id="cb442-4"><a href="lab10.html#cb442-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">g =</span> Position,</span>
-<span id="cb442-5"><a href="lab10.html#cb442-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">p.adjust.method =</span> <span class="st">&#39;bonferroni&#39;</span></span>
-<span id="cb442-6"><a href="lab10.html#cb442-6" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div>
+<div class="sourceCode" id="cb460"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb460-1"><a href="lab10.html#cb460-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%$%</span></span>
+<span id="cb460-2"><a href="lab10.html#cb460-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pairwise.t.test</span>(</span>
+<span id="cb460-3"><a href="lab10.html#cb460-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">x =</span> ___,</span>
+<span id="cb460-4"><a href="lab10.html#cb460-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">g =</span> Position,</span>
+<span id="cb460-5"><a href="lab10.html#cb460-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">p.adjust.method =</span> <span class="st">'bonferroni'</span></span>
+<span id="cb460-6"><a href="lab10.html#cb460-6" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div>
 <pre><code>## 
 ##  Pairwise comparisons using t tests with pooled SD 
 ## 
@@ -1031,12 +712,14 @@ What did you put in the blank to get the correct pairwise <span class="math inli
 </div>
 </div>
 <div id="anova-excluding-pitchers" class="section level4" number="10.3.4.3">
-<h4><span class="header-section-number">10.3.4.3</span> ANOVA excluding pitchers</h4>
+<h4>
+<span class="header-section-number">10.3.4.3</span> ANOVA excluding pitchers<a class="anchor" aria-label="anchor" href="#anova-excluding-pitchers"><i class="fas fa-link"></i></a>
+</h4>
 <p>Just to be on the safe side, let’s see how that ANOVA would turn out if we had excluded pitchers. Now we need to insert a <code>filter</code> line. Fill in the blanks below to conduct the ANOVA:</p>
-<div class="sourceCode" id="cb444"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb444-1"><a href="lab10.html#cb444-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%&gt;%</span></span>
-<span id="cb444-2"><a href="lab10.html#cb444-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(___) <span class="sc">%$%</span></span>
-<span id="cb444-3"><a href="lab10.html#cb444-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(___ <span class="sc">~</span> Position) <span class="sc">%&gt;%</span></span>
-<span id="cb444-4"><a href="lab10.html#cb444-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">anova</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb462"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb462-1"><a href="lab10.html#cb462-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%&gt;%</span></span>
+<span id="cb462-2"><a href="lab10.html#cb462-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(___) <span class="sc">%$%</span></span>
+<span id="cb462-3"><a href="lab10.html#cb462-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(___ <span class="sc">~</span> Position) <span class="sc">%&gt;%</span></span>
+<span id="cb462-4"><a href="lab10.html#cb462-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">anova</span>()</span></code></pre></div>
 <pre><code>## Analysis of Variance Table
 ## 
 ## Response: SLG
@@ -1044,20 +727,20 @@ What did you put in the blank to get the correct pairwise <span class="math inli
 ## Position    8 0.5611 0.070142  5.0045 4.961e-06 ***
 ## Residuals 617 8.6478 0.014016                      
 ## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 
 <div class="exercise">
 <p><span id="exr:ex1011" class="exercise"><strong>Exercise 10.11  </strong></span>
 What code did you write to do an ANOVA using <code>SLG</code> as the response variable instead of <code>AVG</code>?</p>
 </div>
 <p>Interesting! Again, a result that would be very unlikely if the null hypothesis were true, even though we have excluded pitchers from the set of groups being compared. Time for some post hoc pairwise tests…</p>
-<div class="sourceCode" id="cb446"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb446-1"><a href="lab10.html#cb446-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%&gt;%</span></span>
-<span id="cb446-2"><a href="lab10.html#cb446-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(___) <span class="sc">%$%</span></span>
-<span id="cb446-3"><a href="lab10.html#cb446-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pairwise.t.test</span>(</span>
-<span id="cb446-4"><a href="lab10.html#cb446-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">x =</span> ___,</span>
-<span id="cb446-5"><a href="lab10.html#cb446-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">g =</span> Position,</span>
-<span id="cb446-6"><a href="lab10.html#cb446-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">p.adjust.method =</span> <span class="st">&#39;bonferroni&#39;</span></span>
-<span id="cb446-7"><a href="lab10.html#cb446-7" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div>
+<div class="sourceCode" id="cb464"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb464-1"><a href="lab10.html#cb464-1" aria-hidden="true" tabindex="-1"></a>batting <span class="sc">%&gt;%</span></span>
+<span id="cb464-2"><a href="lab10.html#cb464-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(___) <span class="sc">%$%</span></span>
+<span id="cb464-3"><a href="lab10.html#cb464-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pairwise.t.test</span>(</span>
+<span id="cb464-4"><a href="lab10.html#cb464-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">x =</span> ___,</span>
+<span id="cb464-5"><a href="lab10.html#cb464-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">g =</span> Position,</span>
+<span id="cb464-6"><a href="lab10.html#cb464-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">p.adjust.method =</span> <span class="st">'bonferroni'</span></span>
+<span id="cb464-7"><a href="lab10.html#cb464-7" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div>
 <pre><code>## 
 ##  Pairwise comparisons using t tests with pooled SD 
 ## 
@@ -1083,76 +766,67 @@ What code did you use to do the post hoc pairwise tests above? Which pairs of po
 </div>
 </div>
 <div id="wrap-up-9" class="section level2" number="10.4">
-<h2><span class="header-section-number">10.4</span> Wrap-up</h2>
+<h2>
+<span class="header-section-number">10.4</span> Wrap-up<a class="anchor" aria-label="anchor" href="#wrap-up-9"><i class="fas fa-link"></i></a>
+</h2>
 <p>In this session, we have seen how to compare independent samples in R. We can compare two independent samples using a <strong><span class="math inline">\(t\)</span> test</strong>. We can compare multiple independent samples using <strong>Analysis of Variance (ANOVA)</strong>. If the result of our ANOVA leads us to reject the null hypothesis, then we can proceed to conduct <strong>post hoc pairwise <span class="math inline">\(t\)</span> tests</strong> using the <strong>Bonferroni correction</strong> to avoid inflating our probability of making a Type I error.</p>
 
 </div>
 </div>
-<h3>References</h3>
-<div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
-<div id="ref-Kruschke2015" class="csl-entry">
-Kruschke, J. K. (2015). <em>Doing <span>Bayesian</span> data analysis: A tutorial with <span>R</span>, <span>JAGS</span>, and <span>Stan</span></em> (2nd ed.). Academic Press/Elsevier.
-</div>
-</div>
-            </section>
+  <div class="chapter-nav">
+<div class="prev"><a href="lab9.html"><span class="header-section-number">9</span> \(t\) tests</a></div>
+<div class="next"><a href="lab11.html"><span class="header-section-number">11</span> Linear Regression</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#lab10"><span class="header-section-number">10</span> Comparing Independent Samples</a></li>
+<li>
+<a class="nav-link" href="#get-to-know-the-data"><span class="header-section-number">10.1</span> Get to know the data</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#batting-average"><span class="header-section-number">10.1.1</span> Batting average</a></li>
+<li><a class="nav-link" href="#batting-average-by-position"><span class="header-section-number">10.1.2</span> Batting average by position</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#independent-samples-t-test-infield-vs.-outfield"><span class="header-section-number">10.2</span> Independent samples \(t\) test: Infield vs. Outfield</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#filtering-data-with-filter"><span class="header-section-number">10.2.1</span> Filtering data with filter</a></li>
+<li><a class="nav-link" href="#doing-the-t-test"><span class="header-section-number">10.2.2</span> Doing the \(t\) test</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#analysis-of-variance-batting-average-by-position"><span class="header-section-number">10.3</span> Analysis of Variance: Batting average by position</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#doing-the-anova"><span class="header-section-number">10.3.1</span> Doing the ANOVA</a></li>
+<li><a class="nav-link" href="#post-hoc-pairwise-tests"><span class="header-section-number">10.3.2</span> Post hoc pairwise tests</a></li>
+<li><a class="nav-link" href="#no-pitchers-allowed"><span class="header-section-number">10.3.3</span> No Pitchers Allowed?</a></li>
+<li><a class="nav-link" href="#slugging-average"><span class="header-section-number">10.3.4</span> Slugging Average</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#wrap-up-9"><span class="header-section-number">10.4</span> Wrap-up</a></li>
+</ul>
 
-          </div>
-        </div>
-      </div>
-<a href="lab9.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="lab11.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
-    </div>
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/gregcox7/StatLabs/blob/master/10-indep_groups.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/gregcox7/StatLabs/edit/master/10-indep_groups.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2021-08-18.</p>
   </div>
-<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
-<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
-<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
-<script>
-gitbook.require(["gitbook"], function(gitbook) {
-gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": null,
-"text": null
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": ["APSY210 Labs.pdf", "APSY210 Labs.epub"],
-"toc": {
-"collapse": "subsection"
-}
-});
-});
-</script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
@@ -1166,5 +840,4 @@ gitbook.start({
   })();
 </script>
 </body>
-
 </html>

@@ -26,14 +26,14 @@ library(tidyverse)
 ```
 
 ```
-## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──
+## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
 ```
 
 ```
-## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
-## ✓ tibble  3.1.1     ✓ dplyr   1.0.5
+## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+## ✓ tibble  3.1.3     ✓ dplyr   1.0.5
 ## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
-## ✓ readr   1.4.0     ✓ forcats 0.5.1
+## ✓ readr   2.0.0     ✓ forcats 0.5.1
 ```
 
 ```
@@ -226,11 +226,19 @@ student_sleep <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/m
 ```
 
 ```
-## 
+## Rows: 110 Columns: 1
+```
+
+```
 ## ── Column specification ────────────────────────────────────────────────────────
-## cols(
-##   hours = col_double()
-## )
+## Delimiter: ","
+## dbl (1): hours
+```
+
+```
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
 If you click on the "student_sleep" data in R's environment pane in the upper right, you'll see that it is just a single column called "hours", where each row in the number of hours slept by a different student.
@@ -293,7 +301,7 @@ student_sleep %>%
 ```
 
 ```
-## # A tibble: 1 x 1
+## # A tibble: 1 × 1
 ##       M
 ##   <dbl>
 ## 1  7.42

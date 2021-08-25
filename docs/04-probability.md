@@ -16,14 +16,14 @@ library(tidyverse)
 ```
 
 ```
-## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──
+## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
 ```
 
 ```
-## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
-## ✓ tibble  3.1.1     ✓ dplyr   1.0.5
+## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+## ✓ tibble  3.1.3     ✓ dplyr   1.0.5
 ## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
-## ✓ readr   1.4.0     ✓ forcats 0.5.1
+## ✓ readr   2.0.0     ✓ forcats 0.5.1
 ```
 
 ```
@@ -182,7 +182,7 @@ coin_data
 ```
 
 ```
-## # A tibble: 50 x 1
+## # A tibble: 50 × 1
 ##    result
 ##    <chr> 
 ##  1 Tails 
@@ -214,7 +214,7 @@ coin_data %>%
 ```
 
 ```
-## # A tibble: 2 x 2
+## # A tibble: 2 × 2
 ##   result     n
 ##   <chr>  <int>
 ## 1 Heads     26
@@ -236,7 +236,7 @@ coin_data %>%
 ```
 
 ```
-## # A tibble: 2 x 3
+## # A tibble: 2 × 3
 ##   result     n     p
 ##   <chr>  <int> <dbl>
 ## 1 Heads     26  0.52
@@ -261,7 +261,7 @@ coin_data %>%
 ```
 
 ```
-## # A tibble: 2 x 3
+## # A tibble: 2 × 3
 ##   result     n     p
 ##   <chr>  <int> <dbl>
 ## 1 Heads    520  0.52
@@ -272,7 +272,7 @@ Now let's try it with an even longer sequence of 10000 flips.^[What would you ch
 
 
 ```
-## # A tibble: 2 x 3
+## # A tibble: 2 × 3
 ##   result     n     p
 ##   <chr>  <int> <dbl>
 ## 1 Heads   4999 0.500
@@ -303,7 +303,7 @@ coin_data %>%
 ```
 
 ```
-## # A tibble: 2 x 3
+## # A tibble: 2 × 3
 ##   result     n     p
 ##   <chr>  <int> <dbl>
 ## 1 Heads    609 0.609
@@ -326,7 +326,7 @@ coin_data %>%
 ```
 
 ```
-## # A tibble: 2 x 3
+## # A tibble: 2 × 3
 ##   result     n     p
 ##   <chr>  <int> <dbl>
 ## 1 Heads    398 0.398
@@ -337,7 +337,7 @@ The first rule is that the first number in the collection of probabilities (afte
 
 
 ```
-## # A tibble: 2 x 3
+## # A tibble: 2 × 3
 ##   result     n     p
 ##   <chr>  <int> <dbl>
 ## 1 Heads    672 0.672
@@ -364,7 +364,7 @@ coin_data %>%
 ```
 
 ```
-## # A tibble: 3 x 3
+## # A tibble: 3 × 3
 ##   result     n     p
 ##   <chr>  <int> <dbl>
 ## 1 Heads    338 0.338
@@ -376,7 +376,7 @@ Notice that the code above did not specify any `prob`abilities.  As a result, al
 
 
 ```
-## # A tibble: 3 x 3
+## # A tibble: 3 × 3
 ##   result     n     p
 ##   <chr>  <int> <dbl>
 ## 1 Heads    464 0.464
@@ -394,17 +394,20 @@ kobe <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/
 ```
 
 ```
-## 
+## Rows: 132 Columns: 7
+```
+
+```
 ## ── Column specification ────────────────────────────────────────────────────────
-## cols(
-##   vs = col_character(),
-##   game = col_double(),
-##   quarter = col_character(),
-##   time = col_time(format = ""),
-##   description = col_character(),
-##   shot = col_character(),
-##   prev_shot = col_character()
-## )
+## Delimiter: ","
+## chr (6): vs, quarter, time, description, shot, prev_shot
+## dbl (1): game
+```
+
+```
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
 ### What was Kobe's hit rate?
@@ -420,7 +423,7 @@ kobe %>%
 ```
 
 ```
-## # A tibble: 2 x 3
+## # A tibble: 2 × 3
 ##   shot      n     p
 ##   <chr> <int> <dbl>
 ## 1 H        57 0.432
@@ -445,11 +448,11 @@ simulated_kobe_data %>%
 ```
 
 ```
-## # A tibble: 2 x 3
+## # A tibble: 2 × 3
 ##   result     n     p
 ##   <chr>  <int> <dbl>
-## 1 H        520  0.52
-## 2 M        480  0.48
+## 1 H        518 0.518
+## 2 M        482 0.482
 ```
 
 Does this simulated Kobe look much like the real one?  What should we change to make it look more like the real Kobe?^[Play around with the `prob`abilities in the code for simulating shots from Kobe Bryant until you find some probabilities that make his hit rate look similar to what we actually observed.  What probabilities did you end up with?]
@@ -473,7 +476,7 @@ kobe %>%
 ```
 
 ```
-## # A tibble: 4 x 4
+## # A tibble: 4 × 4
 ## # Groups:   prev_shot [2]
 ##   prev_shot shot      n     p
 ##   <chr>     <chr> <int> <dbl>

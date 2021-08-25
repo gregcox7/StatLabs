@@ -14,14 +14,14 @@ library(tidyverse)
 ```
 
 ```
-## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──
+## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
 ```
 
 ```
-## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
-## ✓ tibble  3.1.1     ✓ dplyr   1.0.5
+## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+## ✓ tibble  3.1.3     ✓ dplyr   1.0.5
 ## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
-## ✓ readr   1.4.0     ✓ forcats 0.5.1
+## ✓ readr   2.0.0     ✓ forcats 0.5.1
 ```
 
 ```
@@ -284,13 +284,19 @@ lullaby <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/da
 ```
 
 ```
-## 
+## Rows: 32 Columns: 3
+```
+
+```
 ## ── Column specification ────────────────────────────────────────────────────────
-## cols(
-##   id = col_double(),
-##   Before = col_double(),
-##   After = col_double()
-## )
+## Delimiter: ","
+## dbl (3): id, Before, After
+```
+
+```
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
 Have a look at the data by clicking on `lullaby` in RStudio's "Environment" pane.  Each row is data from a specific infant.  There are three variables in this dataset:
@@ -308,7 +314,7 @@ lullaby %>%
 ```
 
 ```
-## # A tibble: 1 x 4
+## # A tibble: 1 × 4
 ##   M_before S_before M_after S_after
 ##      <dbl>    <dbl>   <dbl>   <dbl>
 ## 1    0.521    0.177   0.593   0.179
@@ -360,7 +366,7 @@ lullaby %>%
 ```
 
 ```
-## # A tibble: 1 x 1
+## # A tibble: 1 × 1
 ##    stat
 ##   <dbl>
 ## 1 0.674
@@ -427,7 +433,7 @@ lullaby %>%
 ```
 
 ```
-## # A tibble: 1 x 6
+## # A tibble: 1 × 6
 ##   statistic  t_df p_value alternative lower_ci upper_ci
 ##       <dbl> <dbl>   <dbl> <chr>          <dbl>    <dbl>
 ## 1     0.674    31   0.505 two.sided      0.457    0.585
@@ -502,7 +508,7 @@ Finally, let's get the whole shebang:
 
 
 ```
-## # A tibble: 1 x 6
+## # A tibble: 1 × 6
 ##   statistic  t_df p_value alternative lower_ci upper_ci
 ##       <dbl> <dbl>   <dbl> <chr>          <dbl>    <dbl>
 ## 1      2.96    31 0.00586 two.sided      0.529    0.658
@@ -541,7 +547,7 @@ lullaby %>%
 ```
 
 ```
-## # A tibble: 32 x 4
+## # A tibble: 32 × 4
 ##       id Before After Difference
 ##    <dbl>  <dbl> <dbl>      <dbl>
 ##  1   101  0.437 0.603     0.166 
@@ -598,7 +604,7 @@ Finally, we can obtain the $p$ value along with the rest of the results of the $
 
 
 ```
-## # A tibble: 1 x 6
+## # A tibble: 1 × 6
 ##   statistic  t_df p_value alternative lower_ci upper_ci
 ##       <dbl> <dbl>   <dbl> <chr>          <dbl>    <dbl>
 ## 1      2.42    31  0.0109 greater       0.0216      Inf

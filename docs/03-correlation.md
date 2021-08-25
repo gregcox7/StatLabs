@@ -19,14 +19,14 @@ library(tidyverse)
 ```
 
 ```
-## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──
+## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
 ```
 
 ```
-## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
-## ✓ tibble  3.1.1     ✓ dplyr   1.0.5
+## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+## ✓ tibble  3.1.3     ✓ dplyr   1.0.5
 ## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
-## ✓ readr   1.4.0     ✓ forcats 0.5.1
+## ✓ readr   2.0.0     ✓ forcats 0.5.1
 ```
 
 ```
@@ -259,13 +259,20 @@ anscombe <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/d
 ```
 
 ```
-## 
+## Rows: 44 Columns: 3
+```
+
+```
 ## ── Column specification ────────────────────────────────────────────────────────
-## cols(
-##   Group = col_character(),
-##   X = col_double(),
-##   Y = col_double()
-## )
+## Delimiter: ","
+## chr (1): Group
+## dbl (2): X, Y
+```
+
+```
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
 These data are artificial and were devised by @Anscombe1973 to illustrate the importance of not interpreting a correlation coefficient without visualizing your data.
@@ -284,7 +291,7 @@ anscombe %>%
 ```
 
 ```
-## # A tibble: 4 x 2
+## # A tibble: 4 × 2
 ##   Group     r
 ##   <chr> <dbl>
 ## 1 A     0.816
@@ -333,14 +340,19 @@ toys <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/
 ```
 
 ```
-## 
+## Rows: 297 Columns: 4
+```
+
+```
 ## ── Column specification ────────────────────────────────────────────────────────
-## cols(
-##   Barbie_Score = col_double(),
-##   Transf_Score = col_double(),
-##   Barbie_Exp = col_double(),
-##   Transf_Exp = col_double()
-## )
+## Delimiter: ","
+## dbl (4): Barbie_Score, Transf_Score, Barbie_Exp, Transf_Exp
+```
+
+```
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
 Click on the new "toys" dataset in the Environment panel (upper right) to see what the data look like.  "Barbie_Score" and "Transf_Score" are the scores on the two memory tests, one for Barbies and one for Transformers (respectively).  "Barbie_Exp" and "Transf_Exp" are the two reports of prior experience with Barbies and Transformers, respectively.
@@ -367,7 +379,7 @@ toys %>%
 ```
 
 ```
-## # A tibble: 1 x 1
+## # A tibble: 1 × 1
 ##       r
 ##   <dbl>
 ## 1 0.142
@@ -388,7 +400,7 @@ toys %>%
 ```
 
 ```
-## # A tibble: 1 x 1
+## # A tibble: 1 × 1
 ##        r
 ##    <dbl>
 ## 1 0.0964
@@ -418,7 +430,7 @@ toys %>%
 ```
 
 ```
-## # A tibble: 1 x 1
+## # A tibble: 1 × 1
 ##        r
 ##    <dbl>
 ## 1 -0.124

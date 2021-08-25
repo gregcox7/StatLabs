@@ -6,3 +6,8 @@ language:
   ui:
     chapter_name: "Lab "
 output_dir: "docs"
+rmd_files: [
+  "index.Rmd",
+  "01-exploring.Rmd",
+  "99-references.Rmd"
+  ]
