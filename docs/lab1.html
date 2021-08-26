@@ -251,7 +251,7 @@
 ## 3 Male   FALSE      682
 ## 4 Male   TRUE       161</code></pre>
 <p>While this table contains all the information we need to test this hypothesis, it is hard to read because there were different numbers of male and female passengers. What we want to know is whether a greater <em>proportion</em> of female passengers survived, compared to the <em>proportion</em> of male passengers who survived.</p>
-<p>As we’ve seen, we find proportions by taking a count and dividing by a sum of counts. Specifically, if we have some group “A” and want to find the proportion of the elements in group “A” that have some characteristic “B,” we find</p>
+<p>We find proportions by taking a count and dividing by a sum of counts. Specifically, if we have some group “A” and want to find the proportion of the elements in group “A” that have some characteristic “B,” we find</p>
 <p><span class="math display">\[
 \text{Proportion of A that are B} = \frac{\text{Number of A that are B}}{\text{Total number of A's}}
 \]</span>
@@ -287,16 +287,27 @@ We can do this in code by adding a line to the code we used to make our counts.<
   <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">class</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">geom_bar</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="01-exploring_files/figure-html/unnamed-chunk-16-1.png" width="672"></div>
-<p>Pretty neat! It is now easy to see how much more 3rd class passengers there are than 1st or 2nd, and that interestingly, there are fewer 2nd class than 1st class passengers. Notice that the code we used is similar to what we’ve been using, but differs in some important ways:</p>
-<ul>
-<li>The first line is the same, telling R what dataset we are using (<code>titanic</code>).</li>
-<li>The second line tells R that we want to make a <code>plot</code> and that we want to put the variable <code>class</code> along the horizontal axis of that plot (the <code>x</code> axis). The “gg” in front of “plot” refers to the “<strong>g</strong>rammar of <strong>g</strong>raphics,” which is the language R uses to describe plots. In this language, different parts of a plot are called “<strong>aes</strong>thetics,” which is why <code>x = class</code> falls inside a parenthetical labeled <code>aes</code>(thetic).</li>
-<li>The final line just tells R that we want to make a <code>bar</code> chart. In the grammar of graphics, different types of charts are called <code>geom</code>s.</li>
-<li>Notice that the second 2 lines are connected by a <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code> rather than the <code>%&gt;%</code> symbol. This is a historical accident, but the meaning of the two symbols is basically the same. Both of them are telling R the order in which it should follow our instructions.</li>
-</ul>
+<p>Pretty neat! It is now easy to see how many more 3rd class passengers there were than 1st or 2nd, and that interestingly, there are fewer 2nd class than 1st class passengers.</p>
+<p>The code we used is similar to what we’ve been using, but differs in some important ways:
+* The first line is the same, telling R what dataset we are using (<code>titanic</code>).
+* The second line tells R that we want to make a <code>plot</code> and that we want to put the variable <code>class</code> along the horizontal axis of that plot (the <code>x</code> axis). The “gg” in front of “plot” refers to the “<strong>g</strong>rammar of <strong>g</strong>raphics,” which is the language R uses to describe plots. In this language, different parts of a plot are called “<strong>aes</strong>thetics,” which is why <code>x = class</code> falls inside a parenthetical labeled <code>aes</code>(thetic).
+* The final line just tells R that we want to make a <code>bar</code> chart. In the grammar of graphics, different types of charts are called <code>geom</code>s.
+* Notice that the second 2 lines are connected by a <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code> rather than the <code>%&gt;%</code> symbol. This is a historical accident, but the meaning of the two symbols is basically the same. Both of them are telling R the order in which it should follow our instructions.</p>
+<p>If we put bar charts side-by-side, we can use them to compare groups. In R, putting multiple graphs together is called <strong>faceting</strong>. Each graph is a “facet.” We can tell R to make facets based on a specific variable by adding a line to our code, like so:</p>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">titanic</span> <span class="op">%&gt;%</span>
+  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">class</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">geom_bar</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">facet_wrap</span><span class="op">(</span><span class="st">"residence"</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="01-exploring_files/figure-html/unnamed-chunk-17-1.png" width="672"></div>
+<p>The line at the end splits the plot into different “facets,” one for each level of the <code>residence</code> variable. Note that we have to put the “faceting” variable name in quotes (for some reason). The result makes it easy to see that the distribution of passengers across classes is different depending on where they were from—Americans on the <em>Titanic</em> tended to be wealthier first class passengers, relative to passengers from Britain or elsewhere.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-5" class="exercise"><strong>Exercise 1.5  </strong></span>Make a bar chart to help answer the question, “where did most passengers board the <em>Titanic</em>?” The relevant information is in the <code>embarked</code> variable. Try modifying the code we just used to make your bar chart.</p>
-<p>What code did you use? And where did most passengers board the <em>Titanic</em>?</p>
+<p><span id="exr:unlabeled-div-5" class="exercise"><strong>Exercise 1.5  </strong></span>Make a bar chart that shows the number of people who either did or did not survive depending on their country of residence. To do this, fill in the blanks in the code below:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="lab1.html#cb34-1" aria-hidden="true" tabindex="-1"></a>titanic <span class="sc">%&gt;%</span></span>
+<span id="cb34-2"><a href="lab1.html#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___)) <span class="sc">+</span></span>
+<span id="cb34-3"><a href="lab1.html#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
+<span id="cb34-4"><a href="lab1.html#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="st">"___"</span>)</span></code></pre></div>
+<p>What code did you use? Do you have a hypothesis about why the relative number of survivors is different depending on where passengers were from?</p>
 <p>Attach a copy of the bar chart you made. You can do this by saving the chart as a file using the “Export” menu in the “Plots” pane in RStudio.</p>
 </div>
 </div>
@@ -305,7 +316,7 @@ We can do this in code by adding a line to the code we used to make our counts.<
 <span class="header-section-number">1.3.4</span> Histograms<a class="anchor" aria-label="anchor" href="#histograms"><i class="fas fa-link"></i></a>
 </h3>
 <p>So far, we have been summarizing <em>categorical</em> variables. There are also some numerical variables in our data, for example the age of each passenger as well as how much they paid for their tickets. Let’s try making a frequency table to figure out how many people of different ages sailed on the <em>Titanic</em>:</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">titanic</span> <span class="op">%&gt;%</span>
   <span class="fu">group_by</span><span class="op">(</span><span class="va">age</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">summarize</span><span class="op">(</span>n <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -326,25 +337,37 @@ We can do this in code by adding a line to the code we used to make our counts.<
 <p>Well that’s not very helpful! R didn’t even bother to show us the whole thing. Though we can see something interesting: Age is measured in years, and for passengers at least one year old, their age is a whole number. But there are fractions of years for passengers less than a year old—these ages were <em>measured</em> in months rather than years.</p>
 <p>The main point is that even though age can be measured in a more or less fine-grained manner, age is effectively <em>continuous</em>. We don’t want to know how many passengers were exactly 31.3491 years old, we want to get a general sense of the <em>distribution</em> of ages across passengers.</p>
 <p>We can construct a summary that conveys this information using a <strong>histogram</strong>. A histogram is very similar to a bar chart; the difference is that bar charts are for categorical variables while histograms are for numerical variables. The code below constructs a histogram to summarize passenger age:</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">titanic</span> <span class="op">%&gt;%</span>
   <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">age</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">geom_histogram</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre class="Rout text-info"><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <pre class="Rout text-warning"><code>## Warning: Removed 263 rows containing non-finite values (stat_bin).</code></pre>
-<div class="inline-figure"><img src="01-exploring_files/figure-html/unnamed-chunk-18-1.png" width="672"></div>
+<div class="inline-figure"><img src="01-exploring_files/figure-html/unnamed-chunk-20-1.png" width="672"></div>
 <p>The resulting histogram shows a bunch of bars, the height of which indicate the number of passengers within a particular age range. Notice that we got a couple messages from R in addition to our plot, one about “non-finite values” and another about “picking a better value.” When R says, “non-finite values,” it is talking about people for whom their age was not recorded. This is an unfortunate thing about real data: sometimes it has missing pieces. This didn’t stop R from making the plot we wanted using the non-missing data, but R wanted to warn us just in case.</p>
 <p>The message about “picking a better value” is important: When you make a histogram, you are looking at how many things fall within a particular range of values, say, between ages 4 and 8. How do you decide those ranges? If you don’t tell R how to do that, it will decide on its own to divide up the range of values into 30 “bins,” each of which corresponds to a range of values that is the same width. This is usually not what we want.</p>
 <p>Instead, we should decide how big or small we want those ranges to be. The following code tells R to make our histogram using “bins” that are 10 years “wide” (0-9, 10-19, etc.):</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">titanic</span> <span class="op">%&gt;%</span>
   <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">age</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">geom_histogram</span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></code></pre></div>
 <pre class="Rout text-warning"><code>## Warning: Removed 263 rows containing non-finite values (stat_bin).</code></pre>
-<div class="inline-figure"><img src="01-exploring_files/figure-html/unnamed-chunk-19-1.png" width="672"></div>
+<div class="inline-figure"><img src="01-exploring_files/figure-html/unnamed-chunk-21-1.png" width="672"></div>
+<p>And just like we did with bar charts, we can split a histogram into different “facets.” The pair of histograms below shows the distribution of ages of passengers that either did or did not survive:</p>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">titanic</span> <span class="op">%&gt;%</span>
+  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">age</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">geom_histogram</span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">facet_wrap</span><span class="op">(</span><span class="st">"survived"</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-warning"><code>## Warning: Removed 263 rows containing non-finite values (stat_bin).</code></pre>
+<div class="inline-figure"><img src="01-exploring_files/figure-html/unnamed-chunk-22-1.png" width="672"></div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-6" class="exercise"><strong>Exercise 1.6  </strong></span>Try making several different histograms of passenger age with different bin widths by changing the number “10” in the code above to different values.</p>
-<p>What bin width do you believe gives the best visual summary of the age distribution across passengers, and why?</p>
+<p><span id="exr:unlabeled-div-6" class="exercise"><strong>Exercise 1.6  </strong></span>Try making several different histograms of passenger age split by survival, using different bin widths:</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="lab1.html#cb44-1" aria-hidden="true" tabindex="-1"></a>titanic <span class="sc">%&gt;%</span></span>
+<span id="cb44-2"><a href="lab1.html#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> age)) <span class="sc">+</span></span>
+<span id="cb44-3"><a href="lab1.html#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> ___) <span class="sc">+</span></span>
+<span id="cb44-4"><a href="lab1.html#cb44-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="st">"survived"</span>)</span></code></pre></div>
+<p>What bin width do you believe gives the best visual summary and why? Specifically, do different bin widths make it easier to see any differences in the distribution of ages for survivors vs. non-survivors?</p>
 <p>Attach a copy of the histogram you made with your favorite bin width (again, you can do this by saving your plot as a file using the “Export” menu in RStudio’s Plots pane).</p>
 </div>
 </div>
@@ -408,7 +431,7 @@ We can do this in code by adding a line to the code we used to make our counts.<
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2021-08-25.</p>
+    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2021-08-26.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

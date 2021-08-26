@@ -300,7 +300,7 @@ titanic %>%
 
 While this table contains all the information we need to test this hypothesis, it is hard to read because there were different numbers of male and female passengers.  What we want to know is whether a greater *proportion* of female passengers survived, compared to the *proportion* of male passengers who survived.
 
-As we've seen, we find proportions by taking a count and dividing by a sum of counts.  Specifically, if we have some group "A" and want to find the proportion of the elements in group "A" that have some characteristic "B", we find
+We find proportions by taking a count and dividing by a sum of counts.  Specifically, if we have some group "A" and want to find the proportion of the elements in group "A" that have some characteristic "B", we find
 
 $$
 \text{Proportion of A that are B} = \frac{\text{Number of A that are B}}{\text{Total number of A's}}
@@ -354,17 +354,40 @@ titanic %>%
 
 <img src="01-exploring_files/figure-html/unnamed-chunk-16-1.png" width="672" />
 
-Pretty neat!  It is now easy to see how much more 3rd class passengers there are than 1st or 2nd, and that interestingly, there are fewer 2nd class than 1st class passengers.  Notice that the code we used is similar to what we've been using, but differs in some important ways:
+Pretty neat!  It is now easy to see how many more 3rd class passengers there were than 1st or 2nd, and that interestingly, there are fewer 2nd class than 1st class passengers.
 
+The code we used is similar to what we've been using, but differs in some important ways:
 * The first line is the same, telling R what dataset we are using (`titanic`).
 * The second line tells R that we want to make a `plot` and that we want to put the variable `class` along the horizontal axis of that plot (the `x` axis).  The "gg" in front of "plot" refers to the "**g**rammar of **g**raphics", which is the language R uses to describe plots.  In this language, different parts of a plot are called "**aes**thetics", which is why `x = class` falls inside a parenthetical labeled `aes`(thetic).
 * The final line just tells R that we want to make a `bar` chart.  In the grammar of graphics, different types of charts are called `geom`s.
 * Notice that the second 2 lines are connected by a `+` rather than the `%>%` symbol.  This is a historical accident, but the meaning of the two symbols is basically the same.  Both of them are telling R the order in which it should follow our instructions.
 
-::: {.exercise}
-Make a bar chart to help answer the question, "where did most passengers board the *Titanic*?"  The relevant information is in the `embarked` variable.  Try modifying the code we just used to make your bar chart.
+If we put bar charts side-by-side, we can use them to compare groups.  In R, putting multiple graphs together is called **faceting**.  Each graph is a "facet".  We can tell R to make facets based on a specific variable by adding a line to our code, like so:
 
-What code did you use?  And where did most passengers board the *Titanic*?
+
+```r
+titanic %>%
+  ggplot(aes(x = class)) +
+  geom_bar() +
+  facet_wrap("residence")
+```
+
+<img src="01-exploring_files/figure-html/unnamed-chunk-17-1.png" width="672" />
+
+The line at the end splits the plot into different "facets", one for each level of the `residence` variable.  Note that we have to put the "faceting" variable name in quotes (for some reason).  The result makes it easy to see that the distribution of passengers across classes is different depending on where they were from---Americans on the *Titanic* tended to be wealthier first class passengers, relative to passengers from Britain or elsewhere.
+
+::: {.exercise}
+Make a bar chart that shows the number of people who either did or did not survive depending on their country of residence.  To do this, fill in the blanks in the code below:
+
+
+```r
+titanic %>%
+  ggplot(aes(x = ___)) +
+  geom_bar() +
+  facet_wrap("___")
+```
+
+What code did you use?  Do you have a hypothesis about why the relative number of survivors is different depending on where passengers were from?
 
 Attach a copy of the bar chart you made.  You can do this by saving the chart as a file using the "Export" menu in the "Plots" pane in RStudio.
 
@@ -419,7 +442,7 @@ titanic %>%
 ## Warning: Removed 263 rows containing non-finite values (stat_bin).
 ```
 
-<img src="01-exploring_files/figure-html/unnamed-chunk-18-1.png" width="672" />
+<img src="01-exploring_files/figure-html/unnamed-chunk-20-1.png" width="672" />
 
 The resulting histogram shows a bunch of bars, the height of which indicate the number of passengers within a particular age range.  Notice that we got a couple messages from R in addition to our plot, one about "non-finite values" and another about "picking a better value".  When R says, "non-finite values", it is talking about people for whom their age was not recorded.  This is an unfortunate thing about real data: sometimes it has missing pieces.  This didn't stop R from making the plot we wanted using the non-missing data, but R wanted to warn us just in case.
 
@@ -438,12 +461,36 @@ titanic %>%
 ## Warning: Removed 263 rows containing non-finite values (stat_bin).
 ```
 
-<img src="01-exploring_files/figure-html/unnamed-chunk-19-1.png" width="672" />
+<img src="01-exploring_files/figure-html/unnamed-chunk-21-1.png" width="672" />
+
+And just like we did with bar charts, we can split a histogram into different "facets".  The pair of histograms below shows the distribution of ages of passengers that either did or did not survive:
+
+
+```r
+titanic %>%
+  ggplot(aes(x = age)) +
+  geom_histogram(binwidth = 10) +
+  facet_wrap("survived")
+```
+
+```{.Rout .text-warning}
+## Warning: Removed 263 rows containing non-finite values (stat_bin).
+```
+
+<img src="01-exploring_files/figure-html/unnamed-chunk-22-1.png" width="672" />
 
 ::: {.exercise}
-Try making several different histograms of passenger age with different bin widths by changing the number "10" in the code above to different values.
+Try making several different histograms of passenger age split by survival, using different bin widths:
 
-What bin width do you believe gives the best visual summary of the age distribution across passengers, and why?
+
+```r
+titanic %>%
+  ggplot(aes(x = age)) +
+  geom_histogram(binwidth = ___) +
+  facet_wrap("survived")
+```
+
+What bin width do you believe gives the best visual summary and why?  Specifically, do different bin widths make it easier to see any differences in the distribution of ages for survivors vs. non-survivors?
 
 Attach a copy of the histogram you made with your favorite bin width (again, you can do this by saving your plot as a file using the "Export" menu in RStudio's Plots pane).
 
