@@ -32,7 +32,7 @@ Another point of today's activity is to illustrate how even though statistics is
 
 All of our labs will make use of RStudio, a graphical interface to the statistical computing language R.  The R language represents the current state of the art for statistical computing in both academic and industrial research.  It is likely to remain relevant for many years to come because it is free and open-source, meaning both that it is widely accessible and that improvements and extensions are being made continuously by a large community of professionals and hobbyists.  In fact, many of the best features of R that we will be using are extensions made by people outside the "core" development team for R.  These extensions are called "packages", and they represent bundles of code that are useful for doing statistics.
 
-RStudio is an interface that makes it easier to work with the R language, and it is also free and can be installed on computers running any modern operating system (Windows, Mac, Linux, etc.).  R and RStudio are both already installed on the computers in the Technology-Enhanced Classrooms and the Library Public Computing Sites on campus.  If you are working on your own computer, you will have an easier time of it if you install RStudio on it.  Installing RStudio requires installing R first.
+RStudio is an interface that makes it easier to work with the R language, and it is also free and can be installed on computers running any modern operating system (Windows, Mac, Linux, etc.).  R and RStudio are both already installed on the computers in our classroom, as well as those in other Technology-Enhanced Classrooms and the Library Public Computing Sites on campus.  If you are working on your own computer, you will have an easier time of it if you install RStudio on it.  Installing RStudio requires installing R first.
 
 ### Installation on your own computer
 
@@ -44,9 +44,9 @@ After installing R, you can install **RStudio Desktop** by following the instruc
 
 Even if you don't have access to a computer with RStudio installed locally, you can use it if you have access to the internet.  You can run RStudio online here: <https://rstudio.cloud/>.  The downside with this is that there is a cap to the amount of time you can spend using the online version, so you are better off using a local installation whenever possible.  You may need to create an account to use the online version, but it is free to do so.
 
-### Required packages
+## Required packages
 
-Once you have RStudio up and running, try the following line of code.
+Once you have RStudio up and running, run the following line of code by copying it and pasting it after the ">" in the "Console" in the lower left pane of the RStudio window.
 
 ```{r}
 library(tidyverse)
@@ -61,6 +61,16 @@ install.packages("tidyverse")
 ```
 
 Installing the "tidyverse" package takes a while, but you'll only need to do it once.  After it is installed, you can just run `library(tidyverse)` when you start RStudio and have everything you need.
+
+### Troubleshooting tip
+
+Because the "tidyverse" package is not automatically loaded when you first start RStudio, you should make sure to run the line
+
+```{r eval = FALSE}
+library(tidyverse)
+```
+
+first thing each time you open RStudio.  Chances are, if you try running something and you get an error, it is because the "tidyverse" package is not loaded.  Of course, that's not the only possible thing that can cause an error!  But it's good to try this first to see if it clears things up.
 
 ## Meet your data
 
@@ -290,12 +300,12 @@ The resulting histogram shows a bunch of bars, the height of which indicate the 
 
 The message about "picking a better value" is important:  When you make a histogram, you are looking at how many things fall within a particular range of values, say, between ages 4 and 8.  How do you decide those ranges?  If you don't tell R how to do that, it will decide on its own to divide up the range of values into 30 "bins", each of which corresponds to a range of values that is the same width.  This is usually not what we want.
 
-Instead, we should decide how big or small we want those ranges to be.  The following code tells R to make our histogram using "bins" that are 10 years "wide" (0-9, 10-19, etc.):
+Instead, we should decide how big or small we want those ranges to be.  The following code tells R to make our histogram using "bins" that are 2 years "wide" (0-1, 2-3, etc.):
 
 ```{r}
 titanic %>%
   ggplot(aes(x = age)) +
-  geom_histogram(binwidth = 10)
+  geom_histogram(binwidth = 2)
 ```
 
 And just like we did with bar charts, we can split a histogram into different "facets".  The pair of histograms below shows the distribution of ages of passengers that either did or did not survive:
@@ -303,7 +313,7 @@ And just like we did with bar charts, we can split a histogram into different "f
 ```{r}
 titanic %>%
   ggplot(aes(x = age)) +
-  geom_histogram(binwidth = 10) +
+  geom_histogram(binwidth = 2) +
   facet_wrap("survived")
 ```
 
@@ -317,7 +327,7 @@ titanic %>%
   facet_wrap("survived")
 ```
 
-What bin width do you believe gives the best visual summary and why?  Specifically, do different bin widths make it easier to see any differences in the distribution of ages for survivors vs. non-survivors?
+What bin width do you believe gives the best visual summary and why?  Based on the distribution of ages of people who did or did not survive, does it seem like they followed the "women and *children* first" rule?
 
 Attach a copy of the histogram you made with your favorite bin width (again, you can do this by saving your plot as a file using the "Export" menu in RStudio's Plots pane).
 

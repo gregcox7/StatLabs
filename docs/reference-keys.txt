@@ -9,6 +9,7 @@ r-and-rstudio
 installation-on-your-own-computer
 running-r-in-a-browser
 required-packages
+troubleshooting-tip
 meet-your-data
 load-the-data
 check-out-the-variables
