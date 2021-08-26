@@ -398,9 +398,9 @@ titanic %>%
   facet_wrap("___")
 ```
 
-What code did you use?  Do you have a hypothesis about why the relative number of survivors is different depending on where passengers were from?
+What code did you use?  What is a possible reason why the relative number of survivors is different depending on where passengers were from?
 
-Attach a copy of the bar chart you made.  You can do this by saving the chart as a file using the "Export" menu in the "Plots" pane in RStudio.
+Attach a copy of the plot you made.  You can do this by saving the chart as a file using the "Export" menu in the "Plots" pane in RStudio.
 
 :::
 
@@ -501,9 +501,9 @@ titanic %>%
   facet_wrap("survived")
 ```
 
-What bin width do you believe gives the best visual summary and why?  Based on the distribution of ages of people who did or did not survive, does it seem like they followed the "women and *children* first" rule?
+What bin width do you believe gives the best visual summary and why?  Do the shapes of the histograms suggest that there was any influence of the "women and *children* first" rule on who survived?
 
-Attach a copy of the histogram you made with your favorite bin width (again, you can do this by saving your plot as a file using the "Export" menu in RStudio's Plots pane).
+Attach a copy of the plot you made with your favorite bin width (again, you can do this by saving your plot as a file using the "Export" menu in RStudio's Plots pane).
 
 :::
 
