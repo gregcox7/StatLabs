@@ -221,9 +221,9 @@ titanic %>%
 The new column `p` is a proportion and represents the proportion of people in each group (either male or female) who either did or did not survive.  It is now easier to see that this proportion is much higher for female than male passengers, consistent with our hypothesis.
 
 ::: {.exercise}
-Write code to answer the question, "which Class (1st, 2nd, or 3rd) had the highest proportion of survivors?"  Again, you will find it helpful to start from code we already used and modify it accordingly.
+Write and run code that gives us a table, like the one above, which shows the proportion of people in each Class (First, Second, and Third) who survived or died.  Again, you will find it helpful to start from code we already used and modify it accordingly.
 
-What code did you use?  And which Class had the highest proportion of survivors?
+What code did you use?  Which Class had the highest proportion of survivors?
 
 :::
 
