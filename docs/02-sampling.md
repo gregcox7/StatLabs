@@ -2,7 +2,7 @@
 
 
 
-
+<img src="img/simpsons.png" width="100%" />
 
 In the previous activity, we got some exposure to how we can explore data in R in such a way that we can use data to help answer questions.  In this activity, we will get a sense of where data come from and how the processes that produce data can force us to change our interpretations.
 
