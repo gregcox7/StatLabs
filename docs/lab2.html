@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Lab 2 Central tendency and variability | Labs</title>
+<title>Lab 2 Sampling | Labs</title>
 <meta name="author" content="Greg Cox">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.9/header-attrs.js"></script><script src="libs/jquery-3.5.1/jquery-3.5.1.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.5.3/bootstrap.min.css" rel="stylesheet">
@@ -33,20 +33,7 @@
         <ul class="book-toc list-unstyled">
 <li><a class="" href="index.html">Overview</a></li>
 <li><a class="" href="lab1.html"><span class="header-section-number">1</span> Exploring Data with R</a></li>
-<li><a class="active" href="lab2.html"><span class="header-section-number">2</span> Central tendency and variability</a></li>
-<li><a class="" href="lab3.html"><span class="header-section-number">3</span> Scatterplots and correlation</a></li>
-<li><a class="" href="lab4.html"><span class="header-section-number">4</span> Probability and simulation</a></li>
-<li><a class="" href="lab5.html"><span class="header-section-number">5</span> Models: The Binomial and the Normal</a></li>
-<li><a class="" href="lab6.html"><span class="header-section-number">6</span> Sampling and the Central Limit Theorem: The Wisdom of Large Samples</a></li>
-<li><a class="" href="lab7.html"><span class="header-section-number">7</span> Confidence intervals and hypothesis testing</a></li>
-<li><a class="" href="lab8.html"><span class="header-section-number">8</span> Statistical Power</a></li>
-<li><a class="" href="lab9.html"><span class="header-section-number">9</span> \(t\) tests</a></li>
-<li><a class="" href="lab10.html"><span class="header-section-number">10</span> Comparing Independent Samples</a></li>
-<li><a class="" href="lab11.html"><span class="header-section-number">11</span> Linear Regression</a></li>
-<li><a class="" href="lab12.html"><span class="header-section-number">12</span> Exploring Data with R, Part II</a></li>
-<li class="book-part">Appendix</li>
-<li><a class="" href="coderef.html"><span class="header-section-number">A</span> Distributions</a></li>
-<li><a class="" href="hyptests.html"><span class="header-section-number">B</span> Hypothesis Tests</a></li>
+<li><a class="active" href="lab2.html"><span class="header-section-number">2</span> Sampling</a></li>
 <li><a class="" href="references.html">References</a></li>
 </ul>
 
@@ -57,231 +44,189 @@
 </div>
   </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="lab2" class="section level1" number="2">
 <h1>
-<span class="header-section-number">Lab 2</span> Central tendency and variability<a class="anchor" aria-label="anchor" href="#lab2"><i class="fas fa-link"></i></a>
+<span class="header-section-number">Lab 2</span> Sampling<a class="anchor" aria-label="anchor" href="#lab2"><i class="fas fa-link"></i></a>
 </h1>
-<div class="inline-figure"><img src="img/rats.jpg" width="100%"></div>
-<p>In this session, we will learn how to use R to calculate descriptive statistics. Specifically, these are statistics describing <em>central tendency</em> and <em>variability</em>. We saw how complicated it can be to calculate some of these things by hand. While it is good to understand what is going on “behind the scenes,” doing such calculations by hand is not only time consuming but prone to error. If you make a typo at one step, that little error gets magnified as you keep going.</p>
-<p>Besides, as we saw last week, most of the time, dataset are large and it is simply unreasonable to calculate a mean of 1300 numbers by hand. Luckily, computers are great at doing the kinds of mechanical, repetitive, mindless steps involved.</p>
-<p>But if the computer is great at mind<em>less</em> stuff, that means us people have to be better at mind<em>ful</em> stuff. We need to think about what these numbers mean and why they may be important for understanding the world.</p>
-<p>Another part of computers being mindless is that they will always do exactly what you tell them to do, unless they can’t. So we have to be extremely careful when we write code because, just like making a mistake doing calculations by hand, a mistake in code can propagate into a mistake in the result. Think about your neighbor’s obnoxious dog—it is not the dog’s fault it is obnoxious, it is the fault of the neighbor for doing a poor job training her.</p>
-<p>Why is doing statistics with a computer any better, if we still have to worry about making a mistake? Because the computer is fast and can deal with a lot more data than we can.</p>
-<p>The primary skills developed in this activity are:</p>
-<ol style="list-style-type: decimal">
-<li>Using R to calculate central tendency
-<ol style="list-style-type: decimal">
-<li>Median</li>
-<li>Mean</li>
-</ol>
-</li>
-<li>Using R to calculate variability
-<ol style="list-style-type: decimal">
-<li>Variance</li>
-<li>Standard deviation</li>
-</ol>
-</li>
-</ol>
-<div id="simple-cases" class="section level2" number="2.1">
+<p>In the previous activity, we got some exposure to how we can explore data in R in such a way that we can use data to help answer questions. In this activity, we will get a sense of where data come from and how the processes that produce data can force us to change our interpretations.</p>
+<p>Generally, the data we have come from a <strong>sample</strong> from some larger <strong>population</strong>. Depending on how that sample is selected, it may give us a <strong>biased</strong> perspective on the larger population. In particular, when we have non-random samples (as in <strong>observational studies</strong>), we must think carefully about how the processes by which cases end up in our sample. If those processes, which might be social in nature, introduce <strong>confounding variables</strong>, then there can be systematic differences between different groups in our sample, requiring us to interpret the data differently.</p>
+<div id="first-things-first" class="section level2" number="2.1">
 <h2>
-<span class="header-section-number">2.1</span> Simple cases<a class="anchor" aria-label="anchor" href="#simple-cases"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2.1</span> First things first<a class="anchor" aria-label="anchor" href="#first-things-first"><i class="fas fa-link"></i></a>
 </h2>
-<div id="central-tendency" class="section level3" number="2.1.1">
-<h3>
-<span class="header-section-number">2.1.1</span> Central tendency<a class="anchor" aria-label="anchor" href="#central-tendency"><i class="fas fa-link"></i></a>
-</h3>
-<p>Imagine that we are thinking about selling a new product. We demonstrate the product to five people in a focus group, each of whom gives us a rating of the product on a scale from 1 (very dissatisfied) to 9 (very satisfied)<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Is this measure continuous or discrete? What is the scale of measurement?&lt;/p&gt;"><sup>10</sup></a>. Their ratings, in no particular order, are 6, 9, 5, 5, and 7.</p>
-<p>Recall that the mean is defined by the formula <span class="math inline">\(\bar{X} = \frac{\sum_{i = 1}^N X_i}{N}\)</span>, where each <span class="math inline">\(X_i\)</span> is a measurement and <span class="math inline">\(N\)</span> is the number of measurements. We can expand the summation <span class="math inline">\(\sum_{i = 1}^N X_i\)</span> into <span class="math inline">\(X_1 + X_2 + X_3 + \cdots + X_N\)</span>, where the subscripts (1, 2, 3, etc.) indicate which of the measurements is being added to the total sum.</p>
-<p>We can use R to do this calculation by basically writing out in R how we would write it out if we were finding the mean by hand. Then we let R do the actual arithmetic.</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="op">(</span><span class="fl">6</span> <span class="op">+</span> <span class="fl">9</span> <span class="op">+</span> <span class="fl">5</span> <span class="op">+</span> <span class="fl">5</span> <span class="op">+</span> <span class="fl">7</span><span class="op">)</span> <span class="op">/</span> <span class="fl">5</span></code></pre></div>
-<pre><code>## [1] 6.4</code></pre>
-<p>We have basically turned R into a calculator. R can do all the typical things a calculator can do, like addition (<code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code>) and division (<code><a href="https://rdrr.io/r/base/Arithmetic.html">/</a></code>), as well as subtraction (<code><a href="https://rdrr.io/r/base/Arithmetic.html">-</a></code>) and multiplication (<code><a href="https://rdrr.io/r/base/Arithmetic.html">*</a></code>). We used the parentheses to tell R to add up all the numbers <em>before</em> dividing them by 5.</p>
-<p>But that’s still pretty clumsy. R gives us a more elegant way to find the mean of a set of measurements:</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">6</span>, <span class="fl">9</span>, <span class="fl">5</span>, <span class="fl">5</span>, <span class="fl">7</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 6.4</code></pre>
-<p>Nice! How did that work? If you tell R <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code>, it will give you the <strong>mean</strong> of whatever is inside those parentheses. But what is that <code><a href="https://rdrr.io/r/base/c.html">c()</a></code> thing? The <code><a href="https://rdrr.io/r/base/c.html">c()</a></code> tells R to <strong>collect</strong> the numbers together. It tells R to treat them collectively; in our mathematical notation, the <code><a href="https://rdrr.io/r/base/c.html">c()</a></code> tells R that all the things inside those <em>inner</em> parentheses are to be treated like <span class="math inline">\(X_i\)</span>’s, a set of measurements all on the same variable.</p>
-<p>Can we keep using this trick? Let’s use R to find the median:</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">6</span>, <span class="fl">9</span>, <span class="fl">5</span>, <span class="fl">5</span>, <span class="fl">7</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 6</code></pre>
-<p>Worked like a charm! Again, we had to tell R that our numbers were to be treated like a <em>collection</em>, and we told R to find the <strong>median</strong> of that collection of numbers.</p>
-<p>Now imagine we get a sixth person to rate our product and they give it an 8. Now our data consist of a set of six ratings (6, 9, 5, 5, 7, 8). We can again use R to find the new mean<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;What is the code that calculates the new mean? &lt;em&gt;Hint: Try modifying the collection of observed values within the parentheses in the code above.&lt;/em&gt;&lt;/p&gt;"><sup>11</sup></a></p>
-<pre><code>## [1] 6.666667</code></pre>
-<p>and the median<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;What is the code that calculates the new median? &lt;em&gt;Hint: Try modifying the collection of observed values within the parentheses in the code above.&lt;/em&gt;&lt;/p&gt;"><sup>12</sup></a></p>
-<pre><code>## [1] 6.666667</code></pre>
-<p>Sadly, R does not give us a straightforward way to get the <em>mode</em>, so that’s something we still have to figure out on our own.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Just by looking at the observed values we have, what is the mode of the focus group’s ratings?&lt;/p&gt;"><sup>13</sup></a></p>
-</div>
-<div id="variability" class="section level3" number="2.1.2">
-<h3>
-<span class="header-section-number">2.1.2</span> Variability<a class="anchor" aria-label="anchor" href="#variability"><i class="fas fa-link"></i></a>
-</h3>
-<p>R helpfully provides similar methods for calculating variability. For example, we can calculate the <em>variance</em> of the focus group ratings like this</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">6</span>, <span class="fl">9</span>, <span class="fl">5</span>, <span class="fl">5</span>, <span class="fl">7</span>, <span class="fl">8</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 2.666667</code></pre>
-<p>Notice that R abbreviates <em>var</em>iance to just <code>var</code>, but otherwise the code looks basically the same as we used for the mean and median. When you ask R for the variance, you get the so-called “sample” variance, given by <span class="math inline">\(\frac{\sum_{i = 1}^N \left( X_i - \bar{X} \right)^2}{N - 1}\)</span>.</p>
-<p>Similarly, we can get the <em>standard deviation</em> by swapping out <code>var</code> for <code>sd</code> (short for <em>s</em>tandard <em>d</em>eviation)</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">6</span>, <span class="fl">9</span>, <span class="fl">5</span>, <span class="fl">5</span>, <span class="fl">7</span>, <span class="fl">8</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 1.632993</code></pre>
-<p>We can verify that this is the square root of the variance. R has another “function” called <code>sqrt</code> that gives you the square root of whatever is in the parentheses that follow it. Check it out:</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">6</span>, <span class="fl">9</span>, <span class="fl">5</span>, <span class="fl">5</span>, <span class="fl">7</span>, <span class="fl">8</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 1.632993</code></pre>
-<p>Notice that you can “wrap” things in parentheses and put function names in front, like we put the <code>sqrt</code> in front of the <code>var</code>.</p>
-</div>
-</div>
-<div id="dealing-with-real-data" class="section level2" number="2.2">
-<h2>
-<span class="header-section-number">2.2</span> Dealing with real data<a class="anchor" aria-label="anchor" href="#dealing-with-real-data"><i class="fas fa-link"></i></a>
-</h2>
-<p>The examples above illustrated one way we can use R to calculate descriptions of central tendency and variability. These are useful when we have a small amount of data that we can type in without risk of error, but that’s almost never the situation we have to deal with in applying statistics to real data.</p>
-<div id="setting-the-stage" class="section level3" number="2.2.1">
-<h3>
-<span class="header-section-number">2.2.1</span> Setting the stage<a class="anchor" aria-label="anchor" href="#setting-the-stage"><i class="fas fa-link"></i></a>
-</h3>
-<p>Before we can get to work with real data, we have to open up the right toolbox. In R, this is done by retrieving a “package” from R’s “library.” Remember that one of the nice things about R is that there are so many packages available that each contain helpful functions. Of course, the downside is that we need to tell R to open up those packages, but this isn’t too hard.</p>
-<p>Specifically, we’ll need to open the “tidyverse” package:</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<p>First, start up RStudio.</p>
+<p>As usual, the next thing we will do after starting up RStudio is to load the <code>tidyverse</code> package from R’s library using the following line of code (which you should run in your RStudio console, like last time):</p>
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></code></pre></div>
-<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
-<pre><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+<pre class="Rout text-info"><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+<pre class="Rout text-info"><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
 ## ✓ tibble  3.1.3     ✓ dplyr   1.0.5
 ## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
 ## ✓ readr   2.0.0     ✓ forcats 0.5.1</code></pre>
-<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+<pre class="Rout text-info"><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
-<p>R will tell you a bunch of stuff, including something about “conflicts.” This isn’t a big deal for us, R is just saying that we have some tools with the same name, and it calls this a “conflict.” R is just trying to keep you informed.</p>
-<p>The tidyverse package is one that we will be using a lot. It contains a lot of statistical tools and tools for making graphics that will be very useful for us throughout the course.</p>
+<p>Now that that’s done, we can get into the data.</p>
 </div>
-<div id="getting-the-data" class="section level3" number="2.2.2">
+<div id="sex-bias-sampling-bias-or-both" class="section level2" number="2.2">
+<h2>
+<span class="header-section-number">2.2</span> Sex Bias, Sampling Bias, or Both?<a class="anchor" aria-label="anchor" href="#sex-bias-sampling-bias-or-both"><i class="fas fa-link"></i></a>
+</h2>
+<p>In 1973, the University of California at Berkeley noted a disturbing fact about their graduate school admissions: considerably more male applicants were being admitted than female applicants. The University, fearing a lawsuit, wanted to know if this reflected systematic sex discrimination in their admissions offices. We shall see for ourselves that the story turned out to be more complex (for the full details, see <span class="citation"><a href="references.html#ref-BickelEtAl1973" role="doc-biblioref">Bickel et al.</a> (<a href="references.html#ref-BickelEtAl1973" role="doc-biblioref">1973</a>)</span>).</p>
+<div id="load-the-data-1" class="section level3" number="2.2.1">
 <h3>
-<span class="header-section-number">2.2.2</span> Getting the data<a class="anchor" aria-label="anchor" href="#getting-the-data"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2.2.1</span> Load the data<a class="anchor" aria-label="anchor" href="#load-the-data-1"><i class="fas fa-link"></i></a>
 </h3>
-<p>The data we will be looking at come from a study by <span class="citation"><a href="references.html#ref-YuEtAl1982" role="doc-biblioref">Yu et al.</a> (<a href="references.html#ref-YuEtAl1982" role="doc-biblioref">1982</a>)</span>. They studied the lifespan of rats with two different diets: One group of rats was allowed to eat freely, however they wanted; another group was fed on a restricted diet with only about 60% of the calories that the free-eating rats had.</p>
-<p>We need to get this data into R. The following code will import the data into your current R session:</p>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">rats</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">'https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/ratlives.csv'</span><span class="op">)</span></code></pre></div>
-<pre><code>## Rows: 195 Columns: 2</code></pre>
-<pre><code>## ── Column specification ────────────────────────────────────────────────────────
+<p>First, run the code below to load the 1973 Berkeley admissions data into our workspace:</p>
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">berkeley</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/berkeley.csv"</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-info"><code>## Rows: 4526 Columns: 3</code></pre>
+<pre class="Rout text-info"><code>## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
-## chr (1): Diet
-## dbl (1): Lifespan</code></pre>
-<pre><code>## 
+## chr (3): Admit, Gender, Department</code></pre>
+<pre class="Rout text-info"><code>## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<p>In your “Environment” panel in the upper right, you’ll see a new entry called “rats.” This is the data we just imported. Click on it to have a look at the data, which will appear in the upper left. There are just two variables in this dataset, <strong>Diet</strong> and <strong>Lifespan</strong> (measured in days)<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;For each of these variables, are they a) continuous or discrete? b) which scale are they measured on (nominal, ordinal, interval, or ratio)?&lt;/p&gt;"><sup>14</sup></a>.</p>
+<p>The <code>berkeley</code> dataset should now be visible in the “Environment” pane in the upper right corner of RStudio. Click on it to have a look at the raw data.</p>
+<p>Because each applicant selected themselves into this sample, it is clearly not random. Each row of the data refers to a specific applicant in 1973. For each applicant, there are three observed variables:</p>
+<ul>
+<li>
+<strong>Admit</strong>: Either “Admitted” or “Rejected,” depending on whether the applicant was admitted or rejected.</li>
+<li>
+<strong>Gender</strong>: Either “Male” or “Female.”</li>
+<li>
+<strong>Department</strong>: A letter between “A” and “F”; the department names were obscured for privacy.</li>
+</ul>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-7" class="exercise"><strong>Exercise 2.1  </strong></span>What type (nominal categorical, ordinal categorical, numerical) are each of the variables in this dataset?</p>
 </div>
-<div id="visualizing-the-data" class="section level3" number="2.2.3">
-<h3>
-<span class="header-section-number">2.2.3</span> Visualizing the data<a class="anchor" aria-label="anchor" href="#visualizing-the-data"><i class="fas fa-link"></i></a>
-</h3>
-<p>Numerical techniques for describing data, like means and variances, are useful compact descriptions of potentially complex distributions. But while they can be quick and easy ways to communicate (even if they are not always quick and easy to <em>calculate</em>), it is still important to get a sense of what the data really look like. As a result, we will never abandon our friends from last week, the bar chart and histogram. It is essential to visualize your data prior to doing any kind of quantitative analyses, since visualizing the data helps us understand what those quantities <em>mean</em>.</p>
-<p>Just like last week, we can construct a histogram to see how long different rats lived depending on their diet.</p>
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">rats</span> <span class="op">%&gt;%</span>
-    <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">Lifespan</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu">geom_histogram</span><span class="op">(</span>binwidth<span class="op">=</span><span class="fl">60</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="02-basic_descriptives_files/figure-html/unnamed-chunk-12-1.png" width="672"></div>
-<p>So far, so good. The code above takes our data, puts the “Lifespan” variable along the <span class="math inline">\(x\)</span> axis, and makes a histogram by putting the observed rat lifespans into “bins” that are 60 days wide.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Compare the code we just used with the code we used to make a histogram of the ages of &lt;em&gt;Titanic&lt;/em&gt; passengers last week. What is different and what is similar?&lt;/p&gt;"><sup>15</sup></a></p>
-<p>The histogram illustrates some interesting features of the data, notably that it appears to be <em>bimodal</em><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Based on the histogram, roughly where do the two modes seem to be?&lt;/p&gt;"><sup>16</sup></a>. Is this surprising? Remember that our dataset actually consists of <em>two</em> groups of rats with different diets, so maybe that is why the histogram looks the way it does.</p>
-<p>We can use a new “aesthetic” to split the histogram up so we can see the two different groups:</p>
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">rats</span> <span class="op">%&gt;%</span>
-    <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">Lifespan</span>, fill<span class="op">=</span><span class="va">Diet</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu">geom_histogram</span><span class="op">(</span>binwidth<span class="op">=</span><span class="fl">60</span>, position <span class="op">=</span> <span class="st">"identity"</span>, alpha<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="02-basic_descriptives_files/figure-html/unnamed-chunk-13-1.png" width="672"></div>
-<p>There are a couple things that got added there, especially in that last line, that probably aren’t that clear. First, the new “aesthetic”: In the second line, we tell R to put <code>Lifespan</code> along the <code>x</code> axis like before, but now we are also telling R to <code>fill</code> the histograms with a different color depending on the <code>Diet</code> variable. Now, what about that other stuff in the third line? Now, in addition to telling R how wide the bins of our histogram should be (<code>binwidth = 60</code>), <code>position = "identity"</code> tells R that it should <em>overlay</em> the two histograms. If you don’t tell R to do that, it will instead “stack” them, like this:</p>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">rats</span> <span class="op">%&gt;%</span>
-    <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">Lifespan</span>, fill<span class="op">=</span><span class="va">Diet</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu">geom_histogram</span><span class="op">(</span>binwidth<span class="op">=</span><span class="fl">60</span>, alpha<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="02-basic_descriptives_files/figure-html/unnamed-chunk-14-1.png" width="672"></div>
-<p>Which is kind of confusing. What about <code>alpha = 0.5</code>? This gets a bit into computer graphics, but <code>alpha</code> represents the <em>opacity</em> of something. If <code>alpha = 1</code>, this means completely opaque, you can’t see anything through it. If <code>alpha = 0</code>, this means completely transparent (invisible). So <code>alpha = 0.5</code> is halfway in between. Because we are putting the two histograms on top of one another, we want them to be a little bit see-through so one doesn’t obscure the other. See what happens when we leave out that line (and <code>alpha = 1</code> by default):</p>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">rats</span> <span class="op">%&gt;%</span>
-    <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">Lifespan</span>, fill<span class="op">=</span><span class="va">Diet</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu">geom_histogram</span><span class="op">(</span>binwidth<span class="op">=</span><span class="fl">60</span>, position <span class="op">=</span> <span class="st">"identity"</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="02-basic_descriptives_files/figure-html/unnamed-chunk-15-1.png" width="672"></div>
-<p>Again, harder to see what is going on.</p>
 </div>
-<div id="central-tendency-1" class="section level3" number="2.2.4">
+<div id="are-more-males-than-females-admitted" class="section level3" number="2.2.2">
 <h3>
-<span class="header-section-number">2.2.4</span> Central tendency<a class="anchor" aria-label="anchor" href="#central-tendency-1"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2.2.2</span> Are more males than females admitted?<a class="anchor" aria-label="anchor" href="#are-more-males-than-females-admitted"><i class="fas fa-link"></i></a>
 </h3>
-<p>By plotting the lifespans of the two groups of rats on separate but overlapping histograms, we can see there are some important differences between them.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Based on the histogram, does it seem like one group of rats tends to live longer the the other? Do the groups seem to have similar amounts of variability?&lt;/p&gt;"><sup>17</sup></a> Now we can describe those differences numerically.</p>
-<p>We saw last week how to summarize data in terms of counting the frequency with which different values were observed. The code to summarize the central tendency of a dataset is similar:</p>
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">rats</span> <span class="op">%&gt;%</span>
-    <span class="fu">group_by</span><span class="op">(</span><span class="va">Diet</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span>M <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Lifespan</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 2 × 2
-##   Diet           M
-##   &lt;chr&gt;      &lt;dbl&gt;
-## 1 Free        684.
-## 2 Restricted  969.</code></pre>
-<p>And just like that, R has calculated the mean lifespans of the rats in each group.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Which group has the higher average lifespan? Does this make sense based on what you saw in the histogram?&lt;/p&gt;"><sup>18</sup></a> Looking at the code, the first two lines are similar to how we got R to make frequency tables last time: We tell R what data we are working with (<code>rats</code>), tell R to group the data by a particular variable (<code>Diet</code>), and then tell R to make us a summary. The last line is again a <code>summarize</code> instruction, but it looks a bit different. Last time, we put <code>N = n()</code> inside the parentheses, which told R to count the number of individuals in each group and put those counts in a column labeled <code>N</code>. By saying <code>M = mean(Lifespan)</code>, we are telling R to find the mean lifespan of the rats in each group and put the result in a column labeled <code>M</code>. We replaced <code>N</code> with <code>M</code> and <code>n()</code> with <code><a href="https://rdrr.io/r/base/mean.html">mean(Lifespan)</a></code>. In so doing, we changed the label (<code>N</code> to <code>M</code>) <em>and</em> changed the way we summarized the data (from <code>n()</code>, which just counted, to <code><a href="https://rdrr.io/r/base/mean.html">mean(Lifespan)</a></code> which finds the mean Lifespan).</p>
-<p>Just like we did with the simple data above, we can swap out <code>mean</code> in the last line for different summaries. For example, we can create a table that gives us the <strong>median</strong> lifespan of the rats in each group:<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;What code would produce this table? &lt;em&gt;Hint: it requires modifying the name of the central tendency measure in the last line of the previous bit of code.&lt;/em&gt;&lt;/p&gt;"><sup>19</sup></a></p>
-<pre><code>## # A tibble: 2 × 2
-##   Diet           M
-##   &lt;chr&gt;      &lt;dbl&gt;
-## 1 Free        710 
-## 2 Restricted 1036.</code></pre>
-<p>Comparing the mean to the median gives us a sense of the extent to which the distributions of lifespans of the two groups of rats are skewed.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Compare the median lifespan to the mean lifespan in each group. Based on this comparison, would you say that lifespans in either group are symmetric, positively skewed, or negatively skewed?&lt;/p&gt;"><sup>20</sup></a></p>
+<p>As noted above, Berkeley was concerned because a greater <strong>proportion</strong> of their male applicants were being admitted than their female applicants. To verify whether this is true, let’s find those proportions ourselves by running the following chunk of code:</p>
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">berkeley</span> <span class="op">%&gt;%</span>
+  <span class="fu">group_by</span><span class="op">(</span><span class="va">Gender</span>, <span class="va">Admit</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">summarize</span><span class="op">(</span>n <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">mutate</span><span class="op">(</span>p <span class="op">=</span> <span class="va">n</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-info"><code>## `summarise()` has grouped output by 'Gender'. You can override using the `.groups` argument.</code></pre>
+<pre class="Rout text-muted"><code>## # A tibble: 4 × 4
+## # Groups:   Gender [2]
+##   Gender Admit        n     p
+##   &lt;chr&gt;  &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt;
+## 1 Female Admitted   557 0.304
+## 2 Female Rejected  1278 0.696
+## 3 Male   Admitted  1198 0.445
+## 4 Male   Rejected  1493 0.555</code></pre>
+<p>The rightmost column of the table (labeled <code>p</code>) gives the proportion of applicants of each gender who were either admitted or rejected. Based on this table, it looks like Berkeley was right to be concerned—the proportion of male applicants admitted is higher than the proportion of female applicants admitted.</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-8" class="exercise"><strong>Exercise 2.2  </strong></span>Compare the chunk of code we just ran to some of the code we used in the last activity in <a href="lab1.html#titanic-props">this section</a>. What parts looks similar and what parts look different?</p>
 </div>
-<div id="variability-1" class="section level3" number="2.2.5">
+</div>
+<div id="is-there-a-bias-in-all-departments" class="section level3" number="2.2.3">
 <h3>
-<span class="header-section-number">2.2.5</span> Variability<a class="anchor" aria-label="anchor" href="#variability-1"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2.2.3</span> Is there a bias in all departments?<a class="anchor" aria-label="anchor" href="#is-there-a-bias-in-all-departments"><i class="fas fa-link"></i></a>
 </h3>
-<p>We can also make a summary table with multiple descriptive statistics, including both measures of central tendency and of variability. The following code gives us a table that reports not just the mean lifespans of rats in each group, but the standard deviation of those lifespans as well:</p>
-<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">rats</span> <span class="op">%&gt;%</span>
-    <span class="fu">group_by</span><span class="op">(</span><span class="va">Diet</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span>M <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Lifespan</span><span class="op">)</span>, SD <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">Lifespan</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 2 × 3
-##   Diet           M    SD
-##   &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;
-## 1 Free        684.  134.
-## 2 Restricted  969.  285.</code></pre>
-<p>And, of course, we can create a table that summarizes the mean, median, standard deviation, and variance all at once!<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;What code would produce the table below? &lt;em&gt;Hint: See how we added a column for the standard deviation? And remember how we told R to find different descriptive statistics above?&lt;/em&gt;&lt;/p&gt;"><sup>21</sup></a></p>
-<pre><code>## # A tibble: 2 × 5
-##   Diet        Mean Median Variance    SD
-##   &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
-## 1 Free        684.   710    17979.  134.
-## 2 Restricted  969.  1036.   80986.  285.</code></pre>
-<p>These numerical summaries of central tendency and variability provide a concise description of the lifespans of rats under the two different diets. This description helps us see whether there is any benefit to a restricted diet on lifespan.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;What would you conclude? Is there a benefit or harm for the restricted diet over normal free diet? Is this true for every rat? Is the size of any benefit or harm big or small relative to how much rat lifespans tend to vary?&lt;/p&gt;"><sup>22</sup></a></p>
+<p>Even if there is an overall bias, is this the case for all departments, or just some?</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-9" class="exercise"><strong>Exercise 2.3  </strong></span>Make a new table that gives the proportion of male and female applicants admitted for each department. You may find it helpful to fill in the blanks in the following chunk of code (note a new line at the end which “filters” out some redundant rows of the table to make it from being too long):</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="lab2.html#cb57-1" aria-hidden="true" tabindex="-1"></a>berkeley <span class="sc">%&gt;%</span></span>
+<span id="cb57-2"><a href="lab2.html#cb57-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(___, ___, Admit) <span class="sc">%&gt;%</span></span>
+<span id="cb57-3"><a href="lab2.html#cb57-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb57-4"><a href="lab2.html#cb57-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">p =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n)) <span class="sc">%&gt;%</span></span>
+<span id="cb57-5"><a href="lab2.html#cb57-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Admit <span class="sc">==</span> <span class="st">"Admitted"</span>)</span></code></pre></div>
+<p>Which departments admit a higher proportion of female applicants and which admit a higher proportion of male applicants?</p>
+</div>
+</div>
+<div id="resolving-the-paradox" class="section level3" number="2.2.4">
+<h3>
+<span class="header-section-number">2.2.4</span> Resolving the paradox<a class="anchor" aria-label="anchor" href="#resolving-the-paradox"><i class="fas fa-link"></i></a>
+</h3>
+<p>We appear to have a paradox on our hands: If we ignore differences between departments, it is more likely that a male applicant gets admitted than a female applicant. But within most departments, the opposite is true: a greater proportion of female applicants are admitted than male applicants. In other words, there seems to be a <strong>confounding variable</strong> at work, and it is related to the differences between departments.</p>
+<p>To try to figure out what this confound might be, we should look at two additional issues. The first issue is, for each department, what proportion of their applicants are female, regardless of whether they were admitted or not? We can address that question by running the following chunk of code:</p>
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">berkeley</span> <span class="op">%&gt;%</span>
+  <span class="fu">group_by</span><span class="op">(</span><span class="va">Department</span>, <span class="va">Gender</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">summarize</span><span class="op">(</span>n <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">mutate</span><span class="op">(</span>p <span class="op">=</span> <span class="va">n</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-info"><code>## `summarise()` has grouped output by 'Department'. You can override using the `.groups` argument.</code></pre>
+<pre class="Rout text-muted"><code>## # A tibble: 12 × 4
+## # Groups:   Department [6]
+##    Department Gender     n      p
+##    &lt;chr&gt;      &lt;chr&gt;  &lt;int&gt;  &lt;dbl&gt;
+##  1 A          Female   108 0.116 
+##  2 A          Male     825 0.884 
+##  3 B          Female    25 0.0427
+##  4 B          Male     560 0.957 
+##  5 C          Female   593 0.646 
+##  6 C          Male     325 0.354 
+##  7 D          Female   375 0.473 
+##  8 D          Male     417 0.527 
+##  9 E          Female   393 0.673 
+## 10 E          Male     191 0.327 
+## 11 F          Female   341 0.478 
+## 12 F          Male     373 0.522</code></pre>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-10" class="exercise"><strong>Exercise 2.4  </strong></span>Based on the table we just produced, which departments have more male than female applicants? Is there any overlap between these departments and those you identified in the previous exercise as admitting a higher proportion of female than male applicants?</p>
+</div>
+<p>The second issue to consider is the overall rate of admission for each department.</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-11" class="exercise"><strong>Exercise 2.5  </strong></span>Make a table that shows the proportion of applicants who were admitted for each department, regardless of gender. You may find it useful to modify the chunk of code we just used.</p>
+<p>What code did you use? Put the departments in order from highest to lowest admission rate.</p>
+</div>
+<p>Finally, let’s create a visualization that may help us put these pieces together. The chunk of code below produces a set of bar charts, one for each department. These are similar to those we made in the previous activity, but have a new “aesthetic,” namely, they use a variable (<code>Gender</code>) to <code>fill</code> in the bars with different colors:</p>
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">berkeley</span> <span class="op">%&gt;%</span>
+  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">Admit</span>, fill <span class="op">=</span> <span class="va">Gender</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">geom_bar</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">facet_wrap</span><span class="op">(</span><span class="st">"Department"</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="02-sampling_files/figure-html/unnamed-chunk-7-1.png" width="672"></div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-12" class="exercise"><strong>Exercise 2.6  </strong></span>Compare the code we just ran to create this colored bar chart with the kind of code you used to make bar charts in the <a href="lab1.html#titanic-bar">previous activity</a>. What is similar and what is different?</p>
+</div>
+<p>In the plot we just made, the total height of each bar represents the total number of applicants for each department who were either admitted or rejected. Each bar is divided into two parts in different colors, representing the numbers of male and female applicants in each bar. You can use the total height of the bars to see the relative number of people who were admitted vs. rejected in each department; you can use the amount of red vs. teal in each panel to see the relative number of female vs. male applicants for each department.</p>
+<p>Putting the pieces together, we have found the following:</p>
+<ul>
+<li>Across all departments, the proportion of female applicants admitted is <em>lower</em> than the proportion of male applicants admitted.</li>
+<li>Within most departments, the proportion of female applicants admitted is <em>higher</em> than the proportion of male applicants admitted.</li>
+<li>Departments with high overall admission rates receive fewer female applicants than departments with low admission rates.</li>
+</ul>
+<p>Finally, we should note that, although the names of the specific departments have been removed, departments A and B (which were easy to get into and received predominantly male applicants) were in the physical sciences and engineering whereas departments E and F (which were hard to get into and received considerably more female applicants) were in the social sciences and humanities.</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-13" class="exercise"><strong>Exercise 2.7  </strong></span>Even though these results do not suggest a sex bias in admissions at the level of individual departments, what other kinds of bias do these results suggest might be going on? How are these potential biases related to the types of sampling biases we’ve discussed in class and in the book?</p>
+<blockquote>
+<p>In thinking about this, it may help to think about two questions (though there are certainly more that may be relevant):</p>
+<ul>
+<li>Why might someone choose to apply to a particular department?</li>
+<li>Why might some departments be able to admit more applicants than others?</li>
+</ul>
+</blockquote>
+</div>
 </div>
 </div>
 <div id="wrap-up-1" class="section level2" number="2.3">
 <h2>
 <span class="header-section-number">2.3</span> Wrap-up<a class="anchor" aria-label="anchor" href="#wrap-up-1"><i class="fas fa-link"></i></a>
 </h2>
-<p>Today we saw how to use R to find various numerical descriptive statistics, both in simple cases and with real data. We focused on two measures of central tendency, the <strong>mean</strong> and the <strong>median</strong>, as well as two measures of variability, the <strong>variance</strong> and the <strong>standard deviation</strong>. We saw how these quantities are useful in summarizing complex data, making it easier to draw conclusions about differences between groups. We also learned a new trick about how to visualize histograms from multiple groups.</p>
+<p>The paradox we confronted in this activity has a name: “<strong>Simpson’s Paradox</strong>.” Check out a good video demonstration of the paradox <a href="https://youtu.be/ebEkn-BiW5k">here</a>.</p>
+<p>Simpson’s Paradox occurs whenever a pattern that appears in aggregate (like the bias against female applicants over all departments) disappears or reverses when we look at different subgroups (like the apparent bias in favor of female applicants within most departments). As we have done in this activity, Simpson’s Paradox can be resolved only by careful exploration of the data and consideration of potential confounding variables that are associated with different subgroups.</p>
 
 </div>
 </div>
-
   <div class="chapter-nav">
 <div class="prev"><a href="lab1.html"><span class="header-section-number">1</span> Exploring Data with R</a></div>
-<div class="next"><a href="lab3.html"><span class="header-section-number">3</span> Scatterplots and correlation</a></div>
+<div class="next"><a href="references.html">References</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#lab2"><span class="header-section-number">2</span> Central tendency and variability</a></li>
+<li><a class="nav-link" href="#lab2"><span class="header-section-number">2</span> Sampling</a></li>
+<li><a class="nav-link" href="#first-things-first"><span class="header-section-number">2.1</span> First things first</a></li>
 <li>
-<a class="nav-link" href="#simple-cases"><span class="header-section-number">2.1</span> Simple cases</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#central-tendency"><span class="header-section-number">2.1.1</span> Central tendency</a></li>
-<li><a class="nav-link" href="#variability"><span class="header-section-number">2.1.2</span> Variability</a></li>
-</ul>
-</li>
-<li>
-<a class="nav-link" href="#dealing-with-real-data"><span class="header-section-number">2.2</span> Dealing with real data</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#setting-the-stage"><span class="header-section-number">2.2.1</span> Setting the stage</a></li>
-<li><a class="nav-link" href="#getting-the-data"><span class="header-section-number">2.2.2</span> Getting the data</a></li>
-<li><a class="nav-link" href="#visualizing-the-data"><span class="header-section-number">2.2.3</span> Visualizing the data</a></li>
-<li><a class="nav-link" href="#central-tendency-1"><span class="header-section-number">2.2.4</span> Central tendency</a></li>
-<li><a class="nav-link" href="#variability-1"><span class="header-section-number">2.2.5</span> Variability</a></li>
+<a class="nav-link" href="#sex-bias-sampling-bias-or-both"><span class="header-section-number">2.2</span> Sex Bias, Sampling Bias, or Both?</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#load-the-data-1"><span class="header-section-number">2.2.1</span> Load the data</a></li>
+<li><a class="nav-link" href="#are-more-males-than-females-admitted"><span class="header-section-number">2.2.2</span> Are more males than females admitted?</a></li>
+<li><a class="nav-link" href="#is-there-a-bias-in-all-departments"><span class="header-section-number">2.2.3</span> Is there a bias in all departments?</a></li>
+<li><a class="nav-link" href="#resolving-the-paradox"><span class="header-section-number">2.2.4</span> Resolving the paradox</a></li>
 </ul>
 </li>
 <li><a class="nav-link" href="#wrap-up-1"><span class="header-section-number">2.3</span> Wrap-up</a></li>
@@ -289,8 +234,8 @@
 
       <div class="book-extra">
         <ul class="list-unstyled">
-<li><a id="book-source" href="https://github.com/gregcox7/StatLabs/blob/master/02-basic_descriptives.Rmd">View source <i class="fab fa-github"></i></a></li>
-          <li><a id="book-edit" href="https://github.com/gregcox7/StatLabs/edit/master/02-basic_descriptives.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+<li><a id="book-source" href="https://github.com/gregcox7/StatLabs/blob/master/02-sampling.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/gregcox7/StatLabs/edit/master/02-sampling.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
         </ul>
 </div>
     </nav>
@@ -302,7 +247,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2021-08-18.</p>
+    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2021-09-03.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

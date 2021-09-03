@@ -281,7 +281,7 @@ titanic %>%
 What was the final code that you used?  And how many second class passengers survived?
 :::
 
-### Proportions
+### Proportions {#titanic-props}
 
 You may have heard that, when trying to evacuate the *Titanic*, there was a rule to put "women and children first" onto lifeboats.  This suggests a **hypothesis**, assuming this rule was actually followed: female passengers should have survived more often than male passengers.
 
@@ -350,7 +350,7 @@ What code did you use?  Which Class had the highest proportion of survivors?
 
 :::
 
-### Bar charts
+### Bar charts {#titanic-bar}
 
 If we are looking for patterns or trends in data, it is often easier to see them with a visualization rather than a table of numbers.  Bar charts make numerical relationships easy to see visually, so we don't need to compare a bunch of numbers.
 
