@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Lab 3 Scatterplots and correlation | Labs</title>
+<title>Lab 3 Describing data | Labs</title>
 <meta name="author" content="Greg Cox">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.9/header-attrs.js"></script><script src="libs/jquery-3.5.1/jquery-3.5.1.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.5.3/bootstrap.min.css" rel="stylesheet">
@@ -33,20 +33,8 @@
         <ul class="book-toc list-unstyled">
 <li><a class="" href="index.html">Overview</a></li>
 <li><a class="" href="lab1.html"><span class="header-section-number">1</span> Exploring Data with R</a></li>
-<li><a class="" href="lab2.html"><span class="header-section-number">2</span> Central tendency and variability</a></li>
-<li><a class="active" href="lab3.html"><span class="header-section-number">3</span> Scatterplots and correlation</a></li>
-<li><a class="" href="lab4.html"><span class="header-section-number">4</span> Probability and simulation</a></li>
-<li><a class="" href="lab5.html"><span class="header-section-number">5</span> Models: The Binomial and the Normal</a></li>
-<li><a class="" href="lab6.html"><span class="header-section-number">6</span> Sampling and the Central Limit Theorem: The Wisdom of Large Samples</a></li>
-<li><a class="" href="lab7.html"><span class="header-section-number">7</span> Confidence intervals and hypothesis testing</a></li>
-<li><a class="" href="lab8.html"><span class="header-section-number">8</span> Statistical Power</a></li>
-<li><a class="" href="lab9.html"><span class="header-section-number">9</span> \(t\) tests</a></li>
-<li><a class="" href="lab10.html"><span class="header-section-number">10</span> Comparing Independent Samples</a></li>
-<li><a class="" href="lab11.html"><span class="header-section-number">11</span> Linear Regression</a></li>
-<li><a class="" href="lab12.html"><span class="header-section-number">12</span> Exploring Data with R, Part II</a></li>
-<li class="book-part">Appendix</li>
-<li><a class="" href="coderef.html"><span class="header-section-number">A</span> Distributions</a></li>
-<li><a class="" href="hyptests.html"><span class="header-section-number">B</span> Hypothesis Tests</a></li>
+<li><a class="" href="lab2.html"><span class="header-section-number">2</span> Sampling</a></li>
+<li><a class="active" href="lab3.html"><span class="header-section-number">3</span> Describing data</a></li>
 <li><a class="" href="references.html">References</a></li>
 </ul>
 
@@ -57,313 +45,326 @@
 </div>
   </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="lab3" class="section level1" number="3">
 <h1>
-<span class="header-section-number">Lab 3</span> Scatterplots and correlation<a class="anchor" aria-label="anchor" href="#lab3"><i class="fas fa-link"></i></a>
+<span class="header-section-number">Lab 3</span> Describing data<a class="anchor" aria-label="anchor" href="#lab3"><i class="fas fa-link"></i></a>
 </h1>
-<div class="inline-figure"><img src="img/toys.jpg" width="100%"></div>
-<p>So far, most of what we’ve done has been about describing measurements on one variable at a time. Today’s session will look at how we can explore relationships <em>between</em> variables. If there is a systematic relationship between two variables, they are said to be <strong>correlated</strong>.</p>
-<p>The primary skills developed in this activity are a visual and a numerical way to explore relationships between variables:</p>
-<ol style="list-style-type: decimal">
-<li>The visual way is called a <strong>scatterplot</strong>.</li>
-<li>The numerical way is the <strong>Pearson correlation coefficient</strong>.</li>
-</ol>
-<p>Before we begin, make sure you have opened the tidyverse package from the library:</p>
-<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="img/rats.jpg" width="100%"></div>
+<p>This session is divided into two parts. In the first, we will use R to understand how two measures of <em>variability</em> work: the <strong>standard deviation</strong> and its close cousin, the <strong>variance</strong>. We will see how valuable the computer can be to quickly produce both numerical and visual summaries of data.</p>
+<p>But while computers are great at mind<em>less</em> computation, that means us people have to be better at mind<em>ful</em> stuff. We need to think about what these numbers mean and why they may be important for understanding the world.</p>
+<p>In the second part of the session we will analyze data from an experiment. We will use both visual and numerical summaries to help draw conclusions about what was going on in the experiment.</p>
+<div id="load-the-tidyverse-library" class="section level2" number="3.1">
+<h2>
+<span class="header-section-number">3.1</span> Load the <code>tidyverse</code> library<a class="anchor" aria-label="anchor" href="#load-the-tidyverse-library"><i class="fas fa-link"></i></a>
+</h2>
+<p>After starting up RStudio, we begin by making sure we’ve got the <code>tidyverse</code> package loaded from R’s library.</p>
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></code></pre></div>
-<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
-<pre><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+<pre class="Rout text-info"><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+<pre class="Rout text-info"><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
 ## ✓ tibble  3.1.3     ✓ dplyr   1.0.5
 ## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
 ## ✓ readr   2.0.0     ✓ forcats 0.5.1</code></pre>
-<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+<pre class="Rout text-info"><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
-<div id="calculating-the-pearson-correlation-coefficient" class="section level2" number="3.1">
+</div>
+<div id="variance-and-standard-deviation" class="section level2" number="3.2">
 <h2>
-<span class="header-section-number">3.1</span> Calculating the Pearson correlation coefficient<a class="anchor" aria-label="anchor" href="#calculating-the-pearson-correlation-coefficient"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.2</span> Variance and standard deviation<a class="anchor" aria-label="anchor" href="#variance-and-standard-deviation"><i class="fas fa-link"></i></a>
 </h2>
-<p>We saw last time that one way R is useful is as a powerful calculator. Calculating things like standard deviations by hand is hard enough, but calculating the Pearson correlation coefficient requires doing that twice (once for each variable), in addition to a lot of other steps. R can help ease that burden.</p>
-<div id="from-x-to-z" class="section level3" number="3.1.1">
+<p>Two important and widely-used numerical summaries of variability are <strong>variance</strong> and <strong>standard deviation</strong>. Although they have two different names, they are really two ways of looking at the same thing. The standard deviation is more often used as a summary of variability, although we shall see that variance is useful for other purposes later in this course.</p>
+<p>These summaries involve a somewhat long chain of calculations. It is important to see this chain to understand what these numbers are telling us. In this part of the session, we will use R to find the variance and standard deviation of some simple simulated data. First, we will follow that long chain. Then, we will see how to find these summaries more quickly and efficiently.</p>
+<div id="the-big-picture" class="section level3" number="3.2.1">
 <h3>
-<span class="header-section-number">3.1.1</span> From <span class="math inline">\(X\)</span> to <span class="math inline">\(z\)</span><a class="anchor" aria-label="anchor" href="#from-x-to-z"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.2.1</span> The big picture<a class="anchor" aria-label="anchor" href="#the-big-picture"><i class="fas fa-link"></i></a>
 </h3>
-<p>Recall that the Pearson correlation coefficient can be found using <span class="math inline">\(z\)</span> scores. Specifically, if we have measurements on one variable—let’s call them <span class="math inline">\(X\)</span>—and measurements on another variable—let’s call them <span class="math inline">\(Y\)</span>—we can find the correlation by first finding the <span class="math inline">\(z\)</span> scores for these two sets of measurements.</p>
-<div id="r-can-remember-things" class="section level4" number="3.1.1.1">
-<h4>
-<span class="header-section-number">3.1.1.1</span> R can remember things<a class="anchor" aria-label="anchor" href="#r-can-remember-things"><i class="fas fa-link"></i></a>
-</h4>
-<p>Let’s try doing that in R. Remember that R uses <code><a href="https://rdrr.io/r/base/c.html">c()</a></code> to say that everything within the parentheses is supposed to be treated as a <strong>collection</strong> of measurements on a single variable. Rather than having to write out that collection every time we want to use it, we can tell R to remember it. Let’s say we have a collection of measurements and we want to tell R to remember them with the label “X.” We can do that this way:</p>
-<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">8</span>, <span class="fl">13</span>, <span class="fl">9</span>, <span class="fl">11</span>, <span class="fl">14</span>, <span class="fl">6</span>, <span class="fl">4</span>, <span class="fl">12</span>, <span class="fl">7</span>, <span class="fl">5</span><span class="op">)</span></code></pre></div>
-<p>The important thing to note in the line above is the arrow <code><a href="https://rdrr.io/r/base/assignOps.html">&lt;-</a></code>. The arrow tells R to take the stuff on the right and put it under the label on the left. You can think of the arrow as saying that the collection <code><a href="https://rdrr.io/r/base/c.html">c(10, 8, 13, 9, 11, 14, 6, 4, 12, 7, 5)</a></code> is now “inside” a box labeled <code>X</code>.</p>
-<p>Now if we write “<code>X</code>” at the console and hit enter, R will remind us what we put inside the “<code>X</code>” box:</p>
-<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">X</span></code></pre></div>
-<pre><code>##  [1] 10  8 13  9 11 14  6  4 12  7  5</code></pre>
-<p>We can also find a specific value using square brackets. For example, we can find the 3rd measurement this way:</p>
+<p>A good numerical summary of variability should tell us how much we would expect the observed values of a variable to differ from what is “typical.” This is what “standard deviation” means: it is a summary of the typical (“standard”) amount by which observed values of some variable tend to differ (“deviate”) from their central tendency. The variance and standard deviation are based on using the <em>mean</em> to describe central tendency.</p>
+</div>
+<div id="load-the-data-2" class="section level3" number="3.2.2">
+<h3>
+<span class="header-section-number">3.2.2</span> Load the data<a class="anchor" aria-label="anchor" href="#load-the-data-2"><i class="fas fa-link"></i></a>
+</h3>
+<p>To see how the variance and standard deviation are calculated, let’s create a very small fake data set, which we will creatively call <code>my_data</code>. It contains 5 observations of a single variable called “X.”</p>
 <div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">X</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span></code></pre></div>
-<pre><code>## [1] 13</code></pre>
-<p>Nice!<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;How would you get R to tell you what the first measurement was?&lt;/p&gt;"><sup>23</sup></a> This is just like how we used <span class="math inline">\(X_3\)</span> as a shorthand for the 3rd measurement when we were doing things by hand.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;What do you think would happen if we asked for the 12th measurement? Try it and see! &lt;em&gt;Hint: how many measurements do we have?&lt;/em&gt;&lt;/p&gt;"><sup>24</sup></a></p>
+<code class="sourceCode R"><span class="va">my_data</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span>X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">91</span>, <span class="fl">102</span>, <span class="fl">107</span>, <span class="fl">109</span>, <span class="fl">111</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>Although these data are not real, they are similar to what one might observe in a random sample of IQ scores (which have a mean of 100 and standard deviation of 15 in the typical population).</p>
 </div>
-<div id="using-labeled-collections" class="section level4" number="3.1.1.2">
+<div id="step-by-step" class="section level3" number="3.2.3">
+<h3>
+<span class="header-section-number">3.2.3</span> Step by step<a class="anchor" aria-label="anchor" href="#step-by-step"><i class="fas fa-link"></i></a>
+</h3>
+<p>We will now follow the chain of calculations, step by step, that results in finding the variance and then the standard deviation of a set of observed values like we have for the “X” variable in our simulated data.</p>
+<div id="find-the-mean" class="section level4" number="3.2.3.1">
 <h4>
-<span class="header-section-number">3.1.1.2</span> Using labeled collections<a class="anchor" aria-label="anchor" href="#using-labeled-collections"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.2.3.1</span> Find the mean<a class="anchor" aria-label="anchor" href="#find-the-mean"><i class="fas fa-link"></i></a>
 </h4>
-<p>Now that R can remember that whole collection of measurements, we can use it to do calculations. For example, this will find the mean of all the numbers we put under the label “X”:</p>
-<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 9</code></pre>
-<p>And this will find the standard deviation:</p>
-<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 3.316625</code></pre>
-<p>Finally, we can combine different operations into a single line of code. The following will convert each of the measurements in <code>X</code> into <span class="math inline">\(z\)</span> scores:</p>
-<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="op">(</span><span class="va">X</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span></code></pre></div>
-<pre><code>##  [1]  0.3015113 -0.3015113  1.2060454  0.0000000  0.6030227  1.5075567
-##  [7] -0.9045340 -1.5075567  0.9045340 -0.6030227 -1.2060454</code></pre>
-<p>We can even tell R to remember those <span class="math inline">\(z\)</span> scores like so:</p>
-<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">z_X</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">X</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span></code></pre></div>
-<p>Note that we gave these <span class="math inline">\(z\)</span> scores a special label, “<code>z_X</code>,” so that we know they originally came from our collection labeled <code>X</code>. Now if we ask R to tell us what we put under the “<code>z_X</code>” label, we’ll get our <span class="math inline">\(z\)</span> scores back</p>
+<p>First, we find the mean of the observed values. R is, in many ways, a fancy calculator. So we could find the mean of the observed values on the <code>X</code> variable by plugging them into the formula for the mean that we already know:</p>
+<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="op">(</span><span class="fl">91</span> <span class="op">+</span> <span class="fl">102</span> <span class="op">+</span> <span class="fl">107</span> <span class="op">+</span> <span class="fl">109</span> <span class="op">+</span> <span class="fl">111</span><span class="op">)</span> <span class="op">/</span> <span class="fl">5</span></code></pre></div>
+<pre class="Rout text-muted"><code>## [1] 104</code></pre>
+<p>While using R as a calculator has its advantages over doing it by hand, the downside is that we still have to type/copy those numbers. Moreover, if we wanted to use the result for something else (which we will), we’d have to copy that too, and the more we do this, the greater the chances are that we make a mistake.</p>
+<p>Rather than typing in the numbers manually, we could instead use R’s <code>mean</code> function within the “summarize” line we’ve used before:</p>
+<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">my_data</span> <span class="op">%&gt;%</span>
+    <span class="fu">summarize</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-muted"><code>## # A tibble: 1 × 1
+##   `mean(X)`
+##       &lt;dbl&gt;
+## 1       104</code></pre>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-14" class="exercise"><strong>Exercise 3.1  </strong></span>When we’ve used the “summarize” function in previous sessions, we always preceded it with a <code>group_by</code> line. Say in your own words why we didn’t use a <code>group_by</code> line to find the mean in the chunk of code we just ran.</p>
+</div>
+</div>
+<div id="find-the-deviations-from-the-mean" class="section level4" number="3.2.3.2">
+<h4>
+<span class="header-section-number">3.2.3.2</span> Find the deviations from the mean<a class="anchor" aria-label="anchor" href="#find-the-deviations-from-the-mean"><i class="fas fa-link"></i></a>
+</h4>
+<p>The next step is to find, for each observed value in our data, its <strong>deviation</strong> from the mean. In mathematical notation, each deviation can be written as <span class="math inline">\((x_i - \bar{x})\)</span> where <span class="math inline">\(x_i\)</span> is a shorthand for each observed value and <span class="math inline">\(\bar{x}\)</span> is the mean.</p>
+<p>In previous sessions, we’ve used the <code>mutate</code> line to transform counts into proportions. Now we will use it to find the deviations:</p>
+<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">my_data</span> <span class="op">%&gt;%</span>
+    <span class="fu">mutate</span><span class="op">(</span>deviation <span class="op">=</span> <span class="va">X</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-muted"><code>## # A tibble: 5 × 2
+##       X deviation
+##   &lt;dbl&gt;     &lt;dbl&gt;
+## 1    91       -13
+## 2   102        -2
+## 3   107         3
+## 4   109         5
+## 5   111         7</code></pre>
+</div>
+<div id="square-the-deviations" class="section level4" number="3.2.3.3">
+<h4>
+<span class="header-section-number">3.2.3.3</span> Square the deviations<a class="anchor" aria-label="anchor" href="#square-the-deviations"><i class="fas fa-link"></i></a>
+</h4>
+<p>Now that we’ve found the deviations, we square each of them, again using a <code>mutate</code> line:</p>
+<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">my_data</span> <span class="op">%&gt;%</span>
+    <span class="fu">mutate</span><span class="op">(</span>deviation <span class="op">=</span> <span class="va">X</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">mutate</span><span class="op">(</span>squared_deviation <span class="op">=</span> <span class="va">deviation</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-muted"><code>## # A tibble: 5 × 3
+##       X deviation squared_deviation
+##   &lt;dbl&gt;     &lt;dbl&gt;             &lt;dbl&gt;
+## 1    91       -13               169
+## 2   102        -2                 4
+## 3   107         3                 9
+## 4   109         5                25
+## 5   111         7                49</code></pre>
+<p>Note that, in R, the caret symbol <code><a href="https://rdrr.io/r/base/Arithmetic.html">^</a></code> is used for exponentiation.</p>
+</div>
+<div id="add-up-the-squared-deviations" class="section level4" number="3.2.3.4">
+<h4>
+<span class="header-section-number">3.2.3.4</span> Add up the squared deviations<a class="anchor" aria-label="anchor" href="#add-up-the-squared-deviations"><i class="fas fa-link"></i></a>
+</h4>
+<p>Now, we add up the squared deviations using the <code>sum</code> function as part of a <code>summarize</code> line:</p>
 <div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">z_X</span></code></pre></div>
-<pre><code>##  [1]  0.3015113 -0.3015113  1.2060454  0.0000000  0.6030227  1.5075567
-##  [7] -0.9045340 -1.5075567  0.9045340 -0.6030227 -1.2060454</code></pre>
+<code class="sourceCode R"><span class="va">my_data</span> <span class="op">%&gt;%</span>
+    <span class="fu">mutate</span><span class="op">(</span>deviation <span class="op">=</span> <span class="va">X</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">mutate</span><span class="op">(</span>squared_deviation <span class="op">=</span> <span class="va">deviation</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">summarize</span><span class="op">(</span>sum_squared_deviation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">squared_deviation</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-muted"><code>## # A tibble: 1 × 1
+##   sum_squared_deviation
+##                   &lt;dbl&gt;
+## 1                   256</code></pre>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-15" class="exercise"><strong>Exercise 3.2  </strong></span>Modify the chunk of code we just ran to add up the <code>deviation</code>s instead of the <code>squared_deviation</code>s.</p>
+<ol style="list-style-type: lower-alpha">
+<li>What code did you use?</li>
+<li>What is the sum of the deviations?</li>
+<li>Relate the sum of the deviations to the idea that the mean is the “balance point” of a distribution of numbers.</li>
+</ol>
 </div>
 </div>
-<div id="finding-the-correlation-coefficient" class="section level3" number="3.1.2">
-<h3>
-<span class="header-section-number">3.1.2</span> Finding the correlation coefficient<a class="anchor" aria-label="anchor" href="#finding-the-correlation-coefficient"><i class="fas fa-link"></i></a>
-</h3>
-<div id="introducing-a-new-set-of-measurements" class="section level4" number="3.1.2.1">
+<div id="variance-divide-by-n---1" class="section level4" number="3.2.3.5">
 <h4>
-<span class="header-section-number">3.1.2.1</span> Introducing a new set of measurements<a class="anchor" aria-label="anchor" href="#introducing-a-new-set-of-measurements"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.2.3.5</span> Variance: Divide by <span class="math inline">\(n - 1\)</span><a class="anchor" aria-label="anchor" href="#variance-divide-by-n---1"><i class="fas fa-link"></i></a>
 </h4>
-<p>Now that we’ve seen how to tell R to remember different collections of values, let’s add another variable to the mix and find its correlation with <span class="math inline">\(X\)</span>. We will call this variable <span class="math inline">\(Y\)</span> to keep it distinct.</p>
+<p>The <strong>variance</strong> is the sum of squared deviations divided by <span class="math inline">\(n - 1\)</span>, where <span class="math inline">\(n\)</span> is the number of observed values, the “sample size.” To get <span class="math inline">\(n\)</span>, we can include <code>n = n()</code> in the <code>summarize</code> line and then use another <code>mutate</code> line to get the variance:</p>
 <div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">8.04</span>, <span class="fl">6.95</span>, <span class="fl">7.58</span>, <span class="fl">8.81</span>, <span class="fl">8.33</span>, <span class="fl">9.96</span>, <span class="fl">7.24</span>, <span class="fl">4.26</span>, <span class="fl">10.84</span>, <span class="fl">4.82</span>, <span class="fl">5.68</span><span class="op">)</span></code></pre></div>
-<p>Let’s see what the mean of <span class="math inline">\(Y\)</span> is<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;What code will find the mean of &lt;span class="math inline"&gt;\(Y\)&lt;/span&gt;? &lt;em&gt;Hint: how did we find the mean of &lt;span class="math inline"&gt;\(X\)&lt;/span&gt;?&lt;/em&gt;&lt;/p&gt;'><sup>25</sup></a></p>
-<pre><code>## [1] 7.500909</code></pre>
-<p>as well as its standard deviation<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;What code will find the standard deviation of &lt;span class="math inline"&gt;\(Y\)&lt;/span&gt;? &lt;em&gt;Hint: how did we find the standard deviation of &lt;span class="math inline"&gt;\(X\)&lt;/span&gt;?&lt;/em&gt;&lt;/p&gt;'><sup>26</sup></a></p>
-<pre><code>## [1] 2.031568</code></pre>
-<p>Finally, let’s find the <span class="math inline">\(z\)</span> scores for each of our <span class="math inline">\(Y\)</span> values and tell R to remember them with the label <code>z_Y</code><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;What code would you write to do this? &lt;em&gt;Hint: what code did we use to calculate and remember the &lt;span class="math inline"&gt;\(z\)&lt;/span&gt; scores for &lt;span class="math inline"&gt;\(X\)&lt;/span&gt;?&lt;/em&gt;&lt;/p&gt;'><sup>27</sup></a>.</p>
-<p>If we’ve done our job right, we should get the following output when we ask R to remember what we put into <code>z_Y</code>:</p>
-<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">z_Y</span></code></pre></div>
-<pre><code>##  [1]  0.26535704 -0.27117431  0.03893097  0.64437460  0.40810391  1.21043979
-##  [7] -0.12842744 -1.59527462  1.64360272 -1.31962549 -0.89630717</code></pre>
+<code class="sourceCode R"><span class="va">my_data</span> <span class="op">%&gt;%</span>
+    <span class="fu">mutate</span><span class="op">(</span>deviation <span class="op">=</span> <span class="va">X</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">mutate</span><span class="op">(</span>squared_deviation <span class="op">=</span> <span class="va">deviation</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">summarize</span><span class="op">(</span>sum_squared_deviation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">squared_deviation</span><span class="op">)</span>, n <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">mutate</span><span class="op">(</span>variance <span class="op">=</span> <span class="va">sum_squared_deviation</span> <span class="op">/</span> <span class="op">(</span><span class="va">n</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-muted"><code>## # A tibble: 1 × 3
+##   sum_squared_deviation     n variance
+##                   &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt;
+## 1                   256     5       64</code></pre>
 </div>
-<div id="calculating-correlation-from-z-scores" class="section level4" number="3.1.2.2">
+<div id="standard-deviation-take-the-square-root" class="section level4" number="3.2.3.6">
 <h4>
-<span class="header-section-number">3.1.2.2</span> Calculating correlation from <span class="math inline">\(z\)</span> scores<a class="anchor" aria-label="anchor" href="#calculating-correlation-from-z-scores"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.2.3.6</span> Standard deviation: Take the square root<a class="anchor" aria-label="anchor" href="#standard-deviation-take-the-square-root"><i class="fas fa-link"></i></a>
 </h4>
-<p>To get the correlation coefficient between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> from our <span class="math inline">\(z\)</span> scores, we need to multiply the <span class="math inline">\(z\)</span> scores together, add them up, and divide by the number of values minus one. We can tell R to multiply together all our pairs of <span class="math inline">\(z\)</span> scores like this</p>
-<div class="sourceCode" id="cb82"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">z_X</span> <span class="op">*</span> <span class="va">z_Y</span></code></pre></div>
-<pre><code>##  [1] 0.08000816 0.08176213 0.04695251 0.00000000 0.24609592 1.82480664
-##  [7] 0.11616699 2.40496698 1.48669460 0.79576411 1.08098712</code></pre>
-<p>We can add them up like this, by telling R to find the <code>sum</code></p>
-<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">z_X</span> <span class="op">*</span> <span class="va">z_Y</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 8.164205</code></pre>
-<p>Finally, we need to divide by <span class="math inline">\(N - 1\)</span>. <span class="math inline">\(N\)</span> in this case is 11, so <span class="math inline">\(N - 1 = 11 - 1 = 10\)</span>.</p>
-<div class="sourceCode" id="cb86"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">z_X</span> <span class="op">*</span> <span class="va">z_Y</span><span class="op">)</span> <span class="op">/</span> <span class="fl">10</span></code></pre></div>
-<pre><code>## [1] 0.8164205</code></pre>
-<p>And that’s the Pearson correlation coefficient!<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Is the correlation positive or negative? Does it seem strong or weak?&lt;/p&gt;"><sup>28</sup></a></p>
+<p>Finally, we get the <strong>standard deviation</strong> by taking the square root of the variance, which we do with a final <code>mutate</code> line. In R, the <code>sqrt</code> function stands for <code>sq</code>uare <code>r</code>oo<code>t</code>.</p>
+<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">my_data</span> <span class="op">%&gt;%</span>
+    <span class="fu">mutate</span><span class="op">(</span>deviation <span class="op">=</span> <span class="va">X</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">mutate</span><span class="op">(</span>squared_deviation <span class="op">=</span> <span class="va">deviation</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">summarize</span><span class="op">(</span>sum_squared_deviation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">squared_deviation</span><span class="op">)</span>, n <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">mutate</span><span class="op">(</span>variance <span class="op">=</span> <span class="va">sum_squared_deviation</span> <span class="op">/</span> <span class="op">(</span><span class="va">n</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">mutate</span><span class="op">(</span>standard_deviation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">variance</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-muted"><code>## # A tibble: 1 × 4
+##   sum_squared_deviation     n variance standard_deviation
+##                   &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt;              &lt;dbl&gt;
+## 1                   256     5       64                  8</code></pre>
 </div>
-<div id="calculating-correlation-directly" class="section level4" number="3.1.2.3">
+</div>
+<div id="all-at-once" class="section level3" number="3.2.4">
+<h3>
+<span class="header-section-number">3.2.4</span> All at once<a class="anchor" aria-label="anchor" href="#all-at-once"><i class="fas fa-link"></i></a>
+</h3>
+<p>We just saw the complete chain of calculations involved in finding the variance and then the standard deviation. But as you might have guessed from the fact that R has a <code>mean</code> function, it also has functions that directly calculate variances and standard deviations. These functions are called <code>var</code> and <code>sd</code>, respectively, and we can use them in a <code>summary</code> line, like so:</p>
+<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">my_data</span> <span class="op">%&gt;%</span>
+    <span class="fu">summarize</span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span>, variance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span>, standard_deviation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-muted"><code>## # A tibble: 1 × 3
+##    mean variance standard_deviation
+##   &lt;dbl&gt;    &lt;dbl&gt;              &lt;dbl&gt;
+## 1   104       64                  8</code></pre>
+<p>The code we just ran is much more compact, readable, and less liable to lead to any typos, so naturally we will use the built-in <code>var</code> and <code>sd</code> functions pretty often!</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-16" class="exercise"><strong>Exercise 3.3  </strong></span>Take a look at how we used the <code>mutate</code> and <code>summarize</code> lines when we were calculating the variance and standard deviation step-by-step. In your own words, describe a basic difference between what a <code>mutate</code> line is used for and what a <code>summarize</code> line is used for.</p>
+<p><em>Hint:</em> Think about the result we got after adding either a <code>mutate</code> or <code>summarize</code> line and how it affected the number of rows and/or columns in the result.</p>
+</div>
+</div>
+</div>
+<div id="diet-and-lifespan" class="section level2" number="3.3">
+<h2>
+<span class="header-section-number">3.3</span> Diet and Lifespan<a class="anchor" aria-label="anchor" href="#diet-and-lifespan"><i class="fas fa-link"></i></a>
+</h2>
+<p>Having seen how to use R to calculate numerical summaries of central tendency and variability, let’s see how they operate in real data. The data we will be looking at come from a study by <span class="citation"><a href="references.html#ref-YuEtAl1982" role="doc-biblioref">Yu et al.</a> (<a href="references.html#ref-YuEtAl1982" role="doc-biblioref">1982</a>)</span>. They studied the lifespan of a sample of rats which were randomly assigned to one of two different diets: One group of rats was allowed to eat freely, however they wanted; another group was fed on a restricted diet with only about 60% of the calories that the free-eating rats had.</p>
+<div id="load-the-data-3" class="section level3" number="3.3.1">
+<h3>
+<span class="header-section-number">3.3.1</span> Load the data<a class="anchor" aria-label="anchor" href="#load-the-data-3"><i class="fas fa-link"></i></a>
+</h3>
+<p>First, we need to get this data into R. The following code will download and import the data into your current R session:</p>
+<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">rats</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">'https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/ratlives.csv'</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-info"><code>## Rows: 195 Columns: 2</code></pre>
+<pre class="Rout text-info"><code>## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: ","
+## chr (1): Diet
+## dbl (1): Lifespan</code></pre>
+<pre class="Rout text-info"><code>## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<p>In your “Environment” panel in the upper right, you’ll see a new entry called “rats.” This is the data we just imported. Click on it to have a look at the data, which will appear in the upper left. There are just two variables in this dataset, <strong>Diet</strong> and <strong>Lifespan</strong> (measured in days). Diet is the explanatory variable and Lifespan is the response variable.</p>
+</div>
+<div id="summarizing-the-data-visually" class="section level3" number="3.3.2">
+<h3>
+<span class="header-section-number">3.3.2</span> Summarizing the data visually<a class="anchor" aria-label="anchor" href="#summarizing-the-data-visually"><i class="fas fa-link"></i></a>
+</h3>
+<p>Although numerical summaries are useful, they should always be accompanied by visual summaries in order to get a more complete understanding of the data.</p>
+<div id="histograms-1" class="section level4" number="3.3.2.1">
 <h4>
-<span class="header-section-number">3.1.2.3</span> Calculating correlation directly<a class="anchor" aria-label="anchor" href="#calculating-correlation-directly"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.3.2.1</span> Histograms<a class="anchor" aria-label="anchor" href="#histograms-1"><i class="fas fa-link"></i></a>
 </h4>
-<p>This is what you might call the “shaggy-dog” way of calculating the correlation, in that it takes a long time to get to the punchline. Fortunately, R gives us an even easier way! The correlation between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> can be found like this</p>
+<p>Let’s make a facetted histogram that shows the distribution of lifespans of the rats under each diet. We will use an option under <code>facet_wrap</code> that lets us set the <code>n</code>umber of <code>col</code>umns (<code>ncol</code>) so we can see the facets stacked atop one another.</p>
+<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">rats</span> <span class="op">%&gt;%</span>
+    <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">Lifespan</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">geom_histogram</span><span class="op">(</span>binwidth<span class="op">=</span><span class="fl">90</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">facet_wrap</span><span class="op">(</span><span class="st">"Diet"</span>, ncol <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="03-describing_files/figure-html/unnamed-chunk-13-1.png" width="672"></div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-17" class="exercise"><strong>Exercise 3.4  </strong></span>First, let’s describe what we can see from the histograms (you may also try out other bin widths for the histograms as you like).</p>
+<ol style="list-style-type: lower-alpha">
+<li>Describe the shape of the two distributions. Be sure to note the number of <em>modes</em>, any <em>skewness</em>, and whether there may be any <em>outliers</em> in either group.</li>
+<li>Compare the two distributions. Be sure to note whether there seem to be any differences in <em>central tendency</em> or <em>variability</em> between the two groups.</li>
+</ol>
+</div>
+</div>
+<div id="boxplots" class="section level4" number="3.3.2.2">
+<h4>
+<span class="header-section-number">3.3.2.2</span> Boxplots<a class="anchor" aria-label="anchor" href="#boxplots"><i class="fas fa-link"></i></a>
+</h4>
+<p>We’ve also seen how <strong>boxplots</strong> can be useful visual summaries of data. These are easy to produce in R by using <code>geom_boxplot</code> instead of <code>geom_histogram</code>:</p>
 <div class="sourceCode" id="cb88"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">X</span>, <span class="va">Y</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 0.8164205</code></pre>
-<p><code>cor</code> tells R to find the <code>cor</code>relation between the two sets of measurements labeled <code>X</code> and <code>Y</code>.</p>
-<p>Remember that R knows what we mean by <code>X</code> and <code>Y</code> <em>only because we already told R what they stood for</em>. To get a sense of how that works, let’s replace our old <code>Y</code> with a new one:</p>
-<div class="sourceCode" id="cb90"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span>, <span class="fl">7</span>, <span class="fl">8</span>, <span class="fl">9</span>, <span class="fl">10</span>, <span class="fl">11</span><span class="op">)</span></code></pre></div>
-<p>Now if we ask for the correlation again, it will be different<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Why do we get a different result from &lt;code&gt;cor(X, Y)&lt;/code&gt; even though the code itself is the same?&lt;/p&gt;"><sup>29</sup></a></p>
-<div class="sourceCode" id="cb91"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">X</span>, <span class="va">Y</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] -0.4272727</code></pre>
+<code class="sourceCode R"><span class="va">rats</span> <span class="op">%&gt;%</span>
+    <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">Lifespan</span>, y<span class="op">=</span><span class="va">Diet</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">geom_boxplot</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="03-describing_files/figure-html/unnamed-chunk-14-1.png" width="672"></div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-18" class="exercise"><strong>Exercise 3.5  </strong></span>Compare the boxplots and histograms we just made.</p>
+<ol style="list-style-type: lower-alpha">
+<li>Compare the chunks of code we used to make a faceted histogram with the code we used to make a boxplot. Note any similarities or differences, especially where different variable names appear in the two chunks of code.</li>
+<li>Describe anything about the data that might be easier to see in the boxplot as opposed to the histogram.</li>
+</ol>
 </div>
 </div>
-<div id="dealing-with-real-data-1" class="section level3" number="3.1.3">
+</div>
+<div id="summarizing-the-data-numerically" class="section level3" number="3.3.3">
 <h3>
-<span class="header-section-number">3.1.3</span> Dealing with real data<a class="anchor" aria-label="anchor" href="#dealing-with-real-data-1"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.3.3</span> Summarizing the data numerically<a class="anchor" aria-label="anchor" href="#summarizing-the-data-numerically"><i class="fas fa-link"></i></a>
 </h3>
-<p>The steps above are useful when you’ve got relatively few measurements that you can copy-and-paste into the R console. Real data is often more complicated, so let’s see how we can deal with it.</p>
-<div id="get-some-data" class="section level4" number="3.1.3.1">
-<h4>
-<span class="header-section-number">3.1.3.1</span> Get some data<a class="anchor" aria-label="anchor" href="#get-some-data"><i class="fas fa-link"></i></a>
-</h4>
-<p>First, we need to import some data into R using the code below.</p>
-<div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">anscombe</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/cor_data.csv"</span><span class="op">)</span></code></pre></div>
-<pre><code>## Rows: 44 Columns: 3</code></pre>
-<pre><code>## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: ","
-## chr (1): Group
-## dbl (2): X, Y</code></pre>
-<pre><code>## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<p>These data are artificial and were devised by <span class="citation"><a href="references.html#ref-Anscombe1973" role="doc-biblioref">Anscombe</a> (<a href="references.html#ref-Anscombe1973" role="doc-biblioref">1973</a>)</span> to illustrate the importance of not interpreting a correlation coefficient without visualizing your data.</p>
+<p>Finally, let’s use R to get a numerical summary of the lifespans of the rats under the two diets. In the first part of the session, we focused on the <em>mean</em> and <em>standard deviation</em> (and <em>variance</em>), but we have also seen that the <em>median</em> and <em>inter-quartile range</em> (IQR) can also be used as numerical summaries of central tendency and variability.</p>
+<p>R can find the median and IQR for us:</p>
+<div class="sourceCode" id="cb89"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">rats</span> <span class="op">%&gt;%</span>
+    <span class="fu">group_by</span><span class="op">(</span><span class="va">Diet</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">summarize</span><span class="op">(</span>Median <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">Lifespan</span><span class="op">)</span>, IQR <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/IQR.html">IQR</a></span><span class="op">(</span><span class="va">Lifespan</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-muted"><code>## # A tibble: 2 × 3
+##   Diet       Median   IQR
+##   &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt;
+## 1 Free         710   116 
+## 2 Restricted  1036.  300.</code></pre>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-19" class="exercise"><strong>Exercise 3.6  </strong></span>Fill in the blanks in the following chunk of code to find the mean and standard deviation of the lifespans of the rats under each diet:</p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="lab3.html#cb91-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
+<span id="cb91-2"><a href="lab3.html#cb91-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(___) <span class="sc">%&gt;%</span></span>
+<span id="cb91-3"><a href="lab3.html#cb91-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">___</span>(<span class="at">Mean =</span> ___, <span class="at">SD =</span> ___)</span></code></pre></div>
+<ol style="list-style-type: lower-alpha">
+<li>What code did you use?</li>
+</ol>
+<p><em>Hint:</em> If you’ve filled in the blanks correctly, you should get the following result.</p>
+<pre class="Rout text-muted"><code>## # A tibble: 2 × 3
+##   Diet        Mean    SD
+##   &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;
+## 1 Free        684.  134.
+## 2 Restricted  969.  285.</code></pre>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>Compare the means and standard deviations to the histograms we made earlier. How are the differences in mean lifespan between groups reflected in the two histograms? How are the differences in the standard deviation of lifespan reflected in the two histograms?</li>
+</ol>
 </div>
-<div id="correlations-for-different-sets-of-measurements" class="section level4" number="3.1.3.2">
-<h4>
-<span class="header-section-number">3.1.3.2</span> Correlations for different sets of measurements<a class="anchor" aria-label="anchor" href="#correlations-for-different-sets-of-measurements"><i class="fas fa-link"></i></a>
-</h4>
-<p>There are four groups of measurements in these data. The groups are labeled “A,” “B,” “C,” and “D.” Measurements are on two variables, labeled “X” and “Y.” Click on <code>anscombe</code> in the environment panel in RStudio (upper right) to take a look.</p>
-<p>We can quickly find the correlation coefficient for each group of “X” and “Y” measurements<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Compare the code we used to find these correlations with the code we used last time to find the means of the different groups of rat lifespans. What is similar and what is different?&lt;/p&gt;"><sup>30</sup></a></p>
-<div class="sourceCode" id="cb97"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">anscombe</span> <span class="op">%&gt;%</span>
-    <span class="fu">group_by</span><span class="op">(</span><span class="va">Group</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span>r <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">X</span>, <span class="va">Y</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 4 × 2
-##   Group     r
-##   &lt;chr&gt; &lt;dbl&gt;
-## 1 A     0.816
-## 2 B     0.816
-## 3 C     0.816
-## 4 D     0.817</code></pre>
-<p>Notice that the correlation coefficients are almost all the same for each group. But now let’s try making some scatterplots to see if these correlations make sense.</p>
+<p>These numerical summaries of central tendency and variability provide a concise description of the lifespans of rats under the two different diets. These descriptions help us address the <strong>research question</strong>: does a restricted diet have an effect on lifespan?</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-20" class="exercise"><strong>Exercise 3.7  </strong></span>Based on the visual and numerical summaries we have made, let us draw some conclusions about that research question.</p>
+<ol style="list-style-type: lower-alpha">
+<li>Describe the differences in lifespan between rats under a restricted diet versus rats with a free diet.</li>
+<li>Can we conclude that the differences in diet <em>caused</em> the observed differences in lifespan?</li>
+<li>What is the population to which we could <em>generalize</em> these results?</li>
+</ol>
 </div>
-</div>
-</div>
-<div id="scatterplots" class="section level2" number="3.2">
-<h2>
-<span class="header-section-number">3.2</span> Scatterplots<a class="anchor" aria-label="anchor" href="#scatterplots"><i class="fas fa-link"></i></a>
-</h2>
-<p>As we’ve seen, a scatterplot lets us see how measurements on two variables are related to one another. It does this with a bunch of dots “scattered” around the plot. Each dot represents a single individual or object. The horizontal position of the dot represents that individual’s observed value on one variable. The vertical position of the dot represents that same individual’s observed value on a different variable.</p>
-<div id="making-a-group-of-scatterplots" class="section level3" number="3.2.1">
-<h3>
-<span class="header-section-number">3.2.1</span> Making a group of scatterplots<a class="anchor" aria-label="anchor" href="#making-a-group-of-scatterplots"><i class="fas fa-link"></i></a>
-</h3>
-<p>R makes it easy not just to make a single scatterplot, but an entire group of them at once. The code below produces a set of scatterplots, one for each of the four groups, that puts the “X” measurements on the horizontal and the “Y” measurements on the vertical<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;What do you think the function of the line &lt;code&gt;facet_wrap("Group")&lt;/code&gt; is in the code below?&lt;/p&gt;'><sup>31</sup></a>:</p>
-<div class="sourceCode" id="cb99"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">anscombe</span> <span class="op">%&gt;%</span>
-    <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">X</span>, y<span class="op">=</span><span class="va">Y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu">facet_wrap</span><span class="op">(</span><span class="st">"Group"</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="03-correlation_files/figure-html/unnamed-chunk-24-1.png" width="672"></div>
-<p>Even though the correlation coefficient is the same for each group, the scatterplots all look very different!<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;For each group, say whether you think the correlation coefficient provides a fair description of the relationship between the two variables. Why or why not?&lt;/p&gt;"><sup>32</sup></a></p>
-</div>
-</div>
-<div id="some-bigger-data" class="section level2" number="3.3">
-<h2>
-<span class="header-section-number">3.3</span> Some bigger data<a class="anchor" aria-label="anchor" href="#some-bigger-data"><i class="fas fa-link"></i></a>
-</h2>
-<p>Now that we’ve seen how to find correlation coefficients and make scatterplots, let’s apply these tools to some real data. These data come from a study by <span class="citation"><a href="references.html#ref-RyanGauthier2016" role="doc-biblioref">Ryan &amp; Gauthier</a> (<a href="references.html#ref-RyanGauthier2016" role="doc-biblioref">2016</a>)</span>, who studied differences in how well people can remember different kinds of objects. The point of this is to understand how we develop the ability to make fine visual distinctions between some things (e.g., between different peoples’ faces) but not others (e.g., leaves or snowflakes). They reasoned that the more experience someone has in dealing with a particular category of things, the better they’ll be at noticing and remembering the visual features that distinguish between members of that category.</p>
-<p>Two of those categories were different types of toys: Barbies and Transformers. They measured how well their participants could tell apart pictures of Barbies that they had seen from pictures of Barbies they hadn’t seen. They did the same for pictures of Transformers. The final memory scores are a number correct out of 48. Finally, each participant indicated on a scale from 1 to 9 how much experience they had with each type of toy.</p>
-<p>The question is, “is experience with a type of toy <em>correlated with</em> better memory?”</p>
-<div id="import-the-data" class="section level3" number="3.3.1">
-<h3>
-<span class="header-section-number">3.3.1</span> Import the data<a class="anchor" aria-label="anchor" href="#import-the-data"><i class="fas fa-link"></i></a>
-</h3>
-<p>To import the data into R, use the line below</p>
-<div class="sourceCode" id="cb100"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">toys</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/toys.csv"</span><span class="op">)</span></code></pre></div>
-<pre><code>## Rows: 297 Columns: 4</code></pre>
-<pre><code>## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: ","
-## dbl (4): Barbie_Score, Transf_Score, Barbie_Exp, Transf_Exp</code></pre>
-<pre><code>## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<p>Click on the new “toys” dataset in the Environment panel (upper right) to see what the data look like. “Barbie_Score” and “Transf_Score” are the scores on the two memory tests, one for Barbies and one for Transformers (respectively). “Barbie_Exp” and “Transf_Exp” are the two reports of prior experience with Barbies and Transformers, respectively.</p>
-</div>
-<div id="experience-and-memory-for-barbies" class="section level3" number="3.3.2">
-<h3>
-<span class="header-section-number">3.3.2</span> Experience and memory for Barbies<a class="anchor" aria-label="anchor" href="#experience-and-memory-for-barbies"><i class="fas fa-link"></i></a>
-</h3>
-<p>Let’s first make a scatterplot showing Barbie experience on the horizontal axis and Barbie memory on the vertical axis. We can do that using this code:</p>
-<div class="sourceCode" id="cb104"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">toys</span> <span class="op">%&gt;%</span>
-    <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">Barbie_Exp</span>, y<span class="op">=</span><span class="va">Barbie_Score</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="03-correlation_files/figure-html/unnamed-chunk-26-1.png" width="672"></div>
-<p>This gives us a sense of what might be going on.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Based on this scatterplot, does it seem like there might be a correlation between Barbie experience and visual memory for Barbies? If so, is it positive or negative? Weak or strong?&lt;/p&gt;"><sup>33</sup></a> Now let’s calculate the Pearson correlation coefficient (notice that there are no groups here, so we don’t need a <code>group_by</code> line)<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Do the sign and magnitude of the correlation coefficient make sense based on the scatterplot?&lt;/p&gt;"><sup>34</sup></a>:</p>
-<div class="sourceCode" id="cb105"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">toys</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span>r <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">Barbie_Exp</span>, <span class="va">Barbie_Score</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 1 × 1
-##       r
-##   &lt;dbl&gt;
-## 1 0.142</code></pre>
-</div>
-<div id="experience-and-memory-for-transformers" class="section level3" number="3.3.3">
-<h3>
-<span class="header-section-number">3.3.3</span> Experience and memory for Transformers<a class="anchor" aria-label="anchor" href="#experience-and-memory-for-transformers"><i class="fas fa-link"></i></a>
-</h3>
-<p>Now let’s do the same thing for Transformers. Here’s the scatterplot:<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;What code would produce this scatterplot? &lt;em&gt;Hint: what code did we use to make the Barbie scatterplot? What variables in the dataset refer to Transformers rather than Barbies?&lt;/em&gt;&lt;/p&gt;"><sup>35</sup></a></p>
-<div class="inline-figure"><img src="03-correlation_files/figure-html/unnamed-chunk-28-1.png" width="672"></div>
-<p>And this is the correlation coefficient between Transformers Experience and Transformers memory score:<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;What code would find this correlation? &lt;em&gt;Hint: what code did we use to find the Barbie correlation?&lt;/em&gt;&lt;/p&gt;"><sup>36</sup></a></p>
-<div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">toys</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span>r <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">Transf_Exp</span>, <span class="va">Transf_Score</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 1 × 1
-##        r
-##    &lt;dbl&gt;
-## 1 0.0964</code></pre>
-<p>It seems like the relationship between experience and memory is a bit weaker for Transformers than for Barbies. But there’s another interesting correlation here.</p>
-</div>
-<div id="experience-with-barbies-and-memory-for-transformers" class="section level3" number="3.3.4">
-<h3>
-<span class="header-section-number">3.3.4</span> Experience with Barbies and memory for Transformers<a class="anchor" aria-label="anchor" href="#experience-with-barbies-and-memory-for-transformers"><i class="fas fa-link"></i></a>
-</h3>
-<p>Let’s see if there’s a relationship between experience with Barbies and memory for Transformers.</p>
-<div class="sourceCode" id="cb109"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">toys</span> <span class="op">%&gt;%</span>
-    <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">Barbie_Exp</span>, y<span class="op">=</span><span class="va">Transf_Score</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="03-correlation_files/figure-html/unnamed-chunk-30-1.png" width="672"></div>
-<p>The scatterplot is shown above and this gives the Pearson correlation coefficient:</p>
-<div class="sourceCode" id="cb110"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">toys</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span>r <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">Barbie_Exp</span>, <span class="va">Transf_Score</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 1 × 1
-##        r
-##    &lt;dbl&gt;
-## 1 -0.124</code></pre>
-<p>Interesting! Even though there is at best a weak relationship between Transformers experience and Transformers memory, there is actually a stronger relationship between Barbie experience and Transformers memory, just a <em>negative</em> one!<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Can you think of any reasons why there might be a negative correlation between Barbie experience and Transformers memory?&lt;/p&gt;"><sup>37</sup></a></p>
 </div>
 </div>
 <div id="wrap-up-2" class="section level2" number="3.4">
 <h2>
 <span class="header-section-number">3.4</span> Wrap-up<a class="anchor" aria-label="anchor" href="#wrap-up-2"><i class="fas fa-link"></i></a>
 </h2>
-<p>In today’s session, we saw how to find <span class="math inline">\(z\)</span> scores and correlation coefficients in R. We also used R to make scatterplots and saw an example of why it is critical to look at a scatterplot before interpreting the correlation coefficient.</p>
+<p>In this session, we saw how to find two important numerical summaries of variability: <strong>variance</strong> and <strong>standard deviation</strong>. We analyzed data from an experiment studying the relationship between diet and lifespan in a sample of rats, using both visual and numerical summaries to get a more complete picture of the relationships between explanatory and response variables.</p>
 
 </div>
 </div>
-
   <div class="chapter-nav">
-<div class="prev"><a href="lab2.html"><span class="header-section-number">2</span> Central tendency and variability</a></div>
-<div class="next"><a href="lab4.html"><span class="header-section-number">4</span> Probability and simulation</a></div>
+<div class="prev"><a href="lab2.html"><span class="header-section-number">2</span> Sampling</a></div>
+<div class="next"><a href="references.html">References</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#lab3"><span class="header-section-number">3</span> Scatterplots and correlation</a></li>
+<li><a class="nav-link" href="#lab3"><span class="header-section-number">3</span> Describing data</a></li>
+<li><a class="nav-link" href="#load-the-tidyverse-library"><span class="header-section-number">3.1</span> Load the tidyverse library</a></li>
 <li>
-<a class="nav-link" href="#calculating-the-pearson-correlation-coefficient"><span class="header-section-number">3.1</span> Calculating the Pearson correlation coefficient</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#from-x-to-z"><span class="header-section-number">3.1.1</span> From \(X\) to \(z\)</a></li>
-<li><a class="nav-link" href="#finding-the-correlation-coefficient"><span class="header-section-number">3.1.2</span> Finding the correlation coefficient</a></li>
-<li><a class="nav-link" href="#dealing-with-real-data-1"><span class="header-section-number">3.1.3</span> Dealing with real data</a></li>
+<a class="nav-link" href="#variance-and-standard-deviation"><span class="header-section-number">3.2</span> Variance and standard deviation</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#the-big-picture"><span class="header-section-number">3.2.1</span> The big picture</a></li>
+<li><a class="nav-link" href="#load-the-data-2"><span class="header-section-number">3.2.2</span> Load the data</a></li>
+<li><a class="nav-link" href="#step-by-step"><span class="header-section-number">3.2.3</span> Step by step</a></li>
+<li><a class="nav-link" href="#all-at-once"><span class="header-section-number">3.2.4</span> All at once</a></li>
 </ul>
 </li>
 <li>
-<a class="nav-link" href="#scatterplots"><span class="header-section-number">3.2</span> Scatterplots</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#making-a-group-of-scatterplots"><span class="header-section-number">3.2.1</span> Making a group of scatterplots</a></li></ul>
-</li>
-<li>
-<a class="nav-link" href="#some-bigger-data"><span class="header-section-number">3.3</span> Some bigger data</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#import-the-data"><span class="header-section-number">3.3.1</span> Import the data</a></li>
-<li><a class="nav-link" href="#experience-and-memory-for-barbies"><span class="header-section-number">3.3.2</span> Experience and memory for Barbies</a></li>
-<li><a class="nav-link" href="#experience-and-memory-for-transformers"><span class="header-section-number">3.3.3</span> Experience and memory for Transformers</a></li>
-<li><a class="nav-link" href="#experience-with-barbies-and-memory-for-transformers"><span class="header-section-number">3.3.4</span> Experience with Barbies and memory for Transformers</a></li>
+<a class="nav-link" href="#diet-and-lifespan"><span class="header-section-number">3.3</span> Diet and Lifespan</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#load-the-data-3"><span class="header-section-number">3.3.1</span> Load the data</a></li>
+<li><a class="nav-link" href="#summarizing-the-data-visually"><span class="header-section-number">3.3.2</span> Summarizing the data visually</a></li>
+<li><a class="nav-link" href="#summarizing-the-data-numerically"><span class="header-section-number">3.3.3</span> Summarizing the data numerically</a></li>
 </ul>
 </li>
 <li><a class="nav-link" href="#wrap-up-2"><span class="header-section-number">3.4</span> Wrap-up</a></li>
@@ -371,8 +372,8 @@
 
       <div class="book-extra">
         <ul class="list-unstyled">
-<li><a id="book-source" href="https://github.com/gregcox7/StatLabs/blob/master/03-correlation.Rmd">View source <i class="fab fa-github"></i></a></li>
-          <li><a id="book-edit" href="https://github.com/gregcox7/StatLabs/edit/master/03-correlation.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+<li><a id="book-source" href="https://github.com/gregcox7/StatLabs/blob/master/03-describing.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/gregcox7/StatLabs/edit/master/03-describing.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
         </ul>
 </div>
     </nav>
@@ -384,7 +385,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2021-08-18.</p>
+    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2021-09-13.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

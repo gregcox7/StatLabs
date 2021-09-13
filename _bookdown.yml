@@ -10,5 +10,6 @@ rmd_files: [
   "index.Rmd",
   "01-exploring.Rmd",
   "02-sampling.Rmd",
+  "03-describing.Rmd",
   "99-references.Rmd"
   ]
