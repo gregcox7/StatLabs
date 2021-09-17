@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Lab 4 Probability and simulation | Labs</title>
+<title>Lab 4 Relationships Between Numerical Variables | Labs</title>
 <meta name="author" content="Greg Cox">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.9/header-attrs.js"></script><script src="libs/jquery-3.5.1/jquery-3.5.1.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.5.3/bootstrap.min.css" rel="stylesheet">
@@ -33,20 +33,9 @@
         <ul class="book-toc list-unstyled">
 <li><a class="" href="index.html">Overview</a></li>
 <li><a class="" href="lab1.html"><span class="header-section-number">1</span> Exploring Data with R</a></li>
-<li><a class="" href="lab2.html"><span class="header-section-number">2</span> Central tendency and variability</a></li>
-<li><a class="" href="lab3.html"><span class="header-section-number">3</span> Scatterplots and correlation</a></li>
-<li><a class="active" href="lab4.html"><span class="header-section-number">4</span> Probability and simulation</a></li>
-<li><a class="" href="lab5.html"><span class="header-section-number">5</span> Models: The Binomial and the Normal</a></li>
-<li><a class="" href="lab6.html"><span class="header-section-number">6</span> Sampling and the Central Limit Theorem: The Wisdom of Large Samples</a></li>
-<li><a class="" href="lab7.html"><span class="header-section-number">7</span> Confidence intervals and hypothesis testing</a></li>
-<li><a class="" href="lab8.html"><span class="header-section-number">8</span> Statistical Power</a></li>
-<li><a class="" href="lab9.html"><span class="header-section-number">9</span> \(t\) tests</a></li>
-<li><a class="" href="lab10.html"><span class="header-section-number">10</span> Comparing Independent Samples</a></li>
-<li><a class="" href="lab11.html"><span class="header-section-number">11</span> Linear Regression</a></li>
-<li><a class="" href="lab12.html"><span class="header-section-number">12</span> Exploring Data with R, Part II</a></li>
-<li class="book-part">Appendix</li>
-<li><a class="" href="coderef.html"><span class="header-section-number">A</span> Distributions</a></li>
-<li><a class="" href="hyptests.html"><span class="header-section-number">B</span> Hypothesis Tests</a></li>
+<li><a class="" href="lab2.html"><span class="header-section-number">2</span> Sampling</a></li>
+<li><a class="" href="lab3.html"><span class="header-section-number">3</span> Describing data</a></li>
+<li><a class="active" href="lab4.html"><span class="header-section-number">4</span> Relationships Between Numerical Variables</a></li>
 <li><a class="" href="references.html">References</a></li>
 </ul>
 
@@ -57,398 +46,308 @@
 </div>
   </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="lab4" class="section level1" number="4">
 <h1>
-<span class="header-section-number">Lab 4</span> Probability and simulation<a class="anchor" aria-label="anchor" href="#lab4"><i class="fas fa-link"></i></a>
+<span class="header-section-number">Lab 4</span> Relationships Between Numerical Variables<a class="anchor" aria-label="anchor" href="#lab4"><i class="fas fa-link"></i></a>
 </h1>
-<div class="inline-figure"><img src="img/kobe.png" width="100%"></div>
-<p>We have seen that there are two senses in which we can think about probability. On the one hand, we can think of the probability of an outcome as its <strong>long-run relative frequency</strong>. We can therefore <em>estimate</em> the probability that an outcome will happen by seeing how often it occurred in the past, relative to all the other possible outcomes in our sample space. But on the other hand, we can think of probability as a <strong>degree of belief</strong> about how likely something is to happen. This second perspective lets us think about probabilities for events that only happen once; until the event happens, all the possible outcomes have some probability of occurring. We can <em>imagine</em> rewinding the clock and seeing how often an event may have turned out differently.</p>
-<p>Actually, with computers, we can do better than just imagine what might happen. We can use the computer to <strong>simulate</strong> many repetitions of an event.</p>
-<p>Before we begin, make sure you have opened the tidyverse package from the library:</p>
-<div class="sourceCode" id="cb112"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="img/regression_cloud.png" width="100%"></div>
+<p>In this session, we will use R to help us describe relationships between numerical variables. Typically, the purpose in doing so is to see how well we can predict or explain differences in a <strong>response</strong> variable in terms of differences in an <strong>explanatory</strong> variable. As we have seen, we have several useful tools to work with: <strong>scatterplots</strong>, <strong>correlation</strong>, and <strong>linear regression</strong>.</p>
+<!-- In this session, we will also encounter situations in which we have to deal with **transformations** of a variable as well as **outliers**. -->
+<div id="load-the-tidyverse" class="section level2" number="4.1">
+<h2>
+<span class="header-section-number">4.1</span> Load the <code>tidyverse</code><a class="anchor" aria-label="anchor" href="#load-the-tidyverse"><i class="fas fa-link"></i></a>
+</h2>
+<p>As usual, once we have started up RStudio, the first thing we should be sure to do is load the <code>tidyverse</code> package from R’s library using the line below:</p>
+<div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></code></pre></div>
-<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
-<pre><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+<pre class="Rout text-info"><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+<pre class="Rout text-info"><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
 ## ✓ tibble  3.1.3     ✓ dplyr   1.0.5
 ## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
 ## ✓ readr   2.0.0     ✓ forcats 0.5.1</code></pre>
-<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+<pre class="Rout text-info"><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
-<div id="simulation-basics" class="section level2" number="4.1">
+</div>
+<div id="always-plot-your-data" class="section level2" number="4.2">
 <h2>
-<span class="header-section-number">4.1</span> Simulation basics<a class="anchor" aria-label="anchor" href="#simulation-basics"><i class="fas fa-link"></i></a>
+<span class="header-section-number">4.2</span> Always plot your data<a class="anchor" aria-label="anchor" href="#always-plot-your-data"><i class="fas fa-link"></i></a>
 </h2>
-<p>To begin, let’s think about the simple scenario of flipping a coin. The <strong>sample space</strong> consists of two possible outcomes, “Heads” and “Tails.”</p>
-<div id="single-coin-flips" class="section level3" number="4.1.1">
+<p>Numerical summaries of data are extremely useful and compact descriptions of things like central tendency and variability. We have also seen how the Pearson correlation coefficient is a useful summary of the strength and direction of a relationship between numerical variables. But these numerical summaries can also be misleading, as we shall see in the following example.</p>
+<div id="load-the-data-4" class="section level3" number="4.2.1">
 <h3>
-<span class="header-section-number">4.1.1</span> Single coin flips<a class="anchor" aria-label="anchor" href="#single-coin-flips"><i class="fas fa-link"></i></a>
+<span class="header-section-number">4.2.1</span> Load the data<a class="anchor" aria-label="anchor" href="#load-the-data-4"><i class="fas fa-link"></i></a>
 </h3>
-<p>We can simulate a single coin flip in R using a “function” called <code>sample</code>:</p>
-<div class="sourceCode" id="cb116"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Heads"</span>, <span class="st">"Tails"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "Tails"</code></pre>
-<p>The first line in the code above tells R our sample space, which is a <strong>collection</strong> of two outcomes, “Heads” and “Tails.” We use the <code>%&gt;%</code> to tell R to take that sample space and, on the next line, take a <strong>sample</strong> of <strong>size</strong> 1 from that space. By “sample of size 1,” that’s just a precise way of saying “a single flip.”</p>
-<p>Try running that same bit of code a few more times, so we can see that R is really simulating coin flips—you don’t know ahead of time whether it will come up heads or tails.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;How many times did you have to run the coin-flip simulation before you got at least one “Heads” and at least one “Tails?”&lt;/p&gt;"><sup>38</sup></a></p>
-<div class="sourceCode" id="cb118"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Heads"</span>, <span class="st">"Tails"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "Heads"</code></pre>
-</div>
-<div id="a-sequence-of-coin-flips" class="section level3" number="4.1.2">
-<h3>
-<span class="header-section-number">4.1.2</span> A sequence of coin flips<a class="anchor" aria-label="anchor" href="#a-sequence-of-coin-flips"><i class="fas fa-link"></i></a>
-</h3>
-<p>It is kind of fun to keep flipping our simulated coin, but it would take a long time to do this repeatedly. As you might have guessed, we can change the <code>size</code> of our sample to quickly give us a long sequence of coin flips. Let’s try that now and see if we can get a sequence of 10 flips.</p>
-<div class="sourceCode" id="cb120"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Heads"</span>, <span class="st">"Tails"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></code></pre></div>
-<pre><code>## Error in sample.int(length(x), size, replace, prob): cannot take a sample larger than the population when 'replace = FALSE'</code></pre>
-<p>We got an error! Why is that? It’s because, by default, when you tell R to draw samples, it does so <strong>without replacement</strong>. In other words, once it draws a sample from the sample space, whatever outcome it sampled doesn’t get put back into the space. This wasn’t a problem when we ran the single-sample code multiple times because we told R to start with a “fresh” sample space each time—that’s what the first line <code>c("Heads", "Tails") %&gt;%</code> means.</p>
-<p>Luckily, this is easily fixed by just telling R to sample with replacement like so:</p>
-<div class="sourceCode" id="cb122"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Heads"</span>, <span class="st">"Tails"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<pre><code>##  [1] "Tails" "Heads" "Tails" "Heads" "Tails" "Heads" "Tails" "Tails" "Tails"
-## [10] "Tails"</code></pre>
-<p>Just like R gave us “fresh” single flips, if we run the 10-flip code again, we will probably get a different sequence of outcomes:</p>
-<div class="sourceCode" id="cb124"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Heads"</span>, <span class="st">"Tails"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<pre><code>##  [1] "Tails" "Heads" "Tails" "Heads" "Tails" "Heads" "Heads" "Tails" "Tails"
-## [10] "Tails"</code></pre>
-<p>And for the computer, doing 50 flips is not much harder than just 10<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;What code would produce a sequence of 50 flips at once? &lt;em&gt;Hint: what is the number we had to change in the &lt;code&gt;sample&lt;/code&gt; line to get 10 flips?&lt;/em&gt;&lt;/p&gt;"><sup>39</sup></a>:</p>
-<pre><code>##  [1] "Tails" "Tails" "Tails" "Heads" "Tails" "Heads" "Tails" "Tails" "Tails"
-## [10] "Tails" "Tails" "Tails" "Heads" "Tails" "Tails" "Tails" "Heads" "Tails"
-## [19] "Heads" "Heads" "Tails" "Heads" "Tails" "Tails" "Tails" "Tails" "Tails"
-## [28] "Heads" "Tails" "Heads" "Heads" "Tails" "Heads" "Tails" "Tails" "Tails"
-## [37] "Heads" "Tails" "Heads" "Heads" "Heads" "Tails" "Heads" "Tails" "Tails"
-## [46] "Heads" "Heads" "Tails" "Heads" "Tails"</code></pre>
-</div>
-<div id="remembering-simulated-results" class="section level3" number="4.1.3">
-<h3>
-<span class="header-section-number">4.1.3</span> Remembering simulated results<a class="anchor" aria-label="anchor" href="#remembering-simulated-results"><i class="fas fa-link"></i></a>
-</h3>
-<p>The problem with simulating so many outcomes is that now it is hard to keep track of them! And, as we’ve seen, we can’t just copy-and-paste the same line of code each time we want to refer back to our simulated outcomes, because that will produce a <em>new</em> sequence of outcomes. Instead, let’s tell R to remember the outcomes we simulated.</p>
-<div class="sourceCode" id="cb127"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Heads"</span>, <span class="st">"Tails"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">50</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<p>All we did was add <code>result &lt;-</code> to the beginning of our code. Like we saw last time, this will let R remember the particular sequence of outcomes under the label “result.” If we type “result” at the console, we’ll see that R looks back in its memory and tells us how that sequence of 50 flips turned out.</p>
-<div class="sourceCode" id="cb128"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">result</span></code></pre></div>
-<pre><code>##  [1] "Heads" "Tails" "Heads" "Tails" "Tails" "Heads" "Tails" "Heads" "Tails"
-## [10] "Heads" "Tails" "Tails" "Heads" "Tails" "Tails" "Tails" "Tails" "Tails"
-## [19] "Tails" "Heads" "Heads" "Heads" "Tails" "Heads" "Tails" "Heads" "Tails"
-## [28] "Heads" "Heads" "Tails" "Heads" "Heads" "Tails" "Heads" "Tails" "Heads"
-## [37] "Heads" "Heads" "Tails" "Tails" "Heads" "Heads" "Tails" "Heads" "Heads"
-## [46] "Heads" "Heads" "Tails" "Tails" "Heads"</code></pre>
-<p>But if we simulate a new sequence of flips and tell R to remember it under the label “result,” it will forget the original sequence:</p>
-<div class="sourceCode" id="cb130"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Heads"</span>, <span class="st">"Tails"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">50</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-
-<span class="va">result</span></code></pre></div>
-<pre><code>##  [1] "Tails" "Tails" "Heads" "Tails" "Heads" "Tails" "Heads" "Heads" "Heads"
-## [10] "Tails" "Tails" "Tails" "Tails" "Tails" "Tails" "Tails" "Heads" "Heads"
-## [19] "Heads" "Tails" "Heads" "Heads" "Heads" "Tails" "Heads" "Heads" "Tails"
-## [28] "Tails" "Heads" "Tails" "Heads" "Heads" "Tails" "Tails" "Heads" "Heads"
-## [37] "Heads" "Tails" "Heads" "Tails" "Heads" "Tails" "Heads" "Tails" "Heads"
-## [46] "Tails" "Heads" "Heads" "Tails" "Heads"</code></pre>
-</div>
-<div id="turning-simulated-results-into-data" class="section level3" number="4.1.4">
-<h3>
-<span class="header-section-number">4.1.4</span> Turning simulated results into “data”<a class="anchor" aria-label="anchor" href="#turning-simulated-results-into-data"><i class="fas fa-link"></i></a>
-</h3>
-<p>Now that we can simulate long sequences of outcomes and get R to remember them, we are going to get R to treat those outcomes as if they were “data,” in other words, as if they were from a real coin instead of a simulated one. R keeps data in a special form called a “tibble.” We’ve seen this cutesy form of the word “table” before; every time we used R to summarize a dataset, it told us the result was a “tibble.”</p>
-<p>We can create a “tibble” from our simulated flips like this</p>
-<div class="sourceCode" id="cb132"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">coin_data</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span><span class="va">result</span><span class="op">)</span></code></pre></div>
-<p>We’ve told R to take our flips, turn them into a <code>tibble</code>, and remember the result under the label “coin_data.” Now when we ask R to remember “coin_data,” we see it looks a bit different</p>
-<div class="sourceCode" id="cb133"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">coin_data</span></code></pre></div>
-<pre><code>## # A tibble: 50 × 1
-##    result
-##    &lt;chr&gt; 
-##  1 Tails 
-##  2 Tails 
-##  3 Heads 
-##  4 Tails 
-##  5 Heads 
-##  6 Tails 
-##  7 Heads 
-##  8 Heads 
-##  9 Heads 
-## 10 Tails 
-## # … with 40 more rows</code></pre>
-</div>
-</div>
-<div id="estimating-probabilities" class="section level2" number="4.2">
-<h2>
-<span class="header-section-number">4.2</span> Estimating probabilities<a class="anchor" aria-label="anchor" href="#estimating-probabilities"><i class="fas fa-link"></i></a>
-</h2>
-<p>Now that R can treat our simulated flips like it would “real” data, we can summarize it just like we would “real” data. This will allow us to estimate the probabilities of different outcomes from their relative frequency.</p>
-<div id="frequency-table" class="section level3" number="4.2.1">
-<h3>
-<span class="header-section-number">4.2.1</span> Frequency table<a class="anchor" aria-label="anchor" href="#frequency-table"><i class="fas fa-link"></i></a>
-</h3>
-<p>The first thing we want to know is how many flips were heads and how many were tails.</p>
-<div class="sourceCode" id="cb135"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">coin_data</span> <span class="op">%&gt;%</span>
-    <span class="fu">group_by</span><span class="op">(</span><span class="va">result</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span>n<span class="op">=</span><span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 2 × 2
-##   result     n
-##   &lt;chr&gt;  &lt;int&gt;
-## 1 Heads     26
-## 2 Tails     24</code></pre>
-<p>The summary above is a frequency table, which we have used before.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Compare the code we just used to produce a frequency table with the code we used to make frequency tables in Lab 1. What is similar and what is different?&lt;/p&gt;"><sup>40</sup></a></p>
-</div>
-<div id="estimating-probability-from-frequency" class="section level3" number="4.2.2">
-<h3>
-<span class="header-section-number">4.2.2</span> Estimating probability from frequency<a class="anchor" aria-label="anchor" href="#estimating-probability-from-frequency"><i class="fas fa-link"></i></a>
-</h3>
-<p>Let’s use this frequency table to estimate the probability of getting either a heads or a tails. To do this, we need to add a line to the code above:</p>
-<div class="sourceCode" id="cb137"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">coin_data</span> <span class="op">%&gt;%</span>
-    <span class="fu">group_by</span><span class="op">(</span><span class="va">result</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span>n<span class="op">=</span><span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">mutate</span><span class="op">(</span>p <span class="op">=</span> <span class="va">n</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 2 × 3
-##   result     n     p
-##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
-## 1 Heads     26  0.52
-## 2 Tails     24  0.48</code></pre>
-<p>The final line is called <code>mutate</code> because we are “mutating” the frequency counts to produce an estimate of the probability. We get that estimate (<code>p</code>) by taking the frequency of each outcome, <code>n</code>, and dividing it by the total number of outcomes (<code><a href="https://rdrr.io/r/base/sum.html">sum(n)</a></code>).</p>
-<p>Let’s see how this works by simulating a longer sequence of coin flips (1000 flips) and replacing our old results:</p>
-<div class="sourceCode" id="cb139"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Heads"</span>, <span class="st">"Tails"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">1000</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-
-<span class="va">coin_data</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span><span class="va">result</span><span class="op">)</span>
-
-<span class="va">coin_data</span> <span class="op">%&gt;%</span>
-    <span class="fu">group_by</span><span class="op">(</span><span class="va">result</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span>n<span class="op">=</span><span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">mutate</span><span class="op">(</span>p <span class="op">=</span> <span class="va">n</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 2 × 3
-##   result     n     p
-##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
-## 1 Heads    520  0.52
-## 2 Tails    480  0.48</code></pre>
-<p>Now let’s try it with an even longer sequence of 10000 flips.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;What would you change in the code above to make it produce 10000 flips? Does it seem like the estimated probabilities are closer to 0.5 for both heads and tails with more flips?&lt;/p&gt;"><sup>41</sup></a></p>
-<pre><code>## # A tibble: 2 × 3
-##   result     n     p
-##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
-## 1 Heads   4999 0.500
-## 2 Tails   5001 0.500</code></pre>
-</div>
-</div>
-<div id="more-advanced-simulation-tricks" class="section level2" number="4.3">
-<h2>
-<span class="header-section-number">4.3</span> More advanced simulation tricks<a class="anchor" aria-label="anchor" href="#more-advanced-simulation-tricks"><i class="fas fa-link"></i></a>
-</h2>
-<p>So far, we have just been simulating flips of a fair coin. Now let’s see how we can simulate more complex situations.</p>
-<div id="making-up-our-own-probabilities" class="section level3" number="4.3.1">
-<h3>
-<span class="header-section-number">4.3.1</span> Making up our own probabilities<a class="anchor" aria-label="anchor" href="#making-up-our-own-probabilities"><i class="fas fa-link"></i></a>
-</h3>
-<p>By default, when you ask R to <code>sample</code>, it will assume that all the outcomes in the sample space have equal probability. That’s why when we asked R to simulate coin flips, heads and tails came up about equally often. Let’s mess with this and make ourselves a simulated <em>unfair</em> coin.</p>
-<p>The code below simulates 1000 flips of a coin that comes up heads with probability 0.6, rather than 0.5:</p>
-<div class="sourceCode" id="cb142"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Heads"</span>, <span class="st">"Tails"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">1000</span>, replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.6</span>, <span class="fl">0.4</span><span class="op">)</span><span class="op">)</span>
-
-<span class="va">coin_data</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span><span class="va">result</span><span class="op">)</span>
-
-<span class="va">coin_data</span> <span class="op">%&gt;%</span>
-    <span class="fu">group_by</span><span class="op">(</span><span class="va">result</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span>n<span class="op">=</span><span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">mutate</span><span class="op">(</span>p <span class="op">=</span> <span class="va">n</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 2 × 3
-##   result     n     p
-##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
-## 1 Heads    609 0.609
-## 2 Tails    391 0.391</code></pre>
-<p>Notice the main difference is that we added another part to the <code>sample</code> line. By adding <code>prob = c(0.6, 0.4)</code>, we told R that the <code>prob</code>ability of the <em>corresponding</em> outcomes in the sample space (<code><a href="https://rdrr.io/r/base/c.html">c("Heads", "Tails")</a></code>) should be 0.6 and 0.4, respectively. If we reverse the order of the probabilities, notice that “Tails” now comes out ahead:</p>
-<div class="sourceCode" id="cb144"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Heads"</span>, <span class="st">"Tails"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">1000</span>, replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.4</span>, <span class="fl">0.6</span><span class="op">)</span><span class="op">)</span>
-
-<span class="va">coin_data</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span><span class="va">result</span><span class="op">)</span>
-
-<span class="va">coin_data</span> <span class="op">%&gt;%</span>
-    <span class="fu">group_by</span><span class="op">(</span><span class="va">result</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span>n<span class="op">=</span><span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">mutate</span><span class="op">(</span>p <span class="op">=</span> <span class="va">n</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 2 × 3
-##   result     n     p
-##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
-## 1 Heads    398 0.398
-## 2 Tails    602 0.602</code></pre>
-<p>The first rule is that the first number in the collection of probabilities (after <code>prob</code>) gives the probability of the first outcome in the sample space, the second number gives the probability of the second outcome in the sample space, and so on. Now let’s try simulating 1000 flips where the probability of heads is 0.7:<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;How would you change our coin flipping code to do this? &lt;em&gt;Hint: remember that probabilities should always add up to 1.&lt;/em&gt;&lt;/p&gt;"><sup>42</sup></a></p>
-<pre><code>## # A tibble: 2 × 3
-##   result     n     p
-##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
-## 1 Heads    672 0.672
-## 2 Tails    328 0.328</code></pre>
-<p>Notice that the <strong>relative frequency</strong> of the different outcomes is always close to the probabilities we give to R.</p>
-</div>
-<div id="expanding-the-sample-space" class="section level3" number="4.3.2">
-<h3>
-<span class="header-section-number">4.3.2</span> Expanding the sample space<a class="anchor" aria-label="anchor" href="#expanding-the-sample-space"><i class="fas fa-link"></i></a>
-</h3>
-<p>In addition to messing with the probabilities, we can mess with the sample space. So far, we have been assuming that the coin can only come up heads or tails. What if the coin could land on its side? This would introduce a new possible <em>outcome</em> to our sample space. We need to change the first line of our simulation code to reflect this:</p>
-<div class="sourceCode" id="cb147"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Heads"</span>, <span class="st">"Tails"</span>, <span class="st">"Side"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">1000</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-
-<span class="va">coin_data</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span><span class="va">result</span><span class="op">)</span>
-
-<span class="va">coin_data</span> <span class="op">%&gt;%</span>
-    <span class="fu">group_by</span><span class="op">(</span><span class="va">result</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span>n<span class="op">=</span><span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">mutate</span><span class="op">(</span>p <span class="op">=</span> <span class="va">n</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 3 × 3
-##   result     n     p
-##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
-## 1 Heads    338 0.338
-## 2 Side     342 0.342
-## 3 Tails    320 0.32</code></pre>
-<p>Notice that the code above did not specify any <code>prob</code>abilities. As a result, all three outcomes in our sample space ended up happening about equally often. Let’s specify those probabilities to try and get the coin to come up on its side with probability 0.1, but otherwise come up heads or tails with equal probability and simulated 1000 flips. The result will look something like this:<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;What would you add to the simulation code to make the probability of heads, tails, and side come out this way? &lt;em&gt;Hint: Remember how we specified the probabilities for the unfair coin, and that all three probabilities should add up to 1.&lt;/em&gt;&lt;/p&gt;"><sup>43</sup></a></p>
-<pre><code>## # A tibble: 3 × 3
-##   result     n     p
-##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
-## 1 Heads    464 0.464
-## 2 Side     100 0.1  
-## 3 Tails    436 0.436</code></pre>
-</div>
-</div>
-<div id="estimating-probabilities-in-data" class="section level2" number="4.4">
-<h2>
-<span class="header-section-number">4.4</span> Estimating probabilities in data<a class="anchor" aria-label="anchor" href="#estimating-probabilities-in-data"><i class="fas fa-link"></i></a>
-</h2>
-<p>By now we are probably sick of coin flipping. Let’s take a break and watch some basketball. Specifically, let’s watch Kobe Bryant of the LA Lakers as they played against the Orlando Magic in the 2009 NBA finals. Use the following line of code to download a dataset consisting of every shooting attempt Kobe made that game, including whether or not it went in (i.e., was the shot a “Hit” or a “Miss”):</p>
-<div class="sourceCode" id="cb150"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">kobe</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/kobe.csv"</span><span class="op">)</span></code></pre></div>
-<pre><code>## Rows: 132 Columns: 7</code></pre>
-<pre><code>## ── Column specification ────────────────────────────────────────────────────────
+<p>First, we need to import some data into R using the code below.</p>
+<div class="sourceCode" id="cb97"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">anscombe</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/cor_data.csv"</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-info"><code>## Rows: 44 Columns: 3</code></pre>
+<pre class="Rout text-info"><code>## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
-## chr (6): vs, quarter, time, description, shot, prev_shot
-## dbl (1): game</code></pre>
-<pre><code>## 
+## chr (1): Group
+## dbl (2): X, Y</code></pre>
+<pre class="Rout text-info"><code>## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<div id="what-was-kobes-hit-rate" class="section level3" number="4.4.1">
+<p>These data are artificial and were devised by <span class="citation"><a href="references.html#ref-Anscombe1973" role="doc-biblioref">Anscombe</a> (<a href="references.html#ref-Anscombe1973" role="doc-biblioref">1973</a>)</span>.</p>
+</div>
+<div id="correlations-for-different-sets-of-measurements" class="section level3" number="4.2.2">
 <h3>
-<span class="header-section-number">4.4.1</span> What was Kobe’s hit rate?<a class="anchor" aria-label="anchor" href="#what-was-kobes-hit-rate"><i class="fas fa-link"></i></a>
+<span class="header-section-number">4.2.2</span> Correlations for different sets of measurements<a class="anchor" aria-label="anchor" href="#correlations-for-different-sets-of-measurements"><i class="fas fa-link"></i></a>
 </h3>
-<p>The first question we should ask is how often Kobe’s shots go in (called his “field goal percentage”). We can modify the code we used to estimate probabilities from our simulated coin flips to do the same for Kobe’s real shot attempts:<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Compare the code below to the code we used above to estimate probabilities from our simulated coin flips. What is similar and what is different?&lt;/p&gt;"><sup>44</sup></a></p>
-<div class="sourceCode" id="cb154"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
-    <span class="fu">group_by</span><span class="op">(</span><span class="va">shot</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span>n<span class="op">=</span><span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">mutate</span><span class="op">(</span>p <span class="op">=</span> <span class="va">n</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 2 × 3
-##   shot      n     p
-##   &lt;chr&gt; &lt;int&gt; &lt;dbl&gt;
-## 1 H        57 0.432
-## 2 M        75 0.568</code></pre>
+<p>There are four groups of observations in these data. The groups are labeled “A,” “B,” “C,” and “D.” Observations were made on two variables, labeled “X” and “Y.” Click on <code>anscombe</code> in the environment panel in RStudio (upper right) to take a look.</p>
+<p>Using R, we can quickly get numerical summaries of these data. The code below provides the mean and standard deviation of the X and Y values in each group, as well as the correlation between X and Y in each group.</p>
+<div class="sourceCode" id="cb101"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">anscombe</span> <span class="op">%&gt;%</span>
+    <span class="fu">group_by</span><span class="op">(</span><span class="va">Group</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">summarize</span><span class="op">(</span>Mean_X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span>, Mean_Y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Y</span><span class="op">)</span>, SD_X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span>, SD_Y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">Y</span><span class="op">)</span>, r <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">X</span>, <span class="va">Y</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-muted"><code>## # A tibble: 4 × 6
+##   Group Mean_X Mean_Y  SD_X  SD_Y     r
+##   &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 A          9   7.50  3.32  2.03 0.816
+## 2 B          9   7.50  3.32  2.03 0.816
+## 3 C          9   7.5   3.32  2.03 0.816
+## 4 D          9   7.50  3.32  2.03 0.817</code></pre>
+<p>Do you notice anything funny about these results? It looks like there are basically no differences at all between the groups!</p>
 </div>
-<div id="a-simulated-kobe" class="section level3" number="4.4.2">
+<div id="scatterplots" class="section level3" number="4.2.3">
 <h3>
-<span class="header-section-number">4.4.2</span> A simulated Kobe<a class="anchor" aria-label="anchor" href="#a-simulated-kobe"><i class="fas fa-link"></i></a>
+<span class="header-section-number">4.2.3</span> Scatterplots<a class="anchor" aria-label="anchor" href="#scatterplots"><i class="fas fa-link"></i></a>
 </h3>
-<p>Using the estimates above, let’s see if we can construct a simulated Kobe Bryant that, like our simulated coin, will have roughly the same probability of making a basket as Kobe did. To do this, we need to specify our <strong>sample space</strong> (<code><a href="https://rdrr.io/r/base/c.html">c("H", "M")</a></code>, where “H” is for “hit” and “M” is for “miss”) and our <strong>probabilities</strong> (e.g., <code>prob = c(0.5, 0.5)</code> if we think hits and misses are equally likely). Since this is a simulated Kobe, we can make him attempt 1000 shots (or more):</p>
-<div class="sourceCode" id="cb156"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"H"</span>, <span class="st">"M"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">1000</span>, replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span>
-
-<span class="va">simulated_kobe_data</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span><span class="va">result</span><span class="op">)</span>
-
-<span class="va">simulated_kobe_data</span> <span class="op">%&gt;%</span>
-    <span class="fu">group_by</span><span class="op">(</span><span class="va">result</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span>n<span class="op">=</span><span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">mutate</span><span class="op">(</span>p <span class="op">=</span> <span class="va">n</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 2 × 3
-##   result     n     p
-##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
-## 1 H        518 0.518
-## 2 M        482 0.482</code></pre>
-<p>Does this simulated Kobe look much like the real one? What should we change to make it look more like the real Kobe?<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Play around with the &lt;code&gt;prob&lt;/code&gt;abilities in the code for simulating shots from Kobe Bryant until you find some probabilities that make his hit rate look similar to what we actually observed. What probabilities did you end up with?&lt;/p&gt;"><sup>45</sup></a></p>
-</div>
-<div id="hot--or-cold-handed" class="section level3" number="4.4.3">
-<h3>
-<span class="header-section-number">4.4.3</span> Hot- or cold-handed<a class="anchor" aria-label="anchor" href="#hot--or-cold-handed"><i class="fas fa-link"></i></a>
-</h3>
-<p>Commentators at this particular game remarked that Kobe seemed to have a “hot hand.” In other words, they seemed to believe that once Kobe made a basket (“H”), he was <em>more likely</em> to make a basket on his next shot. This is a probability question! Specifically, it is a question about <strong>conditional probability</strong>. <em>Conditional on</em> whether Kobe’s previous shot was a hit or a miss, what is the probability that his next shot is a hit or a miss?</p>
-<p>We can address this question by modifying the code we used above to estimate probabilities:</p>
-<div class="sourceCode" id="cb158"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
-    <span class="fu">group_by</span><span class="op">(</span><span class="va">prev_shot</span>, <span class="va">shot</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span>n<span class="op">=</span><span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">mutate</span><span class="op">(</span>p <span class="op">=</span> <span class="va">n</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## `summarise()` has grouped output by 'prev_shot'. You can override using the `.groups` argument.</code></pre>
-<pre><code>## # A tibble: 4 × 4
-## # Groups:   prev_shot [2]
-##   prev_shot shot      n     p
-##   &lt;chr&gt;     &lt;chr&gt; &lt;int&gt; &lt;dbl&gt;
-## 1 H         H        21 0.368
-## 2 H         M        36 0.632
-## 3 M         H        36 0.48 
-## 4 M         M        39 0.52</code></pre>
-<p>Here, <code>prev_shot</code> refers to whether Kobe’s <code>prev</code>ious shot was a hit (“H”) or a miss (“M”). By adding <code>prev_shot</code> to the grouping in our second line, what we have done is tell R to count the number of times each <em>combination</em> of hit/miss on the previous shot and hit/miss on the current shot occurred.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Compare the code we just used with the code we used to get the number of passengers who did or did not survive on the &lt;em&gt;Titanic&lt;/em&gt; in each class. What is similar and what is different?&lt;/p&gt;"><sup>46</sup></a> As a result, when we ask R in the final line to give us probabilities, it gives us the probability of a hit or miss on the current shot <em>conditional on</em> whether the previous shot was a hit or a miss.</p>
-<p>So, were the commentators right?<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Did Kobe have a “hot hand?” Did he have a “cold hand,” where missing a shot meant it was more likely he would miss his next shot? Was there something else going on? Or was there no particular difference depending on whether he made or missed his previous shot?&lt;/p&gt;"><sup>47</sup></a></p>
+<p>Rather than a numerical summary, now let’s use R to visually summarize these data using scatterplots. We will put the <code>X</code> variable on the horizontal (“x”) axis and the <code>Y</code> variable on the vertical (“y”) axis. We will use <code>Group</code> as a “facetting” variable:</p>
+<div class="sourceCode" id="cb103"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">anscombe</span> <span class="op">%&gt;%</span>
+    <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">X</span>, y<span class="op">=</span><span class="va">Y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">facet_wrap</span><span class="op">(</span><span class="st">"Group"</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="04-numerical_relationships_files/figure-html/unnamed-chunk-5-1.png" width="672"></div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-21" class="exercise"><strong>Exercise 4.1  </strong></span>For each of the scatterplots above, respond to the following questions:</p>
+<ol style="list-style-type: lower-alpha">
+<li>Does the scatterplot indicate that there is probably an association between the two variables? If so, describe the type of relationship.</li>
+<li>Does the correlation coefficient (<code>r</code>) provide a good summary of whether or how the two variables are related? Why or why not?</li>
+</ol>
 </div>
 </div>
-<div id="wrap-up-3" class="section level2" number="4.5">
+</div>
+<div id="and-now-for-a-word" class="section level2" number="4.3">
 <h2>
-<span class="header-section-number">4.5</span> Wrap-up<a class="anchor" aria-label="anchor" href="#wrap-up-3"><i class="fas fa-link"></i></a>
+<span class="header-section-number">4.3</span> And now for a word<a class="anchor" aria-label="anchor" href="#and-now-for-a-word"><i class="fas fa-link"></i></a>
 </h2>
-<p>In this activity, we saw how we could use R to <strong>simulate</strong> outcomes of many repeated events. We could specify the <strong>sample space</strong> as well as the <strong>probability</strong> with which different outcomes could occur. We saw how the <strong>long-run relative frequency</strong> got close to these probabilities. Finally, we saw how we could use R to <strong>estimate</strong> probabilities from frequencies of different outcomes, including <strong>conditional probabilities</strong>.</p>
+<p><em>Psycholinguistics</em> is the study of the perceptual and cognitive processes involved in learning, understanding, and producing language. One of the ways psycholinguists study language processing is using a “lexical decision task.” In a lexical decision task, participants are shown strings of letters; sometimes, these make real words (like “AUTHOR”) and sometimes they don’t (like “AWBLOR”). The time someone takes to decide that a string of letters is a real word (AUTHOR) is a measure of how easily knowledge about that word can be accessed. By looking at the relationships between lexical decision time and different properties of a word, we can begin to understand the processes by which we organize and access our knowledge of language. In other words, lexical decision time tells us how the “mental dictionary” is structured.</p>
+<p>The <a href="https://elexicon.wustl.edu/">English Lexicon Project</a> has been collecting this kind of data from a lot of people with many different words in the English language. They report the mean lexical decision time for a word, along with a number of other properties of the word. We will treat the mean lexical decision time as the <strong>response variable</strong> and examine its relationships to a number of other <strong>explanatory variables</strong>.</p>
+<div id="load-the-data-5" class="section level3" number="4.3.1">
+<h3>
+<span class="header-section-number">4.3.1</span> Load the data<a class="anchor" aria-label="anchor" href="#load-the-data-5"><i class="fas fa-link"></i></a>
+</h3>
+<p>Run the following line of code to download a subset of the data from the English Lexicon Project.</p>
+<div class="sourceCode" id="cb104"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">elp</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/elp.csv"</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-info"><code>## Rows: 31433 Columns: 25</code></pre>
+<pre class="Rout text-info"><code>## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: ","
+## chr  (2): Word, POS
+## dbl (23): Length, Freq_KF, Freq_HAL, SUBTLWF, SUBTLCD, Ortho_N, Phono_N, OLD...</code></pre>
+<pre class="Rout text-info"><code>## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<p>Each case/observation in this dataset is a particular word. In addition to lexical decision time, there are several other potential explanatory variables that have been measured for each word.</p>
+</div>
+<div id="examine-the-distribution-of-lexical-decision-times" class="section level3" number="4.3.2">
+<h3>
+<span class="header-section-number">4.3.2</span> Examine the distribution of lexical decision times<a class="anchor" aria-label="anchor" href="#examine-the-distribution-of-lexical-decision-times"><i class="fas fa-link"></i></a>
+</h3>
+<p>The <code>LDT</code> variable contains the lexical decision time for each word in the dataset. LDT is measured in milliseconds. Let us first examine the distribution of lexical decision times using the code below:</p>
+<div class="sourceCode" id="cb108"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">elp</span> <span class="op">%&gt;%</span>
+  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">LDT</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">geom_histogram</span><span class="op">(</span>binwidth<span class="op">=</span><span class="fl">20</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="04-numerical_relationships_files/figure-html/unnamed-chunk-7-1.png" width="672"></div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-22" class="exercise"><strong>Exercise 4.2  </strong></span>Describe the distribution of lexical decision times across words (you can re-run the code to look at other binwidths if you like). Be sure to note the number of modes, skewness, and whether there are any potential outliers.</p>
+</div>
+</div>
+<div id="word-length-as-an-explanatory-variable" class="section level3" number="4.3.3">
+<h3>
+<span class="header-section-number">4.3.3</span> Word length as an explanatory variable<a class="anchor" aria-label="anchor" href="#word-length-as-an-explanatory-variable"><i class="fas fa-link"></i></a>
+</h3>
+<p>A natural <strong>research question</strong> to ask at this point is whether LDT can be explained by word length. In other words, does the number of letters in a word affect how easy it is to recognize?</p>
+<div id="scatterplot" class="section level4" number="4.3.3.1">
+<h4>
+<span class="header-section-number">4.3.3.1</span> Scatterplot<a class="anchor" aria-label="anchor" href="#scatterplot"><i class="fas fa-link"></i></a>
+</h4>
+<p>First, we should make a scatterplot of these two variables. Word length is recorded in the variable named <code>Length</code>.</p>
+<div class="sourceCode" id="cb109"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">elp</span> <span class="op">%&gt;%</span>
+  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">Length</span>, y <span class="op">=</span> <span class="va">LDT</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="04-numerical_relationships_files/figure-html/unnamed-chunk-8-1.png" width="672"></div>
+<p>The scatterplot suggests a positive relationship that could be described by a line.</p>
+</div>
+<div id="overlaying-a-line" class="section level4" number="4.3.3.2">
+<h4>
+<span class="header-section-number">4.3.3.2</span> Overlaying a line<a class="anchor" aria-label="anchor" href="#overlaying-a-line"><i class="fas fa-link"></i></a>
+</h4>
+<p>We can easily put the best-fitting linear regression line on top of our scatterplot to get a visual sense of how well a linear model could describe the relationship. To do this, we add a line called <code>geom_smooth(method = "lm")</code>. <code>geom_smooth</code> puts “smooth” lines or curves on our plot, and including <code>method = "lm"</code> in the parentheses tells R that we specifically want a <code>l</code>inear <code>m</code>odel.</p>
+<div class="sourceCode" id="cb110"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">elp</span> <span class="op">%&gt;%</span>
+  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">Length</span>, y <span class="op">=</span> <span class="va">LDT</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">geom_smooth</span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-info"><code>## `geom_smooth()` using formula 'y ~ x'</code></pre>
+<div class="inline-figure"><img src="04-numerical_relationships_files/figure-html/unnamed-chunk-9-1.png" width="672"></div>
+</div>
+<div id="finding-the-correlation" class="section level4" number="4.3.3.3">
+<h4>
+<span class="header-section-number">4.3.3.3</span> Finding the correlation<a class="anchor" aria-label="anchor" href="#finding-the-correlation"><i class="fas fa-link"></i></a>
+</h4>
+<p>We can get the correlation coefficient using the <code>cor</code> function, like we did before:</p>
+<div class="sourceCode" id="cb112"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">elp</span> <span class="op">%&gt;%</span>
+    <span class="fu">summarize</span><span class="op">(</span>r <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">LDT</span>, <span class="va">Length</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-muted"><code>## # A tibble: 1 × 1
+##       r
+##   &lt;dbl&gt;
+## 1 0.543</code></pre>
+</div>
+<div id="finding-the-slope-and-intercept" class="section level4" number="4.3.3.4">
+<h4>
+<span class="header-section-number">4.3.3.4</span> Finding the slope and intercept<a class="anchor" aria-label="anchor" href="#finding-the-slope-and-intercept"><i class="fas fa-link"></i></a>
+</h4>
+<p>Finally, we can get the slope and intercept of the best-fitting line. The line of code looks a little different from how we’ve done things until now. It is just a single line called “lm” for “linear model.” In the parentheses, there are two instructions separated by a comma. The first says what are the explanatory and response variables using a funky format <code>[response variable name] ~ [explanatory variable name]</code>. The second instruction in the parentheses tells R which data to find those variables in.</p>
+<p>Here’s how it looks all together:</p>
+<div class="sourceCode" id="cb114"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">LDT</span> <span class="op">~</span> <span class="va">Length</span>, data <span class="op">=</span> <span class="va">elp</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-muted"><code>## 
+## Call:
+## lm(formula = LDT ~ Length, data = elp)
+## 
+## Coefficients:
+## (Intercept)       Length  
+##      546.33        28.15</code></pre>
+<p>The result of this line gives us the intercept of the best fitting line, as well as the slope. The slope is labeled in terms of the <em>name</em> of the explanatory variable.</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-23" class="exercise"><strong>Exercise 4.3  </strong></span>Based on the result we got from running the code above, for each additional letter a word has, how much longer does it take to recognize that it is a word?</p>
+</div>
+</div>
+</div>
+<div id="age-of-acquisition-as-an-explanatory-variable" class="section level3" number="4.3.4">
+<h3>
+<span class="header-section-number">4.3.4</span> Age of Acquisition as an explanatory variable<a class="anchor" aria-label="anchor" href="#age-of-acquisition-as-an-explanatory-variable"><i class="fas fa-link"></i></a>
+</h3>
+<p>Although it makes sense that a longer word would take longer to recognize, another important aspect of a word is <em>when</em> it was learned. It is reasonable to think that a word that you learn early in life would be easier to access that one learned more recently.</p>
+<p>The English Lexicon Project also records the mean “age of acquisition” for each word. This is the mean age (in years) when someone first learns a word. This variable is labeled <code>Age_Of_Acquisition</code> in the <code>elp</code> data. Now, we will follow the same steps we did for looking at the relationship between Length and LDT, but instead of Length as the explanatory variable, we will use “age of acquisition.”</p>
+<p>For the following exercises, be sure to refer to the code we used in the previous section.</p>
+<div id="scatterplot-1" class="section level4" number="4.3.4.1">
+<h4>
+<span class="header-section-number">4.3.4.1</span> Scatterplot<a class="anchor" aria-label="anchor" href="#scatterplot-1"><i class="fas fa-link"></i></a>
+</h4>
+<p>As before, let’s first make a scatterplot to visualize the relationship between LDT and age of acquisition.</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-24" class="exercise"><strong>Exercise 4.4  </strong></span>Fill in the blanks below to make a scatterplot with LDT as the response variable (on the <code>y</code> axis) and <code>Age_Of_Acquisition</code> as the explanatory variable (on the <code>x</code> axis):</p>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="lab4.html#cb116-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
+<span id="cb116-2"><a href="lab4.html#cb116-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___, <span class="at">y =</span> ___)) <span class="sc">+</span></span>
+<span id="cb116-3"><a href="lab4.html#cb116-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">___</span>()</span></code></pre></div>
+<ol style="list-style-type: lower-alpha">
+<li>What code did you use?</li>
+<li>How would you describe the relationship between LDT and age of acquisition?</li>
+</ol>
+</div>
+</div>
+<div id="overlaying-a-line-1" class="section level4" number="4.3.4.2">
+<h4>
+<span class="header-section-number">4.3.4.2</span> Overlaying a line<a class="anchor" aria-label="anchor" href="#overlaying-a-line-1"><i class="fas fa-link"></i></a>
+</h4>
+<p>Now, let’s add a line to the scatterplot.</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-25" class="exercise"><strong>Exercise 4.5  </strong></span>Fill in the blanks below to make a scatterplot with LDT as the response variable (on the <code>y</code> axis) and <code>Age_Of_Acquisition</code> as the explanatory variable (on the <code>x</code> axis) with the best-fitting line overlaid on top.</p>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="lab4.html#cb117-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
+<span id="cb117-2"><a href="lab4.html#cb117-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___, <span class="at">y =</span> ___)) <span class="sc">+</span></span>
+<span id="cb117-3"><a href="lab4.html#cb117-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">___</span>() <span class="sc">+</span></span>
+<span id="cb117-4"><a href="lab4.html#cb117-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">___</span>(<span class="at">method =</span> <span class="st">"lm"</span>)</span></code></pre></div>
+<ol style="list-style-type: lower-alpha">
+<li>What code did you use?</li>
+<li>Does the line seem to be a good fit to the data? Are there any areas where the line seems to under-shoot or over-shoot the data?</li>
+</ol>
+</div>
+</div>
+<div id="finding-the-correlation-1" class="section level4" number="4.3.4.3">
+<h4>
+<span class="header-section-number">4.3.4.3</span> Finding the correlation<a class="anchor" aria-label="anchor" href="#finding-the-correlation-1"><i class="fas fa-link"></i></a>
+</h4>
+<p>Now let’s find the correlation (again, be sure to look at the code we used in the previous section as a guide):</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-26" class="exercise"><strong>Exercise 4.6  </strong></span>Fill in the blanks below to find the correlation between <code>LDT</code> and <code>Age_Of_Acquisition</code>:</p>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="lab4.html#cb118-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
+<span id="cb118-2"><a href="lab4.html#cb118-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">r =</span> <span class="fu">cor</span>(___, ___))</span></code></pre></div>
+<ol style="list-style-type: lower-alpha">
+<li>What code did you use?</li>
+<li>Is the correlation between LDT and Age of Acquisition stronger or weaker than the correlation between LDT and Length?</li>
+<li>In the ELP dataset, Age of Acquisition is measured in years and LDT is measured in milliseconds. Would the correlation between LDT and Age of Acquisition change if Age of Acquisition were measured in months and LDT were measured in seconds? Why or why not?</li>
+</ol>
+</div>
+</div>
+<div id="finding-the-slope-and-intercept-1" class="section level4" number="4.3.4.4">
+<h4>
+<span class="header-section-number">4.3.4.4</span> Finding the slope and intercept<a class="anchor" aria-label="anchor" href="#finding-the-slope-and-intercept-1"><i class="fas fa-link"></i></a>
+</h4>
+<p>Finally, let’s find the slope and intercept of that best-fitting regression line between Age of Acquisition and LDT:</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-27" class="exercise"><strong>Exercise 4.7  </strong></span>Fill in the blanks in the code below to find the intercept and slope of the line using Age of Acquisition as the explanatory variable and LDT as the response variable:</p>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="lab4.html#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(___ <span class="sc">~</span> ___, <span class="at">data =</span> ___)</span></code></pre></div>
+<ol style="list-style-type: lower-alpha">
+<li>What code did you use?</li>
+<li>According to the linear model you just found, how much longer would it take to recognize a word that was learned at age 10, relative to a word that was learned at age 9?</li>
+<li>Would it make sense to try to extend this relationship to very young ages (e.g., 6 months old)? Explain your reasoning.</li>
+<li>Do you expect the relationship would continue for words learned relatively later in life, like technical words you learn in college or work? If not, what shape would you expect the relationship to have for words learned later in life and why?</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="summary" class="section level3" number="4.3.5">
+<h3>
+<span class="header-section-number">4.3.5</span> Summary<a class="anchor" aria-label="anchor" href="#summary"><i class="fas fa-link"></i></a>
+</h3>
+<p>We have seen that we can predict how long it takes to recognize a word in terms of either its length (number of letters) or the age at which it was learned (Age of Acquisition). These results tell us that the “mental dictionary” is organized not just by things like spelling, but also by life experience.</p>
+</div>
+</div>
+<div id="wrap-up-3" class="section level2" number="4.4">
+<h2>
+<span class="header-section-number">4.4</span> Wrap-up<a class="anchor" aria-label="anchor" href="#wrap-up-3"><i class="fas fa-link"></i></a>
+</h2>
+<p>We have seen how scatterplots, correlation, and linear regression all are valuable tools for describing relationships between numerical variables. These tools help us explain the details of behavior that reveal the structure of memory. These tools should always be used carefully and always with visualization, since numerical summaries alone can be misleading.</p>
 
 </div>
 </div>
-
   <div class="chapter-nav">
-<div class="prev"><a href="lab3.html"><span class="header-section-number">3</span> Scatterplots and correlation</a></div>
-<div class="next"><a href="lab5.html"><span class="header-section-number">5</span> Models: The Binomial and the Normal</a></div>
+<div class="prev"><a href="lab3.html"><span class="header-section-number">3</span> Describing data</a></div>
+<div class="next"><a href="references.html">References</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#lab4"><span class="header-section-number">4</span> Probability and simulation</a></li>
+<li><a class="nav-link" href="#lab4"><span class="header-section-number">4</span> Relationships Between Numerical Variables</a></li>
+<li><a class="nav-link" href="#load-the-tidyverse"><span class="header-section-number">4.1</span> Load the tidyverse</a></li>
 <li>
-<a class="nav-link" href="#simulation-basics"><span class="header-section-number">4.1</span> Simulation basics</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#single-coin-flips"><span class="header-section-number">4.1.1</span> Single coin flips</a></li>
-<li><a class="nav-link" href="#a-sequence-of-coin-flips"><span class="header-section-number">4.1.2</span> A sequence of coin flips</a></li>
-<li><a class="nav-link" href="#remembering-simulated-results"><span class="header-section-number">4.1.3</span> Remembering simulated results</a></li>
-<li><a class="nav-link" href="#turning-simulated-results-into-data"><span class="header-section-number">4.1.4</span> Turning simulated results into “data”</a></li>
+<a class="nav-link" href="#always-plot-your-data"><span class="header-section-number">4.2</span> Always plot your data</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#load-the-data-4"><span class="header-section-number">4.2.1</span> Load the data</a></li>
+<li><a class="nav-link" href="#correlations-for-different-sets-of-measurements"><span class="header-section-number">4.2.2</span> Correlations for different sets of measurements</a></li>
+<li><a class="nav-link" href="#scatterplots"><span class="header-section-number">4.2.3</span> Scatterplots</a></li>
 </ul>
 </li>
 <li>
-<a class="nav-link" href="#estimating-probabilities"><span class="header-section-number">4.2</span> Estimating probabilities</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#frequency-table"><span class="header-section-number">4.2.1</span> Frequency table</a></li>
-<li><a class="nav-link" href="#estimating-probability-from-frequency"><span class="header-section-number">4.2.2</span> Estimating probability from frequency</a></li>
+<a class="nav-link" href="#and-now-for-a-word"><span class="header-section-number">4.3</span> And now for a word</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#load-the-data-5"><span class="header-section-number">4.3.1</span> Load the data</a></li>
+<li><a class="nav-link" href="#examine-the-distribution-of-lexical-decision-times"><span class="header-section-number">4.3.2</span> Examine the distribution of lexical decision times</a></li>
+<li><a class="nav-link" href="#word-length-as-an-explanatory-variable"><span class="header-section-number">4.3.3</span> Word length as an explanatory variable</a></li>
+<li><a class="nav-link" href="#age-of-acquisition-as-an-explanatory-variable"><span class="header-section-number">4.3.4</span> Age of Acquisition as an explanatory variable</a></li>
+<li><a class="nav-link" href="#summary"><span class="header-section-number">4.3.5</span> Summary</a></li>
 </ul>
 </li>
-<li>
-<a class="nav-link" href="#more-advanced-simulation-tricks"><span class="header-section-number">4.3</span> More advanced simulation tricks</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#making-up-our-own-probabilities"><span class="header-section-number">4.3.1</span> Making up our own probabilities</a></li>
-<li><a class="nav-link" href="#expanding-the-sample-space"><span class="header-section-number">4.3.2</span> Expanding the sample space</a></li>
-</ul>
-</li>
-<li>
-<a class="nav-link" href="#estimating-probabilities-in-data"><span class="header-section-number">4.4</span> Estimating probabilities in data</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#what-was-kobes-hit-rate"><span class="header-section-number">4.4.1</span> What was Kobe’s hit rate?</a></li>
-<li><a class="nav-link" href="#a-simulated-kobe"><span class="header-section-number">4.4.2</span> A simulated Kobe</a></li>
-<li><a class="nav-link" href="#hot--or-cold-handed"><span class="header-section-number">4.4.3</span> Hot- or cold-handed</a></li>
-</ul>
-</li>
-<li><a class="nav-link" href="#wrap-up-3"><span class="header-section-number">4.5</span> Wrap-up</a></li>
+<li><a class="nav-link" href="#wrap-up-3"><span class="header-section-number">4.4</span> Wrap-up</a></li>
 </ul>
 
       <div class="book-extra">
         <ul class="list-unstyled">
-<li><a id="book-source" href="https://github.com/gregcox7/StatLabs/blob/master/04-probability.Rmd">View source <i class="fab fa-github"></i></a></li>
-          <li><a id="book-edit" href="https://github.com/gregcox7/StatLabs/edit/master/04-probability.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+<li><a id="book-source" href="https://github.com/gregcox7/StatLabs/blob/master/04-numerical_relationships.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/gregcox7/StatLabs/edit/master/04-numerical_relationships.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
         </ul>
 </div>
     </nav>
@@ -460,7 +359,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2021-08-18.</p>
+    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2021-09-17.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
