@@ -12,5 +12,6 @@ rmd_files: [
   "02-sampling.Rmd",
   "03-describing.Rmd",
   "04-numerical_relationships.Rmd",
+  "05-randomization.Rmd",
   "99-references.Rmd"
   ]

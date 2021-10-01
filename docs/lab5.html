@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Lab 5 Models: The Binomial and the Normal | Labs</title>
+<title>Lab 5 Hypothesis testing with randomization | Labs</title>
 <meta name="author" content="Greg Cox">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.9/header-attrs.js"></script><script src="libs/jquery-3.5.1/jquery-3.5.1.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.5.3/bootstrap.min.css" rel="stylesheet">
@@ -33,20 +33,10 @@
         <ul class="book-toc list-unstyled">
 <li><a class="" href="index.html">Overview</a></li>
 <li><a class="" href="lab1.html"><span class="header-section-number">1</span> Exploring Data with R</a></li>
-<li><a class="" href="lab2.html"><span class="header-section-number">2</span> Central tendency and variability</a></li>
-<li><a class="" href="lab3.html"><span class="header-section-number">3</span> Scatterplots and correlation</a></li>
-<li><a class="" href="lab4.html"><span class="header-section-number">4</span> Probability and simulation</a></li>
-<li><a class="active" href="lab5.html"><span class="header-section-number">5</span> Models: The Binomial and the Normal</a></li>
-<li><a class="" href="lab6.html"><span class="header-section-number">6</span> Sampling and the Central Limit Theorem: The Wisdom of Large Samples</a></li>
-<li><a class="" href="lab7.html"><span class="header-section-number">7</span> Confidence intervals and hypothesis testing</a></li>
-<li><a class="" href="lab8.html"><span class="header-section-number">8</span> Statistical Power</a></li>
-<li><a class="" href="lab9.html"><span class="header-section-number">9</span> \(t\) tests</a></li>
-<li><a class="" href="lab10.html"><span class="header-section-number">10</span> Comparing Independent Samples</a></li>
-<li><a class="" href="lab11.html"><span class="header-section-number">11</span> Linear Regression</a></li>
-<li><a class="" href="lab12.html"><span class="header-section-number">12</span> Exploring Data with R, Part II</a></li>
-<li class="book-part">Appendix</li>
-<li><a class="" href="coderef.html"><span class="header-section-number">A</span> Distributions</a></li>
-<li><a class="" href="hyptests.html"><span class="header-section-number">B</span> Hypothesis Tests</a></li>
+<li><a class="" href="lab2.html"><span class="header-section-number">2</span> Sampling</a></li>
+<li><a class="" href="lab3.html"><span class="header-section-number">3</span> Describing data</a></li>
+<li><a class="" href="lab4.html"><span class="header-section-number">4</span> Relationships Between Numerical Variables</a></li>
+<li><a class="active" href="lab5.html"><span class="header-section-number">5</span> Hypothesis testing with randomization</a></li>
 <li><a class="" href="references.html">References</a></li>
 </ul>
 
@@ -57,391 +47,428 @@
 </div>
   </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="lab5" class="section level1" number="5">
 <h1>
-<span class="header-section-number">Lab 5</span> Models: The Binomial and the Normal<a class="anchor" aria-label="anchor" href="#lab5"><i class="fas fa-link"></i></a>
+<span class="header-section-number">Lab 5</span> Hypothesis testing with randomization<a class="anchor" aria-label="anchor" href="#lab5"><i class="fas fa-link"></i></a>
 </h1>
-<div class="inline-figure"><img src="img/allison_kristen.png" width="100%"></div>
-<p>One of the ways we use statistics to learn about the world beyond our data is by <em>testing hypotheses</em>. A statistical hypothesis takes the form of a <strong>model</strong>. The model allows us to figure out the probability of observing particular types of outcomes. We can then take the types of outcomes we actually observed in our data and see whether they have high or low probability according to our model. If they have a high probability, our hypothesis might be reasonable. But if they have a low probability, there might be something wrong about our hypothesis.</p>
-<p>In this session, we will explore two types of model that we have been discussing in class, the <strong>binomial distribution</strong> and the <strong>normal distribution</strong>. Similar to our last session, we will see how we can <em>simulate</em> data according to these models and show that, as we simulate more data (“in the long run…”), the relative frequency of different outcomes converges on the probabilities we get from the model.</p>
-<p>As we’ve seen, we can use these distributions to model different scenarios by adjusting their <strong>parameters</strong>. These are the numbers that we feed into the distribution to get probabilities.</p>
-<p>For the binomial distribution, its parameters are</p>
-<ul>
-<li>the probability of an outcome, which we called <span class="math inline">\(\theta\)</span> in math language, but which we will call <code>prob</code> in R; and</li>
-<li>the number of repetitions, which we labeled <span class="math inline">\(N\)</span> in math language, but which we will call <code>size</code> in R.</li>
-</ul>
-<p>For the normal distribution, its parameters are</p>
-<ul>
-<li>the mean, which we called <span class="math inline">\(\mu\)</span> in math language, but which we will call <code>mean</code> in R; and</li>
-<li>the standard deviation, which we called <span class="math inline">\(\sigma\)</span> in math language, but which we will call <code>sd</code> in R.</li>
-</ul>
-<p>Before we begin, let’s make sure we have the <code>tidyverse</code> package loaded from our library</p>
-<div class="sourceCode" id="cb161"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="img/kobe.png" width="100%"></div>
+<p>In this session, we will get some initial practice in testing hypotheses by randomization. While this practice will not cover all the nuances of hypothesis testing in statistics, it will touch on many of the key ideas that we will see in different forms throughout the rest of the course.</p>
+<p>In the first part, we will get a sense of how <strong>permutation</strong> works, and how it helps us to simulate what a sample might look like if the null hypothesis were true. In the second part, we will use permutation to test a more serious hypotheses about how different types of people might make decisions differently.</p>
+<div id="required-packages-1" class="section level2" number="5.1">
+<h2>
+<span class="header-section-number">5.1</span> Required packages<a class="anchor" aria-label="anchor" href="#required-packages-1"><i class="fas fa-link"></i></a>
+</h2>
+<p>In addition to the <code>tidyverse</code> package that we normally use, today we will also need to load the <code>infer</code> package. As you might guess from the name, the <code>infer</code> package provides a lot of useful tools for doing <code>infer</code>ence with statistics.</p>
+<div id="first-try-this" class="section level3" number="5.1.1">
+<h3>
+<span class="header-section-number">5.1.1</span> First try this<a class="anchor" aria-label="anchor" href="#first-try-this"><i class="fas fa-link"></i></a>
+</h3>
+<p>You should already have the <code>tidyverse</code> package installed, since we’ve been using it since the first lab. So if you run this code, all should be well:</p>
+<div class="sourceCode" id="cb120"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></code></pre></div>
-<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
-<pre><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+<pre class="Rout text-info"><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+<pre class="Rout text-info"><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
 ## ✓ tibble  3.1.3     ✓ dplyr   1.0.5
 ## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
 ## ✓ readr   2.0.0     ✓ forcats 0.5.1</code></pre>
-<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+<pre class="Rout text-info"><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
-<div id="the-binomial-distribution-in-r" class="section level2" number="5.1">
-<h2>
-<span class="header-section-number">5.1</span> The binomial distribution in R<a class="anchor" aria-label="anchor" href="#the-binomial-distribution-in-r"><i class="fas fa-link"></i></a>
-</h2>
-<p>Last time, we used R to <em>simulate</em> repeated outcomes from various kinds of events. Some of these, like flipping a coin or Kobe making a shot, had two possible outcomes. As a result, we can think of the number of times a particular outcome occurred as coming from a binomial distribution.</p>
-<div id="translating-from-sample-to-rbinom" class="section level3" number="5.1.1">
+<p>If you are working on any of the University computers in the lab or library, the <code>infer</code> package should already be installed. If the <code>infer</code> package is installed, you should be able to run the following line with no problems:</p>
+<div class="sourceCode" id="cb124"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/infer">infer</a></span><span class="op">)</span></code></pre></div>
+</div>
+<div id="if-necessary-install-the-infer-package" class="section level3" number="5.1.2">
 <h3>
-<span class="header-section-number">5.1.1</span> Translating from <code>sample</code> to <code>rbinom</code><a class="anchor" aria-label="anchor" href="#translating-from-sample-to-rbinom"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.1.2</span> If necessary, install the <code>infer</code> package<a class="anchor" aria-label="anchor" href="#if-necessary-install-the-infer-package"><i class="fas fa-link"></i></a>
 </h3>
-<p>Let’s see how we can do some of the stuff we did last time using the binomial distribution instead of directly simulating the outcome of each event.</p>
-<p>This is the code we used last time to simulate 1000 flips from a coin that had a probability of 0.6 of coming up heads:</p>
-<div class="sourceCode" id="cb165"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Heads"</span>, <span class="st">"Tails"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">1000</span>, replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.6</span>, <span class="fl">0.4</span><span class="op">)</span><span class="op">)</span>
-
-<span class="va">coin_data</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span><span class="va">result</span><span class="op">)</span>
-
-<span class="va">coin_data</span> <span class="op">%&gt;%</span>
-    <span class="fu">group_by</span><span class="op">(</span><span class="va">result</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<p>If you got an error when loading the <code>infer</code> package, you need to install it first. Luckily, this just involves running the following line:</p>
+<div class="sourceCode" id="cb125"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"infer"</span><span class="op">)</span></code></pre></div>
+<p>Now you should be able to load the <code>infer</code> package without any problems.</p>
+</div>
+</div>
+<div id="did-kobe-have-a-hot-hand" class="section level2" number="5.2">
+<h2>
+<span class="header-section-number">5.2</span> Did Kobe have a hot hand?<a class="anchor" aria-label="anchor" href="#did-kobe-have-a-hot-hand"><i class="fas fa-link"></i></a>
+</h2>
+<p>To get a handle on some of the big ideas in hypothesis testing in general, and of permutation in particular, let’s first look at a very special dataset. These data pertain to Kobe Bryant of the LA Lakers playing against the Orlando Magic in the 2009 NBA finals. Commentators at the time remarked that Kobe seemed to have a “hot hand.” In other words, they were claiming that once Kobe made a basket, he was <em>more likely</em> to make a basket on his next shot.</p>
+<div id="load-the-data-6" class="section level3" number="5.2.1">
+<h3>
+<span class="header-section-number">5.2.1</span> Load the data<a class="anchor" aria-label="anchor" href="#load-the-data-6"><i class="fas fa-link"></i></a>
+</h3>
+<p>Run the following line of code to download a dataset consisting of every shooting attempt Kobe made during that game, including whether or not it went in (i.e., was the shot a “Hit” or a “Miss”):</p>
+<div class="sourceCode" id="cb126"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">kobe</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/kobe.csv"</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-info"><code>## Rows: 111 Columns: 7</code></pre>
+<pre class="Rout text-info"><code>## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: ","
+## chr (6): vs, quarter, time, description, shot, prev_shot
+## dbl (1): game</code></pre>
+<pre class="Rout text-info"><code>## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div id="framing-the-hypotheses" class="section level3" number="5.2.2">
+<h3>
+<span class="header-section-number">5.2.2</span> Framing the hypotheses<a class="anchor" aria-label="anchor" href="#framing-the-hypotheses"><i class="fas fa-link"></i></a>
+</h3>
+<p>We can translate the claim of the hot hand into a <strong>null hypothesis</strong> and an <strong>alternative hypothesis</strong>. For us to believe the “hot hand” claim, we first have to rule out the possibility that Kobe’s hit proportion is the same regardless of whether his previous shot went in or not. This possibility is the <strong>null hypothesis</strong>. The <strong>alternative hypothesis</strong> is that Kobe really had a hot hand and he made a greater proportion of hits after having already made a hit than after missing.</p>
+</div>
+<div id="check-out-the-data" class="section level3" number="5.2.3">
+<h3>
+<span class="header-section-number">5.2.3</span> Check out the data<a class="anchor" aria-label="anchor" href="#check-out-the-data"><i class="fas fa-link"></i></a>
+</h3>
+<p>Now that we’ve framed our hypotheses, let’s see whether our data suggest that we could reject the null hypothesis. We will just use a simple frequency table like we’ve used before:</p>
+<div class="sourceCode" id="cb130"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
+    <span class="fu">group_by</span><span class="op">(</span><span class="va">prev_shot</span>, <span class="va">shot</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">summarize</span><span class="op">(</span>n<span class="op">=</span><span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">mutate</span><span class="op">(</span>p <span class="op">=</span> <span class="va">n</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 2 × 3
-##   result     n     p
-##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
-## 1 Heads    619 0.619
-## 2 Tails    381 0.381</code></pre>
-<p>We can use the number of flips (1000) and the probability of heads (0.6) as the <em>parameters</em> of the binomial distribution. R has several important distributions “built in,” including the binomial and normal. R provides functions that allow us to directly sample from those distributions without having to use the <code>sample</code> function explicitly.</p>
-<p>This is how we can simulate the number of heads out of 1000 flips, where the probability of “heads” is 0.6, using R’s built-in binomial distribution:</p>
-<div class="sourceCode" id="cb167"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1</span>, prob <span class="op">=</span> <span class="fl">0.6</span>, size <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 611</code></pre>
-<p>It is definitely more concise than our old code!<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Notice that the &lt;code&gt;rbinom&lt;/code&gt; function also requires us to give it things named &lt;code&gt;prob&lt;/code&gt; and &lt;code&gt;size&lt;/code&gt;, like our old simulation code. How is the way we use &lt;code&gt;prob&lt;/code&gt; and &lt;code&gt;size&lt;/code&gt; similar between the two pieces of code? How are they different?&lt;/p&gt;"><sup>48</sup></a> Notice that we had to add a thing <code>n = 1</code>, what’s up with that? Let’s try changing it to see what it does and maybe we’ll understand what <code>n</code> means here:</p>
-<div class="sourceCode" id="cb169"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">2</span>, prob <span class="op">=</span> <span class="fl">0.6</span>, size <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 575 592</code></pre>
-<p>Okay, so <code>n</code> is actually the <code>n</code>umber of <em>sequences of events</em> to simulate. In other words, we have two “numbers of things” here: <code>size</code> is the number of repeated events in a single sequence; <code>n</code> is the number of sequences of events. Why is it important to distinguish between these two numbers? Let’s try an example to see.</p>
+<pre class="Rout text-info"><code>## `summarise()` has grouped output by 'prev_shot'. You can override using the `.groups` argument.</code></pre>
+<pre class="Rout text-muted"><code>## # A tibble: 4 × 4
+## # Groups:   prev_shot [2]
+##   prev_shot shot      n     p
+##   &lt;chr&gt;     &lt;chr&gt; &lt;int&gt; &lt;dbl&gt;
+## 1 H         H        18 0.36 
+## 2 H         M        32 0.64 
+## 3 M         H        25 0.410
+## 4 M         M        36 0.590</code></pre>
+<p>Here, <code>prev_shot</code> refers to whether Kobe’s <code>prev</code>ious shot was a hit (“H”) or a miss (“M”). The final column <code>p</code> gives us the proportions of Hits or Misses following either a Hit or Miss.</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-28" class="exercise"><strong>Exercise 5.1  </strong></span>Let’s call the proportion of hits when the previous shot was a hit <span class="math inline">\(\hat{p}_{\text{Prev. H}}\)</span> and the proportion of hits when the previous shot was a miss <span class="math inline">\(\hat{p}_{\text{Prev. M}}\)</span>.</p>
+<ol style="list-style-type: lower-alpha">
+<li>Based on the proportions in the frequency table, what is <span class="math inline">\(\hat{p}_{\text{Prev. H}} - \hat{p}_{\text{Prev. M}}\)</span>?</li>
+<li>Given your answer in (a), are these data consistent with Kobe having a “hot hand?”</li>
+</ol>
 </div>
-<div id="outcomes-from-different-sequences-of-events" class="section level3" number="5.1.2">
-<h3>
-<span class="header-section-number">5.1.2</span> Outcomes from different sequences of events<a class="anchor" aria-label="anchor" href="#outcomes-from-different-sequences-of-events"><i class="fas fa-link"></i></a>
-</h3>
-<p>The Mets and the Yankees are well known rival baseball teams from New York City. On a semi-regular basis, these two teams play so-called “subway series,” which are sequences of six games played against each other. Imagine that the probability that the Yankees win any single game against the Mets is 0.57. There have been 8 “subway series” played so far as part of the regular season.</p>
-<p>So in this scenario, the number of repeated event in a single sequence is 6, corresponding to the 6 games played in each subway series. The number of sequences is 8, corresponding to the 8 subway series that have been played. And the probability of a Yankees win in any single game is 0.57. We can use this to simulate the number of games won by the Yankees in each of the 8 subway series:</p>
-<div class="sourceCode" id="cb171"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">8</span>, prob <span class="op">=</span> <span class="fl">0.57</span>, size <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 3 3 2 4 3 5 2 3</code></pre>
-<p>Each number that R gave us is a number of games won by the Yankees in a sequence of 6 games against the Mets. So the first number is the number of Yankees wins in the first subway series, the second number is the number of Yankees wins in the second subway series, and so on.</p>
-<p>Of course, if we run the simulation again, we will probably get a different set of outcomes for each subway series:</p>
-<div class="sourceCode" id="cb173"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">8</span>, prob <span class="op">=</span> <span class="fl">0.57</span>, size <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 4 6 4 4 2 1 3 5</code></pre>
 </div>
-<div id="simulated-relative-frequencies-and-probabilities" class="section level3" number="5.1.3">
+<div id="model-the-null-hypothesis" class="section level3" number="5.2.4">
 <h3>
-<span class="header-section-number">5.1.3</span> Simulated relative frequencies and probabilities<a class="anchor" aria-label="anchor" href="#simulated-relative-frequencies-and-probabilities"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.2.4</span> Model the null hypothesis<a class="anchor" aria-label="anchor" href="#model-the-null-hypothesis"><i class="fas fa-link"></i></a>
 </h3>
-<p>Now let’s imagine playing a large number of subway series over the next several decades or centuries, say, 1000 of them. Like last time with 1000 coin flips, this is too many to be able to see all at once. And because this is a simulation, we can’t just run the same line of code again and expect it to give us the same result. So let’s get R to remember the outcomes of 1000 subway series.</p>
-<div class="sourceCode" id="cb175"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span>, prob <span class="op">=</span> <span class="fl">0.57</span>, size <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></code></pre></div>
-<p>Now let’s do the same trick we did last time so we can get R to treat our simulated results as data. We turn our simulation into a “tibble”:</p>
-<div class="sourceCode" id="cb176"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">subway_series</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span><span class="va">result</span><span class="op">)</span></code></pre></div>
-<p>Finally, let’s modify our code for making a frequency/probability table above to take a look at the distribution of outcomes for the 1000 subway series we simulated<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Describe what the 3 columns in the table (“result,” “n,” and “p”) each represent.&lt;/p&gt;"><sup>49</sup></a>:</p>
-<div class="sourceCode" id="cb177"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">subway_series</span> <span class="op">%&gt;%</span>
-    <span class="fu">group_by</span><span class="op">(</span><span class="va">result</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<p>If the null hypothesis were true, whether Kobe made a shot or not should not depend on whether his previous shot was a Hit or Miss. That means that, if the null hypothesis were true, we should be able to shuffle Kobe’s previous shots and still obtain a pattern of results that looks similar to what we just saw. Of course, if the null hypothesis were false, shuffling Kobe’s previous shots should produce a pattern of results that would look different from what we actually saw.</p>
+<div id="a-single-shuffle" class="section level4" number="5.2.4.1">
+<h4>
+<span class="header-section-number">5.2.4.1</span> A single shuffle<a class="anchor" aria-label="anchor" href="#a-single-shuffle"><i class="fas fa-link"></i></a>
+</h4>
+<p>To get a sense of what “shuffling” means here, let’s first take a look at Kobe’s shots from just the second quarter of the first game. To do this, we will use a new trick, the <code>filter</code> function:</p>
+<div class="sourceCode" id="cb133"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">game</span> <span class="op">==</span> <span class="fl">1</span>, <span class="va">quarter</span> <span class="op">==</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-muted"><code>## # A tibble: 8 × 7
+##   vs     game quarter time  description                          shot  prev_shot
+##   &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;                                &lt;chr&gt; &lt;chr&gt;    
+## 1 ORL       1 2       5:58  Kobe Bryant makes 20-foot jumper     H     H        
+## 2 ORL       1 2       5:22  Kobe Bryant makes 14-foot jumper     H     H        
+## 3 ORL       1 2       4:37  Kobe Bryant misses driving layup     M     H        
+## 4 ORL       1 2       3:30  Kobe Bryant makes 9-foot two point … H     M        
+## 5 ORL       1 2       2:55  Kobe Bryant makes 14-foot running j… H     H        
+## 6 ORL       1 2       1:55  Kobe Bryant misses 19-foot jumper    M     H        
+## 7 ORL       1 2       0:38  Kobe Bryant misses 27-foot three po… M     M        
+## 8 ORL       1 2       0:04  Kobe Bryant makes driving layup      H     M</code></pre>
+<p>The <code><a href="https://rdrr.io/r/base/Comparison.html">==</a></code> asks the question, are these two things equal? So <code>game == 1</code> pulls out all the shots where <code>game</code> equals 1, i.e., the shots from the first game. Similarly, <code>quarter == 2</code> pulls out all the shots where <code>quarter</code> equals 2, so the second quarter from <em>each</em> game. Put them together, and you get a <code>filter</code> that pulls out the shots for which <em>both</em> the game is the first <em>and</em> the quarter is the second. Neat trick!</p>
+<p>If we include that line, we can get a frequency table for just this handful of shots, like we did above:</p>
+<div class="sourceCode" id="cb135"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">game</span> <span class="op">==</span> <span class="fl">1</span>, <span class="va">quarter</span> <span class="op">==</span> <span class="fl">2</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">group_by</span><span class="op">(</span><span class="va">prev_shot</span>, <span class="va">shot</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">summarize</span><span class="op">(</span>n<span class="op">=</span><span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">mutate</span><span class="op">(</span>p <span class="op">=</span> <span class="va">n</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 7 × 3
-##   result     n     p
-##    &lt;int&gt; &lt;int&gt; &lt;dbl&gt;
-## 1      0     7 0.007
-## 2      1    42 0.042
-## 3      2   176 0.176
-## 4      3   288 0.288
-## 5      4   290 0.29 
-## 6      5   164 0.164
-## 7      6    33 0.033</code></pre>
-<p>Sometimes the outcome is a tie (3 games out of 6), sometimes the Yankees win the majority of games, and sometimes the Mets win the majority (when the Yankees win fewer than 3 games). The important thing to note is that <em>these are probabilities of a number of wins out of a sequence of games, not the probability of winning any single game</em>. In other words, the <strong>sample space</strong> is not just win/lose, it is the <em>number</em> of wins out of 6 games<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;What parameter would you change in order to get the binomial distribution to describe probabilities of winning or losing a single game?&lt;/p&gt;"><sup>50</sup></a>.</p>
+<pre class="Rout text-info"><code>## `summarise()` has grouped output by 'prev_shot'. You can override using the `.groups` argument.</code></pre>
+<pre class="Rout text-muted"><code>## # A tibble: 4 × 4
+## # Groups:   prev_shot [2]
+##   prev_shot shot      n     p
+##   &lt;chr&gt;     &lt;chr&gt; &lt;int&gt; &lt;dbl&gt;
+## 1 H         H         3 0.6  
+## 2 H         M         2 0.4  
+## 3 M         H         2 0.667
+## 4 M         M         1 0.333</code></pre>
+<p>To model how these shots <em>might</em> have gone if the null hypothesis were true, we need to <code>specify</code> the relevant variables as well as the <code>hypothesis</code>. Let’s see that all at once, then unpack it:</p>
+<div class="sourceCode" id="cb138"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">simulated_data</span> <span class="op">&lt;-</span> <span class="va">kobe</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">game</span> <span class="op">==</span> <span class="fl">1</span>, <span class="va">quarter</span> <span class="op">==</span> <span class="fl">2</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span><span class="va">shot</span> <span class="op">~</span> <span class="va">prev_shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/hypothesize.html">hypothesize</a></span><span class="op">(</span>null <span class="op">=</span> <span class="st">"independence"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/generate.html">generate</a></span><span class="op">(</span>reps <span class="op">=</span> <span class="fl">1</span>, type <span class="op">=</span> <span class="st">"permute"</span><span class="op">)</span></code></pre></div>
+<p>In the first line, we added <code>simulated_data &lt;-</code> so that R would remember the result under the name <code>simulated_data</code>.</p>
+<p>In the third line, we <code>specify</code> which variable is the <strong>explanatory variable</strong> (<code>prev_shot</code>) and which variable is the <strong>response variable</strong> (<code>shot</code>). Because the response variable is a categorical variable, we also need to tell R that a “success” is a Hit (or “H”).</p>
+<p>The fourth line is how we tell R what our null hypothesis is, namely, that the explanatory and response variables are <strong>independent</strong> (not associated).</p>
+<p>Finally, the fifth line <code>generate</code>s a simulated dataset by randomly permuting—that is, <em>shuffling</em>—the columns of the original data containing the explanatory and response variables.</p>
+<p>Run the following line so you can see what your simulated shots from Kobe look like:</p>
+<div class="sourceCode" id="cb139"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">simulated_data</span></code></pre></div>
+<pre class="Rout text-muted"><code>## Response: shot (factor)
+## Explanatory: prev_shot (factor)
+## Null Hypothesis: independence
+## # A tibble: 8 × 3
+## # Groups:   replicate [1]
+##   shot  prev_shot replicate
+##   &lt;fct&gt; &lt;fct&gt;         &lt;int&gt;
+## 1 H     H                 1
+## 2 H     H                 1
+## 3 H     H                 1
+## 4 M     M                 1
+## 5 M     H                 1
+## 6 M     H                 1
+## 7 H     M                 1
+## 8 H     M                 1</code></pre>
+<p>Note that your simulation will probably not look the same as those shown here because they were shuffled <em>randomly</em>.</p>
+<p>Finally, we have a way to quickly calculate the difference in proportions that we are interested in (<span class="math inline">\(\hat{p}_{\text{Prev. H}} - \hat{p}_{\text{Prev. M}}\)</span>). We can do that with both the actual data and simulated data. Here it is with the actual data:</p>
+<div class="sourceCode" id="cb141"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">game</span> <span class="op">==</span> <span class="fl">1</span>, <span class="va">quarter</span> <span class="op">==</span> <span class="fl">2</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span><span class="va">shot</span> <span class="op">~</span> <span class="va">prev_shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/calculate.html">calculate</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"diff in props"</span>, order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"H"</span>, <span class="st">"M"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-muted"><code>## Response: shot (factor)
+## Explanatory: prev_shot (factor)
+## # A tibble: 1 × 1
+##      stat
+##     &lt;dbl&gt;
+## 1 -0.0667</code></pre>
+<p>The <code>calculate</code> line is where the magic happens. We tell R that the <code>stat</code>istic we are interested in is the “diff in props” (difference in proportions), and then tell R the <code>order</code> in which it should calculate it (“H” minus “M”).</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-29" class="exercise"><strong>Exercise 5.2  </strong></span>Fill in the blank below to calculate the same thing on our <em>simulated</em> data:</p>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="lab5.html#cb143-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
+<span id="cb143-2"><a href="lab5.html#cb143-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(shot <span class="sc">~</span> prev_shot, <span class="at">success =</span> <span class="st">"H"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb143-3"><a href="lab5.html#cb143-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"diff in props"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"H"</span>, <span class="st">"M"</span>))</span></code></pre></div>
+<p>What was the result you got? Was it larger, smaller, or the same as when we calculated it using the actual data from the second quarter of the first game?</p>
 </div>
-<div id="calculating-binomial-probabilities-directly" class="section level3" number="5.1.4">
+</div>
+<div id="kobenull" class="section level4" number="5.2.4.2">
+<h4>
+<span class="header-section-number">5.2.4.2</span> Many shuffles<a class="anchor" aria-label="anchor" href="#kobenull"><i class="fas fa-link"></i></a>
+</h4>
+<p>If that’s what a single shuffle of just part of our data look like, it’s a good thing we have a computer to do that a bunch of times!</p>
+<p>Let’s get back to looking at the full dataset. The next chunk of code will generate 1000 different shuffled datasets to simulate the kinds of results that would occur if the null hypothesis were true, then for each simulated dataset calculated the difference in proportions <span class="math inline">\(\hat{p}_{\text{Prev. H}} - \hat{p}_{\text{Prev. M}}\)</span>. Finally, we will tell R to remember it using the name <code>null_dist</code> for “null distribution.”</p>
+<p>Run the following chunk of code:</p>
+<div class="sourceCode" id="cb144"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">null_dist</span> <span class="op">&lt;-</span> <span class="va">kobe</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span><span class="va">shot</span> <span class="op">~</span> <span class="va">prev_shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/hypothesize.html">hypothesize</a></span><span class="op">(</span>null <span class="op">=</span> <span class="st">"independence"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/generate.html">generate</a></span><span class="op">(</span>reps <span class="op">=</span> <span class="fl">1000</span>, type <span class="op">=</span> <span class="st">"permute"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/calculate.html">calculate</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"diff in props"</span>, order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"H"</span>, <span class="st">"M"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>Now we can check out the result:</p>
+<div class="sourceCode" id="cb145"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">null_dist</span></code></pre></div>
+<pre class="Rout text-muted"><code>## Response: shot (factor)
+## Explanatory: prev_shot (factor)
+## Null Hypothesis: independence
+## # A tibble: 1,000 × 2
+##    replicate    stat
+##        &lt;int&gt;   &lt;dbl&gt;
+##  1         1 -0.159 
+##  2         2 -0.0862
+##  3         3 -0.0134
+##  4         4 -0.159 
+##  5         5  0.0230
+##  6         6  0.0230
+##  7         7 -0.0134
+##  8         8 -0.0862
+##  9         9  0.0230
+## 10        10 -0.0862
+## # … with 990 more rows</code></pre>
+<p>The “replicate” column is just a number that labels each simulated dataset and the “stat” column is the difference <span class="math inline">\(\hat{p}_{\text{Prev. H}} - \hat{p}_{\text{Prev. M}}\)</span> <em>for that simulated dataset</em>.</p>
+<p>We can get a better summary by visualizing this distribution of results using a histogram:</p>
+<div class="sourceCode" id="cb147"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">null_dist</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="05-randomization_files/figure-html/unnamed-chunk-15-1.png" width="672"></div>
+</div>
+</div>
+<div id="find-the-p-value" class="section level3" number="5.2.5">
 <h3>
-<span class="header-section-number">5.1.4</span> Calculating binomial probabilities directly<a class="anchor" aria-label="anchor" href="#calculating-binomial-probabilities-directly"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.2.5</span> Find the <span class="math inline">\(p\)</span> value<a class="anchor" aria-label="anchor" href="#find-the-p-value"><i class="fas fa-link"></i></a>
 </h3>
-<p>When we were simulating outcomes last time, we directly specified the probability of each outcome in the sample space. Now, what we specify are <strong>parameters</strong>, namely, the probability of an outcome in a single event and the number of repetitions of the event. So if we want to know the probability of a specific outcome, like 3 wins out of 6, we need to use the binomial distribution to figure it out.</p>
-<p>R lets us do this for single outcomes with the <code>dbinom</code> function. For example, let’s find the probability of a tie<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Compare the code for the &lt;code&gt;dbinom&lt;/code&gt; and &lt;code&gt;rbinom&lt;/code&gt; functions. What is similar and what is different?&lt;/p&gt;"><sup>51</sup></a></p>
-<div class="sourceCode" id="cb179"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">dbinom</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">3</span>, prob <span class="op">=</span> <span class="fl">0.57</span>, size <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 0.2944828</code></pre>
-<p>As we would expect, this is close to the relative frequency of a tie when we simulated 1000 subway series. The meaning of probability is the same—it is the <em>long-run relative frequency</em>—it’s just that we are asking about the probability of a different type of outcome.</p>
-<p>We can also ask what is the probability that the Yankees win all six games<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;What code would give us this probability?&lt;/p&gt;"><sup>52</sup></a></p>
-<pre><code>## [1] 0.03429645</code></pre>
+<p>Remember that the <span class="math inline">\(p\)</span> value is the proportion of simulated datasets which are <em>at least as extreme</em> as our actual data. In this case, that means the proportion of simulated datasets with a difference in proportions that is <em>bigger</em> than what we observed. Let’s tell R to remember that difference by running the chunk of code below:</p>
+<div class="sourceCode" id="cb148"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">obs_diff</span> <span class="op">&lt;-</span> <span class="va">kobe</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span><span class="va">shot</span> <span class="op">~</span> <span class="va">prev_shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/calculate.html">calculate</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"diff in props"</span>, order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"H"</span>, <span class="st">"M"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>Now, let’s see how many simulated datasets were bigger than this. In the following line of code, we have to tell R that the observed “statistic” (<code>obs_stat</code>) is the difference we just told it to remember (<code>obs_diff</code>) as well as the fact that we are interested in how many simulations produced results that were “greater” than what was observed:</p>
+<div class="sourceCode" id="cb149"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">null_dist</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/get_p_value.html">get_p_value</a></span><span class="op">(</span>obs_stat <span class="op">=</span> <span class="va">obs_diff</span>, direction <span class="op">=</span> <span class="st">"greater"</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-muted"><code>## # A tibble: 1 × 1
+##   p_value
+##     &lt;dbl&gt;
+## 1   0.756</code></pre>
+<p>Finally, it will help to visualize where the observed difference falls relative to the distribution of differences from our simulated data (note that this uses <code>shade_p_value</code> rather than <code>get_p_value</code>):</p>
+<div class="sourceCode" id="cb151"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">null_dist</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/shade_p_value.html">shade_p_value</a></span><span class="op">(</span>obs_stat <span class="op">=</span> <span class="va">obs_diff</span>, direction <span class="op">=</span> <span class="st">"greater"</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="05-randomization_files/figure-html/unnamed-chunk-18-1.png" width="672"></div>
+<p>The red line is the value that was actually observed and the parts of the histogram that are shaded pink represent the simulated datasets that were “more extreme” than what was observed.</p>
 </div>
-<div id="cumulative-probabilities-with-the-binomial" class="section level3" number="5.1.5">
+<div id="form-a-conclusion" class="section level3" number="5.2.6">
 <h3>
-<span class="header-section-number">5.1.5</span> Cumulative probabilities with the binomial<a class="anchor" aria-label="anchor" href="#cumulative-probabilities-with-the-binomial"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.2.6</span> Form a conclusion<a class="anchor" aria-label="anchor" href="#form-a-conclusion"><i class="fas fa-link"></i></a>
 </h3>
-<p>Another part of R’s built-in binomial distribution is the ability to calculate <strong>cumulative probabilities</strong>. For example, we might be interested in the probability that the Mets win a majority of the games in a subway series. This corresponds to the Yankees winning either 0, 1, or 2 games.</p>
-<p>One way to calculate this would be to add up each of those individual probabilities:</p>
-<div class="sourceCode" id="cb182"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">dbinom</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">0</span>, prob <span class="op">=</span> <span class="fl">0.57</span>, size <span class="op">=</span> <span class="fl">6</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">dbinom</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span>, prob <span class="op">=</span> <span class="fl">0.57</span>, size <span class="op">=</span> <span class="fl">6</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">dbinom</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">2</span>, prob <span class="op">=</span> <span class="fl">0.57</span>, size <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 0.2232135</code></pre>
-<p>But a more efficient way to do this is to use <strong>cumulative probabilities</strong>. As we’ve seen, a cumulative probability is just the sum of the probabilities for all outcomes up to and including a given value. We can get the same result that we got above using this more compact bit of code:</p>
-<div class="sourceCode" id="cb184"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">pbinom</a></span><span class="op">(</span>q <span class="op">=</span> <span class="fl">2</span>, prob <span class="op">=</span> <span class="fl">0.57</span>, size <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 0.2232135</code></pre>
-<p>This makes it easier to find the probabilities for <em>ranges</em> of different outcomes. For example, we could get the probability that the Yankees either lose the series <em>or</em> tie it up (so 0, 1, 2, or 3 wins out of 6)<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;How would we change the &lt;code&gt;pbinom&lt;/code&gt; code to get this answer?&lt;/p&gt;"><sup>53</sup></a>:</p>
-<pre><code>## [1] 0.5176963</code></pre>
-<p>But what if the opposite happens? What if the Yankees neither lose <em>nor</em> tie? That means they must have won the majority of games in the series (i.e., 4, 5, or 6 games). We could figure out the probability that the Yankees win the majority of games by adding up those individual probabilities like so:</p>
-<div class="sourceCode" id="cb187"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">dbinom</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">4</span>, prob <span class="op">=</span> <span class="fl">0.57</span>, size <span class="op">=</span> <span class="fl">6</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">dbinom</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">5</span>, prob <span class="op">=</span> <span class="fl">0.57</span>, size <span class="op">=</span> <span class="fl">6</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">dbinom</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">6</span>, prob <span class="op">=</span> <span class="fl">0.57</span>, size <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 0.4823037</code></pre>
-<p>But using <em>cumulative</em> probability, we can reverse that question: What is the probability that the Yankees <em>don’t</em> win 3 or fewer games? In other words, how much probability is “left over” after asking whether the Yankees win 3 or fewer games? Since the probability across all outcomes has to add up to one, we get</p>
-<div class="sourceCode" id="cb189"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fl">1</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">pbinom</a></span><span class="op">(</span>q <span class="op">=</span> <span class="fl">3</span>, prob <span class="op">=</span> <span class="fl">0.57</span>, size <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 0.4823037</code></pre>
-<p>Using the same logic, we can ask what is the probability that the Yankees win 5 or more games<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;What code would tell us the probability of the Yankees winning 5 or more games in a series?&lt;/p&gt;"><sup>54</sup></a>:</p>
-<pre><code>## [1] 0.189533</code></pre>
-</div>
-<div id="summary-of-rs-built-in-binomial-distribution" class="section level3" number="5.1.6">
-<h3>
-<span class="header-section-number">5.1.6</span> Summary of R’s built-in binomial distribution<a class="anchor" aria-label="anchor" href="#summary-of-rs-built-in-binomial-distribution"><i class="fas fa-link"></i></a>
-</h3>
-<p>R makes it easy to use the binomial distribution by giving us several useful functions. We can summarize these below:</p>
-<div class="inline-table"><table class="table table-sm">
-<colgroup>
-<col width="42%">
-<col width="57%">
-</colgroup>
-<thead><tr class="header">
-<th>Code</th>
-<th>Meaning</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td><code>rbinom(n = ?, prob = ?, size = ?)</code></td>
-<td>Simulate <code>n</code> sequences of <code>size</code> events, where the probability of an outcome of interest is <code>prob</code>. For each of the <code>n</code> sequences, return the number of times out of <code>size</code> that the outcome of interest occurred.</td>
-</tr>
-<tr class="even">
-<td><code>dbinom(x = ?, prob = ?, size = ?)</code></td>
-<td>What is the probability that an outcome of interest occurs exactly <code>x</code> times out of a sequence of <code>size</code> repeated events, if the probability that the outcome occurs in a <em>single</em> event is <code>prob</code>?</td>
-</tr>
-<tr class="odd">
-<td><code>pbinom(q = ?, prob = ?, size = ?)</code></td>
-<td>What is the probability that an outcome of interest occurs <code>q</code> <em>or fewer</em> times out of a sequence of <code>size</code> repeated events, if the probability that the outcome occurs in a <em>single</em> event is <code>prob</code>?</td>
-</tr>
-</tbody>
-</table></div>
+<p>Remember that we were testing the <strong>null hypothesis</strong> that Kobe did <em>not</em> have a hot hand. We only reject the null hypothesis if our data would be very unlikely if the null hypothesis were true, i.e., if the <span class="math inline">\(p\)</span> value is low. Assume we adopt a <strong>significance level</strong> of 0.05, so we would reject the null hypothesis if the <span class="math inline">\(p\)</span> value were less than this level.</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-30" class="exercise"><strong>Exercise 5.3  </strong></span>Do you reject the null hypothesis? Explain your reasoning. What does your conclusion say about whether or not Kobe had a “hot hand?”</p>
 </div>
 </div>
-<div id="the-normal-distribution-in-r" class="section level2" number="5.2">
+</div>
+<div id="do-people-on-the-autism-spectrum-make-more-consistent-choices" class="section level2" number="5.3">
 <h2>
-<span class="header-section-number">5.2</span> The normal distribution in R<a class="anchor" aria-label="anchor" href="#the-normal-distribution-in-r"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.3</span> Do people on the autism spectrum make more consistent choices?<a class="anchor" aria-label="anchor" href="#do-people-on-the-autism-spectrum-make-more-consistent-choices"><i class="fas fa-link"></i></a>
 </h2>
-<p>Just like the binomial distribution lets us model situations where we have a sequence of repeated events, each of which has two possible outcomes, the <strong>normal distribution</strong> lets us model situations where we have a continuous outcome that has a certain mean and standard deviation.</p>
-<div id="simulating-outcomes-from-a-normal-distribution" class="section level3" number="5.2.1">
+<p>The kind of hypothesis testing we just did for the fun case of Kobe’s hot hand is the same as what we use to answer more serious research questions.</p>
+<p>Autism is a condition that has many facets. Individuals with autism who do not have any cognitive impairments often have different cognitive “styles.” In particular, it is thought that people with autism are more “detail-oriented.” This can be a detriment when trying to find a general pattern, but it might be a benefit in situations where there are many irrelevant distractions.</p>
+<p>This potential benefit was studied by <span class="citation"><a href="references.html#ref-FarmerEtAl2017" role="doc-biblioref">Farmer et al.</a> (<a href="references.html#ref-FarmerEtAl2017" role="doc-biblioref">2017</a>)</span>. Their experiment included a group of participants diagnosed as being on the autism spectrum (with no cognitive impairments) as well as a group of neuro-typical controls. They looked at participants’ choices between pairs of consumer products that were presented alongside a third, less desirable “decoy” option. A “rational” choice should not be affected by the presence of this decoy, but in fact people are often swayed by those irrelevant options. Might people with autism make choices that are more consistent—more “rational”—because they ignore the irrelevant decoy?</p>
+<p>For the rest of the lab, you will conduct a hypothesis test to address this question. It will follow the same basic outline as the procedure we followed to address the “hot hand” question, so be sure to refer to the previous section for guidance.</p>
+<div id="load-the-data-7" class="section level3" number="5.3.1">
 <h3>
-<span class="header-section-number">5.2.1</span> Simulating outcomes from a normal distribution<a class="anchor" aria-label="anchor" href="#simulating-outcomes-from-a-normal-distribution"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.3.1</span> Load the data<a class="anchor" aria-label="anchor" href="#load-the-data-7"><i class="fas fa-link"></i></a>
 </h3>
-<p>Just like we can simulate values from a binomial distribution using <code>rbinom</code>, we can simulate values from a normal distribution using <code>rnorm</code>.</p>
-<p>Adult women in the US have an average height of about 64 inches, with a standard deviation of 6 inches. These are the two <strong>parameters</strong> that we need for our normal distribution. Using these parameters, let’s imagine that we pick a random adult American women. How tall is she?<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Compare the code for &lt;code&gt;rnorm&lt;/code&gt; to the code for &lt;code&gt;rbinom&lt;/code&gt;. What is similar and what is different?&lt;/p&gt;"><sup>55</sup></a></p>
-<div class="sourceCode" id="cb192"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1</span>, mean <span class="op">=</span> <span class="fl">64</span>, sd <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 66.93144</code></pre>
-<p>Now let’s pick 10 adult women at random and see how tall they are<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;What code would use the normal distribution to simulate the heights of 10 adult women?&lt;/p&gt;"><sup>56</sup></a></p>
-<pre><code>##  [1] 67.96766 61.54070 51.18494 69.00817 71.16475 66.77840 65.02384 67.07920
-##  [9] 55.20665 60.07779</code></pre>
-<p>Each of those numbers represents the height of a simulated adult American woman. We can also get the heights for simulated adult American men by remembering that their <em>mean</em> height is 69 inches with a <em>standard deviation</em> again of 6 inches<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;What parameter of the normal distribution do we need to change in order to simulate adult male heights, rather than adult female heights?&lt;/p&gt;"><sup>57</sup></a></p>
-<pre><code>##  [1] 68.18499 64.88364 67.25053 75.90296 71.39535 67.54149 63.06030 69.86670
-##  [9] 70.03507 80.95467</code></pre>
-<p>Eyeballing it, it does seem like those simulated men tend to be taller than our simulated women.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;When you simulated male and female heights, were there any women who were taller than at least one of the men? Why do you think this might be, even though men are on average taller than women?&lt;/p&gt;"><sup>58</sup></a></p>
-<p>Now let’s try simulating the heights of 10,000 women using our normal distribution model. To do this, let’s first try doing what we did above to simulate outcomes of subway series, just swapping out the very first line of code:</p>
-<div class="sourceCode" id="cb196"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10000</span>, mean <span class="op">=</span> <span class="fl">64</span>, sd <span class="op">=</span> <span class="fl">6</span><span class="op">)</span>
-
-<span class="va">height_data</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span><span class="va">result</span><span class="op">)</span>
-
-<span class="va">height_data</span> <span class="op">%&gt;%</span>
-    <span class="fu">group_by</span><span class="op">(</span><span class="va">result</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span>n<span class="op">=</span><span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">mutate</span><span class="op">(</span>p <span class="op">=</span> <span class="va">n</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 10,000 × 3
-##    result     n      p
-##     &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt;
-##  1   41.1     1 0.0001
-##  2   43.1     1 0.0001
-##  3   43.2     1 0.0001
-##  4   43.5     1 0.0001
-##  5   44.0     1 0.0001
-##  6   44.4     1 0.0001
-##  7   44.5     1 0.0001
-##  8   44.9     1 0.0001
-##  9   44.9     1 0.0001
-## 10   45.3     1 0.0001
-## # … with 9,990 more rows</code></pre>
-<p>Well that didn’t work very well at all! This illustrates the challenge of working with a <em>continuous</em> variable as opposed to a discrete one like number of games won. Every observed value is unique, so it occurs with a frequency of one. Luckily, we’ve already seen that <strong>histograms</strong> make it easy to visualize the relative frequencies of outcomes on continuous variables because they group together the outcomes into <em>bins</em>.</p>
-<div class="sourceCode" id="cb198"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">height_data</span> <span class="op">%&gt;%</span>
-    <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">result</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu">geom_histogram</span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="05-binomial_normal_files/figure-html/unnamed-chunk-23-1.png" width="672"></div>
-<p>Now we are beginning to see that classic bell curve shape: There are more values around the mean (64 inches) than farther from the mean, but it is still possible to get a few folks who are particularly tall (like Allison Janney) or short (like Kristen Chenoweth).</p>
+<p>First, let’s load the relevant data collected by <span class="citation"><a href="references.html#ref-FarmerEtAl2017" role="doc-biblioref">Farmer et al.</a> (<a href="references.html#ref-FarmerEtAl2017" role="doc-biblioref">2017</a>)</span> with the following line of code:</p>
+<div class="sourceCode" id="cb152"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">asc_choice</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/asc_choice_job.csv"</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-info"><code>## Rows: 302 Columns: 9</code></pre>
+<pre class="Rout text-info"><code>## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: ","
+## chr (6): Pcp, Group, Product, Gender, Residence, Choice
+## dbl (3): ICAR, AQScore, Age</code></pre>
+<pre class="Rout text-info"><code>## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<p>The <strong>response variable</strong> is <code>Choice</code>, which is either “Consistent” (if the participant’s choice was not affected by the decoy) or “Inconsistent” (if the participant’s choice was affected by the decoy).</p>
+<p>The <strong>explanatory variable</strong> is <code>Group</code>, which is either “ASC” (for “Autism Spectrum Condition”) or “NT” (for “Neuro-Typical” control).</p>
 </div>
-<div id="the-mean-and-standard-deviation" class="section level3" number="5.2.2">
+<div id="framing-the-hypotheses-1" class="section level3" number="5.3.2">
 <h3>
-<span class="header-section-number">5.2.2</span> The mean and standard deviation<a class="anchor" aria-label="anchor" href="#the-mean-and-standard-deviation"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.3.2</span> Framing the hypotheses<a class="anchor" aria-label="anchor" href="#framing-the-hypotheses-1"><i class="fas fa-link"></i></a>
 </h3>
-<p>The parameters of the normal distribution are its mean and standard deviation, which determine its center and spread, respectively. These parameters are <em>also</em> what you will tend to get if you <em>summarize</em> the central tendency and variability of samples from a normal distribution. This is one of the awesome things about the normal distribution—its parameters tell you exactly what you should expect your data to look like.</p>
-<p>Let’s see that by summarizing the mean and standard deviation of the heights of our 1000 simulated women:</p>
-<div class="sourceCode" id="cb199"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">height_data</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span>M <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span>, S <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 1 × 2
-##       M     S
-##   &lt;dbl&gt; &lt;dbl&gt;
-## 1  64.0  6.04</code></pre>
-<p>They may not be <em>exactly</em> 64 and 6, but they are pretty close. In fact, let’s simulate another group of 10,000 women and summarize their heights.</p>
-<div class="sourceCode" id="cb201"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10000</span>, mean <span class="op">=</span> <span class="fl">64</span>, sd <span class="op">=</span> <span class="fl">6</span><span class="op">)</span>
-
-<span class="va">height_data</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span><span class="va">result</span><span class="op">)</span>
-
-<span class="va">height_data</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span>M <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span>, S <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 1 × 2
-##       M     S
-##   &lt;dbl&gt; &lt;dbl&gt;
-## 1  64.0  5.95</code></pre>
-<p>Again, pretty close to the parameters we used!</p>
+<p>Our <strong>research question</strong> is, “is the proportion of consistent choices <em>higher</em> for participants from the ASC group than those from the NT group?”</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-31" class="exercise"><strong>Exercise 5.4  </strong></span>What are the <strong>null hypothesis</strong> and <strong>alternative hypothesis</strong> that correspond to this research question?</p>
 </div>
-<div id="calculating-probabilities-with-the-normal-distribution" class="section level3" number="5.2.3">
+</div>
+<div id="check-out-the-data-1" class="section level3" number="5.3.3">
 <h3>
-<span class="header-section-number">5.2.3</span> Calculating probabilities with the normal distribution<a class="anchor" aria-label="anchor" href="#calculating-probabilities-with-the-normal-distribution"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.3.3</span> Check out the data<a class="anchor" aria-label="anchor" href="#check-out-the-data-1"><i class="fas fa-link"></i></a>
 </h3>
-<p>Remember that we used the <code>dbinom</code> function in R to find the probability of a specific outcome in a sequence of repeated binary events. There is an analogous function in R for the normal distribution called <code>dnorm</code>, but we won’t really ever use it. The reason is the same as why our original attempt to make a frequency table didn’t really work: With a continuous variable, the probability of observing any single value is basically zero.</p>
-<p>Instead, we will follow the same line of reasoning that makes the histogram useful: For continuous variables, we aren’t interested in whether they take some specific value, but whether they fall into a particular “bin.” We don’t care if someone is exactly 71.05976… inches tall. We care whether they are, for example, between 71 and 72 inches tall. Or whether they are more than 64 inches tall. Or whether they are less than 80 inches tall.</p>
-<p>The probabilities of all of those kinds of things can be found by doing some clever tricks with <strong>cumulative probability</strong>. Remember that this is the probability of observing a value that is less than or equal to some given cutoff. This was how we figured out the probabilities of different numbers of wins. Now we can do the same for different ranges of height.</p>
-<p>Just like we had <code>pbinom</code> for cumulative probability, we also have <code>pnorm</code>. This code gives us the probability that a woman is less than or equal to 60 inches tall:</p>
-<div class="sourceCode" id="cb203"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span>q <span class="op">=</span> <span class="fl">60</span>, mean <span class="op">=</span> <span class="fl">64</span>, sd <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 0.2524925</code></pre>
-<p>This is awesome! But it doesn’t quite make clear where this probability is coming from. Let’s look back at our histogram of simulated heights, but now make it so that bars corresponding to heights less than 60 are <code>fill</code>ed with a different color:</p>
-<div class="sourceCode" id="cb205"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">height_data</span> <span class="op">%&gt;%</span>
-    <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">result</span>, fill <span class="op">=</span> <span class="op">(</span><span class="va">result</span> <span class="op">&lt;=</span> <span class="fl">60</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu">geom_histogram</span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="05-binomial_normal_files/figure-html/unnamed-chunk-27-1.png" width="672"></div>
-<p>What <code>pnorm</code> is doing is telling us is the <em>area</em> of the histogram that is colored teal (for being less than or equal to 60). But this immediately suggests that we can use <code>pnorm</code> to find the area colored red (for being more than 60). We know that probabilities have to add up to 1, so the area across all the bars of the histogram equals 1. So if we know the area for one color, we can figure out the area for the other because we know that, together, they have to add up to 1. That gives us all we need to figure out the probability that a woman is <em>more</em> than 60 inches tall<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;What code did you use to find the probability that a woman is more than 60 inches tall?&lt;/p&gt;"><sup>59</sup></a>:</p>
-<pre><code>## [1] 0.7475075</code></pre>
-<p>Cumulative probability also lets us figure out the probability that a woman is, say, between 60 and 70 inches tall. The insight is that the probability that a woman is less than or equal to 70 inches “contains” the probability that a woman is less than or equal to 60 inches. So to find the probability we need to subtract out that overlap.</p>
-<div class="sourceCode" id="cb207"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span>q <span class="op">=</span> <span class="fl">70</span>, mean <span class="op">=</span> <span class="fl">64</span>, sd <span class="op">=</span> <span class="fl">6</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span>q <span class="op">=</span> <span class="fl">60</span>, mean <span class="op">=</span> <span class="fl">64</span>, sd <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 0.5888522</code></pre>
-<p>Let’s make a colored histogram again to get a better sense of what is going on here</p>
-<div class="sourceCode" id="cb209"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">height_data</span> <span class="op">%&gt;%</span>
-    <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">result</span>, fill <span class="op">=</span> <span class="op">(</span><span class="va">result</span> <span class="op">&gt;</span> <span class="fl">60</span> <span class="op">&amp;</span> <span class="va">result</span> <span class="op">&lt;=</span> <span class="fl">70</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu">geom_histogram</span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="05-binomial_normal_files/figure-html/unnamed-chunk-30-1.png" width="672"></div>
-<p>Again, we are finding the area that is in the teal part of the histogram, corresponding to women between 60 and 70 inches tall.</p>
-<p>Using that same logic, we can figure out the probability that a woman is between 71 and 72 inches tall<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;What code did you use to find the probability that a woman is between 71 and 72 inches tall?&lt;/p&gt;"><sup>60</sup></a>:</p>
-<pre><code>## [1] 0.03046128</code></pre>
+<p>The next step is to construct a frequency table so we can know what the proportions of consistent choices were for each group and then find the difference.</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-32" class="exercise"><strong>Exercise 5.5  </strong></span>Fill in the blanks below to find the proportions of consistent choices for each group.</p>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="lab5.html#cb156-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
+<span id="cb156-2"><a href="lab5.html#cb156-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(___, ___) <span class="sc">%&gt;%</span></span>
+<span id="cb156-3"><a href="lab5.html#cb156-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb156-4"><a href="lab5.html#cb156-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">p =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div>
+<ol style="list-style-type: lower-alpha">
+<li>What was the proportion of consistent choices in the ASC group?</li>
+<li>What was the proportion of consistent choices in the NT group?</li>
+<li>What is the difference in the proportions?</li>
+</ol>
 </div>
-<div id="finding-quantiles-with-the-normal-distribution" class="section level3" number="5.2.4">
+</div>
+<div id="model-the-null-hypothesis-1" class="section level3" number="5.3.4">
 <h3>
-<span class="header-section-number">5.2.4</span> Finding “quantiles” with the normal distribution<a class="anchor" aria-label="anchor" href="#finding-quantiles-with-the-normal-distribution"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.3.4</span> Model the null hypothesis<a class="anchor" aria-label="anchor" href="#model-the-null-hypothesis-1"><i class="fas fa-link"></i></a>
 </h3>
-<p>There’s one final trick we will explore about the normal distribution. Above, we saw how we could find the probability of observing a value that was less than or equal to a given cutoff. The cutoff value is typically called a <strong>“quantile”</strong>, hence why <code>pbinom</code> and <code>pnorm</code> label it <code>q</code>. But we can also turn that question around: What is the quantile for which there is a specific probability of being less than that value? In other words, if we know the cumulative probability is <span class="math inline">\(p\)</span>, what must <span class="math inline">\(q\)</span> be?</p>
-<p>We can answer that kind of question in R using the <code>qnorm</code> function for normal distributions (there is also a <code>qbinom</code> function for binomial distributions, but we won’t typically use it). What is the height for which a woman has a 0.6 probability of being <em>shorter</em> than that height?</p>
-<div class="sourceCode" id="cb211"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span>p <span class="op">=</span> <span class="fl">0.6</span>, mean <span class="op">=</span> <span class="fl">64</span>, sd <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 65.52008</code></pre>
-<p>Again, let’s try making ourselves a colored histogram to understand what this answer means.</p>
-<div class="sourceCode" id="cb213"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">height_data</span> <span class="op">%&gt;%</span>
-    <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">result</span>, fill <span class="op">=</span> <span class="op">(</span><span class="va">result</span> <span class="op">&lt;=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span>p <span class="op">=</span> <span class="fl">0.6</span>, mean <span class="op">=</span> <span class="fl">64</span>, sd <span class="op">=</span> <span class="fl">6</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu">geom_histogram</span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="05-binomial_normal_files/figure-html/unnamed-chunk-33-1.png" width="672"></div>
-<p>Notice that for the <code>fill</code> aesthetic, we’ve just swapped out a number we picked ahead of time (like 60) for the <code>qnorm</code> line from above. It looks like a bit more than half of the histogram is colored teal. This corresponds to the 0.6 probability associated with the quantile we found.</p>
-<p>Things will look quite a bit different if we ask what is the height for which a woman has a probability 0.99 of being <em>shorter</em> than that height?<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;What code would answer this question?&lt;/p&gt;"><sup>61</sup></a></p>
-<pre><code>## [1] 77.95809</code></pre>
-<p>Now if we make a colored histogram like we just did, it should look almost all teal, since there is such a large probability that a woman is shorter than the quantile we just found.</p>
-<div class="inline-figure"><img src="05-binomial_normal_files/figure-html/unnamed-chunk-35-1.png" width="672"></div>
-<p>Recall that male heights have a mean of 69 inches. Do you think the quantile corresponding to a probability of 0.99 will be higher for men than women? Try it and see!<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;What code did you use to find the 0.99 quantile for male heights? &lt;em&gt;Hint: which parameter of the normal distribution is different for heights of men and women?&lt;/em&gt;&lt;/p&gt;"><sup>62</sup></a></p>
-<pre><code>## [1] 82.95809</code></pre>
+<p>If the null hypothesis were true, a participant’s choice shouldn’t depend on which group they are in. By shuffling participants randomly between groups, we can therefore simulate how the data would look if the null hypothesis were true.</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-33" class="exercise"><strong>Exercise 5.6  </strong></span>Fill in the blanks in the code below to simulate 1000 datasets assuming the null hypothesis were true and find the resulting differences in proportions.</p>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="lab5.html#cb157-1" aria-hidden="true" tabindex="-1"></a>null_dist <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
+<span id="cb157-2"><a href="lab5.html#cb157-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb157-3"><a href="lab5.html#cb157-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb157-4"><a href="lab5.html#cb157-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> ___, <span class="at">type =</span> <span class="st">"permute"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb157-5"><a href="lab5.html#cb157-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"___"</span>, <span class="st">"___"</span>))</span></code></pre></div>
+<p>For guidance, check out how we did it in the Kobe example above (especially <a href="lab5.html#kobenull">this section</a>). Be sure to note:</p>
+<ul>
+<li>What is the name of the relevant dataset?</li>
+<li>What are the names of the explanatory and response variables?</li>
+<li>A “Consistent” choice counts as a “success.”</li>
+<li>We want to do <em>1000</em> simulations.</li>
+<li>For the difference in proportions, we want to look at ASC minus NT.</li>
+</ul>
+<p>What was the final chunk of code you used?</p>
 </div>
-<div id="summary-of-rs-built-in-normal-distribution" class="section level3" number="5.2.5">
+</div>
+<div id="find-the-p-value-1" class="section level3" number="5.3.5">
 <h3>
-<span class="header-section-number">5.2.5</span> Summary of R’s built-in normal distribution<a class="anchor" aria-label="anchor" href="#summary-of-rs-built-in-normal-distribution"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.3.5</span> Find the <span class="math inline">\(p\)</span> value<a class="anchor" aria-label="anchor" href="#find-the-p-value-1"><i class="fas fa-link"></i></a>
 </h3>
-<div class="inline-table"><table class="table table-sm">
-<colgroup>
-<col width="42%">
-<col width="57%">
-</colgroup>
-<thead><tr class="header">
-<th>Code</th>
-<th>Meaning</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td><code>rnorm(n = ?, mean = ?, sd = ?)</code></td>
-<td>Simulate <code>n</code> samples from a normal distribution with a given <code>mean</code> and standard deviation (<code>sd</code>).</td>
-</tr>
-<tr class="even">
-<td><code>pnorm(q = ?, mean = ?, sd = ?)</code></td>
-<td>What is the probability of observing a value less than or equal to <code>q</code> if values come from a normal distribution with the given <code>mean</code> and standard deviation (<code>sd</code>)?</td>
-</tr>
-<tr class="odd">
-<td><code>qnorm(p = ?, mean = ?, sd = ?)</code></td>
-<td>What is the value (“quantile”) for which there is a probability <code>p</code> of observing a value that is less than or equal to that value, if the value comes from a normal distribution with the given <code>mean</code> and standard deviation (<code>sd</code>)?</td>
-</tr>
-</tbody>
-</table></div>
+<p>To find the <span class="math inline">\(p\)</span> value, we first need to get the observed difference in proportions and tell R to remember it with the label <code>obs_diff</code>.</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-34" class="exercise"><strong>Exercise 5.7  </strong></span>Fill in the blanks below to find the observed difference in proportions in the actual data and tell R to remember it under the label <code>obs_diff</code>. <em>Hint:</em> see what you wrote in the previous exercise!</p>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="lab5.html#cb158-1" aria-hidden="true" tabindex="-1"></a>obs_diff <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
+<span id="cb158-2"><a href="lab5.html#cb158-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb158-3"><a href="lab5.html#cb158-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"___"</span>, <span class="st">"___"</span>))</span></code></pre></div>
+<p>What code did you use?</p>
+</div>
+<p>Finally, we are in a position to find the <span class="math inline">\(p\)</span> value and to visualize where the observed difference in proportion falls relative to the differences that would be expected if the null hypothesis were true. If all goes well, your results should be close to the following, though because there is randomness involved, your results will not be strictly identical!</p>
+<div class="sourceCode" id="cb159"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">null_dist</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/get_p_value.html">get_p_value</a></span><span class="op">(</span>obs_stat <span class="op">=</span> <span class="va">obs_diff</span>, direction <span class="op">=</span> <span class="st">"greater"</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-muted"><code>## # A tibble: 1 × 1
+##   p_value
+##     &lt;dbl&gt;
+## 1   0.012</code></pre>
+<div class="sourceCode" id="cb161"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">null_dist</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/shade_p_value.html">shade_p_value</a></span><span class="op">(</span>obs_stat <span class="op">=</span> <span class="va">obs_diff</span>, direction <span class="op">=</span> <span class="st">"greater"</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="05-randomization_files/figure-html/unnamed-chunk-25-1.png" width="672"></div>
+</div>
+<div id="form-a-conclusion-1" class="section level3" number="5.3.6">
+<h3>
+<span class="header-section-number">5.3.6</span> Form a conclusion<a class="anchor" aria-label="anchor" href="#form-a-conclusion-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>Assume we adopt a <strong>significance level</strong> of 0.05, so we would reject the null hypothesis if the <span class="math inline">\(p\)</span> value were less than this level.</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-35" class="exercise"><strong>Exercise 5.8  </strong></span>Do you reject the null hypothesis? Explain your reasoning. What does your conclusion say about whether participants with a diagnosis of autism made more consistent choices than neuro-typical participants?</p>
 </div>
 </div>
-<div id="wrap-up-4" class="section level2" number="5.3">
+</div>
+<div id="wrap-up-4" class="section level2" number="5.4">
 <h2>
-<span class="header-section-number">5.3</span> Wrap-up<a class="anchor" aria-label="anchor" href="#wrap-up-4"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.4</span> Wrap-up<a class="anchor" aria-label="anchor" href="#wrap-up-4"><i class="fas fa-link"></i></a>
 </h2>
-<p>In this session we explored the functions built into R that allow us to use the binomial and normal distributions as “models” for various situations. We saw how we could describe a situation in terms of <strong>parameters</strong> and use R to simulate different outcomes, figure out probabilities of different types of outcomes, and for the normal distribution, how to find “quantiles” when we know the corresponding cumulative probability.</p>
+<p>In this session, we got practice using R to perform hypothesis tests using randomization. Specifically, we used a type of shuffling called permutation. Shuffling allows us to simulate various ways that a particular dataset could look like if the null hypothesis were true. We then found the <span class="math inline">\(p\)</span> value and visualized the null distribution in order to get a sense of whether our actual data would be unlikely if the null hypothesis were true.</p>
 
 </div>
 </div>
-
   <div class="chapter-nav">
-<div class="prev"><a href="lab4.html"><span class="header-section-number">4</span> Probability and simulation</a></div>
-<div class="next"><a href="lab6.html"><span class="header-section-number">6</span> Sampling and the Central Limit Theorem: The Wisdom of Large Samples</a></div>
+<div class="prev"><a href="lab4.html"><span class="header-section-number">4</span> Relationships Between Numerical Variables</a></div>
+<div class="next"><a href="references.html">References</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#lab5"><span class="header-section-number">5</span> Models: The Binomial and the Normal</a></li>
+<li><a class="nav-link" href="#lab5"><span class="header-section-number">5</span> Hypothesis testing with randomization</a></li>
 <li>
-<a class="nav-link" href="#the-binomial-distribution-in-r"><span class="header-section-number">5.1</span> The binomial distribution in R</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#translating-from-sample-to-rbinom"><span class="header-section-number">5.1.1</span> Translating from sample to rbinom</a></li>
-<li><a class="nav-link" href="#outcomes-from-different-sequences-of-events"><span class="header-section-number">5.1.2</span> Outcomes from different sequences of events</a></li>
-<li><a class="nav-link" href="#simulated-relative-frequencies-and-probabilities"><span class="header-section-number">5.1.3</span> Simulated relative frequencies and probabilities</a></li>
-<li><a class="nav-link" href="#calculating-binomial-probabilities-directly"><span class="header-section-number">5.1.4</span> Calculating binomial probabilities directly</a></li>
-<li><a class="nav-link" href="#cumulative-probabilities-with-the-binomial"><span class="header-section-number">5.1.5</span> Cumulative probabilities with the binomial</a></li>
-<li><a class="nav-link" href="#summary-of-rs-built-in-binomial-distribution"><span class="header-section-number">5.1.6</span> Summary of R’s built-in binomial distribution</a></li>
+<a class="nav-link" href="#required-packages-1"><span class="header-section-number">5.1</span> Required packages</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#first-try-this"><span class="header-section-number">5.1.1</span> First try this</a></li>
+<li><a class="nav-link" href="#if-necessary-install-the-infer-package"><span class="header-section-number">5.1.2</span> If necessary, install the infer package</a></li>
 </ul>
 </li>
 <li>
-<a class="nav-link" href="#the-normal-distribution-in-r"><span class="header-section-number">5.2</span> The normal distribution in R</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#simulating-outcomes-from-a-normal-distribution"><span class="header-section-number">5.2.1</span> Simulating outcomes from a normal distribution</a></li>
-<li><a class="nav-link" href="#the-mean-and-standard-deviation"><span class="header-section-number">5.2.2</span> The mean and standard deviation</a></li>
-<li><a class="nav-link" href="#calculating-probabilities-with-the-normal-distribution"><span class="header-section-number">5.2.3</span> Calculating probabilities with the normal distribution</a></li>
-<li><a class="nav-link" href="#finding-quantiles-with-the-normal-distribution"><span class="header-section-number">5.2.4</span> Finding “quantiles” with the normal distribution</a></li>
-<li><a class="nav-link" href="#summary-of-rs-built-in-normal-distribution"><span class="header-section-number">5.2.5</span> Summary of R’s built-in normal distribution</a></li>
+<a class="nav-link" href="#did-kobe-have-a-hot-hand"><span class="header-section-number">5.2</span> Did Kobe have a hot hand?</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#load-the-data-6"><span class="header-section-number">5.2.1</span> Load the data</a></li>
+<li><a class="nav-link" href="#framing-the-hypotheses"><span class="header-section-number">5.2.2</span> Framing the hypotheses</a></li>
+<li><a class="nav-link" href="#check-out-the-data"><span class="header-section-number">5.2.3</span> Check out the data</a></li>
+<li><a class="nav-link" href="#model-the-null-hypothesis"><span class="header-section-number">5.2.4</span> Model the null hypothesis</a></li>
+<li><a class="nav-link" href="#find-the-p-value"><span class="header-section-number">5.2.5</span> Find the \(p\) value</a></li>
+<li><a class="nav-link" href="#form-a-conclusion"><span class="header-section-number">5.2.6</span> Form a conclusion</a></li>
 </ul>
 </li>
-<li><a class="nav-link" href="#wrap-up-4"><span class="header-section-number">5.3</span> Wrap-up</a></li>
+<li>
+<a class="nav-link" href="#do-people-on-the-autism-spectrum-make-more-consistent-choices"><span class="header-section-number">5.3</span> Do people on the autism spectrum make more consistent choices?</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#load-the-data-7"><span class="header-section-number">5.3.1</span> Load the data</a></li>
+<li><a class="nav-link" href="#framing-the-hypotheses-1"><span class="header-section-number">5.3.2</span> Framing the hypotheses</a></li>
+<li><a class="nav-link" href="#check-out-the-data-1"><span class="header-section-number">5.3.3</span> Check out the data</a></li>
+<li><a class="nav-link" href="#model-the-null-hypothesis-1"><span class="header-section-number">5.3.4</span> Model the null hypothesis</a></li>
+<li><a class="nav-link" href="#find-the-p-value-1"><span class="header-section-number">5.3.5</span> Find the \(p\) value</a></li>
+<li><a class="nav-link" href="#form-a-conclusion-1"><span class="header-section-number">5.3.6</span> Form a conclusion</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#wrap-up-4"><span class="header-section-number">5.4</span> Wrap-up</a></li>
 </ul>
 
       <div class="book-extra">
         <ul class="list-unstyled">
-<li><a id="book-source" href="https://github.com/gregcox7/StatLabs/blob/master/05-binomial_normal.Rmd">View source <i class="fab fa-github"></i></a></li>
-          <li><a id="book-edit" href="https://github.com/gregcox7/StatLabs/edit/master/05-binomial_normal.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+<li><a id="book-source" href="https://github.com/gregcox7/StatLabs/blob/master/05-randomization.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/gregcox7/StatLabs/edit/master/05-randomization.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
         </ul>
 </div>
     </nav>
@@ -453,7 +480,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2021-08-18.</p>
+    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2021-09-30.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
