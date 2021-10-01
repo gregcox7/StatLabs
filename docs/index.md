@@ -1,7 +1,7 @@
 --- 
 title: "Labs"
 author: "Greg Cox"
-date: "2021-09-30"
+date: "2021-10-01"
 knit: bookdown::render_book
 site: bookdown::bookdown_site
 documentclass: book

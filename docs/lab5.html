@@ -190,7 +190,7 @@
     <span class="fu"><a href="https://infer.tidymodels.org/reference/hypothesize.html">hypothesize</a></span><span class="op">(</span>null <span class="op">=</span> <span class="st">"independence"</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/generate.html">generate</a></span><span class="op">(</span>reps <span class="op">=</span> <span class="fl">1</span>, type <span class="op">=</span> <span class="st">"permute"</span><span class="op">)</span></code></pre></div>
 <p>In the first line, we added <code>simulated_data &lt;-</code> so that R would remember the result under the name <code>simulated_data</code>.</p>
-<p>In the third line, we <code>specify</code> which variable is the <strong>explanatory variable</strong> (<code>prev_shot</code>) and which variable is the <strong>response variable</strong> (<code>shot</code>). Because the response variable is a categorical variable, we also need to tell R that a “success” is a Hit (or “H”).</p>
+<p>In the third line, we <code>specify</code> which variable is the <strong>explanatory variable</strong> (<code>prev_shot</code>) and which variable is the <strong>response variable</strong> (<code>shot</code>). We do this using the same squiggly thing we used for linear regression (<code>[response variable] ~ [explanatory variable]</code>). Because the response variable is a binary (i.e., two-level) categorical variable, we also need to tell R that a “success” is a Hit (abbreviated “H”).</p>
 <p>The fourth line is how we tell R what our null hypothesis is, namely, that the explanatory and response variables are <strong>independent</strong> (not associated).</p>
 <p>Finally, the fifth line <code>generate</code>s a simulated dataset by randomly permuting—that is, <em>shuffling</em>—the columns of the original data containing the explanatory and response variables.</p>
 <p>Run the following line so you can see what your simulated shots from Kobe look like:</p>
@@ -211,7 +211,7 @@
 ## 6 M     H                 1
 ## 7 H     M                 1
 ## 8 H     M                 1</code></pre>
-<p>Note that your simulation will probably not look the same as those shown here because they were shuffled <em>randomly</em>.</p>
+<p>Note that your simulation will probably not look the same as the one shown here because the columns were shuffled <em>randomly</em>.</p>
 <p>Finally, we have a way to quickly calculate the difference in proportions that we are interested in (<span class="math inline">\(\hat{p}_{\text{Prev. H}} - \hat{p}_{\text{Prev. M}}\)</span>). We can do that with both the actual data and simulated data. Here it is with the actual data:</p>
 <div class="sourceCode" id="cb141"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
@@ -480,7 +480,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2021-09-30.</p>
+    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2021-10-01.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

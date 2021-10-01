@@ -124,7 +124,7 @@ simulated_data <- kobe %>%
 
 In the first line, we added `simulated_data <- ` so that R would remember the result under the name `simulated_data`.
 
-In the third line, we `specify` which variable is the **explanatory variable** (`prev_shot`) and which variable is the **response variable** (`shot`).  Because the response variable is a categorical variable, we also need to tell R that a "success" is a Hit (or "H").
+In the third line, we `specify` which variable is the **explanatory variable** (`prev_shot`) and which variable is the **response variable** (`shot`).  We do this using the same squiggly thing we used for linear regression (`[response variable] ~ [explanatory variable]`).  Because the response variable is a binary (i.e., two-level) categorical variable, we also need to tell R that a "success" is a Hit (abbreviated "H").
 
 The fourth line is how we tell R what our null hypothesis is, namely, that the explanatory and response variables are **independent** (not associated).
 
@@ -136,7 +136,7 @@ Run the following line so you can see what your simulated shots from Kobe look l
 simulated_data
 ```
 
-Note that your simulation will probably not look the same as those shown here because they were shuffled *randomly*.
+Note that your simulation will probably not look the same as the one shown here because the columns were shuffled *randomly*.
 
 Finally, we have a way to quickly calculate the difference in proportions that we are interested in ($\hat{p}_{\text{Prev. H}} - \hat{p}_{\text{Prev. M}}$).  We can do that with both the actual data and simulated data.  Here it is with the actual data:
 
