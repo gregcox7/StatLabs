@@ -13,5 +13,6 @@ rmd_files: [
   "03-describing.Rmd",
   "04-numerical_relationships.Rmd",
   "05-randomization.Rmd",
+  "06-bootstrapping.Rmd",
   "99-references.Rmd"
   ]

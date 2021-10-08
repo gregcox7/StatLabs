@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Lab 6 Sampling and the Central Limit Theorem: The Wisdom of Large Samples | Labs</title>
+<title>Lab 6 Confidence intervals with bootstrapping | Labs</title>
 <meta name="author" content="Greg Cox">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.9/header-attrs.js"></script><script src="libs/jquery-3.5.1/jquery-3.5.1.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.5.3/bootstrap.min.css" rel="stylesheet">
@@ -33,20 +33,11 @@
         <ul class="book-toc list-unstyled">
 <li><a class="" href="index.html">Overview</a></li>
 <li><a class="" href="lab1.html"><span class="header-section-number">1</span> Exploring Data with R</a></li>
-<li><a class="" href="lab2.html"><span class="header-section-number">2</span> Central tendency and variability</a></li>
-<li><a class="" href="lab3.html"><span class="header-section-number">3</span> Scatterplots and correlation</a></li>
-<li><a class="" href="lab4.html"><span class="header-section-number">4</span> Probability and simulation</a></li>
-<li><a class="" href="lab5.html"><span class="header-section-number">5</span> Models: The Binomial and the Normal</a></li>
-<li><a class="active" href="lab6.html"><span class="header-section-number">6</span> Sampling and the Central Limit Theorem: The Wisdom of Large Samples</a></li>
-<li><a class="" href="lab7.html"><span class="header-section-number">7</span> Confidence intervals and hypothesis testing</a></li>
-<li><a class="" href="lab8.html"><span class="header-section-number">8</span> Statistical Power</a></li>
-<li><a class="" href="lab9.html"><span class="header-section-number">9</span> \(t\) tests</a></li>
-<li><a class="" href="lab10.html"><span class="header-section-number">10</span> Comparing Independent Samples</a></li>
-<li><a class="" href="lab11.html"><span class="header-section-number">11</span> Linear Regression</a></li>
-<li><a class="" href="lab12.html"><span class="header-section-number">12</span> Exploring Data with R, Part II</a></li>
-<li class="book-part">Appendix</li>
-<li><a class="" href="coderef.html"><span class="header-section-number">A</span> Distributions</a></li>
-<li><a class="" href="hyptests.html"><span class="header-section-number">B</span> Hypothesis Tests</a></li>
+<li><a class="" href="lab2.html"><span class="header-section-number">2</span> Sampling</a></li>
+<li><a class="" href="lab3.html"><span class="header-section-number">3</span> Describing data</a></li>
+<li><a class="" href="lab4.html"><span class="header-section-number">4</span> Relationships Between Numerical Variables</a></li>
+<li><a class="" href="lab5.html"><span class="header-section-number">5</span> Hypothesis testing with randomization</a></li>
+<li><a class="active" href="lab6.html"><span class="header-section-number">6</span> Confidence intervals with bootstrapping</a></li>
 <li><a class="" href="references.html">References</a></li>
 </ul>
 
@@ -57,430 +48,358 @@
 </div>
   </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="lab6" class="section level1" number="6">
 <h1>
-<span class="header-section-number">Lab 6</span> Sampling and the Central Limit Theorem: The Wisdom of Large Samples<a class="anchor" aria-label="anchor" href="#lab6"><i class="fas fa-link"></i></a>
+<span class="header-section-number">Lab 6</span> Confidence intervals with bootstrapping<a class="anchor" aria-label="anchor" href="#lab6"><i class="fas fa-link"></i></a>
 </h1>
-<div class="inline-figure"><img src="img/crowd.png" width="100%"></div>
-<p>We have just encountered a remarkable phenomenon which goes by the weighty but unclear name “central limit theorem.” This theorem says that if we draw a large enough sample from our population of interest, the <em>mean</em> of our sample will have a much better chance of being a good <em>estimate</em> of the mean of the population.</p>
-<p>Specifically, what happens is that there is a distribution of sample means which is approximately normal. The mean of this distribution is the population mean (which we’ve labeled <span class="math inline">\(\mu\)</span>) and the standard deviation of this distribution is called the “<strong>standard error of the mean</strong>” and is equal to <span class="math inline">\(\frac{\sigma}{\sqrt{n}}\)</span>, where <span class="math inline">\(\sigma\)</span> is the population standard deviation and <span class="math inline">\(n\)</span> is our sample size. So this distribution of sample means is centered on the “correct answer,” and gets narrower and narrower the larger our sample. This means that, the larger the sample, the better the chance that its mean is close to the population mean.</p>
-<p>But for this to happen, our sample has to be <em>representative</em> of the population. If the sample is <em>biased</em> in any way, then our estimate of the population mean will also be biased. One way a sample can be biased is if it is not a <em>simple random sample</em> from the population.</p>
-<p>In this session, we will see the “central limit theorem” in action to better understand what it means. We will also see how sampling bias hampers our ability to estimate population means. Finally, we will see that it is not just a statistical curiosity, but something that is surprisingly pervasive.</p>
-<div id="before-we-begin" class="section level2" number="6.1">
+<div class="inline-figure"><img src="img/trolley.jpg" width="100%"></div>
+<p>In this session, we will get practice using R to find confidence intervals via bootstrapping. As with our initial exposure to hypothesis testing in the previous session, this is meant as a “first contact” with the basics of the techniques. In the first part, we will revisit the Kobe data to get a view of how resampling works, since this is the heart of the bootstrapping technique. In the second part, we will use bootstrapping to create confidence intervals representing people’s tendencies when making moral decisions.</p>
+<div id="required-packages-2" class="section level2" number="6.1">
 <h2>
-<span class="header-section-number">6.1</span> Before we begin…<a class="anchor" aria-label="anchor" href="#before-we-begin"><i class="fas fa-link"></i></a>
+<span class="header-section-number">6.1</span> Required packages<a class="anchor" aria-label="anchor" href="#required-packages-2"><i class="fas fa-link"></i></a>
 </h2>
-<p>For this session, we will need the tidyverse package like usual. We will <em>also</em> need another package from R’s library called “infer.” Make sure you have it installed (if you already have it installed, you can skip the next line, but try running this line if something doesn’t work):</p>
-<div class="sourceCode" id="cb216"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"infer"</span><span class="op">)</span></code></pre></div>
-<p>Now, make sure you have loaded <em>both</em> the tidyverse package <em>and</em> the new “infer” package from R’s library:</p>
-<div class="sourceCode" id="cb217"><pre class="downlit sourceCode r">
+<p>Like last time, we will require both the <code>tidyverse</code> and <code>infer</code> packages for this session, so make sure to load both from R’s library with the line below.</p>
+<div class="sourceCode" id="cb162"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></code></pre></div>
-<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
-<pre><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+<pre class="Rout text-info"><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+<pre class="Rout text-info"><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
 ## ✓ tibble  3.1.3     ✓ dplyr   1.0.5
 ## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
 ## ✓ readr   2.0.0     ✓ forcats 0.5.1</code></pre>
-<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+<pre class="Rout text-info"><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
-<div class="sourceCode" id="cb221"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb166"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/infer">infer</a></span><span class="op">)</span></code></pre></div>
-<p>One last thing before we begin: Make your best guess about the answer to this question: <strong>What percent of the world’s airports are in the United States?</strong></p>
 </div>
-<div id="heights" class="section level2" number="6.2">
+<div id="what-is-kobes-field-goal-percentage" class="section level2" number="6.2">
 <h2>
-<span class="header-section-number">6.2</span> Heights<a class="anchor" aria-label="anchor" href="#heights"><i class="fas fa-link"></i></a>
+<span class="header-section-number">6.2</span> What is Kobe’s field goal percentage?<a class="anchor" aria-label="anchor" href="#what-is-kobes-field-goal-percentage"><i class="fas fa-link"></i></a>
 </h2>
-<p>Last time, we saw how when we used a <em>model</em> to simulate lots of individual observed values, the descriptive statistics for our simulated data were very close to the model <em>parameters</em> we used. We focused on the distribution of these individual values. Now, we will focus on the <strong>distribution of sample means</strong>. This is the distribution that represents our uncertainty about the true value of the population mean.</p>
-<div id="a-simulated-population" class="section level3" number="6.2.1">
+<p>Last time, we asked whether Kobe Bryant had a “hot hand” during the 2009 NBA finals. We used randomization to test the null hypothesis that Kobe’s chance of making a hit was the same regardless of whether his previous shot was a hit or not.</p>
+<p>This time we are just interested in what proportion of Kobe’s shots actually make it in the basket. The traditional basketball term for this is Kobe’s “field goal percentage.” This constitutes a <strong>population parameter</strong> that we could label mathematically as <span class="math inline">\(\pi_{\text{Kobe}}\)</span>. The “population” here is all the shots Kobe ever attempted across his career. The sample are the shots Kobe attempted during the 2009 NBA finals. The sample yields a <strong>point estimate</strong> <span class="math inline">\(\hat{p}_{\text{Kobe}}\)</span> of the population parameter <span class="math inline">\(\pi_{\text{Kobe}}\)</span>.</p>
+<div id="load-the-data-8" class="section level3" number="6.2.1">
 <h3>
-<span class="header-section-number">6.2.1</span> A simulated population<a class="anchor" aria-label="anchor" href="#a-simulated-population"><i class="fas fa-link"></i></a>
+<span class="header-section-number">6.2.1</span> Load the data<a class="anchor" aria-label="anchor" href="#load-the-data-8"><i class="fas fa-link"></i></a>
 </h3>
-<p>Lets use the normal distribution to simulate the heights of an entire population of women, let’s say 50,000. Remember that the mean height is 64 inches and the standard deviation is 6 inches:</p>
-<div class="sourceCode" id="cb222"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">height</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">50000</span>, mean <span class="op">=</span> <span class="fl">64</span>, sd <span class="op">=</span> <span class="fl">6</span><span class="op">)</span>
-
-<span class="va">population</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span><span class="va">height</span><span class="op">)</span></code></pre></div>
-<p>In the first line, we used the <code>rnorm</code> function to simulate the heights of <code>n = 50000</code> women, where the average height is <code>mean = 64</code> inches and the standard deviation of heights is <code>sd = 6</code> inches. We told R to remember this collection of values under the name “height.” In the second line, we told R to treat “height” as if it were data (a “tibble”) and told R to remember our data under the name “population.”</p>
-</div>
-<div id="a-sample-from-our-simulated-population" class="section level3" number="6.2.2">
-<h3>
-<span class="header-section-number">6.2.2</span> A sample from our simulated population<a class="anchor" aria-label="anchor" href="#a-sample-from-our-simulated-population"><i class="fas fa-link"></i></a>
-</h3>
-<p>Now that we have a whole population at our disposal—which we can only do because we are <em>simulating them</em>!—we can experiment and see what the effect is of getting different samples from this population.</p>
-<p>The code below selects a simple random sample of 10 women from our population:</p>
-<div class="sourceCode" id="cb223"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">population</span> <span class="op">%&gt;%</span>
-    <span class="fu">slice_sample</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 10 × 1
-##    height
-##     &lt;dbl&gt;
-##  1   55.2
-##  2   56.8
-##  3   58.9
-##  4   65.6
-##  5   65.0
-##  6   52.0
-##  7   58.1
-##  8   52.6
-##  9   59.5
-## 10   65.3</code></pre>
-<p>This is pretty similar to how we simulated things like coin flips earlier.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Compare sampling from a population to simulating coin flips. When we select an individual from a population, what is the &lt;em&gt;sample space&lt;/em&gt;? If we are doing simple random sampling, what is the probability that any particular individual is selected into our sample?&lt;/p&gt;"><sup>63</sup></a> The <code>slice_sample</code> function is just another way we can simulate drawing a “sample” of size <code>n</code> from a set of possibilities.</p>
-<p>Let’s try it again and see what a different sample of 10 women from this population might be:</p>
-<div class="sourceCode" id="cb225"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">population</span> <span class="op">%&gt;%</span>
-    <span class="fu">slice_sample</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 10 × 1
-##    height
-##     &lt;dbl&gt;
-##  1   64.5
-##  2   67.8
-##  3   55.9
-##  4   60.7
-##  5   66.3
-##  6   69.0
-##  7   74.7
-##  8   57.0
-##  9   54.8
-## 10   64.3</code></pre>
-<p>Now let’s tell R to remember one of these samples under the name “sample_heights,” so we can work with it later.</p>
-<div class="sourceCode" id="cb227"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">sample_heights</span> <span class="op">&lt;-</span> <span class="va">population</span> <span class="op">%&gt;%</span>
-    <span class="fu">slice_sample</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></code></pre></div>
-<p>Now we can do our usual thing and find the mean and standard deviation of the heights <em>in this one sample</em>:</p>
-<div class="sourceCode" id="cb228"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">sample_heights</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span>M <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span>, S <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 1 × 2
-##       M     S
-##   &lt;dbl&gt; &lt;dbl&gt;
-## 1  64.9  5.73</code></pre>
-<p>As we might expect, they are somewhat close to the parameters we used to generate the population, but they are unlikely to match exactly.</p>
-</div>
-<div id="many-samples-from-our-simulated-population" class="section level3" number="6.2.3">
-<h3>
-<span class="header-section-number">6.2.3</span> Many samples from our simulated population<a class="anchor" aria-label="anchor" href="#many-samples-from-our-simulated-population"><i class="fas fa-link"></i></a>
-</h3>
-<p>If we kept getting samples of size 10 from our population, how often would their sample means be close to the true population mean? While we could just keep running that same code from above over and over again, R helps us automate this process:</p>
-<div class="sourceCode" id="cb230"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">many_samples_size10</span> <span class="op">&lt;-</span> <span class="va">population</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://infer.tidymodels.org/reference/rep_sample_n.html">rep_slice_sample</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span>, reps <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></code></pre></div>
-<p>What we just did was use the <code>rep_slice_sample</code> function to <code>rep</code>eatedly sample groups of 10 women from our population<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Compare this line of code with the line we used to get a single sample of size 10, above. What is similar and what is different?&lt;/p&gt;"><sup>64</sup></a>. Specifically, we got <code>reps = 1000</code> samples of size 10, and we told R to remember these samples under the name “many_samples_size10.” Let’s have a look at what the resulting simulated data look like:</p>
-<div class="sourceCode" id="cb231"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">many_samples_size10</span></code></pre></div>
-<pre><code>## # A tibble: 10,000 × 2
-## # Groups:   replicate [1,000]
-##    replicate height
-##        &lt;int&gt;  &lt;dbl&gt;
-##  1         1   65.3
-##  2         1   72.3
-##  3         1   69.6
-##  4         1   67.1
-##  5         1   69.0
-##  6         1   70.4
-##  7         1   67.6
-##  8         1   54.5
-##  9         1   56.2
-## 10         1   55.1
-## # … with 9,990 more rows</code></pre>
-<p>So there are two columns, one column is “height,” representing the height in inches of each simulated woman in our samples. The other column is “replicate” which tells us <em>which sample</em> (of the 1000 samples we made) the woman is in. This column will let us group the women into their respective samples.</p>
-<p>Now we can get the mean height for each sample:</p>
-<div class="sourceCode" id="cb233"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">many_samples_size10</span> <span class="op">%&gt;%</span>
-    <span class="fu">group_by</span><span class="op">(</span><span class="va">replicate</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span>M <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 1,000 × 2
-##    replicate     M
-##        &lt;int&gt; &lt;dbl&gt;
-##  1         1  64.7
-##  2         2  67.3
-##  3         3  62.5
-##  4         4  60.8
-##  5         5  63.0
-##  6         6  64.6
-##  7         7  62.2
-##  8         8  66.1
-##  9         9  64.1
-## 10        10  60.6
-## # … with 990 more rows</code></pre>
-<p>So we begin to see how the sample mean changes depending on who happened to have been selected into the sample. But this is still too many numbers, so let’s go to our old standby, the histogram.</p>
-<p>First, let’s tell R to remember those sample means we just found:</p>
-<div class="sourceCode" id="cb235"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">sample_means_size10</span> <span class="op">&lt;-</span> <span class="va">many_samples_size10</span> <span class="op">%&gt;%</span>
-    <span class="fu">group_by</span><span class="op">(</span><span class="va">replicate</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span>M <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>Now, we are in shape to make a histogram representing the <em>frequency</em> with which different samples have different means:</p>
-<div class="sourceCode" id="cb236"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">sample_means_size10</span> <span class="op">%&gt;%</span>
-    <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">M</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu">geom_histogram</span><span class="op">(</span>binwidth<span class="op">=</span><span class="fl">1</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="06-central_limit_files/figure-html/unnamed-chunk-13-1.png" width="672"></div>
-<p>Certainly looks like a normal distribution! Now let’s see what the mean and standard deviation of the sample means are:</p>
-<div class="sourceCode" id="cb237"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">sample_means_size10</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span>MM <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span>, SEM <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 1 × 2
-##      MM   SEM
-##   &lt;dbl&gt; &lt;dbl&gt;
-## 1  64.0  1.93</code></pre>
-<p>Remember that the standard deviation of sample means goes by the special name <strong>standard error of the mean</strong>, hence why we labeled it <code>SEM</code>.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Based on the “central limit theorem,” and the fact that the population standard deviation is &lt;span class="math inline"&gt;\(\sigma = 6\)&lt;/span&gt; and the samples are of size &lt;span class="math inline"&gt;\(n = 10\)&lt;/span&gt;, how does the value of &lt;code&gt;SEM&lt;/code&gt; above compare with what the central limit theorem would predict?&lt;/p&gt;'><sup>65</sup></a></p>
-</div>
-<div id="many-larger-samples" class="section level3" number="6.2.4">
-<h3>
-<span class="header-section-number">6.2.4</span> Many larger samples<a class="anchor" aria-label="anchor" href="#many-larger-samples"><i class="fas fa-link"></i></a>
-</h3>
-<p>Let’s follow the same steps above, but instead of collecting many samples of size 10, let’s get many larger samples of size 100.</p>
-<p>First, let’s simulate 1000 samples, all of size 100, and tell R to remember them under the name “many_samples_size100.”<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;What code would do this? &lt;em&gt;Hint: what would you need to change in the code we used to produce many samples of size 10?&lt;/em&gt;&lt;/p&gt;"><sup>66</sup></a></p>
-<p>Next, let’s find the means of each of those samples like we did above:</p>
-<div class="sourceCode" id="cb239"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">sample_means_size100</span> <span class="op">&lt;-</span> <span class="va">many_samples_size100</span> <span class="op">%&gt;%</span>
-    <span class="fu">group_by</span><span class="op">(</span><span class="va">replicate</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span>M <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>And have a look at a histogram:</p>
-<div class="sourceCode" id="cb240"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">sample_means_size100</span> <span class="op">%&gt;%</span>
-    <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">M</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu">geom_histogram</span><span class="op">(</span>binwidth<span class="op">=</span><span class="fl">1</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="06-central_limit_files/figure-html/unnamed-chunk-17-1.png" width="672"></div>
-<p>And the mean of sample means and standard error of the mean<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Compare &lt;code&gt;SEM&lt;/code&gt; we found for our samples of size 100 with what the central limit theorem says the standard error of the mean should be—is it close? Compare &lt;code&gt;SEM&lt;/code&gt; for samples of size 10 to &lt;code&gt;SEM&lt;/code&gt; for samples of size 100, which is smaller?&lt;/p&gt;"><sup>67</sup></a>:</p>
-<div class="sourceCode" id="cb241"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">sample_means_size100</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span>MM <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span>, SEM <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 1 × 2
-##      MM   SEM
-##   &lt;dbl&gt; &lt;dbl&gt;
-## 1  64.0 0.600</code></pre>
-</div>
-<div id="the-probability-of-being-wrong" class="section level3" number="6.2.5">
-<h3>
-<span class="header-section-number">6.2.5</span> The probability of being wrong<a class="anchor" aria-label="anchor" href="#the-probability-of-being-wrong"><i class="fas fa-link"></i></a>
-</h3>
-<p>Remember that, just like we never really get to see the whole population in any real-world settings, we also never really get to see the distribution of sample means in real life. In real life, we will probably only have one sample and, therefore, one sample mean.</p>
-<p>But because our sample mean comes from a distribution of sample means that is <em>normal</em>, we can use the normal distribution to figure out the <em>probability</em> that whatever sample mean we have is wrong, and by how much.</p>
-<div id="using-simulation" class="section level4" number="6.2.5.1">
-<h4>
-<span class="header-section-number">6.2.5.1</span> Using simulation<a class="anchor" aria-label="anchor" href="#using-simulation"><i class="fas fa-link"></i></a>
-</h4>
-<p>First, let’s use our many simulated samples to see how many are wrong by different amounts.</p>
-<p>How many of our samples of size 10 had sample means that under-shot or over-shot the true population mean of 64 inches?</p>
-<div class="sourceCode" id="cb243"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">sample_means_size10</span> <span class="op">%&gt;%</span>
-    <span class="fu">group_by</span><span class="op">(</span><span class="va">M</span> <span class="op">&gt;</span> <span class="fl">64</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span>n<span class="op">=</span><span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">mutate</span><span class="op">(</span>p <span class="op">=</span> <span class="va">n</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 2 × 3
-##   `M &gt; 64`     n     p
-##   &lt;lgl&gt;    &lt;int&gt; &lt;dbl&gt;
-## 1 FALSE      497 0.497
-## 2 TRUE       503 0.503</code></pre>
-<p>In the second line above, we grouped our samples by whether or not their sample means were greater than 64 (<code>M &gt; 64</code>). Looks like it is about even.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;By counting the number of samples that over-shot, we also end up knowing how many samples under-shot. Why is this?&lt;/p&gt;"><sup>68</sup></a> This suggests that the sample means are not <em>biased</em> either high or low.</p>
-<p>Now, how many of our samples of size 10 had sample means that were within 1 inch of the true population mean of 64 inches? In other words, how many had sample means that were between 63 and 65 inches?</p>
-<div class="sourceCode" id="cb245"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">sample_means_size10</span> <span class="op">%&gt;%</span>
-    <span class="fu">group_by</span><span class="op">(</span><span class="fl">63</span> <span class="op">&lt;</span> <span class="va">M</span> <span class="op">&amp;</span> <span class="va">M</span> <span class="op">&lt;</span> <span class="fl">65</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span>n<span class="op">=</span><span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">mutate</span><span class="op">(</span>p <span class="op">=</span> <span class="va">n</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 2 × 3
-##   `63 &lt; M &amp; M &lt; 65`     n     p
-##   &lt;lgl&gt;             &lt;int&gt; &lt;dbl&gt;
-## 1 FALSE               600   0.6
-## 2 TRUE                400   0.4</code></pre>
-<p>By comparison, how many of our samples of size 100 had sample means that were within 1 inch of the true population mean of 64 inches?<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;What code produces the results below? &lt;em&gt;Hint: what should we change in the code immediately above?&lt;/em&gt;&lt;/p&gt;"><sup>69</sup></a></p>
-<pre><code>## # A tibble: 2 × 3
-##   `63 &lt; M &amp; M &lt; 65`     n     p
-##   &lt;lgl&gt;             &lt;int&gt; &lt;dbl&gt;
-## 1 FALSE                97 0.097
-## 2 TRUE                903 0.903</code></pre>
-<p>Wow, that’s quite an improvement! The probability that our estimate of the population mean—the sample mean—is within 1 inch of the correct answer is much higher if our sample has 100 women than 10 women.</p>
-</div>
-<div id="using-the-central-limit-theorem" class="section level4" number="6.2.5.2">
-<h4>
-<span class="header-section-number">6.2.5.2</span> Using the central limit theorem<a class="anchor" aria-label="anchor" href="#using-the-central-limit-theorem"><i class="fas fa-link"></i></a>
-</h4>
-<p>Remember that we were only able to count those results above <em>because we have many many samples of the same size</em>. In real life, we almost never have this. That’s why the central limit theorem is useful—we can use what we know about the normal distribution to calculate the probability of being wrong and by how much.</p>
-<p>Let’s first think about our samples of size 10. The central limit theorem says that the means of these samples have a normal distribution with a mean of <span class="math inline">\(\mu = 64\)</span> inches and a standard deviation of <span class="math inline">\(\frac{\sigma}{\sqrt{n}} = \frac{6}{\sqrt{10}} \left( \approx 1.897 \right)\)</span> inches. In R, we can write that standard deviation like this: <code>6 / sqrt(10)</code>, where <code>sqrt</code> stands for “square root.”</p>
-<p>Now, using the normal distribution, what is the probability that the mean we get from a sample of size 10 is within 1 inch of the true population mean?<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;How does the probability we get from the normal distribution compare with the one we found by counting our samples, above?&lt;/p&gt;"><sup>70</sup></a></p>
-<div class="sourceCode" id="cb248"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span>q<span class="op">=</span><span class="fl">65</span>, mean <span class="op">=</span> <span class="fl">64</span>, sd <span class="op">=</span> <span class="fl">6</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span>q <span class="op">=</span> <span class="fl">63</span>, mean <span class="op">=</span> <span class="fl">64</span>, sd <span class="op">=</span> <span class="fl">6</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 0.4018385</code></pre>
-<p>And what is the probability that the mean we get from a sample of size 100 is within 1 inch of the true population mean?<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;What code produces this result? &lt;em&gt;Hint: what do we need to change in the code above?&lt;/em&gt;&lt;/p&gt;"><sup>71</sup></a></p>
-<pre><code>## [1] 0.9044193</code></pre>
-</div>
-</div>
-<div id="biased-samples" class="section level3" number="6.2.6">
-<h3>
-<span class="header-section-number">6.2.6</span> Biased samples<a class="anchor" aria-label="anchor" href="#biased-samples"><i class="fas fa-link"></i></a>
-</h3>
-<p>So far, we assumed that our samples were all simple random samples. What happens if this is no longer the case? What if instead our samples are <strong>biased</strong>?</p>
-<p>Imagine that instead of selecting women at random, we got a bunch of women in a large room and selected them based on how easy they were to see. Obviously this would lead us to select more tall than short women, because it is easier to see a tall person above a crowd (and a tall person could hide a shorter person behind them). We can simulate this kind of biased sampling by telling R to give more “weight” to a woman who is taller when selecting samples. This doesn’t mean that a short person will <em>never</em> get selected (maybe they are standing in front so no one is in the way), but it does make it less likely.</p>
-<p>Here’s an example of a single sample of size 10, where more “weight” is given to women who are taller:</p>
-<div class="sourceCode" id="cb251"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">population</span> <span class="op">%&gt;%</span>
-    <span class="fu">slice_sample</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span>, weight_by <span class="op">=</span> <span class="va">height</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 10 × 1
-##    height
-##     &lt;dbl&gt;
-##  1   65.6
-##  2   62.5
-##  3   65.7
-##  4   65.2
-##  5   62.4
-##  6   60.2
-##  7   46.7
-##  8   57.6
-##  9   74.8
-## 10   62.3</code></pre>
-<p>Now let’s repeat the same steps from above to get 1000 <em>biased</em> samples each of size 10 and size 100 (note that this may take longer than simulating unbiased samples):</p>
-<div class="sourceCode" id="cb253"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">many_biased_samples_size10</span> <span class="op">&lt;-</span> <span class="va">population</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://infer.tidymodels.org/reference/rep_sample_n.html">rep_slice_sample</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">10</span>, reps<span class="op">=</span><span class="fl">1000</span>, weight_by <span class="op">=</span> <span class="va">height</span><span class="op">)</span>
-
-<span class="va">many_biased_samples_size100</span> <span class="op">&lt;-</span> <span class="va">population</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://infer.tidymodels.org/reference/rep_sample_n.html">rep_slice_sample</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">100</span>, reps<span class="op">=</span><span class="fl">1000</span>, weight_by <span class="op">=</span> <span class="va">height</span><span class="op">)</span></code></pre></div>
-<p>Now let’s get the means of each of these biased samples:</p>
-<div class="sourceCode" id="cb254"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">biased_sample_means_size10</span> <span class="op">&lt;-</span> <span class="va">many_biased_samples_size10</span> <span class="op">%&gt;%</span>
-    <span class="fu">group_by</span><span class="op">(</span><span class="va">replicate</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span>M <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span><span class="op">)</span>
-
-<span class="va">biased_sample_means_size100</span> <span class="op">&lt;-</span> <span class="va">many_biased_samples_size100</span> <span class="op">%&gt;%</span>
-    <span class="fu">group_by</span><span class="op">(</span><span class="va">replicate</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span>M <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>Let’s look at some histograms to get a sense of their distribution shape. Here it is for biased samples of size 10:</p>
-<div class="sourceCode" id="cb255"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">biased_sample_means_size10</span> <span class="op">%&gt;%</span>
-    <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">M</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu">geom_histogram</span><span class="op">(</span>binwidth<span class="op">=</span><span class="fl">1</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="06-central_limit_files/figure-html/unnamed-chunk-27-1.png" width="672"></div>
-<p>And for biased samples of size 100<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Do the shapes of the distributions of biased means still look roughly normal, or do they look a bit skewed? Is there a difference between biased samples of size 10 vs. 100?&lt;/p&gt;"><sup>72</sup></a>:</p>
-<div class="sourceCode" id="cb256"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">biased_sample_means_size100</span> <span class="op">%&gt;%</span>
-    <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">M</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu">geom_histogram</span><span class="op">(</span>binwidth<span class="op">=</span><span class="fl">1</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="06-central_limit_files/figure-html/unnamed-chunk-28-1.png" width="672"></div>
-<p>And finally, let’s have a look at the mean of the sample means and their standard errors for biased samples of size 10:</p>
-<div class="sourceCode" id="cb257"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">biased_sample_means_size10</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span>MM <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span>, SEM <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 1 × 2
-##      MM   SEM
-##   &lt;dbl&gt; &lt;dbl&gt;
-## 1  64.6  1.84</code></pre>
-<p>And for biased samples of size 100<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;What is different between the mean of sample means (&lt;code&gt;MM&lt;/code&gt;) and the standard error of the mean (&lt;code&gt;SEM&lt;/code&gt;) for biased samples versus unbiased samples? Does this difference make sense given the way our samples are biased?&lt;/p&gt;"><sup>73</sup></a>:</p>
-<div class="sourceCode" id="cb259"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">biased_sample_means_size100</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span>MM <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span>, SEM <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 1 × 2
-##      MM   SEM
-##   &lt;dbl&gt; &lt;dbl&gt;
-## 1  64.6 0.606</code></pre>
-</div>
-</div>
-<div id="the-wisdom-of-the-crowd" class="section level2" number="6.3">
-<h2>
-<span class="header-section-number">6.3</span> The Wisdom of the Crowd<a class="anchor" aria-label="anchor" href="#the-wisdom-of-the-crowd"><i class="fas fa-link"></i></a>
-</h2>
-<p>We’ve seen how, at least when we have simple random samples, the larger a sample, the more likely it is that our sample mean is close to the actual population mean. But this isn’t just a statistical curiosity about estimating properties of populations, like their heights. It turns out that if you want to know anything about the world, you’re better off asking more people. This concept was originally identified by <span class="citation"><a href="references.html#ref-Galton1907" role="doc-biblioref">Galton</a> (<a href="references.html#ref-Galton1907" role="doc-biblioref">1907</a>)</span> and is now called the “wisdom of the crowd” <span class="citation">(<a href="references.html#ref-Surowiecki2004" role="doc-biblioref">Surowiecki, 2004</a>)</span>.</p>
-<p>The wisdom of crowds was studied recently by <span class="citation"><a href="references.html#ref-SteegenEtAl2014" role="doc-biblioref">Steegen et al.</a> (<a href="references.html#ref-SteegenEtAl2014" role="doc-biblioref">2014</a>)</span> who replicated a study by <span class="citation"><a href="references.html#ref-VulPashler2008" role="doc-biblioref">Vul &amp; Pashler</a> (<a href="references.html#ref-VulPashler2008" role="doc-biblioref">2008</a>)</span>. They asked people questions about world facts like the one you answered at the beginning of the session. These people weren’t experts and weren’t allowed to look up the answer. But as we will see, their <em>mean</em> answer is actually pretty close to the truth.</p>
-<div id="grab-the-data" class="section level3" number="6.3.1">
-<h3>
-<span class="header-section-number">6.3.1</span> Grab the data<a class="anchor" aria-label="anchor" href="#grab-the-data"><i class="fas fa-link"></i></a>
-</h3>
-<p>First, let’s download the guesses that the participants in <span class="citation"><a href="references.html#ref-SteegenEtAl2014" role="doc-biblioref">Steegen et al.</a> (<a href="references.html#ref-SteegenEtAl2014" role="doc-biblioref">2014</a>)</span> made to the question you answered at the beginning:</p>
-<div class="sourceCode" id="cb261"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">wisdom_data</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/wisdom.csv"</span><span class="op">)</span></code></pre></div>
-<pre><code>## Rows: 471 Columns: 4</code></pre>
-<pre><code>## ── Column specification ────────────────────────────────────────────────────────
+<p>Run the following line of code to download the dataset consisting of every shooting attempt Kobe made during the 2009 NBA finals. This is the same data we looked at last time:</p>
+<div class="sourceCode" id="cb167"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">kobe</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/kobe.csv"</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-info"><code>## Rows: 111 Columns: 7</code></pre>
+<pre class="Rout text-info"><code>## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
-## chr (2): nationality, sex
-## dbl (2): age, guess</code></pre>
-<pre><code>## 
+## chr (6): vs, quarter, time, description, shot, prev_shot
+## dbl (1): game</code></pre>
+<pre class="Rout text-info"><code>## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<p>Taking a look at the data, each row represents a different person’s answer to the question. The answer they gave is in the “guess” column. There is also some demographic information about each person (age, sex, nationality).</p>
 </div>
-<div id="make-a-histogram" class="section level3" number="6.3.2">
+<div id="what-is-the-point-estimate" class="section level3" number="6.2.2">
 <h3>
-<span class="header-section-number">6.3.2</span> Make a histogram<a class="anchor" aria-label="anchor" href="#make-a-histogram"><i class="fas fa-link"></i></a>
+<span class="header-section-number">6.2.2</span> What is the point estimate?<a class="anchor" aria-label="anchor" href="#what-is-the-point-estimate"><i class="fas fa-link"></i></a>
 </h3>
-<p>Now let’s make a histogram of people’s guesses<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Why do you think the histogram looks kind of “lumpy?” &lt;em&gt;Hint: how much detail do you think people can give when making a guess like this?&lt;/em&gt;&lt;/p&gt;"><sup>74</sup></a>:</p>
-<div class="sourceCode" id="cb265"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">wisdom_data</span> <span class="op">%&gt;%</span>
-    <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">guess</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu">geom_histogram</span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="06-central_limit_files/figure-html/unnamed-chunk-32-1.png" width="672"></div>
-<p>Doesn’t look especially normal, but it is also pretty spread out. This makes sense given that very few if any people in this sample would be expected to be experts in airport distribution.</p>
-</div>
-<div id="what-is-the-right-answer" class="section level3" number="6.3.3">
-<h3>
-<span class="header-section-number">6.3.3</span> What is the right answer?<a class="anchor" aria-label="anchor" href="#what-is-the-right-answer"><i class="fas fa-link"></i></a>
-</h3>
-<p>At the time these data were collected, the correct answer to the question, “what percent of the world’s airports are in the United States?” was <strong>32.3%</strong> (how close were you?).</p>
-<p>How many people over- or under-shot the answer?</p>
-<div class="sourceCode" id="cb266"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">wisdom_data</span> <span class="op">%&gt;%</span>
-    <span class="fu">group_by</span><span class="op">(</span><span class="va">guess</span> <span class="op">&lt;</span> <span class="fl">32.3</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span>n <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">mutate</span><span class="op">(</span>p <span class="op">=</span> <span class="va">n</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 2 × 3
-##   `guess &lt; 32.3`     n     p
-##   &lt;lgl&gt;          &lt;int&gt; &lt;dbl&gt;
-## 1 FALSE            155 0.329
-## 2 TRUE             316 0.671</code></pre>
-</div>
-<div id="what-about-the-average" class="section level3" number="6.3.4">
-<h3>
-<span class="header-section-number">6.3.4</span> What about the average?<a class="anchor" aria-label="anchor" href="#what-about-the-average"><i class="fas fa-link"></i></a>
-</h3>
-<p>How close was the <em>mean</em> guess to the right answer?</p>
-<div class="sourceCode" id="cb268"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">wisdom_data</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span>M <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">guess</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 1 × 1
-##       M
+<p>What we are interested in this time is just the proportion of Kobe’s shots that were hits rather than misses. For today, we don’t care what the outcome of his previous shot was.</p>
+<p>To get the point estimate of the proportion of Kobe’s shots that were hits rather than misses, we can use the following chunk of code:</p>
+<div class="sourceCode" id="cb171"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span>response <span class="op">=</span> <span class="va">shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/calculate.html">calculate</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"prop"</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-muted"><code>## Response: shot (factor)
+## # A tibble: 1 × 1
+##    stat
 ##   &lt;dbl&gt;
-## 1  27.0</code></pre>
-<p>Huh, not too bad! The difference between the mean guess and the right answer is about <span class="math inline">\(32.3 - 27 = 5.3\)</span>. How many people were at least as close to the correct answer as the mean guess, in other words, how many people guessed a value between 27 and <span class="math inline">\(32.3 + 5.3 = 37.6\)</span>?<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;What code would give us this result? &lt;em&gt;Hint: remember how we found the number of sample mean heights that were within an inch of the true population average above.&lt;/em&gt;&lt;/p&gt;"><sup>75</sup></a></p>
-<pre><code>## # A tibble: 2 × 3
-##   `27 &lt; guess &amp; guess &lt; 37.6`     n     p
-##   &lt;lgl&gt;                       &lt;int&gt; &lt;dbl&gt;
-## 1 FALSE                         380 0.807
-## 2 TRUE                           91 0.193</code></pre>
-<p>So the mean guess is doing better than the vast majority of individual guesses. This is pretty remarkable! The “wisdom of the crowd” is another case in which large samples get us closer to the truth.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Why do you think that the &lt;em&gt;mean&lt;/em&gt; of a set of guesses does so much better than most of the individual guesses?&lt;/p&gt;"><sup>76</sup></a></p>
+## 1 0.387</code></pre>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-36" class="exercise"><strong>Exercise 6.1  </strong></span>This is the chunk of code we used to find the observed <em>difference</em> in hit proportions last time, as a function of whether Kobe’s previous shot was a hit or not:</p>
+<div class="sourceCode" id="cb173"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span><span class="va">shot</span> <span class="op">~</span> <span class="va">prev_shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/calculate.html">calculate</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"diff in props"</span>, order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"H"</span>, <span class="st">"M"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>Compare the code from last time with the code we just used to find the proportion of Kobe’s shots that were hits. Note any similarities and differences and try to describe <em>why</em> those differences might be there. <em>Hint:</em> consider that last time we had both an explanatory and response variable, but now we are only interested in a single (response) variable.</p>
+</div>
+</div>
+<div id="model-the-randomness" class="section level3" number="6.2.3">
+<h3>
+<span class="header-section-number">6.2.3</span> Model the randomness<a class="anchor" aria-label="anchor" href="#model-the-randomness"><i class="fas fa-link"></i></a>
+</h3>
+<p>Although our sample gives us a point estimate (<span class="math inline">\(\hat{p}_{\text{Kobe}}\)</span>) of Kobe’s true field goal percentage (<span class="math inline">\(\pi_{\text{Kobe}}\)</span>), we know that our point estimate is unlikely to be a perfect estimate. This is because we know that any sample from a population is subject to <strong>sampling variability</strong> which can be treated as effectively “random.” A confidence interval is based on modeling the sampling variability that produced the actual sample we got, so we can know what <em>range</em> of values for the population parameter remain plausible.</p>
+<p><strong>Bootstrapping</strong> models this randomness by using our sample as an estimate of the population and repeatedly <em>resampling</em> from that estimated population. Let’s see how that works.</p>
+<div id="a-single-resample" class="section level4" number="6.2.3.1">
+<h4>
+<span class="header-section-number">6.2.3.1</span> A single resample<a class="anchor" aria-label="anchor" href="#a-single-resample"><i class="fas fa-link"></i></a>
+</h4>
+<p>To get a sense of how resampling works, let’s again focus on a smaller number of shots from the 2nd quarter of the 1st game. Like last time, the <code>filter</code> function let’s us pull out just those few shots:</p>
+<div class="sourceCode" id="cb174"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">game</span> <span class="op">==</span> <span class="fl">1</span>, <span class="va">quarter</span> <span class="op">==</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-muted"><code>## # A tibble: 8 × 7
+##   vs     game quarter time  description                          shot  prev_shot
+##   &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;                                &lt;chr&gt; &lt;chr&gt;    
+## 1 ORL       1 2       5:58  Kobe Bryant makes 20-foot jumper     H     H        
+## 2 ORL       1 2       5:22  Kobe Bryant makes 14-foot jumper     H     H        
+## 3 ORL       1 2       4:37  Kobe Bryant misses driving layup     M     H        
+## 4 ORL       1 2       3:30  Kobe Bryant makes 9-foot two point … H     M        
+## 5 ORL       1 2       2:55  Kobe Bryant makes 14-foot running j… H     H        
+## 6 ORL       1 2       1:55  Kobe Bryant misses 19-foot jumper    M     H        
+## 7 ORL       1 2       0:38  Kobe Bryant misses 27-foot three po… M     M        
+## 8 ORL       1 2       0:04  Kobe Bryant makes driving layup      H     M</code></pre>
+<p>The following chunk of code resamples from Kobe’s shots during that quarter to produce a new sample of shots:</p>
+<div class="sourceCode" id="cb176"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">game</span> <span class="op">==</span> <span class="fl">1</span>, <span class="va">quarter</span> <span class="op">==</span> <span class="fl">2</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span>response <span class="op">=</span> <span class="va">shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/generate.html">generate</a></span><span class="op">(</span>reps <span class="op">=</span> <span class="fl">1</span>, type <span class="op">=</span> <span class="st">"bootstrap"</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-muted"><code>## Response: shot (factor)
+## # A tibble: 8 × 2
+## # Groups:   replicate [1]
+##   replicate shot 
+##       &lt;int&gt; &lt;fct&gt;
+## 1         1 H    
+## 2         1 H    
+## 3         1 H    
+## 4         1 H    
+## 5         1 H    
+## 6         1 M    
+## 7         1 H    
+## 8         1 H</code></pre>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-37" class="exercise"><strong>Exercise 6.2  </strong></span>The chunk of code below is what we used last time to generate a single “shuffle” of these same shots:</p>
+<div class="sourceCode" id="cb178"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">game</span> <span class="op">==</span> <span class="fl">1</span>, <span class="va">quarter</span> <span class="op">==</span> <span class="fl">2</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span><span class="va">shot</span> <span class="op">~</span> <span class="va">prev_shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/hypothesize.html">hypothesize</a></span><span class="op">(</span>null <span class="op">=</span> <span class="st">"independence"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/generate.html">generate</a></span><span class="op">(</span>reps <span class="op">=</span> <span class="fl">1</span>, type <span class="op">=</span> <span class="st">"permute"</span><span class="op">)</span></code></pre></div>
+<p>Compare that code from last time to the code we just used to do resampling. Note any similarities and differences. <em>Hint:</em> does it matter that when doing bootstrapping we do not have a “null hypothesis?”</p>
+</div>
+<p>The final step in doing bootstrapping is to calculate the sample statistic—in this case, the proportion of hits—on our randomly generated re-sample. We can do this by adding a <code>calculate</code> line at the end of the code we used to make the resample:</p>
+<div class="sourceCode" id="cb179"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">game</span> <span class="op">==</span> <span class="fl">1</span>, <span class="va">quarter</span> <span class="op">==</span> <span class="fl">2</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span>response <span class="op">=</span> <span class="va">shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/generate.html">generate</a></span><span class="op">(</span>reps <span class="op">=</span> <span class="fl">1</span>, type <span class="op">=</span> <span class="st">"bootstrap"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/calculate.html">calculate</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"prop"</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-muted"><code>## Response: shot (factor)
+## # A tibble: 1 × 1
+##    stat
+##   &lt;dbl&gt;
+## 1  0.75</code></pre>
+</div>
+<div id="many-resamples" class="section level4" number="6.2.3.2">
+<h4>
+<span class="header-section-number">6.2.3.2</span> Many resamples<a class="anchor" aria-label="anchor" href="#many-resamples"><i class="fas fa-link"></i></a>
+</h4>
+<p>We can remove the <code>filter</code> line to generate a single bootstrap resample proportion based on the full data.</p>
+<div class="sourceCode" id="cb181"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span>response <span class="op">=</span> <span class="va">shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/generate.html">generate</a></span><span class="op">(</span>reps <span class="op">=</span> <span class="fl">1</span>, type <span class="op">=</span> <span class="st">"bootstrap"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/calculate.html">calculate</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"prop"</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-muted"><code>## Response: shot (factor)
+## # A tibble: 1 × 1
+##    stat
+##   &lt;dbl&gt;
+## 1 0.306</code></pre>
+<p>Of course, the whole point of bootstrapping is to get a <em>range</em> of plausible values and so we will need more than one resample! And like last time, we will want to get R to remember the proportions from each resample so we can use them later; we will call it <code>boot_dist</code>. The following chunk of code uses bootstrapping to produce a distribution of sample proportions, the variability of which mimics the sampling variability that was at work when generating our original observed sample:</p>
+<div class="sourceCode" id="cb183"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">boot_dist</span> <span class="op">&lt;-</span> <span class="va">kobe</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span>response <span class="op">=</span> <span class="va">shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/generate.html">generate</a></span><span class="op">(</span>reps <span class="op">=</span> <span class="fl">1000</span>, type <span class="op">=</span> <span class="st">"bootstrap"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/calculate.html">calculate</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"prop"</span><span class="op">)</span></code></pre></div>
+<p>And like last time, we can use a histogram to get a nice visual summary of the bootstrap distribution:</p>
+<div class="sourceCode" id="cb184"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">boot_dist</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="06-bootstrapping_files/figure-html/unnamed-chunk-12-1.png" width="672"></div>
+</div>
+</div>
+<div id="create-the-interval" class="section level3" number="6.2.4">
+<h3>
+<span class="header-section-number">6.2.4</span> Create the interval<a class="anchor" aria-label="anchor" href="#create-the-interval"><i class="fas fa-link"></i></a>
+</h3>
+<p>To find a confidence interval, we need to find the “middle” of the bootstrap distribution. We also need to decide how wide that “middle” should be. For example, to create a 95% confidence interval, we need to find where the middle 95% of the distribution is.</p>
+<p>The middle 95% is between two different <em>quantiles</em> of the bootstrap distribution. Specifically, the 2.5% and 97.5% quantiles define the boundaries of the 95% confidence interval. This is because they are the values for which 2.5% of the simulated proportions are below the interval and 2.5% of the simulated proportions are above the interval. So, in total, 5% of the values are outside the interval meaning the remainder (95%) are inside it.</p>
+<p>We can find the relevant quantiles using our faithful <code>summarize</code> function, now applied to the bootstrap distribution:</p>
+<div class="sourceCode" id="cb185"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">boot_dist</span> <span class="op">%&gt;%</span>
+    <span class="fu">summarize</span><span class="op">(</span>CI <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">stat</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.975</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-muted"><code>## # A tibble: 2 × 1
+##      CI
+##   &lt;dbl&gt;
+## 1 0.297
+## 2 0.478</code></pre>
+<p>The list of numbers under <code>probs</code> gives the probabilities above, but in terms of proportions rather than percent (so <code>0.025</code> instead of 2.5%, for example).</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-38" class="exercise"><strong>Exercise 6.3  </strong></span>Modify the following code to get the boundaries of the <strong>90% confidence interval</strong>:</p>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="lab6.html#cb187-1" aria-hidden="true" tabindex="-1"></a>boot_dist <span class="sc">%&gt;%</span></span>
+<span id="cb187-2"><a href="lab6.html#cb187-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">CI =</span> <span class="fu">quantile</span>(stat, <span class="at">probs =</span> <span class="fu">c</span>(___, ___)))</span></code></pre></div>
+<ol style="list-style-type: lower-alpha">
+<li>What code did you use?</li>
+<li>What were the boundaries that you found?</li>
+</ol>
+</div>
+<p>As with many things, R has some shortcuts! The following code also finds the 95% confidence interval, where we use <code>level</code> to set how wide we want the interval. Note that we are putting the result under the label <code>boot_ci</code> so we can use it to help us visualize the interval:</p>
+<div class="sourceCode" id="cb188"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">boot_ci</span> <span class="op">&lt;-</span> <span class="va">boot_dist</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/get_confidence_interval.html">get_confidence_interval</a></span><span class="op">(</span>level <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></code></pre></div>
+<p>Now we can add the 95% confidence interval that we saved under <code>boot_ci</code> to our visualization:</p>
+<div class="sourceCode" id="cb189"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">boot_dist</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/shade_confidence_interval.html">shade_confidence_interval</a></span><span class="op">(</span>endpoints <span class="op">=</span> <span class="va">boot_ci</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="06-bootstrapping_files/figure-html/unnamed-chunk-16-1.png" width="672"></div>
+</div>
+<div id="form-a-conclusion-2" class="section level3" number="6.2.5">
+<h3>
+<span class="header-section-number">6.2.5</span> Form a conclusion<a class="anchor" aria-label="anchor" href="#form-a-conclusion-2"><i class="fas fa-link"></i></a>
+</h3>
+<p>Now we are in a position to form a conclusion about Kobe’s true field goal percentage based on the sample that we had.</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-39" class="exercise"><strong>Exercise 6.4  </strong></span>Answer the following based on the 95% confidence interval we just constructed for Kobe’s field goal percentage.</p>
+<ol style="list-style-type: lower-alpha">
+<li>Is it plausible that Kobe makes more than half of the shots he attempts? Explain your reasoning.</li>
+<li>Kobe’s actual career field goal percentage was 44.7%. In other words, the true value of the population parameter was <span class="math inline">\(\pi_{\text{Kobe}} = 0.447\)</span>. Is this value contained within the 95% confidence interval?</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="how-willing-are-people-to-sacrifice-one-life-to-save-many" class="section level2" number="6.3">
+<h2>
+<span class="header-section-number">6.3</span> How willing are people to sacrifice one life to save many?<a class="anchor" aria-label="anchor" href="#how-willing-are-people-to-sacrifice-one-life-to-save-many"><i class="fas fa-link"></i></a>
+</h2>
+<p>It is a <a href="https://youtu.be/v1mE_lyVKRQ?t=100">well-known Vulcan dictum</a> that the needs of the many outweigh the needs of the few (or the one). But what may be true for Vulcans is not necessarily morally acceptable for humans. Moreover, even a human who endorses the basic logic that it is better to save more lives than fewer lives may not be willing to put that logic into practice. Fortunately, we are rarely put into situations where we would have to make that choice.</p>
+<p>Philosophers and psychologists have studied moral decision making in many ways. One way is by asking people what they would do in a hypothetical scenario. A common scenario is called the “Trolley problem”:</p>
+<blockquote>
+<p>A man in blue is standing by the railroad tracks when he notices an empty trolley car rolling out of control. It is moving so fast that anyone it hits will die. Ahead on the main track are five people. There is one person standing on a side track that doesn’t rejoin the main track. If the man in blue does nothing, the trolley will hit the five people on the main track, but not the one person on the side track. If the man in blue flips a switch next to him, it will divert the trolley to the side track where it will hit the one person, and not hit the five people on the main track.</p>
+</blockquote>
+<p>What should the man in blue do? Should he sacrifice the one person on the side track to save the five people on the main track? Or should he do nothing, leaving the five people on the main track to their fate? <span class="citation"><a href="references.html#ref-AwadEtAl2020" role="doc-biblioref">Awad et al.</a> (<a href="references.html#ref-AwadEtAl2020" role="doc-biblioref">2020</a>)</span> presented scenarios like this to a very large group of people from all over the world (roughly 70,000), with the aim of studying how different cultural backgrounds might influence people’s moral judgments.</p>
+<p>They presented a few different versions of the Trolley problem. One was like the description above, in which the man in blue only has to flip a switch. A different version went like this:</p>
+<blockquote>
+<p>A man in blue is standing on a footbridge over the railroad tracks when he notices an empty trolley car rolling out of control. It is moving so fast that anyone it hits will die. Ahead on the track are five people. There is a large person standing near the man in blue on the footbridge, and this large person weighs enough that the trolley would slow down if it hit him (the man in blue does not weigh enough to slow down the trolley). If the man in blue does nothing, the trolley will hit the five people on the track. If the man in blue pushes the one person, that one person will fall onto the track, where the trolley will hit the one person, slow down because of the one person, and not hit the five people farther down the track.</p>
+</blockquote>
+<p>In this second version, called the “footbridge” version, the man in blue has to take a much more active role, literally throwing another person on the tracks to save the other five. In a sense, though, it amounts to the same question: should the man in blue sacrifice one person to save five other people?</p>
+<p>These pictures, provided by <span class="citation"><a href="references.html#ref-AwadEtAl2020" role="doc-biblioref">Awad et al.</a> (<a href="references.html#ref-AwadEtAl2020" role="doc-biblioref">2020</a>)</span>, depict the scenarios corresponding to the two different versions of the Trolley problem:</p>
+<div class="inline-figure"><img src="img/trolley_scenarios.png" width="50%" style="display: block; margin: auto;"></div>
+<p>In this section, we will look at the judgments <span class="citation"><a href="references.html#ref-AwadEtAl2020" role="doc-biblioref">Awad et al.</a> (<a href="references.html#ref-AwadEtAl2020" role="doc-biblioref">2020</a>)</span> obtained from people and see whether a majority would be willing to sacrifice one life to save five in each of these scenarios.</p>
+<div id="load-the-data-9" class="section level3" number="6.3.1">
+<h3>
+<span class="header-section-number">6.3.1</span> Load the data<a class="anchor" aria-label="anchor" href="#load-the-data-9"><i class="fas fa-link"></i></a>
+</h3>
+<p>Let’s load the relevant data collected by <span class="citation"><a href="references.html#ref-AwadEtAl2020" role="doc-biblioref">Awad et al.</a> (<a href="references.html#ref-AwadEtAl2020" role="doc-biblioref">2020</a>)</span> with the following line of code:</p>
+<div class="sourceCode" id="cb190"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">trolley</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/trolley.csv"</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-info"><code>## Rows: 32163 Columns: 12</code></pre>
+<pre class="Rout text-info"><code>## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: ","
+## chr (9): _id, Scenario, Sacrifice, UserID, Session_id, Template, lang, count...
+## dbl (1): Scenario_order
+## lgl (2): answerLeft, seenOther</code></pre>
+<pre class="Rout text-info"><code>## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<p>For our purposes, these are just the data from people living in the USA, but this is still quite a large sample! Now that the <code>trolley</code> data has appeared in RStudio’s environment pane (in the upper right), click on it to explore the structure of the data.</p>
+</div>
+<div id="what-is-the-point-estimate-1" class="section level3" number="6.3.2">
+<h3>
+<span class="header-section-number">6.3.2</span> What is the point estimate?<a class="anchor" aria-label="anchor" href="#what-is-the-point-estimate-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>First, let’s get the point estimate for the proportion of people who would sacrifice someone. We will do this separately for each version of the Trolley problem, making use of the <code>filter</code> function like we did for Kobe’s data above.</p>
+<p>The <strong>response variable</strong> is <code>Sacrifice</code> which is either “Yes” or “No.” For our purposes, we will call “Yes” a “success” (though of course it is arguable whether either option in the Trolley problem should be considered a “success”).</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-40" class="exercise"><strong>Exercise 6.5  </strong></span>The code below provides a starting point for you to find the point estimates of the proportion of people in each scenario who would sacrifice someone to save five others.</p>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="lab6.html#cb194-1" aria-hidden="true" tabindex="-1"></a>trolley <span class="sc">%&gt;%</span></span>
+<span id="cb194-2"><a href="lab6.html#cb194-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Scenario <span class="sc">==</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb194-3"><a href="lab6.html#cb194-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb194-4"><a href="lab6.html#cb194-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>)</span></code></pre></div>
+<ol style="list-style-type: lower-alpha">
+<li>What is the proportion of people in the sample in the “Switch” scenario who chose to sacrifice someone to save five others?</li>
+<li>What is the proportion of people in the sample in the “Footbridge” scenario who chose to sacrifice someone to save five others?</li>
+</ol>
+</div>
+</div>
+<div id="model-the-randomness-1" class="section level3" number="6.3.3">
+<h3>
+<span class="header-section-number">6.3.3</span> Model the randomness<a class="anchor" aria-label="anchor" href="#model-the-randomness-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>Now we need to model the randomness involved in sampling variability to get bootstrap distributions of the proportions of people who recommend sacrificing in each scenario. Generate <strong>1000</strong> bootstrap resamples for each scenario.</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-41" class="exercise"><strong>Exercise 6.6  </strong></span>The code below provides a starting point for you to use bootstrapping to obtain a distribution of the sample proportions we <em>could have</em> gotten due to sampling variability. Notice that this will save the two bootstrap distributions under two different names, <code>boot_dist_switch</code> and <code>boot_dist_footbridge</code>. If all goes well, these will appear in your RStudio environment pane, but otherwise you won’t see anything at the console.</p>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="lab6.html#cb195-1" aria-hidden="true" tabindex="-1"></a>boot_dist_switch <span class="ot">&lt;-</span> trolley <span class="sc">%&gt;%</span></span>
+<span id="cb195-2"><a href="lab6.html#cb195-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Scenario <span class="sc">==</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb195-3"><a href="lab6.html#cb195-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb195-4"><a href="lab6.html#cb195-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> ___, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb195-5"><a href="lab6.html#cb195-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>)</span>
+<span id="cb195-6"><a href="lab6.html#cb195-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb195-7"><a href="lab6.html#cb195-7" aria-hidden="true" tabindex="-1"></a>boot_dist_footbridge <span class="ot">&lt;-</span> trolley <span class="sc">%&gt;%</span></span>
+<span id="cb195-8"><a href="lab6.html#cb195-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Scenario <span class="sc">==</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb195-9"><a href="lab6.html#cb195-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb195-10"><a href="lab6.html#cb195-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> ___, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb195-11"><a href="lab6.html#cb195-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>)</span></code></pre></div>
+<p>What code did you use to generate the two bootstrap distributions?</p>
+</div>
+</div>
+<div id="create-the-intervals" class="section level3" number="6.3.4">
+<h3>
+<span class="header-section-number">6.3.4</span> Create the intervals<a class="anchor" aria-label="anchor" href="#create-the-intervals"><i class="fas fa-link"></i></a>
+</h3>
+<p>Now that you’ve created your bootstrap distributions, use the following code as a starting point to generate 95% confidence intervals for each. <em>Hint:</em> remember the names we gave to the bootstrap distributions in the previous exercise; also recall that <code>level</code> should be a number between 0 and 1, rather than a percentage.</p>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="lab6.html#cb196-1" aria-hidden="true" tabindex="-1"></a>boot_ci_switch <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
+<span id="cb196-2"><a href="lab6.html#cb196-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_confidence_interval</span>(<span class="at">level =</span> ___)</span>
+<span id="cb196-3"><a href="lab6.html#cb196-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-4"><a href="lab6.html#cb196-4" aria-hidden="true" tabindex="-1"></a>boot_ci_footbridge <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
+<span id="cb196-5"><a href="lab6.html#cb196-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_confidence_interval</span>(<span class="at">level =</span> ___)</span></code></pre></div>
+<p>Finally, you can use the following code outline to visualize either of the two distributions by filling in the blanks with the appropriate <code>boot_dist_</code> and <code>boot_ci_</code>.</p>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="lab6.html#cb197-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
+<span id="cb197-2"><a href="lab6.html#cb197-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb197-3"><a href="lab6.html#cb197-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_confidence_interval</span>(<span class="at">endpoints =</span> ___)</span></code></pre></div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-42" class="exercise"><strong>Exercise 6.7  </strong></span>–</p>
+<ol style="list-style-type: lower-alpha">
+<li>What is the 95% confidence interval for the proportion who choose to sacrifice in the “Switch” scenario?</li>
+<li>What is the 95% confidence interval for the proportion who choose to sacrifice in the “Footbridge” scenario?</li>
+</ol>
+</div>
+</div>
+<div id="form-a-conclusion-3" class="section level3" number="6.3.5">
+<h3>
+<span class="header-section-number">6.3.5</span> Form a conclusion<a class="anchor" aria-label="anchor" href="#form-a-conclusion-3"><i class="fas fa-link"></i></a>
+</h3>
+<p>Now it is time to interpret the confidence intervals we just found in the context of the particular research scenario.</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-43" class="exercise"><strong>Exercise 6.8  </strong></span>What do the confidence intervals you just found tell us about the proportion of people in the US population who would recommend sacrificing one life to save five? Does this proportion seem to depend on the specifics of the scenario (i.e., whether it is the “Switch” or “Footbridge” version)? For each version, could we say that more than half of the population would recommend sacrificing one person to save five?</p>
+</div>
 </div>
 </div>
 <div id="wrap-up-5" class="section level2" number="6.4">
 <h2>
 <span class="header-section-number">6.4</span> Wrap-up<a class="anchor" aria-label="anchor" href="#wrap-up-5"><i class="fas fa-link"></i></a>
 </h2>
-<p>We’ve seen the “central limit theorem” in action: The larger our sample, the more likely it is that the sample mean is close to the population mean. This is valuable because, in reality, we almost never know the true population mean, so we have to <em>estimate</em> it using a sample. But we also saw that a <em>biased</em> sample can give us the wrong answer. Finally, we saw that the power of large samples extends to making guesses about the world at large—maybe instead of finding an expert, we just need a lot of guesses!</p>
+<p>In this session, we got practice using R to construct confidence intervals using bootstrapping. We used R to generate many “resampled” dataset to simulate the kinds of samples we could have seen due to sampling variability. This allows us say what values of the population parameter are plausible given a sample from that population.</p>
 
 </div>
 </div>
-
   <div class="chapter-nav">
-<div class="prev"><a href="lab5.html"><span class="header-section-number">5</span> Models: The Binomial and the Normal</a></div>
-<div class="next"><a href="lab7.html"><span class="header-section-number">7</span> Confidence intervals and hypothesis testing</a></div>
+<div class="prev"><a href="lab5.html"><span class="header-section-number">5</span> Hypothesis testing with randomization</a></div>
+<div class="next"><a href="references.html">References</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#lab6"><span class="header-section-number">6</span> Sampling and the Central Limit Theorem: The Wisdom of Large Samples</a></li>
-<li><a class="nav-link" href="#before-we-begin"><span class="header-section-number">6.1</span> Before we begin…</a></li>
+<li><a class="nav-link" href="#lab6"><span class="header-section-number">6</span> Confidence intervals with bootstrapping</a></li>
+<li><a class="nav-link" href="#required-packages-2"><span class="header-section-number">6.1</span> Required packages</a></li>
 <li>
-<a class="nav-link" href="#heights"><span class="header-section-number">6.2</span> Heights</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#a-simulated-population"><span class="header-section-number">6.2.1</span> A simulated population</a></li>
-<li><a class="nav-link" href="#a-sample-from-our-simulated-population"><span class="header-section-number">6.2.2</span> A sample from our simulated population</a></li>
-<li><a class="nav-link" href="#many-samples-from-our-simulated-population"><span class="header-section-number">6.2.3</span> Many samples from our simulated population</a></li>
-<li><a class="nav-link" href="#many-larger-samples"><span class="header-section-number">6.2.4</span> Many larger samples</a></li>
-<li><a class="nav-link" href="#the-probability-of-being-wrong"><span class="header-section-number">6.2.5</span> The probability of being wrong</a></li>
-<li><a class="nav-link" href="#biased-samples"><span class="header-section-number">6.2.6</span> Biased samples</a></li>
+<a class="nav-link" href="#what-is-kobes-field-goal-percentage"><span class="header-section-number">6.2</span> What is Kobe’s field goal percentage?</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#load-the-data-8"><span class="header-section-number">6.2.1</span> Load the data</a></li>
+<li><a class="nav-link" href="#what-is-the-point-estimate"><span class="header-section-number">6.2.2</span> What is the point estimate?</a></li>
+<li><a class="nav-link" href="#model-the-randomness"><span class="header-section-number">6.2.3</span> Model the randomness</a></li>
+<li><a class="nav-link" href="#create-the-interval"><span class="header-section-number">6.2.4</span> Create the interval</a></li>
+<li><a class="nav-link" href="#form-a-conclusion-2"><span class="header-section-number">6.2.5</span> Form a conclusion</a></li>
 </ul>
 </li>
 <li>
-<a class="nav-link" href="#the-wisdom-of-the-crowd"><span class="header-section-number">6.3</span> The Wisdom of the Crowd</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#grab-the-data"><span class="header-section-number">6.3.1</span> Grab the data</a></li>
-<li><a class="nav-link" href="#make-a-histogram"><span class="header-section-number">6.3.2</span> Make a histogram</a></li>
-<li><a class="nav-link" href="#what-is-the-right-answer"><span class="header-section-number">6.3.3</span> What is the right answer?</a></li>
-<li><a class="nav-link" href="#what-about-the-average"><span class="header-section-number">6.3.4</span> What about the average?</a></li>
+<a class="nav-link" href="#how-willing-are-people-to-sacrifice-one-life-to-save-many"><span class="header-section-number">6.3</span> How willing are people to sacrifice one life to save many?</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#load-the-data-9"><span class="header-section-number">6.3.1</span> Load the data</a></li>
+<li><a class="nav-link" href="#what-is-the-point-estimate-1"><span class="header-section-number">6.3.2</span> What is the point estimate?</a></li>
+<li><a class="nav-link" href="#model-the-randomness-1"><span class="header-section-number">6.3.3</span> Model the randomness</a></li>
+<li><a class="nav-link" href="#create-the-intervals"><span class="header-section-number">6.3.4</span> Create the intervals</a></li>
+<li><a class="nav-link" href="#form-a-conclusion-3"><span class="header-section-number">6.3.5</span> Form a conclusion</a></li>
 </ul>
 </li>
 <li><a class="nav-link" href="#wrap-up-5"><span class="header-section-number">6.4</span> Wrap-up</a></li>
@@ -488,8 +407,8 @@
 
       <div class="book-extra">
         <ul class="list-unstyled">
-<li><a id="book-source" href="https://github.com/gregcox7/StatLabs/blob/master/06-central_limit.Rmd">View source <i class="fab fa-github"></i></a></li>
-          <li><a id="book-edit" href="https://github.com/gregcox7/StatLabs/edit/master/06-central_limit.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+<li><a id="book-source" href="https://github.com/gregcox7/StatLabs/blob/master/06-bootstrapping.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/gregcox7/StatLabs/edit/master/06-bootstrapping.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
         </ul>
 </div>
     </nav>
@@ -501,7 +420,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2021-08-18.</p>
+    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2021-10-08.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
