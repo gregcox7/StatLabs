@@ -14,5 +14,6 @@ rmd_files: [
   "04-numerical_relationships.Rmd",
   "05-randomization.Rmd",
   "06-bootstrapping.Rmd",
+  "07-normal_distribution.Rmd",
   "99-references.Rmd"
   ]
