@@ -39,6 +39,7 @@
 <li><a class="" href="lab5.html"><span class="header-section-number">5</span> Hypothesis testing with randomization</a></li>
 <li><a class="active" href="lab6.html"><span class="header-section-number">6</span> Confidence intervals with bootstrapping</a></li>
 <li><a class="" href="lab7.html"><span class="header-section-number">7</span> The normal distribution</a></li>
+<li><a class="" href="lab8.html"><span class="header-section-number">8</span> Inference for proportions</a></li>
 <li><a class="" href="references.html">References</a></li>
 </ul>
 
@@ -298,9 +299,9 @@
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <p>For our purposes, these are just the data from people living in the USA, but this is still quite a large sample! Now that the <code>trolley</code> data has appeared in RStudio’s environment pane (in the upper right), click on it to explore the structure of the data.</p>
 </div>
-<div id="what-is-the-point-estimate-1" class="section level3" number="6.3.2">
+<div id="calc-prop" class="section level3" number="6.3.2">
 <h3>
-<span class="header-section-number">6.3.2</span> What is the point estimate?<a class="anchor" aria-label="anchor" href="#what-is-the-point-estimate-1"><i class="fas fa-link"></i></a>
+<span class="header-section-number">6.3.2</span> What is the point estimate?<a class="anchor" aria-label="anchor" href="#calc-prop"><i class="fas fa-link"></i></a>
 </h3>
 <p>First, let’s get the point estimate for the proportion of people who would sacrifice someone. We will do this separately for each version of the Trolley problem, making use of the <code>filter</code> function like we did for Kobe’s data above.</p>
 <p>The <strong>response variable</strong> is <code>Sacrifice</code> which is either “Yes” or “No.” For our purposes, we will call “Yes” a “success” (though of course it is arguable whether either option in the Trolley problem should be considered a “success”).</p>
@@ -397,7 +398,7 @@
 <li>
 <a class="nav-link" href="#how-willing-are-people-to-sacrifice-one-life-to-save-many"><span class="header-section-number">6.3</span> How willing are people to sacrifice one life to save many?</a><ul class="nav navbar-nav">
 <li><a class="nav-link" href="#load-the-data-9"><span class="header-section-number">6.3.1</span> Load the data</a></li>
-<li><a class="nav-link" href="#what-is-the-point-estimate-1"><span class="header-section-number">6.3.2</span> What is the point estimate?</a></li>
+<li><a class="nav-link" href="#calc-prop"><span class="header-section-number">6.3.2</span> What is the point estimate?</a></li>
 <li><a class="nav-link" href="#model-the-randomness-1"><span class="header-section-number">6.3.3</span> Model the randomness</a></li>
 <li><a class="nav-link" href="#create-the-intervals"><span class="header-section-number">6.3.4</span> Create the intervals</a></li>
 <li><a class="nav-link" href="#form-a-conclusion-3"><span class="header-section-number">6.3.5</span> Form a conclusion</a></li>
@@ -421,7 +422,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2021-10-15.</p>
+    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2021-10-25.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

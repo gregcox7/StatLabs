@@ -233,7 +233,7 @@ trolley <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/da
 
 For our purposes, these are just the data from people living in the USA, but this is still quite a large sample!  Now that the `trolley` data has appeared in RStudio's environment pane (in the upper right), click on it to explore the structure of the data.
 
-### What is the point estimate?
+### What is the point estimate? {#calc-prop}
 
 First, let's get the point estimate for the proportion of people who would sacrifice someone.  We will do this separately for each version of the Trolley problem, making use of the `filter` function like we did for Kobe's data above.
 
