@@ -279,7 +279,7 @@ Z &amp; = \frac{(\hat{p}_1 - \hat{p}_2) - 0}{SE}
 <span id="cb257-4"><a href="lab8.html#cb257-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb257-5"><a href="lab8.html#cb257-5" aria-hidden="true" tabindex="-1"></a>obs_z</span></code></pre></div>
 <ol start="2" style="list-style-type: lower-alpha">
-<li>Run the following code to visualize where our observed difference falls on the normal distribution:</li>
+<li>Run the following code to visualize where our observed difference falls on the normal distribution. Compare the code below to the code we used in the previous exercise; what is similar and what is different?</li>
 </ol>
 <div class="sourceCode" id="cb258"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">null_dist_normal</span> <span class="op">&lt;-</span> <span class="va">colonoscopy</span> <span class="op">%&gt;%</span>
@@ -287,7 +287,7 @@ Z &amp; = \frac{(\hat{p}_1 - \hat{p}_2) - 0}{SE}
     <span class="fu"><a href="https://infer.tidymodels.org/reference/assume.html">assume</a></span><span class="op">(</span><span class="st">"z"</span><span class="op">)</span>
 
 <span class="va">null_dist_normal</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://infer.tidymodels.org/reference/visualize.html">visualize</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"both"</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/shade_p_value.html">shade_p_value</a></span><span class="op">(</span>obs_stat <span class="op">=</span> <span class="va">obs_z</span>, direction <span class="op">=</span> <span class="st">"two-sided"</span><span class="op">)</span></code></pre></div>
 <ol start="3" style="list-style-type: lower-alpha">
 <li>Use the following code to find the <span class="math inline">\(p\)</span> value, that is, the proportion of differences that would be at least as extreme as the one we observed, if the null hypothesis were true. What is the <span class="math inline">\(p\)</span> value you got?</li>

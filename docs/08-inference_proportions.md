@@ -288,7 +288,7 @@ obs_z <- colonoscopy %>%
 
 obs_z
 ```
-b. Run the following code to visualize where our observed difference falls on the normal distribution:
+b. Run the following code to visualize where our observed difference falls on the normal distribution.  Compare the code below to the code we used in the previous exercise; what is similar and what is different?
 
 ```r
 null_dist_normal <- colonoscopy %>%
@@ -296,7 +296,7 @@ null_dist_normal <- colonoscopy %>%
     assume("z")
 
 null_dist_normal %>%
-    visualize(method = "both") +
+    visualize() +
     shade_p_value(obs_stat = obs_z, direction = "two-sided")
 ```
 c. Use the following code to find the $p$ value, that is, the proportion of differences that would be at least as extreme as the one we observed, if the null hypothesis were true.  What is the $p$ value you got?
