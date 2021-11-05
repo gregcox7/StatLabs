@@ -16,5 +16,6 @@ rmd_files: [
   "06-bootstrapping.Rmd",
   "07-normal_distribution.Rmd",
   "08-inference_proportions.Rmd",
+  "09-single_mean.Rmd",
   "99-references.Rmd"
   ]
