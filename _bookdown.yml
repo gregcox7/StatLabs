@@ -17,5 +17,6 @@ rmd_files: [
   "07-normal_distribution.Rmd",
   "08-inference_proportions.Rmd",
   "09-single_mean.Rmd",
+  "10-two_indep_means.Rmd",
   "99-references.Rmd"
   ]

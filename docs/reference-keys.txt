@@ -64,6 +64,12 @@ exr:unlabeled-div-63
 exr:unlabeled-div-64
 exr:unlabeled-div-65
 exr:unlabeled-div-66
+exr:unlabeled-div-67
+exr:unlabeled-div-68
+exr:unlabeled-div-69
+exr:unlabeled-div-70
+exr:unlabeled-div-71
+exr:unlabeled-div-72
 lab1
 r-and-rstudio
 installation-on-your-own-computer
@@ -210,3 +216,10 @@ check-out-the-data-2
 build-a-confidence-interval
 test-a-hypothesis
 wrap-up-8
+lab10
+required-packages-5
+are-recruiters-more-impressed-by-a-spoken-vs.-written-hiring-pitch
+check-out-the-data-3
+hypothesis-testing-via-simulation
+hypothesis-testing-using-the-t-distribution
+wrap-up-9
