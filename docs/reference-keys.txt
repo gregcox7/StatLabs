@@ -70,6 +70,11 @@ exr:unlabeled-div-69
 exr:unlabeled-div-70
 exr:unlabeled-div-71
 exr:unlabeled-div-72
+exr:unlabeled-div-73
+exr:unlabeled-div-74
+exr:unlabeled-div-75
+exr:unlabeled-div-76
+exr:unlabeled-div-77
 lab1
 r-and-rstudio
 installation-on-your-own-computer
@@ -223,3 +228,11 @@ check-out-the-data-3
 hypothesis-testing-via-simulation
 hypothesis-testing-using-the-t-distribution
 wrap-up-9
+lab11
+required-packages-6
+do-infants-prefer-people-who-sing-familiar-songs
+check-out-the-data-4
+examine-the-distribution-of-differences
+confidence-interval-by-bootstrapping
+hypothesis-test-via-mathematical-model
+wrap-up-10
