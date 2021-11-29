@@ -75,6 +75,11 @@ exr:unlabeled-div-74
 exr:unlabeled-div-75
 exr:unlabeled-div-76
 exr:unlabeled-div-77
+exr:unlabeled-div-78
+exr:unlabeled-div-79
+exr:unlabeled-div-80
+exr:unlabeled-div-81
+exr:unlabeled-div-82
 lab1
 r-and-rstudio
 installation-on-your-own-computer
@@ -236,3 +241,13 @@ examine-the-distribution-of-differences
 confidence-interval-by-bootstrapping
 hypothesis-test-via-mathematical-model
 wrap-up-10
+lab12
+required-packages-7
+can-we-reduce-intrusions-of-traumatic-memories
+load-the-data-11
+visualize-the-data
+hypothesis-testing-by-randomization
+the-observed-f-statistic
+simulating-the-null-hypothesis
+hypothesis-testing-by-mathematical-model
+wrap-up-11

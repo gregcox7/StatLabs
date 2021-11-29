@@ -19,5 +19,6 @@ rmd_files: [
   "09-single_mean.Rmd",
   "10-two_indep_means.Rmd",
   "11-paired_means.Rmd",
+  "12-multiple_groups.Rmd",
   "99-references.Rmd"
   ]
