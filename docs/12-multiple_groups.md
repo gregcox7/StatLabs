@@ -55,7 +55,7 @@ Load the relevant data into R now:
 
 
 ```r
-tetris_data <- read_csv("data/tetris.csv")
+tetris_data <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/tetris.csv")
 ```
 
 ```{.Rout .text-info}
