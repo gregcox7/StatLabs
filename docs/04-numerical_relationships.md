@@ -1,4 +1,4 @@
-# Relationships Between Numerical Variables {#lab4}
+# Relationships between numerical variables {#lab4}
 
 
 

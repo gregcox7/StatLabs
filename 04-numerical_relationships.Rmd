@@ -1,4 +1,4 @@
-# Relationships Between Numerical Variables {#lab4}
+# Relationships between numerical variables {#lab4}
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)

@@ -1,4 +1,4 @@
-# Exploring Data with R {#lab1}
+# Exploring data with R {#lab1}
 
 
 
@@ -39,7 +39,7 @@ Even if you don't have access to a computer with RStudio installed locally, you 
 
 ## Required packages
 
-Once you have RStudio up and running, run the following line of code by copying it and pasting it after the ">" in the "Console" in the lower left pane of the RStudio window.
+Once you have RStudio up and running, run the line of code in the grey box below by copying it and pasting it after the ">" in the "Console" in the lower left pane of the RStudio window.
 
 
 ```r
@@ -316,7 +316,32 @@ We find proportions by taking a count and dividing by a sum of counts.  Specific
 $$
 \text{Proportion of A that are B} = \frac{\text{Number of A that are B}}{\text{Total number of A's}}
 $$
-We can do this in code by adding a line to the code we used to make our counts.
+
+#### R is a fancy calculator
+
+Let's use the numbers in the frequency table above to find the proportion of male passengers who survived and the proportion of female passengers who survived.  This will illustrate how, although R is quite powerful, it is in many ways just a fancy calculator.  But a calculator is still handy!
+
+From the table we just made, we see that 339 female passengers survived.  There are $339 + 127$ total female passengers.  So we can use R to find the *proportion* of female passengers who survived using the line of code below:
+
+
+```r
+339 / (339 + 127)
+```
+
+```{.Rout .text-muted}
+## [1] 0.7274678
+```
+
+Notice that `/` stands for "division" and we put $339 + 127$ in *parentheses* to tell R that that whole sum should be in the denominator.
+
+::: {.exercise}
+Find the proportion of *male* passengers who survived.  Is this higher or lower than the proportion of female passengers who survived?  Is the result you found consistent with the "women and children first" policy?
+
+:::
+
+#### Another way to get proportions
+
+One thing you will notice with R is that there are many ways to do the same thing.  Instead of calculating proportions by hand, we can add a line to the code we used to make the frequency table before to get R to give us the proportions of female and male passengers who did and did not survive:
 
 
 ```r
@@ -341,10 +366,18 @@ titanic %>%
 ## 4 Male   TRUE       161 0.191
 ```
 
-The new column `p` is a proportion and represents the proportion of people in each group (either male or female) who either did or did not survive.  It is now easier to see that this proportion is much higher for female than male passengers, consistent with our hypothesis.
+The new column `p` is a proportion and represents the proportion of people in each group (either male or female) who either did or did not survive.  Notice that the numbers in the `p` column for male and female survivors are the same as the ones we found in the preceding section.
 
 ::: {.exercise}
-Write and run code that gives us a table, like the one above, which shows the proportion of people in each Class (First, Second, and Third) who survived or died.  Again, you will find it helpful to start from code we already used and modify it accordingly.
+Write and run code that gives us a table, like the one above, which shows the proportion of people in each Class (First, Second, and Third) who survived or died.  Again, you will find it helpful to start from code we already used and try filling in the blanks:
+
+
+```r
+titanic %>%
+  group_by(___, survived) %>%
+  summarize(n = n()) %>%
+  mutate(p = n / sum(n))
+```
 
 What code did you use?  Which Class had the highest proportion of survivors?
 
@@ -363,7 +396,7 @@ titanic %>%
   geom_bar()
 ```
 
-<img src="01-exploring_files/figure-html/unnamed-chunk-17-1.png" width="672" />
+<img src="01-exploring_files/figure-html/unnamed-chunk-19-1.png" width="672" />
 
 Pretty neat!  It is now easy to see how many more 3rd class passengers there were than 1st or 2nd, and that interestingly, there are fewer 2nd class than 1st class passengers.
 
@@ -383,7 +416,7 @@ titanic %>%
   facet_wrap("residence")
 ```
 
-<img src="01-exploring_files/figure-html/unnamed-chunk-18-1.png" width="672" />
+<img src="01-exploring_files/figure-html/unnamed-chunk-20-1.png" width="672" />
 
 The line at the end splits the plot into different "facets", one for each level of the `residence` variable.  Note that we have to put the "faceting" variable name in quotes (for some reason).  The result makes it easy to see that the distribution of passengers across classes is different depending on where they were from---Americans on the *Titanic* tended to be wealthier first class passengers, relative to passengers from Britain or elsewhere.
 
@@ -399,8 +432,6 @@ titanic %>%
 ```
 
 What code did you use?  What is a possible reason why the relative number of survivors is different depending on where passengers were from?
-
-Attach a copy of the plot you made.  You can do this by saving the chart as a file using the "Export" menu in the "Plots" pane in RStudio.
 
 :::
 
@@ -453,7 +484,7 @@ titanic %>%
 ## Warning: Removed 263 rows containing non-finite values (stat_bin).
 ```
 
-<img src="01-exploring_files/figure-html/unnamed-chunk-21-1.png" width="672" />
+<img src="01-exploring_files/figure-html/unnamed-chunk-23-1.png" width="672" />
 
 The resulting histogram shows a bunch of bars, the height of which indicate the number of passengers within a particular age range.  Notice that we got a couple messages from R in addition to our plot, one about "non-finite values" and another about "picking a better value".  When R says, "non-finite values", it is talking about people for whom their age was not recorded.  This is an unfortunate thing about real data: sometimes it has missing pieces.  This didn't stop R from making the plot we wanted using the non-missing data, but R wanted to warn us just in case.
 
@@ -472,7 +503,7 @@ titanic %>%
 ## Warning: Removed 263 rows containing non-finite values (stat_bin).
 ```
 
-<img src="01-exploring_files/figure-html/unnamed-chunk-22-1.png" width="672" />
+<img src="01-exploring_files/figure-html/unnamed-chunk-24-1.png" width="672" />
 
 And just like we did with bar charts, we can split a histogram into different "facets".  The pair of histograms below shows the distribution of ages of passengers that either did or did not survive:
 
@@ -488,7 +519,7 @@ titanic %>%
 ## Warning: Removed 263 rows containing non-finite values (stat_bin).
 ```
 
-<img src="01-exploring_files/figure-html/unnamed-chunk-23-1.png" width="672" />
+<img src="01-exploring_files/figure-html/unnamed-chunk-25-1.png" width="672" />
 
 ::: {.exercise}
 Try making several different histograms of passenger age split by survival, using different bin widths:
@@ -502,8 +533,6 @@ titanic %>%
 ```
 
 What bin width do you believe gives the best visual summary and why?  Do the shapes of the histograms suggest that there was any influence of the "women and *children* first" rule on who survived?
-
-Attach a copy of the plot you made with your favorite bin width (again, you can do this by saving your plot as a file using the "Export" menu in RStudio's Plots pane).
 
 :::
 
