@@ -225,11 +225,6 @@ Finally, we should note that, although the names of the specific departments hav
 ::: {.exercise}
 Even though these results do not suggest a sex bias in admissions at the level of individual departments, what other kinds of bias do these results suggest might be going on?  How are these potential biases related to the types of sampling biases we've discussed in class and in the book?
 
-> In thinking about this, it may help to think about two questions (though there are certainly more that may be relevant):
-> 
-> * Why might someone choose to apply to a particular department?
-> * Why might some departments be able to admit more applicants than others?
-
 :::
 
 ## Wrap-up
