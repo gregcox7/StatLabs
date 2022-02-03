@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Lab 9 Inference for a single mean | Labs</title>
 <meta name="author" content="Greg Cox">
-<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.9/header-attrs.js"></script><script src="libs/jquery-3.5.1/jquery-3.5.1.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.5.1/jquery-3.5.1.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.5.3/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.5.3/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.4/tabs.js"></script><script src="libs/bs3compat-0.2.4/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/mark.min.js"></script><!-- CSS --><link rel="stylesheet" href="css/ims-style.css">
@@ -63,7 +63,7 @@
 <span class="header-section-number">9.1</span> Required packages<a class="anchor" aria-label="anchor" href="#required-packages-4"><i class="fas fa-link"></i></a>
 </h2>
 <p>Make sure you have loaded both the <code>tidyverse</code> and <code>infer</code> packages from R’s library:</p>
-<div class="sourceCode" id="cb263"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb264"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></code></pre></div>
 <pre class="Rout text-info"><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
 <pre class="Rout text-info"><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
@@ -73,7 +73,7 @@
 <pre class="Rout text-info"><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
-<div class="sourceCode" id="cb267"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb268"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/infer">infer</a></span><span class="op">)</span></code></pre></div>
 </div>
 <div id="inference-with-nhanes" class="section level2" number="9.2">
@@ -81,7 +81,7 @@
 <span class="header-section-number">9.2</span> Inference with NHANES<a class="anchor" aria-label="anchor" href="#inference-with-nhanes"><i class="fas fa-link"></i></a>
 </h2>
 <p>To begin, we will take another look at two variables from the NHANES dataset that we already looked at in a <a href="lab7.html#lab7">previous lab</a>. Load it now:</p>
-<div class="sourceCode" id="cb268"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb269"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nhanes</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/nhanes.csv"</span><span class="op">)</span></code></pre></div>
 <pre class="Rout text-info"><code>## Rows: 4924 Columns: 76</code></pre>
 <pre class="Rout text-info"><code>## ── Column specification ────────────────────────────────────────────────────────
@@ -93,7 +93,7 @@
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <p>Remember that the variable <code>DaysMentHlthBad</code> represents the number of days, out of the past 30, that a person says their mental health was poor. We saw already that the distribution of observed values of this variable is <em>not</em> well described by a normal curve, as we can see in the histogram below:</p>
-<div class="sourceCode" id="cb272"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb273"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nhanes</span> <span class="op">%&gt;%</span>
     <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">DaysMentHlthBad</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">geom_histogram</span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
@@ -104,7 +104,7 @@
 <span class="header-section-number">9.2.1</span> Bootstrapping<a class="anchor" aria-label="anchor" href="#bootstrapping"><i class="fas fa-link"></i></a>
 </h3>
 <p>We can construct the distribution of sample means using <strong>bootstrapping</strong>. Run the following code to build this sampling distribution and save it under the name <code>boot_dist_mental_health</code>.</p>
-<div class="sourceCode" id="cb273"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb274"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">boot_dist_mental_health</span> <span class="op">&lt;-</span> <span class="va">nhanes</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span>response <span class="op">=</span> <span class="va">DaysMentHlthBad</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/generate.html">generate</a></span><span class="op">(</span>reps <span class="op">=</span> <span class="fl">1000</span>, type <span class="op">=</span> <span class="st">"bootstrap"</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -128,7 +128,7 @@
 ## # … with 990 more rows</code></pre>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-60" class="exercise"><strong>Exercise 9.1  </strong></span>The following chunk of code would use bootstrapping to construct a sampling distribution for the proportion of people who have tried marijuana:</p>
-<div class="sourceCode" id="cb275"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb276"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">boot_dist_marijuana</span> <span class="op">&lt;-</span> <span class="va">nhanes</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span>response <span class="op">=</span> <span class="va">Marijuana</span>, success <span class="op">=</span> <span class="st">"Yes"</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/generate.html">generate</a></span><span class="op">(</span>reps <span class="op">=</span> <span class="fl">1000</span>, type <span class="op">=</span> <span class="st">"bootstrap"</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -136,7 +136,7 @@
 <p>Compare this chunk of code with the first four lines of the code just prior to this exercise that we used to build a sampling distribution for the mean number of bad mental health days. For each of the four lines, what is similar and what is different? For any difference, describe why you think there is a difference.</p>
 </div>
 <p>Let’s visualize the sampling distribution for the mean number of poor mental health days:</p>
-<div class="sourceCode" id="cb276"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb277"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">boot_dist_mental_health</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="09-single_mean_files/figure-html/unnamed-chunk-7-1.png" width="672"></div>
@@ -146,7 +146,7 @@
 <span class="header-section-number">9.2.2</span> Standard error of the mean<a class="anchor" aria-label="anchor" href="#standard-error-of-the-mean"><i class="fas fa-link"></i></a>
 </h3>
 <p>If we find the standard deviation of this sampling distribution, we will get an estimate of the <strong>standard error of the mean</strong>:</p>
-<div class="sourceCode" id="cb277"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb278"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">boot_dist_mental_health</span> <span class="op">%&gt;%</span>
     <span class="fu">summarize</span><span class="op">(</span>standard_error <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">stat</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre class="Rout text-muted"><code>## # A tibble: 1 × 1
@@ -160,17 +160,17 @@ SE = \frac{s}{\sqrt{n}}
 <p>where <span class="math inline">\(s\)</span> is the sample standard deviation and <span class="math inline">\(n\)</span> is the sample size.</p>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-61" class="exercise"><strong>Exercise 9.2  </strong></span>Fill in the blanks in the code below to use R to calculate what the standard error is, based on the mathematical model. (Hint: the blanks will be the <em>names</em> of numbers calculated earlier in the chunk.)</p>
-<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="lab9.html#cb279-1" aria-hidden="true" tabindex="-1"></a>sample_sd <span class="ot">&lt;-</span> nhanes <span class="sc">%&gt;%</span></span>
-<span id="cb279-2"><a href="lab9.html#cb279-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="fu">sd</span>(DaysMentHlthBad)) <span class="sc">%&gt;%</span></span>
-<span id="cb279-3"><a href="lab9.html#cb279-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>()</span>
-<span id="cb279-4"><a href="lab9.html#cb279-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb279-5"><a href="lab9.html#cb279-5" aria-hidden="true" tabindex="-1"></a>sample_size <span class="ot">&lt;-</span> nhanes <span class="sc">%&gt;%</span></span>
-<span id="cb279-6"><a href="lab9.html#cb279-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb279-7"><a href="lab9.html#cb279-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>()</span>
-<span id="cb279-8"><a href="lab9.html#cb279-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb279-9"><a href="lab9.html#cb279-9" aria-hidden="true" tabindex="-1"></a>standard_error <span class="ot">&lt;-</span> ___ <span class="sc">/</span> <span class="fu">sqrt</span>(___)</span>
-<span id="cb279-10"><a href="lab9.html#cb279-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb279-11"><a href="lab9.html#cb279-11" aria-hidden="true" tabindex="-1"></a>standard_error</span></code></pre></div>
+<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="lab9.html#cb280-1" aria-hidden="true" tabindex="-1"></a>sample_sd <span class="ot">&lt;-</span> nhanes <span class="sc">%&gt;%</span></span>
+<span id="cb280-2"><a href="lab9.html#cb280-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="fu">sd</span>(DaysMentHlthBad)) <span class="sc">%&gt;%</span></span>
+<span id="cb280-3"><a href="lab9.html#cb280-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>()</span>
+<span id="cb280-4"><a href="lab9.html#cb280-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb280-5"><a href="lab9.html#cb280-5" aria-hidden="true" tabindex="-1"></a>sample_size <span class="ot">&lt;-</span> nhanes <span class="sc">%&gt;%</span></span>
+<span id="cb280-6"><a href="lab9.html#cb280-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb280-7"><a href="lab9.html#cb280-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>()</span>
+<span id="cb280-8"><a href="lab9.html#cb280-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb280-9"><a href="lab9.html#cb280-9" aria-hidden="true" tabindex="-1"></a>standard_error <span class="ot">&lt;-</span> ___ <span class="sc">/</span> <span class="fu">sqrt</span>(___)</span>
+<span id="cb280-10"><a href="lab9.html#cb280-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb280-11"><a href="lab9.html#cb280-11" aria-hidden="true" tabindex="-1"></a>standard_error</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>What did you get for the <code>standard_error</code>?</li>
 <li>Compare the value in part (a) to what you found just before this exercise by calculating the standard deviation of the bootstrap distribution. Are the values similar or different? Describe why you would expect the two values to be similar or different.</li>
@@ -182,7 +182,7 @@ SE = \frac{s}{\sqrt{n}}
 <span class="header-section-number">9.2.3</span> Confidence intervals<a class="anchor" aria-label="anchor" href="#confidence-intervals-1"><i class="fas fa-link"></i></a>
 </h3>
 <p>Suppose we want to construct a <strong>95% confidence interval</strong> for the population mean, based on our sample. We’ve already seen how to do this with a bootstrap distribution:</p>
-<div class="sourceCode" id="cb280"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb281"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">boot_ci_mental_health</span> <span class="op">&lt;-</span> <span class="va">boot_dist_mental_health</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/get_confidence_interval.html">get_confidence_interval</a></span><span class="op">(</span>level <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span>
 
@@ -200,19 +200,19 @@ SE = \frac{s}{\sqrt{n}}
 df = n - 1
 \]</span></p>
 <p>Luckily, we already told R to remember the sample size during the previous exercise, so we can find the number of degrees of freedom:</p>
-<div class="sourceCode" id="cb282"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb283"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">degrees_of_freedom</span> <span class="op">&lt;-</span> <span class="va">sample_size</span> <span class="op">-</span> <span class="fl">1</span>
 
 <span class="va">degrees_of_freedom</span></code></pre></div>
 <pre class="Rout text-muted"><code>## [1] 4923</code></pre>
 <p>Now, we can use the <code>qt</code> distribution to find which <code>q</code>uantile of the T distribution represents the upper tail of our confidence interval. We set <code>p = 0.975</code> because we want to find the point at which 2.5% (or 0.025) of the distribution is <em>above</em> this quantile, so 97.5% will have to be <em>below</em> it. The resulting quantile is our critical t value:</p>
-<div class="sourceCode" id="cb284"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb285"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">critical_t</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/TDist.html">qt</a></span><span class="op">(</span>p <span class="op">=</span> <span class="fl">0.975</span>, df <span class="op">=</span> <span class="va">degrees_of_freedom</span><span class="op">)</span>
 
 <span class="va">critical_t</span></code></pre></div>
 <pre class="Rout text-muted"><code>## [1] 1.960446</code></pre>
 <p>Finally, the last ingredient we need for a confidence interval is the sample mean (<span class="math inline">\(\bar{x}\)</span>):</p>
-<div class="sourceCode" id="cb286"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb287"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sample_mean</span> <span class="op">&lt;-</span> <span class="va">nhanes</span> <span class="op">%&gt;%</span>
     <span class="fu">summarize</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">DaysMentHlthBad</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">pull</span><span class="op">(</span><span class="op">)</span>
@@ -221,10 +221,10 @@ df = n - 1
 <pre class="Rout text-muted"><code>## [1] 4.48355</code></pre>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-62" class="exercise"><strong>Exercise 9.3  </strong></span>Fill in the blanks below to find the 95% confidence interval according to the T distribution. <em>Hint:</em> your best bet is to fill the blanks with <em>names</em> of numbers calculated from running the code chunks before this exercise. Consider the formula for the confidence interval given above. Also, remember that <code><a href="https://rdrr.io/r/base/Arithmetic.html">*</a></code> in R does multiplication.</p>
-<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="lab9.html#cb288-1" aria-hidden="true" tabindex="-1"></a>ci_lower <span class="ot">&lt;-</span> ___ <span class="sc">-</span> ___ <span class="sc">*</span> ___</span>
-<span id="cb288-2"><a href="lab9.html#cb288-2" aria-hidden="true" tabindex="-1"></a>ci_upper <span class="ot">&lt;-</span> ___ <span class="sc">+</span> ___ <span class="sc">*</span> ___</span>
-<span id="cb288-3"><a href="lab9.html#cb288-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb288-4"><a href="lab9.html#cb288-4" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(ci_lower, ci_upper)</span></code></pre></div>
+<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="lab9.html#cb289-1" aria-hidden="true" tabindex="-1"></a>ci_lower <span class="ot">&lt;-</span> ___ <span class="sc">-</span> ___ <span class="sc">*</span> ___</span>
+<span id="cb289-2"><a href="lab9.html#cb289-2" aria-hidden="true" tabindex="-1"></a>ci_upper <span class="ot">&lt;-</span> ___ <span class="sc">+</span> ___ <span class="sc">*</span> ___</span>
+<span id="cb289-3"><a href="lab9.html#cb289-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb289-4"><a href="lab9.html#cb289-4" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(ci_lower, ci_upper)</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>What code did you use?</li>
 <li>What was the interval you got?</li>
@@ -245,7 +245,7 @@ df = n - 1
 </h4>
 <p>One way to conduct this hypothesis test is to use bootstrapping to simulate what our data would look like if the null hypothesis were true. This will construct a sampling distribution under the assumption that the true average in the population is 4 bad days per month. We will then see where the mean from our data falls on this distribution to find a <span class="math inline">\(p\)</span> value and decide whether or not to reject the null hypothesis.</p>
 <p>The code below constructs sampling distribution under the assumption that the true average in the population is 4 bad days per month:</p>
-<div class="sourceCode" id="cb289"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb290"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">null_dist_mental_health</span> <span class="op">&lt;-</span> <span class="va">nhanes</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span>response <span class="op">=</span> <span class="va">DaysMentHlthBad</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/hypothesize.html">hypothesize</a></span><span class="op">(</span>null <span class="op">=</span> <span class="st">"point"</span>, mu <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -271,13 +271,13 @@ df = n - 1
 ## # … with 990 more rows</code></pre>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-63" class="exercise"><strong>Exercise 9.4  </strong></span>The chunk of code to build a sampling distribution for a confidence interval (that we used above) was</p>
-<div class="sourceCode" id="cb291"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb292"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">boot_dist_mental_health</span> <span class="op">&lt;-</span> <span class="va">nhanes</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span>response <span class="op">=</span> <span class="va">DaysMentHlthBad</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/generate.html">generate</a></span><span class="op">(</span>reps <span class="op">=</span> <span class="fl">1000</span>, type <span class="op">=</span> <span class="st">"bootstrap"</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/calculate.html">calculate</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"mean"</span><span class="op">)</span></code></pre></div>
 <p>Compare this to the code we just ran to build a sampling distribution for a hypothesis test:</p>
-<div class="sourceCode" id="cb292"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb293"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">null_dist_mental_health</span> <span class="op">&lt;-</span> <span class="va">nhanes</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span>response <span class="op">=</span> <span class="va">DaysMentHlthBad</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/hypothesize.html">hypothesize</a></span><span class="op">(</span>null <span class="op">=</span> <span class="st">"point"</span>, mu <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -289,7 +289,7 @@ df = n - 1
 </ol>
 </div>
 <p>Now that we have built our sampling distribution (assuming the null hypothesis is true), let’s see where our observed sample mean falls on this distribution. Note that we set <code>direction = "greater"</code> in the code below, because our alternative hypothesis is that the average is <em>greater than</em> 4 days:</p>
-<div class="sourceCode" id="cb293"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb294"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">null_dist_mental_health</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/shade_p_value.html">shade_p_value</a></span><span class="op">(</span>obs_stat <span class="op">=</span> <span class="va">sample_mean</span>, direction <span class="op">=</span> <span class="st">"greater"</span><span class="op">)</span></code></pre></div>
@@ -310,9 +310,9 @@ T &amp; = \frac{\text{point estimate} - \text{null value}}{\text{standard error}
 \]</span></p>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-64" class="exercise"><strong>Exercise 9.5  </strong></span>Fill in the blanks in the code below to find the T score and then the corresponding <span class="math inline">\(p\)</span> value using the T distribution. <em>Hint:</em> Try to fill in at least some of the blanks with the <em>names</em> of values we have already calculated earlier in the session.</p>
-<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="lab9.html#cb294-1" aria-hidden="true" tabindex="-1"></a>t_score <span class="ot">&lt;-</span> (___ <span class="sc">-</span> ___) <span class="sc">/</span> ___</span>
-<span id="cb294-2"><a href="lab9.html#cb294-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb294-3"><a href="lab9.html#cb294-3" aria-hidden="true" tabindex="-1"></a>p_value <span class="ot">&lt;-</span> <span class="fu">pt</span>(<span class="at">q =</span> t_score, <span class="at">df =</span> ___, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="lab9.html#cb295-1" aria-hidden="true" tabindex="-1"></a>t_score <span class="ot">&lt;-</span> (___ <span class="sc">-</span> ___) <span class="sc">/</span> ___</span>
+<span id="cb295-2"><a href="lab9.html#cb295-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb295-3"><a href="lab9.html#cb295-3" aria-hidden="true" tabindex="-1"></a>p_value <span class="ot">&lt;-</span> <span class="fu">pt</span>(<span class="at">q =</span> t_score, <span class="at">df =</span> ___, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>What code did you use?</li>
 <li>Assuming a significance level of 0.05, do you reject the null hypothesis? Why or why not?</li>
@@ -338,7 +338,7 @@ T &amp; = \frac{\text{point estimate} - \text{null value}}{\text{standard error}
 <span class="header-section-number">9.3.1</span> Load the data<a class="anchor" aria-label="anchor" href="#load-the-data-10"><i class="fas fa-link"></i></a>
 </h3>
 <p>Download their data, of which we will only look at two variables: A participant ID number and the measured memory span for each participant. Note that the reported spans are not always integers because they allowed partial credit for sequences that were not perfectly recalled.</p>
-<div class="sourceCode" id="cb295"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb296"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">span_data</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/simple_span.csv"</span><span class="op">)</span></code></pre></div>
 <pre class="Rout text-info"><code>## Rows: 94 Columns: 2</code></pre>
 <pre class="Rout text-info"><code>## ── Column specification ────────────────────────────────────────────────────────
@@ -353,13 +353,13 @@ T &amp; = \frac{\text{point estimate} - \text{null value}}{\text{standard error}
 <span class="header-section-number">9.3.2</span> Check out the data<a class="anchor" aria-label="anchor" href="#check-out-the-data-2"><i class="fas fa-link"></i></a>
 </h3>
 <p>First, let’s get a sense of the raw data by making a histogram of the measured memory spans, recorded under the variable named <code>span</code>.</p>
-<div class="sourceCode" id="cb299"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb300"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">span_data</span> <span class="op">%&gt;%</span>
     <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">span</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">geom_histogram</span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="09-single_mean_files/figure-html/unnamed-chunk-22-1.png" width="672"></div>
 <p>And let’s also get the sample mean, sample standard deviation, and sample size:</p>
-<div class="sourceCode" id="cb300"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb301"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">span_data</span> <span class="op">%&gt;%</span>
     <span class="fu">summarize</span><span class="op">(</span>sample_mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">span</span><span class="op">)</span>, sample_sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">span</span><span class="op">)</span>, sample_size <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre class="Rout text-muted"><code>## # A tibble: 1 × 3
@@ -383,36 +383,36 @@ T &amp; = \frac{\text{point estimate} - \text{null value}}{\text{standard error}
 <ol style="list-style-type: lower-alpha">
 <li>Fill in the blanks in the chunk of code below to use bootstrapping to build and visualize a sampling distribution for the mean memory span, based on this sample (<em>Hint:</em> refer to code from earlier in the session and remember what the name of the response variable is.) What code did you use?</li>
 </ol>
-<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="lab9.html#cb302-1" aria-hidden="true" tabindex="-1"></a>boot_dist_span <span class="ot">&lt;-</span> span_data <span class="sc">%&gt;%</span></span>
-<span id="cb302-2"><a href="lab9.html#cb302-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___) <span class="sc">%&gt;%</span></span>
-<span id="cb302-3"><a href="lab9.html#cb302-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb302-4"><a href="lab9.html#cb302-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>)</span>
-<span id="cb302-5"><a href="lab9.html#cb302-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb302-6"><a href="lab9.html#cb302-6" aria-hidden="true" tabindex="-1"></a>boot_dist_span <span class="sc">%&gt;%</span></span>
-<span id="cb302-7"><a href="lab9.html#cb302-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="lab9.html#cb303-1" aria-hidden="true" tabindex="-1"></a>boot_dist_span <span class="ot">&lt;-</span> span_data <span class="sc">%&gt;%</span></span>
+<span id="cb303-2"><a href="lab9.html#cb303-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb303-3"><a href="lab9.html#cb303-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb303-4"><a href="lab9.html#cb303-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>)</span>
+<span id="cb303-5"><a href="lab9.html#cb303-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb303-6"><a href="lab9.html#cb303-6" aria-hidden="true" tabindex="-1"></a>boot_dist_span <span class="sc">%&gt;%</span></span>
+<span id="cb303-7"><a href="lab9.html#cb303-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>()</span></code></pre></div>
 <ol start="2" style="list-style-type: lower-alpha">
 <li>Fill in the blanks in the code below to use the T distribution to find a 95% confidence interval for mean memory span. (<em>Hint:</em> see how numbers with similar names were calculated above for the NHANES mental health data.) What code did you use?</li>
 </ol>
-<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="lab9.html#cb303-1" aria-hidden="true" tabindex="-1"></a>sample_mean_span <span class="ot">&lt;-</span> span_data <span class="sc">%&gt;%</span></span>
-<span id="cb303-2"><a href="lab9.html#cb303-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="fu">___</span>(span)) <span class="sc">%&gt;%</span></span>
-<span id="cb303-3"><a href="lab9.html#cb303-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>()</span>
-<span id="cb303-4"><a href="lab9.html#cb303-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb303-5"><a href="lab9.html#cb303-5" aria-hidden="true" tabindex="-1"></a>sample_sd_span <span class="ot">&lt;-</span> span_data <span class="sc">%&gt;%</span></span>
-<span id="cb303-6"><a href="lab9.html#cb303-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="fu">___</span>(span)) <span class="sc">%&gt;%</span></span>
-<span id="cb303-7"><a href="lab9.html#cb303-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>()</span>
-<span id="cb303-8"><a href="lab9.html#cb303-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb303-9"><a href="lab9.html#cb303-9" aria-hidden="true" tabindex="-1"></a>sample_size_span <span class="ot">&lt;-</span> span_data <span class="sc">%&gt;%</span></span>
-<span id="cb303-10"><a href="lab9.html#cb303-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb303-11"><a href="lab9.html#cb303-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>()</span>
-<span id="cb303-12"><a href="lab9.html#cb303-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb303-13"><a href="lab9.html#cb303-13" aria-hidden="true" tabindex="-1"></a>standard_error_span <span class="ot">&lt;-</span> ___ <span class="sc">/</span> <span class="fu">sqrt</span>(___)</span>
-<span id="cb303-14"><a href="lab9.html#cb303-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb303-15"><a href="lab9.html#cb303-15" aria-hidden="true" tabindex="-1"></a>degrees_of_freedom_span <span class="ot">&lt;-</span> ___ <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb303-16"><a href="lab9.html#cb303-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb303-17"><a href="lab9.html#cb303-17" aria-hidden="true" tabindex="-1"></a>critical_t_span <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="at">p =</span> ___, <span class="at">df =</span> ___, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb303-18"><a href="lab9.html#cb303-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb303-19"><a href="lab9.html#cb303-19" aria-hidden="true" tabindex="-1"></a>ci_lower_span <span class="ot">&lt;-</span> ___ <span class="sc">-</span> ___ <span class="sc">*</span> ___</span>
-<span id="cb303-20"><a href="lab9.html#cb303-20" aria-hidden="true" tabindex="-1"></a>ci_upper_span <span class="ot">&lt;-</span> ___ <span class="sc">+</span> ___ <span class="sc">*</span> ___</span></code></pre></div>
+<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="lab9.html#cb304-1" aria-hidden="true" tabindex="-1"></a>sample_mean_span <span class="ot">&lt;-</span> span_data <span class="sc">%&gt;%</span></span>
+<span id="cb304-2"><a href="lab9.html#cb304-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="fu">___</span>(span)) <span class="sc">%&gt;%</span></span>
+<span id="cb304-3"><a href="lab9.html#cb304-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>()</span>
+<span id="cb304-4"><a href="lab9.html#cb304-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb304-5"><a href="lab9.html#cb304-5" aria-hidden="true" tabindex="-1"></a>sample_sd_span <span class="ot">&lt;-</span> span_data <span class="sc">%&gt;%</span></span>
+<span id="cb304-6"><a href="lab9.html#cb304-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="fu">___</span>(span)) <span class="sc">%&gt;%</span></span>
+<span id="cb304-7"><a href="lab9.html#cb304-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>()</span>
+<span id="cb304-8"><a href="lab9.html#cb304-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb304-9"><a href="lab9.html#cb304-9" aria-hidden="true" tabindex="-1"></a>sample_size_span <span class="ot">&lt;-</span> span_data <span class="sc">%&gt;%</span></span>
+<span id="cb304-10"><a href="lab9.html#cb304-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb304-11"><a href="lab9.html#cb304-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>()</span>
+<span id="cb304-12"><a href="lab9.html#cb304-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb304-13"><a href="lab9.html#cb304-13" aria-hidden="true" tabindex="-1"></a>standard_error_span <span class="ot">&lt;-</span> ___ <span class="sc">/</span> <span class="fu">sqrt</span>(___)</span>
+<span id="cb304-14"><a href="lab9.html#cb304-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb304-15"><a href="lab9.html#cb304-15" aria-hidden="true" tabindex="-1"></a>degrees_of_freedom_span <span class="ot">&lt;-</span> ___ <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb304-16"><a href="lab9.html#cb304-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb304-17"><a href="lab9.html#cb304-17" aria-hidden="true" tabindex="-1"></a>critical_t_span <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="at">p =</span> ___, <span class="at">df =</span> ___, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb304-18"><a href="lab9.html#cb304-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb304-19"><a href="lab9.html#cb304-19" aria-hidden="true" tabindex="-1"></a>ci_lower_span <span class="ot">&lt;-</span> ___ <span class="sc">-</span> ___ <span class="sc">*</span> ___</span>
+<span id="cb304-20"><a href="lab9.html#cb304-20" aria-hidden="true" tabindex="-1"></a>ci_upper_span <span class="ot">&lt;-</span> ___ <span class="sc">+</span> ___ <span class="sc">*</span> ___</span></code></pre></div>
 <ol start="3" style="list-style-type: lower-alpha">
 <li>Report the interval you found in part (b) (you’ll find these under <code>ci_lower_span</code> and <code>ci_upper_span</code> in your R environment) and interpret the interval in the context of the scenario.</li>
 </ol>
@@ -429,23 +429,23 @@ T &amp; = \frac{\text{point estimate} - \text{null value}}{\text{standard error}
 <li>What are the null and alternative hypotheses corresponding to this research question?</li>
 <li>Fill in the blanks in the code below to build a sampling distribution assuming the null hypothesis is true. In the end, you should get a histogram of the sampling distribution showing where the observed sample mean falls (note that this requires you to have finished the previous exercise, since <code>sample_mean_span</code> must be in your R environment). What code did you use?</li>
 </ol>
-<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="lab9.html#cb304-1" aria-hidden="true" tabindex="-1"></a>null_dist_span <span class="ot">&lt;-</span> span_data <span class="sc">%&gt;%</span></span>
-<span id="cb304-2"><a href="lab9.html#cb304-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___) <span class="sc">%&gt;%</span></span>
-<span id="cb304-3"><a href="lab9.html#cb304-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"___"</span>, <span class="at">mu =</span> ___) <span class="sc">%&gt;%</span></span>
-<span id="cb304-4"><a href="lab9.html#cb304-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb304-5"><a href="lab9.html#cb304-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>)</span>
-<span id="cb304-6"><a href="lab9.html#cb304-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb304-7"><a href="lab9.html#cb304-7" aria-hidden="true" tabindex="-1"></a>null_dist_span <span class="sc">%&gt;%</span></span>
-<span id="cb304-8"><a href="lab9.html#cb304-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
-<span id="cb304-9"><a href="lab9.html#cb304-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> sample_mean_span, <span class="at">direction =</span> <span class="st">"two-sided"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="lab9.html#cb305-1" aria-hidden="true" tabindex="-1"></a>null_dist_span <span class="ot">&lt;-</span> span_data <span class="sc">%&gt;%</span></span>
+<span id="cb305-2"><a href="lab9.html#cb305-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb305-3"><a href="lab9.html#cb305-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"___"</span>, <span class="at">mu =</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb305-4"><a href="lab9.html#cb305-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb305-5"><a href="lab9.html#cb305-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>)</span>
+<span id="cb305-6"><a href="lab9.html#cb305-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb305-7"><a href="lab9.html#cb305-7" aria-hidden="true" tabindex="-1"></a>null_dist_span <span class="sc">%&gt;%</span></span>
+<span id="cb305-8"><a href="lab9.html#cb305-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb305-9"><a href="lab9.html#cb305-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> sample_mean_span, <span class="at">direction =</span> <span class="st">"two-sided"</span>)</span></code></pre></div>
 <ol start="3" style="list-style-type: lower-alpha">
 <li>Fill in the blanks in the code below to find the T score based on our sample. What is the T score?</li>
 </ol>
-<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="lab9.html#cb305-1" aria-hidden="true" tabindex="-1"></a>t_score_span <span class="ot">&lt;-</span> (___ <span class="sc">-</span> ___) <span class="sc">/</span> ___</span></code></pre></div>
+<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="lab9.html#cb306-1" aria-hidden="true" tabindex="-1"></a>t_score_span <span class="ot">&lt;-</span> (___ <span class="sc">-</span> ___) <span class="sc">/</span> ___</span></code></pre></div>
 <ol start="4" style="list-style-type: lower-alpha">
 <li>Fill in the blanks in the code below to get the <span class="math inline">\(p\)</span> value based on the <code>t_score_span</code> you found in part (c). What is the <span class="math inline">\(p\)</span> value?</li>
 </ol>
-<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="lab9.html#cb306-1" aria-hidden="true" tabindex="-1"></a>p_value_span <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">pt</span>(<span class="at">q =</span> t_score_span, <span class="at">df =</span> ___, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="lab9.html#cb307-1" aria-hidden="true" tabindex="-1"></a>p_value_span <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">pt</span>(<span class="at">q =</span> t_score_span, <span class="at">df =</span> ___, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <ol start="5" style="list-style-type: lower-alpha">
 <li><p>Assume that we adopt a significance level of 0.05. Based on the <span class="math inline">\(p\)</span> value you got in part (d), should we reject the null hypothesis or not?</p></li>
 <li><p>In one sentence, summarize the result of this hypothesis test in the context of the problem.</p></li>
@@ -504,7 +504,7 @@ T &amp; = \frac{\text{point estimate} - \text{null value}}{\text{standard error}
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-01-26.</p>
+    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-02-03.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

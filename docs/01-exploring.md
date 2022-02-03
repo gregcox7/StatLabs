@@ -8,7 +8,7 @@ In this session, we will learn a bit about data and how to explore it using R/RS
 
 As you follow along in this activity, you will be asked to run bits of code in RStudio.  This code can be copied-and-pasted into the "Console" at the lower left of RStudio.  You will also be asked to modify code and run it yourself, which again you can do by typing your code into the console.
 
-When the document shows you a snippet of code, it also shows typical R output that should result from running that code.  For example, the following snippet of code adds two numbers; the way R prints the result is shown below the snippet of code.
+When this document shows you a snippet of code, it also shows typical R output that should result from running that code.  For example, the following snippet of code adds two numbers; the way R prints the result is shown below the snippet of code.
 
 
 ```r
@@ -421,7 +421,7 @@ titanic %>%
 The line at the end splits the plot into different "facets", one for each level of the `residence` variable.  Note that we have to put the "faceting" variable name in quotes (for some reason).  The result makes it easy to see that the distribution of passengers across classes is different depending on where they were from---Americans on the *Titanic* tended to be wealthier first class passengers, relative to passengers from Britain or elsewhere.
 
 ::: {.exercise}
-Make a bar chart that shows the number of people who either did or did not survive depending on their country of residence.  To do this, fill in the blanks in the code below:
+Make a bar chart that shows the number of people who either did or did not survive depending on their country of residence.  To do this, fill in the blanks in the code below so that each "facet" corresponds to country of residence and each "facet" has two bars in it, one bar for survivors and one bar for non-survivors.
 
 
 ```r
@@ -532,13 +532,13 @@ titanic %>%
   facet_wrap("survived")
 ```
 
-What bin width do you believe gives the best visual summary and why?  Do the shapes of the histograms suggest that there was any influence of the "women and *children* first" rule on who survived?
+What bin width do you believe gives the best visual summary and why?  Describe whether the shapes of the histograms in each facet are consistent with the "women and *children* first" rule.
 
 :::
 
 ## Wrap-up
 
-Today we began our adventure by using RStudio to explore some data.  We saw how to look at data and how to summarize it in various helpful ways.  These were frequency tables, bar charts, and histograms.
+Today we began our adventure by using RStudio to explore some data.  We saw how to look at data and how to summarize it in various helpful ways.  These were frequency tables, proportions, bar charts, and histograms.
 
 * Frequency tables count the number of times a particular value of a particular variable (or combination of values across multiple variables) occurs in our dataset.
 * We can use the counts in frequency tables to calculate proportions, which are better at conveying relative values.

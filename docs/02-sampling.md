@@ -4,7 +4,7 @@
 
 <img src="img/simpsons.png" width="100%" />
 
-In the previous activity, we got some exposure to how we can explore data in R in such a way that we can use data to help answer questions.  In this activity, we will get a sense of where data come from and how the processes that produce data can force us to change our interpretations.
+In the previous activity, we got some exposure to how we can explore data in R in such a way that we can use data to help answer questions.  In this activity, we will get a sense of where data come from and how the processes that produce data can force us to change how we interpret that data.
 
 Generally, the data we have come from a **sample** from some larger **population**.  Depending on how that sample is selected, it may give us a **biased** perspective on the larger population.  In particular, when we have non-random samples (as in **observational studies**), we must think carefully about how the processes by which cases end up in our sample.  If those processes, which might be social in nature, introduce **confounding variables**, then there can be systematic differences between different groups in our sample, requiring us to interpret the data differently.
 
@@ -110,7 +110,17 @@ berkeley %>%
 The rightmost column of the table (labeled `p`) gives the proportion of applicants of each gender who were either admitted or rejected.  Based on this table, it looks like Berkeley was right to be concerned---the proportion of male applicants admitted is higher than the proportion of female applicants admitted.
 
 ::: {.exercise}
-Compare the chunk of code we just ran to some of the code we used in the last activity in [this section](#titanic-props).  What parts looks similar and what parts look different?
+Compare the chunk of code we just ran to some of the code we used in the last activity in [this section](#titanic-props).  You will note that they have four lines with the following structure:
+
+
+```r
+___ %>%
+  group_by(___) %>%
+  summarize(n = n()) %>%
+  mutate(p = n / sum(n))
+```
+
+For each of those four lines of code above, describe in your own words what that line does.
 
 :::
 
@@ -195,10 +205,10 @@ berkeley %>%
   facet_wrap("Department")
 ```
 
-<img src="02-sampling_files/figure-html/unnamed-chunk-7-1.png" width="672" />
+<img src="02-sampling_files/figure-html/unnamed-chunk-8-1.png" width="672" />
 
 ::: {.exercise}
-Compare the code we just ran to create this colored bar chart with the kind of code you used to make bar charts in the [previous activity](#titanic-bar).  What is similar and what is different?
+Compare the code we just ran to create this colored bar chart with the kind of code you used to make bar charts in the [previous activity](#titanic-bar).  What seems to be the same and what is different?
 
 :::
 
