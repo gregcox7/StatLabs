@@ -163,11 +163,10 @@ my_data %>%
 ```
 
 ::: {.exercise}
-Modify the chunk of code we just ran to add up the `deviation`s instead of the `squared_deviation`s.
+Modify the chunk of code we just ran to just add up the `deviation`s instead of the `squared_deviation`s.  (*Hint:* think about what variable name to put inside the parentheses after "sum" on the last line.)
 
-a. What code did you use?
-b. What is the sum of the deviations?
-c. Relate the sum of the deviations to the idea that the mean is the "balance point" of a distribution of numbers.
+a. What is the sum of the deviations?
+b. How do you think the sum of the deviations might relate to the idea that the mean is the "balance point" of a distribution of numbers?
 
 :::
 
@@ -298,7 +297,7 @@ b. Compare the two distributions.  Be sure to note whether there seem to be any 
 
 #### Boxplots
 
-We've also seen how **boxplots** can be useful visual summaries of data.  These are easy to produce in R by using `geom_boxplot` instead of `geom_histogram`:
+We've also seen some examples of **boxplots** as useful visual summaries of data.  The "box" of the boxplot encloses the "inter-quartile range" (IQR), that is, the middle 50% of the data that falls between the 25th and 75th percentiles.  The line in the middle of the box shows where the median is.  Boxplots are easy to produce in R by using `geom_boxplot` instead of `geom_histogram`:
 
 
 ```r
@@ -312,8 +311,8 @@ rats %>%
 ::: {.exercise}
 Compare the boxplots and histograms we just made.
 
-a. Compare the chunks of code we used to make a faceted histogram with the code we used to make a boxplot.  Note any similarities or differences, especially where different variable names appear in the two chunks of code.
-b. Describe anything about the data that might be easier to see in the boxplot as opposed to the histogram.
+a. What sorts of things seem easier to do with the boxplots as opposed to histograms?  Think about what features of the data might be easier to see with a boxplot and what comparisons might be easier to make using a boxplot.
+b. Do you lose anything by using a boxplot instead of a histogram?  Are there any important features of the data that are harder to see in the boxplot?
 
 :::
 
@@ -339,7 +338,7 @@ rats %>%
 ```
 
 ::: {.exercise}
-Fill in the blanks in the following chunk of code to find the mean and standard deviation of the lifespans of the rats under each diet:
+Fill in the blanks in the following chunk of code to find the mean and standard deviation of the lifespans of the rats under each diet.  *Hint:* recall the names of the functions we used to find these quantities earlier.
 
 
 ```r
@@ -349,19 +348,7 @@ ___ %>%
 ```
 
 a. What code did you use?
-
-*Hint:* If you've filled in the blanks correctly, you should get the following result.
-
-
-```{.Rout .text-muted}
-## # A tibble: 2 × 3
-##   Diet        Mean    SD
-##   <chr>      <dbl> <dbl>
-## 1 Free        684.  134.
-## 2 Restricted  969.  285.
-```
-
-b. Compare the means and standard deviations to the histograms we made earlier.  How are the differences in mean lifespan between groups reflected in the two histograms?  How are the differences in the standard deviation of lifespan reflected in the two histograms?
+b. Compare the means and standard deviations for each group of rats to the histograms we made earlier.  How are the differences in mean lifespan between groups reflected in the two histograms?  How are the differences in the standard deviation of lifespan reflected in the two histograms?
 
 :::
 
@@ -370,9 +357,9 @@ These numerical summaries of central tendency and variability provide a concise 
 ::: {.exercise}
 Based on the visual and numerical summaries we have made, let us draw some conclusions about that research question.
 
-a. Describe the differences in lifespan between rats under a restricted diet versus rats with a free diet.
-b. Can we conclude that the differences in diet *caused* the observed differences in lifespan?
-c. What is the population to which we could *generalize* these results?
+a. Briefly describe the differences in lifespans between rats under a restricted diet versus rats with a free diet.
+b. Based on the design of the study, can we conclude that the differences in diet probably played a role in *causing* the observed differences in lifespan in this sample?  Why or why not?
+c. What is the population to which you think we could *generalize* these results?
 
 :::
 

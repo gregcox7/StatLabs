@@ -175,11 +175,10 @@
 ##                   &lt;dbl&gt;
 ## 1                   256</code></pre>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-16" class="exercise"><strong>Exercise 3.2  </strong></span>Modify the chunk of code we just ran to add up the <code>deviation</code>s instead of the <code>squared_deviation</code>s.</p>
+<p><span id="exr:unlabeled-div-16" class="exercise"><strong>Exercise 3.2  </strong></span>Modify the chunk of code we just ran to just add up the <code>deviation</code>s instead of the <code>squared_deviation</code>s. (<em>Hint:</em> think about what variable name to put inside the parentheses after “sum” on the last line.)</p>
 <ol style="list-style-type: lower-alpha">
-<li>What code did you use?</li>
 <li>What is the sum of the deviations?</li>
-<li>Relate the sum of the deviations to the idea that the mean is the “balance point” of a distribution of numbers.</li>
+<li>How do you think the sum of the deviations might relate to the idea that the mean is the “balance point” of a distribution of numbers?</li>
 </ol>
 </div>
 </div>
@@ -286,7 +285,7 @@
 <h4>
 <span class="header-section-number">3.3.2.2</span> Boxplots<a class="anchor" aria-label="anchor" href="#boxplots"><i class="fas fa-link"></i></a>
 </h4>
-<p>We’ve also seen how <strong>boxplots</strong> can be useful visual summaries of data. These are easy to produce in R by using <code>geom_boxplot</code> instead of <code>geom_histogram</code>:</p>
+<p>We’ve also seen some examples of <strong>boxplots</strong> as useful visual summaries of data. The “box” of the boxplot encloses the “inter-quartile range” (IQR), that is, the middle 50% of the data that falls between the 25th and 75th percentiles. The line in the middle of the box shows where the median is. Boxplots are easy to produce in R by using <code>geom_boxplot</code> instead of <code>geom_histogram</code>:</p>
 <div class="sourceCode" id="cb92"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">rats</span> <span class="op">%&gt;%</span>
     <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">Lifespan</span>, y<span class="op">=</span><span class="va">Diet</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
@@ -295,8 +294,8 @@
 <div class="exercise">
 <p><span id="exr:unlabeled-div-19" class="exercise"><strong>Exercise 3.5  </strong></span>Compare the boxplots and histograms we just made.</p>
 <ol style="list-style-type: lower-alpha">
-<li>Compare the chunks of code we used to make a faceted histogram with the code we used to make a boxplot. Note any similarities or differences, especially where different variable names appear in the two chunks of code.</li>
-<li>Describe anything about the data that might be easier to see in the boxplot as opposed to the histogram.</li>
+<li>What sorts of things seem easier to do with the boxplots as opposed to histograms? Think about what features of the data might be easier to see with a boxplot and what comparisons might be easier to make using a boxplot.</li>
+<li>Do you lose anything by using a boxplot instead of a histogram? Are there any important features of the data that are harder to see in the boxplot?</li>
 </ol>
 </div>
 </div>
@@ -317,30 +316,22 @@
 ## 1 Free         710   116 
 ## 2 Restricted  1036.  300.</code></pre>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-20" class="exercise"><strong>Exercise 3.6  </strong></span>Fill in the blanks in the following chunk of code to find the mean and standard deviation of the lifespans of the rats under each diet:</p>
+<p><span id="exr:unlabeled-div-20" class="exercise"><strong>Exercise 3.6  </strong></span>Fill in the blanks in the following chunk of code to find the mean and standard deviation of the lifespans of the rats under each diet. <em>Hint:</em> recall the names of the functions we used to find these quantities earlier.</p>
 <div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="lab3.html#cb95-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
 <span id="cb95-2"><a href="lab3.html#cb95-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(___) <span class="sc">%&gt;%</span></span>
 <span id="cb95-3"><a href="lab3.html#cb95-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">___</span>(<span class="at">Mean =</span> ___, <span class="at">SD =</span> ___)</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>What code did you use?</li>
-</ol>
-<p><em>Hint:</em> If you’ve filled in the blanks correctly, you should get the following result.</p>
-<pre class="Rout text-muted"><code>## # A tibble: 2 × 3
-##   Diet        Mean    SD
-##   &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;
-## 1 Free        684.  134.
-## 2 Restricted  969.  285.</code></pre>
-<ol start="2" style="list-style-type: lower-alpha">
-<li>Compare the means and standard deviations to the histograms we made earlier. How are the differences in mean lifespan between groups reflected in the two histograms? How are the differences in the standard deviation of lifespan reflected in the two histograms?</li>
+<li>Compare the means and standard deviations for each group of rats to the histograms we made earlier. How are the differences in mean lifespan between groups reflected in the two histograms? How are the differences in the standard deviation of lifespan reflected in the two histograms?</li>
 </ol>
 </div>
 <p>These numerical summaries of central tendency and variability provide a concise description of the lifespans of rats under the two different diets. These descriptions help us address the <strong>research question</strong>: does a restricted diet have an effect on lifespan?</p>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-21" class="exercise"><strong>Exercise 3.7  </strong></span>Based on the visual and numerical summaries we have made, let us draw some conclusions about that research question.</p>
 <ol style="list-style-type: lower-alpha">
-<li>Describe the differences in lifespan between rats under a restricted diet versus rats with a free diet.</li>
-<li>Can we conclude that the differences in diet <em>caused</em> the observed differences in lifespan?</li>
-<li>What is the population to which we could <em>generalize</em> these results?</li>
+<li>Briefly describe the differences in lifespans between rats under a restricted diet versus rats with a free diet.</li>
+<li>Based on the design of the study, can we conclude that the differences in diet probably played a role in <em>causing</em> the observed differences in lifespan in this sample? Why or why not?</li>
+<li>What is the population to which you think we could <em>generalize</em> these results?</li>
 </ol>
 </div>
 </div>
@@ -394,7 +385,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-02-03.</p>
+    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-02-10.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

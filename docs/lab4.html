@@ -64,7 +64,7 @@
 <span class="header-section-number">4.1</span> Load the <code>tidyverse</code><a class="anchor" aria-label="anchor" href="#load-the-tidyverse"><i class="fas fa-link"></i></a>
 </h2>
 <p>As usual, once we have started up RStudio, the first thing we should be sure to do is load the <code>tidyverse</code> package from R’s library using the line below:</p>
-<div class="sourceCode" id="cb97"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb96"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></code></pre></div>
 <pre class="Rout text-info"><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
 <pre class="Rout text-info"><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
@@ -85,7 +85,7 @@
 <span class="header-section-number">4.2.1</span> Load the data<a class="anchor" aria-label="anchor" href="#load-the-data-4"><i class="fas fa-link"></i></a>
 </h3>
 <p>First, we need to import some data into R using the code below.</p>
-<div class="sourceCode" id="cb101"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb100"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">anscombe</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/cor_data.csv"</span><span class="op">)</span></code></pre></div>
 <pre class="Rout text-info"><code>## Rows: 44 Columns: 3</code></pre>
 <pre class="Rout text-info"><code>## ── Column specification ────────────────────────────────────────────────────────
@@ -103,7 +103,7 @@
 </h3>
 <p>There are four groups of observations in these data. The groups are labeled “A,” “B,” “C,” and “D.” Observations were made on two variables, labeled “X” and “Y.” Click on <code>anscombe</code> in the environment panel in RStudio (upper right) to take a look.</p>
 <p>Using R, we can quickly get numerical summaries of these data. The code below provides the mean and standard deviation of the X and Y values in each group, as well as the correlation between X and Y in each group.</p>
-<div class="sourceCode" id="cb105"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb104"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">anscombe</span> <span class="op">%&gt;%</span>
     <span class="fu">group_by</span><span class="op">(</span><span class="va">Group</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">summarize</span><span class="op">(</span>Mean_X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span>, Mean_Y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Y</span><span class="op">)</span>, SD_X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span>, SD_Y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">Y</span><span class="op">)</span>, r <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">X</span>, <span class="va">Y</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -121,7 +121,7 @@
 <span class="header-section-number">4.2.3</span> Scatterplots<a class="anchor" aria-label="anchor" href="#scatterplots"><i class="fas fa-link"></i></a>
 </h3>
 <p>Rather than a numerical summary, now let’s use R to visually summarize these data using scatterplots. We will put the <code>X</code> variable on the horizontal (“x”) axis and the <code>Y</code> variable on the vertical (“y”) axis. We will use <code>Group</code> as a “facetting” variable:</p>
-<div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb106"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">anscombe</span> <span class="op">%&gt;%</span>
     <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">X</span>, y<span class="op">=</span><span class="va">Y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
@@ -147,7 +147,7 @@
 <span class="header-section-number">4.3.1</span> Load the data<a class="anchor" aria-label="anchor" href="#load-the-data-5"><i class="fas fa-link"></i></a>
 </h3>
 <p>Run the following line of code to download a subset of the data from the English Lexicon Project.</p>
-<div class="sourceCode" id="cb108"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">elp</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/elp.csv"</span><span class="op">)</span></code></pre></div>
 <pre class="Rout text-info"><code>## Rows: 31433 Columns: 25</code></pre>
 <pre class="Rout text-info"><code>## ── Column specification ────────────────────────────────────────────────────────
@@ -164,7 +164,7 @@
 <span class="header-section-number">4.3.2</span> Examine the distribution of lexical decision times<a class="anchor" aria-label="anchor" href="#examine-the-distribution-of-lexical-decision-times"><i class="fas fa-link"></i></a>
 </h3>
 <p>The <code>LDT</code> variable contains the lexical decision time for each word in the dataset. LDT is measured in milliseconds. Let us first examine the distribution of lexical decision times using the code below:</p>
-<div class="sourceCode" id="cb112"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb111"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">elp</span> <span class="op">%&gt;%</span>
   <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">LDT</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">geom_histogram</span><span class="op">(</span>binwidth<span class="op">=</span><span class="fl">20</span><span class="op">)</span></code></pre></div>
@@ -183,7 +183,7 @@
 <span class="header-section-number">4.3.3.1</span> Scatterplot<a class="anchor" aria-label="anchor" href="#scatterplot"><i class="fas fa-link"></i></a>
 </h4>
 <p>First, we should make a scatterplot of these two variables. Word length is recorded in the variable named <code>Length</code>.</p>
-<div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb112"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">elp</span> <span class="op">%&gt;%</span>
   <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">Length</span>, y <span class="op">=</span> <span class="va">LDT</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span></code></pre></div>
@@ -195,7 +195,7 @@
 <span class="header-section-number">4.3.3.2</span> Overlaying a line<a class="anchor" aria-label="anchor" href="#overlaying-a-line"><i class="fas fa-link"></i></a>
 </h4>
 <p>We can easily put the best-fitting linear regression line on top of our scatterplot to get a visual sense of how well a linear model could describe the relationship. To do this, we add a line called <code>geom_smooth(method = "lm")</code>. <code>geom_smooth</code> puts “smooth” lines or curves on our plot, and including <code>method = "lm"</code> in the parentheses tells R that we specifically want a <code>l</code>inear <code>m</code>odel.</p>
-<div class="sourceCode" id="cb114"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">elp</span> <span class="op">%&gt;%</span>
   <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">Length</span>, y <span class="op">=</span> <span class="va">LDT</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
@@ -208,7 +208,7 @@
 <span class="header-section-number">4.3.3.3</span> Finding the correlation<a class="anchor" aria-label="anchor" href="#finding-the-correlation"><i class="fas fa-link"></i></a>
 </h4>
 <p>We can get the correlation coefficient using the <code>cor</code> function, like we did before:</p>
-<div class="sourceCode" id="cb116"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb115"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">elp</span> <span class="op">%&gt;%</span>
     <span class="fu">summarize</span><span class="op">(</span>r <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">LDT</span>, <span class="va">Length</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre class="Rout text-muted"><code>## # A tibble: 1 × 1
@@ -222,7 +222,7 @@
 </h4>
 <p>Finally, we can get the slope and intercept of the best-fitting line. The line of code looks a little different from how we’ve done things until now. It is just a single line called “lm” for “linear model.” In the parentheses, there are two instructions separated by a comma. The first says what are the explanatory and response variables using a funky format <code>[response variable name] ~ [explanatory variable name]</code>. The second instruction in the parentheses tells R which data to find those variables in.</p>
 <p>Here’s how it looks all together:</p>
-<div class="sourceCode" id="cb118"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb117"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">LDT</span> <span class="op">~</span> <span class="va">Length</span>, data <span class="op">=</span> <span class="va">elp</span><span class="op">)</span></code></pre></div>
 <pre class="Rout text-muted"><code>## 
 ## Call:
@@ -251,9 +251,9 @@
 <p>As before, let’s first make a scatterplot to visualize the relationship between LDT and age of acquisition.</p>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-25" class="exercise"><strong>Exercise 4.4  </strong></span>Fill in the blanks below to make a scatterplot with LDT as the response variable (on the <code>y</code> axis) and <code>Age_Of_Acquisition</code> as the explanatory variable (on the <code>x</code> axis):</p>
-<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="lab4.html#cb120-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
-<span id="cb120-2"><a href="lab4.html#cb120-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___, <span class="at">y =</span> ___)) <span class="sc">+</span></span>
-<span id="cb120-3"><a href="lab4.html#cb120-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">___</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="lab4.html#cb119-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
+<span id="cb119-2"><a href="lab4.html#cb119-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___, <span class="at">y =</span> ___)) <span class="sc">+</span></span>
+<span id="cb119-3"><a href="lab4.html#cb119-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">___</span>()</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>What code did you use?</li>
 <li>How would you describe the relationship between LDT and age of acquisition?</li>
@@ -267,10 +267,10 @@
 <p>Now, let’s add a line to the scatterplot.</p>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-26" class="exercise"><strong>Exercise 4.5  </strong></span>Fill in the blanks below to make a scatterplot with LDT as the response variable (on the <code>y</code> axis) and <code>Age_Of_Acquisition</code> as the explanatory variable (on the <code>x</code> axis) with the best-fitting line overlaid on top.</p>
-<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="lab4.html#cb121-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
-<span id="cb121-2"><a href="lab4.html#cb121-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___, <span class="at">y =</span> ___)) <span class="sc">+</span></span>
-<span id="cb121-3"><a href="lab4.html#cb121-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">___</span>() <span class="sc">+</span></span>
-<span id="cb121-4"><a href="lab4.html#cb121-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">___</span>(<span class="at">method =</span> <span class="st">"lm"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="lab4.html#cb120-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
+<span id="cb120-2"><a href="lab4.html#cb120-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___, <span class="at">y =</span> ___)) <span class="sc">+</span></span>
+<span id="cb120-3"><a href="lab4.html#cb120-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">___</span>() <span class="sc">+</span></span>
+<span id="cb120-4"><a href="lab4.html#cb120-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">___</span>(<span class="at">method =</span> <span class="st">"lm"</span>)</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>What code did you use?</li>
 <li>Does the line seem to be a good fit to the data? Are there any areas where the line seems to under-shoot or over-shoot the data?</li>
@@ -284,8 +284,8 @@
 <p>Now let’s find the correlation (again, be sure to look at the code we used in the previous section as a guide):</p>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-27" class="exercise"><strong>Exercise 4.6  </strong></span>Fill in the blanks below to find the correlation between <code>LDT</code> and <code>Age_Of_Acquisition</code>:</p>
-<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="lab4.html#cb122-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
-<span id="cb122-2"><a href="lab4.html#cb122-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">r =</span> <span class="fu">cor</span>(___, ___))</span></code></pre></div>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="lab4.html#cb121-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
+<span id="cb121-2"><a href="lab4.html#cb121-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">r =</span> <span class="fu">cor</span>(___, ___))</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>What code did you use?</li>
 <li>Is the correlation between LDT and Age of Acquisition stronger or weaker than the correlation between LDT and Length?</li>
@@ -300,7 +300,7 @@
 <p>Finally, let’s find the slope and intercept of that best-fitting regression line between Age of Acquisition and LDT:</p>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-28" class="exercise"><strong>Exercise 4.7  </strong></span>Fill in the blanks in the code below to find the intercept and slope of the line using Age of Acquisition as the explanatory variable and LDT as the response variable:</p>
-<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="lab4.html#cb123-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(___ <span class="sc">~</span> ___, <span class="at">data =</span> ___)</span></code></pre></div>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="lab4.html#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(___ <span class="sc">~</span> ___, <span class="at">data =</span> ___)</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>What code did you use?</li>
 <li>According to the linear model you just found, how much longer would it take to recognize a word that was learned at age 10, relative to a word that was learned at age 9?</li>
@@ -367,7 +367,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-02-03.</p>
+    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-02-10.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

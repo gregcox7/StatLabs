@@ -69,7 +69,7 @@
 <span class="header-section-number">5.1.1</span> First try this<a class="anchor" aria-label="anchor" href="#first-try-this"><i class="fas fa-link"></i></a>
 </h3>
 <p>You should already have the <code>tidyverse</code> package installed, since we’ve been using it since the first lab. So if you run this code, all should be well:</p>
-<div class="sourceCode" id="cb124"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb123"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></code></pre></div>
 <pre class="Rout text-info"><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
 <pre class="Rout text-info"><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
@@ -80,7 +80,7 @@
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
 <p>If you are working on any of the University computers in the lab or library, the <code>infer</code> package should already be installed. If the <code>infer</code> package is installed, you should be able to run the following line with no problems:</p>
-<div class="sourceCode" id="cb128"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb127"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/infer">infer</a></span><span class="op">)</span></code></pre></div>
 </div>
 <div id="if-necessary-install-the-infer-package" class="section level3" number="5.1.2">
@@ -88,7 +88,7 @@
 <span class="header-section-number">5.1.2</span> If necessary, install the <code>infer</code> package<a class="anchor" aria-label="anchor" href="#if-necessary-install-the-infer-package"><i class="fas fa-link"></i></a>
 </h3>
 <p>If you got an error when loading the <code>infer</code> package, you need to install it first. Luckily, this just involves running the following line:</p>
-<div class="sourceCode" id="cb129"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb128"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"infer"</span><span class="op">)</span></code></pre></div>
 <p>Now you should be able to load the <code>infer</code> package without any problems.</p>
 </div>
@@ -103,7 +103,7 @@
 <span class="header-section-number">5.2.1</span> Load the data<a class="anchor" aria-label="anchor" href="#load-the-data-6"><i class="fas fa-link"></i></a>
 </h3>
 <p>Run the following line of code to download a dataset consisting of every shooting attempt Kobe made during that game, including whether or not it went in (i.e., was the shot a “Hit” or a “Miss”):</p>
-<div class="sourceCode" id="cb130"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb129"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kobe</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/kobe.csv"</span><span class="op">)</span></code></pre></div>
 <pre class="Rout text-info"><code>## Rows: 111 Columns: 7</code></pre>
 <pre class="Rout text-info"><code>## ── Column specification ────────────────────────────────────────────────────────
@@ -125,7 +125,7 @@
 <span class="header-section-number">5.2.3</span> Check out the data<a class="anchor" aria-label="anchor" href="#check-out-the-data"><i class="fas fa-link"></i></a>
 </h3>
 <p>Now that we’ve framed our hypotheses, let’s see whether our data suggest that we could reject the null hypothesis. We will just use a simple frequency table like we’ve used before:</p>
-<div class="sourceCode" id="cb134"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb133"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
     <span class="fu">group_by</span><span class="op">(</span><span class="va">prev_shot</span>, <span class="va">shot</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">summarize</span><span class="op">(</span>n<span class="op">=</span><span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -158,7 +158,7 @@
 <span class="header-section-number">5.2.4.1</span> A single shuffle<a class="anchor" aria-label="anchor" href="#a-single-shuffle"><i class="fas fa-link"></i></a>
 </h4>
 <p>To get a sense of what “shuffling” means here, let’s first take a look at Kobe’s shots from just the second quarter of the first game. To do this, we will use a new trick, the <code>filter</code> function:</p>
-<div class="sourceCode" id="cb137"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb136"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">game</span> <span class="op">==</span> <span class="fl">1</span>, <span class="va">quarter</span> <span class="op">==</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
 <pre class="Rout text-muted"><code>## # A tibble: 8 × 7
@@ -174,7 +174,7 @@
 ## 8 ORL       1 2       0:04  Kobe Bryant makes driving layup      H     M</code></pre>
 <p>The <code><a href="https://rdrr.io/r/base/Comparison.html">==</a></code> asks the question, are these two things equal? So <code>game == 1</code> pulls out all the shots where <code>game</code> equals 1, i.e., the shots from the first game. Similarly, <code>quarter == 2</code> pulls out all the shots where <code>quarter</code> equals 2, so the second quarter from <em>each</em> game. Put them together, and you get a <code>filter</code> that pulls out the shots for which <em>both</em> the game is the first <em>and</em> the quarter is the second. Neat trick!</p>
 <p>If we include that line, we can get a frequency table for just this handful of shots, like we did above:</p>
-<div class="sourceCode" id="cb139"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb138"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">game</span> <span class="op">==</span> <span class="fl">1</span>, <span class="va">quarter</span> <span class="op">==</span> <span class="fl">2</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">group_by</span><span class="op">(</span><span class="va">prev_shot</span>, <span class="va">shot</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -190,7 +190,7 @@
 ## 3 M         H         2 0.667
 ## 4 M         M         1 0.333</code></pre>
 <p>To model how these shots <em>might</em> have gone if the null hypothesis were true, we need to <code>specify</code> the relevant variables as well as the <code>hypothesis</code>. Let’s see that all at once, then unpack it:</p>
-<div class="sourceCode" id="cb142"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb141"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">simulated_data</span> <span class="op">&lt;-</span> <span class="va">kobe</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">game</span> <span class="op">==</span> <span class="fl">1</span>, <span class="va">quarter</span> <span class="op">==</span> <span class="fl">2</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span><span class="va">shot</span> <span class="op">~</span> <span class="va">prev_shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -201,7 +201,7 @@
 <p>The fourth line is how we tell R what our null hypothesis is, namely, that the explanatory and response variables are <strong>independent</strong> (not associated).</p>
 <p>Finally, the fifth line <code>generate</code>s a simulated dataset by randomly permuting—that is, <em>shuffling</em>—the columns of the original data containing the explanatory and response variables.</p>
 <p>Run the following line so you can see what your simulated shots from Kobe look like:</p>
-<div class="sourceCode" id="cb143"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb142"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">simulated_data</span></code></pre></div>
 <pre class="Rout text-muted"><code>## Response: shot (factor)
 ## Explanatory: prev_shot (factor)
@@ -220,7 +220,7 @@
 ## 8 H     M                 1</code></pre>
 <p>Note that your simulation will probably not look the same as the one shown here because the columns were shuffled <em>randomly</em>.</p>
 <p>Finally, we have a way to quickly calculate the difference in proportions that we are interested in (<span class="math inline">\(\hat{p}_{\text{Prev. H}} - \hat{p}_{\text{Prev. M}}\)</span>). We can do that with both the actual data and simulated data. Here it is with the actual data:</p>
-<div class="sourceCode" id="cb145"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb144"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">game</span> <span class="op">==</span> <span class="fl">1</span>, <span class="va">quarter</span> <span class="op">==</span> <span class="fl">2</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span><span class="va">shot</span> <span class="op">~</span> <span class="va">prev_shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -234,9 +234,9 @@
 <p>The <code>calculate</code> line is where the magic happens. We tell R that the <code>stat</code>istic we are interested in is the “diff in props” (difference in proportions), and then tell R the <code>order</code> in which it should calculate it (“H” minus “M”).</p>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-30" class="exercise"><strong>Exercise 5.2  </strong></span>Fill in the blank below to calculate the same thing on our <em>simulated</em> data:</p>
-<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="lab5.html#cb147-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
-<span id="cb147-2"><a href="lab5.html#cb147-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(shot <span class="sc">~</span> prev_shot, <span class="at">success =</span> <span class="st">"H"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb147-3"><a href="lab5.html#cb147-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"diff in props"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"H"</span>, <span class="st">"M"</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="lab5.html#cb146-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
+<span id="cb146-2"><a href="lab5.html#cb146-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(shot <span class="sc">~</span> prev_shot, <span class="at">success =</span> <span class="st">"H"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb146-3"><a href="lab5.html#cb146-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"diff in props"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"H"</span>, <span class="st">"M"</span>))</span></code></pre></div>
 <p>What was the result you got? Was it larger, smaller, or the same as when we calculated it using the actual data from the second quarter of the first game?</p>
 </div>
 </div>
@@ -247,14 +247,14 @@
 <p>If that’s what a single shuffle of just part of our data look like, it’s a good thing we have a computer to do that a bunch of times!</p>
 <p>Let’s get back to looking at the full dataset. The next chunk of code will generate 1000 different shuffled datasets to simulate the kinds of results that would occur if the null hypothesis were true, then for each simulated dataset calculated the difference in proportions <span class="math inline">\(\hat{p}_{\text{Prev. H}} - \hat{p}_{\text{Prev. M}}\)</span>. Finally, we will tell R to remember it using the name <code>null_dist</code> for “null distribution.”</p>
 <p>Run the following chunk of code:</p>
-<div class="sourceCode" id="cb148"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb147"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">null_dist</span> <span class="op">&lt;-</span> <span class="va">kobe</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span><span class="va">shot</span> <span class="op">~</span> <span class="va">prev_shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/hypothesize.html">hypothesize</a></span><span class="op">(</span>null <span class="op">=</span> <span class="st">"independence"</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/generate.html">generate</a></span><span class="op">(</span>reps <span class="op">=</span> <span class="fl">1000</span>, type <span class="op">=</span> <span class="st">"permute"</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/calculate.html">calculate</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"diff in props"</span>, order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"H"</span>, <span class="st">"M"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Now we can check out the result:</p>
-<div class="sourceCode" id="cb149"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb148"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">null_dist</span></code></pre></div>
 <pre class="Rout text-muted"><code>## Response: shot (factor)
 ## Explanatory: prev_shot (factor)
@@ -275,7 +275,7 @@
 ## # … with 990 more rows</code></pre>
 <p>The “replicate” column is just a number that labels each simulated dataset and the “stat” column is the difference <span class="math inline">\(\hat{p}_{\text{Prev. H}} - \hat{p}_{\text{Prev. M}}\)</span> <em>for that simulated dataset</em>.</p>
 <p>We can get a better summary by visualizing this distribution of results using a histogram:</p>
-<div class="sourceCode" id="cb151"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb150"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">null_dist</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="05-randomization_files/figure-html/unnamed-chunk-15-1.png" width="672"></div>
@@ -286,12 +286,12 @@
 <span class="header-section-number">5.2.5</span> Find the <span class="math inline">\(p\)</span> value<a class="anchor" aria-label="anchor" href="#find-the-p-value"><i class="fas fa-link"></i></a>
 </h3>
 <p>Remember that the <span class="math inline">\(p\)</span> value is the proportion of simulated datasets which are <em>at least as extreme</em> as our actual data. In this case, that means the proportion of simulated datasets with a difference in proportions that is <em>bigger</em> than what we observed. Let’s tell R to remember that difference by running the chunk of code below:</p>
-<div class="sourceCode" id="cb152"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb151"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">obs_diff</span> <span class="op">&lt;-</span> <span class="va">kobe</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span><span class="va">shot</span> <span class="op">~</span> <span class="va">prev_shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/calculate.html">calculate</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"diff in props"</span>, order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"H"</span>, <span class="st">"M"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Now, let’s see how many simulated datasets were bigger than this. In the following line of code, we have to tell R that the observed “statistic” (<code>obs_stat</code>) is the difference we just told it to remember (<code>obs_diff</code>) as well as the fact that we are interested in how many simulations produced results that were “greater” than what was observed:</p>
-<div class="sourceCode" id="cb153"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb152"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">null_dist</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/get_p_value.html">get_p_value</a></span><span class="op">(</span>obs_stat <span class="op">=</span> <span class="va">obs_diff</span>, direction <span class="op">=</span> <span class="st">"greater"</span><span class="op">)</span></code></pre></div>
 <pre class="Rout text-muted"><code>## # A tibble: 1 × 1
@@ -299,7 +299,7 @@
 ##     &lt;dbl&gt;
 ## 1   0.756</code></pre>
 <p>Finally, it will help to visualize where the observed difference falls relative to the distribution of differences from our simulated data (note that this uses <code>shade_p_value</code> rather than <code>get_p_value</code>):</p>
-<div class="sourceCode" id="cb155"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb154"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">null_dist</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/shade_p_value.html">shade_p_value</a></span><span class="op">(</span>obs_stat <span class="op">=</span> <span class="va">obs_diff</span>, direction <span class="op">=</span> <span class="st">"greater"</span><span class="op">)</span></code></pre></div>
@@ -329,7 +329,7 @@
 <span class="header-section-number">5.3.1</span> Load the data<a class="anchor" aria-label="anchor" href="#load-the-data-7"><i class="fas fa-link"></i></a>
 </h3>
 <p>First, let’s load the relevant data collected by <span class="citation"><a href="references.html#ref-FarmerEtAl2017" role="doc-biblioref">Farmer et al.</a> (<a href="references.html#ref-FarmerEtAl2017" role="doc-biblioref">2017</a>)</span> with the following line of code:</p>
-<div class="sourceCode" id="cb156"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb155"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">asc_choice</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/asc_choice_job.csv"</span><span class="op">)</span></code></pre></div>
 <pre class="Rout text-info"><code>## Rows: 302 Columns: 9</code></pre>
 <pre class="Rout text-info"><code>## ── Column specification ────────────────────────────────────────────────────────
@@ -358,10 +358,10 @@
 <p>The next step is to construct a frequency table so we can know what the proportions of consistent choices were for each group and then find the difference.</p>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-33" class="exercise"><strong>Exercise 5.5  </strong></span>Fill in the blanks below to find the proportions of consistent choices for each group.</p>
-<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="lab5.html#cb160-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
-<span id="cb160-2"><a href="lab5.html#cb160-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(___, ___) <span class="sc">%&gt;%</span></span>
-<span id="cb160-3"><a href="lab5.html#cb160-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb160-4"><a href="lab5.html#cb160-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">p =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="lab5.html#cb159-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
+<span id="cb159-2"><a href="lab5.html#cb159-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(___, ___) <span class="sc">%&gt;%</span></span>
+<span id="cb159-3"><a href="lab5.html#cb159-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb159-4"><a href="lab5.html#cb159-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">p =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>What was the proportion of consistent choices in the ASC group?</li>
 <li>What was the proportion of consistent choices in the NT group?</li>
@@ -376,11 +376,11 @@
 <p>If the null hypothesis were true, a participant’s choice shouldn’t depend on which group they are in. By shuffling participants randomly between groups, we can therefore simulate how the data would look if the null hypothesis were true.</p>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-34" class="exercise"><strong>Exercise 5.6  </strong></span>Fill in the blanks in the code below to simulate 1000 datasets assuming the null hypothesis were true and find the resulting differences in proportions.</p>
-<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="lab5.html#cb161-1" aria-hidden="true" tabindex="-1"></a>null_dist <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
-<span id="cb161-2"><a href="lab5.html#cb161-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb161-3"><a href="lab5.html#cb161-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb161-4"><a href="lab5.html#cb161-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> ___, <span class="at">type =</span> <span class="st">"permute"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb161-5"><a href="lab5.html#cb161-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"___"</span>, <span class="st">"___"</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="lab5.html#cb160-1" aria-hidden="true" tabindex="-1"></a>null_dist <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
+<span id="cb160-2"><a href="lab5.html#cb160-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb160-3"><a href="lab5.html#cb160-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb160-4"><a href="lab5.html#cb160-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> ___, <span class="at">type =</span> <span class="st">"permute"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb160-5"><a href="lab5.html#cb160-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"___"</span>, <span class="st">"___"</span>))</span></code></pre></div>
 <p>For guidance, check out how we did it in the Kobe example above (especially <a href="lab5.html#kobenull">this section</a>). Be sure to note:</p>
 <ul>
 <li>What is the name of the relevant dataset?</li>
@@ -399,20 +399,20 @@
 <p>To find the <span class="math inline">\(p\)</span> value, we first need to get the observed difference in proportions and tell R to remember it with the label <code>obs_diff</code>.</p>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-35" class="exercise"><strong>Exercise 5.7  </strong></span>Fill in the blanks below to find the observed difference in proportions in the actual data and tell R to remember it under the label <code>obs_diff</code>. <em>Hint:</em> see what you wrote in the previous exercise!</p>
-<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="lab5.html#cb162-1" aria-hidden="true" tabindex="-1"></a>obs_diff <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
-<span id="cb162-2"><a href="lab5.html#cb162-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb162-3"><a href="lab5.html#cb162-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"___"</span>, <span class="st">"___"</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="lab5.html#cb161-1" aria-hidden="true" tabindex="-1"></a>obs_diff <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
+<span id="cb161-2"><a href="lab5.html#cb161-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb161-3"><a href="lab5.html#cb161-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"___"</span>, <span class="st">"___"</span>))</span></code></pre></div>
 <p>What code did you use?</p>
 </div>
 <p>Finally, we are in a position to find the <span class="math inline">\(p\)</span> value and to visualize where the observed difference in proportion falls relative to the differences that would be expected if the null hypothesis were true. If all goes well, your results should be close to the following, though because there is randomness involved, your results will not be strictly identical!</p>
-<div class="sourceCode" id="cb163"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb162"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">null_dist</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/get_p_value.html">get_p_value</a></span><span class="op">(</span>obs_stat <span class="op">=</span> <span class="va">obs_diff</span>, direction <span class="op">=</span> <span class="st">"greater"</span><span class="op">)</span></code></pre></div>
 <pre class="Rout text-muted"><code>## # A tibble: 1 × 1
 ##   p_value
 ##     &lt;dbl&gt;
 ## 1   0.012</code></pre>
-<div class="sourceCode" id="cb165"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb164"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">null_dist</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/shade_p_value.html">shade_p_value</a></span><span class="op">(</span>obs_stat <span class="op">=</span> <span class="va">obs_diff</span>, direction <span class="op">=</span> <span class="st">"greater"</span><span class="op">)</span></code></pre></div>
@@ -487,7 +487,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-02-03.</p>
+    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-02-10.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
