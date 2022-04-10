@@ -379,42 +379,23 @@ T &amp; = \frac{\text{point estimate} - \text{null value}}{\text{standard error}
 <span class="header-section-number">9.3.3</span> Build a confidence interval<a class="anchor" aria-label="anchor" href="#build-a-confidence-interval"><i class="fas fa-link"></i></a>
 </h3>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-66" class="exercise"><strong>Exercise 9.7  </strong></span>–</p>
-<ol style="list-style-type: lower-alpha">
-<li>Fill in the blanks in the chunk of code below to use bootstrapping to build and visualize a sampling distribution for the mean memory span, based on this sample (<em>Hint:</em> refer to code from earlier in the session and remember what the name of the response variable is.) What code did you use?</li>
-</ol>
+<p><span id="exr:unlabeled-div-66" class="exercise"><strong>Exercise 9.7  </strong></span>Use bootstrapping to construct a sampling distribution for the mean memory span, based on the data from this sample. Use this distribution to find a 95% confidence interval for the mean memory span. To do this, fill in the blanks in the chunk of code below (<em>Hint:</em> refer to code from earlier in the session and remember what the name of the response variable is.):</p>
 <div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="lab9.html#cb302-1" aria-hidden="true" tabindex="-1"></a>boot_dist_span <span class="ot">&lt;-</span> span_data <span class="sc">%&gt;%</span></span>
 <span id="cb302-2"><a href="lab9.html#cb302-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___) <span class="sc">%&gt;%</span></span>
 <span id="cb302-3"><a href="lab9.html#cb302-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb302-4"><a href="lab9.html#cb302-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>)</span>
 <span id="cb302-5"><a href="lab9.html#cb302-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb302-6"><a href="lab9.html#cb302-6" aria-hidden="true" tabindex="-1"></a>boot_dist_span <span class="sc">%&gt;%</span></span>
-<span id="cb302-7"><a href="lab9.html#cb302-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>()</span></code></pre></div>
-<ol start="2" style="list-style-type: lower-alpha">
-<li>Fill in the blanks in the code below to use the T distribution to find a 95% confidence interval for mean memory span. (<em>Hint:</em> see how numbers with similar names were calculated above for the NHANES mental health data.) What code did you use?</li>
-</ol>
-<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="lab9.html#cb303-1" aria-hidden="true" tabindex="-1"></a>sample_mean_span <span class="ot">&lt;-</span> span_data <span class="sc">%&gt;%</span></span>
-<span id="cb303-2"><a href="lab9.html#cb303-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="fu">___</span>(span)) <span class="sc">%&gt;%</span></span>
-<span id="cb303-3"><a href="lab9.html#cb303-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>()</span>
-<span id="cb303-4"><a href="lab9.html#cb303-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb303-5"><a href="lab9.html#cb303-5" aria-hidden="true" tabindex="-1"></a>sample_sd_span <span class="ot">&lt;-</span> span_data <span class="sc">%&gt;%</span></span>
-<span id="cb303-6"><a href="lab9.html#cb303-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="fu">___</span>(span)) <span class="sc">%&gt;%</span></span>
-<span id="cb303-7"><a href="lab9.html#cb303-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>()</span>
-<span id="cb303-8"><a href="lab9.html#cb303-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb303-9"><a href="lab9.html#cb303-9" aria-hidden="true" tabindex="-1"></a>sample_size_span <span class="ot">&lt;-</span> span_data <span class="sc">%&gt;%</span></span>
-<span id="cb303-10"><a href="lab9.html#cb303-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb303-11"><a href="lab9.html#cb303-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>()</span>
-<span id="cb303-12"><a href="lab9.html#cb303-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb303-13"><a href="lab9.html#cb303-13" aria-hidden="true" tabindex="-1"></a>standard_error_span <span class="ot">&lt;-</span> ___ <span class="sc">/</span> <span class="fu">sqrt</span>(___)</span>
-<span id="cb303-14"><a href="lab9.html#cb303-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb303-15"><a href="lab9.html#cb303-15" aria-hidden="true" tabindex="-1"></a>degrees_of_freedom_span <span class="ot">&lt;-</span> ___ <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb303-16"><a href="lab9.html#cb303-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb303-17"><a href="lab9.html#cb303-17" aria-hidden="true" tabindex="-1"></a>critical_t_span <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="at">p =</span> ___, <span class="at">df =</span> ___, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb303-18"><a href="lab9.html#cb303-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb303-19"><a href="lab9.html#cb303-19" aria-hidden="true" tabindex="-1"></a>ci_lower_span <span class="ot">&lt;-</span> ___ <span class="sc">-</span> ___ <span class="sc">*</span> ___</span>
-<span id="cb303-20"><a href="lab9.html#cb303-20" aria-hidden="true" tabindex="-1"></a>ci_upper_span <span class="ot">&lt;-</span> ___ <span class="sc">+</span> ___ <span class="sc">*</span> ___</span></code></pre></div>
-<ol start="3" style="list-style-type: lower-alpha">
-<li>Report the interval you found in part (b) (you’ll find these under <code>ci_lower_span</code> and <code>ci_upper_span</code> in your R environment) and interpret the interval in the context of the scenario.</li>
+<span id="cb302-6"><a href="lab9.html#cb302-6" aria-hidden="true" tabindex="-1"></a>boot_ci_span <span class="ot">&lt;-</span> boot_dist_span <span class="sc">%&gt;%</span></span>
+<span id="cb302-7"><a href="lab9.html#cb302-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_confidence_interval</span>(<span class="at">level =</span> ___)</span>
+<span id="cb302-8"><a href="lab9.html#cb302-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb302-9"><a href="lab9.html#cb302-9" aria-hidden="true" tabindex="-1"></a>boot_dist_span <span class="sc">%&gt;%</span></span>
+<span id="cb302-10"><a href="lab9.html#cb302-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb302-11"><a href="lab9.html#cb302-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_confidence_interval</span>(boot_ci_span)</span>
+<span id="cb302-12"><a href="lab9.html#cb302-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb302-13"><a href="lab9.html#cb302-13" aria-hidden="true" tabindex="-1"></a>boot_ci_span</span></code></pre></div>
+<ol style="list-style-type: lower-alpha">
+<li>What code did you use?</li>
+<li>Report the confidence interval you found (you can find this in R’s environment under <code>boot_ci_span</code>) and interpret the interval in the context of the research scenario.</li>
 </ol>
 </div>
 </div>
@@ -427,27 +408,29 @@ T &amp; = \frac{\text{point estimate} - \text{null value}}{\text{standard error}
 <p><span id="exr:unlabeled-div-67" class="exercise"><strong>Exercise 9.8  </strong></span>–</p>
 <ol style="list-style-type: lower-alpha">
 <li>What are the null and alternative hypotheses corresponding to this research question?</li>
-<li>Fill in the blanks in the code below to build a sampling distribution assuming the null hypothesis is true. In the end, you should get a histogram of the sampling distribution showing where the observed sample mean falls (note that this requires you to have finished the previous exercise, since <code>sample_mean_span</code> must be in your R environment). What code did you use?</li>
+<li>Fill in the blanks in the code below to build a sampling distribution that assumes the null hypothesis is true. In the end, you should get a histogram of the sampling distribution showing where the observed sample mean falls. What code did you use? (<em>Hint:</em> remember that the last blank has three options, <code>less</code>, <code>greater</code>, or <code>two-sided</code>, and which is appropriate depends on the null/alternative hypotheses.)</li>
 </ol>
-<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="lab9.html#cb304-1" aria-hidden="true" tabindex="-1"></a>null_dist_span <span class="ot">&lt;-</span> span_data <span class="sc">%&gt;%</span></span>
-<span id="cb304-2"><a href="lab9.html#cb304-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___) <span class="sc">%&gt;%</span></span>
-<span id="cb304-3"><a href="lab9.html#cb304-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"___"</span>, <span class="at">mu =</span> ___) <span class="sc">%&gt;%</span></span>
-<span id="cb304-4"><a href="lab9.html#cb304-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb304-5"><a href="lab9.html#cb304-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>)</span>
-<span id="cb304-6"><a href="lab9.html#cb304-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb304-7"><a href="lab9.html#cb304-7" aria-hidden="true" tabindex="-1"></a>null_dist_span <span class="sc">%&gt;%</span></span>
-<span id="cb304-8"><a href="lab9.html#cb304-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
-<span id="cb304-9"><a href="lab9.html#cb304-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> sample_mean_span, <span class="at">direction =</span> <span class="st">"two-sided"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="lab9.html#cb303-1" aria-hidden="true" tabindex="-1"></a>null_dist_span <span class="ot">&lt;-</span> span_data <span class="sc">%&gt;%</span></span>
+<span id="cb303-2"><a href="lab9.html#cb303-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb303-3"><a href="lab9.html#cb303-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"___"</span>, <span class="at">mu =</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb303-4"><a href="lab9.html#cb303-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb303-5"><a href="lab9.html#cb303-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>)</span>
+<span id="cb303-6"><a href="lab9.html#cb303-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb303-7"><a href="lab9.html#cb303-7" aria-hidden="true" tabindex="-1"></a>sample_mean_span <span class="ot">&lt;-</span> span_data <span class="sc">%&gt;%</span></span>
+<span id="cb303-8"><a href="lab9.html#cb303-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="fu">mean</span>(span)) <span class="sc">%&gt;%</span></span>
+<span id="cb303-9"><a href="lab9.html#cb303-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>()</span>
+<span id="cb303-10"><a href="lab9.html#cb303-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb303-11"><a href="lab9.html#cb303-11" aria-hidden="true" tabindex="-1"></a>null_dist_span <span class="sc">%&gt;%</span></span>
+<span id="cb303-12"><a href="lab9.html#cb303-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb303-13"><a href="lab9.html#cb303-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> sample_mean_span, <span class="at">direction =</span> <span class="st">"___"</span>)</span></code></pre></div>
 <ol start="3" style="list-style-type: lower-alpha">
-<li>Fill in the blanks in the code below to find the T score based on our sample. What is the T score?</li>
+<li>Based on the visualization you made in part (b), would you expect the T score to have a large or small magnitude? To be positive or negative?</li>
 </ol>
-<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="lab9.html#cb305-1" aria-hidden="true" tabindex="-1"></a>t_score_span <span class="ot">&lt;-</span> (___ <span class="sc">-</span> ___) <span class="sc">/</span> ___</span></code></pre></div>
+<div class="sourceCode" id="cb304"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">null_dist_span</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://infer.tidymodels.org/reference/get_p_value.html">get_p_value</a></span><span class="op">(</span>obs_stat <span class="op">=</span> <span class="va">sample_mean_span</span>, direction <span class="op">=</span> <span class="st">"___"</span><span class="op">)</span></code></pre></div>
 <ol start="4" style="list-style-type: lower-alpha">
-<li>Fill in the blanks in the code below to get the <span class="math inline">\(p\)</span> value based on the <code>t_score_span</code> you found in part (c). What is the <span class="math inline">\(p\)</span> value?</li>
-</ol>
-<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="lab9.html#cb306-1" aria-hidden="true" tabindex="-1"></a>p_value_span <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">pt</span>(<span class="at">q =</span> t_score_span, <span class="at">df =</span> ___, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
-<ol start="5" style="list-style-type: lower-alpha">
-<li><p>Assume that we adopt a significance level of 0.05. Based on the <span class="math inline">\(p\)</span> value you got in part (d), should we reject the null hypothesis or not?</p></li>
+<li><p>Use the code above to find the <span class="math inline">\(p\)</span> value (making sure to use the same <code>direction</code> from part b). Based on what you believe is a reasonable significance level, would you reject the null hypothesis?</p></li>
 <li><p>In one sentence, summarize the result of this hypothesis test in the context of the problem.</p></li>
 <li><p>Could we have anticipated the outcome of this hypothesis test based on the confidence interval you found in the previous exercise? Why or why not?</p></li>
 </ol>
@@ -458,7 +441,7 @@ T &amp; = \frac{\text{point estimate} - \text{null value}}{\text{standard error}
 <h2>
 <span class="header-section-number">9.4</span> Wrap-up<a class="anchor" aria-label="anchor" href="#wrap-up-8"><i class="fas fa-link"></i></a>
 </h2>
-<p>In this session, we saw how we can use the same kinds of computational techniques we applied to proportions—particularly bootstrapping—to construct confidence intervals and perform hypothesis tests about means. We also saw how to use the T distribution in R to find confidence intervals and conduct hypothesis tests.</p>
+<p>In this session, we saw how we can use the same kinds of computational techniques we applied to proportions—particularly bootstrapping—to construct confidence intervals and perform hypothesis tests about means. We also saw how to use the T distribution to find confidence intervals and conduct hypothesis tests.</p>
 
 </div>
 </div>
@@ -504,7 +487,7 @@ T &amp; = \frac{\text{point estimate} - \text{null value}}{\text{standard error}
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-02-10.</p>
+    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-04-10.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

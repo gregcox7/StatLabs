@@ -338,9 +338,7 @@ b. Does it seem like the conditions are satisfied to use a mathematical model fo
 
 ::: {.exercise}
 
---
-
-a. Fill in the blanks in the chunk of code below to use bootstrapping to build and visualize a sampling distribution for the mean memory span, based on this sample (*Hint:* refer to code from earlier in the session and remember what the name of the response variable is.)  What code did you use?
+Use bootstrapping to construct a sampling distribution for the mean memory span, based on the data from this sample.  Use this distribution to find a 95% confidence interval for the mean memory span.  To do this, fill in the blanks in the chunk of code below (*Hint:* refer to code from earlier in the session and remember what the name of the response variable is.):
 
 ```{r eval=FALSE}
 boot_dist_span <- span_data %>%
@@ -348,36 +346,18 @@ boot_dist_span <- span_data %>%
     generate(reps = 1000, type = "___") %>%
     calculate(stat = "___")
 
+boot_ci_span <- boot_dist_span %>%
+    get_confidence_interval(level = ___)
+
 boot_dist_span %>%
-    visualize()
+    visualize() +
+    shade_confidence_interval(boot_ci_span)
+
+boot_ci_span
 ```
 
-b. Fill in the blanks in the code below to use the T distribution to find a 95% confidence interval for mean memory span.  (*Hint:* see how numbers with similar names were calculated above for the NHANES mental health data.)  What code did you use?
-
-```{r eval=FALSE}
-sample_mean_span <- span_data %>%
-    summarize(___(span)) %>%
-    pull()
-
-sample_sd_span <- span_data %>%
-    summarize(___(span)) %>%
-    pull()
-
-sample_size_span <- span_data %>%
-    summarize(n()) %>%
-    pull()
-
-standard_error_span <- ___ / sqrt(___)
-
-degrees_of_freedom_span <- ___ - 1
-
-critical_t_span <- qt(p = ___, df = ___, lower.tail = FALSE)
-
-ci_lower_span <- ___ - ___ * ___
-ci_upper_span <- ___ + ___ * ___
-```
-
-c. Report the interval you found in part (b) (you'll find these under `ci_lower_span` and `ci_upper_span` in your R environment) and interpret the interval in the context of the scenario.
+a. What code did you use?
+b. Report the confidence interval you found (you can find this in R's environment under `boot_ci_span`) and interpret the interval in the context of the research scenario.
 
 :::
 
@@ -390,7 +370,7 @@ Based on many prior studies of memory span, it seems that people on average can 
 --
 
 a. What are the null and alternative hypotheses corresponding to this research question?
-b. Fill in the blanks in the code below to build a sampling distribution assuming the null hypothesis is true.  In the end, you should get a histogram of the sampling distribution showing where the observed sample mean falls (note that this requires you to have finished the previous exercise, since `sample_mean_span` must be in your R environment).  What code did you use?
+b. Fill in the blanks in the code below to build a sampling distribution that assumes the null hypothesis is true.  In the end, you should get a histogram of the sampling distribution showing where the observed sample mean falls.  What code did you use?  (*Hint:* remember that the last blank has three options, `less`, `greater`, or `two-sided`, and which is appropriate depends on the null/alternative hypotheses.)
 
 ```{r eval=FALSE}
 null_dist_span <- span_data %>%
@@ -399,31 +379,30 @@ null_dist_span <- span_data %>%
     generate(reps = 1000, type = "___") %>%
     calculate(stat = "___")
 
+sample_mean_span <- span_data %>%
+    summarize(mean(span)) %>%
+    pull()
+
 null_dist_span %>%
     visualize() +
-    shade_p_value(obs_stat = sample_mean_span, direction = "two-sided")
+    shade_p_value(obs_stat = sample_mean_span, direction = "___")
 ```
 
-c. Fill in the blanks in the code below to find the T score based on our sample.  What is the T score?
+c. Based on the visualization you made in part (b), would you expect the T score to have a large or small magnitude?  To be positive or negative?
 
 ```{r eval=FALSE}
-t_score_span <- (___ - ___) / ___
+null_dist_span %>%
+    get_p_value(obs_stat = sample_mean_span, direction = "___")
 ```
 
-d. Fill in the blanks in the code below to get the $p$ value based on the `t_score_span` you found in part (c).  What is the $p$ value?
+d. Use the code above to find the $p$ value (making sure to use the same `direction` from part b).  Based on what you believe is a reasonable significance level, would you reject the null hypothesis?
 
-```{r eval=FALSE}
-p_value_span <- 2 * pt(q = t_score_span, df = ___, lower.tail = FALSE)
-```
+e. In one sentence, summarize the result of this hypothesis test in the context of the problem.
 
-e. Assume that we adopt a significance level of 0.05.  Based on the $p$ value you got in part (d), should we reject the null hypothesis or not?
-
-f. In one sentence, summarize the result of this hypothesis test in the context of the problem.
-
-g. Could we have anticipated the outcome of this hypothesis test based on the confidence interval you found in the previous exercise?  Why or why not?
+f. Could we have anticipated the outcome of this hypothesis test based on the confidence interval you found in the previous exercise?  Why or why not?
 
 :::
 
 ## Wrap-up
 
-In this session, we saw how we can use the same kinds of computational techniques we applied to proportions---particularly bootstrapping---to construct confidence intervals and perform hypothesis tests about means.  We also saw how to use the T distribution in R to find confidence intervals and conduct hypothesis tests.
+In this session, we saw how we can use the same kinds of computational techniques we applied to proportions---particularly bootstrapping---to construct confidence intervals and perform hypothesis tests about means.  We also saw how to use the T distribution to find confidence intervals and conduct hypothesis tests.
