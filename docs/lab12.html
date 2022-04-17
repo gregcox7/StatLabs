@@ -136,9 +136,7 @@
 <li>Fill in the blanks in the code below to use <code>mutate</code> to create a new variable called <code>effect</code> that represents the <em>difference</em> between the number of intrusions after treatment and the number of intrusions before treatment. Write the code so that a <em>negative</em> value of <code>effect</code> means a <em>reduction</em> in the number of intrusive memories from before to after treatment. What code did you use?</li>
 </ol>
 <div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="lab12.html#cb352-1" aria-hidden="true" tabindex="-1"></a>tetris_data <span class="sc">%&gt;%</span></span>
-<span id="cb352-2"><a href="lab12.html#cb352-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">effect =</span> ___ <span class="sc">-</span> ___)</span>
-<span id="cb352-3"><a href="lab12.html#cb352-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb352-4"><a href="lab12.html#cb352-4" aria-hidden="true" tabindex="-1"></a>tetris_data</span></code></pre></div>
+<span id="cb352-2"><a href="lab12.html#cb352-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">effect =</span> ___ <span class="sc">-</span> ___)</span></code></pre></div>
 </div>
 </div>
 <div id="visualize-the-data" class="section level3" number="12.2.2">
@@ -149,7 +147,7 @@
 <p><span id="exr:unlabeled-div-80" class="exercise"><strong>Exercise 12.2  </strong></span>Fill in the blanks in the code below to make a boxplot that compares the distribution of <code>effect</code> for each group (defined by their treatment <code>condition</code>):</p>
 <div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb353-1"><a href="lab12.html#cb353-1" aria-hidden="true" tabindex="-1"></a>tetris_data <span class="sc">%&gt;%</span></span>
 <span id="cb353-2"><a href="lab12.html#cb353-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">effect =</span> ___ <span class="sc">-</span> ___) <span class="sc">%&gt;%</span></span>
-<span id="cb353-3"><a href="lab12.html#cb353-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> condition, <span class="at">y =</span> effect)) <span class="sc">+</span></span>
+<span id="cb353-3"><a href="lab12.html#cb353-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___, <span class="at">y =</span> effect)) <span class="sc">+</span></span>
 <span id="cb353-4"><a href="lab12.html#cb353-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>()</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>Our <strong>research question</strong> is, “is there a difference in average effectiveness between treatment conditions?” What are the null and alternative hypotheses corresponding to this research question?</li>
@@ -272,7 +270,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-04-10.</p>
+    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-04-17.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

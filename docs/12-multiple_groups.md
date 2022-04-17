@@ -113,8 +113,6 @@ b. Fill in the blanks in the code below to use `mutate` to create a new variable
 ```r
 tetris_data %>%
     mutate(effect = ___ - ___)
-
-tetris_data
 ```
 
 :::
@@ -129,7 +127,7 @@ Fill in the blanks in the code below to make a boxplot that compares the distrib
 ```r
 tetris_data %>%
     mutate(effect = ___ - ___) %>%
-    ggplot(aes(x = condition, y = effect)) +
+    ggplot(aes(x = ___, y = effect)) +
     geom_boxplot()
 ```
 
