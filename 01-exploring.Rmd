@@ -155,18 +155,17 @@ titanic %>%
   summarize(n = n())
 ```
 
-Since we're on a roll, let's see if we can count the number of passengers with or without college degrees:
+::: {.exercise}
 
-```{r error=TRUE}
+Try running the chunk of code below which was written to count the number of passengers with or without college degrees:
+
+```{r eval=FALSE}
 titanic %>%
   group_by(degree) %>%
   summarize(n = n())
 ```
 
-Didn't work!  We got an error message.
-
-::: {.exercise}
-Explain in your own words why trying to put `degree` in the `group_by` didn't work.
+Explain in your own words why this chunk of code does not work.
 
 :::
 
@@ -177,18 +176,6 @@ titanic %>%
   group_by(residence, sex) %>%
   summarize(n = n())
 ```
-
-::: {.exercise}
-Make a frequency table that answers the question, "how many second class passengers survived?"  You will find it helpful to try filling in the blank below:
-
-```{r eval = FALSE}
-titanic %>%
-  group_by(___) %>%
-  summarize(n = n())
-```
-
-What was the final code that you used?  And how many second class passengers survived?
-:::
 
 ### Proportions {#titanic-props}
 
@@ -223,7 +210,7 @@ From the table we just made, we see that 339 female passengers survived.  There 
 Notice that `/` stands for "division" and we put $339 + 127$ in *parentheses* to tell R that that whole sum should be in the denominator.
 
 ::: {.exercise}
-Find the proportion of *male* passengers who survived.  Is this higher or lower than the proportion of female passengers who survived?  Is the result you found consistent with the "women and children first" policy?
+Find the proportion of *male* passengers who survived (*Hint: the numbers you need come from the same table that showed the number of female passengers who did and did not survive.*).  Compare the proportion of survivors among male and female passengers---are these proportions consistent with the "women and children first" policy?  Explain your reasoning.
 
 :::
 
@@ -241,7 +228,7 @@ titanic %>%
 The new column `p` is a proportion and represents the proportion of people in each group (either male or female) who either did or did not survive.  Notice that the numbers in the `p` column for male and female survivors are the same as the ones we found in the preceding section.
 
 ::: {.exercise}
-Write and run code that gives us a table, like the one above, which shows the proportion of people in each Class (First, Second, and Third) who survived or died.  Again, you will find it helpful to start from code we already used and try filling in the blanks:
+Write and run code that gives us a table, like the one above, which shows the proportion of people in each class (1, 2, or 3) who survived or died.  Again, you will find it helpful to start from code we already used and try filling in the blanks:
 
 ```{r eval=FALSE}
 titanic %>%
