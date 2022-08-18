@@ -80,7 +80,6 @@ exr:unlabeled-div-79
 exr:unlabeled-div-80
 exr:unlabeled-div-81
 exr:unlabeled-div-82
-exr:unlabeled-div-83
 lab1
 r-and-rstudio
 installation-on-your-own-computer

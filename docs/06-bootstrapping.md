@@ -20,16 +20,16 @@ library(tidyverse)
 ```
 
 ```{.Rout .text-info}
-## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
-## ✓ tibble  3.1.3     ✓ dplyr   1.0.5
-## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
-## ✓ readr   2.0.0     ✓ forcats 0.5.1
+## ✔ ggplot2 3.3.6     ✔ purrr   0.3.4
+## ✔ tibble  3.1.8     ✔ dplyr   1.0.9
+## ✔ tidyr   1.1.3     ✔ stringr 1.4.0
+## ✔ readr   2.1.2     ✔ forcats 0.5.1
 ```
 
 ```{.Rout .text-info}
 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
 ```
 
 ```r
@@ -52,18 +52,11 @@ kobe <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/
 ```
 
 ```{.Rout .text-info}
-## Rows: 111 Columns: 7
-```
-
-```{.Rout .text-info}
-## ── Column specification ────────────────────────────────────────────────────────
+## Rows: 111 Columns: 7── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
-## chr (6): vs, quarter, time, description, shot, prev_shot
-## dbl (1): game
-```
-
-```{.Rout .text-info}
-## 
+## chr  (5): vs, quarter, description, shot, prev_shot
+## dbl  (1): game
+## time (1): time
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
@@ -121,16 +114,17 @@ kobe %>%
 
 ```{.Rout .text-muted}
 ## # A tibble: 8 × 7
-##   vs     game quarter time  description                          shot  prev_shot
-##   <chr> <dbl> <chr>   <chr> <chr>                                <chr> <chr>    
-## 1 ORL       1 2       5:58  Kobe Bryant makes 20-foot jumper     H     H        
-## 2 ORL       1 2       5:22  Kobe Bryant makes 14-foot jumper     H     H        
-## 3 ORL       1 2       4:37  Kobe Bryant misses driving layup     M     H        
-## 4 ORL       1 2       3:30  Kobe Bryant makes 9-foot two point … H     M        
-## 5 ORL       1 2       2:55  Kobe Bryant makes 14-foot running j… H     H        
-## 6 ORL       1 2       1:55  Kobe Bryant misses 19-foot jumper    M     H        
-## 7 ORL       1 2       0:38  Kobe Bryant misses 27-foot three po… M     M        
-## 8 ORL       1 2       0:04  Kobe Bryant makes driving layup      H     M
+##   vs     game quarter time   description                           shot  prev_…¹
+##   <chr> <dbl> <chr>   <time> <chr>                                 <chr> <chr>  
+## 1 ORL       1 2       05:58  Kobe Bryant makes 20-foot jumper      H     H      
+## 2 ORL       1 2       05:22  Kobe Bryant makes 14-foot jumper      H     H      
+## 3 ORL       1 2       04:37  Kobe Bryant misses driving layup      M     H      
+## 4 ORL       1 2       03:30  Kobe Bryant makes 9-foot two point s… H     M      
+## 5 ORL       1 2       02:55  Kobe Bryant makes 14-foot running ju… H     H      
+## 6 ORL       1 2       01:55  Kobe Bryant misses 19-foot jumper     M     H      
+## 7 ORL       1 2       00:38  Kobe Bryant misses 27-foot three poi… M     M      
+## 8 ORL       1 2       00:04  Kobe Bryant makes driving layup       H     M      
+## # … with abbreviated variable name ¹​prev_shot
 ```
 
 The following chunk of code resamples from Kobe's shots during that quarter to produce a new sample of shots:
@@ -335,19 +329,11 @@ trolley <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/da
 ```
 
 ```{.Rout .text-info}
-## Rows: 32163 Columns: 12
-```
-
-```{.Rout .text-info}
-## ── Column specification ────────────────────────────────────────────────────────
+## Rows: 32163 Columns: 12── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## chr (9): _id, Scenario, Sacrifice, UserID, Session_id, Template, lang, count...
 ## dbl (1): Scenario_order
 ## lgl (2): answerLeft, seenOther
-```
-
-```{.Rout .text-info}
-## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```

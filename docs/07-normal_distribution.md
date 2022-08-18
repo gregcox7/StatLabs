@@ -22,16 +22,16 @@ library(tidyverse)
 ```
 
 ```{.Rout .text-info}
-## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
-## ✓ tibble  3.1.3     ✓ dplyr   1.0.5
-## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
-## ✓ readr   2.0.0     ✓ forcats 0.5.1
+## ✔ ggplot2 3.3.6     ✔ purrr   0.3.4
+## ✔ tibble  3.1.8     ✔ dplyr   1.0.9
+## ✔ tidyr   1.1.3     ✔ stringr 1.4.0
+## ✔ readr   2.1.2     ✔ forcats 0.5.1
 ```
 
 ```{.Rout .text-info}
 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
 ```
 
 ```r
@@ -48,19 +48,11 @@ nhanes <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/dat
 ```
 
 ```{.Rout .text-info}
-## Rows: 4924 Columns: 76
-```
-
-```{.Rout .text-info}
-## ── Column specification ────────────────────────────────────────────────────────
+## Rows: 4924 Columns: 76── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## chr (31): SurveyYr, Gender, AgeDecade, Race1, Race3, Education, MaritalStatu...
 ## dbl (41): ID, Age, AgeMonths, HHIncomeMid, Poverty, HomeRooms, Weight, Heigh...
 ## lgl  (4): Length, HeadCirc, TVHrsDayChild, CompHrsDayChild
-```
-
-```{.Rout .text-info}
-## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
@@ -321,20 +313,21 @@ sample_size5
 
 ```{.Rout .text-muted}
 ## # A tibble: 5 × 76
-##      ID SurveyYr Gender   Age AgeDecade AgeMonths Race1   Race3 Education   
-##   <dbl> <chr>    <chr>  <dbl> <chr>         <dbl> <chr>   <chr> <chr>       
-## 1 65978 2011_12  male      57 50-59            NA White   White Some College
-## 2 53457 2009_10  female    30 30-39           364 Mexican <NA>  8th Grade   
-## 3 53965 2009_10  male      31 30-39           375 Mexican <NA>  Some College
-## 4 54006 2009_10  male      20 20-29           240 Mexican <NA>  Some College
-## 5 63200 2011_12  female    59 50-59            NA White   White College Grad
-## # … with 67 more variables: MaritalStatus <chr>, HHIncome <chr>,
-## #   HHIncomeMid <dbl>, Poverty <dbl>, HomeRooms <dbl>, HomeOwn <chr>,
-## #   Work <chr>, Weight <dbl>, Length <lgl>, HeadCirc <lgl>, Height <dbl>,
-## #   BMI <dbl>, BMICatUnder20yrs <chr>, BMI_WHO <chr>, Pulse <dbl>,
-## #   BPSysAve <dbl>, BPDiaAve <dbl>, BPSys1 <dbl>, BPDia1 <dbl>, BPSys2 <dbl>,
-## #   BPDia2 <dbl>, BPSys3 <dbl>, BPDia3 <dbl>, Testosterone <dbl>,
-## #   DirectChol <dbl>, TotChol <dbl>, UrineVol1 <dbl>, UrineFlow1 <dbl>, …
+##      ID Surve…¹ Gender   Age AgeDe…² AgeMo…³ Race1 Race3 Educa…⁴ Marit…⁵ HHInc…⁶
+##   <dbl> <chr>   <chr>  <dbl> <chr>     <dbl> <chr> <chr> <chr>   <chr>   <chr>  
+## 1 65978 2011_12 male      57 50-59        NA White White Some C… NeverM… 25000-…
+## 2 53457 2009_10 female    30 30-39       364 Mexi… <NA>  8th Gr… Married <NA>   
+## 3 53965 2009_10 male      31 30-39       375 Mexi… <NA>  Some C… Married 65000-…
+## 4 54006 2009_10 male      20 20-29       240 Mexi… <NA>  Some C… NeverM… 75000-…
+## 5 63200 2011_12 female    59 50-59        NA White White Colleg… Married more 9…
+## # … with 65 more variables: HHIncomeMid <dbl>, Poverty <dbl>, HomeRooms <dbl>,
+## #   HomeOwn <chr>, Work <chr>, Weight <dbl>, Length <lgl>, HeadCirc <lgl>,
+## #   Height <dbl>, BMI <dbl>, BMICatUnder20yrs <chr>, BMI_WHO <chr>,
+## #   Pulse <dbl>, BPSysAve <dbl>, BPDiaAve <dbl>, BPSys1 <dbl>, BPDia1 <dbl>,
+## #   BPSys2 <dbl>, BPDia2 <dbl>, BPSys3 <dbl>, BPDia3 <dbl>, Testosterone <dbl>,
+## #   DirectChol <dbl>, TotChol <dbl>, UrineVol1 <dbl>, UrineFlow1 <dbl>,
+## #   UrineVol2 <dbl>, UrineFlow2 <dbl>, Diabetes <chr>, DiabetesAge <dbl>, …
+## # ℹ Use `colnames()` to see all variable names
 ```
 
 Notice that we still have all of those people's responses to each question on the NHANES survey.  That means we can get a *summary statistic* for the `Marijuana` variable from this sample, just like we did from the population.
@@ -366,25 +359,26 @@ samples_size5
 ```{.Rout .text-muted}
 ## # A tibble: 5,000 × 77
 ## # Groups:   replicate [1,000]
-##    replicate    ID SurveyYr Gender   Age AgeDecade AgeMonths Race1   Race3
-##        <int> <dbl> <chr>    <chr>  <dbl> <chr>         <dbl> <chr>   <chr>
-##  1         1 54148 2009_10  male      34 30-39           418 Mexican <NA> 
-##  2         1 60229 2009_10  male      50 50-59           605 Mexican <NA> 
-##  3         1 68152 2011_12  male      56 50-59            NA Black   Black
-##  4         1 57109 2009_10  female    41 40-49           500 Other   <NA> 
-##  5         1 71164 2011_12  male      48 40-49            NA White   White
-##  6         2 57175 2009_10  male      49 40-49           590 White   <NA> 
-##  7         2 69456 2011_12  male      52 50-59            NA Black   Black
-##  8         2 66289 2011_12  male      41 40-49            NA White   White
-##  9         2 59541 2009_10  male      49 40-49           593 White   <NA> 
-## 10         2 67261 2011_12  male      57 50-59            NA White   White
-## # … with 4,990 more rows, and 68 more variables: Education <chr>,
-## #   MaritalStatus <chr>, HHIncome <chr>, HHIncomeMid <dbl>, Poverty <dbl>,
-## #   HomeRooms <dbl>, HomeOwn <chr>, Work <chr>, Weight <dbl>, Length <lgl>,
-## #   HeadCirc <lgl>, Height <dbl>, BMI <dbl>, BMICatUnder20yrs <chr>,
-## #   BMI_WHO <chr>, Pulse <dbl>, BPSysAve <dbl>, BPDiaAve <dbl>, BPSys1 <dbl>,
-## #   BPDia1 <dbl>, BPSys2 <dbl>, BPDia2 <dbl>, BPSys3 <dbl>, BPDia3 <dbl>,
-## #   Testosterone <dbl>, DirectChol <dbl>, TotChol <dbl>, UrineVol1 <dbl>, …
+##    replicate    ID SurveyYr Gender   Age AgeDecade AgeMonths Race1 Race3 Educa…¹
+##        <int> <dbl> <chr>    <chr>  <dbl> <chr>         <dbl> <chr> <chr> <chr>  
+##  1         1 54148 2009_10  male      34 30-39           418 Mexi… <NA>  9 - 11…
+##  2         1 60229 2009_10  male      50 50-59           605 Mexi… <NA>  8th Gr…
+##  3         1 68152 2011_12  male      56 50-59            NA Black Black High S…
+##  4         1 57109 2009_10  female    41 40-49           500 Other <NA>  Some C…
+##  5         1 71164 2011_12  male      48 40-49            NA White White Some C…
+##  6         2 57175 2009_10  male      49 40-49           590 White <NA>  Colleg…
+##  7         2 69456 2011_12  male      52 50-59            NA Black Black Colleg…
+##  8         2 66289 2011_12  male      41 40-49            NA White White Colleg…
+##  9         2 59541 2009_10  male      49 40-49           593 White <NA>  High S…
+## 10         2 67261 2011_12  male      57 50-59            NA White White 8th Gr…
+## # … with 4,990 more rows, 67 more variables: MaritalStatus <chr>,
+## #   HHIncome <chr>, HHIncomeMid <dbl>, Poverty <dbl>, HomeRooms <dbl>,
+## #   HomeOwn <chr>, Work <chr>, Weight <dbl>, Length <lgl>, HeadCirc <lgl>,
+## #   Height <dbl>, BMI <dbl>, BMICatUnder20yrs <chr>, BMI_WHO <chr>,
+## #   Pulse <dbl>, BPSysAve <dbl>, BPDiaAve <dbl>, BPSys1 <dbl>, BPDia1 <dbl>,
+## #   BPSys2 <dbl>, BPDia2 <dbl>, BPSys3 <dbl>, BPDia3 <dbl>, Testosterone <dbl>,
+## #   DirectChol <dbl>, TotChol <dbl>, UrineVol1 <dbl>, UrineFlow1 <dbl>, …
+## # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ### Summary statistics for each sample
@@ -415,6 +409,7 @@ sample_props_mari_size5
 ##  9         9   1  
 ## 10        10   0.6
 ## # … with 990 more rows
+## # ℹ Use `print(n = ...)` to see more rows
 ```
 
 Notice that the proportions calculated from each sample will tend to vary.  We can visualize this using a histogram:

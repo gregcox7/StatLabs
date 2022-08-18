@@ -6,9 +6,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Lab 3 Describing data | Labs</title>
 <meta name="author" content="Greg Cox">
-<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.5.1/jquery-3.5.1.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="libs/bootstrap-4.5.3/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.5.3/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.4/tabs.js"></script><script src="libs/bs3compat-0.2.4/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.14/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/mark.min.js"></script><!-- CSS --><link rel="stylesheet" href="css/ims-style.css">
 </head>
 <body data-spy="scroll" data-target="#toc">
@@ -65,16 +65,16 @@
 <span class="header-section-number">3.1</span> Load the <code>tidyverse</code> library<a class="anchor" aria-label="anchor" href="#load-the-tidyverse-library"><i class="fas fa-link"></i></a>
 </h2>
 <p>After starting up RStudio, we begin by making sure we’ve got the <code>tidyverse</code> package loaded from R’s library.</p>
-<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></code></pre></div>
 <pre class="Rout text-info"><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
-<pre class="Rout text-info"><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
-## ✓ tibble  3.1.3     ✓ dplyr   1.0.5
-## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
-## ✓ readr   2.0.0     ✓ forcats 0.5.1</code></pre>
+<pre class="Rout text-info"><code>## ✔ ggplot2 3.3.6     ✔ purrr   0.3.4
+## ✔ tibble  3.1.8     ✔ dplyr   1.0.9
+## ✔ tidyr   1.1.3     ✔ stringr 1.4.0
+## ✔ readr   2.1.2     ✔ forcats 0.5.1</code></pre>
 <pre class="Rout text-info"><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()</code></pre>
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
 </div>
 <div id="variance-and-standard-deviation" class="section level2" number="3.2">
 <h2>
@@ -86,14 +86,14 @@
 <h3>
 <span class="header-section-number">3.2.1</span> The big picture<a class="anchor" aria-label="anchor" href="#the-big-picture"><i class="fas fa-link"></i></a>
 </h3>
-<p>A good numerical summary of variability should tell us how much we would expect the observed values of a variable to differ from what is “typical.” This is what “standard deviation” means: it is a summary of the typical (“standard”) amount by which observed values of some variable tend to differ (“deviate”) from their central tendency. The variance and standard deviation are based on using the <em>mean</em> to describe central tendency.</p>
+<p>A good numerical summary of variability should tell us how much we would expect the observed values of a variable to differ from what is “typical”. This is what “standard deviation” means: it is a summary of the typical (“standard”) amount by which observed values of some variable tend to differ (“deviate”) from their central tendency. The variance and standard deviation are based on using the <em>mean</em> to describe central tendency.</p>
 </div>
 <div id="load-the-data-2" class="section level3" number="3.2.2">
 <h3>
 <span class="header-section-number">3.2.2</span> Load the data<a class="anchor" aria-label="anchor" href="#load-the-data-2"><i class="fas fa-link"></i></a>
 </h3>
-<p>To see how the variance and standard deviation are calculated, let’s create a very small fake data set, which we will creatively call <code>my_data</code>. It contains 5 observations of a single variable called “X.”</p>
-<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
+<p>To see how the variance and standard deviation are calculated, let’s create a very small fake data set, which we will creatively call <code>my_data</code>. It contains 5 observations of a single variable called “X”.</p>
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">my_data</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span>X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">91</span>, <span class="fl">102</span>, <span class="fl">107</span>, <span class="fl">109</span>, <span class="fl">111</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Although these data are not real, they are similar to what one might observe in a random sample of IQ scores (which have a mean of 100 and standard deviation of 15 in the typical population).</p>
 </div>
@@ -107,12 +107,12 @@
 <span class="header-section-number">3.2.3.1</span> Find the mean<a class="anchor" aria-label="anchor" href="#find-the-mean"><i class="fas fa-link"></i></a>
 </h4>
 <p>First, we find the mean of the observed values. R is, in many ways, a fancy calculator. So we could find the mean of the observed values on the <code>X</code> variable by plugging them into the formula for the mean that we already know:</p>
-<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="op">(</span><span class="fl">91</span> <span class="op">+</span> <span class="fl">102</span> <span class="op">+</span> <span class="fl">107</span> <span class="op">+</span> <span class="fl">109</span> <span class="op">+</span> <span class="fl">111</span><span class="op">)</span> <span class="op">/</span> <span class="fl">5</span></code></pre></div>
 <pre class="Rout text-muted"><code>## [1] 104</code></pre>
 <p>While using R as a calculator has its advantages over doing it by hand, the downside is that we still have to type/copy those numbers. Moreover, if we wanted to use the result for something else (which we will), we’d have to copy that too, and the more we do this, the greater the chances are that we make a mistake.</p>
 <p>Rather than typing in the numbers manually, we could instead use R’s <code>mean</code> function within the “summarize” line we’ve used before:</p>
-<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">my_data</span> <span class="op">%&gt;%</span>
     <span class="fu">summarize</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre class="Rout text-muted"><code>## # A tibble: 1 × 1
@@ -120,7 +120,7 @@
 ##       &lt;dbl&gt;
 ## 1       104</code></pre>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-15" class="exercise"><strong>Exercise 3.1  </strong></span>When we’ve used the “summarize” function in previous sessions, we always preceded it with a <code>group_by</code> line. Say in your own words why we didn’t use a <code>group_by</code> line to find the mean in the chunk of code we just ran.</p>
+<p><span id="exr:unlabeled-div-14" class="exercise"><strong>Exercise 3.1  </strong></span>When we’ve used the “summarize” function in previous sessions, we always preceded it with a <code>group_by</code> line. Say in your own words why we didn’t use a <code>group_by</code> line to find the mean in the chunk of code we just ran.</p>
 </div>
 </div>
 <div id="find-the-deviations-from-the-mean" class="section level4" number="3.2.3.2">
@@ -129,7 +129,7 @@
 </h4>
 <p>The next step is to find, for each observed value in our data, its <strong>deviation</strong> from the mean. In mathematical notation, each deviation can be written as <span class="math inline">\((x_i - \bar{x})\)</span> where <span class="math inline">\(x_i\)</span> is a shorthand for each observed value and <span class="math inline">\(\bar{x}\)</span> is the mean.</p>
 <p>In previous sessions, we’ve used the <code>mutate</code> line to transform counts into proportions. Now we will use it to find the deviations:</p>
-<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">my_data</span> <span class="op">%&gt;%</span>
     <span class="fu">mutate</span><span class="op">(</span>deviation <span class="op">=</span> <span class="va">X</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre class="Rout text-muted"><code>## # A tibble: 5 × 2
@@ -146,7 +146,7 @@
 <span class="header-section-number">3.2.3.3</span> Square the deviations<a class="anchor" aria-label="anchor" href="#square-the-deviations"><i class="fas fa-link"></i></a>
 </h4>
 <p>Now that we’ve found the deviations, we square each of them, again using a <code>mutate</code> line:</p>
-<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">my_data</span> <span class="op">%&gt;%</span>
     <span class="fu">mutate</span><span class="op">(</span>deviation <span class="op">=</span> <span class="va">X</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">mutate</span><span class="op">(</span>squared_deviation <span class="op">=</span> <span class="va">deviation</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></code></pre></div>
@@ -165,7 +165,7 @@
 <span class="header-section-number">3.2.3.4</span> Add up the squared deviations<a class="anchor" aria-label="anchor" href="#add-up-the-squared-deviations"><i class="fas fa-link"></i></a>
 </h4>
 <p>Now, we add up the squared deviations using the <code>sum</code> function as part of a <code>summarize</code> line:</p>
-<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">my_data</span> <span class="op">%&gt;%</span>
     <span class="fu">mutate</span><span class="op">(</span>deviation <span class="op">=</span> <span class="va">X</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">mutate</span><span class="op">(</span>squared_deviation <span class="op">=</span> <span class="va">deviation</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -175,7 +175,7 @@
 ##                   &lt;dbl&gt;
 ## 1                   256</code></pre>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-16" class="exercise"><strong>Exercise 3.2  </strong></span>Modify the chunk of code we just ran to just add up the <code>deviation</code>s instead of the <code>squared_deviation</code>s. (<em>Hint:</em> think about what variable name to put inside the parentheses after “sum” on the last line.)</p>
+<p><span id="exr:unlabeled-div-15" class="exercise"><strong>Exercise 3.2  </strong></span>Modify the chunk of code we just ran to just add up the <code>deviation</code>s instead of the <code>squared_deviation</code>s. (<em>Hint:</em> think about what variable name to put inside the parentheses after “sum” on the last line.)</p>
 <ol style="list-style-type: lower-alpha">
 <li>What is the sum of the deviations?</li>
 <li>How do you think the sum of the deviations might relate to the idea that the mean is the “balance point” of a distribution of numbers?</li>
@@ -186,8 +186,8 @@
 <h4>
 <span class="header-section-number">3.2.3.5</span> Variance: Divide by <span class="math inline">\(n - 1\)</span><a class="anchor" aria-label="anchor" href="#variance-divide-by-n---1"><i class="fas fa-link"></i></a>
 </h4>
-<p>The <strong>variance</strong> is the sum of squared deviations divided by <span class="math inline">\(n - 1\)</span>, where <span class="math inline">\(n\)</span> is the number of observed values, the “sample size.” To get <span class="math inline">\(n\)</span>, we can include <code>n = n()</code> in the <code>summarize</code> line and then use another <code>mutate</code> line to get the variance:</p>
-<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
+<p>The <strong>variance</strong> is the sum of squared deviations divided by <span class="math inline">\(n - 1\)</span>, where <span class="math inline">\(n\)</span> is the number of observed values, the “sample size”. To get <span class="math inline">\(n\)</span>, we can include <code>n = n()</code> in the <code>summarize</code> line and then use another <code>mutate</code> line to get the variance:</p>
+<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">my_data</span> <span class="op">%&gt;%</span>
     <span class="fu">mutate</span><span class="op">(</span>deviation <span class="op">=</span> <span class="va">X</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">mutate</span><span class="op">(</span>squared_deviation <span class="op">=</span> <span class="va">deviation</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -203,7 +203,7 @@
 <span class="header-section-number">3.2.3.6</span> Standard deviation: Take the square root<a class="anchor" aria-label="anchor" href="#standard-deviation-take-the-square-root"><i class="fas fa-link"></i></a>
 </h4>
 <p>Finally, we get the <strong>standard deviation</strong> by taking the square root of the variance, which we do with a final <code>mutate</code> line. In R, the <code>sqrt</code> function stands for <code>sq</code>uare <code>r</code>oo<code>t</code>.</p>
-<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">my_data</span> <span class="op">%&gt;%</span>
     <span class="fu">mutate</span><span class="op">(</span>deviation <span class="op">=</span> <span class="va">X</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">mutate</span><span class="op">(</span>squared_deviation <span class="op">=</span> <span class="va">deviation</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -221,7 +221,7 @@
 <span class="header-section-number">3.2.4</span> All at once<a class="anchor" aria-label="anchor" href="#all-at-once"><i class="fas fa-link"></i></a>
 </h3>
 <p>We just saw the complete chain of calculations involved in finding the variance and then the standard deviation. But as you might have guessed from the fact that R has a <code>mean</code> function, it also has functions that directly calculate variances and standard deviations. These functions are called <code>var</code> and <code>sd</code>, respectively, and we can use them in a <code>summary</code> line, like so:</p>
-<div class="sourceCode" id="cb85"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">my_data</span> <span class="op">%&gt;%</span>
     <span class="fu">summarize</span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span>, variance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span>, standard_deviation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre class="Rout text-muted"><code>## # A tibble: 1 × 3
@@ -230,7 +230,7 @@
 ## 1   104       64                  8</code></pre>
 <p>The code we just ran is much more compact, readable, and less liable to lead to any typos, so naturally we will use the built-in <code>var</code> and <code>sd</code> functions pretty often!</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-17" class="exercise"><strong>Exercise 3.3  </strong></span>Take a look at how we used the <code>mutate</code> and <code>summarize</code> lines when we were calculating the variance and standard deviation step-by-step. In your own words, describe a basic difference between what a <code>mutate</code> line is used for and what a <code>summarize</code> line is used for.</p>
+<p><span id="exr:unlabeled-div-16" class="exercise"><strong>Exercise 3.3  </strong></span>Take a look at how we used the <code>mutate</code> and <code>summarize</code> lines when we were calculating the variance and standard deviation step-by-step. In your own words, describe a basic difference between what a <code>mutate</code> line is used for and what a <code>summarize</code> line is used for.</p>
 <p><em>Hint:</em> Think about the result we got after adding either a <code>mutate</code> or <code>summarize</code> line and how it affected the number of rows and/or columns in the result.</p>
 </div>
 </div>
@@ -239,23 +239,21 @@
 <h2>
 <span class="header-section-number">3.3</span> Diet and Lifespan<a class="anchor" aria-label="anchor" href="#diet-and-lifespan"><i class="fas fa-link"></i></a>
 </h2>
-<p>Having seen how to use R to calculate numerical summaries of central tendency and variability, let’s see how they operate in real data. The data we will be looking at come from a study by <span class="citation"><a href="references.html#ref-YuEtAl1982" role="doc-biblioref">Yu et al.</a> (<a href="references.html#ref-YuEtAl1982" role="doc-biblioref">1982</a>)</span>. They studied the lifespan of a sample of rats which were randomly assigned to one of two different diets: One group of rats was allowed to eat freely, however they wanted; another group was fed on a restricted diet with only about 60% of the calories that the free-eating rats had.</p>
+<p>Having seen how to use R to calculate numerical summaries of central tendency and variability, let’s see how they operate in real data. The data we will be looking at come from a study by <span class="citation">Yu et al. (<a href="references.html#ref-YuEtAl1982" role="doc-biblioref">1982</a>)</span>. They studied the lifespan of a sample of rats which were randomly assigned to one of two different diets: One group of rats was allowed to eat freely, however they wanted; another group was fed on a restricted diet with only about 60% of the calories that the free-eating rats had.</p>
 <div id="load-the-data-3" class="section level3" number="3.3.1">
 <h3>
 <span class="header-section-number">3.3.1</span> Load the data<a class="anchor" aria-label="anchor" href="#load-the-data-3"><i class="fas fa-link"></i></a>
 </h3>
 <p>First, we need to get this data into R. The following code will download and import the data into your current R session:</p>
-<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">rats</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">'https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/ratlives.csv'</span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-info"><code>## Rows: 195 Columns: 2</code></pre>
-<pre class="Rout text-info"><code>## ── Column specification ────────────────────────────────────────────────────────
+<pre class="Rout text-info"><code>## Rows: 195 Columns: 2── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## chr (1): Diet
-## dbl (1): Lifespan</code></pre>
-<pre class="Rout text-info"><code>## 
+## dbl (1): Lifespan
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<p>In your “Environment” panel in the upper right, you’ll see a new entry called “rats.” This is the data we just imported. Click on it to have a look at the data, which will appear in the upper left. There are just two variables in this dataset, <strong>Diet</strong> and <strong>Lifespan</strong> (measured in days). Diet is the explanatory variable and Lifespan is the response variable.</p>
+<p>In your “Environment” panel in the upper right, you’ll see a new entry called “rats”. This is the data we just imported. Click on it to have a look at the data, which will appear in the upper left. There are just two variables in this dataset, <strong>Diet</strong> and <strong>Lifespan</strong> (measured in days). Diet is the explanatory variable and Lifespan is the response variable.</p>
 </div>
 <div id="summarizing-the-data-visually" class="section level3" number="3.3.2">
 <h3>
@@ -267,14 +265,14 @@
 <span class="header-section-number">3.3.2.1</span> Histograms<a class="anchor" aria-label="anchor" href="#histograms-1"><i class="fas fa-link"></i></a>
 </h4>
 <p>Let’s make a facetted histogram that shows the distribution of lifespans of the rats under each diet. We will use an option under <code>facet_wrap</code> that lets us set the <code>n</code>umber of <code>col</code>umns (<code>ncol</code>) so we can see the facets stacked atop one another.</p>
-<div class="sourceCode" id="cb91"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">rats</span> <span class="op">%&gt;%</span>
     <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">Lifespan</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">geom_histogram</span><span class="op">(</span>binwidth<span class="op">=</span><span class="fl">90</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">facet_wrap</span><span class="op">(</span><span class="st">"Diet"</span>, ncol <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="03-describing_files/figure-html/unnamed-chunk-13-1.png" width="672"></div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-18" class="exercise"><strong>Exercise 3.4  </strong></span>First, let’s describe what we can see from the histograms (you may also try out other bin widths for the histograms as you like).</p>
+<p><span id="exr:unlabeled-div-17" class="exercise"><strong>Exercise 3.4  </strong></span>First, let’s describe what we can see from the histograms (you may also try out other bin widths for the histograms as you like).</p>
 <ol style="list-style-type: lower-alpha">
 <li>Describe the shape of the two distributions. Be sure to note the number of <em>modes</em>, any <em>skewness</em>, and whether there may be any <em>outliers</em> in either group.</li>
 <li>Compare the two distributions. Be sure to note whether there seem to be any differences in <em>central tendency</em> or <em>variability</em> between the two groups.</li>
@@ -286,13 +284,13 @@
 <span class="header-section-number">3.3.2.2</span> Boxplots<a class="anchor" aria-label="anchor" href="#boxplots"><i class="fas fa-link"></i></a>
 </h4>
 <p>We’ve also seen some examples of <strong>boxplots</strong> as useful visual summaries of data. The “box” of the boxplot encloses the “inter-quartile range” (IQR), that is, the middle 50% of the data that falls between the 25th and 75th percentiles. The line in the middle of the box shows where the median is. Boxplots are easy to produce in R by using <code>geom_boxplot</code> instead of <code>geom_histogram</code>:</p>
-<div class="sourceCode" id="cb92"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">rats</span> <span class="op">%&gt;%</span>
     <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">Lifespan</span>, y<span class="op">=</span><span class="va">Diet</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">geom_boxplot</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="03-describing_files/figure-html/unnamed-chunk-14-1.png" width="672"></div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-19" class="exercise"><strong>Exercise 3.5  </strong></span>Compare the boxplots and histograms we just made.</p>
+<p><span id="exr:unlabeled-div-18" class="exercise"><strong>Exercise 3.5  </strong></span>Compare the boxplots and histograms we just made.</p>
 <ol style="list-style-type: lower-alpha">
 <li>What sorts of things seem easier to do with the boxplots as opposed to histograms? Think about what features of the data might be easier to see with a boxplot and what comparisons might be easier to make using a boxplot.</li>
 <li>Do you lose anything by using a boxplot instead of a histogram? Are there any important features of the data that are harder to see in the boxplot?</li>
@@ -306,7 +304,7 @@
 </h3>
 <p>Finally, let’s use R to get a numerical summary of the lifespans of the rats under the two diets. In the first part of the session, we focused on the <em>mean</em> and <em>standard deviation</em> (and <em>variance</em>), but we have also seen that the <em>median</em> and <em>inter-quartile range</em> (IQR) can also be used as numerical summaries of central tendency and variability.</p>
 <p>R can find the median and IQR for us:</p>
-<div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb85"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">rats</span> <span class="op">%&gt;%</span>
     <span class="fu">group_by</span><span class="op">(</span><span class="va">Diet</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">summarize</span><span class="op">(</span>Median <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">Lifespan</span><span class="op">)</span>, IQR <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/IQR.html">IQR</a></span><span class="op">(</span><span class="va">Lifespan</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -316,10 +314,10 @@
 ## 1 Free         710   116 
 ## 2 Restricted  1036.  300.</code></pre>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-20" class="exercise"><strong>Exercise 3.6  </strong></span>Fill in the blanks in the following chunk of code to find the mean and standard deviation of the lifespans of the rats under each diet. <em>Hint:</em> recall the names of the functions we used to find these quantities earlier.</p>
-<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="lab3.html#cb95-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
-<span id="cb95-2"><a href="lab3.html#cb95-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(___) <span class="sc">%&gt;%</span></span>
-<span id="cb95-3"><a href="lab3.html#cb95-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">___</span>(<span class="at">Mean =</span> ___, <span class="at">SD =</span> ___)</span></code></pre></div>
+<p><span id="exr:unlabeled-div-19" class="exercise"><strong>Exercise 3.6  </strong></span>Fill in the blanks in the following chunk of code to find the mean and standard deviation of the lifespans of the rats under each diet. <em>Hint:</em> recall the names of the functions we used to find these quantities earlier.</p>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="lab3.html#cb87-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
+<span id="cb87-2"><a href="lab3.html#cb87-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(___) <span class="sc">%&gt;%</span></span>
+<span id="cb87-3"><a href="lab3.html#cb87-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">___</span>(<span class="at">Mean =</span> ___, <span class="at">SD =</span> ___)</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>What code did you use?</li>
 <li>Compare the means and standard deviations for each group of rats to the histograms we made earlier. How are the differences in mean lifespan between groups reflected in the two histograms? How are the differences in the standard deviation of lifespan reflected in the two histograms?</li>
@@ -327,7 +325,7 @@
 </div>
 <p>These numerical summaries of central tendency and variability provide a concise description of the lifespans of rats under the two different diets. These descriptions help us address the <strong>research question</strong>: does a restricted diet have an effect on lifespan?</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-21" class="exercise"><strong>Exercise 3.7  </strong></span>Based on the visual and numerical summaries we have made, let us draw some conclusions about that research question.</p>
+<p><span id="exr:unlabeled-div-20" class="exercise"><strong>Exercise 3.7  </strong></span>Based on the visual and numerical summaries we have made, let us draw some conclusions about that research question.</p>
 <ol style="list-style-type: lower-alpha">
 <li>Briefly describe the differences in lifespans between rats under a restricted diet versus rats with a free diet.</li>
 <li>Based on the design of the study, can we conclude that the differences in diet probably played a role in <em>causing</em> the observed differences in lifespan in this sample? Why or why not?</li>
@@ -385,7 +383,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-04-17.</p>
+    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-08-18.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

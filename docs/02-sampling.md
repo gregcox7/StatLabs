@@ -24,16 +24,16 @@ library(tidyverse)
 ```
 
 ```{.Rout .text-info}
-## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
-## ✓ tibble  3.1.3     ✓ dplyr   1.0.5
-## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
-## ✓ readr   2.0.0     ✓ forcats 0.5.1
+## ✔ ggplot2 3.3.6     ✔ purrr   0.3.4
+## ✔ tibble  3.1.8     ✔ dplyr   1.0.9
+## ✔ tidyr   1.1.3     ✔ stringr 1.4.0
+## ✔ readr   2.1.2     ✔ forcats 0.5.1
 ```
 
 ```{.Rout .text-info}
 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
 ```
 
 Now that that's done, we can get into the data.
@@ -52,17 +52,9 @@ berkeley <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/d
 ```
 
 ```{.Rout .text-info}
-## Rows: 4526 Columns: 3
-```
-
-```{.Rout .text-info}
-## ── Column specification ────────────────────────────────────────────────────────
+## Rows: 4526 Columns: 3── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## chr (3): Admit, Gender, Department
-```
-
-```{.Rout .text-info}
-## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
@@ -93,7 +85,8 @@ berkeley %>%
 ```
 
 ```{.Rout .text-info}
-## `summarise()` has grouped output by 'Gender'. You can override using the `.groups` argument.
+## `summarise()` has grouped output by 'Gender'. You can override using the
+## `.groups` argument.
 ```
 
 ```{.Rout .text-muted}
@@ -159,7 +152,8 @@ berkeley %>%
 ```
 
 ```{.Rout .text-info}
-## `summarise()` has grouped output by 'Department'. You can override using the `.groups` argument.
+## `summarise()` has grouped output by 'Department'. You can override using the
+## `.groups` argument.
 ```
 
 ```{.Rout .text-muted}

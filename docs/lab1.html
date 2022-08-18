@@ -30,7 +30,22 @@
 </form>
 
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
-        <ul class="book-toc list-unstyled"><li><a class="" href="index.html"><span class="header-section-number">Lab 1</span> Exploring data with R</a></li></ul>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Overview</a></li>
+<li><a class="active" href="lab1.html"><span class="header-section-number">1</span> Exploring data with R</a></li>
+<li><a class="" href="lab2.html"><span class="header-section-number">2</span> Sampling</a></li>
+<li><a class="" href="lab3.html"><span class="header-section-number">3</span> Describing data</a></li>
+<li><a class="" href="lab4.html"><span class="header-section-number">4</span> Relationships between numerical variables</a></li>
+<li><a class="" href="lab5.html"><span class="header-section-number">5</span> Hypothesis testing with randomization</a></li>
+<li><a class="" href="lab6.html"><span class="header-section-number">6</span> Confidence intervals with bootstrapping</a></li>
+<li><a class="" href="lab7.html"><span class="header-section-number">7</span> The normal distribution</a></li>
+<li><a class="" href="lab8.html"><span class="header-section-number">8</span> Inference for proportions</a></li>
+<li><a class="" href="lab9.html"><span class="header-section-number">9</span> Inference for a single mean</a></li>
+<li><a class="" href="lab10.html"><span class="header-section-number">10</span> Inference for comparing two independent means</a></li>
+<li><a class="" href="lab11.html"><span class="header-section-number">11</span> Inference for paired data</a></li>
+<li><a class="" href="lab12.html"><span class="header-section-number">12</span> Inference for multiple independent groups</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
 
         <div class="book-extra">
           <p><a id="book-repo" href="https://github.com/gregcox7/StatLabs">View book source <i class="fab fa-github"></i></a></p>
@@ -405,15 +420,42 @@
 </div>
 </div>
   <div class="chapter-nav">
-<div class="empty"></div>
-<div class="empty"></div>
+<div class="prev"><a href="index.html">Overview</a></div>
+<div class="next"><a href="lab2.html"><span class="header-section-number">2</span> Sampling</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <div id="book-on-this-page"></div>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#lab1"><span class="header-section-number">1</span> Exploring data with R</a></li>
+<li>
+<a class="nav-link" href="#r-and-rstudio"><span class="header-section-number">1.1</span> R and RStudio</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#installation-on-your-own-computer"><span class="header-section-number">1.1.1</span> Installation on your own computer</a></li>
+<li><a class="nav-link" href="#running-r-in-a-browser"><span class="header-section-number">1.1.2</span> Running R in a browser</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#required-packages"><span class="header-section-number">1.2</span> Required packages</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#troubleshooting-tip"><span class="header-section-number">1.2.1</span> Troubleshooting tip</a></li></ul>
+</li>
+<li>
+<a class="nav-link" href="#meet-your-data"><span class="header-section-number">1.3</span> Meet your data</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#load-the-data"><span class="header-section-number">1.3.1</span> Load the data</a></li>
+<li><a class="nav-link" href="#check-out-the-variables"><span class="header-section-number">1.3.2</span> Check out the variables</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#answering-questions-with-data"><span class="header-section-number">1.4</span> Answering questions with data</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#frequency-tables"><span class="header-section-number">1.4.1</span> Frequency tables</a></li>
+<li><a class="nav-link" href="#titanic-props"><span class="header-section-number">1.4.2</span> Proportions</a></li>
+<li><a class="nav-link" href="#titanic-bar"><span class="header-section-number">1.4.3</span> Bar charts</a></li>
+<li><a class="nav-link" href="#histograms"><span class="header-section-number">1.4.4</span> Histograms</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#wrap-up"><span class="header-section-number">1.5</span> Wrap-up</a></li>
+</ul>
 
       <div class="book-extra">
         <ul class="list-unstyled">
-          
+<li><a id="book-source" href="https://github.com/gregcox7/StatLabs/blob/master/01-exploring.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/gregcox7/StatLabs/edit/master/01-exploring.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
         </ul>
 </div>
     </nav>
@@ -425,7 +467,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-04-17.</p>
+    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-08-18.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

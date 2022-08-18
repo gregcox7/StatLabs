@@ -6,9 +6,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Lab 6 Confidence intervals with bootstrapping | Labs</title>
 <meta name="author" content="Greg Cox">
-<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.5.1/jquery-3.5.1.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="libs/bootstrap-4.5.3/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.5.3/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.4/tabs.js"></script><script src="libs/bs3compat-0.2.4/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.14/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/mark.min.js"></script><!-- CSS --><link rel="stylesheet" href="css/ims-style.css">
 </head>
 <body data-spy="scroll" data-target="#toc">
@@ -63,17 +63,17 @@
 <span class="header-section-number">6.1</span> Required packages<a class="anchor" aria-label="anchor" href="#required-packages-2"><i class="fas fa-link"></i></a>
 </h2>
 <p>Like last time, we will require both the <code>tidyverse</code> and <code>infer</code> packages for this session, so make sure to load both from R’s library with the line below.</p>
-<div class="sourceCode" id="cb165"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb149"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></code></pre></div>
 <pre class="Rout text-info"><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
-<pre class="Rout text-info"><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
-## ✓ tibble  3.1.3     ✓ dplyr   1.0.5
-## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
-## ✓ readr   2.0.0     ✓ forcats 0.5.1</code></pre>
+<pre class="Rout text-info"><code>## ✔ ggplot2 3.3.6     ✔ purrr   0.3.4
+## ✔ tibble  3.1.8     ✔ dplyr   1.0.9
+## ✔ tidyr   1.1.3     ✔ stringr 1.4.0
+## ✔ readr   2.1.2     ✔ forcats 0.5.1</code></pre>
 <pre class="Rout text-info"><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()</code></pre>
-<div class="sourceCode" id="cb169"><pre class="downlit sourceCode r">
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<div class="sourceCode" id="cb153"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/infer">infer</a></span><span class="op">)</span></code></pre></div>
 </div>
 <div id="what-is-kobes-field-goal-percentage" class="section level2" number="6.2">
@@ -81,20 +81,19 @@
 <span class="header-section-number">6.2</span> What is Kobe’s field goal percentage?<a class="anchor" aria-label="anchor" href="#what-is-kobes-field-goal-percentage"><i class="fas fa-link"></i></a>
 </h2>
 <p>Last time, we asked whether Kobe Bryant had a “hot hand” during the 2009 NBA finals. We used randomization to test the null hypothesis that Kobe’s chance of making a hit was the same regardless of whether his previous shot was a hit or not.</p>
-<p>This time we are just interested in what proportion of Kobe’s shots actually make it in the basket. The traditional basketball term for this is Kobe’s “field goal percentage.” This constitutes a <strong>population parameter</strong> that we could label mathematically as <span class="math inline">\(\pi_{\text{Kobe}}\)</span>. The “population” here is all the shots Kobe ever attempted across his career. The sample are the shots Kobe attempted during the 2009 NBA finals. The sample yields a <strong>point estimate</strong> <span class="math inline">\(\hat{p}_{\text{Kobe}}\)</span> of the population parameter <span class="math inline">\(\pi_{\text{Kobe}}\)</span>.</p>
+<p>This time we are just interested in what proportion of Kobe’s shots actually make it in the basket. The traditional basketball term for this is Kobe’s “field goal percentage”. This constitutes a <strong>population parameter</strong> that we could label mathematically as <span class="math inline">\(\pi_{\text{Kobe}}\)</span>. The “population” here is all the shots Kobe ever attempted across his career. The sample are the shots Kobe attempted during the 2009 NBA finals. The sample yields a <strong>point estimate</strong> <span class="math inline">\(\hat{p}_{\text{Kobe}}\)</span> of the population parameter <span class="math inline">\(\pi_{\text{Kobe}}\)</span>.</p>
 <div id="load-the-data-8" class="section level3" number="6.2.1">
 <h3>
 <span class="header-section-number">6.2.1</span> Load the data<a class="anchor" aria-label="anchor" href="#load-the-data-8"><i class="fas fa-link"></i></a>
 </h3>
 <p>Run the following line of code to download the dataset consisting of every shooting attempt Kobe made during the 2009 NBA finals. This is the same data we looked at last time:</p>
-<div class="sourceCode" id="cb170"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb154"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kobe</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/kobe.csv"</span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-info"><code>## Rows: 111 Columns: 7</code></pre>
-<pre class="Rout text-info"><code>## ── Column specification ────────────────────────────────────────────────────────
+<pre class="Rout text-info"><code>## Rows: 111 Columns: 7── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
-## chr (6): vs, quarter, time, description, shot, prev_shot
-## dbl (1): game</code></pre>
-<pre class="Rout text-info"><code>## 
+## chr  (5): vs, quarter, description, shot, prev_shot
+## dbl  (1): game
+## time (1): time
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
@@ -104,7 +103,7 @@
 </h3>
 <p>What we are interested in this time is just the proportion of Kobe’s shots that were hits rather than misses. For today, we don’t care what the outcome of his previous shot was.</p>
 <p>To get the point estimate of the proportion of Kobe’s shots that were hits rather than misses, we can use the following chunk of code:</p>
-<div class="sourceCode" id="cb174"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb156"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span>response <span class="op">=</span> <span class="va">shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/calculate.html">calculate</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"prop"</span><span class="op">)</span></code></pre></div>
@@ -114,8 +113,8 @@
 ##   &lt;dbl&gt;
 ## 1 0.387</code></pre>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-37" class="exercise"><strong>Exercise 6.1  </strong></span>This is the chunk of code we used to find the observed <em>difference</em> in hit proportions last time, as a function of whether Kobe’s previous shot was a hit or not:</p>
-<div class="sourceCode" id="cb176"><pre class="downlit sourceCode r">
+<p><span id="exr:unlabeled-div-36" class="exercise"><strong>Exercise 6.1  </strong></span>This is the chunk of code we used to find the observed <em>difference</em> in hit proportions last time, as a function of whether Kobe’s previous shot was a hit or not:</p>
+<div class="sourceCode" id="cb158"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span><span class="va">shot</span> <span class="op">~</span> <span class="va">prev_shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/calculate.html">calculate</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"diff in props"</span>, order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"H"</span>, <span class="st">"M"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -126,29 +125,30 @@
 <h3>
 <span class="header-section-number">6.2.3</span> Model the randomness<a class="anchor" aria-label="anchor" href="#model-the-randomness"><i class="fas fa-link"></i></a>
 </h3>
-<p>Although our sample gives us a point estimate (<span class="math inline">\(\hat{p}_{\text{Kobe}}\)</span>) of Kobe’s true field goal percentage (<span class="math inline">\(\pi_{\text{Kobe}}\)</span>), we know that our point estimate is unlikely to be a perfect estimate. This is because we know that any sample from a population is subject to <strong>sampling variability</strong> which can be treated as effectively “random.” A confidence interval is based on modeling the sampling variability that produced the actual sample we got, so we can know what <em>range</em> of values for the population parameter remain plausible.</p>
+<p>Although our sample gives us a point estimate (<span class="math inline">\(\hat{p}_{\text{Kobe}}\)</span>) of Kobe’s true field goal percentage (<span class="math inline">\(\pi_{\text{Kobe}}\)</span>), we know that our point estimate is unlikely to be a perfect estimate. This is because we know that any sample from a population is subject to <strong>sampling variability</strong> which can be treated as effectively “random”. A confidence interval is based on modeling the sampling variability that produced the actual sample we got, so we can know what <em>range</em> of values for the population parameter remain plausible.</p>
 <p><strong>Bootstrapping</strong> models this randomness by using our sample as an estimate of the population and repeatedly <em>resampling</em> from that estimated population. Let’s see how that works.</p>
 <div id="a-single-resample" class="section level4" number="6.2.3.1">
 <h4>
 <span class="header-section-number">6.2.3.1</span> A single resample<a class="anchor" aria-label="anchor" href="#a-single-resample"><i class="fas fa-link"></i></a>
 </h4>
 <p>To get a sense of how resampling works, let’s again focus on a smaller number of shots from the 2nd quarter of the 1st game. Like last time, the <code>filter</code> function let’s us pull out just those few shots:</p>
-<div class="sourceCode" id="cb177"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb159"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">game</span> <span class="op">==</span> <span class="fl">1</span>, <span class="va">quarter</span> <span class="op">==</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
 <pre class="Rout text-muted"><code>## # A tibble: 8 × 7
-##   vs     game quarter time  description                          shot  prev_shot
-##   &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;                                &lt;chr&gt; &lt;chr&gt;    
-## 1 ORL       1 2       5:58  Kobe Bryant makes 20-foot jumper     H     H        
-## 2 ORL       1 2       5:22  Kobe Bryant makes 14-foot jumper     H     H        
-## 3 ORL       1 2       4:37  Kobe Bryant misses driving layup     M     H        
-## 4 ORL       1 2       3:30  Kobe Bryant makes 9-foot two point … H     M        
-## 5 ORL       1 2       2:55  Kobe Bryant makes 14-foot running j… H     H        
-## 6 ORL       1 2       1:55  Kobe Bryant misses 19-foot jumper    M     H        
-## 7 ORL       1 2       0:38  Kobe Bryant misses 27-foot three po… M     M        
-## 8 ORL       1 2       0:04  Kobe Bryant makes driving layup      H     M</code></pre>
+##   vs     game quarter time   description                           shot  prev_…¹
+##   &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;time&gt; &lt;chr&gt;                                 &lt;chr&gt; &lt;chr&gt;  
+## 1 ORL       1 2       05:58  Kobe Bryant makes 20-foot jumper      H     H      
+## 2 ORL       1 2       05:22  Kobe Bryant makes 14-foot jumper      H     H      
+## 3 ORL       1 2       04:37  Kobe Bryant misses driving layup      M     H      
+## 4 ORL       1 2       03:30  Kobe Bryant makes 9-foot two point s… H     M      
+## 5 ORL       1 2       02:55  Kobe Bryant makes 14-foot running ju… H     H      
+## 6 ORL       1 2       01:55  Kobe Bryant misses 19-foot jumper     M     H      
+## 7 ORL       1 2       00:38  Kobe Bryant misses 27-foot three poi… M     M      
+## 8 ORL       1 2       00:04  Kobe Bryant makes driving layup       H     M      
+## # … with abbreviated variable name ¹​prev_shot</code></pre>
 <p>The following chunk of code resamples from Kobe’s shots during that quarter to produce a new sample of shots:</p>
-<div class="sourceCode" id="cb179"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb161"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">game</span> <span class="op">==</span> <span class="fl">1</span>, <span class="va">quarter</span> <span class="op">==</span> <span class="fl">2</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span>response <span class="op">=</span> <span class="va">shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -167,17 +167,17 @@
 ## 7         1 H    
 ## 8         1 H</code></pre>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-38" class="exercise"><strong>Exercise 6.2  </strong></span>The chunk of code below is what we used last time to generate a single “shuffle” of these same shots:</p>
-<div class="sourceCode" id="cb181"><pre class="downlit sourceCode r">
+<p><span id="exr:unlabeled-div-37" class="exercise"><strong>Exercise 6.2  </strong></span>The chunk of code below is what we used last time to generate a single “shuffle” of these same shots:</p>
+<div class="sourceCode" id="cb163"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">game</span> <span class="op">==</span> <span class="fl">1</span>, <span class="va">quarter</span> <span class="op">==</span> <span class="fl">2</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span><span class="va">shot</span> <span class="op">~</span> <span class="va">prev_shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/hypothesize.html">hypothesize</a></span><span class="op">(</span>null <span class="op">=</span> <span class="st">"independence"</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/generate.html">generate</a></span><span class="op">(</span>reps <span class="op">=</span> <span class="fl">1</span>, type <span class="op">=</span> <span class="st">"permute"</span><span class="op">)</span></code></pre></div>
-<p>Compare that code from last time to the code we just used to do resampling. Note any similarities and differences. <em>Hint:</em> does it matter that when doing bootstrapping we do not have a “null hypothesis?”</p>
+<p>Compare that code from last time to the code we just used to do resampling. Note any similarities and differences. <em>Hint:</em> does it matter that when doing bootstrapping we do not have a “null hypothesis”?</p>
 </div>
 <p>The final step in doing bootstrapping is to calculate the sample statistic—in this case, the proportion of hits—on our randomly generated re-sample. We can do this by adding a <code>calculate</code> line at the end of the code we used to make the resample:</p>
-<div class="sourceCode" id="cb182"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb164"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">game</span> <span class="op">==</span> <span class="fl">1</span>, <span class="va">quarter</span> <span class="op">==</span> <span class="fl">2</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span>response <span class="op">=</span> <span class="va">shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -194,7 +194,7 @@
 <span class="header-section-number">6.2.3.2</span> Many resamples<a class="anchor" aria-label="anchor" href="#many-resamples"><i class="fas fa-link"></i></a>
 </h4>
 <p>We can remove the <code>filter</code> line to generate a single bootstrap resample proportion based on the full data.</p>
-<div class="sourceCode" id="cb184"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb166"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span>response <span class="op">=</span> <span class="va">shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/generate.html">generate</a></span><span class="op">(</span>reps <span class="op">=</span> <span class="fl">1</span>, type <span class="op">=</span> <span class="st">"bootstrap"</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -205,13 +205,13 @@
 ##   &lt;dbl&gt;
 ## 1 0.306</code></pre>
 <p>Of course, the whole point of bootstrapping is to get a <em>range</em> of plausible values and so we will need more than one resample! And like last time, we will want to get R to remember the proportions from each resample so we can use them later; we will call it <code>boot_dist</code>. The following chunk of code uses bootstrapping to produce a distribution of sample proportions, the variability of which mimics the sampling variability that was at work when generating our original observed sample:</p>
-<div class="sourceCode" id="cb186"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb168"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">boot_dist</span> <span class="op">&lt;-</span> <span class="va">kobe</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span>response <span class="op">=</span> <span class="va">shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/generate.html">generate</a></span><span class="op">(</span>reps <span class="op">=</span> <span class="fl">1000</span>, type <span class="op">=</span> <span class="st">"bootstrap"</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/calculate.html">calculate</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"prop"</span><span class="op">)</span></code></pre></div>
 <p>And like last time, we can use a histogram to get a nice visual summary of the bootstrap distribution:</p>
-<div class="sourceCode" id="cb187"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb169"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">boot_dist</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="06-bootstrapping_files/figure-html/unnamed-chunk-12-1.png" width="672"></div>
@@ -224,7 +224,7 @@
 <p>To find a confidence interval, we need to find the “middle” of the bootstrap distribution. We also need to decide how wide that “middle” should be. For example, to create a 95% confidence interval, we need to find where the middle 95% of the distribution is.</p>
 <p>The middle 95% is between two different <em>quantiles</em> of the bootstrap distribution. Specifically, the 2.5% and 97.5% quantiles define the boundaries of the 95% confidence interval. This is because they are the values for which 2.5% of the simulated proportions are below the interval and 2.5% of the simulated proportions are above the interval. So, in total, 5% of the values are outside the interval meaning the remainder (95%) are inside it.</p>
 <p>We can find the relevant quantiles using our faithful <code>summarize</code> function, now applied to the bootstrap distribution:</p>
-<div class="sourceCode" id="cb188"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb170"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">boot_dist</span> <span class="op">%&gt;%</span>
     <span class="fu">summarize</span><span class="op">(</span>CI <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">stat</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.975</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre class="Rout text-muted"><code>## # A tibble: 2 × 1
@@ -234,20 +234,20 @@
 ## 2 0.478</code></pre>
 <p>The list of numbers under <code>probs</code> gives the probabilities above, but in terms of proportions rather than percent (so <code>0.025</code> instead of 2.5%, for example).</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-39" class="exercise"><strong>Exercise 6.3  </strong></span>Modify the following code to get the boundaries of the <strong>90% confidence interval</strong>:</p>
-<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="lab6.html#cb190-1" aria-hidden="true" tabindex="-1"></a>boot_dist <span class="sc">%&gt;%</span></span>
-<span id="cb190-2"><a href="lab6.html#cb190-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">CI =</span> <span class="fu">quantile</span>(stat, <span class="at">probs =</span> <span class="fu">c</span>(___, ___)))</span></code></pre></div>
+<p><span id="exr:unlabeled-div-38" class="exercise"><strong>Exercise 6.3  </strong></span>Modify the following code to get the boundaries of the <strong>90% confidence interval</strong>:</p>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="lab6.html#cb172-1" aria-hidden="true" tabindex="-1"></a>boot_dist <span class="sc">%&gt;%</span></span>
+<span id="cb172-2"><a href="lab6.html#cb172-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">CI =</span> <span class="fu">quantile</span>(stat, <span class="at">probs =</span> <span class="fu">c</span>(___, ___)))</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>What code did you use?</li>
 <li>What were the boundaries that you found?</li>
 </ol>
 </div>
 <p>As with many things, R has some shortcuts! The following code also finds the 95% confidence interval, where we use <code>level</code> to set how wide we want the interval. Note that we are putting the result under the label <code>boot_ci</code> so we can use it to help us visualize the interval:</p>
-<div class="sourceCode" id="cb191"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb173"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">boot_ci</span> <span class="op">&lt;-</span> <span class="va">boot_dist</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/get_confidence_interval.html">get_confidence_interval</a></span><span class="op">(</span>level <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></code></pre></div>
 <p>Now we can add the 95% confidence interval that we saved under <code>boot_ci</code> to our visualization:</p>
-<div class="sourceCode" id="cb192"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb174"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">boot_dist</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/shade_confidence_interval.html">shade_confidence_interval</a></span><span class="op">(</span>endpoints <span class="op">=</span> <span class="va">boot_ci</span><span class="op">)</span></code></pre></div>
@@ -259,7 +259,7 @@
 </h3>
 <p>Now we are in a position to form a conclusion about Kobe’s true field goal percentage based on the sample that we had.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-40" class="exercise"><strong>Exercise 6.4  </strong></span>Answer the following based on the 95% confidence interval we just constructed for Kobe’s field goal percentage.</p>
+<p><span id="exr:unlabeled-div-39" class="exercise"><strong>Exercise 6.4  </strong></span>Answer the following based on the 95% confidence interval we just constructed for Kobe’s field goal percentage.</p>
 <ol style="list-style-type: lower-alpha">
 <li>Is it plausible that Kobe makes more than half of the shots he attempts? Explain your reasoning.</li>
 <li>Kobe’s actual career field goal percentage was 44.7%. In other words, the true value of the population parameter was <span class="math inline">\(\pi_{\text{Kobe}} = 0.447\)</span>. Is this value contained within the 95% confidence interval?</li>
@@ -276,29 +276,27 @@
 <blockquote>
 <p>A man in blue is standing by the railroad tracks when he notices an empty trolley car rolling out of control. It is moving so fast that anyone it hits will die. Ahead on the main track are five people. There is one person standing on a side track that doesn’t rejoin the main track. If the man in blue does nothing, the trolley will hit the five people on the main track, but not the one person on the side track. If the man in blue flips a switch next to him, it will divert the trolley to the side track where it will hit the one person, and not hit the five people on the main track.</p>
 </blockquote>
-<p>What should the man in blue do? Should he sacrifice the one person on the side track to save the five people on the main track? Or should he do nothing, leaving the five people on the main track to their fate? <span class="citation"><a href="references.html#ref-AwadEtAl2020" role="doc-biblioref">Awad et al.</a> (<a href="references.html#ref-AwadEtAl2020" role="doc-biblioref">2020</a>)</span> presented scenarios like this to a very large group of people from all over the world (roughly 70,000), with the aim of studying how different cultural backgrounds might influence people’s moral judgments.</p>
+<p>What should the man in blue do? Should he sacrifice the one person on the side track to save the five people on the main track? Or should he do nothing, leaving the five people on the main track to their fate? <span class="citation">Awad et al. (<a href="references.html#ref-AwadEtAl2020" role="doc-biblioref">2020</a>)</span> presented scenarios like this to a very large group of people from all over the world (roughly 70,000), with the aim of studying how different cultural backgrounds might influence people’s moral judgments.</p>
 <p>They presented a few different versions of the Trolley problem. One was like the description above, in which the man in blue only has to flip a switch. A different version went like this:</p>
 <blockquote>
 <p>A man in blue is standing on a footbridge over the railroad tracks when he notices an empty trolley car rolling out of control. It is moving so fast that anyone it hits will die. Ahead on the track are five people. There is a large person standing near the man in blue on the footbridge, and this large person weighs enough that the trolley would slow down if it hit him (the man in blue does not weigh enough to slow down the trolley). If the man in blue does nothing, the trolley will hit the five people on the track. If the man in blue pushes the one person, that one person will fall onto the track, where the trolley will hit the one person, slow down because of the one person, and not hit the five people farther down the track.</p>
 </blockquote>
 <p>In this second version, called the “footbridge” version, the man in blue has to take a much more active role, literally throwing another person on the tracks to save the other five. In a sense, though, it amounts to the same question: should the man in blue sacrifice one person to save five other people?</p>
-<p>These pictures, provided by <span class="citation"><a href="references.html#ref-AwadEtAl2020" role="doc-biblioref">Awad et al.</a> (<a href="references.html#ref-AwadEtAl2020" role="doc-biblioref">2020</a>)</span>, depict the scenarios corresponding to the two different versions of the Trolley problem:</p>
+<p>These pictures, provided by <span class="citation">Awad et al. (<a href="references.html#ref-AwadEtAl2020" role="doc-biblioref">2020</a>)</span>, depict the scenarios corresponding to the two different versions of the Trolley problem:</p>
 <div class="inline-figure"><img src="img/trolley_scenarios.png" width="50%" style="display: block; margin: auto;"></div>
-<p>In this section, we will look at the judgments <span class="citation"><a href="references.html#ref-AwadEtAl2020" role="doc-biblioref">Awad et al.</a> (<a href="references.html#ref-AwadEtAl2020" role="doc-biblioref">2020</a>)</span> obtained from people and see whether a majority would be willing to sacrifice one life to save five in each of these scenarios.</p>
+<p>In this section, we will look at the judgments <span class="citation">Awad et al. (<a href="references.html#ref-AwadEtAl2020" role="doc-biblioref">2020</a>)</span> obtained from people and see whether a majority would be willing to sacrifice one life to save five in each of these scenarios.</p>
 <div id="load-the-data-9" class="section level3" number="6.3.1">
 <h3>
 <span class="header-section-number">6.3.1</span> Load the data<a class="anchor" aria-label="anchor" href="#load-the-data-9"><i class="fas fa-link"></i></a>
 </h3>
-<p>Let’s load the relevant data collected by <span class="citation"><a href="references.html#ref-AwadEtAl2020" role="doc-biblioref">Awad et al.</a> (<a href="references.html#ref-AwadEtAl2020" role="doc-biblioref">2020</a>)</span> with the following line of code:</p>
-<div class="sourceCode" id="cb193"><pre class="downlit sourceCode r">
+<p>Let’s load the relevant data collected by <span class="citation">Awad et al. (<a href="references.html#ref-AwadEtAl2020" role="doc-biblioref">2020</a>)</span> with the following line of code:</p>
+<div class="sourceCode" id="cb175"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">trolley</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/trolley.csv"</span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-info"><code>## Rows: 32163 Columns: 12</code></pre>
-<pre class="Rout text-info"><code>## ── Column specification ────────────────────────────────────────────────────────
+<pre class="Rout text-info"><code>## Rows: 32163 Columns: 12── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## chr (9): _id, Scenario, Sacrifice, UserID, Session_id, Template, lang, count...
 ## dbl (1): Scenario_order
-## lgl (2): answerLeft, seenOther</code></pre>
-<pre class="Rout text-info"><code>## 
+## lgl (2): answerLeft, seenOther
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <p>For our purposes, these are just the data from people living in the USA, but this is still quite a large sample! Now that the <code>trolley</code> data has appeared in RStudio’s environment pane (in the upper right), click on it to explore the structure of the data.</p>
@@ -308,13 +306,13 @@
 <span class="header-section-number">6.3.2</span> What is the point estimate?<a class="anchor" aria-label="anchor" href="#calc-prop"><i class="fas fa-link"></i></a>
 </h3>
 <p>First, let’s get the point estimate for the proportion of people who would sacrifice someone. We will do this separately for each version of the Trolley problem, making use of the <code>filter</code> function like we did for Kobe’s data above.</p>
-<p>The <strong>response variable</strong> is <code>Sacrifice</code> which is either “Yes” or “No.” For our purposes, we will call “Yes” a “success” (though of course it is arguable whether either option in the Trolley problem should be considered a “success”).</p>
+<p>The <strong>response variable</strong> is <code>Sacrifice</code> which is either “Yes” or “No”. For our purposes, we will call “Yes” a “success” (though of course it is arguable whether either option in the Trolley problem should be considered a “success”).</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-41" class="exercise"><strong>Exercise 6.5  </strong></span>The code below provides a starting point for you to find the point estimates of the proportion of people in each scenario who would sacrifice someone to save five others.</p>
-<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="lab6.html#cb197-1" aria-hidden="true" tabindex="-1"></a>trolley <span class="sc">%&gt;%</span></span>
-<span id="cb197-2"><a href="lab6.html#cb197-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Scenario <span class="sc">==</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb197-3"><a href="lab6.html#cb197-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb197-4"><a href="lab6.html#cb197-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>)</span></code></pre></div>
+<p><span id="exr:unlabeled-div-40" class="exercise"><strong>Exercise 6.5  </strong></span>The code below provides a starting point for you to find the point estimates of the proportion of people in each scenario who would sacrifice someone to save five others.</p>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="lab6.html#cb177-1" aria-hidden="true" tabindex="-1"></a>trolley <span class="sc">%&gt;%</span></span>
+<span id="cb177-2"><a href="lab6.html#cb177-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Scenario <span class="sc">==</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb177-3"><a href="lab6.html#cb177-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb177-4"><a href="lab6.html#cb177-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>)</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>What is the proportion of people in the sample in the “Switch” scenario who chose to sacrifice someone to save five others?</li>
 <li>What is the proportion of people in the sample in the “Footbridge” scenario who chose to sacrifice someone to save five others?</li>
@@ -327,18 +325,18 @@
 </h3>
 <p>Now we need to model the randomness involved in sampling variability to get bootstrap distributions of the proportions of people who recommend sacrificing in each scenario. Generate <strong>1000</strong> bootstrap resamples for each scenario.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-42" class="exercise"><strong>Exercise 6.6  </strong></span>The code below provides a starting point for you to use bootstrapping to obtain a distribution of the sample proportions we <em>could have</em> gotten due to sampling variability. Notice that this will save the two bootstrap distributions under two different names, <code>boot_dist_switch</code> and <code>boot_dist_footbridge</code>. If all goes well, these will appear in your RStudio environment pane, but otherwise you won’t see anything at the console.</p>
-<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="lab6.html#cb198-1" aria-hidden="true" tabindex="-1"></a>boot_dist_switch <span class="ot">&lt;-</span> trolley <span class="sc">%&gt;%</span></span>
-<span id="cb198-2"><a href="lab6.html#cb198-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Scenario <span class="sc">==</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb198-3"><a href="lab6.html#cb198-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb198-4"><a href="lab6.html#cb198-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> ___, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb198-5"><a href="lab6.html#cb198-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>)</span>
-<span id="cb198-6"><a href="lab6.html#cb198-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb198-7"><a href="lab6.html#cb198-7" aria-hidden="true" tabindex="-1"></a>boot_dist_footbridge <span class="ot">&lt;-</span> trolley <span class="sc">%&gt;%</span></span>
-<span id="cb198-8"><a href="lab6.html#cb198-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Scenario <span class="sc">==</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb198-9"><a href="lab6.html#cb198-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb198-10"><a href="lab6.html#cb198-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> ___, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb198-11"><a href="lab6.html#cb198-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>)</span></code></pre></div>
+<p><span id="exr:unlabeled-div-41" class="exercise"><strong>Exercise 6.6  </strong></span>The code below provides a starting point for you to use bootstrapping to obtain a distribution of the sample proportions we <em>could have</em> gotten due to sampling variability. Notice that this will save the two bootstrap distributions under two different names, <code>boot_dist_switch</code> and <code>boot_dist_footbridge</code>. If all goes well, these will appear in your RStudio environment pane, but otherwise you won’t see anything at the console.</p>
+<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="lab6.html#cb178-1" aria-hidden="true" tabindex="-1"></a>boot_dist_switch <span class="ot">&lt;-</span> trolley <span class="sc">%&gt;%</span></span>
+<span id="cb178-2"><a href="lab6.html#cb178-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Scenario <span class="sc">==</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb178-3"><a href="lab6.html#cb178-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb178-4"><a href="lab6.html#cb178-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> ___, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb178-5"><a href="lab6.html#cb178-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>)</span>
+<span id="cb178-6"><a href="lab6.html#cb178-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb178-7"><a href="lab6.html#cb178-7" aria-hidden="true" tabindex="-1"></a>boot_dist_footbridge <span class="ot">&lt;-</span> trolley <span class="sc">%&gt;%</span></span>
+<span id="cb178-8"><a href="lab6.html#cb178-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Scenario <span class="sc">==</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb178-9"><a href="lab6.html#cb178-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb178-10"><a href="lab6.html#cb178-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> ___, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb178-11"><a href="lab6.html#cb178-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>)</span></code></pre></div>
 <p>What code did you use to generate the two bootstrap distributions?</p>
 </div>
 </div>
@@ -347,17 +345,17 @@
 <span class="header-section-number">6.3.4</span> Create the intervals<a class="anchor" aria-label="anchor" href="#create-the-intervals"><i class="fas fa-link"></i></a>
 </h3>
 <p>Now that you’ve created your bootstrap distributions, use the following code as a starting point to generate 95% confidence intervals for each. <em>Hint:</em> remember the names we gave to the bootstrap distributions in the previous exercise; also recall that <code>level</code> should be a number between 0 and 1, rather than a percentage.</p>
-<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="lab6.html#cb199-1" aria-hidden="true" tabindex="-1"></a>boot_ci_switch <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
-<span id="cb199-2"><a href="lab6.html#cb199-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_confidence_interval</span>(<span class="at">level =</span> ___)</span>
-<span id="cb199-3"><a href="lab6.html#cb199-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb199-4"><a href="lab6.html#cb199-4" aria-hidden="true" tabindex="-1"></a>boot_ci_footbridge <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
-<span id="cb199-5"><a href="lab6.html#cb199-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_confidence_interval</span>(<span class="at">level =</span> ___)</span></code></pre></div>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="lab6.html#cb179-1" aria-hidden="true" tabindex="-1"></a>boot_ci_switch <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
+<span id="cb179-2"><a href="lab6.html#cb179-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_confidence_interval</span>(<span class="at">level =</span> ___)</span>
+<span id="cb179-3"><a href="lab6.html#cb179-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb179-4"><a href="lab6.html#cb179-4" aria-hidden="true" tabindex="-1"></a>boot_ci_footbridge <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
+<span id="cb179-5"><a href="lab6.html#cb179-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_confidence_interval</span>(<span class="at">level =</span> ___)</span></code></pre></div>
 <p>Finally, you can use the following code outline to visualize either of the two distributions by filling in the blanks with the appropriate <code>boot_dist_</code> and <code>boot_ci_</code>.</p>
-<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="lab6.html#cb200-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
-<span id="cb200-2"><a href="lab6.html#cb200-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
-<span id="cb200-3"><a href="lab6.html#cb200-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_confidence_interval</span>(<span class="at">endpoints =</span> ___)</span></code></pre></div>
+<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="lab6.html#cb180-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
+<span id="cb180-2"><a href="lab6.html#cb180-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb180-3"><a href="lab6.html#cb180-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_confidence_interval</span>(<span class="at">endpoints =</span> ___)</span></code></pre></div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-43" class="exercise"><strong>Exercise 6.7  </strong></span>–</p>
+<p><span id="exr:unlabeled-div-42" class="exercise"><strong>Exercise 6.7  </strong></span>–</p>
 <ol style="list-style-type: lower-alpha">
 <li>What is the 95% confidence interval for the proportion who choose to sacrifice in the “Switch” scenario?</li>
 <li>What is the 95% confidence interval for the proportion who choose to sacrifice in the “Footbridge” scenario?</li>
@@ -370,7 +368,7 @@
 </h3>
 <p>Now it is time to interpret the confidence intervals we just found in the context of the particular research scenario.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-44" class="exercise"><strong>Exercise 6.8  </strong></span>What do the confidence intervals you just found tell us about the proportion of people in the US population who would recommend sacrificing one life to save five? Does this proportion seem to depend on the specifics of the scenario (i.e., whether it is the “Switch” or “Footbridge” version)? For each version, could we say that more than half of the population would recommend sacrificing one person to save five?</p>
+<p><span id="exr:unlabeled-div-43" class="exercise"><strong>Exercise 6.8  </strong></span>What do the confidence intervals you just found tell us about the proportion of people in the US population who would recommend sacrificing one life to save five? Does this proportion seem to depend on the specifics of the scenario (i.e., whether it is the “Switch” or “Footbridge” version)? For each version, could we say that more than half of the population would recommend sacrificing one person to save five?</p>
 </div>
 </div>
 </div>
@@ -426,7 +424,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-04-17.</p>
+    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-08-18.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

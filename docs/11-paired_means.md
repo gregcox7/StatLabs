@@ -20,16 +20,16 @@ library(tidyverse)
 ```
 
 ```{.Rout .text-info}
-## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
-## ✓ tibble  3.1.3     ✓ dplyr   1.0.5
-## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
-## ✓ readr   2.0.0     ✓ forcats 0.5.1
+## ✔ ggplot2 3.3.6     ✔ purrr   0.3.4
+## ✔ tibble  3.1.8     ✔ dplyr   1.0.9
+## ✔ tidyr   1.1.3     ✔ stringr 1.4.0
+## ✔ readr   2.1.2     ✔ forcats 0.5.1
 ```
 
 ```{.Rout .text-info}
 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
 ```
 
 ```r
@@ -52,17 +52,9 @@ lullaby <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/da
 ```
 
 ```{.Rout .text-info}
-## Rows: 32 Columns: 3
-```
-
-```{.Rout .text-info}
-## ── Column specification ────────────────────────────────────────────────────────
+## Rows: 32 Columns: 3── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## dbl (3): id, Before, After
-```
-
-```{.Rout .text-info}
-## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
@@ -86,6 +78,7 @@ lullaby
 ##  9   109  0.416 0.5  
 ## 10   110  0.800 0.586
 ## # … with 22 more rows
+## # ℹ Use `print(n = ...)` to see more rows
 ```
 
 Have a look at the data by clicking on `lullaby` in RStudio's "Environment" pane.  Each row is data from a specific infant.  There are three variables in this dataset:
@@ -128,6 +121,7 @@ lullaby %>%
 ##  9   109  0.416 0.5    0.0837
 ## 10   110  0.800 0.586 -0.213 
 ## # … with 22 more rows
+## # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ::: {.exercise}

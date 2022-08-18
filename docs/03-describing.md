@@ -24,16 +24,16 @@ library(tidyverse)
 ```
 
 ```{.Rout .text-info}
-## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
-## ✓ tibble  3.1.3     ✓ dplyr   1.0.5
-## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
-## ✓ readr   2.0.0     ✓ forcats 0.5.1
+## ✔ ggplot2 3.3.6     ✔ purrr   0.3.4
+## ✔ tibble  3.1.8     ✔ dplyr   1.0.9
+## ✔ tidyr   1.1.3     ✔ stringr 1.4.0
+## ✔ readr   2.1.2     ✔ forcats 0.5.1
 ```
 
 ```{.Rout .text-info}
 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
 ```
 
 ## Variance and standard deviation
@@ -251,18 +251,10 @@ rats <- read_csv('https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/
 ```
 
 ```{.Rout .text-info}
-## Rows: 195 Columns: 2
-```
-
-```{.Rout .text-info}
-## ── Column specification ────────────────────────────────────────────────────────
+## Rows: 195 Columns: 2── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## chr (1): Diet
 ## dbl (1): Lifespan
-```
-
-```{.Rout .text-info}
-## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```

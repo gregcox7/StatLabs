@@ -6,9 +6,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Lab 11 Inference for paired data | Labs</title>
 <meta name="author" content="Greg Cox">
-<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.5.1/jquery-3.5.1.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="libs/bootstrap-4.5.3/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.5.3/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.4/tabs.js"></script><script src="libs/bs3compat-0.2.4/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.14/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/mark.min.js"></script><!-- CSS --><link rel="stylesheet" href="css/ims-style.css">
 </head>
 <body data-spy="scroll" data-target="#toc">
@@ -63,17 +63,17 @@
 <span class="header-section-number">11.1</span> Required packages<a class="anchor" aria-label="anchor" href="#required-packages-6"><i class="fas fa-link"></i></a>
 </h2>
 <p>For this session, we are going to need to load both our standard <code>tidyverse</code> package as well as the <code>infer</code> package from R’s library.</p>
-<div class="sourceCode" id="cb323"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb293"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></code></pre></div>
 <pre class="Rout text-info"><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
-<pre class="Rout text-info"><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
-## ✓ tibble  3.1.3     ✓ dplyr   1.0.5
-## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
-## ✓ readr   2.0.0     ✓ forcats 0.5.1</code></pre>
+<pre class="Rout text-info"><code>## ✔ ggplot2 3.3.6     ✔ purrr   0.3.4
+## ✔ tibble  3.1.8     ✔ dplyr   1.0.9
+## ✔ tidyr   1.1.3     ✔ stringr 1.4.0
+## ✔ readr   2.1.2     ✔ forcats 0.5.1</code></pre>
 <pre class="Rout text-info"><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()</code></pre>
-<div class="sourceCode" id="cb327"><pre class="downlit sourceCode r">
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<div class="sourceCode" id="cb297"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/infer">infer</a></span><span class="op">)</span></code></pre></div>
 </div>
 <div id="do-infants-prefer-people-who-sing-familiar-songs" class="section level2" number="11.2">
@@ -81,22 +81,20 @@
 <span class="header-section-number">11.2</span> Do infants prefer people who sing familiar songs?<a class="anchor" aria-label="anchor" href="#do-infants-prefer-people-who-sing-familiar-songs"><i class="fas fa-link"></i></a>
 </h2>
 <p>Sam Mehr, Lee Ann Song (aptly named), and Liz Spelke <span class="citation">(<a href="references.html#ref-MehrEtAl2016" role="doc-biblioref">Mehr et al., 2016</a>)</span> were interested in how infants use music as a social cue. When an infant sees someone for the first time, are they more likely to be attracted to that person if they sing a song that the infant already knows?</p>
-<p><span class="citation"><a href="references.html#ref-MehrEtAl2016" role="doc-biblioref">Mehr et al.</a> (<a href="references.html#ref-MehrEtAl2016" role="doc-biblioref">2016</a>)</span> conducted an experiment in which a child’s parents were taught a new melody and were instructed to sing it to their child at home over the course of 1–2 weeks. After this exposure period, the parents brought their infant back to the lab. The infant was seated in front of a screen showing videos of two adults the infant had never seen before. At first, the two adults just smiled in silence. They recorded the proportion of the time that the infant looked at each stranger during this “before” phase. Then, one of these people sang the melody that the parents had been singing for 1–2 weeks, while the other sang a totally new song. Finally, during the “after” phase, the infant saw the same videos of each person silently smiling and the researchers recorded the proportion of the time spent looking at the person who sang the familiar song. Will infants tend to look more at the stranger who sang the familiar song?</p>
+<p><span class="citation">Mehr et al. (<a href="references.html#ref-MehrEtAl2016" role="doc-biblioref">2016</a>)</span> conducted an experiment in which a child’s parents were taught a new melody and were instructed to sing it to their child at home over the course of 1–2 weeks. After this exposure period, the parents brought their infant back to the lab. The infant was seated in front of a screen showing videos of two adults the infant had never seen before. At first, the two adults just smiled in silence. They recorded the proportion of the time that the infant looked at each stranger during this “before” phase. Then, one of these people sang the melody that the parents had been singing for 1–2 weeks, while the other sang a totally new song. Finally, during the “after” phase, the infant saw the same videos of each person silently smiling and the researchers recorded the proportion of the time spent looking at the person who sang the familiar song. Will infants tend to look more at the stranger who sang the familiar song?</p>
 <div id="check-out-the-data-4" class="section level3" number="11.2.1">
 <h3>
 <span class="header-section-number">11.2.1</span> Check out the data<a class="anchor" aria-label="anchor" href="#check-out-the-data-4"><i class="fas fa-link"></i></a>
 </h3>
 <p>First, let’s get the data into R:</p>
-<div class="sourceCode" id="cb328"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb298"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">lullaby</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/lullaby_wide.csv"</span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-info"><code>## Rows: 32 Columns: 3</code></pre>
-<pre class="Rout text-info"><code>## ── Column specification ────────────────────────────────────────────────────────
+<pre class="Rout text-info"><code>## Rows: 32 Columns: 3── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
-## dbl (3): id, Before, After</code></pre>
-<pre class="Rout text-info"><code>## 
+## dbl (3): id, Before, After
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<div class="sourceCode" id="cb332"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb300"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">lullaby</span></code></pre></div>
 <pre class="Rout text-muted"><code>## # A tibble: 32 × 3
 ##       id Before After
@@ -111,7 +109,8 @@
 ##  8   108  0.759 0.938
 ##  9   109  0.416 0.5  
 ## 10   110  0.800 0.586
-## # … with 22 more rows</code></pre>
+## # … with 22 more rows
+## # ℹ Use `print(n = ...)` to see more rows</code></pre>
 <p>Have a look at the data by clicking on <code>lullaby</code> in RStudio’s “Environment” pane. Each row is data from a specific infant. There are three variables in this dataset:</p>
 <ul>
 <li>“id”: A number identifying each infant in the study.</li>
@@ -119,7 +118,7 @@
 <li>“After”: In the phase after the infants heard the two people sing, what proportion of the time did they look at the person who sang the familiar melody?</li>
 </ul>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-74" class="exercise"><strong>Exercise 11.1  </strong></span>–</p>
+<p><span id="exr:unlabeled-div-73" class="exercise"><strong>Exercise 11.1  </strong></span>–</p>
 <ol style="list-style-type: lower-alpha">
 <li>If an infant showed no preference during either the Before or After phase, what proportion of the time in that phase would they spend looking at the person who sang the familiar melody?</li>
 <li>If an infant did not change who they looked at after hearing each person sing, what would the difference in looking proportions be between the Before and After phase?</li>
@@ -131,7 +130,7 @@
 <span class="header-section-number">11.2.2</span> Examine the distribution of differences<a class="anchor" aria-label="anchor" href="#examine-the-distribution-of-differences"><i class="fas fa-link"></i></a>
 </h3>
 <p>Our <strong>research question</strong> is whether hearing the two people sing affected infant’s viewing preferences. As a result, we are interested in the <strong>difference</strong> between <code>After</code> and <code>Before</code>. To find this for each infant, we will use R’s <code>mutate</code> function:</p>
-<div class="sourceCode" id="cb334"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb302"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">lullaby</span> <span class="op">%&gt;%</span>
     <span class="fu">mutate</span><span class="op">(</span>diff <span class="op">=</span> <span class="va">After</span> <span class="op">-</span> <span class="va">Before</span><span class="op">)</span></code></pre></div>
 <pre class="Rout text-muted"><code>## # A tibble: 32 × 4
@@ -147,23 +146,24 @@
 ##  8   108  0.759 0.938  0.179 
 ##  9   109  0.416 0.5    0.0837
 ## 10   110  0.800 0.586 -0.213 
-## # … with 22 more rows</code></pre>
+## # … with 22 more rows
+## # ℹ Use `print(n = ...)` to see more rows</code></pre>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-75" class="exercise"><strong>Exercise 11.2  </strong></span>Look at the result when we ran the chunk of code just prior to this exercise.</p>
+<p><span id="exr:unlabeled-div-74" class="exercise"><strong>Exercise 11.2  </strong></span>Look at the result when we ran the chunk of code just prior to this exercise.</p>
 <ol style="list-style-type: lower-alpha">
 <li>In your own words, describe what the line of code <code>mutate(diff = After - Before)</code> did.</li>
 <li>Refer to the description of the study given above. What does a positive value of <code>diff</code> say about how an infant’s looking preferences changed? What does a negative value of <code>diff</code> say about how their preferences changed?</li>
 </ol>
 </div>
 <p>The nice thing about that <code>mutate</code> line is that we can add more code after it that uses the <code>diff</code> variable we created in that line. For example, we can make a histogram of the differences in looking time from before to after:</p>
-<div class="sourceCode" id="cb336"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb304"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">lullaby</span> <span class="op">%&gt;%</span>
     <span class="fu">mutate</span><span class="op">(</span>diff <span class="op">=</span> <span class="va">After</span> <span class="op">-</span> <span class="va">Before</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">diff</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">geom_histogram</span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="11-paired_means_files/figure-html/unnamed-chunk-5-1.png" width="672"></div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-76" class="exercise"><strong>Exercise 11.3  </strong></span>Refer to the histogram we just made of the <code>diff</code>erences in looking times from Before to After hearing the people sing.</p>
+<p><span id="exr:unlabeled-div-75" class="exercise"><strong>Exercise 11.3  </strong></span>Refer to the histogram we just made of the <code>diff</code>erences in looking times from Before to After hearing the people sing.</p>
 <ol style="list-style-type: lower-alpha">
 <li>Describe the shape of the distribution (be sure to note the number of modes, skewness, and whether there may be any outliers).</li>
 <li>Based on the histogram, do these data appear to satisfy the conditions required for using a mathematical model (specifically, the T distribution)? Why or why not?</li>
@@ -177,19 +177,19 @@
 </h3>
 <p>To begin, let’s use bootstrapping to construct a <strong>confidence interval</strong> for the difference in looking proportion between Before and After. This confidence interval will describe how much hearing someone sing a familiar melody changes infants’ looking preferences.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-77" class="exercise"><strong>Exercise 11.4  </strong></span>Fill in the blanks in the code below to construct a <strong>95% confidence interval</strong> for the mean difference in looking proportion from before to after. Be sure to refer to code from earlier in the session, as well as previous labs, for guidance. (<em>Hint:</em> if you’re looking for the name of the response variable, remember that we are doing inference about a <em>difference</em>.)</p>
-<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="lab11.html#cb337-1" aria-hidden="true" tabindex="-1"></a>boot_dist <span class="ot">&lt;-</span> lullaby <span class="sc">%&gt;%</span></span>
-<span id="cb337-2"><a href="lab11.html#cb337-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">___</span>(<span class="at">diff =</span> After <span class="sc">-</span> Before) <span class="sc">%&gt;%</span></span>
-<span id="cb337-3"><a href="lab11.html#cb337-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___) <span class="sc">%&gt;%</span></span>
-<span id="cb337-4"><a href="lab11.html#cb337-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb337-5"><a href="lab11.html#cb337-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>)</span>
-<span id="cb337-6"><a href="lab11.html#cb337-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb337-7"><a href="lab11.html#cb337-7" aria-hidden="true" tabindex="-1"></a>boot_ci <span class="ot">&lt;-</span> boot_dist <span class="sc">%&gt;%</span></span>
-<span id="cb337-8"><a href="lab11.html#cb337-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_confidence_interval</span>(<span class="at">level =</span> ___)</span>
-<span id="cb337-9"><a href="lab11.html#cb337-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb337-10"><a href="lab11.html#cb337-10" aria-hidden="true" tabindex="-1"></a>boot_dist <span class="sc">%&gt;%</span></span>
-<span id="cb337-11"><a href="lab11.html#cb337-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
-<span id="cb337-12"><a href="lab11.html#cb337-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_confidence_interval</span>(boot_ci)</span></code></pre></div>
+<p><span id="exr:unlabeled-div-76" class="exercise"><strong>Exercise 11.4  </strong></span>Fill in the blanks in the code below to construct a <strong>95% confidence interval</strong> for the mean difference in looking proportion from before to after. Be sure to refer to code from earlier in the session, as well as previous labs, for guidance. (<em>Hint:</em> if you’re looking for the name of the response variable, remember that we are doing inference about a <em>difference</em>.)</p>
+<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="lab11.html#cb305-1" aria-hidden="true" tabindex="-1"></a>boot_dist <span class="ot">&lt;-</span> lullaby <span class="sc">%&gt;%</span></span>
+<span id="cb305-2"><a href="lab11.html#cb305-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">___</span>(<span class="at">diff =</span> After <span class="sc">-</span> Before) <span class="sc">%&gt;%</span></span>
+<span id="cb305-3"><a href="lab11.html#cb305-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb305-4"><a href="lab11.html#cb305-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb305-5"><a href="lab11.html#cb305-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>)</span>
+<span id="cb305-6"><a href="lab11.html#cb305-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb305-7"><a href="lab11.html#cb305-7" aria-hidden="true" tabindex="-1"></a>boot_ci <span class="ot">&lt;-</span> boot_dist <span class="sc">%&gt;%</span></span>
+<span id="cb305-8"><a href="lab11.html#cb305-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_confidence_interval</span>(<span class="at">level =</span> ___)</span>
+<span id="cb305-9"><a href="lab11.html#cb305-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb305-10"><a href="lab11.html#cb305-10" aria-hidden="true" tabindex="-1"></a>boot_dist <span class="sc">%&gt;%</span></span>
+<span id="cb305-11"><a href="lab11.html#cb305-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb305-12"><a href="lab11.html#cb305-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_confidence_interval</span>(boot_ci)</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>What code did you use?</li>
 <li>Based on the confidence interval you found, is there evidence for a significance difference in looking preferences from before to after hearing the people sing? Explain your reasoning.</li>
@@ -202,32 +202,32 @@
 </h3>
 <p>Next, we will use a mathematical model to conduct a hypothesis test. This hypothesis test will address the <strong>research question</strong>, “is there a difference in infants’ average looking behavior from before to after hearing the two strangers sing?”</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-78" class="exercise"><strong>Exercise 11.5  </strong></span>–</p>
+<p><span id="exr:unlabeled-div-77" class="exercise"><strong>Exercise 11.5  </strong></span>–</p>
 <ol style="list-style-type: lower-alpha">
 <li>What are the null and alternative hypotheses corresponding to our research question?</li>
 <li>Fill in the blanks in the code below to calculate the <strong>T score</strong> for the observed data. What code did you use? (<em>Hint:</em> for <code>mu</code>, remember the null hypothesis.)</li>
 </ol>
-<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="lab11.html#cb338-1" aria-hidden="true" tabindex="-1"></a>obs_t_diff <span class="ot">&lt;-</span> lullaby <span class="sc">%&gt;%</span></span>
-<span id="cb338-2"><a href="lab11.html#cb338-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">___</span>(<span class="at">diff =</span> After <span class="sc">-</span> Before) <span class="sc">%&gt;%</span></span>
-<span id="cb338-3"><a href="lab11.html#cb338-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___) <span class="sc">%&gt;%</span></span>
-<span id="cb338-4"><a href="lab11.html#cb338-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"point"</span>, <span class="at">mu =</span> ___) <span class="sc">%&gt;%</span></span>
-<span id="cb338-5"><a href="lab11.html#cb338-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"t"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="lab11.html#cb306-1" aria-hidden="true" tabindex="-1"></a>obs_t_diff <span class="ot">&lt;-</span> lullaby <span class="sc">%&gt;%</span></span>
+<span id="cb306-2"><a href="lab11.html#cb306-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">___</span>(<span class="at">diff =</span> After <span class="sc">-</span> Before) <span class="sc">%&gt;%</span></span>
+<span id="cb306-3"><a href="lab11.html#cb306-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb306-4"><a href="lab11.html#cb306-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"point"</span>, <span class="at">mu =</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb306-5"><a href="lab11.html#cb306-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"t"</span>)</span></code></pre></div>
 <ol start="3" style="list-style-type: lower-alpha">
 <li>Fill in the blanks in the code below to visualize where the observed T score falls on the null distribution. Based on the visualization you made, would our observed data be likely or unlikely if the null hypothesis were true? (<em>Hint:</em> for the last blank, check how we have filled it in in previous labs depending on what our alternative hypothesis is.)</li>
 </ol>
-<div class="sourceCode" id="cb339"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb339-1"><a href="lab11.html#cb339-1" aria-hidden="true" tabindex="-1"></a>null_dist <span class="ot">&lt;-</span> lullaby <span class="sc">%&gt;%</span></span>
-<span id="cb339-2"><a href="lab11.html#cb339-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">___</span>(<span class="at">diff =</span> After <span class="sc">-</span> Before) <span class="sc">%&gt;%</span></span>
-<span id="cb339-3"><a href="lab11.html#cb339-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___) <span class="sc">%&gt;%</span></span>
-<span id="cb339-4"><a href="lab11.html#cb339-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"point"</span>, <span class="at">mu =</span> ___) <span class="sc">%&gt;%</span></span>
-<span id="cb339-5"><a href="lab11.html#cb339-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">assume</span>(<span class="st">"t"</span>)</span>
-<span id="cb339-6"><a href="lab11.html#cb339-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb339-7"><a href="lab11.html#cb339-7" aria-hidden="true" tabindex="-1"></a>null_dist <span class="sc">%&gt;%</span></span>
-<span id="cb339-8"><a href="lab11.html#cb339-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
-<span id="cb339-9"><a href="lab11.html#cb339-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> obs_t_diff, <span class="at">direction =</span> <span class="st">"___"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="lab11.html#cb307-1" aria-hidden="true" tabindex="-1"></a>null_dist <span class="ot">&lt;-</span> lullaby <span class="sc">%&gt;%</span></span>
+<span id="cb307-2"><a href="lab11.html#cb307-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">___</span>(<span class="at">diff =</span> After <span class="sc">-</span> Before) <span class="sc">%&gt;%</span></span>
+<span id="cb307-3"><a href="lab11.html#cb307-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb307-4"><a href="lab11.html#cb307-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"point"</span>, <span class="at">mu =</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb307-5"><a href="lab11.html#cb307-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">assume</span>(<span class="st">"t"</span>)</span>
+<span id="cb307-6"><a href="lab11.html#cb307-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb307-7"><a href="lab11.html#cb307-7" aria-hidden="true" tabindex="-1"></a>null_dist <span class="sc">%&gt;%</span></span>
+<span id="cb307-8"><a href="lab11.html#cb307-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb307-9"><a href="lab11.html#cb307-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> obs_t_diff, <span class="at">direction =</span> <span class="st">"___"</span>)</span></code></pre></div>
 <ol start="4" style="list-style-type: lower-alpha">
 <li>Fill in the blanks in the code below to get the <span class="math inline">\(p\)</span> value. What did you get for the <span class="math inline">\(p\)</span> value?</li>
 </ol>
-<div class="sourceCode" id="cb340"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb308"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">null_dist</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/get_p_value.html">get_p_value</a></span><span class="op">(</span>obs_stat <span class="op">=</span> <span class="va">obs_t_diff</span>, direction <span class="op">=</span> <span class="st">"___"</span><span class="op">)</span></code></pre></div>
 <ol start="5" style="list-style-type: lower-alpha">
@@ -279,7 +279,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-04-17.</p>
+    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-08-18.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
