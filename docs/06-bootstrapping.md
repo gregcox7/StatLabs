@@ -52,11 +52,13 @@ kobe <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/
 ```
 
 ```{.Rout .text-info}
-## Rows: 111 Columns: 7── Column specification ────────────────────────────────────────────────────────
+## Rows: 111 Columns: 7
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## chr  (5): vs, quarter, description, shot, prev_shot
 ## dbl  (1): game
 ## time (1): time
+## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
@@ -329,11 +331,13 @@ trolley <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/da
 ```
 
 ```{.Rout .text-info}
-## Rows: 32163 Columns: 12── Column specification ────────────────────────────────────────────────────────
+## Rows: 32163 Columns: 12
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## chr (9): _id, Scenario, Sacrifice, UserID, Session_id, Template, lang, count...
 ## dbl (1): Scenario_order
 ## lgl (2): answerLeft, seenOther
+## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```

@@ -99,11 +99,13 @@ titanic <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/da
 ```
 
 ```{.Rout .text-info}
-## Rows: 1309 Columns: 11── Column specification ────────────────────────────────────────────────────────
+## Rows: 1309 Columns: 11
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## chr (7): residence, sex, name, ticket, cabin, embarked, hometown
 ## dbl (3): class, age, fare
 ## lgl (1): survived
+## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
@@ -260,7 +262,7 @@ titanic %>%
 
 You may have heard that, when trying to evacuate the *Titanic*, there was a rule to put "women and children first" onto lifeboats.  This suggests a **hypothesis**, assuming this rule was actually followed: female passengers should have survived more often than male passengers.
 
-To see if the data are consistent with this hypothesis, we can begin by using code similar to what we've been using to count the number of male and female passengers who either did or did not survive.
+To see if the data are consistent with this hypothesis, we can begin by using code similar to what we've been using to count the number of male and female passengers who either did or did not survive.  Notice that we can `group_by` more than one variable using a list of the variable names separated by commas:
 
 
 ```r
@@ -438,7 +440,6 @@ titanic %>%
 ##  9 2        12
 ## 10 3         7
 ## # … with 89 more rows
-## # ℹ Use `print(n = ...)` to see more rows
 ```
 
 Well that's not very helpful!  R didn't even bother to show us the whole thing.  Though we can see something interesting:  Age is measured in years, and for passengers at least one year old, their age is a whole number.  But there are fractions of years for passengers less than a year old---these ages were *measured* in months rather than years.

@@ -89,9 +89,11 @@
 <p>First, run the code below to load the 1973 Berkeley admissions data into our workspace:</p>
 <div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">berkeley</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/berkeley.csv"</span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-info"><code>## Rows: 4526 Columns: 3── Column specification ────────────────────────────────────────────────────────
+<pre class="Rout text-info"><code>## Rows: 4526 Columns: 3
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## chr (3): Admit, Gender, Department
+## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <p>The <code>berkeley</code> dataset should now be visible in the “Environment” pane in the upper right corner of RStudio. Click on it to have a look at the raw data.</p>
@@ -102,7 +104,7 @@
 <li>
 <strong>Gender</strong>: Either “Male” or “Female”.</li>
 <li>
-<strong>Department</strong>: A letter between “A” and “F”; the department names were obscured for privacy.</li>
+<strong>Department</strong>: A letter between “A” and “F” that identifies the academic department to which the applicant applied. The actual department names were obscured for privacy.</li>
 </ul>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-7" class="exercise"><strong>Exercise 2.1  </strong></span>What type (nominal categorical, ordinal categorical, numerical) are each of the variables in this dataset?</p>
@@ -256,7 +258,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-08-18.</p>
+    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-08-19.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

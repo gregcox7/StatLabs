@@ -181,7 +181,7 @@ titanic %>%
 
 You may have heard that, when trying to evacuate the *Titanic*, there was a rule to put "women and children first" onto lifeboats.  This suggests a **hypothesis**, assuming this rule was actually followed: female passengers should have survived more often than male passengers.
 
-To see if the data are consistent with this hypothesis, we can begin by using code similar to what we've been using to count the number of male and female passengers who either did or did not survive.
+To see if the data are consistent with this hypothesis, we can begin by using code similar to what we've been using to count the number of male and female passengers who either did or did not survive.  Notice that we can `group_by` more than one variable using a list of the variable names separated by commas:
 
 ```{r}
 titanic %>%

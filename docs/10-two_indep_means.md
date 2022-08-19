@@ -60,11 +60,13 @@ hiring_study <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/ma
 ```
 
 ```{.Rout .text-info}
-## Rows: 39 Columns: 27── Column specification ────────────────────────────────────────────────────────
+## Rows: 39 Columns: 27
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## chr   (2): test, Condition
 ## dbl  (23): compt, thought, intell, like, pos, neg, hire, age, gender, cond, ...
 ## dttm  (2): start_time, end_time
+## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```

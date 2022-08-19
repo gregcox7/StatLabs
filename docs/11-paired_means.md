@@ -52,9 +52,11 @@ lullaby <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/da
 ```
 
 ```{.Rout .text-info}
-## Rows: 32 Columns: 3── Column specification ────────────────────────────────────────────────────────
+## Rows: 32 Columns: 3
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## dbl (3): id, Before, After
+## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
@@ -78,7 +80,6 @@ lullaby
 ##  9   109  0.416 0.5  
 ## 10   110  0.800 0.586
 ## # … with 22 more rows
-## # ℹ Use `print(n = ...)` to see more rows
 ```
 
 Have a look at the data by clicking on `lullaby` in RStudio's "Environment" pane.  Each row is data from a specific infant.  There are three variables in this dataset:
@@ -121,7 +122,6 @@ lullaby %>%
 ##  9   109  0.416 0.5    0.0837
 ## 10   110  0.800 0.586 -0.213 
 ## # … with 22 more rows
-## # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ::: {.exercise}

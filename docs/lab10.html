@@ -93,11 +93,13 @@
 <p>First, let’s load the data into our RStudio environment:</p>
 <div class="sourceCode" id="cb282"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">hiring_study</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/hiring_study.csv"</span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-info"><code>## Rows: 39 Columns: 27── Column specification ────────────────────────────────────────────────────────
+<pre class="Rout text-info"><code>## Rows: 39 Columns: 27
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## chr   (2): test, Condition
 ## dbl  (23): compt, thought, intell, like, pos, neg, hire, age, gender, cond, ...
 ## dttm  (2): start_time, end_time
+## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <p>Each row represents the responses from a particular recruiter. Whether the recruiter got a spoken or written pitch is recorded in the <code>Condition</code> variable, which is either “audio” (for hearing a spoken pitch) or “transcript” (for reading a transcript of the pitch). The recruiter’s hiring rating is recorded in the <code>hire</code> variable, which is a number between 1 and 10.</p>
@@ -253,7 +255,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-08-18.</p>
+    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-08-19.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

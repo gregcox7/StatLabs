@@ -46,11 +46,13 @@ nhanes <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/dat
 ```
 
 ```{.Rout .text-info}
-## Rows: 4924 Columns: 76── Column specification ────────────────────────────────────────────────────────
+## Rows: 4924 Columns: 76
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## chr (31): SurveyYr, Gender, AgeDecade, Race1, Race3, Education, MaritalStatu...
 ## dbl (41): ID, Age, AgeMonths, HHIncomeMid, Poverty, HomeRooms, Weight, Heigh...
 ## lgl  (4): Length, HeadCirc, TVHrsDayChild, CompHrsDayChild
+## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
@@ -98,7 +100,6 @@ boot_dist_mental_health
 ##  9         9  4.33
 ## 10        10  4.62
 ## # … with 990 more rows
-## # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ::: {.exercise}
@@ -309,7 +310,6 @@ null_dist_mental_health
 ##  9         9  4.07
 ## 10        10  3.95
 ## # … with 990 more rows
-## # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ::: {.exercise}
@@ -405,9 +405,11 @@ span_data <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/
 ```
 
 ```{.Rout .text-info}
-## Rows: 94 Columns: 2── Column specification ────────────────────────────────────────────────────────
+## Rows: 94 Columns: 2
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## dbl (2): id, span
+## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```

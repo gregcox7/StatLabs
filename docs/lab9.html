@@ -83,11 +83,13 @@
 <p>To begin, we will take another look at two variables from the NHANES dataset that we already looked at in a <a href="lab7.html#lab7">previous lab</a>. Load it now:</p>
 <div class="sourceCode" id="cb244"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nhanes</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/nhanes.csv"</span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-info"><code>## Rows: 4924 Columns: 76── Column specification ────────────────────────────────────────────────────────
+<pre class="Rout text-info"><code>## Rows: 4924 Columns: 76
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## chr (31): SurveyYr, Gender, AgeDecade, Race1, Race3, Education, MaritalStatu...
 ## dbl (41): ID, Age, AgeMonths, HHIncomeMid, Poverty, HomeRooms, Weight, Heigh...
 ## lgl  (4): Length, HeadCirc, TVHrsDayChild, CompHrsDayChild
+## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <p>Remember that the variable <code>DaysMentHlthBad</code> represents the number of days, out of the past 30, that a person says their mental health was poor. We saw already that the distribution of observed values of this variable is <em>not</em> well described by a normal curve, as we can see in the histogram below:</p>
@@ -123,8 +125,7 @@
 ##  8         8  4.35
 ##  9         9  4.33
 ## 10        10  4.62
-## # … with 990 more rows
-## # ℹ Use `print(n = ...)` to see more rows</code></pre>
+## # … with 990 more rows</code></pre>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-59" class="exercise"><strong>Exercise 9.1  </strong></span>The following chunk of code would use bootstrapping to construct a sampling distribution for the proportion of people who have tried marijuana:</p>
 <div class="sourceCode" id="cb249"><pre class="downlit sourceCode r">
@@ -267,8 +268,7 @@ df = n - 1
 ##  8         8  4.13
 ##  9         9  4.07
 ## 10        10  3.95
-## # … with 990 more rows
-## # ℹ Use `print(n = ...)` to see more rows</code></pre>
+## # … with 990 more rows</code></pre>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-62" class="exercise"><strong>Exercise 9.4  </strong></span>The chunk of code to build a sampling distribution for a confidence interval (that we used above) was</p>
 <div class="sourceCode" id="cb265"><pre class="downlit sourceCode r">
@@ -340,9 +340,11 @@ T &amp; = \frac{\text{point estimate} - \text{null value}}{\text{standard error}
 <p>Download their data, of which we will only look at two variables: A participant ID number and the measured memory span for each participant. Note that the reported spans are not always integers because they allowed partial credit for sequences that were not perfectly recalled.</p>
 <div class="sourceCode" id="cb269"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">span_data</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/simple_span.csv"</span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-info"><code>## Rows: 94 Columns: 2── Column specification ────────────────────────────────────────────────────────
+<pre class="Rout text-info"><code>## Rows: 94 Columns: 2
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## dbl (2): id, span
+## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
@@ -485,7 +487,7 @@ T &amp; = \frac{\text{point estimate} - \text{null value}}{\text{standard error}
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-08-18.</p>
+    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-08-19.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

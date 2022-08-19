@@ -105,11 +105,13 @@
 <p>Run the following line of code to download a dataset consisting of every shooting attempt Kobe made during that game, including whether or not it went in (i.e., was the shot a “Hit” or a “Miss”):</p>
 <div class="sourceCode" id="cb117"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kobe</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/kobe.csv"</span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-info"><code>## Rows: 111 Columns: 7── Column specification ────────────────────────────────────────────────────────
+<pre class="Rout text-info"><code>## Rows: 111 Columns: 7
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## chr  (5): vs, quarter, description, shot, prev_shot
 ## dbl  (1): game
 ## time (1): time
+## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
@@ -274,8 +276,7 @@
 ##  8         8 -0.0862
 ##  9         9  0.0230
 ## 10        10 -0.0862
-## # … with 990 more rows
-## # ℹ Use `print(n = ...)` to see more rows</code></pre>
+## # … with 990 more rows</code></pre>
 <p>The “replicate” column is just a number that labels each simulated dataset and the “stat” column is the difference <span class="math inline">\(\hat{p}_{\text{Prev. H}} - \hat{p}_{\text{Prev. M}}\)</span> <em>for that simulated dataset</em>.</p>
 <p>We can get a better summary by visualizing this distribution of results using a histogram:</p>
 <div class="sourceCode" id="cb136"><pre class="downlit sourceCode r">
@@ -334,10 +335,12 @@
 <p>First, let’s load the relevant data collected by <span class="citation">Farmer et al. (<a href="references.html#ref-FarmerEtAl2017" role="doc-biblioref">2017</a>)</span> with the following line of code:</p>
 <div class="sourceCode" id="cb141"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">asc_choice</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/asc_choice_job.csv"</span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-info"><code>## Rows: 302 Columns: 9── Column specification ────────────────────────────────────────────────────────
+<pre class="Rout text-info"><code>## Rows: 302 Columns: 9
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## chr (6): Pcp, Group, Product, Gender, Residence, Choice
 ## dbl (3): ICAR, AQScore, Age
+## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <p>The <strong>response variable</strong> is <code>Choice</code>, which is either “Consistent” (if the participant’s choice was not affected by the decoy) or “Inconsistent” (if the participant’s choice was affected by the decoy).</p>
@@ -488,7 +491,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-08-18.</p>
+    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-08-19.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

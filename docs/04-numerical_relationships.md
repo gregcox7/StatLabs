@@ -48,10 +48,12 @@ anscombe <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/d
 ```
 
 ```{.Rout .text-info}
-## Rows: 44 Columns: 3── Column specification ────────────────────────────────────────────────────────
+## Rows: 44 Columns: 3
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## chr (1): Group
 ## dbl (2): X, Y
+## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
@@ -121,10 +123,12 @@ elp <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/e
 ```
 
 ```{.Rout .text-info}
-## Rows: 31433 Columns: 25── Column specification ────────────────────────────────────────────────────────
+## Rows: 31433 Columns: 25
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## chr  (2): Word, POS
 ## dbl (23): Length, Freq_KF, Freq_HAL, SUBTLWF, SUBTLCD, Ortho_N, Phono_N, OLD...
+## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```

@@ -59,10 +59,12 @@ tetris_data <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/mai
 ```
 
 ```{.Rout .text-info}
-## Rows: 72 Columns: 3── Column specification ────────────────────────────────────────────────────────
+## Rows: 72 Columns: 3
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## chr (1): condition
 ## dbl (2): intrusions_pre, intrusions_post
+## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
@@ -86,7 +88,6 @@ tetris_data
 ##  9 No task (control)              3               2
 ## 10 No task (control)              5              11
 ## # … with 62 more rows
-## # ℹ Use `print(n = ...)` to see more rows
 ```
 
 Each row shows data from a single participant.  There are 3 variables in the dataset:

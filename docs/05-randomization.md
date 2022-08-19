@@ -70,11 +70,13 @@ kobe <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/
 ```
 
 ```{.Rout .text-info}
-## Rows: 111 Columns: 7── Column specification ────────────────────────────────────────────────────────
+## Rows: 111 Columns: 7
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## chr  (5): vs, quarter, description, shot, prev_shot
 ## dbl  (1): game
 ## time (1): time
+## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
@@ -302,7 +304,6 @@ null_dist
 ##  9         9  0.0230
 ## 10        10 -0.0862
 ## # … with 990 more rows
-## # ℹ Use `print(n = ...)` to see more rows
 ```
 
 The "replicate" column is just a number that labels each simulated dataset and the "stat" column is the difference $\hat{p}_{\text{Prev. H}} - \hat{p}_{\text{Prev. M}}$ *for that simulated dataset*.
@@ -385,10 +386,12 @@ asc_choice <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main
 ```
 
 ```{.Rout .text-info}
-## Rows: 302 Columns: 9── Column specification ────────────────────────────────────────────────────────
+## Rows: 302 Columns: 9
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## chr (6): Pcp, Group, Product, Gender, Residence, Choice
 ## dbl (3): ICAR, AQScore, Age
+## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```

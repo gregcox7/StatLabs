@@ -84,11 +84,13 @@
 <p>The data we will be using in this lab were originally collected by the US National Center for Heath Statistics between 2009 and 2012. This is a subset of what is effectively a simple random sample from the entire US population, though we will only use some of the observations out of the many they collected. Load the data with the following line:</p>
 <div class="sourceCode" id="cb186"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nhanes</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/nhanes.csv"</span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-info"><code>## Rows: 4924 Columns: 76── Column specification ────────────────────────────────────────────────────────
+<pre class="Rout text-info"><code>## Rows: 4924 Columns: 76
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## chr (31): SurveyYr, Gender, AgeDecade, Race1, Race3, Education, MaritalStatu...
 ## dbl (41): ID, Age, AgeMonths, HHIncomeMid, Poverty, HomeRooms, Weight, Heigh...
 ## lgl  (4): Length, HeadCirc, TVHrsDayChild, CompHrsDayChild
+## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
@@ -291,8 +293,7 @@
 ## #   Pulse &lt;dbl&gt;, BPSysAve &lt;dbl&gt;, BPDiaAve &lt;dbl&gt;, BPSys1 &lt;dbl&gt;, BPDia1 &lt;dbl&gt;,
 ## #   BPSys2 &lt;dbl&gt;, BPDia2 &lt;dbl&gt;, BPSys3 &lt;dbl&gt;, BPDia3 &lt;dbl&gt;, Testosterone &lt;dbl&gt;,
 ## #   DirectChol &lt;dbl&gt;, TotChol &lt;dbl&gt;, UrineVol1 &lt;dbl&gt;, UrineFlow1 &lt;dbl&gt;,
-## #   UrineVol2 &lt;dbl&gt;, UrineFlow2 &lt;dbl&gt;, Diabetes &lt;chr&gt;, DiabetesAge &lt;dbl&gt;, …
-## # ℹ Use `colnames()` to see all variable names</code></pre>
+## #   UrineVol2 &lt;dbl&gt;, UrineFlow2 &lt;dbl&gt;, Diabetes &lt;chr&gt;, DiabetesAge &lt;dbl&gt;, …</code></pre>
 <p>Notice that we still have all of those people’s responses to each question on the NHANES survey. That means we can get a <em>summary statistic</em> for the <code>Marijuana</code> variable from this sample, just like we did from the population.</p>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-49" class="exercise"><strong>Exercise 7.6  </strong></span>Based on the code we used above to find the “true” proportion in the population, get the point estimate based on the sample of 5 people you just drew (<code>sample_size5</code>).</p>
@@ -329,8 +330,7 @@
 ## #   Height &lt;dbl&gt;, BMI &lt;dbl&gt;, BMICatUnder20yrs &lt;chr&gt;, BMI_WHO &lt;chr&gt;,
 ## #   Pulse &lt;dbl&gt;, BPSysAve &lt;dbl&gt;, BPDiaAve &lt;dbl&gt;, BPSys1 &lt;dbl&gt;, BPDia1 &lt;dbl&gt;,
 ## #   BPSys2 &lt;dbl&gt;, BPDia2 &lt;dbl&gt;, BPSys3 &lt;dbl&gt;, BPDia3 &lt;dbl&gt;, Testosterone &lt;dbl&gt;,
-## #   DirectChol &lt;dbl&gt;, TotChol &lt;dbl&gt;, UrineVol1 &lt;dbl&gt;, UrineFlow1 &lt;dbl&gt;, …
-## # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</code></pre>
+## #   DirectChol &lt;dbl&gt;, TotChol &lt;dbl&gt;, UrineVol1 &lt;dbl&gt;, UrineFlow1 &lt;dbl&gt;, …</code></pre>
 </div>
 <div id="summary-statistics-for-each-sample" class="section level3" number="7.4.3">
 <h3>
@@ -356,8 +356,7 @@
 ##  8         8   0.8
 ##  9         9   1  
 ## 10        10   0.6
-## # … with 990 more rows
-## # ℹ Use `print(n = ...)` to see more rows</code></pre>
+## # … with 990 more rows</code></pre>
 <p>Notice that the proportions calculated from each sample will tend to vary. We can visualize this using a histogram:</p>
 <div class="sourceCode" id="cb214"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sample_props_mari_size5</span> <span class="op">%&gt;%</span>
@@ -486,7 +485,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-08-18.</p>
+    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-08-19.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

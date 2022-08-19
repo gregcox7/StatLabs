@@ -87,10 +87,12 @@
 <p>First, we need to import some data into R using the code below.</p>
 <div class="sourceCode" id="cb92"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">anscombe</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/cor_data.csv"</span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-info"><code>## Rows: 44 Columns: 3── Column specification ────────────────────────────────────────────────────────
+<pre class="Rout text-info"><code>## Rows: 44 Columns: 3
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## chr (1): Group
 ## dbl (2): X, Y
+## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <p>These data are artificial and were devised by <span class="citation">Anscombe (<a href="references.html#ref-Anscombe1973" role="doc-biblioref">1973</a>)</span>.</p>
@@ -147,10 +149,12 @@
 <p>Run the following line of code to download a subset of the data from the English Lexicon Project.</p>
 <div class="sourceCode" id="cb97"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">elp</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/elp.csv"</span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-info"><code>## Rows: 31433 Columns: 25── Column specification ────────────────────────────────────────────────────────
+<pre class="Rout text-info"><code>## Rows: 31433 Columns: 25
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## chr  (2): Word, POS
 ## dbl (23): Length, Freq_KF, Freq_HAL, SUBTLWF, SUBTLCD, Ortho_N, Phono_N, OLD...
+## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <p>Each case/observation in this dataset is a particular word. In addition to lexical decision time, there are several other potential explanatory variables that have been measured for each word.</p>
@@ -363,7 +367,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-08-18.</p>
+    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-08-19.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

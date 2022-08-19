@@ -58,9 +58,11 @@ colonoscopy <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/mai
 ```
 
 ```{.Rout .text-info}
-## Rows: 1058 Columns: 2── Column specification ────────────────────────────────────────────────────────
+## Rows: 1058 Columns: 2
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## chr (2): method, detected
+## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
@@ -87,7 +89,6 @@ colonoscopy
 ##  9 Routine        No      
 ## 10 Routine        No      
 ## # … with 1,048 more rows
-## # ℹ Use `print(n = ...)` to see more rows
 ```
 
 These data are from an **experiment**.  Each row represents a specific image like the one shown above.  Each image was randomly assigned to be analyzed using a different `method`:  `"Routine"` analyses involved a professional analyst looking at the image; `"Computer-aided"` analyses used an automated algorithm to identify potential adenomas which were then double-checked by a human analyst.  The variable `detected`, which is either `"Yes"` or `"No"`, indicates whether an adenoma was detected in the image.

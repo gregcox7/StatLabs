@@ -48,11 +48,13 @@ nhanes <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/dat
 ```
 
 ```{.Rout .text-info}
-## Rows: 4924 Columns: 76── Column specification ────────────────────────────────────────────────────────
+## Rows: 4924 Columns: 76
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## chr (31): SurveyYr, Gender, AgeDecade, Race1, Race3, Education, MaritalStatu...
 ## dbl (41): ID, Age, AgeMonths, HHIncomeMid, Poverty, HomeRooms, Weight, Heigh...
 ## lgl  (4): Length, HeadCirc, TVHrsDayChild, CompHrsDayChild
+## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
@@ -327,7 +329,6 @@ sample_size5
 ## #   BPSys2 <dbl>, BPDia2 <dbl>, BPSys3 <dbl>, BPDia3 <dbl>, Testosterone <dbl>,
 ## #   DirectChol <dbl>, TotChol <dbl>, UrineVol1 <dbl>, UrineFlow1 <dbl>,
 ## #   UrineVol2 <dbl>, UrineFlow2 <dbl>, Diabetes <chr>, DiabetesAge <dbl>, …
-## # ℹ Use `colnames()` to see all variable names
 ```
 
 Notice that we still have all of those people's responses to each question on the NHANES survey.  That means we can get a *summary statistic* for the `Marijuana` variable from this sample, just like we did from the population.
@@ -378,7 +379,6 @@ samples_size5
 ## #   Pulse <dbl>, BPSysAve <dbl>, BPDiaAve <dbl>, BPSys1 <dbl>, BPDia1 <dbl>,
 ## #   BPSys2 <dbl>, BPDia2 <dbl>, BPSys3 <dbl>, BPDia3 <dbl>, Testosterone <dbl>,
 ## #   DirectChol <dbl>, TotChol <dbl>, UrineVol1 <dbl>, UrineFlow1 <dbl>, …
-## # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ### Summary statistics for each sample
@@ -409,7 +409,6 @@ sample_props_mari_size5
 ##  9         9   1  
 ## 10        10   0.6
 ## # … with 990 more rows
-## # ℹ Use `print(n = ...)` to see more rows
 ```
 
 Notice that the proportions calculated from each sample will tend to vary.  We can visualize this using a histogram:

@@ -89,11 +89,13 @@
 <p>Run the following line of code to download the dataset consisting of every shooting attempt Kobe made during the 2009 NBA finals. This is the same data we looked at last time:</p>
 <div class="sourceCode" id="cb154"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kobe</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/kobe.csv"</span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-info"><code>## Rows: 111 Columns: 7── Column specification ────────────────────────────────────────────────────────
+<pre class="Rout text-info"><code>## Rows: 111 Columns: 7
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## chr  (5): vs, quarter, description, shot, prev_shot
 ## dbl  (1): game
 ## time (1): time
+## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
@@ -292,11 +294,13 @@
 <p>Let’s load the relevant data collected by <span class="citation">Awad et al. (<a href="references.html#ref-AwadEtAl2020" role="doc-biblioref">2020</a>)</span> with the following line of code:</p>
 <div class="sourceCode" id="cb175"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">trolley</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/trolley.csv"</span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-info"><code>## Rows: 32163 Columns: 12── Column specification ────────────────────────────────────────────────────────
+<pre class="Rout text-info"><code>## Rows: 32163 Columns: 12
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## chr (9): _id, Scenario, Sacrifice, UserID, Session_id, Template, lang, count...
 ## dbl (1): Scenario_order
 ## lgl (2): answerLeft, seenOther
+## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <p>For our purposes, these are just the data from people living in the USA, but this is still quite a large sample! Now that the <code>trolley</code> data has appeared in RStudio’s environment pane (in the upper right), click on it to explore the structure of the data.</p>
@@ -424,7 +428,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-08-18.</p>
+    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-08-19.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

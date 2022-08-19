@@ -52,9 +52,11 @@ berkeley <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/d
 ```
 
 ```{.Rout .text-info}
-## Rows: 4526 Columns: 3── Column specification ────────────────────────────────────────────────────────
+## Rows: 4526 Columns: 3
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## chr (3): Admit, Gender, Department
+## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
@@ -65,7 +67,7 @@ Because each applicant selected themselves into this sample, it is clearly not r
 
 * **Admit**: Either "Admitted" or "Rejected", depending on whether the applicant was admitted or rejected.
 * **Gender**: Either "Male" or "Female".
-* **Department**: A letter between "A" and "F"; the department names were obscured for privacy.
+* **Department**: A letter between "A" and "F" that identifies the academic department to which the applicant applied.  The actual department names were obscured for privacy.
 
 ::: {.exercise}
 What type (nominal categorical, ordinal categorical, numerical) are each of the variables in this dataset?

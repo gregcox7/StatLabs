@@ -251,10 +251,12 @@ rats <- read_csv('https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/
 ```
 
 ```{.Rout .text-info}
-## Rows: 195 Columns: 2── Column specification ────────────────────────────────────────────────────────
+## Rows: 195 Columns: 2
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## chr (1): Diet
 ## dbl (1): Lifespan
+## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```

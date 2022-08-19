@@ -97,9 +97,11 @@
 <p>Run the line below to download the data into your R environment:</p>
 <div class="sourceCode" id="cb224"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">colonoscopy</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/colonoscopy.csv"</span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-info"><code>## Rows: 1058 Columns: 2── Column specification ────────────────────────────────────────────────────────
+<pre class="Rout text-info"><code>## Rows: 1058 Columns: 2
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## chr (2): method, detected
+## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <p>Let’s take a quick look at the data:</p>
@@ -118,8 +120,7 @@
 ##  8 Computer-aided Yes     
 ##  9 Routine        No      
 ## 10 Routine        No      
-## # … with 1,048 more rows
-## # ℹ Use `print(n = ...)` to see more rows</code></pre>
+## # … with 1,048 more rows</code></pre>
 <p>These data are from an <strong>experiment</strong>. Each row represents a specific image like the one shown above. Each image was randomly assigned to be analyzed using a different <code>method</code>: <code>"Routine"</code> analyses involved a professional analyst looking at the image; <code>"Computer-aided"</code> analyses used an automated algorithm to identify potential adenomas which were then double-checked by a human analyst. The variable <code>detected</code>, which is either <code>"Yes"</code> or <code>"No"</code>, indicates whether an adenoma was detected in the image.</p>
 </div>
 <div id="what-are-the-point-estimates" class="section level2" number="8.3">
@@ -384,7 +385,7 @@ Z &amp; = \frac{(\hat{p}_1 - \hat{p}_2) - 0}{SE}
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-08-18.</p>
+    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-08-19.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
