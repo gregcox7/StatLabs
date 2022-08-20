@@ -113,7 +113,7 @@ kobe %>%
 ## 4 M         M        36 0.590
 ```
 
-Here, `prev_shot` refers to whether Kobe's `prev`ious shot was a hit ("H") or a miss ("M").  The final column `p` gives us the proportions of Hits or Misses following either a Hit or Miss.
+Here, `prev_shot` refers to whether Kobe's `prev`ious shot was a hit ("prev_H") or a miss ("prev_M").  The final column `p` gives us the proportions of Hits or Misses following either a Hit or Miss.
 
 ::: {.exercise}
 Let's call the proportion of hits when the previous shot was a hit $\hat{p}_{\text{Prev. H}}$ and the proportion of hits when the previous shot was a miss $\hat{p}_{\text{Prev. M}}$.
