@@ -30,7 +30,22 @@
 </form>
 
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
-        <ul class="book-toc list-unstyled"><li><a class="" href="index.html"><span class="header-section-number">Lab 5</span> Hypothesis testing with randomization</a></li></ul>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Overview</a></li>
+<li><a class="" href="lab1.html"><span class="header-section-number">1</span> Exploring data with R</a></li>
+<li><a class="" href="lab2.html"><span class="header-section-number">2</span> Sampling</a></li>
+<li><a class="" href="lab3.html"><span class="header-section-number">3</span> Describing data</a></li>
+<li><a class="" href="lab4.html"><span class="header-section-number">4</span> Relationships between numerical variables</a></li>
+<li><a class="active" href="lab5.html"><span class="header-section-number">5</span> Hypothesis testing with randomization</a></li>
+<li><a class="" href="lab6.html"><span class="header-section-number">6</span> Confidence intervals with bootstrapping</a></li>
+<li><a class="" href="lab7.html"><span class="header-section-number">7</span> The normal distribution</a></li>
+<li><a class="" href="lab8.html"><span class="header-section-number">8</span> Inference for proportions</a></li>
+<li><a class="" href="lab9.html"><span class="header-section-number">9</span> Inference for a single mean</a></li>
+<li><a class="" href="lab10.html"><span class="header-section-number">10</span> Inference for comparing two independent means</a></li>
+<li><a class="" href="lab11.html"><span class="header-section-number">11</span> Inference for paired data</a></li>
+<li><a class="" href="lab12.html"><span class="header-section-number">12</span> Inference for multiple independent groups</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
 
         <div class="book-extra">
           <p><a id="book-repo" href="https://github.com/gregcox7/StatLabs">View book source <i class="fab fa-github"></i></a></p>
@@ -43,78 +58,118 @@
 </h1>
 <div class="inline-figure"><img src="img/kobe.png" width="100%"></div>
 <p>In this session, we will get some initial practice in testing hypotheses by randomization. While this practice will not cover all the nuances of hypothesis testing in statistics, it will touch on many of the key ideas that we will see in different forms throughout the rest of the course.</p>
-<p>In the first part, we will get a sense of how <strong>permutation</strong> works, and how it helps us to simulate what a sample might look like if the null hypothesis were true. In the second part, we will use permutation to test a more serious hypotheses about how different types of people might make decisions differently.</p>
-<div id="required-packages-1" class="section level2" number="5.1">
+<p>In the first part, we will get a sense of how <strong>permutation</strong> works, and how it helps us to simulate what a sample might look like if the null hypothesis were true. Permutation is one way that we can use “randomization” to test a null hypothesis. In the second part, we will use permutation to test a more serious hypotheses about how different types of people might make decisions differently.</p>
+<p>Generally, hypothesis testing requires us to follow a set of steps that we can outline like this:</p>
+<ol style="list-style-type: decimal">
+<li>Translate the research question into null and alternative hypotheses, framed in terms of population parameters</li>
+<li>Use the data from the sample to calculate summary statistics corresponding to those population parameters</li>
+<li>Model what those summary statistics <em>could have</em> been if the null hypothesis were true</li>
+<li>Find the <span class="math inline">\(p\)</span> value</li>
+<li>Form a conclusion</li>
+</ol>
+<p>To help you work on the exercises for this activity, be sure to <a href="https://raw.githubusercontent.com/gregcox7/StatLabs/main/worksheets/ws_lab05.Rmd">download the worksheet</a> and open it in RStudio.</p>
+<div id="did-kobe-have-a-hot-hand" class="section level2" number="5.1">
 <h2>
-<span class="header-section-number">5.1</span> Required packages<a class="anchor" aria-label="anchor" href="#required-packages-1"><i class="fas fa-link"></i></a>
-</h2>
-<p>In addition to the <code>tidyverse</code> package that we normally use, today we will also need to load the <code>infer</code> package. As you might guess from the name, the <code>infer</code> package provides a lot of useful tools for doing <code>infer</code>ence with statistics.</p>
-<div id="first-try-this" class="section level3" number="5.1.1">
-<h3>
-<span class="header-section-number">5.1.1</span> First try this<a class="anchor" aria-label="anchor" href="#first-try-this"><i class="fas fa-link"></i></a>
-</h3>
-<p>You should already have the <code>tidyverse</code> package installed, since we’ve been using it since the first lab. So if you run this code, all should be well:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-info"><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
-<pre class="Rout text-info"><code>## ✔ ggplot2 3.3.6     ✔ purrr   0.3.4
-## ✔ tibble  3.1.8     ✔ dplyr   1.0.9
-## ✔ tidyr   1.1.3     ✔ stringr 1.4.0
-## ✔ readr   2.1.2     ✔ forcats 0.5.1</code></pre>
-<pre class="Rout text-info"><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()</code></pre>
-<p>If you are working on any of the University computers in the lab or library, the <code>infer</code> package should already be installed. If the <code>infer</code> package is installed, you should be able to run the following line with no problems:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/infer">infer</a></span><span class="op">)</span></code></pre></div>
-</div>
-<div id="if-necessary-install-the-infer-package" class="section level3" number="5.1.2">
-<h3>
-<span class="header-section-number">5.1.2</span> If necessary, install the <code>infer</code> package<a class="anchor" aria-label="anchor" href="#if-necessary-install-the-infer-package"><i class="fas fa-link"></i></a>
-</h3>
-<p>If you got an error when loading the <code>infer</code> package, you need to install it first. Luckily, this just involves running the following line:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"infer"</span><span class="op">)</span></code></pre></div>
-<p>Now you should be able to load the <code>infer</code> package without any problems.</p>
-</div>
-</div>
-<div id="did-kobe-have-a-hot-hand" class="section level2" number="5.2">
-<h2>
-<span class="header-section-number">5.2</span> Did Kobe have a hot hand?<a class="anchor" aria-label="anchor" href="#did-kobe-have-a-hot-hand"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.1</span> Did Kobe have a hot hand?<a class="anchor" aria-label="anchor" href="#did-kobe-have-a-hot-hand"><i class="fas fa-link"></i></a>
 </h2>
 <p>To get a handle on some of the big ideas in hypothesis testing in general, and of permutation in particular, let’s first look at a very special dataset. These data pertain to Kobe Bryant of the LA Lakers playing against the Orlando Magic in the 2009 NBA finals. Commentators at the time remarked that Kobe seemed to have a “hot hand”. In other words, they were claiming that once Kobe made a basket, he was <em>more likely</em> to make a basket on his next shot.</p>
-<div id="load-the-data-6" class="section level3" number="5.2.1">
+<div id="check-out-the-data" class="section level3" number="5.1.1">
 <h3>
-<span class="header-section-number">5.2.1</span> Load the data<a class="anchor" aria-label="anchor" href="#load-the-data-6"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.1.1</span> Check out the data<a class="anchor" aria-label="anchor" href="#check-out-the-data"><i class="fas fa-link"></i></a>
 </h3>
-<p>Run the following line of code to download a dataset consisting of every shooting attempt Kobe made during that game, including whether or not it went in (i.e., was the shot a “Hit” or a “Miss”):</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">kobe</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/kobe.csv"</span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-info"><code>## Rows: 111 Columns: 7
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: ","
-## chr  (5): vs, quarter, description, shot, prev_shot
-## dbl  (1): game
-## time (1): time
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<p>We have loaded into R a dataset called <code>kobe</code> that consists of every shooting attempt Kobe made during that game, including whether or not it went in (i.e., was the shot a “Hit” or a “Miss”). Here’s the first few rows:</p>
+<div class="inline-table"><table style="width:100%;" class="table table-sm">
+<colgroup>
+<col width="4%">
+<col width="5%">
+<col width="8%">
+<col width="9%">
+<col width="57%">
+<col width="5%">
+<col width="10%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">vs</th>
+<th align="right">game</th>
+<th align="left">quarter</th>
+<th align="left">time</th>
+<th align="left">description</th>
+<th align="left">shot</th>
+<th align="left">prev_shot</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">ORL</td>
+<td align="right">1</td>
+<td align="left">1</td>
+<td align="left">09:07:00</td>
+<td align="left">Kobe Bryant misses jumper</td>
+<td align="left">M</td>
+<td align="left">prev_H</td>
+</tr>
+<tr class="even">
+<td align="left">ORL</td>
+<td align="right">1</td>
+<td align="left">1</td>
+<td align="left">08:11:00</td>
+<td align="left">Kobe Bryant misses 7-foot jumper</td>
+<td align="left">M</td>
+<td align="left">prev_M</td>
+</tr>
+<tr class="odd">
+<td align="left">ORL</td>
+<td align="right">1</td>
+<td align="left">1</td>
+<td align="left">07:41:00</td>
+<td align="left">Kobe Bryant makes 16-foot jumper (Derek Fisher assists)</td>
+<td align="left">H</td>
+<td align="left">prev_M</td>
+</tr>
+<tr class="even">
+<td align="left">ORL</td>
+<td align="right">1</td>
+<td align="left">1</td>
+<td align="left">07:03:00</td>
+<td align="left">Kobe Bryant makes driving layup</td>
+<td align="left">H</td>
+<td align="left">prev_H</td>
+</tr>
+<tr class="odd">
+<td align="left">ORL</td>
+<td align="right">1</td>
+<td align="left">1</td>
+<td align="left">06:01:00</td>
+<td align="left">Kobe Bryant misses jumper</td>
+<td align="left">M</td>
+<td align="left">prev_H</td>
+</tr>
+<tr class="even">
+<td align="left">ORL</td>
+<td align="right">1</td>
+<td align="left">1</td>
+<td align="left">04:07:00</td>
+<td align="left">Kobe Bryant misses 12-foot jumper</td>
+<td align="left">M</td>
+<td align="left">prev_M</td>
+</tr>
+</tbody>
+</table></div>
 </div>
-<div id="framing-the-hypotheses" class="section level3" number="5.2.2">
+<div id="framing-the-hypotheses" class="section level3" number="5.1.2">
 <h3>
-<span class="header-section-number">5.2.2</span> Framing the hypotheses<a class="anchor" aria-label="anchor" href="#framing-the-hypotheses"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.1.2</span> Framing the hypotheses<a class="anchor" aria-label="anchor" href="#framing-the-hypotheses"><i class="fas fa-link"></i></a>
 </h3>
 <p>We can translate the claim of the hot hand into a <strong>null hypothesis</strong> and an <strong>alternative hypothesis</strong>. For us to believe the “hot hand” claim, we first have to rule out the possibility that Kobe’s hit proportion is the same regardless of whether his previous shot went in or not. This possibility is the <strong>null hypothesis</strong>. The <strong>alternative hypothesis</strong> is that Kobe really had a hot hand and he made a greater proportion of hits after having already made a hit than after missing.</p>
 </div>
-<div id="check-out-the-data" class="section level3" number="5.2.3">
+<div id="summarize-the-data" class="section level3" number="5.1.3">
 <h3>
-<span class="header-section-number">5.2.3</span> Check out the data<a class="anchor" aria-label="anchor" href="#check-out-the-data"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.1.3</span> Summarize the data<a class="anchor" aria-label="anchor" href="#summarize-the-data"><i class="fas fa-link"></i></a>
 </h3>
-<p>Now that we’ve framed our hypotheses, let’s see whether our data suggest that we could reject the null hypothesis. We will just use a simple frequency table like we’ve used before:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<p>Now that we’ve framed our hypotheses, let’s see whether our data suggest that we could reject the null hypothesis. We’ve already seen how to do this using a frequency table, like this:</p>
+<div class="sourceCode" id="cb111"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
     <span class="fu">group_by</span><span class="op">(</span><span class="va">prev_shot</span>, <span class="va">shot</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span>n<span class="op">=</span><span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">summarize</span><span class="op">(</span>n <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">mutate</span><span class="op">(</span>p <span class="op">=</span> <span class="va">n</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre class="Rout text-info"><code>## `summarise()` has grouped output by 'prev_shot'. You can override using the
 ## `.groups` argument.</code></pre>
@@ -122,255 +177,330 @@
 ## # Groups:   prev_shot [2]
 ##   prev_shot shot      n     p
 ##   &lt;chr&gt;     &lt;chr&gt; &lt;int&gt; &lt;dbl&gt;
-## 1 H         H        18 0.36 
-## 2 H         M        32 0.64 
-## 3 M         H        25 0.410
-## 4 M         M        36 0.590</code></pre>
-<p>Here, <code>prev_shot</code> refers to whether Kobe’s <code>prev</code>ious shot was a hit (“prev_H”) or a miss (“prev_M”). The final column <code>p</code> gives us the proportions of Hits or Misses following either a Hit or Miss.</p>
-<div class="exercise">
-<p><span id="exr:unlabeled-div-1" class="exercise"><strong>Exercise 5.1  </strong></span>Let’s call the proportion of hits when the previous shot was a hit <span class="math inline">\(\hat{p}_{\text{Prev. H}}\)</span> and the proportion of hits when the previous shot was a miss <span class="math inline">\(\hat{p}_{\text{Prev. M}}\)</span>.</p>
-<ol style="list-style-type: lower-alpha">
-<li>Based on the proportions in the frequency table, what is <span class="math inline">\(\hat{p}_{\text{Prev. H}} - \hat{p}_{\text{Prev. M}}\)</span>?</li>
-<li>Given your answer in (a), are these data consistent with Kobe having a “hot hand”?</li>
+## 1 prev_H    H        18 0.36 
+## 2 prev_H    M        32 0.64 
+## 3 prev_M    H        25 0.410
+## 4 prev_M    M        36 0.590</code></pre>
+<p>Here, <code>prev_shot</code> refers to whether Kobe’s <code>prev</code>ious shot was a hit (“prev_H”) or a miss (“prev_M”). The final column <code>p</code> gives us the proportions of Hits (“H”) or Misses (“M”) following either a Previous Hit or Previous Miss.</p>
+<p>We could use the proportions in the final column to calculate by hand the difference between the proportion of Kobe’s made shots (<code>H</code>its) following either a hit (<code>prev_H</code>) or a miss (<code>prev_M</code>). But we can use R to do this work for us using a chunk like this one:</p>
+<div class="sourceCode" id="cb114"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
+    <span class="fu">specify</span><span class="op">(</span><span class="va">shot</span> <span class="op">~</span> <span class="va">prev_shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">calculate</span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"diff in props"</span>, order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"prev_H"</span>, <span class="st">"prev_M"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-muted"><code>## Response: shot (factor)
+## Explanatory: prev_shot (factor)
+## # A tibble: 1 × 1
+##      stat
+##     &lt;dbl&gt;
+## 1 -0.0498</code></pre>
+<p>The chunk works like this:</p>
+<ol style="list-style-type: decimal">
+<li>Tell R the name of the dataset we are working with (<code>kobe</code>).</li>
+<li>We <code>specify</code> which variable is the <strong>explanatory variable</strong> (<code>prev_shot</code>) and which variable is the <strong>response variable</strong> (<code>shot</code>). We do this using the same squiggly thing we used for linear regression (<code>[response variable] ~ [explanatory variable]</code>). Because the response variable is a binary (i.e., two-level) categorical variable, we also need to tell R that a “success” is a Hit (abbreviated “H”).</li>
+<li>Tell R to <code>calculate</code> a particular summary <code>stat</code>istic. By saying <code>stat = "diff in props"</code> we are telling R that we want to calculate a <code>diff</code>erence in <code>prop</code>ortion<code>s</code>. Because we already told R that our response variable is <code>shot</code> and a success is a <code>H</code>it, R knows that we want to calculate a difference in the proportion of shots that were hits. By saying <code>order = c("prev_H", "prev_M")</code>, we tell R that we want that difference calculated in a specific order. In math shorthand, we could write it <span class="math inline">\(\hat{p}_{\text{Prev. H}} - \hat{p}_{\text{Prev. M}}\)</span>.</li>
 </ol>
+<p>This may seem like a lot, but remember that computers needs to be told <em>everything</em> in detail. We can’t trust a computer to figure out anything on its own (yet?). Moreover, we will see that these lines of code can be “remixed” in various ways that will be very convenient for us as we go.</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-28" class="exercise"><strong>Exercise 5.1  </strong></span>–</p>
+<ol style="list-style-type: lower-alpha">
+<li>The following chunk of code changes the <code>success</code> setting from <code>"H"</code> to <code>"M"</code>. In your own words, describe what the number means that we get from this code.</li>
+</ol>
+<div class="sourceCode" id="cb116"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
+    <span class="fu">specify</span><span class="op">(</span><span class="va">shot</span> <span class="op">~</span> <span class="va">prev_shot</span>, success <span class="op">=</span> <span class="st">"M"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">calculate</span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"diff in props"</span>, order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"prev_H"</span>, <span class="st">"prev_M"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-muted"><code>## Response: shot (factor)
+## Explanatory: prev_shot (factor)
+## # A tibble: 1 × 1
+##     stat
+##    &lt;dbl&gt;
+## 1 0.0498</code></pre>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>The following chunk of code changes the <code>order</code> setting, but puts the <code>success</code> setting back to <code>"H"</code>. In your own words, describe what the number means that we get from this code (it is different from the one in part [a] of this exercise!).</li>
+</ol>
+<div class="sourceCode" id="cb118"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
+    <span class="fu">specify</span><span class="op">(</span><span class="va">shot</span> <span class="op">~</span> <span class="va">prev_shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">calculate</span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"diff in props"</span>, order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"prev_M"</span>, <span class="st">"prev_H"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-muted"><code>## Response: shot (factor)
+## Explanatory: prev_shot (factor)
+## # A tibble: 1 × 1
+##     stat
+##    &lt;dbl&gt;
+## 1 0.0498</code></pre>
+</div>
+</div>
+<div id="simulating-a-possible-dataset-if-the-null-were-true" class="section level3" number="5.1.4">
+<h3>
+<span class="header-section-number">5.1.4</span> Simulating a possible dataset if the null were true<a class="anchor" aria-label="anchor" href="#simulating-a-possible-dataset-if-the-null-were-true"><i class="fas fa-link"></i></a>
+</h3>
+<p>If the null hypothesis were true, whether Kobe does or does not make a shot should not depend on whether he did or did not make his previous shot. We can <em>model</em> what Kobe’s performance would look like if this null hypothesis were true. To do this, we treat Kobe’s shooting history as if it were random. If the null hypothesis were true, we should be able to randomly <strong>permute</strong> Kobe’s shooting history <em>without changing the overall relationship between Kobe’s previous shots and his current shot</em>. By “overall relationship”, we mean the <em>difference in proportions</em> that we just calculated. If the null hypothesis were true, the difference in proportions from our permuted data should not be <em>too different</em> from the difference in proportions in our actual data. On the other hand, if the null hypothesis were false, the difference in proportions in the permuted data should be very different from what we actually saw.</p>
+<p>We can use R to permute Kobe’s shot history and thereby model how Kobe’s shots <em>might</em> have gone if the null hypothesis were true. To do this, we need to <code>specify</code> the relevant variables as well as the <code>hypothesis</code>. Let’s see that all at once, then unpack it:</p>
+<div class="sourceCode" id="cb120"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
+    <span class="fu">specify</span><span class="op">(</span><span class="va">shot</span> <span class="op">~</span> <span class="va">prev_shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">hypothesize</span><span class="op">(</span>null <span class="op">=</span> <span class="st">"independence"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">generate</span><span class="op">(</span>reps <span class="op">=</span> <span class="fl">1</span>, type <span class="op">=</span> <span class="st">"permute"</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-muted"><code>## Response: shot (factor)
+## Explanatory: prev_shot (factor)
+## Null Hypothesis: independence
+## # A tibble: 111 × 3
+## # Groups:   replicate [1]
+##    shot  prev_shot replicate
+##    &lt;fct&gt; &lt;fct&gt;         &lt;int&gt;
+##  1 M     prev_H            1
+##  2 M     prev_M            1
+##  3 H     prev_M            1
+##  4 M     prev_H            1
+##  5 M     prev_H            1
+##  6 M     prev_M            1
+##  7 H     prev_M            1
+##  8 M     prev_M            1
+##  9 M     prev_H            1
+## 10 M     prev_H            1
+## # … with 101 more rows</code></pre>
+<p>The first and second lines are just like what we used already.</p>
+<p>The third line is how we tell R what our null hypothesis is, namely, that the explanatory and response variables are <strong>independent</strong> (not associated).</p>
+<p>Finally, the fourth line <code>generate</code>s a simulated dataset by randomly <code>permut</code>ing—that is, <em>shuffling</em>—the columns of the original data containing the explanatory and response variables. We’ll see the function of the <code>reps = 1</code> setting momentarily.</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-29" class="exercise"><strong>Exercise 5.2  </strong></span>The following chunk of code simulates one way that Kobe’s shots could have gone <em>if</em> the null hypothesis (that his previous shot and current shot are <em>independent</em>) were true. The fifth line (the same as the last line in one of the chunks above) calculates the difference in proportions based on the <em>simulated</em> data.</p>
+<div class="sourceCode" id="cb122"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
+    <span class="fu">specify</span><span class="op">(</span><span class="va">shot</span> <span class="op">~</span> <span class="va">prev_shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">hypothesize</span><span class="op">(</span>null <span class="op">=</span> <span class="st">"independence"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">generate</span><span class="op">(</span>reps <span class="op">=</span> <span class="fl">1</span>, type <span class="op">=</span> <span class="st">"permute"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">calculate</span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"diff in props"</span>, order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"prev_H"</span>, <span class="st">"prev_M"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>In your own words, describe why the difference in proportions from the simulated data is different from the actual data.</p>
+</div>
+</div>
+<div id="simulating-many-possible-datasets-if-the-null-were-true" class="section level3" number="5.1.5">
+<h3>
+<span class="header-section-number">5.1.5</span> Simulating many possible datasets if the null were true<a class="anchor" aria-label="anchor" href="#simulating-many-possible-datasets-if-the-null-were-true"><i class="fas fa-link"></i></a>
+</h3>
+<p>All we did was simulate <em>one</em> possible way Kobe’s shots could have turned out if the null hypothesis were true. There are many possible ways Kobe’s shots could have turned out, and each of these corresponds to a different random permutation of Kobe’s shot history. What we need to do is keep track of all the differences in proportions we get from each of those permutations. It’s a good thing that computers are good at repetitive tasks, because we can use the computer to repeat the random permutation process many times to simulated many possible datasets.</p>
+<p>The next chunk of code is the same as before except we have changed <code>reps</code> in the <code>generate</code> line from <code>1</code> to <code>1000</code>. This way, we can simulate 1000 different datasets, each of which is a different random permutation of Kobe’s shot history. We tell R to remember these all under the name <code>kobe_null_distribution</code> because this represents the <code>distribution</code> of differences that we would expect to see if the <code>null</code> hypothesis were true.</p>
+<div class="sourceCode" id="cb123"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">kobe_null_distribution</span> <span class="op">&lt;-</span> <span class="va">kobe</span> <span class="op">%&gt;%</span>
+    <span class="fu">specify</span><span class="op">(</span><span class="va">shot</span> <span class="op">~</span> <span class="va">prev_shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">hypothesize</span><span class="op">(</span>null <span class="op">=</span> <span class="st">"independence"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">generate</span><span class="op">(</span>reps <span class="op">=</span> <span class="fl">1000</span>, type <span class="op">=</span> <span class="st">"permute"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">calculate</span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"diff in props"</span>, order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"prev_H"</span>, <span class="st">"prev_M"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>The first few rows of the result look like this:</p>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr class="header">
+<th align="right">replicate</th>
+<th align="right">stat</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">-0.0134426</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">0.0593443</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">-0.0862295</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">0.0229508</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="right">0.0229508</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="right">-0.0134426</td>
+</tr>
+</tbody>
+</table></div>
+<p>The “replicate” column is a label for each simulated dataset, and the new “stat” column is the difference <span class="math inline">\(\hat{p}_{\text{Prev. H}} - \hat{p}_{\text{Prev. M}}\)</span> <em>for each simulated dataset</em>.</p>
+<p>We can now make a histogram to examine the <em>distribution of differences in proportions that result when the null hypothesis is true</em>:</p>
+<div class="sourceCode" id="cb124"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">kobe_null_distribution</span> <span class="op">%&gt;%</span>
+    <span class="fu">visualize</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="05-randomization_files/figure-html/unnamed-chunk-10-1.png" width="672"></div>
+</div>
+<div id="find-the-p-value" class="section level3" number="5.1.6">
+<h3>
+<span class="header-section-number">5.1.6</span> Find the <span class="math inline">\(p\)</span> value<a class="anchor" aria-label="anchor" href="#find-the-p-value"><i class="fas fa-link"></i></a>
+</h3>
+<p>Remember that the <span class="math inline">\(p\)</span> value is the proportion of simulated datasets which are <em>at least as extreme</em> as our actual data. In this case, that means the proportion of simulated datasets with a difference in proportions that is <em>bigger</em> than what we observed. Let’s tell R to remember that difference by running the chunk of code below:</p>
+<div class="sourceCode" id="cb125"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">kobe_obs_diff</span> <span class="op">&lt;-</span> <span class="va">kobe</span> <span class="op">%&gt;%</span>
+    <span class="fu">specify</span><span class="op">(</span><span class="va">shot</span> <span class="op">~</span> <span class="va">prev_shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">calculate</span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"diff in props"</span>, order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"prev_H"</span>, <span class="st">"prev_M"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>Now, let’s see how many simulated datasets were bigger than this. In the following line of code, we have to tell R that the observed “statistic” (<code>obs_stat</code>) is the difference we just told it to remember (<code>kobe_obs_diff</code>) as well as the fact that we are interested in how many simulations produced results that were “greater” than what was observed:</p>
+<div class="sourceCode" id="cb126"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">kobe_null_distribution</span> <span class="op">%&gt;%</span>
+    <span class="fu">get_p_value</span><span class="op">(</span>obs_stat <span class="op">=</span> <span class="va">kobe_obs_diff</span>, direction <span class="op">=</span> <span class="st">"greater"</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-muted"><code>## # A tibble: 1 × 1
+##   p_value
+##     &lt;dbl&gt;
+## 1   0.757</code></pre>
+<p>Finally, it will help to visualize where the observed difference falls relative to the distribution of differences from our simulated data (note that this uses <code>shade_p_value</code> rather than <code>get_p_value</code>):</p>
+<div class="sourceCode" id="cb128"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">kobe_null_distribution</span> <span class="op">%&gt;%</span>
+    <span class="fu">visualize</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">shade_p_value</span><span class="op">(</span>obs_stat <span class="op">=</span> <span class="va">kobe_obs_diff</span>, direction <span class="op">=</span> <span class="st">"greater"</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="05-randomization_files/figure-html/unnamed-chunk-13-1.png" width="672"></div>
+<p>The red line is the value that was actually observed and the parts of the histogram that are shaded pink represent the simulated datasets that were “more extreme” than what was observed.</p>
+</div>
+<div id="form-a-conclusion" class="section level3" number="5.1.7">
+<h3>
+<span class="header-section-number">5.1.7</span> Form a conclusion<a class="anchor" aria-label="anchor" href="#form-a-conclusion"><i class="fas fa-link"></i></a>
+</h3>
+<p>Remember that we were testing the <strong>null hypothesis</strong> that Kobe did <em>not</em> have a hot hand. We only reject the null hypothesis if our data would be very unlikely if the null hypothesis were true, i.e., if the <span class="math inline">\(p\)</span> value is low. Assume we adopt a <strong>significance level</strong> of 0.05, so we would reject the null hypothesis if the <span class="math inline">\(p\)</span> value were less than this level.</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-30" class="exercise"><strong>Exercise 5.3  </strong></span>Do you reject the null hypothesis that Kobe’s previous shot has no influence on his current shot? Explain your reasoning. What does your conclusion say about whether or not Kobe had a “hot hand”?</p>
+</div>
+</div>
+</div>
+<div id="do-people-on-the-autism-spectrum-make-more-consistent-choices" class="section level2" number="5.2">
+<h2>
+<span class="header-section-number">5.2</span> Do people on the autism spectrum make more consistent choices?<a class="anchor" aria-label="anchor" href="#do-people-on-the-autism-spectrum-make-more-consistent-choices"><i class="fas fa-link"></i></a>
+</h2>
+<p>The kind of hypothesis testing we just did for the fun case of Kobe’s hot hand is the same as what we use to answer more serious research questions.</p>
+<p>Autism is a condition that has many facets. Individuals with autism who do not have any cognitive impairments often have different cognitive “styles”. In particular, it is thought that people with autism are more “detail-oriented”. This can be a detriment when trying to find a general pattern, but it might be a benefit in situations where there are many irrelevant distractions.</p>
+<p>This potential benefit was studied by <span class="citation">Farmer et al. (<a href="references.html#ref-FarmerEtAl2017" role="doc-biblioref">2017</a>)</span>. Their experiment included a group of participants diagnosed as being on the autism spectrum (with no cognitive impairments) as well as a group of neuro-typical controls. They looked at participants’ choices between pairs of consumer products that were presented alongside a third, less desirable “decoy” option. A “rational” choice should not be affected by the presence of this decoy, but in fact people are often swayed by those irrelevant options. Might people with autism make choices that are more consistent—more “rational”—because they ignore the irrelevant decoy?</p>
+<p>For the rest of the lab, you will conduct a hypothesis test to address this question. It will follow the same basic outline as the procedure we followed to address the “hot hand” question, so be sure to refer to the previous section for guidance.</p>
+<div id="check-out-the-data-1" class="section level3" number="5.2.1">
+<h3>
+<span class="header-section-number">5.2.1</span> Check out the data<a class="anchor" aria-label="anchor" href="#check-out-the-data-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>The relevant data are stored in R under the name <code>asc_choice</code>. Here’s what the first few rows look like.</p>
+<div class="inline-table"><table class="table table-sm">
+<colgroup>
+<col width="14%">
+<col width="8%">
+<col width="11%">
+<col width="7%">
+<col width="11%">
+<col width="5%">
+<col width="10%">
+<col width="14%">
+<col width="15%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Pcp</th>
+<th align="left">Group</th>
+<th align="left">Product</th>
+<th align="right">ICAR</th>
+<th align="right">AQScore</th>
+<th align="right">Age</th>
+<th align="left">Gender</th>
+<th align="left">Residence</th>
+<th align="left">Choice</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">07614cqm3</td>
+<td align="left">ASC</td>
+<td align="left">job</td>
+<td align="right">9</td>
+<td align="right">97</td>
+<td align="right">30</td>
+<td align="left">Female</td>
+<td align="left">UK</td>
+<td align="left">Consistent</td>
+</tr>
+<tr class="even">
+<td align="left">0kp6uu5yk</td>
+<td align="left">ASC</td>
+<td align="left">job</td>
+<td align="right">12</td>
+<td align="right">86</td>
+<td align="right">71</td>
+<td align="left">Male</td>
+<td align="left">UK</td>
+<td align="left">Consistent</td>
+</tr>
+<tr class="odd">
+<td align="left">0xwjyez37</td>
+<td align="left">ASC</td>
+<td align="left">job</td>
+<td align="right">4</td>
+<td align="right">79</td>
+<td align="right">38</td>
+<td align="left">Female</td>
+<td align="left">UK</td>
+<td align="left">Consistent</td>
+</tr>
+<tr class="even">
+<td align="left">19b8mj7zo</td>
+<td align="left">ASC</td>
+<td align="left">job</td>
+<td align="right">16</td>
+<td align="right">104</td>
+<td align="right">45</td>
+<td align="left">Female</td>
+<td align="left">UK</td>
+<td align="left">Consistent</td>
+</tr>
+<tr class="odd">
+<td align="left">1dez096ol</td>
+<td align="left">ASC</td>
+<td align="left">job</td>
+<td align="right">9</td>
+<td align="right">96</td>
+<td align="right">48</td>
+<td align="left">Female</td>
+<td align="left">UK</td>
+<td align="left">Consistent</td>
+</tr>
+<tr class="even">
+<td align="left">1xn153mwi</td>
+<td align="left">ASC</td>
+<td align="left">job</td>
+<td align="right">13</td>
+<td align="right">105</td>
+<td align="right">41</td>
+<td align="left">Female</td>
+<td align="left">US</td>
+<td align="left">Consistent</td>
+</tr>
+</tbody>
+</table></div>
+<p>The <strong>response variable</strong> is <code>Choice</code>, which is either “Consistent” (if the participant’s choice was not affected by the decoy) or “Inconsistent” (if the participant’s choice was affected by the decoy).</p>
+<p>The <strong>explanatory variable</strong> is <code>Group</code>, which is either “ASC” (for “Autism Spectrum Condition”) or “NT” (for “Neuro-Typical” control).</p>
+</div>
+<div id="framing-the-hypotheses-1" class="section level3" number="5.2.2">
+<h3>
+<span class="header-section-number">5.2.2</span> Framing the hypotheses<a class="anchor" aria-label="anchor" href="#framing-the-hypotheses-1"><i class="fas fa-link"></i></a>
+</h3>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-31" class="exercise"><strong>Exercise 5.4  </strong></span>Our <strong>research question</strong> is, “is the proportion of consistent choices <em>higher</em> for participants from the ASC group than those from the NT group?” What are the <strong>null hypothesis</strong> and <strong>alternative hypothesis</strong> that correspond to this research question?</p>
+</div>
+</div>
+<div id="summarize-the-data-1" class="section level3" number="5.2.3">
+<h3>
+<span class="header-section-number">5.2.3</span> Summarize the data<a class="anchor" aria-label="anchor" href="#summarize-the-data-1"><i class="fas fa-link"></i></a>
+</h3>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-32" class="exercise"><strong>Exercise 5.5  </strong></span>Find the difference in proportions of consistent choices between the autism spectrum group (ASC) and neuro-typical control group (NT). For guidance, check out how we did it in the Kobe example above. Be sure to note:</p>
+<ul>
+<li>What is the name of the relevant dataset?</li>
+<li>What are the names of the explanatory and response variables?</li>
+<li>A “Consistent” choice counts as a “success”.</li>
+<li>For the difference in proportions, we want to look at ASC minus NT.</li>
+</ul>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="lab5.html#cb129-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
+<span id="cb129-2"><a href="lab5.html#cb129-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb129-3"><a href="lab5.html#cb129-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"___"</span>, <span class="st">"___"</span>))</span></code></pre></div>
+<p>Is the difference you found more consistent with the null hypothesis or with the alternative hypothesis? Explain your reasoning.</p>
 </div>
 </div>
 <div id="model-the-null-hypothesis" class="section level3" number="5.2.4">
 <h3>
 <span class="header-section-number">5.2.4</span> Model the null hypothesis<a class="anchor" aria-label="anchor" href="#model-the-null-hypothesis"><i class="fas fa-link"></i></a>
 </h3>
-<p>If the null hypothesis were true, whether Kobe made a shot or not should not depend on whether his previous shot was a Hit or Miss. That means that, if the null hypothesis were true, we should be able to shuffle Kobe’s previous shots and still obtain a pattern of results that looks similar to what we just saw. Of course, if the null hypothesis were false, shuffling Kobe’s previous shots should produce a pattern of results that would look different from what we actually saw.</p>
-<div id="a-single-shuffle" class="section level4" number="5.2.4.1">
-<h4>
-<span class="header-section-number">5.2.4.1</span> A single shuffle<a class="anchor" aria-label="anchor" href="#a-single-shuffle"><i class="fas fa-link"></i></a>
-</h4>
-<p>To get a sense of what “shuffling” means here, let’s first take a look at Kobe’s shots from just the second quarter of the first game. To do this, we will use a new trick, the <code>filter</code> function:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">game</span> <span class="op">==</span> <span class="fl">1</span>, <span class="va">quarter</span> <span class="op">==</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-muted"><code>## # A tibble: 8 × 7
-##   vs     game quarter time   description                           shot  prev_…¹
-##   &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;time&gt; &lt;chr&gt;                                 &lt;chr&gt; &lt;chr&gt;  
-## 1 ORL       1 2       05:58  Kobe Bryant makes 20-foot jumper      H     H      
-## 2 ORL       1 2       05:22  Kobe Bryant makes 14-foot jumper      H     H      
-## 3 ORL       1 2       04:37  Kobe Bryant misses driving layup      M     H      
-## 4 ORL       1 2       03:30  Kobe Bryant makes 9-foot two point s… H     M      
-## 5 ORL       1 2       02:55  Kobe Bryant makes 14-foot running ju… H     H      
-## 6 ORL       1 2       01:55  Kobe Bryant misses 19-foot jumper     M     H      
-## 7 ORL       1 2       00:38  Kobe Bryant misses 27-foot three poi… M     M      
-## 8 ORL       1 2       00:04  Kobe Bryant makes driving layup       H     M      
-## # … with abbreviated variable name ¹​prev_shot</code></pre>
-<p>The <code><a href="https://rdrr.io/r/base/Comparison.html">==</a></code> asks the question, are these two things equal? So <code>game == 1</code> pulls out all the shots where <code>game</code> equals 1, i.e., the shots from the first game. Similarly, <code>quarter == 2</code> pulls out all the shots where <code>quarter</code> equals 2, so the second quarter from <em>each</em> game. Put them together, and you get a <code>filter</code> that pulls out the shots for which <em>both</em> the game is the first <em>and</em> the quarter is the second. Neat trick!</p>
-<p>If we include that line, we can get a frequency table for just this handful of shots, like we did above:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">game</span> <span class="op">==</span> <span class="fl">1</span>, <span class="va">quarter</span> <span class="op">==</span> <span class="fl">2</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">group_by</span><span class="op">(</span><span class="va">prev_shot</span>, <span class="va">shot</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span>n<span class="op">=</span><span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">mutate</span><span class="op">(</span>p <span class="op">=</span> <span class="va">n</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-info"><code>## `summarise()` has grouped output by 'prev_shot'. You can override using the
-## `.groups` argument.</code></pre>
-<pre class="Rout text-muted"><code>## # A tibble: 4 × 4
-## # Groups:   prev_shot [2]
-##   prev_shot shot      n     p
-##   &lt;chr&gt;     &lt;chr&gt; &lt;int&gt; &lt;dbl&gt;
-## 1 H         H         3 0.6  
-## 2 H         M         2 0.4  
-## 3 M         H         2 0.667
-## 4 M         M         1 0.333</code></pre>
-<p>To model how these shots <em>might</em> have gone if the null hypothesis were true, we need to <code>specify</code> the relevant variables as well as the <code>hypothesis</code>. Let’s see that all at once, then unpack it:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">simulated_data</span> <span class="op">&lt;-</span> <span class="va">kobe</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">game</span> <span class="op">==</span> <span class="fl">1</span>, <span class="va">quarter</span> <span class="op">==</span> <span class="fl">2</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span><span class="va">shot</span> <span class="op">~</span> <span class="va">prev_shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://infer.tidymodels.org/reference/hypothesize.html">hypothesize</a></span><span class="op">(</span>null <span class="op">=</span> <span class="st">"independence"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://infer.tidymodels.org/reference/generate.html">generate</a></span><span class="op">(</span>reps <span class="op">=</span> <span class="fl">1</span>, type <span class="op">=</span> <span class="st">"permute"</span><span class="op">)</span></code></pre></div>
-<p>In the first line, we added <code>simulated_data &lt;-</code> so that R would remember the result under the name <code>simulated_data</code>.</p>
-<p>In the third line, we <code>specify</code> which variable is the <strong>explanatory variable</strong> (<code>prev_shot</code>) and which variable is the <strong>response variable</strong> (<code>shot</code>). We do this using the same squiggly thing we used for linear regression (<code>[response variable] ~ [explanatory variable]</code>). Because the response variable is a binary (i.e., two-level) categorical variable, we also need to tell R that a “success” is a Hit (abbreviated “H”).</p>
-<p>The fourth line is how we tell R what our null hypothesis is, namely, that the explanatory and response variables are <strong>independent</strong> (not associated).</p>
-<p>Finally, the fifth line <code>generate</code>s a simulated dataset by randomly permuting—that is, <em>shuffling</em>—the columns of the original data containing the explanatory and response variables.</p>
-<p>Run the following line so you can see what your simulated shots from Kobe look like:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">simulated_data</span></code></pre></div>
-<pre class="Rout text-muted"><code>## Response: shot (factor)
-## Explanatory: prev_shot (factor)
-## Null Hypothesis: independence
-## # A tibble: 8 × 3
-## # Groups:   replicate [1]
-##   shot  prev_shot replicate
-##   &lt;fct&gt; &lt;fct&gt;         &lt;int&gt;
-## 1 H     H                 1
-## 2 H     H                 1
-## 3 H     H                 1
-## 4 M     M                 1
-## 5 M     H                 1
-## 6 M     H                 1
-## 7 H     M                 1
-## 8 H     M                 1</code></pre>
-<p>Note that your simulation will probably not look the same as the one shown here because the columns were shuffled <em>randomly</em>.</p>
-<p>Finally, we have a way to quickly calculate the difference in proportions that we are interested in (<span class="math inline">\(\hat{p}_{\text{Prev. H}} - \hat{p}_{\text{Prev. M}}\)</span>). We can do that with both the actual data and simulated data. Here it is with the actual data:</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">game</span> <span class="op">==</span> <span class="fl">1</span>, <span class="va">quarter</span> <span class="op">==</span> <span class="fl">2</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span><span class="va">shot</span> <span class="op">~</span> <span class="va">prev_shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://infer.tidymodels.org/reference/calculate.html">calculate</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"diff in props"</span>, order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"H"</span>, <span class="st">"M"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-muted"><code>## Response: shot (factor)
-## Explanatory: prev_shot (factor)
-## # A tibble: 1 × 1
-##      stat
-##     &lt;dbl&gt;
-## 1 -0.0667</code></pre>
-<p>The <code>calculate</code> line is where the magic happens. We tell R that the <code>stat</code>istic we are interested in is the “diff in props” (difference in proportions), and then tell R the <code>order</code> in which it should calculate it (“H” minus “M”).</p>
+<p>If the null hypothesis were true, a participant’s choice shouldn’t depend on which group they are in. In the Kobe example, we modeled the null hypothesis by randomly permuting Kobe’s shot history, since that was the explanatory variable. In this research scenario, group is the explanatory variable. So by randomly shuffling participants between groups, we can simulate how the data would look if the null hypothesis were true.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-2" class="exercise"><strong>Exercise 5.2  </strong></span>Fill in the blank below to calculate the same thing on our <em>simulated</em> data:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="lab5.html#cb22-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
-<span id="cb22-2"><a href="lab5.html#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(shot <span class="sc">~</span> prev_shot, <span class="at">success =</span> <span class="st">"H"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb22-3"><a href="lab5.html#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"diff in props"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"H"</span>, <span class="st">"M"</span>))</span></code></pre></div>
-<p>What was the result you got? Was it larger, smaller, or the same as when we calculated it using the actual data from the second quarter of the first game?</p>
-</div>
-</div>
-<div id="kobenull" class="section level4" number="5.2.4.2">
-<h4>
-<span class="header-section-number">5.2.4.2</span> Many shuffles<a class="anchor" aria-label="anchor" href="#kobenull"><i class="fas fa-link"></i></a>
-</h4>
-<p>If that’s what a single shuffle of just part of our data look like, it’s a good thing we have a computer to do that a bunch of times!</p>
-<p>Let’s get back to looking at the full dataset. The next chunk of code will generate 1000 different shuffled datasets to simulate the kinds of results that would occur if the null hypothesis were true, then for each simulated dataset calculated the difference in proportions <span class="math inline">\(\hat{p}_{\text{Prev. H}} - \hat{p}_{\text{Prev. M}}\)</span>. Finally, we will tell R to remember it using the name <code>null_dist</code> for “null distribution”.</p>
-<p>Run the following chunk of code:</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">null_dist</span> <span class="op">&lt;-</span> <span class="va">kobe</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span><span class="va">shot</span> <span class="op">~</span> <span class="va">prev_shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://infer.tidymodels.org/reference/hypothesize.html">hypothesize</a></span><span class="op">(</span>null <span class="op">=</span> <span class="st">"independence"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://infer.tidymodels.org/reference/generate.html">generate</a></span><span class="op">(</span>reps <span class="op">=</span> <span class="fl">1000</span>, type <span class="op">=</span> <span class="st">"permute"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://infer.tidymodels.org/reference/calculate.html">calculate</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"diff in props"</span>, order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"H"</span>, <span class="st">"M"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>Now we can check out the result:</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">null_dist</span></code></pre></div>
-<pre class="Rout text-muted"><code>## Response: shot (factor)
-## Explanatory: prev_shot (factor)
-## Null Hypothesis: independence
-## # A tibble: 1,000 × 2
-##    replicate    stat
-##        &lt;int&gt;   &lt;dbl&gt;
-##  1         1 -0.159 
-##  2         2 -0.0862
-##  3         3 -0.0134
-##  4         4 -0.159 
-##  5         5  0.0230
-##  6         6  0.0230
-##  7         7 -0.0134
-##  8         8 -0.0862
-##  9         9  0.0230
-## 10        10 -0.0862
-## # … with 990 more rows</code></pre>
-<p>The “replicate” column is just a number that labels each simulated dataset and the “stat” column is the difference <span class="math inline">\(\hat{p}_{\text{Prev. H}} - \hat{p}_{\text{Prev. M}}\)</span> <em>for that simulated dataset</em>.</p>
-<p>We can get a better summary by visualizing this distribution of results using a histogram:</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">null_dist</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://infer.tidymodels.org/reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="05-randomization_files/figure-html/unnamed-chunk-15-1.png" width="672"></div>
-</div>
-</div>
-<div id="find-the-p-value" class="section level3" number="5.2.5">
-<h3>
-<span class="header-section-number">5.2.5</span> Find the <span class="math inline">\(p\)</span> value<a class="anchor" aria-label="anchor" href="#find-the-p-value"><i class="fas fa-link"></i></a>
-</h3>
-<p>Remember that the <span class="math inline">\(p\)</span> value is the proportion of simulated datasets which are <em>at least as extreme</em> as our actual data. In this case, that means the proportion of simulated datasets with a difference in proportions that is <em>bigger</em> than what we observed. Let’s tell R to remember that difference by running the chunk of code below:</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">obs_diff</span> <span class="op">&lt;-</span> <span class="va">kobe</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span><span class="va">shot</span> <span class="op">~</span> <span class="va">prev_shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://infer.tidymodels.org/reference/calculate.html">calculate</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"diff in props"</span>, order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"H"</span>, <span class="st">"M"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>Now, let’s see how many simulated datasets were bigger than this. In the following line of code, we have to tell R that the observed “statistic” (<code>obs_stat</code>) is the difference we just told it to remember (<code>obs_diff</code>) as well as the fact that we are interested in how many simulations produced results that were “greater” than what was observed:</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">null_dist</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://infer.tidymodels.org/reference/get_p_value.html">get_p_value</a></span><span class="op">(</span>obs_stat <span class="op">=</span> <span class="va">obs_diff</span>, direction <span class="op">=</span> <span class="st">"greater"</span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-muted"><code>## # A tibble: 1 × 1
-##   p_value
-##     &lt;dbl&gt;
-## 1   0.756</code></pre>
-<p>Finally, it will help to visualize where the observed difference falls relative to the distribution of differences from our simulated data (note that this uses <code>shade_p_value</code> rather than <code>get_p_value</code>):</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">null_dist</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://infer.tidymodels.org/reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://infer.tidymodels.org/reference/shade_p_value.html">shade_p_value</a></span><span class="op">(</span>obs_stat <span class="op">=</span> <span class="va">obs_diff</span>, direction <span class="op">=</span> <span class="st">"greater"</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="05-randomization_files/figure-html/unnamed-chunk-18-1.png" width="672"></div>
-<p>The red line is the value that was actually observed and the parts of the histogram that are shaded pink represent the simulated datasets that were “more extreme” than what was observed.</p>
-</div>
-<div id="form-a-conclusion" class="section level3" number="5.2.6">
-<h3>
-<span class="header-section-number">5.2.6</span> Form a conclusion<a class="anchor" aria-label="anchor" href="#form-a-conclusion"><i class="fas fa-link"></i></a>
-</h3>
-<p>Remember that we were testing the <strong>null hypothesis</strong> that Kobe did <em>not</em> have a hot hand. We only reject the null hypothesis if our data would be very unlikely if the null hypothesis were true, i.e., if the <span class="math inline">\(p\)</span> value is low. Assume we adopt a <strong>significance level</strong> of 0.05, so we would reject the null hypothesis if the <span class="math inline">\(p\)</span> value were less than this level.</p>
-<div class="exercise">
-<p><span id="exr:unlabeled-div-3" class="exercise"><strong>Exercise 5.3  </strong></span>Do you reject the null hypothesis? Explain your reasoning. What does your conclusion say about whether or not Kobe had a “hot hand”?</p>
-</div>
-</div>
-</div>
-<div id="do-people-on-the-autism-spectrum-make-more-consistent-choices" class="section level2" number="5.3">
-<h2>
-<span class="header-section-number">5.3</span> Do people on the autism spectrum make more consistent choices?<a class="anchor" aria-label="anchor" href="#do-people-on-the-autism-spectrum-make-more-consistent-choices"><i class="fas fa-link"></i></a>
-</h2>
-<p>The kind of hypothesis testing we just did for the fun case of Kobe’s hot hand is the same as what we use to answer more serious research questions.</p>
-<p>Autism is a condition that has many facets. Individuals with autism who do not have any cognitive impairments often have different cognitive “styles”. In particular, it is thought that people with autism are more “detail-oriented”. This can be a detriment when trying to find a general pattern, but it might be a benefit in situations where there are many irrelevant distractions.</p>
-<p>This potential benefit was studied by <span class="citation">Farmer et al. (<a href="references.html#ref-FarmerEtAl2017" role="doc-biblioref">2017</a>)</span>. Their experiment included a group of participants diagnosed as being on the autism spectrum (with no cognitive impairments) as well as a group of neuro-typical controls. They looked at participants’ choices between pairs of consumer products that were presented alongside a third, less desirable “decoy” option. A “rational” choice should not be affected by the presence of this decoy, but in fact people are often swayed by those irrelevant options. Might people with autism make choices that are more consistent—more “rational”—because they ignore the irrelevant decoy?</p>
-<p>For the rest of the lab, you will conduct a hypothesis test to address this question. It will follow the same basic outline as the procedure we followed to address the “hot hand” question, so be sure to refer to the previous section for guidance.</p>
-<div id="load-the-data-7" class="section level3" number="5.3.1">
-<h3>
-<span class="header-section-number">5.3.1</span> Load the data<a class="anchor" aria-label="anchor" href="#load-the-data-7"><i class="fas fa-link"></i></a>
-</h3>
-<p>First, let’s load the relevant data collected by <span class="citation">Farmer et al. (<a href="references.html#ref-FarmerEtAl2017" role="doc-biblioref">2017</a>)</span> with the following line of code:</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">asc_choice</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/asc_choice_job.csv"</span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-info"><code>## Rows: 302 Columns: 9
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: ","
-## chr (6): Pcp, Group, Product, Gender, Residence, Choice
-## dbl (3): ICAR, AQScore, Age
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<p>The <strong>response variable</strong> is <code>Choice</code>, which is either “Consistent” (if the participant’s choice was not affected by the decoy) or “Inconsistent” (if the participant’s choice was affected by the decoy).</p>
-<p>The <strong>explanatory variable</strong> is <code>Group</code>, which is either “ASC” (for “Autism Spectrum Condition”) or “NT” (for “Neuro-Typical” control).</p>
-</div>
-<div id="framing-the-hypotheses-1" class="section level3" number="5.3.2">
-<h3>
-<span class="header-section-number">5.3.2</span> Framing the hypotheses<a class="anchor" aria-label="anchor" href="#framing-the-hypotheses-1"><i class="fas fa-link"></i></a>
-</h3>
-<p>Our <strong>research question</strong> is, “is the proportion of consistent choices <em>higher</em> for participants from the ASC group than those from the NT group?”</p>
-<div class="exercise">
-<p><span id="exr:unlabeled-div-4" class="exercise"><strong>Exercise 5.4  </strong></span>What are the <strong>null hypothesis</strong> and <strong>alternative hypothesis</strong> that correspond to this research question?</p>
-</div>
-</div>
-<div id="check-out-the-data-1" class="section level3" number="5.3.3">
-<h3>
-<span class="header-section-number">5.3.3</span> Check out the data<a class="anchor" aria-label="anchor" href="#check-out-the-data-1"><i class="fas fa-link"></i></a>
-</h3>
-<p>The next step is to construct a frequency table so we can know what the proportions of consistent choices were for each group and then find the difference.</p>
-<div class="exercise">
-<p><span id="exr:unlabeled-div-5" class="exercise"><strong>Exercise 5.5  </strong></span>Fill in the blanks below to find the proportions of consistent choices for each group.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="lab5.html#cb33-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
-<span id="cb33-2"><a href="lab5.html#cb33-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(___, ___) <span class="sc">%&gt;%</span></span>
-<span id="cb33-3"><a href="lab5.html#cb33-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb33-4"><a href="lab5.html#cb33-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">p =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div>
-<ol style="list-style-type: lower-alpha">
-<li>What was the proportion of consistent choices in the ASC group?</li>
-<li>What was the proportion of consistent choices in the NT group?</li>
-<li>What is the difference in the proportions?</li>
-</ol>
-</div>
-</div>
-<div id="model-the-null-hypothesis-1" class="section level3" number="5.3.4">
-<h3>
-<span class="header-section-number">5.3.4</span> Model the null hypothesis<a class="anchor" aria-label="anchor" href="#model-the-null-hypothesis-1"><i class="fas fa-link"></i></a>
-</h3>
-<p>If the null hypothesis were true, a participant’s choice shouldn’t depend on which group they are in. By shuffling participants randomly between groups, we can therefore simulate how the data would look if the null hypothesis were true.</p>
-<div class="exercise">
-<p><span id="exr:unlabeled-div-6" class="exercise"><strong>Exercise 5.6  </strong></span>Fill in the blanks in the code below to simulate 1000 datasets assuming the null hypothesis were true and find the resulting differences in proportions.</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="lab5.html#cb34-1" aria-hidden="true" tabindex="-1"></a>null_dist <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
-<span id="cb34-2"><a href="lab5.html#cb34-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb34-3"><a href="lab5.html#cb34-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb34-4"><a href="lab5.html#cb34-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> ___, <span class="at">type =</span> <span class="st">"permute"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb34-5"><a href="lab5.html#cb34-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"___"</span>, <span class="st">"___"</span>))</span></code></pre></div>
-<p>For guidance, check out how we did it in the Kobe example above (especially <a href="lab5.html#kobenull">this section</a>). Be sure to note:</p>
+<p><span id="exr:unlabeled-div-33" class="exercise"><strong>Exercise 5.6  </strong></span>Fill in the blanks in the code below to simulate 1000 datasets assuming the null hypothesis were true, then produce a histogram (using the <code>visualize</code> function) of the resulting simulated differences in proportions. You’ll re-use a lot from the last exercise!</p>
 <ul>
 <li>What is the name of the relevant dataset?</li>
 <li>What are the names of the explanatory and response variables?</li>
@@ -378,63 +508,110 @@
 <li>We want to do <em>1000</em> simulations.</li>
 <li>For the difference in proportions, we want to look at ASC minus NT.</li>
 </ul>
-<p>What was the final chunk of code you used?</p>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="lab5.html#cb130-1" aria-hidden="true" tabindex="-1"></a>asc_null_distribution <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
+<span id="cb130-2"><a href="lab5.html#cb130-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb130-3"><a href="lab5.html#cb130-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb130-4"><a href="lab5.html#cb130-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> ___, <span class="at">type =</span> <span class="st">"permute"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb130-5"><a href="lab5.html#cb130-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"___"</span>, <span class="st">"___"</span>))</span>
+<span id="cb130-6"><a href="lab5.html#cb130-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb130-7"><a href="lab5.html#cb130-7" aria-hidden="true" tabindex="-1"></a>asc_null_distribution <span class="sc">%&gt;%</span></span>
+<span id="cb130-8"><a href="lab5.html#cb130-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>()</span></code></pre></div>
+<p>Once your code is working correctly, try running it a few times.</p>
+<ol style="list-style-type: lower-alpha">
+<li>Explain in your own words why the histogram you get does not look the same each time you run the code.</li>
+<li>Based just on looking at the histogram (no need to do any calculations), describe what aspects of the distribution seem to stay the same and which seem to differ each time you run your code. Note things like the shape of the distribution (number of modes and skewness), central tendency, and variability.</li>
+</ol>
 </div>
 </div>
-<div id="find-the-p-value-1" class="section level3" number="5.3.5">
+<div id="find-the-p-value-1" class="section level3" number="5.2.5">
 <h3>
-<span class="header-section-number">5.3.5</span> Find the <span class="math inline">\(p\)</span> value<a class="anchor" aria-label="anchor" href="#find-the-p-value-1"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.2.5</span> Find the <span class="math inline">\(p\)</span> value<a class="anchor" aria-label="anchor" href="#find-the-p-value-1"><i class="fas fa-link"></i></a>
 </h3>
-<p>To find the <span class="math inline">\(p\)</span> value, we first need to get the observed difference in proportions and tell R to remember it with the label <code>obs_diff</code>.</p>
+<p>To find the <span class="math inline">\(p\)</span> value, we first need to get the observed difference in proportions and tell R to remember it with the label <code>asc_obs_diff</code>.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-7" class="exercise"><strong>Exercise 5.7  </strong></span>Fill in the blanks below to find the observed difference in proportions in the actual data and tell R to remember it under the label <code>obs_diff</code>. <em>Hint:</em> see what you wrote in the previous exercise!</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="lab5.html#cb35-1" aria-hidden="true" tabindex="-1"></a>obs_diff <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
-<span id="cb35-2"><a href="lab5.html#cb35-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb35-3"><a href="lab5.html#cb35-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"___"</span>, <span class="st">"___"</span>))</span></code></pre></div>
-<p>What code did you use?</p>
+<p><span id="exr:unlabeled-div-34" class="exercise"><strong>Exercise 5.7  </strong></span>Fill in the blanks below to find the observed difference in proportions in the actual data and tell R to remember it under the label <code>asc_obs_diff</code>. This value is then used to calculate the <span class="math inline">\(p\)</span> value. <em>Hint 1:</em> for the <code>direction</code>, remember that this should correspond to the alternative hypothesis (“less”, “greater”, or “two-sided”). <em>Hint 2:</em> be sure to reuse code from previous exercises!</p>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="lab5.html#cb131-1" aria-hidden="true" tabindex="-1"></a>asc_null_distribution <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
+<span id="cb131-2"><a href="lab5.html#cb131-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb131-3"><a href="lab5.html#cb131-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb131-4"><a href="lab5.html#cb131-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> ___, <span class="at">type =</span> <span class="st">"permute"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb131-5"><a href="lab5.html#cb131-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"___"</span>, <span class="st">"___"</span>))</span>
+<span id="cb131-6"><a href="lab5.html#cb131-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb131-7"><a href="lab5.html#cb131-7" aria-hidden="true" tabindex="-1"></a>asc_obs_diff <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
+<span id="cb131-8"><a href="lab5.html#cb131-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb131-9"><a href="lab5.html#cb131-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"___"</span>, <span class="st">"___"</span>))</span>
+<span id="cb131-10"><a href="lab5.html#cb131-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb131-11"><a href="lab5.html#cb131-11" aria-hidden="true" tabindex="-1"></a>asc_null_distribution <span class="sc">%&gt;%</span></span>
+<span id="cb131-12"><a href="lab5.html#cb131-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_p_value</span>(<span class="at">obs_stat =</span> asc_obs_diff, <span class="at">direction =</span> <span class="st">"___"</span>)</span></code></pre></div>
+<p>What was the <span class="math inline">\(p\)</span> value you got?</p>
 </div>
-<p>Finally, we are in a position to find the <span class="math inline">\(p\)</span> value and to visualize where the observed difference in proportion falls relative to the differences that would be expected if the null hypothesis were true. If all goes well, your results should be close to the following, though because there is randomness involved, your results will not be strictly identical!</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">null_dist</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://infer.tidymodels.org/reference/get_p_value.html">get_p_value</a></span><span class="op">(</span>obs_stat <span class="op">=</span> <span class="va">obs_diff</span>, direction <span class="op">=</span> <span class="st">"greater"</span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-muted"><code>## # A tibble: 1 × 1
-##   p_value
-##     &lt;dbl&gt;
-## 1   0.012</code></pre>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">null_dist</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://infer.tidymodels.org/reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://infer.tidymodels.org/reference/shade_p_value.html">shade_p_value</a></span><span class="op">(</span>obs_stat <span class="op">=</span> <span class="va">obs_diff</span>, direction <span class="op">=</span> <span class="st">"greater"</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="05-randomization_files/figure-html/unnamed-chunk-25-1.png" width="672"></div>
 </div>
-<div id="form-a-conclusion-1" class="section level3" number="5.3.6">
+<div id="form-a-conclusion-1" class="section level3" number="5.2.6">
 <h3>
-<span class="header-section-number">5.3.6</span> Form a conclusion<a class="anchor" aria-label="anchor" href="#form-a-conclusion-1"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.2.6</span> Form a conclusion<a class="anchor" aria-label="anchor" href="#form-a-conclusion-1"><i class="fas fa-link"></i></a>
 </h3>
-<p>Assume we adopt a <strong>significance level</strong> of 0.05, so we would reject the null hypothesis if the <span class="math inline">\(p\)</span> value were less than this level.</p>
+<p>Finally, we are in a position to visualize where the observed difference in proportions falls relative to the differences that would be expected if the null hypothesis were true. This will enable us to form a conclusion about what these data tell us about our research question.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-8" class="exercise"><strong>Exercise 5.8  </strong></span>Do you reject the null hypothesis? Explain your reasoning. What does your conclusion say about whether participants with a diagnosis of autism made more consistent choices than neuro-typical participants?</p>
+<p><span id="exr:unlabeled-div-35" class="exercise"><strong>Exercise 5.8  </strong></span>Fill in the blanks in the code below to visualize where the observed difference in proportions falls on the distribution of differences that would be expected if the null hypothesis were true (<em>hint:</em> look back at previous exercises, you’ll be able to re-use a lot!)</p>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="lab5.html#cb132-1" aria-hidden="true" tabindex="-1"></a>asc_null_distribution <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
+<span id="cb132-2"><a href="lab5.html#cb132-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb132-3"><a href="lab5.html#cb132-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb132-4"><a href="lab5.html#cb132-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> ___, <span class="at">type =</span> <span class="st">"permute"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb132-5"><a href="lab5.html#cb132-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"___"</span>, <span class="st">"___"</span>))</span>
+<span id="cb132-6"><a href="lab5.html#cb132-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb132-7"><a href="lab5.html#cb132-7" aria-hidden="true" tabindex="-1"></a>asc_obs_diff <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
+<span id="cb132-8"><a href="lab5.html#cb132-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb132-9"><a href="lab5.html#cb132-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"___"</span>, <span class="st">"___"</span>))</span>
+<span id="cb132-10"><a href="lab5.html#cb132-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb132-11"><a href="lab5.html#cb132-11" aria-hidden="true" tabindex="-1"></a>asc_null_distribution <span class="sc">%&gt;%</span></span>
+<span id="cb132-12"><a href="lab5.html#cb132-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb132-13"><a href="lab5.html#cb132-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> asc_obs_diff, <span class="at">direction =</span> <span class="st">"___"</span>)</span></code></pre></div>
+<p>Based on your analysis, would you reject the null hypothesis? Explain your reasoning, being sure to state a reasonable <em>significance level</em>. What does your conclusion say about whether participants with a diagnosis of autism made more consistent choices than neuro-typical participants?</p>
 </div>
 </div>
 </div>
-<div id="wrap-up-4" class="section level2" number="5.4">
+<div id="wrap-up-4" class="section level2" number="5.3">
 <h2>
-<span class="header-section-number">5.4</span> Wrap-up<a class="anchor" aria-label="anchor" href="#wrap-up-4"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.3</span> Wrap-up<a class="anchor" aria-label="anchor" href="#wrap-up-4"><i class="fas fa-link"></i></a>
 </h2>
 <p>In this session, we got practice using R to perform hypothesis tests using randomization. Specifically, we used a type of shuffling called permutation. Shuffling allows us to simulate various ways that a particular dataset could look like if the null hypothesis were true. We then found the <span class="math inline">\(p\)</span> value and visualized the null distribution in order to get a sense of whether our actual data would be unlikely if the null hypothesis were true.</p>
 
 </div>
 </div>
   <div class="chapter-nav">
-<div class="empty"></div>
-<div class="empty"></div>
+<div class="prev"><a href="lab4.html"><span class="header-section-number">4</span> Relationships between numerical variables</a></div>
+<div class="next"><a href="lab6.html"><span class="header-section-number">6</span> Confidence intervals with bootstrapping</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <div id="book-on-this-page"></div>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#lab5"><span class="header-section-number">5</span> Hypothesis testing with randomization</a></li>
+<li>
+<a class="nav-link" href="#did-kobe-have-a-hot-hand"><span class="header-section-number">5.1</span> Did Kobe have a hot hand?</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#check-out-the-data"><span class="header-section-number">5.1.1</span> Check out the data</a></li>
+<li><a class="nav-link" href="#framing-the-hypotheses"><span class="header-section-number">5.1.2</span> Framing the hypotheses</a></li>
+<li><a class="nav-link" href="#summarize-the-data"><span class="header-section-number">5.1.3</span> Summarize the data</a></li>
+<li><a class="nav-link" href="#simulating-a-possible-dataset-if-the-null-were-true"><span class="header-section-number">5.1.4</span> Simulating a possible dataset if the null were true</a></li>
+<li><a class="nav-link" href="#simulating-many-possible-datasets-if-the-null-were-true"><span class="header-section-number">5.1.5</span> Simulating many possible datasets if the null were true</a></li>
+<li><a class="nav-link" href="#find-the-p-value"><span class="header-section-number">5.1.6</span> Find the \(p\) value</a></li>
+<li><a class="nav-link" href="#form-a-conclusion"><span class="header-section-number">5.1.7</span> Form a conclusion</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#do-people-on-the-autism-spectrum-make-more-consistent-choices"><span class="header-section-number">5.2</span> Do people on the autism spectrum make more consistent choices?</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#check-out-the-data-1"><span class="header-section-number">5.2.1</span> Check out the data</a></li>
+<li><a class="nav-link" href="#framing-the-hypotheses-1"><span class="header-section-number">5.2.2</span> Framing the hypotheses</a></li>
+<li><a class="nav-link" href="#summarize-the-data-1"><span class="header-section-number">5.2.3</span> Summarize the data</a></li>
+<li><a class="nav-link" href="#model-the-null-hypothesis"><span class="header-section-number">5.2.4</span> Model the null hypothesis</a></li>
+<li><a class="nav-link" href="#find-the-p-value-1"><span class="header-section-number">5.2.5</span> Find the \(p\) value</a></li>
+<li><a class="nav-link" href="#form-a-conclusion-1"><span class="header-section-number">5.2.6</span> Form a conclusion</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#wrap-up-4"><span class="header-section-number">5.3</span> Wrap-up</a></li>
+</ul>
 
       <div class="book-extra">
         <ul class="list-unstyled">
-          
+<li><a id="book-source" href="https://github.com/gregcox7/StatLabs/blob/master/05-randomization.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/gregcox7/StatLabs/edit/master/05-randomization.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
         </ul>
 </div>
     </nav>
@@ -446,7 +623,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-08-19.</p>
+    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-09-27.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

@@ -67,12 +67,12 @@
 <a href="lab7.html#lab7">Using the normal distribution</a> as a mathematical model for a sampling distribution.</li>
 </ul>
 <p>Many of the exercises in this activity will require you to look back to these previous sessions for hints and guidance as we apply these techniques to a new dataset that addresses the question of whether algorithms can help in making important medical diagnoses.</p>
-<div id="required-packages-3" class="section level2" number="8.1">
+<div id="required-packages-2" class="section level2" number="8.1">
 <h2>
-<span class="header-section-number">8.1</span> Required packages<a class="anchor" aria-label="anchor" href="#required-packages-3"><i class="fas fa-link"></i></a>
+<span class="header-section-number">8.1</span> Required packages<a class="anchor" aria-label="anchor" href="#required-packages-2"><i class="fas fa-link"></i></a>
 </h2>
 <p>Make sure you have loaded both the <code>tidyverse</code> and <code>infer</code> packages from R’s library:</p>
-<div class="sourceCode" id="cb219"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb203"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></code></pre></div>
 <pre class="Rout text-info"><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
 <pre class="Rout text-info"><code>## ✔ ggplot2 3.3.6     ✔ purrr   0.3.4
@@ -82,7 +82,7 @@
 <pre class="Rout text-info"><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()</code></pre>
-<div class="sourceCode" id="cb223"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb207"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/infer">infer</a></span><span class="op">)</span></code></pre></div>
 </div>
 <div id="get-to-know-the-data" class="section level2" number="8.2">
@@ -95,7 +95,7 @@
 </div>
 <p>As you can tell, looking for these structures is not always easy, even for experts. Part of the problem is that the images are all very similar to one another and an expert’s attention may not be drawn to the most important parts of the image. In other words, even though the application is in medical diagnosis, the “problem” is psychological. Perhaps a computer algorithm could help “solve” this problem by directing attention to the right parts of the image. On the other hand, it might be that the algorithm gives bad suggestions. The purpose of this study was to see whether the algorithm had an effect at all and, if so, whether it helped or hurt the detection of the adenomas that lead to colon cancer.</p>
 <p>Run the line below to download the data into your R environment:</p>
-<div class="sourceCode" id="cb224"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb208"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">colonoscopy</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/colonoscopy.csv"</span><span class="op">)</span></code></pre></div>
 <pre class="Rout text-info"><code>## Rows: 1058 Columns: 2
 ## ── Column specification ────────────────────────────────────────────────────────
@@ -105,7 +105,7 @@
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <p>Let’s take a quick look at the data:</p>
-<div class="sourceCode" id="cb226"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb210"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">colonoscopy</span></code></pre></div>
 <pre class="Rout text-muted"><code>## # A tibble: 1,058 × 2
 ##    method         detected
@@ -128,7 +128,7 @@
 <span class="header-section-number">8.3</span> What are the point estimates?<a class="anchor" aria-label="anchor" href="#what-are-the-point-estimates"><i class="fas fa-link"></i></a>
 </h2>
 <p>Before we start doing any fancy inference, let’s first get the <strong>point estimates</strong>, that is, the proportions of images identified as containing an adenoma using each method. We can figure this out by hand using the counts in the table below:</p>
-<div class="sourceCode" id="cb228"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb212"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">colonoscopy</span> <span class="op">%&gt;%</span>
     <span class="fu">group_by</span><span class="op">(</span><span class="va">method</span>, <span class="va">detected</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">summarize</span><span class="op">(</span>n <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -164,18 +164,18 @@
 <p><span id="exr:unlabeled-div-53" class="exercise"><strong>Exercise 8.2  </strong></span>Fill in the blanks in the code below to generate a bootstrap distribution for the proportion of adenomas detected using the <code>"Routine"</code> method and find the <strong>95% confidence interval</strong>.</p>
 <p>The code will save the bootstrap distribution under the name <code>boot_dist_routine</code>. The confidence interval will be saved under <code>boot_ci_routine</code>. At the end, the code will <code>visualize</code> the result using a histogram with the confidence interval overlaid on top.</p>
 <p>For guidance, be sure to refer to the <a href="lab6.html#lab6">previous activity</a>.</p>
-<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="lab8.html#cb231-1" aria-hidden="true" tabindex="-1"></a>boot_dist_routine <span class="ot">&lt;-</span> colonoscopy <span class="sc">%&gt;%</span></span>
-<span id="cb231-2"><a href="lab8.html#cb231-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(method <span class="sc">==</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb231-3"><a href="lab8.html#cb231-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb231-4"><a href="lab8.html#cb231-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb231-5"><a href="lab8.html#cb231-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>)</span>
-<span id="cb231-6"><a href="lab8.html#cb231-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb231-7"><a href="lab8.html#cb231-7" aria-hidden="true" tabindex="-1"></a>boot_ci_routine <span class="ot">&lt;-</span> boot_dist_routine <span class="sc">%&gt;%</span></span>
-<span id="cb231-8"><a href="lab8.html#cb231-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_confidence_interval</span>(<span class="at">level =</span> ___)</span>
-<span id="cb231-9"><a href="lab8.html#cb231-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb231-10"><a href="lab8.html#cb231-10" aria-hidden="true" tabindex="-1"></a>boot_dist_routine <span class="sc">%&gt;%</span></span>
-<span id="cb231-11"><a href="lab8.html#cb231-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
-<span id="cb231-12"><a href="lab8.html#cb231-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_confidence_interval</span>(<span class="at">endpoints =</span> boot_ci_routine)</span></code></pre></div>
+<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="lab8.html#cb215-1" aria-hidden="true" tabindex="-1"></a>boot_dist_routine <span class="ot">&lt;-</span> colonoscopy <span class="sc">%&gt;%</span></span>
+<span id="cb215-2"><a href="lab8.html#cb215-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(method <span class="sc">==</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb215-3"><a href="lab8.html#cb215-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb215-4"><a href="lab8.html#cb215-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb215-5"><a href="lab8.html#cb215-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>)</span>
+<span id="cb215-6"><a href="lab8.html#cb215-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb215-7"><a href="lab8.html#cb215-7" aria-hidden="true" tabindex="-1"></a>boot_ci_routine <span class="ot">&lt;-</span> boot_dist_routine <span class="sc">%&gt;%</span></span>
+<span id="cb215-8"><a href="lab8.html#cb215-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_confidence_interval</span>(<span class="at">level =</span> ___)</span>
+<span id="cb215-9"><a href="lab8.html#cb215-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb215-10"><a href="lab8.html#cb215-10" aria-hidden="true" tabindex="-1"></a>boot_dist_routine <span class="sc">%&gt;%</span></span>
+<span id="cb215-11"><a href="lab8.html#cb215-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb215-12"><a href="lab8.html#cb215-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_confidence_interval</span>(<span class="at">endpoints =</span> boot_ci_routine)</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>What code did you use?</li>
 <li>What is the 95% confidence interval you found?</li>
@@ -192,17 +192,17 @@
 <p>In particular, the normal distribution says that the sampling distribution will have a mean equal to the point estimate from our sample (<span class="math inline">\(\hat{p}\)</span>) and a standard error equal to <span class="math inline">\(\sqrt{\frac{\hat{p} \left(1 - \hat{p} \right)}{n}}\)</span> where <span class="math inline">\(n\)</span> is the sample size.</p>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-54" class="exercise"><strong>Exercise 8.3  </strong></span>Fill in the blanks below to get R to remember the point estimate for the “Routine” method that you found earlier (this is our <span class="math inline">\(\hat{p}\)</span>) as well as the total number of observations using the “Routine” method (this is our <span class="math inline">\(n\)</span>). The corresponding standard error is then calculated and saved in R under the name <code>se_routine</code>.</p>
-<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="lab8.html#cb232-1" aria-hidden="true" tabindex="-1"></a>p_hat_routine <span class="ot">&lt;-</span> ___</span>
-<span id="cb232-2"><a href="lab8.html#cb232-2" aria-hidden="true" tabindex="-1"></a>n_routine <span class="ot">&lt;-</span> ___</span>
-<span id="cb232-3"><a href="lab8.html#cb232-3" aria-hidden="true" tabindex="-1"></a>se_routine <span class="ot">&lt;-</span> <span class="fu">sqrt</span>((p_hat_routine <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat_routine)) <span class="sc">/</span> n_routine)</span>
-<span id="cb232-4"><a href="lab8.html#cb232-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb232-5"><a href="lab8.html#cb232-5" aria-hidden="true" tabindex="-1"></a>se_routine</span></code></pre></div>
+<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="lab8.html#cb216-1" aria-hidden="true" tabindex="-1"></a>p_hat_routine <span class="ot">&lt;-</span> ___</span>
+<span id="cb216-2"><a href="lab8.html#cb216-2" aria-hidden="true" tabindex="-1"></a>n_routine <span class="ot">&lt;-</span> ___</span>
+<span id="cb216-3"><a href="lab8.html#cb216-3" aria-hidden="true" tabindex="-1"></a>se_routine <span class="ot">&lt;-</span> <span class="fu">sqrt</span>((p_hat_routine <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat_routine)) <span class="sc">/</span> n_routine)</span>
+<span id="cb216-4"><a href="lab8.html#cb216-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb216-5"><a href="lab8.html#cb216-5" aria-hidden="true" tabindex="-1"></a>se_routine</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>What is the standard error?</li>
 <li>Fill in the blanks in the following code to use the normal distribution to find the lower and upper boundaries of the 95% confidence interval (<code>ci_lower</code> and <code>ci_upper</code>, respectively). What did you get for the lower and upper boundaries of the confidence interval?</li>
 </ol>
-<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="lab8.html#cb233-1" aria-hidden="true" tabindex="-1"></a>ci_lower <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="at">p =</span> <span class="fl">0.025</span>, <span class="at">mean =</span> ___, <span class="at">sd =</span> ___, <span class="at">lower.tail =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb233-2"><a href="lab8.html#cb233-2" aria-hidden="true" tabindex="-1"></a>ci_upper <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="at">p =</span> <span class="fl">0.025</span>, <span class="at">mean =</span> ___, <span class="at">sd =</span> ___, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb217-1"><a href="lab8.html#cb217-1" aria-hidden="true" tabindex="-1"></a>ci_lower <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="at">p =</span> <span class="fl">0.025</span>, <span class="at">mean =</span> ___, <span class="at">sd =</span> ___, <span class="at">lower.tail =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb217-2"><a href="lab8.html#cb217-2" aria-hidden="true" tabindex="-1"></a>ci_upper <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="at">p =</span> <span class="fl">0.025</span>, <span class="at">mean =</span> ___, <span class="at">sd =</span> ___, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <ol start="3" style="list-style-type: lower-alpha">
 <li>How does the interval you just found in part (b) compare to the 95% CI you found earlier using bootstrapping? Are the boundaries similar or different?</li>
 </ol>
@@ -230,11 +230,11 @@
 <div class="exercise">
 <p><span id="exr:unlabeled-div-56" class="exercise"><strong>Exercise 8.5  </strong></span>Fill in the blanks in the code below to find the point estimate of the <em>difference</em> in proportions between routine and computer-aided methods.</p>
 <p>For the <code>specify</code> line, remember that the first part goes <code>[name of response variable] ~ [name of explanatory variable]</code>.</p>
-<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="lab8.html#cb234-1" aria-hidden="true" tabindex="-1"></a>obs_diff <span class="ot">&lt;-</span> colonoscopy <span class="sc">%&gt;%</span></span>
-<span id="cb234-2"><a href="lab8.html#cb234-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb234-3"><a href="lab8.html#cb234-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"diff in props"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"Computer-aided"</span>, <span class="st">"Routine"</span>))</span>
-<span id="cb234-4"><a href="lab8.html#cb234-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb234-5"><a href="lab8.html#cb234-5" aria-hidden="true" tabindex="-1"></a>obs_diff</span></code></pre></div>
+<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="lab8.html#cb218-1" aria-hidden="true" tabindex="-1"></a>obs_diff <span class="ot">&lt;-</span> colonoscopy <span class="sc">%&gt;%</span></span>
+<span id="cb218-2"><a href="lab8.html#cb218-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb218-3"><a href="lab8.html#cb218-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"diff in props"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"Computer-aided"</span>, <span class="st">"Routine"</span>))</span>
+<span id="cb218-4"><a href="lab8.html#cb218-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb218-5"><a href="lab8.html#cb218-5" aria-hidden="true" tabindex="-1"></a>obs_diff</span></code></pre></div>
 <p>What was the code you used?</p>
 </div>
 </div>
@@ -246,15 +246,15 @@
 <div class="exercise">
 <p><span id="exr:unlabeled-div-57" class="exercise"><strong>Exercise 8.6  </strong></span>Fill in the blanks in the code below to use random permutation to simulate what the data would have looked like if the null hypothesis were true. The resulting sampling distribution will be saved under <code>null_dist_random</code> and then visualized using a histogram.</p>
 <p><em>Hint:</em> For the last blank, there are three “legal” options: you can put either <code>direction = "less"</code>, <code>direction = "greater"</code>, or <code>direction = "two-sided"</code> depending on what the alternative hypothesis is.</p>
-<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="lab8.html#cb235-1" aria-hidden="true" tabindex="-1"></a>null_dist_random <span class="ot">&lt;-</span> colonoscopy <span class="sc">%&gt;%</span></span>
-<span id="cb235-2"><a href="lab8.html#cb235-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb235-3"><a href="lab8.html#cb235-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb235-4"><a href="lab8.html#cb235-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb235-5"><a href="lab8.html#cb235-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"diff in props"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"Computer-aided"</span>, <span class="st">"Routine"</span>))</span>
-<span id="cb235-6"><a href="lab8.html#cb235-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb235-7"><a href="lab8.html#cb235-7" aria-hidden="true" tabindex="-1"></a>null_dist_random <span class="sc">%&gt;%</span></span>
-<span id="cb235-8"><a href="lab8.html#cb235-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
-<span id="cb235-9"><a href="lab8.html#cb235-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> obs_diff, <span class="at">direction =</span> <span class="st">"___"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="lab8.html#cb219-1" aria-hidden="true" tabindex="-1"></a>null_dist_random <span class="ot">&lt;-</span> colonoscopy <span class="sc">%&gt;%</span></span>
+<span id="cb219-2"><a href="lab8.html#cb219-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb219-3"><a href="lab8.html#cb219-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb219-4"><a href="lab8.html#cb219-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb219-5"><a href="lab8.html#cb219-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"diff in props"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"Computer-aided"</span>, <span class="st">"Routine"</span>))</span>
+<span id="cb219-6"><a href="lab8.html#cb219-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb219-7"><a href="lab8.html#cb219-7" aria-hidden="true" tabindex="-1"></a>null_dist_random <span class="sc">%&gt;%</span></span>
+<span id="cb219-8"><a href="lab8.html#cb219-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb219-9"><a href="lab8.html#cb219-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> obs_diff, <span class="at">direction =</span> <span class="st">"___"</span>)</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>What was the code you used?</li>
 <li>Based on the visualization you just made, would the observed difference in proportions be plausible if the null hypothesis were true?</li>
@@ -278,15 +278,15 @@ Z &amp; = \frac{(\hat{p}_1 - \hat{p}_2) - 0}{SE}
 <ol style="list-style-type: lower-alpha">
 <li>Fill in the blanks in the code below to find the <span class="math inline">\(Z\)</span> value for the observed difference. What was the <span class="math inline">\(Z\)</span> value you found?</li>
 </ol>
-<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="lab8.html#cb236-1" aria-hidden="true" tabindex="-1"></a>obs_z <span class="ot">&lt;-</span> colonoscopy <span class="sc">%&gt;%</span></span>
-<span id="cb236-2"><a href="lab8.html#cb236-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb236-3"><a href="lab8.html#cb236-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"z"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"Computer-aided"</span>, <span class="st">"Routine"</span>))</span>
-<span id="cb236-4"><a href="lab8.html#cb236-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb236-5"><a href="lab8.html#cb236-5" aria-hidden="true" tabindex="-1"></a>obs_z</span></code></pre></div>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="lab8.html#cb220-1" aria-hidden="true" tabindex="-1"></a>obs_z <span class="ot">&lt;-</span> colonoscopy <span class="sc">%&gt;%</span></span>
+<span id="cb220-2"><a href="lab8.html#cb220-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb220-3"><a href="lab8.html#cb220-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"z"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"Computer-aided"</span>, <span class="st">"Routine"</span>))</span>
+<span id="cb220-4"><a href="lab8.html#cb220-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb220-5"><a href="lab8.html#cb220-5" aria-hidden="true" tabindex="-1"></a>obs_z</span></code></pre></div>
 <ol start="2" style="list-style-type: lower-alpha">
 <li>Run the following code to visualize where our observed difference falls on the normal distribution. Compare the code below to the code we used in the previous exercise; what is similar and what is different?</li>
 </ol>
-<div class="sourceCode" id="cb237"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb221"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">null_dist_normal</span> <span class="op">&lt;-</span> <span class="va">colonoscopy</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span><span class="va">detected</span> <span class="op">~</span> <span class="va">method</span>, success <span class="op">=</span> <span class="st">"Yes"</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/assume.html">assume</a></span><span class="op">(</span><span class="st">"z"</span><span class="op">)</span>
@@ -297,7 +297,7 @@ Z &amp; = \frac{(\hat{p}_1 - \hat{p}_2) - 0}{SE}
 <ol start="3" style="list-style-type: lower-alpha">
 <li>Use the following code to find the <span class="math inline">\(p\)</span> value, that is, the proportion of differences that would be at least as extreme as the one we observed, if the null hypothesis were true. What is the <span class="math inline">\(p\)</span> value you got?</li>
 </ol>
-<div class="sourceCode" id="cb238"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb222"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">null_dist_normal</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://infer.tidymodels.org/reference/get_p_value.html">get_p_value</a></span><span class="op">(</span>obs_stat <span class="op">=</span> <span class="va">obs_z</span>, direction <span class="op">=</span> <span class="st">"two-sided"</span><span class="op">)</span></code></pre></div>
 <ol start="4" style="list-style-type: lower-alpha">
@@ -351,7 +351,7 @@ Z &amp; = \frac{(\hat{p}_1 - \hat{p}_2) - 0}{SE}
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#lab8"><span class="header-section-number">8</span> Inference for proportions</a></li>
-<li><a class="nav-link" href="#required-packages-3"><span class="header-section-number">8.1</span> Required packages</a></li>
+<li><a class="nav-link" href="#required-packages-2"><span class="header-section-number">8.1</span> Required packages</a></li>
 <li><a class="nav-link" href="#get-to-know-the-data"><span class="header-section-number">8.2</span> Get to know the data</a></li>
 <li><a class="nav-link" href="#what-are-the-point-estimates"><span class="header-section-number">8.3</span> What are the point estimates?</a></li>
 <li>
@@ -385,7 +385,7 @@ Z &amp; = \frac{(\hat{p}_1 - \hat{p}_2) - 0}{SE}
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-08-19.</p>
+    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-09-27.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

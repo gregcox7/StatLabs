@@ -118,14 +118,14 @@ kobe %>%
 ## # A tibble: 8 × 7
 ##   vs     game quarter time   description                           shot  prev_…¹
 ##   <chr> <dbl> <chr>   <time> <chr>                                 <chr> <chr>  
-## 1 ORL       1 2       05:58  Kobe Bryant makes 20-foot jumper      H     H      
-## 2 ORL       1 2       05:22  Kobe Bryant makes 14-foot jumper      H     H      
-## 3 ORL       1 2       04:37  Kobe Bryant misses driving layup      M     H      
-## 4 ORL       1 2       03:30  Kobe Bryant makes 9-foot two point s… H     M      
-## 5 ORL       1 2       02:55  Kobe Bryant makes 14-foot running ju… H     H      
-## 6 ORL       1 2       01:55  Kobe Bryant misses 19-foot jumper     M     H      
-## 7 ORL       1 2       00:38  Kobe Bryant misses 27-foot three poi… M     M      
-## 8 ORL       1 2       00:04  Kobe Bryant makes driving layup       H     M      
+## 1 ORL       1 2       05:58  Kobe Bryant makes 20-foot jumper      H     prev_H 
+## 2 ORL       1 2       05:22  Kobe Bryant makes 14-foot jumper      H     prev_H 
+## 3 ORL       1 2       04:37  Kobe Bryant misses driving layup      M     prev_H 
+## 4 ORL       1 2       03:30  Kobe Bryant makes 9-foot two point s… H     prev_M 
+## 5 ORL       1 2       02:55  Kobe Bryant makes 14-foot running ju… H     prev_H 
+## 6 ORL       1 2       01:55  Kobe Bryant misses 19-foot jumper     M     prev_H 
+## 7 ORL       1 2       00:38  Kobe Bryant misses 27-foot three poi… M     prev_M 
+## 8 ORL       1 2       00:04  Kobe Bryant makes driving layup       H     prev_M 
 ## # … with abbreviated variable name ¹​prev_shot
 ```
 
