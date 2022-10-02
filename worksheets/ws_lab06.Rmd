@@ -1,0 +1,116 @@
+---
+title: "Worksheet for Lab 6"
+author: "NAME"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+## Introduction
+
+With this worksheet, you can work on and run the chunks of code you need for different exercises.  Chunks of code appear between the three backquote marks and have a different color, like this:
+
+```{r chunk_name}
+2 + 3
+```
+
+## Preliminaries
+
+Run this chunk first!  This chunk of code loads the packages and datasets you need for this activity.
+
+```{r setup}
+library(tidyverse)
+library(infer)
+
+kobe <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/kobe.csv")
+asc_choice <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/asc_choice_job.csv")
+```
+
+Within the braces at the beginning of each chunk, the letter `r` says that the code is written in the "R" language and the text after the little `r` is a helpful label for the chunk.
+
+To run a chunk of code, press the green arrow button in the upper right of the chunk.  The result of running the chunk will appear immediately below it.  You can run a chunk more than once.  If you need to change anything or get an error, you can always edit your chunk and try again.
+
+## Exercise 5.5
+
+Find the difference in proportions of consistent choices between the autism spectrum group (ASC) and neuro-typical control group (NT).  For guidance, check out how we did it in the Kobe example above.  Be sure to note:
+
+* What is the name of the relevant dataset?
+* What are the names of the explanatory and response variables?
+* A "Consistent" choice counts as a "success".
+* For the difference in proportions, we want to look at ASC minus NT.
+
+```{r asc_summary}
+___ %>%
+    specify(___ ~ ___, success = "___") %>%
+    calculate(stat = "___", order = c("___", "___"))
+```
+
+Is the difference you found more consistent with the null hypothesis or with the alternative hypothesis?  Explain your reasoning.
+
+## Exercise 5.6
+
+Fill in the blanks in the code below to simulate 1000 datasets assuming the null hypothesis were true, then produce a histogram (using the `visualize` function) of the resulting simulated differences in proportions.  You'll re-use a lot from the last exercise!
+
+* What is the name of the relevant dataset?
+* What are the names of the explanatory and response variables?
+* A "Consistent" choice counts as a "success".
+* We want to do *1000* simulations.
+* For the difference in proportions, we want to look at ASC minus NT.
+
+```{r asc_null}
+asc_null_distribution <- ___ %>%
+    specify(___ ~ ___, success = "___") %>%
+    hypothesize(null = "___") %>%
+    generate(reps = ___, type = "permute") %>%
+    calculate(stat = "___", order = c("___", "___"))
+
+asc_null_distribution %>%
+    visualize()
+```
+
+Once your code is working correctly, try running it a few times.
+
+a. Explain in your own words why the histogram you get does not look the same each time you run the code.
+b. Based just on looking at the histogram (no need to do any calculations), describe what aspects of the distribution seem to stay the same and which seem to differ each time you run your code.  Note things like the shape of the distribution (number of modes and skewness), central tendency, and variability.
+
+## Exercise 5.7
+
+Fill in the blanks below to find the observed difference in proportions in the actual data and tell R to remember it under the label `asc_obs_diff`.  This value is then used to calculate the $p$ value.  *Hint 1:* for the `direction`, remember that this should correspond to the alternative hypothesis ("less", "greater", or "two-sided").  *Hint 2:* be sure to reuse code from previous exercises!
+
+```{r asc_obs_calc}
+asc_null_distribution <- ___ %>%
+    specify(___ ~ ___, success = "___") %>%
+    hypothesize(null = "___") %>%
+    generate(reps = ___, type = "permute") %>%
+    calculate(stat = "___", order = c("___", "___"))
+
+asc_obs_diff <- ___ %>%
+    specify(___ ~ ___, success = "___") %>%
+    calculate(stat = "___", order = c("___", "___"))
+
+asc_null_distribution %>%
+    get_p_value(obs_stat = asc_obs_diff, direction = "___")
+```
+
+What was the $p$ value you got?
+
+## Exercise 5.8
+
+Fill in the blanks in the code below to visualize where the observed difference in proportions falls on the distribution of differences that would be expected if the null hypothesis were true (*hint:* look back at previous exercises, you'll be able to re-use a lot!)
+
+```{r asc_null_vis}
+asc_null_distribution <- ___ %>%
+    specify(___ ~ ___, success = "___") %>%
+    hypothesize(null = "___") %>%
+    generate(reps = ___, type = "permute") %>%
+    calculate(stat = "___", order = c("___", "___"))
+
+asc_obs_diff <- ___ %>%
+    specify(___ ~ ___, success = "___") %>%
+    calculate(stat = "___", order = c("___", "___"))
+
+asc_null_distribution %>%
+    visualize() +
+    shade_p_value(obs_stat = asc_obs_diff, direction = "___")
+```
+
+Based on your analysis, would you reject the null hypothesis?  Explain your reasoning, being sure to state a reasonable *significance level*.  What does your conclusion say about whether participants with a diagnosis of autism made more consistent choices than neuro-typical participants?
