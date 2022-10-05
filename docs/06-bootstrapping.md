@@ -6,7 +6,9 @@
 
 In this session, we will get practice using R to find confidence intervals via bootstrapping.  As with our initial exposure to hypothesis testing in the previous session, this is meant as a "first contact" with the basics of the techniques.  In the first part, we will revisit the Kobe data to get a view of how resampling works, since this is the heart of the bootstrapping technique.  In the second part, we will use bootstrapping to create confidence intervals representing people's tendencies when making moral decisions.
 
-To help with the later exercises, be sure to **download the worksheet for this session** by right-clicking on the following link and selecting "Save link as...": [Worksheet for Lab 6](https://raw.githubusercontent.com/gregcox7/StatLabs/main/worksheets/ws_lab06.Rmd).  Open the saved file in RStudio.
+It is important to keep in mind that both hypothesis testing and confidence intervals involve *imagining how things could have turned out differently*.  Hypothesis testing is about imagining the ways a comparison between two groups could have turned out differently *if the null hypothesis (of no group difference) were true*.  Confidence intervals are about imagining the other ways a sample could look *if our current sample is representative of that population*.  As with hypothesis testing, we use simulation to help us imagine these different possible outcomes.  The ultimate purpose in constructing a confidence interval by simulation is to express what values of a population parameter are "plausible" in light of the sample we got.
+
+To help with the later exercises in this session, be sure to **download the worksheet for this session** by right-clicking on the following link and selecting "Save link as...": [Worksheet for Lab 6](https://raw.githubusercontent.com/gregcox7/StatLabs/main/worksheets/ws_lab06.Rmd).  Open the saved file (which by default is called "ws_lab06.Rmd") in RStudio.
 
 ## What is Kobe's field goal percentage?
 
