@@ -22,95 +22,93 @@ library(tidyverse)
 library(infer)
 
 kobe <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/kobe.csv")
-asc_choice <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/asc_choice_job.csv")
+milgram <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/milgram.csv")
+milgram_replication <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/milgram_replication.csv")
 ```
 
 Within the braces at the beginning of each chunk, the letter `r` says that the code is written in the "R" language and the text after the little `r` is a helpful label for the chunk.
 
 To run a chunk of code, press the green arrow button in the upper right of the chunk.  The result of running the chunk will appear immediately below it.  You can run a chunk more than once.  If you need to change anything or get an error, you can always edit your chunk and try again.
 
-## Exercise 5.5
+## Exercise 6.4
 
-Find the difference in proportions of consistent choices between the autism spectrum group (ASC) and neuro-typical control group (NT).  For guidance, check out how we did it in the Kobe example above.  Be sure to note:
+Use the chunk of code below to generate 1000 simulated datasets based on Milgram's study and visualize the 95% confidence interval.
 
-* What is the name of the relevant dataset?
-* What are the names of the explanatory and response variables?
-* A "Consistent" choice counts as a "success".
-* For the difference in proportions, we want to look at ASC minus NT.
+```{r milgram_original_conf}
+milgram_boot_dist <- ___ %>%
+    specify(response = ___, success = "___") %>%
+    generate(reps = ___, type = "___") %>%
+    calculate(stat = "___")
 
-```{r asc_summary}
-___ %>%
-    specify(___ ~ ___, success = "___") %>%
-    calculate(stat = "___", order = c("___", "___"))
-```
+milgram_ci <- milgram_boot_dist %>%
+    get_confidence_interval(level = ___)
 
-Is the difference you found more consistent with the null hypothesis or with the alternative hypothesis?  Explain your reasoning.
-
-## Exercise 5.6
-
-Fill in the blanks in the code below to simulate 1000 datasets assuming the null hypothesis were true, then produce a histogram (using the `visualize` function) of the resulting simulated differences in proportions.  You'll re-use a lot from the last exercise!
-
-* What is the name of the relevant dataset?
-* What are the names of the explanatory and response variables?
-* A "Consistent" choice counts as a "success".
-* We want to do *1000* simulations.
-* For the difference in proportions, we want to look at ASC minus NT.
-
-```{r asc_null}
-asc_null_distribution <- ___ %>%
-    specify(___ ~ ___, success = "___") %>%
-    hypothesize(null = "___") %>%
-    generate(reps = ___, type = "permute") %>%
-    calculate(stat = "___", order = c("___", "___"))
-
-asc_null_distribution %>%
-    visualize()
-```
-
-Once your code is working correctly, try running it a few times.
-
-a. Explain in your own words why the histogram you get does not look the same each time you run the code.
-b. Based just on looking at the histogram (no need to do any calculations), describe what aspects of the distribution seem to stay the same and which seem to differ each time you run your code.  Note things like the shape of the distribution (number of modes and skewness), central tendency, and variability.
-
-## Exercise 5.7
-
-Fill in the blanks below to find the observed difference in proportions in the actual data and tell R to remember it under the label `asc_obs_diff`.  This value is then used to calculate the $p$ value.  *Hint 1:* for the `direction`, remember that this should correspond to the alternative hypothesis ("less", "greater", or "two-sided").  *Hint 2:* be sure to reuse code from previous exercises!
-
-```{r asc_obs_calc}
-asc_null_distribution <- ___ %>%
-    specify(___ ~ ___, success = "___") %>%
-    hypothesize(null = "___") %>%
-    generate(reps = ___, type = "permute") %>%
-    calculate(stat = "___", order = c("___", "___"))
-
-asc_obs_diff <- ___ %>%
-    specify(___ ~ ___, success = "___") %>%
-    calculate(stat = "___", order = c("___", "___"))
-
-asc_null_distribution %>%
-    get_p_value(obs_stat = asc_obs_diff, direction = "___")
-```
-
-What was the $p$ value you got?
-
-## Exercise 5.8
-
-Fill in the blanks in the code below to visualize where the observed difference in proportions falls on the distribution of differences that would be expected if the null hypothesis were true (*hint:* look back at previous exercises, you'll be able to re-use a lot!)
-
-```{r asc_null_vis}
-asc_null_distribution <- ___ %>%
-    specify(___ ~ ___, success = "___") %>%
-    hypothesize(null = "___") %>%
-    generate(reps = ___, type = "permute") %>%
-    calculate(stat = "___", order = c("___", "___"))
-
-asc_obs_diff <- ___ %>%
-    specify(___ ~ ___, success = "___") %>%
-    calculate(stat = "___", order = c("___", "___"))
-
-asc_null_distribution %>%
+milgram_boot_dist %>%
     visualize() +
-    shade_p_value(obs_stat = asc_obs_diff, direction = "___")
+    shade_confidence_interval(endpoints = milgram_ci)
 ```
 
-Based on your analysis, would you reject the null hypothesis?  Explain your reasoning, being sure to state a reasonable *significance level*.  What does your conclusion say about whether participants with a diagnosis of autism made more consistent choices than neuro-typical participants?
+Based on the confidence interval you found (you can see the exact numbers if you click on `milgram_ci` in R's **Environment** window after running your code), what can you say about the proportion of people in general who would be willing to risk someone's life out of obedience?
+
+## Exercise 6.5
+
+Fill in the blanks in the following chunk to calculate the proportion of participants in Burger's replication who continue to obey the experimenter.
+
+```{r milgram_replication_stat}
+milgram_replication %>%
+    specify(response = ___, success = "___") %>%
+    calculate(stat = "___")
+```
+
+a. Does this proportion fall inside or outside the 95% confidence interval you found for Milgram's original experiment (in the previous exercise)?
+b. What does your answer to part [a] suggest about whether attitudes toward obedience have changed between 1963 and 2009?  Explain your reasoning.
+
+## Exercise 6.6
+
+Fill in the blanks in the chunk of code to repeat the analysis you performed on Milgram's original data (called `milgram`) with the more recent replication (called `milgram_replication`).  *Hint:* As usual, you will be able to re-use a lot of code!
+
+```{r milgram_replication_conf}
+milgram_replication_boot_dist <- ___ %>%
+    specify(response = ___, success = "___") %>%
+    generate(reps = ___, type = "___") %>%
+    calculate(stat = "___")
+
+milgram_replication_ci <- milgram_replication_boot_dist %>%
+    get_confidence_interval(level = ___)
+
+milgram_replication_boot_dist %>%
+    visualize() +
+    shade_confidence_interval(endpoints = milgram_replication_ci)
+```
+
+a. What is the 95% confidence interval you found?  (You can see the raw numbers by clicking on `milgram_replication_ci` after running your code.)
+b. This is how Milgram described his sample: *"The subjects were 40 males between the ages of 20 and 50, drawn from New Haven [Connecticut] and the surrounding communities...subjects were postal clerks, high school teachers, salesmen, engineers, and laborers. Subjects ranged in educational level from one who had not finished elementary school, to those who had doctorate and other professional degrees."*  Burger's sample also includes a range of educational experiences, but is comprised of 18 men and 22 women who range in age between 20 and 81 years old.  Do you think the 95% CI from Milgram's original study or the one from Burger's replication gives a better description of where the true population proportion probably is?  Explain your reasoning.
+
+## Exercise 6.7
+
+Fill in the blanks in the code below to use random permutation to test the *null hypothesis* that men and women *do not differ* in the proportion who obey.
+
+* For the `specify` lines:  The **response variable** is still `obeyed`, but now we have an **explanatory variable** which is labeled `gender`.
+* For the blanks in the `hypothesize`, `generate`, and `calculate` lines: look up how we set those in the previous activity.
+* For the `direction` lines:  There are three possible settings: `direction = "less"`, `direction = "greater"`, or `direction = "two-sided"`.  Set it to the `direction` in which results would be considered "extreme" if the null hypothesis were true.
+
+```{r milgram_gender_test}
+milgram_replication_null_dist <- milgram_replication %>%
+    specify(___ ~ ___, success = "Yes") %>%
+    hypothesize(null = "___") %>%
+    generate(reps = 1000, type = "___") %>%
+    calculate(stat = "___", order = c("Male", "Female"))
+
+milgram_replication_obs_diff <- milgram_replication %>%
+    specify(___ ~ ___, success = "Yes") %>%
+    calculate(stat = "___", order = c("Male", "Female"))
+
+milgram_replication_p_value <- milgram_replication_null_dist %>%
+    get_p_value(obs_stat = milgram_replication_obs_diff, direction = "___")
+
+milgram_replication_null_dist %>%
+    visualize() +
+    shade_p_value(obs_stat = milgram_replication_obs_diff, direction = "___")
+```
+
+Would you reject the null hypothesis?  (You can check out the $p$ value by clicking on `milgram_replication_p_value` in R's **Environment** window after running your code.)  What does the result of this hypothesis test say about whether men and women differ in their tendency to obey commands that potentially endanger someone's life?
