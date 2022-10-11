@@ -1,0 +1,156 @@
+---
+title: "Worksheet for Lab 6"
+author: "NAME"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+## Introduction
+
+With this worksheet, you can work on and run the chunks of code you need for different exercises.  Chunks of code appear between the three backquote marks and have a different color, like this:
+
+```{r chunk_name}
+2 + 3
+```
+
+## Preliminaries
+
+Run this chunk first!  This chunk of code loads the packages and datasets you need for this activity.
+
+```{r setup}
+library(tidyverse)
+library(infer)
+
+nhanes <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/nhanes.csv")
+```
+
+Within the braces at the beginning of each chunk, the letter `r` says that the code is written in the "R" language and the text after the little `r` is a helpful label for the chunk.
+
+To run a chunk of code, press the green arrow button in the upper right of the chunk.  The result of running the chunk will appear immediately below it.  You can run a chunk more than once.  If you need to change anything or get an error, you can always edit your chunk and try again.
+
+## Exercise 7.1
+
+Play around with different values of "mean" and "sd" in the chunk of code below.  Try to find values that result in a normal distribution that is a good "fit" to the data.  You can start by setting `mean = 8` and `sd = 1` and then adjust from there.
+
+```{r sleep_norm_fit}
+nhanes %>%
+    ggplot(aes(x = SleepHrsNight)) +
+    geom_histogram(aes(y = ..density..), binwidth = 1) +
+    stat_function(fun = dnorm, args = list(mean = ___, sd = ___), color = 'darkred')
+```
+
+a. Describe the strategy you used to find values for `mean` and `sd` that seemed to make a good fit.
+b. What values did you find?
+c. Try setting `mean = 6.86` and `sd = 1.32` and run the chunk.  These are close to the actual mean and standard deviation of the data in our sample.  Compared to the settings for `mean` and `sd` that you found, do you think these make a better or worse "fit"?
+
+## Exercise 7.2
+
+Use the chunk of code to help you make a histogram of the distribution of bad mental health days per month (remember that these are recorded in the `nhanes` dataset under the variable named `DaysMentHlthBad`; you can also try different bin widths as you like).
+
+```{r bad_days_hist}
+___ %>%
+    ggplot(aes(x = ___)) +
+    geom_histogram(binwidth = 1)
+```
+
+a. Do you think the normal distribution would be able to fit these data?  Why or why not?
+b. Make a reasonable guess about why the population distribution might have the shape that it has, taking note of the fact that respondents had to give a number of days out of 30.
+
+## Exercise 7.4
+
+Fill in the blanks in the chunk of code below to draw your own sample of size 5 from the NHANES population and get the proportion of people in your sample who have used marijuana.  *Hint:* see above for how we calculated this proportion from the whole NHANES population, but remember that now we are calculating it from our new `sample_size5`.
+
+```{r single_samp_prop}
+sample_size5 <- nhanes %>%
+    slice_sample(n = 5)
+
+___ %>%
+    specify(response = ___, success = "___") %>%
+    calculate(stat = "___")
+```
+
+a. What is the proportion of people who tried marijuana in your sample?
+b. Try running your chunk of code a few times.  Explain in your own words why the calculated proportion is not always the same.
+
+## Exercise 7.5
+
+First, run this chunk of code so that you'll have your own sampling distribution to work with (this is just what we ran prior to this exercise):
+
+```{r many_samp_size5}
+samples_size5 <- nhanes %>%
+    rep_slice_sample(n = 5, reps = 1000)
+
+sample_props_mari_size5 <- samples_size5 %>%
+    group_by(replicate) %>%
+    summarize(stat = mean(Marijuana == "Yes"))
+```
+
+You should see `sample_props_mari_size5` in your R environment.  This contains 1000 proportions from 1000 samples of size 5 from the NHANES population.
+
+Now, just like we did above for hours of sleep, play around with different `mean` and `sd` settings in the final line of the following chunk until you find a normal distribution that seems to be a good "fit" to the distribution of sample proportions.
+
+```{r samp_dist_norm_fit_small}
+sample_props_mari_size5 %>%
+    ggplot(aes(x = stat)) +
+    geom_histogram(aes(y = ..density..), binwidth = 0.2) +
+    stat_function(fun = dnorm, args = list(mean = ___, sd = ___), color = 'darkred')
+```
+
+a. What values for `mean` and `sd` seemed to be best to you?
+b. Does it seem like the normal distribution is a good "fit" to this sampling distribution?  (*Hint:* what happens to the tails of the normal distribution when you try to fit it to this sampling distribution?)
+
+## Exercise 7.6
+
+Now, run the following chunk of code to generate 1000 samples of size 50, instead of size 5:
+
+```{r many_samps_size50}
+samples_size50 <- nhanes %>%
+    rep_sample_n(size = 50, reps = 1000)
+
+sample_props_mari_size50 <- samples_size50 %>%
+    group_by(replicate) %>%
+    summarize(stat = mean(Marijuana == "Yes"))
+```
+
+You should now see `sample_props_mari_size50` in your R environment.
+
+```{r large_samp_norm_fit}
+sample_props_mari_size50 %>%
+    ggplot(aes(x = stat)) +
+    geom_histogram(aes(y = ..density..), binwidth = 0.02) +
+    stat_function(fun = dnorm, args = list(mean = ___, sd = ___), color = 'darkred')
+```
+
+a. What is the standard error according to the central limit theorem (remember than the population proportion is $\pi = 0.585$ and our samples are of size $n = 50$)?
+b. In the chunk of code above, set the `mean` to the population proportion (0.585) and the `sd` to the standard error you found in part [a].  Compare the fit of the normal distribution in this exercise to the one from the previous exercise---does the normal distribution make a better "fit" when we use bigger samples?
+c. Did the standard error get bigger, smaller, or stay about the same when we used bigger samples?
+d. Did the mean of the sampling distribution get bigger, smaller, or stay about the same when we used bigger samples?
+
+## Exercise 7.7
+
+Run the following chunk of code to draw a single random sample of 50 people from the NHANES dataset, then calculate the sample proportion and save the result under the name `p_hat`.
+
+```{r single_samp}
+my_sample <- nhanes %>%
+    slice_sample(n = 50)
+
+p_hat <- my_sample %>%
+    specify(response = Marijuana, success = "Yes") %>%
+    calculate(stat = "prop") %>%
+    pull()
+```
+
+Fill in the blanks in the following chunk to help you calculate the standard error based on the `p_hat` from your sample.  *Hint:* This is about translating the formula in step 3 above into R code; two of the blanks should be filled with the *name* of a value you just saved.
+
+```{r find_se}
+standard_error <- sqrt((___ * (1 - ___)) / ___)
+```
+
+Now use the following chunk to help you find the 95% confidence interval (again, this is about translating the formula in step 4 above into R, and you'll be able to use the *names* of values you've already saved).
+
+```{r find_ci}
+c(___ - 1.96 * ___, ___ + 1.96 * ___)
+```
+
+a. What is the 95% confidence interval based on your sample?
+b. Does your interval contain the true population parameter (0.585)?  Are you surprised or not about the outcome?
