@@ -59,385 +59,2140 @@
 <div class="inline-figure"><img src="img/tree_road.jpg" width="100%"></div>
 <p>The venerable <strong>normal distribution</strong> or “bell curve” is almost like a mascot for statistics. Although there are variables in real life that are distributed according to a normal distribution, its real value is in describing sampling distributions. We have seen sampling distributions in both hypothesis testing and confidence intervals: Sampling distributions represent the variability in a point estimate like a proportion or mean that is due to the randomness involved in selecting samples from a population. According to the <strong>central limit theorem</strong>, much of the time, sampling distributions will be approximately normal in shape.</p>
 <p>In this session, we will first use the normal distribution as a model for population distributions, that is the distribution of values on a particular variable across a whole population. Along the way, we will get the hang of using R to find proportions and intervals based on the normal distribution. Then, in the second part, we will use the normal distribution as a model for sampling distributions. This will give us some insight into how <strong>standard error</strong> relates to things like sample size.</p>
-<div id="required-packages-tidyverse-and-infer" class="section level2" number="7.1">
+<p>To help with the later exercises in this session, be sure to <strong>download the worksheet for this session</strong> by right-clicking on the following link and selecting “Save link as…”: <a href="https://raw.githubusercontent.com/gregcox7/StatLabs/main/worksheets/ws_lab07.Rmd">Worksheet for Lab 7</a>. Open the saved file (which by default is called “ws_lab07.Rmd”) in RStudio.</p>
+<div id="the-data-national-health-and-nutrition-examination-surveys-nhanes" class="section level2" number="7.1">
 <h2>
-<span class="header-section-number">7.1</span> Required packages: <code>tidyverse</code> and <code>infer</code><a class="anchor" aria-label="anchor" href="#required-packages-tidyverse-and-infer"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.1</span> The data: National Health and Nutrition Examination Surveys (NHANES)<a class="anchor" aria-label="anchor" href="#the-data-national-health-and-nutrition-examination-surveys-nhanes"><i class="fas fa-link"></i></a>
 </h2>
-<p>We will require both the <code>tidyverse</code> and <code>infer</code> packages for this session, so make sure to load both from R’s library:</p>
-<div class="sourceCode" id="cb149"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-info"><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
-<pre class="Rout text-info"><code>## ✔ ggplot2 3.3.6     ✔ purrr   0.3.4
-## ✔ tibble  3.1.8     ✔ dplyr   1.0.9
-## ✔ tidyr   1.1.3     ✔ stringr 1.4.0
-## ✔ readr   2.1.2     ✔ forcats 0.5.1</code></pre>
-<pre class="Rout text-info"><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()</code></pre>
-<div class="sourceCode" id="cb153"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/infer">infer</a></span><span class="op">)</span></code></pre></div>
+<p>The data we will be using in this lab—labeled <code>nhanes</code> in your R environment—were originally collected by the US National Center for Heath Statistics between 2009 and 2012. This is a subset of what is effectively a simple random sample from the entire US population, though we will only use some of the observations out of the many they collected.</p>
 </div>
-<div id="the-data-national-health-and-nutrition-examination-surveys-nhanes" class="section level2" number="7.2">
+<div id="the-normal-distribution-as-a-model-for-a-population-distribution" class="section level2" number="7.2">
 <h2>
-<span class="header-section-number">7.2</span> The data: National Health and Nutrition Examination Surveys (NHANES)<a class="anchor" aria-label="anchor" href="#the-data-national-health-and-nutrition-examination-surveys-nhanes"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.2</span> The normal distribution as a model for a population distribution<a class="anchor" aria-label="anchor" href="#the-normal-distribution-as-a-model-for-a-population-distribution"><i class="fas fa-link"></i></a>
 </h2>
-<p>The data we will be using in this lab were originally collected by the US National Center for Heath Statistics between 2009 and 2012. This is a subset of what is effectively a simple random sample from the entire US population, though we will only use some of the observations out of the many they collected. Load the data with the following line:</p>
-<div class="sourceCode" id="cb154"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">nhanes</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/nhanes.csv"</span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-info"><code>## Rows: 4924 Columns: 76
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: ","
-## chr (31): SurveyYr, Gender, AgeDecade, Race1, Race3, Education, MaritalStatu...
-## dbl (41): ID, Age, AgeMonths, HHIncomeMid, Poverty, HomeRooms, Weight, Heigh...
-## lgl  (4): Length, HeadCirc, TVHrsDayChild, CompHrsDayChild
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div id="the-normal-distribution-as-a-model-for-a-population-distribution" class="section level2" number="7.3">
-<h2>
-<span class="header-section-number">7.3</span> The normal distribution as a model for a population distribution<a class="anchor" aria-label="anchor" href="#the-normal-distribution-as-a-model-for-a-population-distribution"><i class="fas fa-link"></i></a>
-</h2>
-<div id="hours-of-sleep-sleephrsnight" class="section level3" number="7.3.1">
+<p>The variable we will focus on first is the number of hours people report sleeping each night, measured in hours. This is recorded for each individual in the sample under the variable <code>SleepHrsNight</code>.</p>
+<div id="visualize-the-distribution" class="section level3" number="7.2.1">
 <h3>
-<span class="header-section-number">7.3.1</span> Hours of Sleep (<code>SleepHrsNight</code>)<a class="anchor" aria-label="anchor" href="#hours-of-sleep-sleephrsnight"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.2.1</span> Visualize the distribution<a class="anchor" aria-label="anchor" href="#visualize-the-distribution"><i class="fas fa-link"></i></a>
 </h3>
-<p>The variable we will focus on in this section is the number of hours people report sleeping each night, measured in hours. This is recorded for each individual in the sample under the variable <code>SleepHrsNight</code>.</p>
-<div id="visualize-the-distribution" class="section level4" number="7.3.1.1">
-<h4>
-<span class="header-section-number">7.3.1.1</span> Visualize the distribution<a class="anchor" aria-label="anchor" href="#visualize-the-distribution"><i class="fas fa-link"></i></a>
-</h4>
 <p>As usual, we begin by visualizing the actual data. As a reminder, we will assume for the time being that these data constitute the entire population of interest. The histogram below shows the population distribution of nightly hours of sleep:</p>
-<div class="sourceCode" id="cb156"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb149"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nhanes</span> <span class="op">%&gt;%</span>
     <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">SleepHrsNight</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">geom_histogram</span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="07-normal_distribution_files/figure-html/unnamed-chunk-4-1.png" width="672"></div>
+<div class="inline-figure"><img src="07-normal_distribution_files/figure-html/unnamed-chunk-2-1.png" width="672"></div>
 </div>
-<div id="is-the-normal-distribution-a-good-model" class="section level4" number="7.3.1.2">
-<h4>
-<span class="header-section-number">7.3.1.2</span> Is the normal distribution a good model?<a class="anchor" aria-label="anchor" href="#is-the-normal-distribution-a-good-model"><i class="fas fa-link"></i></a>
-</h4>
+<div id="is-the-normal-distribution-a-good-model" class="section level3" number="7.2.2">
+<h3>
+<span class="header-section-number">7.2.2</span> Is the normal distribution a good model?<a class="anchor" aria-label="anchor" href="#is-the-normal-distribution-a-good-model"><i class="fas fa-link"></i></a>
+</h3>
 <p>Next, we want to know whether the normal distribution will be a good model of the population distribution we just visualized. To do this, we will draw a curve representing the normal distribution on top of the histogram we just made.</p>
 <p>But remember that the normal distribution is just a shape. Its center and spread are determined by two population parameters: the <strong>mean</strong> (<span class="math inline">\(\mu\)</span>) and <strong>standard deviation</strong> (<span class="math inline">\(\sigma\)</span>). What should those parameters be?</p>
 <p>Let’s first take a wild guess and say they should be <span class="math inline">\(\mu = 8\)</span> and <span class="math inline">\(\sigma = 1\)</span>. We can draw this distribution using the chunk of code below:</p>
-<div class="sourceCode" id="cb157"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb150"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nhanes</span> <span class="op">%&gt;%</span>
     <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">SleepHrsNight</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">geom_histogram</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">..density..</span><span class="op">)</span>, binwidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">stat_function</span><span class="op">(</span>fun <span class="op">=</span> <span class="va">dnorm</span>, args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="fl">8</span>, sd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">'darkred'</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="07-normal_distribution_files/figure-html/unnamed-chunk-5-1.png" width="672"></div>
+<div class="inline-figure"><img src="07-normal_distribution_files/figure-html/unnamed-chunk-3-1.png" width="672"></div>
 <p>Notice that we needed to add <code>aes(y = ..density..)</code> to our histogram line, for reasons which will be clear in the next paragraph. The final line lets us draw a <code>function</code> on our graph. The <code>fun</code>ction is called <code>dnorm</code> for “<code>d</code>ensity of a <code>norm</code>al distribution”. We had to say what the <code>arg</code>ument<code>s</code> of that function should be, which are a <code>list</code> in which we say what the <code>mean</code> and <code>sd</code> of the normal distribution should be.</p>
 <p>The whole “density” thing comes from this: A histogram shows <em>absolute</em> counts. But a normal distribution only specifies the <em>relative</em> frequency of different values. The relative frequency is called the “density”. This is what the <code>dnorm</code> function gives us for the normal distribution. So adding <code>aes(y = ..density..)</code> to the histogram line told R to show the density (relative frequency) rather than the absolute counts.</p>
-<p>Anyway, it is clear that a mean of 8 hours and standard deviation of 1 hour do not make a good fit. What we should use instead are the actual mean and SD from our data:</p>
-<div class="sourceCode" id="cb158"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">nhanes</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">SleepHrsNight</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">SleepHrsNight</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-muted"><code>## # A tibble: 1 × 2
-##   `mean(SleepHrsNight)` `sd(SleepHrsNight)`
-##                   &lt;dbl&gt;               &lt;dbl&gt;
-## 1                  6.86                1.32</code></pre>
-<p>Let’s give those numbers a label so we can use them later:</p>
-<div class="sourceCode" id="cb160"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">mean_sleep</span> <span class="op">&lt;-</span> <span class="va">nhanes</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">SleepHrsNight</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">pull</span><span class="op">(</span><span class="op">)</span>
-
-<span class="va">sd_sleep</span> <span class="op">&lt;-</span> <span class="va">nhanes</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">SleepHrsNight</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">pull</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p>Anyway, it is clear that a mean of 8 hours and standard deviation of 1 hour do not make a good fit.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-43" class="exercise"><strong>Exercise 7.1  </strong></span>Fill in the blanks in the code below to visualize the fit of the normal distribution using the values for the mean and SD we just found.</p>
-<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="lab7.html#cb161-1" aria-hidden="true" tabindex="-1"></a>nhanes <span class="sc">%&gt;%</span></span>
-<span id="cb161-2"><a href="lab7.html#cb161-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> SleepHrsNight)) <span class="sc">+</span></span>
-<span id="cb161-3"><a href="lab7.html#cb161-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> ..density..), <span class="at">binwidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb161-4"><a href="lab7.html#cb161-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm, <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> ___, <span class="at">sd =</span> ___), <span class="at">color =</span> <span class="st">'darkred'</span>)</span></code></pre></div>
-<p>Does the normal distribution do a good job approximating the shape of the population distribution?</p>
-</div>
-</div>
-<div id="proportions-from-a-normal-distribution" class="section level4" number="7.3.1.3">
-<h4>
-<span class="header-section-number">7.3.1.3</span> Proportions from a normal distribution<a class="anchor" aria-label="anchor" href="#proportions-from-a-normal-distribution"><i class="fas fa-link"></i></a>
-</h4>
-<p>Using a normal distribution, it is possible to estimate what proportion of values will be above or below some number. For example, the following uses the normal distribution to estimate the proportion of people who say they get less than eight hours of sleep per night:</p>
-<div class="sourceCode" id="cb162"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span>q <span class="op">=</span> <span class="fl">8</span>, mean <span class="op">=</span> <span class="va">mean_sleep</span>, sd <span class="op">=</span> <span class="va">sd_sleep</span>, lower.tail <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-muted"><code>## [1] 0.8058069</code></pre>
-<p>Conversely, this is the proportion that get <em>more</em> than eight hours of sleep per night:</p>
-<div class="sourceCode" id="cb164"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span>q <span class="op">=</span> <span class="fl">8</span>, mean <span class="op">=</span> <span class="va">mean_sleep</span>, sd <span class="op">=</span> <span class="va">sd_sleep</span>, lower.tail <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-muted"><code>## [1] 0.1941931</code></pre>
-<p>Notice that the difference is whether <code>lower.tail</code> is <code>TRUE</code> or <code>FALSE</code>. If <code>lower.tail = TRUE</code>, we are asking the proportion that is <em>below</em> the value <code>q</code>, but if <code>lower.tail = FALSE</code> we are asking the proportion that is <em>above</em> the value <code>q</code>.</p>
-<div class="exercise">
-<p><span id="exr:unlabeled-div-44" class="exercise"><strong>Exercise 7.2  </strong></span>Use the <code>pnorm</code> function to find the following proportions:</p>
+<p><span id="exr:unlabeled-div-43" class="exercise"><strong>Exercise 7.1  </strong></span>Play around with different values of “mean” and “sd” in the chunk of code below. Try to find values that result in a normal distribution that is a good “fit” to the data. You can start by setting <code>mean = 8</code> and <code>sd = 1</code> and then adjust from there.</p>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="lab7.html#cb151-1" aria-hidden="true" tabindex="-1"></a>nhanes <span class="sc">%&gt;%</span></span>
+<span id="cb151-2"><a href="lab7.html#cb151-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> SleepHrsNight)) <span class="sc">+</span></span>
+<span id="cb151-3"><a href="lab7.html#cb151-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> ..density..), <span class="at">binwidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb151-4"><a href="lab7.html#cb151-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm, <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> ___, <span class="at">sd =</span> ___), <span class="at">color =</span> <span class="st">'darkred'</span>)</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
-<li>The proportion of people who get <em>less than</em> 6 hours of sleep per night.</li>
-<li>The proportion of people who get <em>more than</em> 10 hours of sleep per night.</li>
-<li>The proportion of people who get <em>either</em> less than 6 hours of sleep per night <em>or</em> more than 10 hours of sleep per night (<em>Hint:</em> you can add proportions of things that do not overlap.)</li>
+<li>Describe the strategy you used to find values for <code>mean</code> and <code>sd</code> that seemed to make a good fit.</li>
+<li>What values did you find?</li>
+<li>Try setting <code>mean = 6.86</code> and <code>sd = 1.32</code> and run the chunk. These are close to the actual mean and standard deviation of the data in our sample. Compared to the settings for <code>mean</code> and <code>sd</code> that you found, do you think these make a better or worse “fit”?</li>
 </ol>
 </div>
 </div>
-<div id="quantiles-from-a-normal-distribution" class="section level4" number="7.3.1.4">
-<h4>
-<span class="header-section-number">7.3.1.4</span> Quantiles from a normal distribution<a class="anchor" aria-label="anchor" href="#quantiles-from-a-normal-distribution"><i class="fas fa-link"></i></a>
-</h4>
-<p>As we saw last time, things like confidence intervals are defined in terms of “quantiles”. Finding a quantile is the opposite of finding a proportion. In R, this opposite relationship is clear because we just swap the <code>p</code> and <code>q</code>. The <code>qnorm</code> function find the value <code>q</code> for which the proportion <code>p</code> of values are either below or above <code>q</code>.</p>
-<p>For example, if we want to know the “25th percentile”, this is the quantile <code>q</code> for which <code>p = 0.25</code> are <em>less than</em> that value:</p>
-<div class="sourceCode" id="cb166"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span>p <span class="op">=</span> <span class="fl">0.25</span>, mean <span class="op">=</span> <span class="va">mean_sleep</span>, sd <span class="op">=</span> <span class="va">sd_sleep</span>, lower.tail <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-muted"><code>## [1] 5.964337</code></pre>
-<p>Here’s a neat trick, though: If 0.25 are <em>less than</em> some value, that means 0.75 are <em>more than</em> that value. So if we flip <code>lower.tail</code> to <code>FALSE</code> and <code>p</code> to <code>0.75</code>, we will get the same answer:</p>
-<div class="sourceCode" id="cb168"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span>p <span class="op">=</span> <span class="fl">0.75</span>, mean <span class="op">=</span> <span class="va">mean_sleep</span>, sd <span class="op">=</span> <span class="va">sd_sleep</span>, lower.tail <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-muted"><code>## [1] 5.964337</code></pre>
-<div class="exercise">
-<p><span id="exr:unlabeled-div-45" class="exercise"><strong>Exercise 7.3  </strong></span>Use the <code>qnorm</code> function to find the following quantiles:</p>
-<ol style="list-style-type: lower-alpha">
-<li>What is the quantile for which 0.025 of the data are <em>below</em> that value?</li>
-<li>What is the quantile for which 0.025 of the data are <em>above</em> that value?</li>
-<li>Between which two values does the middle 95% of the data fall? (<em>Hint:</em> how much of the data would fall above and below the middle 95%?)</li>
-</ol>
-</div>
-</div>
-</div>
-<div id="bad-days-daysmenthlthbad" class="section level3" number="7.3.2">
+<div id="bad-days-bad-models" class="section level3" number="7.2.3">
 <h3>
-<span class="header-section-number">7.3.2</span> Bad Days (<code>DaysMentHlthBad</code>)<a class="anchor" aria-label="anchor" href="#bad-days-daysmenthlthbad"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.2.3</span> Bad days, bad models?<a class="anchor" aria-label="anchor" href="#bad-days-bad-models"><i class="fas fa-link"></i></a>
 </h3>
 <p>As part of the same survey, people were asked how many days out of the last 30 would they consider their mental health to have been poor. This is recorded under the variable named <code>DaysMentHlthBad</code>.</p>
-<p>Just like we did for the number of hours slept per night, find the mean and standard deviation of <code>DaysMentHlthBad</code> and see whether the normal distribution seems to provide a good approximation to the population distribution.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-46" class="exercise"><strong>Exercise 7.4  </strong></span>Fill in the blanks in the chunk of code below to find the mean and standard deviation of <code>DaysMentHlthBad</code> and plot the data along with the approximating normal distribution.</p>
-<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="lab7.html#cb170-1" aria-hidden="true" tabindex="-1"></a>mean_mental_health <span class="ot">&lt;-</span> nhanes <span class="sc">%&gt;%</span></span>
-<span id="cb170-2"><a href="lab7.html#cb170-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="fu">mean</span>(___)) <span class="sc">%&gt;%</span></span>
-<span id="cb170-3"><a href="lab7.html#cb170-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>()</span>
-<span id="cb170-4"><a href="lab7.html#cb170-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-5"><a href="lab7.html#cb170-5" aria-hidden="true" tabindex="-1"></a>sd_mental_health <span class="ot">&lt;-</span> nhanes <span class="sc">%&gt;%</span></span>
-<span id="cb170-6"><a href="lab7.html#cb170-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="fu">sd</span>(___)) <span class="sc">%&gt;%</span></span>
-<span id="cb170-7"><a href="lab7.html#cb170-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>()</span>
-<span id="cb170-8"><a href="lab7.html#cb170-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-9"><a href="lab7.html#cb170-9" aria-hidden="true" tabindex="-1"></a>nhanes <span class="sc">%&gt;%</span></span>
-<span id="cb170-10"><a href="lab7.html#cb170-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___)) <span class="sc">+</span></span>
-<span id="cb170-11"><a href="lab7.html#cb170-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> ..density..), <span class="at">binwidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb170-12"><a href="lab7.html#cb170-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm, <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> ___, <span class="at">sd =</span> ___), <span class="at">color =</span> <span class="st">'darkred'</span>)</span></code></pre></div>
+<p><span id="exr:unlabeled-div-44" class="exercise"><strong>Exercise 7.2  </strong></span>Use the chunk of code to help you make a histogram of the distribution of bad mental health days per month (remember that these are recorded in the <code>nhanes</code> dataset under the variable named <code>DaysMentHlthBad</code>; you can also try different bin widths as you like).</p>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="lab7.html#cb152-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
+<span id="cb152-2"><a href="lab7.html#cb152-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___)) <span class="sc">+</span></span>
+<span id="cb152-3"><a href="lab7.html#cb152-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>)</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
-<li>Describe the shape of the distribution of the observed data shown in the histogram.</li>
-<li>Does the normal distribution provide a good fit to these data?</li>
-<li>Make a reasoned guess about why the population distribution might have the shape that it has, taking note of the fact that respondents had to give a number of days out of 30.</li>
+<li>Do you think the normal distribution would be able to fit these data? Why or why not?</li>
+<li>Make a reasonable guess about why the population distribution might have the shape that it has, taking note of the fact that respondents had to give a number of days out of 30.</li>
 </ol>
 </div>
 </div>
 </div>
-<div id="the-normal-distribution-as-a-model-for-a-sampling-distribution" class="section level2" number="7.4">
+<div id="the-normal-distribution-as-a-model-for-a-sampling-distribution" class="section level2" number="7.3">
 <h2>
-<span class="header-section-number">7.4</span> The normal distribution as a model for a sampling distribution<a class="anchor" aria-label="anchor" href="#the-normal-distribution-as-a-model-for-a-sampling-distribution"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.3</span> The normal distribution as a model for a sampling distribution<a class="anchor" aria-label="anchor" href="#the-normal-distribution-as-a-model-for-a-sampling-distribution"><i class="fas fa-link"></i></a>
 </h2>
-<p>In the previous section, we got a sense of how we can use the normal distribution to approximate a distribution of observed values from a population:</p>
-<ol style="list-style-type: decimal">
-<li>Find the mean and standard deviation.</li>
-<li>Check to see how well the normal distribution with that mean and standard deviation fits the histogram of the observed data.</li>
-</ol>
-<p>We will now follow these same two steps, but instead of using the normal distribution to model a population distribution, we will use it to model a <strong>sampling distribution</strong>, that is, the distribution of summary statistics that we would get across many samples from the same population.</p>
+<p>In the previous section, we got a sense of how we can <em>sometimes</em> use the normal distribution to approximate a distribution of observed values from a population. But more often, the normal distribution is used as a model of a <strong>sampling distribution</strong>.</p>
 <p>In this section, we will again assume that the <code>nhanes</code> dataset represents the <em>entire population</em> of interest. We will <em>simulate</em> drawing many different samples of different sizes from this population and calculate a summary statistic on each sample. The <strong>sampling distribution</strong> is the distribution of those summary statistics and we will see how well we can approximate it with a normal distribution.</p>
 <p>We will focus on just one of the questions asked on the NHANES survey. This question asks whether someone has ever tried using marijuana. This information resides in the variable <code>Marijuana</code> and a person’s response is either “Yes” or “No”.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-47" class="exercise"><strong>Exercise 7.5  </strong></span>Without even looking at the data, would it make sense to try to use a normal distribution to approximate the population distribution of the responses to the <code>Marijuana</code> question? Why or why not?</p>
+<p><span id="exr:unlabeled-div-45" class="exercise"><strong>Exercise 7.3  </strong></span>Without even looking at the data, would it make sense to try to use a normal distribution to approximate the <em>population distribution</em> of the responses to the <code>Marijuana</code> question? Why or why not?</p>
 </div>
-<div id="the-true-proportion" class="section level3" number="7.4.1">
+<div id="the-true-proportion" class="section level3" number="7.3.1">
 <h3>
-<span class="header-section-number">7.4.1</span> The “true” proportion<a class="anchor" aria-label="anchor" href="#the-true-proportion"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.3.1</span> The “true” proportion<a class="anchor" aria-label="anchor" href="#the-true-proportion"><i class="fas fa-link"></i></a>
 </h3>
-<p>Because we are assuming that the <code>nhanes</code> data represent an entire population, we can directly find the “true” value of the population parameter <span class="math inline">\(\pi_{\text{Marijuana}}\)</span>, that is, the proportion of people who have ever tried marijuana. We can use the code below:</p>
-<div class="sourceCode" id="cb171"><pre class="downlit sourceCode r">
+<p>Because we are assuming that the <code>nhanes</code> data represent the entire population we are interested in, we can find the “true” value of the population parameter <span class="math inline">\(\pi_{\text{Marijuana}}\)</span>, that is, the proportion of people who have ever tried marijuana. We can use the code below:</p>
+<div class="sourceCode" id="cb153"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nhanes</span> <span class="op">%&gt;%</span>
-    <span class="fu">group_by</span><span class="op">(</span><span class="va">Marijuana</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span>n <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">mutate</span><span class="op">(</span>pi <span class="op">=</span> <span class="va">n</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-muted"><code>## # A tibble: 2 × 3
-##   Marijuana     n    pi
-##   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt;
-## 1 No         2045 0.415
-## 2 Yes        2879 0.585</code></pre>
-<p>Actually, since we are only interested in the proportion who said “Yes”, we can find that proportion using some more compact code:</p>
-<div class="sourceCode" id="cb173"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">nhanes</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span>pi_marijuana <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Marijuana</span> <span class="op">==</span> <span class="st">"Yes"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-muted"><code>## # A tibble: 1 × 1
-##   pi_marijuana
-##          &lt;dbl&gt;
-## 1        0.585</code></pre>
-<p>The “trick” in the previous chunk of code is this: <code>Marijuana == "Yes"</code> checks to see, for each person, whether their response to the <code>Marijuana</code> question was “Yes”. If it was, it gives that person a “score” of 1, but if not, it gives that person a “score” of 0. Recall that the mean is the <em>sum</em> of a set of numbers divided by the <em>total number</em> of numbers. So when we find the <code>mean</code> of those scores using <code><a href="https://rdrr.io/r/base/mean.html">mean(Marijuana == "Yes")</a></code>, we are really adding up the number of people who “scored” a 1 and dividing by the total number of people.</p>
+    <span class="fu">specify</span><span class="op">(</span>response <span class="op">=</span> <span class="va">Marijuana</span>, success <span class="op">=</span> <span class="st">"Yes"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">calculate</span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"prop"</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-muted"><code>## Response: Marijuana (factor)
+## # A tibble: 1 × 1
+##    stat
+##   &lt;dbl&gt;
+## 1 0.585</code></pre>
 </div>
-<div id="simulating-many-samples" class="section level3" number="7.4.2">
+<div id="simulating-many-samples" class="section level3" number="7.3.2">
 <h3>
-<span class="header-section-number">7.4.2</span> Simulating many samples<a class="anchor" aria-label="anchor" href="#simulating-many-samples"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.3.2</span> Simulating many samples<a class="anchor" aria-label="anchor" href="#simulating-many-samples"><i class="fas fa-link"></i></a>
 </h3>
-<p>Last time, we used <em>bootstrapping</em> to simulate what would happen if we collected many samples from a population by using the sample we actually had to <em>estimate</em> the whole population. Now, we have access to that population directly. We can therefore draw as many samples of a given size as we want!</p>
-<p>For example, the following chunk of code randomly samples 5 people from the population and gets R to remember that sample under the name <code>sample_size5</code>.</p>
-<div class="sourceCode" id="cb175"><pre class="downlit sourceCode r">
+<p>Last session, we used <em>bootstrapping</em> to simulate what would happen if we collected many samples from a population. We did that by using our sample to <em>estimate</em> the whole population. Now, we have access to that whole population. We can therefore draw as many samples of a given size as we want!</p>
+<p>The following chunk of code randomly samples 5 people from the population and gets R to remember that sample under the name <code>sample_size5</code>.</p>
+<div class="sourceCode" id="cb155"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sample_size5</span> <span class="op">&lt;-</span> <span class="va">nhanes</span> <span class="op">%&gt;%</span>
-    <span class="fu">sample_n</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>
-
-<span class="va">sample_size5</span></code></pre></div>
-<pre class="Rout text-muted"><code>## # A tibble: 5 × 76
-##      ID Surve…¹ Gender   Age AgeDe…² AgeMo…³ Race1 Race3 Educa…⁴ Marit…⁵ HHInc…⁶
-##   &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  
-## 1 65978 2011_12 male      57 50-59        NA White White Some C… NeverM… 25000-…
-## 2 53457 2009_10 female    30 30-39       364 Mexi… &lt;NA&gt;  8th Gr… Married &lt;NA&gt;   
-## 3 53965 2009_10 male      31 30-39       375 Mexi… &lt;NA&gt;  Some C… Married 65000-…
-## 4 54006 2009_10 male      20 20-29       240 Mexi… &lt;NA&gt;  Some C… NeverM… 75000-…
-## 5 63200 2011_12 female    59 50-59        NA White White Colleg… Married more 9…
-## # … with 65 more variables: HHIncomeMid &lt;dbl&gt;, Poverty &lt;dbl&gt;, HomeRooms &lt;dbl&gt;,
-## #   HomeOwn &lt;chr&gt;, Work &lt;chr&gt;, Weight &lt;dbl&gt;, Length &lt;lgl&gt;, HeadCirc &lt;lgl&gt;,
-## #   Height &lt;dbl&gt;, BMI &lt;dbl&gt;, BMICatUnder20yrs &lt;chr&gt;, BMI_WHO &lt;chr&gt;,
-## #   Pulse &lt;dbl&gt;, BPSysAve &lt;dbl&gt;, BPDiaAve &lt;dbl&gt;, BPSys1 &lt;dbl&gt;, BPDia1 &lt;dbl&gt;,
-## #   BPSys2 &lt;dbl&gt;, BPDia2 &lt;dbl&gt;, BPSys3 &lt;dbl&gt;, BPDia3 &lt;dbl&gt;, Testosterone &lt;dbl&gt;,
-## #   DirectChol &lt;dbl&gt;, TotChol &lt;dbl&gt;, UrineVol1 &lt;dbl&gt;, UrineFlow1 &lt;dbl&gt;,
-## #   UrineVol2 &lt;dbl&gt;, UrineFlow2 &lt;dbl&gt;, Diabetes &lt;chr&gt;, DiabetesAge &lt;dbl&gt;, …</code></pre>
+    <span class="fu">slice_sample</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></code></pre></div>
+<p>This is what that sample looks like:</p>
+<div class="inline-table"><table style="width:100%;" class="table table-sm">
+<colgroup>
+<col width="0%">
+<col width="1%">
+<col width="0%">
+<col width="0%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="0%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="0%">
+<col width="0%">
+<col width="1%">
+<col width="0%">
+<col width="0%">
+<col width="2%">
+<col width="1%">
+<col width="0%">
+<col width="1%">
+<col width="1%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="2%">
+<col width="2%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="2%">
+<col width="2%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="0%">
+<col width="2%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+</colgroup>
+<thead><tr class="header">
+<th align="right">ID</th>
+<th align="left">SurveyYr</th>
+<th align="left">Gender</th>
+<th align="right">Age</th>
+<th align="left">AgeDecade</th>
+<th align="right">AgeMonths</th>
+<th align="left">Race1</th>
+<th align="left">Race3</th>
+<th align="left">Education</th>
+<th align="left">MaritalStatus</th>
+<th align="left">HHIncome</th>
+<th align="right">HHIncomeMid</th>
+<th align="right">Poverty</th>
+<th align="right">HomeRooms</th>
+<th align="left">HomeOwn</th>
+<th align="left">Work</th>
+<th align="right">Weight</th>
+<th align="left">Length</th>
+<th align="left">HeadCirc</th>
+<th align="right">Height</th>
+<th align="right">BMI</th>
+<th align="left">BMICatUnder20yrs</th>
+<th align="left">BMI_WHO</th>
+<th align="right">Pulse</th>
+<th align="right">BPSysAve</th>
+<th align="right">BPDiaAve</th>
+<th align="right">BPSys1</th>
+<th align="right">BPDia1</th>
+<th align="right">BPSys2</th>
+<th align="right">BPDia2</th>
+<th align="right">BPSys3</th>
+<th align="right">BPDia3</th>
+<th align="right">Testosterone</th>
+<th align="right">DirectChol</th>
+<th align="right">TotChol</th>
+<th align="right">UrineVol1</th>
+<th align="right">UrineFlow1</th>
+<th align="right">UrineVol2</th>
+<th align="right">UrineFlow2</th>
+<th align="left">Diabetes</th>
+<th align="right">DiabetesAge</th>
+<th align="left">HealthGen</th>
+<th align="right">DaysPhysHlthBad</th>
+<th align="right">DaysMentHlthBad</th>
+<th align="left">LittleInterest</th>
+<th align="left">Depressed</th>
+<th align="right">nPregnancies</th>
+<th align="right">nBabies</th>
+<th align="right">Age1stBaby</th>
+<th align="right">SleepHrsNight</th>
+<th align="left">SleepTrouble</th>
+<th align="left">PhysActive</th>
+<th align="right">PhysActiveDays</th>
+<th align="left">TVHrsDay</th>
+<th align="left">CompHrsDay</th>
+<th align="left">TVHrsDayChild</th>
+<th align="left">CompHrsDayChild</th>
+<th align="left">Alcohol12PlusYr</th>
+<th align="right">AlcoholDay</th>
+<th align="right">AlcoholYear</th>
+<th align="left">SmokeNow</th>
+<th align="left">Smoke100</th>
+<th align="left">Smoke100n</th>
+<th align="right">SmokeAge</th>
+<th align="left">Marijuana</th>
+<th align="right">AgeFirstMarij</th>
+<th align="left">RegularMarij</th>
+<th align="right">AgeRegMarij</th>
+<th align="left">HardDrugs</th>
+<th align="left">SexEver</th>
+<th align="right">SexAge</th>
+<th align="right">SexNumPartnLife</th>
+<th align="right">SexNumPartYear</th>
+<th align="left">SameSex</th>
+<th align="left">SexOrientation</th>
+<th align="left">PregnantNow</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">65978</td>
+<td align="left">2011_12</td>
+<td align="left">male</td>
+<td align="right">57</td>
+<td align="left">50-59</td>
+<td align="right">NA</td>
+<td align="left">White</td>
+<td align="left">White</td>
+<td align="left">Some College</td>
+<td align="left">NeverMarried</td>
+<td align="left">25000-34999</td>
+<td align="right">30000</td>
+<td align="right">2.86</td>
+<td align="right">5</td>
+<td align="left">Own</td>
+<td align="left">Working</td>
+<td align="right">104.5</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">174.4</td>
+<td align="right">34.40</td>
+<td align="left">NA</td>
+<td align="left">30.0_plus</td>
+<td align="right">66</td>
+<td align="right">141</td>
+<td align="right">79</td>
+<td align="right">122</td>
+<td align="right">78</td>
+<td align="right">134</td>
+<td align="right">78</td>
+<td align="right">148</td>
+<td align="right">80</td>
+<td align="right">545.84</td>
+<td align="right">0.83</td>
+<td align="right">5.61</td>
+<td align="right">69</td>
+<td align="right">0.473</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">Good</td>
+<td align="right">5</td>
+<td align="right">0</td>
+<td align="left">None</td>
+<td align="left">None</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">8</td>
+<td align="left">No</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">1_hr</td>
+<td align="left">1_hr</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">Yes</td>
+<td align="right">4</td>
+<td align="right">24</td>
+<td align="left">Yes</td>
+<td align="left">Yes</td>
+<td align="left">Smoker</td>
+<td align="right">23</td>
+<td align="left">Yes</td>
+<td align="right">23</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="left">Yes</td>
+<td align="right">23</td>
+<td align="right">4</td>
+<td align="right">1</td>
+<td align="left">No</td>
+<td align="left">Heterosexual</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="right">53457</td>
+<td align="left">2009_10</td>
+<td align="left">female</td>
+<td align="right">30</td>
+<td align="left">30-39</td>
+<td align="right">364</td>
+<td align="left">Mexican</td>
+<td align="left">NA</td>
+<td align="left">8th Grade</td>
+<td align="left">Married</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">5</td>
+<td align="left">Own</td>
+<td align="left">NotWorking</td>
+<td align="right">64.7</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">159.5</td>
+<td align="right">25.43</td>
+<td align="left">NA</td>
+<td align="left">25.0_to_29.9</td>
+<td align="right">72</td>
+<td align="right">104</td>
+<td align="right">58</td>
+<td align="right">104</td>
+<td align="right">58</td>
+<td align="right">104</td>
+<td align="right">56</td>
+<td align="right">104</td>
+<td align="right">60</td>
+<td align="right">NA</td>
+<td align="right">1.47</td>
+<td align="right">5.90</td>
+<td align="right">212</td>
+<td align="right">1.076</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">Vgood</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="left">None</td>
+<td align="left">None</td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">NA</td>
+<td align="right">9</td>
+<td align="left">No</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="left">No</td>
+<td align="left">Non-Smoker</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="left">Yes</td>
+<td align="right">23</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="left">No</td>
+<td align="left">Heterosexual</td>
+<td align="left">Unknown</td>
+</tr>
+<tr class="odd">
+<td align="right">53965</td>
+<td align="left">2009_10</td>
+<td align="left">male</td>
+<td align="right">31</td>
+<td align="left">30-39</td>
+<td align="right">375</td>
+<td align="left">Mexican</td>
+<td align="left">NA</td>
+<td align="left">Some College</td>
+<td align="left">Married</td>
+<td align="left">65000-74999</td>
+<td align="right">70000</td>
+<td align="right">4.94</td>
+<td align="right">5</td>
+<td align="left">Rent</td>
+<td align="left">NotWorking</td>
+<td align="right">95.0</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">175.7</td>
+<td align="right">30.77</td>
+<td align="left">NA</td>
+<td align="left">30.0_plus</td>
+<td align="right">66</td>
+<td align="right">108</td>
+<td align="right">75</td>
+<td align="right">114</td>
+<td align="right">74</td>
+<td align="right">110</td>
+<td align="right">74</td>
+<td align="right">106</td>
+<td align="right">76</td>
+<td align="right">NA</td>
+<td align="right">1.40</td>
+<td align="right">5.72</td>
+<td align="right">84</td>
+<td align="right">0.124</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">Good</td>
+<td align="right">14</td>
+<td align="right">0</td>
+<td align="left">None</td>
+<td align="left">None</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">7</td>
+<td align="left">No</td>
+<td align="left">Yes</td>
+<td align="right">3</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">Yes</td>
+<td align="right">1</td>
+<td align="right">48</td>
+<td align="left">NA</td>
+<td align="left">No</td>
+<td align="left">Non-Smoker</td>
+<td align="right">NA</td>
+<td align="left">Yes</td>
+<td align="right">16</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="left">Yes</td>
+<td align="right">18</td>
+<td align="right">5</td>
+<td align="right">1</td>
+<td align="left">No</td>
+<td align="left">Heterosexual</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="right">54006</td>
+<td align="left">2009_10</td>
+<td align="left">male</td>
+<td align="right">20</td>
+<td align="left">20-29</td>
+<td align="right">240</td>
+<td align="left">Mexican</td>
+<td align="left">NA</td>
+<td align="left">Some College</td>
+<td align="left">NeverMarried</td>
+<td align="left">75000-99999</td>
+<td align="right">87500</td>
+<td align="right">2.54</td>
+<td align="right">5</td>
+<td align="left">Own</td>
+<td align="left">Working</td>
+<td align="right">60.0</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">170.1</td>
+<td align="right">20.74</td>
+<td align="left">NA</td>
+<td align="left">18.5_to_24.9</td>
+<td align="right">62</td>
+<td align="right">105</td>
+<td align="right">62</td>
+<td align="right">108</td>
+<td align="right">62</td>
+<td align="right">108</td>
+<td align="right">64</td>
+<td align="right">102</td>
+<td align="right">60</td>
+<td align="right">NA</td>
+<td align="right">0.96</td>
+<td align="right">4.45</td>
+<td align="right">145</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">Good</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="left">None</td>
+<td align="left">None</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">10</td>
+<td align="left">No</td>
+<td align="left">Yes</td>
+<td align="right">3</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="left">No</td>
+<td align="left">Non-Smoker</td>
+<td align="right">NA</td>
+<td align="left">Yes</td>
+<td align="right">15</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="left">Yes</td>
+<td align="right">16</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="left">No</td>
+<td align="left">Heterosexual</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="right">63200</td>
+<td align="left">2011_12</td>
+<td align="left">female</td>
+<td align="right">59</td>
+<td align="left">50-59</td>
+<td align="right">NA</td>
+<td align="left">White</td>
+<td align="left">White</td>
+<td align="left">College Grad</td>
+<td align="left">Married</td>
+<td align="left">more 99999</td>
+<td align="right">100000</td>
+<td align="right">5.00</td>
+<td align="right">7</td>
+<td align="left">Own</td>
+<td align="left">Working</td>
+<td align="right">65.1</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">155.6</td>
+<td align="right">26.90</td>
+<td align="left">NA</td>
+<td align="left">25.0_to_29.9</td>
+<td align="right">70</td>
+<td align="right">139</td>
+<td align="right">73</td>
+<td align="right">142</td>
+<td align="right">66</td>
+<td align="right">142</td>
+<td align="right">74</td>
+<td align="right">136</td>
+<td align="right">72</td>
+<td align="right">4.37</td>
+<td align="right">1.89</td>
+<td align="right">5.90</td>
+<td align="right">179</td>
+<td align="right">1.432</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">Good</td>
+<td align="right">0</td>
+<td align="right">20</td>
+<td align="left">None</td>
+<td align="left">None</td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">NA</td>
+<td align="right">8</td>
+<td align="left">No</td>
+<td align="left">Yes</td>
+<td align="right">6</td>
+<td align="left">4_hr</td>
+<td align="left">0_to_1_hr</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">Yes</td>
+<td align="right">2</td>
+<td align="right">364</td>
+<td align="left">No</td>
+<td align="left">Yes</td>
+<td align="left">Smoker</td>
+<td align="right">18</td>
+<td align="left">Yes</td>
+<td align="right">18</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="left">Yes</td>
+<td align="right">19</td>
+<td align="right">3</td>
+<td align="right">1</td>
+<td align="left">No</td>
+<td align="left">Heterosexual</td>
+<td align="left">NA</td>
+</tr>
+</tbody>
+</table></div>
 <p>Notice that we still have all of those people’s responses to each question on the NHANES survey. That means we can get a <em>summary statistic</em> for the <code>Marijuana</code> variable from this sample, just like we did from the population.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-48" class="exercise"><strong>Exercise 7.6  </strong></span>Based on the code we used above to find the “true” proportion in the population, get the point estimate based on the sample of 5 people you just drew (<code>sample_size5</code>).</p>
-<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="lab7.html#cb177-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
-<span id="cb177-2"><a href="lab7.html#cb177-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">p_hat =</span> ___)</span></code></pre></div>
+<p><span id="exr:unlabeled-div-46" class="exercise"><strong>Exercise 7.4  </strong></span>Fill in the blanks in the chunk of code below to draw your own sample of size 5 from the NHANES population and get the proportion of people in your sample who have used marijuana. <em>Hint:</em> see above for how we calculated this proportion from the whole NHANES population, but remember that now we are calculating it from our new <code>sample_size5</code>.</p>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="lab7.html#cb156-1" aria-hidden="true" tabindex="-1"></a>sample_size5 <span class="ot">&lt;-</span> nhanes <span class="sc">%&gt;%</span></span>
+<span id="cb156-2"><a href="lab7.html#cb156-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">5</span>)</span>
+<span id="cb156-3"><a href="lab7.html#cb156-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-4"><a href="lab7.html#cb156-4" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
+<span id="cb156-5"><a href="lab7.html#cb156-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb156-6"><a href="lab7.html#cb156-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>)</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>What is the proportion of people who tried marijuana in your sample?</li>
-<li>Would you expect to get the same proportion from another random sample from the population? Why or why not?</li>
+<li>Try running your chunk of code a few times. Explain in your own words why the calculated proportion is not always the same.</li>
 </ol>
 </div>
 <p>As we’ve seen, the great thing about computers is that they can do boring repetitive things for us very quickly. Now, we will draw 1000 samples of size 5 from the population and get R to remember them under the name <code>samples_size5</code>.</p>
-<div class="sourceCode" id="cb178"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb157"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">samples_size5</span> <span class="op">&lt;-</span> <span class="va">nhanes</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://infer.tidymodels.org/reference/rep_sample_n.html">rep_sample_n</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">5</span>, reps <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span>
-
-<span class="va">samples_size5</span></code></pre></div>
-<pre class="Rout text-muted"><code>## # A tibble: 5,000 × 77
-## # Groups:   replicate [1,000]
-##    replicate    ID SurveyYr Gender   Age AgeDecade AgeMonths Race1 Race3 Educa…¹
-##        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  
-##  1         1 54148 2009_10  male      34 30-39           418 Mexi… &lt;NA&gt;  9 - 11…
-##  2         1 60229 2009_10  male      50 50-59           605 Mexi… &lt;NA&gt;  8th Gr…
-##  3         1 68152 2011_12  male      56 50-59            NA Black Black High S…
-##  4         1 57109 2009_10  female    41 40-49           500 Other &lt;NA&gt;  Some C…
-##  5         1 71164 2011_12  male      48 40-49            NA White White Some C…
-##  6         2 57175 2009_10  male      49 40-49           590 White &lt;NA&gt;  Colleg…
-##  7         2 69456 2011_12  male      52 50-59            NA Black Black Colleg…
-##  8         2 66289 2011_12  male      41 40-49            NA White White Colleg…
-##  9         2 59541 2009_10  male      49 40-49           593 White &lt;NA&gt;  High S…
-## 10         2 67261 2011_12  male      57 50-59            NA White White 8th Gr…
-## # … with 4,990 more rows, 67 more variables: MaritalStatus &lt;chr&gt;,
-## #   HHIncome &lt;chr&gt;, HHIncomeMid &lt;dbl&gt;, Poverty &lt;dbl&gt;, HomeRooms &lt;dbl&gt;,
-## #   HomeOwn &lt;chr&gt;, Work &lt;chr&gt;, Weight &lt;dbl&gt;, Length &lt;lgl&gt;, HeadCirc &lt;lgl&gt;,
-## #   Height &lt;dbl&gt;, BMI &lt;dbl&gt;, BMICatUnder20yrs &lt;chr&gt;, BMI_WHO &lt;chr&gt;,
-## #   Pulse &lt;dbl&gt;, BPSysAve &lt;dbl&gt;, BPDiaAve &lt;dbl&gt;, BPSys1 &lt;dbl&gt;, BPDia1 &lt;dbl&gt;,
-## #   BPSys2 &lt;dbl&gt;, BPDia2 &lt;dbl&gt;, BPSys3 &lt;dbl&gt;, BPDia3 &lt;dbl&gt;, Testosterone &lt;dbl&gt;,
-## #   DirectChol &lt;dbl&gt;, TotChol &lt;dbl&gt;, UrineVol1 &lt;dbl&gt;, UrineFlow1 &lt;dbl&gt;, …</code></pre>
+    <span class="fu">rep_slice_sample</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span>, reps <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></code></pre></div>
+<p>Here are the first three samples in our new <code>samples_size5</code>:</p>
+<div class="inline-table"><table style="width:100%;" class="table table-sm">
+<colgroup>
+<col width="1%">
+<col width="0%">
+<col width="1%">
+<col width="0%">
+<col width="0%">
+<col width="1%">
+<col width="1%">
+<col width="0%">
+<col width="0%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="0%">
+<col width="1%">
+<col width="0%">
+<col width="1%">
+<col width="0%">
+<col width="0%">
+<col width="1%">
+<col width="0%">
+<col width="0%">
+<col width="2%">
+<col width="1%">
+<col width="0%">
+<col width="1%">
+<col width="1%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="1%">
+<col width="1%">
+<col width="0%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="0%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="0%">
+<col width="0%">
+<col width="1%">
+<col width="1%">
+<col width="0%">
+<col width="1%">
+<col width="1%">
+</colgroup>
+<thead><tr class="header">
+<th align="right">replicate</th>
+<th align="right">ID</th>
+<th align="left">SurveyYr</th>
+<th align="left">Gender</th>
+<th align="right">Age</th>
+<th align="left">AgeDecade</th>
+<th align="right">AgeMonths</th>
+<th align="left">Race1</th>
+<th align="left">Race3</th>
+<th align="left">Education</th>
+<th align="left">MaritalStatus</th>
+<th align="left">HHIncome</th>
+<th align="right">HHIncomeMid</th>
+<th align="right">Poverty</th>
+<th align="right">HomeRooms</th>
+<th align="left">HomeOwn</th>
+<th align="left">Work</th>
+<th align="right">Weight</th>
+<th align="left">Length</th>
+<th align="left">HeadCirc</th>
+<th align="right">Height</th>
+<th align="right">BMI</th>
+<th align="left">BMICatUnder20yrs</th>
+<th align="left">BMI_WHO</th>
+<th align="right">Pulse</th>
+<th align="right">BPSysAve</th>
+<th align="right">BPDiaAve</th>
+<th align="right">BPSys1</th>
+<th align="right">BPDia1</th>
+<th align="right">BPSys2</th>
+<th align="right">BPDia2</th>
+<th align="right">BPSys3</th>
+<th align="right">BPDia3</th>
+<th align="right">Testosterone</th>
+<th align="right">DirectChol</th>
+<th align="right">TotChol</th>
+<th align="right">UrineVol1</th>
+<th align="right">UrineFlow1</th>
+<th align="right">UrineVol2</th>
+<th align="right">UrineFlow2</th>
+<th align="left">Diabetes</th>
+<th align="right">DiabetesAge</th>
+<th align="left">HealthGen</th>
+<th align="right">DaysPhysHlthBad</th>
+<th align="right">DaysMentHlthBad</th>
+<th align="left">LittleInterest</th>
+<th align="left">Depressed</th>
+<th align="right">nPregnancies</th>
+<th align="right">nBabies</th>
+<th align="right">Age1stBaby</th>
+<th align="right">SleepHrsNight</th>
+<th align="left">SleepTrouble</th>
+<th align="left">PhysActive</th>
+<th align="right">PhysActiveDays</th>
+<th align="left">TVHrsDay</th>
+<th align="left">CompHrsDay</th>
+<th align="left">TVHrsDayChild</th>
+<th align="left">CompHrsDayChild</th>
+<th align="left">Alcohol12PlusYr</th>
+<th align="right">AlcoholDay</th>
+<th align="right">AlcoholYear</th>
+<th align="left">SmokeNow</th>
+<th align="left">Smoke100</th>
+<th align="left">Smoke100n</th>
+<th align="right">SmokeAge</th>
+<th align="left">Marijuana</th>
+<th align="right">AgeFirstMarij</th>
+<th align="left">RegularMarij</th>
+<th align="right">AgeRegMarij</th>
+<th align="left">HardDrugs</th>
+<th align="left">SexEver</th>
+<th align="right">SexAge</th>
+<th align="right">SexNumPartnLife</th>
+<th align="right">SexNumPartYear</th>
+<th align="left">SameSex</th>
+<th align="left">SexOrientation</th>
+<th align="left">PregnantNow</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">54148</td>
+<td align="left">2009_10</td>
+<td align="left">male</td>
+<td align="right">34</td>
+<td align="left">30-39</td>
+<td align="right">418</td>
+<td align="left">Mexican</td>
+<td align="left">NA</td>
+<td align="left">9 - 11th Grade</td>
+<td align="left">Married</td>
+<td align="left">25000-34999</td>
+<td align="right">30000</td>
+<td align="right">1.85</td>
+<td align="right">6</td>
+<td align="left">Own</td>
+<td align="left">NotWorking</td>
+<td align="right">94.4</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">181.4</td>
+<td align="right">28.69</td>
+<td align="left">NA</td>
+<td align="left">25.0_to_29.9</td>
+<td align="right">74</td>
+<td align="right">124</td>
+<td align="right">67</td>
+<td align="right">120</td>
+<td align="right">74</td>
+<td align="right">124</td>
+<td align="right">66</td>
+<td align="right">124</td>
+<td align="right">68</td>
+<td align="right">NA</td>
+<td align="right">0.65</td>
+<td align="right">5.25</td>
+<td align="right">176</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">Good</td>
+<td align="right">7</td>
+<td align="right">0</td>
+<td align="left">Most</td>
+<td align="left">None</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">6</td>
+<td align="left">No</td>
+<td align="left">Yes</td>
+<td align="right">5</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">Yes</td>
+<td align="right">3</td>
+<td align="right">48</td>
+<td align="left">NA</td>
+<td align="left">No</td>
+<td align="left">Non-Smoker</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">Yes</td>
+<td align="left">Yes</td>
+<td align="right">14</td>
+<td align="right">7</td>
+<td align="right">1</td>
+<td align="left">No</td>
+<td align="left">Heterosexual</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="right">60229</td>
+<td align="left">2009_10</td>
+<td align="left">male</td>
+<td align="right">50</td>
+<td align="left">50-59</td>
+<td align="right">605</td>
+<td align="left">Mexican</td>
+<td align="left">NA</td>
+<td align="left">8th Grade</td>
+<td align="left">Married</td>
+<td align="left">55000-64999</td>
+<td align="right">60000</td>
+<td align="right">2.17</td>
+<td align="right">6</td>
+<td align="left">Own</td>
+<td align="left">Working</td>
+<td align="right">83.6</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">162.0</td>
+<td align="right">31.85</td>
+<td align="left">NA</td>
+<td align="left">30.0_plus</td>
+<td align="right">74</td>
+<td align="right">124</td>
+<td align="right">82</td>
+<td align="right">130</td>
+<td align="right">84</td>
+<td align="right">122</td>
+<td align="right">82</td>
+<td align="right">126</td>
+<td align="right">82</td>
+<td align="right">NA</td>
+<td align="right">1.11</td>
+<td align="right">6.88</td>
+<td align="right">58</td>
+<td align="right">0.379</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">Yes</td>
+<td align="right">48</td>
+<td align="left">Poor</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="left">None</td>
+<td align="left">None</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">6</td>
+<td align="left">No</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">Yes</td>
+<td align="right">NA</td>
+<td align="right">0</td>
+<td align="left">No</td>
+<td align="left">Yes</td>
+<td align="left">Smoker</td>
+<td align="right">14</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="left">Yes</td>
+<td align="right">17</td>
+<td align="right">8</td>
+<td align="right">1</td>
+<td align="left">No</td>
+<td align="left">Heterosexual</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">68152</td>
+<td align="left">2011_12</td>
+<td align="left">male</td>
+<td align="right">56</td>
+<td align="left">50-59</td>
+<td align="right">NA</td>
+<td align="left">Black</td>
+<td align="left">Black</td>
+<td align="left">High School</td>
+<td align="left">Married</td>
+<td align="left">75000-99999</td>
+<td align="right">87500</td>
+<td align="right">4.86</td>
+<td align="right">6</td>
+<td align="left">Own</td>
+<td align="left">Working</td>
+<td align="right">109.3</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">173.5</td>
+<td align="right">36.30</td>
+<td align="left">NA</td>
+<td align="left">30.0_plus</td>
+<td align="right">82</td>
+<td align="right">115</td>
+<td align="right">81</td>
+<td align="right">106</td>
+<td align="right">86</td>
+<td align="right">114</td>
+<td align="right">82</td>
+<td align="right">116</td>
+<td align="right">80</td>
+<td align="right">280.00</td>
+<td align="right">0.98</td>
+<td align="right">5.64</td>
+<td align="right">133</td>
+<td align="right">1.547</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">Good</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="left">None</td>
+<td align="left">None</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">8</td>
+<td align="left">No</td>
+<td align="left">No</td>
+<td align="right">3</td>
+<td align="left">More_4_hr</td>
+<td align="left">0_hrs</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">Yes</td>
+<td align="right">2</td>
+<td align="right">12</td>
+<td align="left">NA</td>
+<td align="left">No</td>
+<td align="left">Non-Smoker</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="left">Yes</td>
+<td align="right">23</td>
+<td align="right">3</td>
+<td align="right">1</td>
+<td align="left">No</td>
+<td align="left">Heterosexual</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="right">57109</td>
+<td align="left">2009_10</td>
+<td align="left">female</td>
+<td align="right">41</td>
+<td align="left">40-49</td>
+<td align="right">500</td>
+<td align="left">Other</td>
+<td align="left">NA</td>
+<td align="left">Some College</td>
+<td align="left">NeverMarried</td>
+<td align="left">20000-24999</td>
+<td align="right">22500</td>
+<td align="right">0.91</td>
+<td align="right">6</td>
+<td align="left">Own</td>
+<td align="left">NotWorking</td>
+<td align="right">52.1</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">161.3</td>
+<td align="right">20.02</td>
+<td align="left">NA</td>
+<td align="left">18.5_to_24.9</td>
+<td align="right">82</td>
+<td align="right">109</td>
+<td align="right">77</td>
+<td align="right">114</td>
+<td align="right">82</td>
+<td align="right">112</td>
+<td align="right">80</td>
+<td align="right">106</td>
+<td align="right">74</td>
+<td align="right">NA</td>
+<td align="right">1.76</td>
+<td align="right">6.57</td>
+<td align="right">55</td>
+<td align="right">0.846</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">Good</td>
+<td align="right">0</td>
+<td align="right">5</td>
+<td align="left">None</td>
+<td align="left">None</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">8</td>
+<td align="left">No</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">No</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="left">NA</td>
+<td align="left">No</td>
+<td align="left">Non-Smoker</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="left">Yes</td>
+<td align="right">25</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="left">No</td>
+<td align="left">Heterosexual</td>
+<td align="left">No</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">71164</td>
+<td align="left">2011_12</td>
+<td align="left">male</td>
+<td align="right">48</td>
+<td align="left">40-49</td>
+<td align="right">NA</td>
+<td align="left">White</td>
+<td align="left">White</td>
+<td align="left">Some College</td>
+<td align="left">Married</td>
+<td align="left">75000-99999</td>
+<td align="right">87500</td>
+<td align="right">3.25</td>
+<td align="right">9</td>
+<td align="left">Own</td>
+<td align="left">Working</td>
+<td align="right">89.2</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">169.4</td>
+<td align="right">31.10</td>
+<td align="left">NA</td>
+<td align="left">30.0_plus</td>
+<td align="right">70</td>
+<td align="right">115</td>
+<td align="right">69</td>
+<td align="right">120</td>
+<td align="right">68</td>
+<td align="right">118</td>
+<td align="right">68</td>
+<td align="right">112</td>
+<td align="right">70</td>
+<td align="right">389.87</td>
+<td align="right">1.99</td>
+<td align="right">5.35</td>
+<td align="right">54</td>
+<td align="right">0.568</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">Good</td>
+<td align="right">7</td>
+<td align="right">0</td>
+<td align="left">None</td>
+<td align="left">None</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">7</td>
+<td align="left">No</td>
+<td align="left">Yes</td>
+<td align="right">NA</td>
+<td align="left">2_hr</td>
+<td align="left">1_hr</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">Yes</td>
+<td align="right">3</td>
+<td align="right">52</td>
+<td align="left">NA</td>
+<td align="left">No</td>
+<td align="left">Non-Smoker</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="left">Yes</td>
+<td align="right">17</td>
+<td align="right">4</td>
+<td align="right">1</td>
+<td align="left">No</td>
+<td align="left">Heterosexual</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">57175</td>
+<td align="left">2009_10</td>
+<td align="left">male</td>
+<td align="right">49</td>
+<td align="left">40-49</td>
+<td align="right">590</td>
+<td align="left">White</td>
+<td align="left">NA</td>
+<td align="left">College Grad</td>
+<td align="left">Married</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">9</td>
+<td align="left">Own</td>
+<td align="left">Working</td>
+<td align="right">84.6</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">181.0</td>
+<td align="right">25.82</td>
+<td align="left">NA</td>
+<td align="left">25.0_to_29.9</td>
+<td align="right">52</td>
+<td align="right">130</td>
+<td align="right">78</td>
+<td align="right">126</td>
+<td align="right">82</td>
+<td align="right">130</td>
+<td align="right">78</td>
+<td align="right">130</td>
+<td align="right">78</td>
+<td align="right">NA</td>
+<td align="right">1.11</td>
+<td align="right">6.54</td>
+<td align="right">157</td>
+<td align="right">1.744</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">Vgood</td>
+<td align="right">0</td>
+<td align="right">5</td>
+<td align="left">None</td>
+<td align="left">None</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">7</td>
+<td align="left">No</td>
+<td align="left">Yes</td>
+<td align="right">3</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">Yes</td>
+<td align="right">2</td>
+<td align="right">208</td>
+<td align="left">NA</td>
+<td align="left">No</td>
+<td align="left">Non-Smoker</td>
+<td align="right">NA</td>
+<td align="left">Yes</td>
+<td align="right">15</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="left">Yes</td>
+<td align="right">20</td>
+<td align="right">5</td>
+<td align="right">1</td>
+<td align="left">No</td>
+<td align="left">Heterosexual</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="right">69456</td>
+<td align="left">2011_12</td>
+<td align="left">male</td>
+<td align="right">52</td>
+<td align="left">50-59</td>
+<td align="right">NA</td>
+<td align="left">Black</td>
+<td align="left">Black</td>
+<td align="left">College Grad</td>
+<td align="left">Married</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">10</td>
+<td align="left">Own</td>
+<td align="left">Working</td>
+<td align="right">126.6</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">185.6</td>
+<td align="right">36.80</td>
+<td align="left">NA</td>
+<td align="left">30.0_plus</td>
+<td align="right">68</td>
+<td align="right">129</td>
+<td align="right">80</td>
+<td align="right">134</td>
+<td align="right">80</td>
+<td align="right">130</td>
+<td align="right">80</td>
+<td align="right">128</td>
+<td align="right">80</td>
+<td align="right">315.27</td>
+<td align="right">1.32</td>
+<td align="right">5.17</td>
+<td align="right">297</td>
+<td align="right">2.152</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">Fair</td>
+<td align="right">30</td>
+<td align="right">30</td>
+<td align="left">Several</td>
+<td align="left">None</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">5</td>
+<td align="left">Yes</td>
+<td align="left">Yes</td>
+<td align="right">NA</td>
+<td align="left">4_hr</td>
+<td align="left">1_hr</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">Yes</td>
+<td align="right">2</td>
+<td align="right">104</td>
+<td align="left">NA</td>
+<td align="left">No</td>
+<td align="left">Non-Smoker</td>
+<td align="right">NA</td>
+<td align="left">Yes</td>
+<td align="right">11</td>
+<td align="left">Yes</td>
+<td align="right">13</td>
+<td align="left">No</td>
+<td align="left">Yes</td>
+<td align="right">16</td>
+<td align="right">5</td>
+<td align="right">1</td>
+<td align="left">No</td>
+<td align="left">Heterosexual</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">66289</td>
+<td align="left">2011_12</td>
+<td align="left">male</td>
+<td align="right">41</td>
+<td align="left">40-49</td>
+<td align="right">NA</td>
+<td align="left">White</td>
+<td align="left">White</td>
+<td align="left">College Grad</td>
+<td align="left">NeverMarried</td>
+<td align="left">35000-44999</td>
+<td align="right">40000</td>
+<td align="right">3.21</td>
+<td align="right">5</td>
+<td align="left">Own</td>
+<td align="left">Working</td>
+<td align="right">101.3</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">171.4</td>
+<td align="right">34.50</td>
+<td align="left">NA</td>
+<td align="left">30.0_plus</td>
+<td align="right">74</td>
+<td align="right">93</td>
+<td align="right">63</td>
+<td align="right">104</td>
+<td align="right">58</td>
+<td align="right">92</td>
+<td align="right">64</td>
+<td align="right">94</td>
+<td align="right">62</td>
+<td align="right">289.98</td>
+<td align="right">1.11</td>
+<td align="right">4.22</td>
+<td align="right">74</td>
+<td align="right">1.254</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">Good</td>
+<td align="right">2</td>
+<td align="right">30</td>
+<td align="left">Most</td>
+<td align="left">Several</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">7</td>
+<td align="left">Yes</td>
+<td align="left">Yes</td>
+<td align="right">NA</td>
+<td align="left">1_hr</td>
+<td align="left">2_hr</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">Yes</td>
+<td align="right">NA</td>
+<td align="right">0</td>
+<td align="left">No</td>
+<td align="left">Yes</td>
+<td align="left">Smoker</td>
+<td align="right">20</td>
+<td align="left">Yes</td>
+<td align="right">16</td>
+<td align="left">Yes</td>
+<td align="right">20</td>
+<td align="left">Yes</td>
+<td align="left">Yes</td>
+<td align="right">17</td>
+<td align="right">20</td>
+<td align="right">2</td>
+<td align="left">No</td>
+<td align="left">Heterosexual</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="right">59541</td>
+<td align="left">2009_10</td>
+<td align="left">male</td>
+<td align="right">49</td>
+<td align="left">40-49</td>
+<td align="right">593</td>
+<td align="left">White</td>
+<td align="left">NA</td>
+<td align="left">High School</td>
+<td align="left">Divorced</td>
+<td align="left">35000-44999</td>
+<td align="right">40000</td>
+<td align="right">1.91</td>
+<td align="right">5</td>
+<td align="left">Rent</td>
+<td align="left">NotWorking</td>
+<td align="right">112.1</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">180.0</td>
+<td align="right">34.60</td>
+<td align="left">NA</td>
+<td align="left">30.0_plus</td>
+<td align="right">88</td>
+<td align="right">95</td>
+<td align="right">70</td>
+<td align="right">94</td>
+<td align="right">74</td>
+<td align="right">96</td>
+<td align="right">72</td>
+<td align="right">94</td>
+<td align="right">68</td>
+<td align="right">NA</td>
+<td align="right">0.78</td>
+<td align="right">6.31</td>
+<td align="right">56</td>
+<td align="right">0.074</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">Yes</td>
+<td align="right">49</td>
+<td align="left">Fair</td>
+<td align="right">10</td>
+<td align="right">2</td>
+<td align="left">Several</td>
+<td align="left">None</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">6</td>
+<td align="left">Yes</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">Yes</td>
+<td align="right">1</td>
+<td align="right">104</td>
+<td align="left">No</td>
+<td align="left">Yes</td>
+<td align="left">Smoker</td>
+<td align="right">15</td>
+<td align="left">Yes</td>
+<td align="right">46</td>
+<td align="left">Yes</td>
+<td align="right">46</td>
+<td align="left">Yes</td>
+<td align="left">Yes</td>
+<td align="right">16</td>
+<td align="right">10</td>
+<td align="right">1</td>
+<td align="left">No</td>
+<td align="left">Heterosexual</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">67261</td>
+<td align="left">2011_12</td>
+<td align="left">male</td>
+<td align="right">57</td>
+<td align="left">50-59</td>
+<td align="right">NA</td>
+<td align="left">White</td>
+<td align="left">White</td>
+<td align="left">8th Grade</td>
+<td align="left">NeverMarried</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">3</td>
+<td align="left">Other</td>
+<td align="left">NotWorking</td>
+<td align="right">74.8</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">178.4</td>
+<td align="right">23.50</td>
+<td align="left">NA</td>
+<td align="left">18.5_to_24.9</td>
+<td align="right">64</td>
+<td align="right">100</td>
+<td align="right">74</td>
+<td align="right">110</td>
+<td align="right">78</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">100</td>
+<td align="right">74</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">36</td>
+<td align="right">0.610</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">Fair</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="left">None</td>
+<td align="left">None</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">7</td>
+<td align="left">No</td>
+<td align="left">No</td>
+<td align="right">2</td>
+<td align="left">2_hr</td>
+<td align="left">0_hrs</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">Yes</td>
+<td align="right">NA</td>
+<td align="right">0</td>
+<td align="left">No</td>
+<td align="left">Yes</td>
+<td align="left">Smoker</td>
+<td align="right">16</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="left">Yes</td>
+<td align="right">16</td>
+<td align="right">6</td>
+<td align="right">0</td>
+<td align="left">No</td>
+<td align="left">Heterosexual</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">67967</td>
+<td align="left">2011_12</td>
+<td align="left">male</td>
+<td align="right">52</td>
+<td align="left">50-59</td>
+<td align="right">NA</td>
+<td align="left">White</td>
+<td align="left">White</td>
+<td align="left">Some College</td>
+<td align="left">Married</td>
+<td align="left">more 99999</td>
+<td align="right">100000</td>
+<td align="right">4.07</td>
+<td align="right">7</td>
+<td align="left">Own</td>
+<td align="left">Working</td>
+<td align="right">106.7</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">188.3</td>
+<td align="right">30.10</td>
+<td align="left">NA</td>
+<td align="left">30.0_plus</td>
+<td align="right">82</td>
+<td align="right">116</td>
+<td align="right">74</td>
+<td align="right">120</td>
+<td align="right">78</td>
+<td align="right">116</td>
+<td align="right">74</td>
+<td align="right">116</td>
+<td align="right">74</td>
+<td align="right">474.35</td>
+<td align="right">1.06</td>
+<td align="right">6.18</td>
+<td align="right">124</td>
+<td align="right">2.756</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">Good</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="left">None</td>
+<td align="left">None</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">6</td>
+<td align="left">No</td>
+<td align="left">Yes</td>
+<td align="right">NA</td>
+<td align="left">1_hr</td>
+<td align="left">3_hr</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">Yes</td>
+<td align="right">1</td>
+<td align="right">24</td>
+<td align="left">Yes</td>
+<td align="left">Yes</td>
+<td align="left">Smoker</td>
+<td align="right">14</td>
+<td align="left">Yes</td>
+<td align="right">18</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">Yes</td>
+<td align="left">Yes</td>
+<td align="right">14</td>
+<td align="right">5</td>
+<td align="right">1</td>
+<td align="left">No</td>
+<td align="left">Heterosexual</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="right">64682</td>
+<td align="left">2011_12</td>
+<td align="left">male</td>
+<td align="right">42</td>
+<td align="left">40-49</td>
+<td align="right">NA</td>
+<td align="left">White</td>
+<td align="left">White</td>
+<td align="left">High School</td>
+<td align="left">Married</td>
+<td align="left">75000-99999</td>
+<td align="right">87500</td>
+<td align="right">2.96</td>
+<td align="right">6</td>
+<td align="left">Own</td>
+<td align="left">Working</td>
+<td align="right">99.7</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">175.2</td>
+<td align="right">32.50</td>
+<td align="left">NA</td>
+<td align="left">30.0_plus</td>
+<td align="right">62</td>
+<td align="right">130</td>
+<td align="right">78</td>
+<td align="right">130</td>
+<td align="right">72</td>
+<td align="right">126</td>
+<td align="right">82</td>
+<td align="right">134</td>
+<td align="right">74</td>
+<td align="right">357.58</td>
+<td align="right">1.09</td>
+<td align="right">5.82</td>
+<td align="right">119</td>
+<td align="right">1.545</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">Vgood</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="left">None</td>
+<td align="left">None</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">8</td>
+<td align="left">No</td>
+<td align="left">Yes</td>
+<td align="right">NA</td>
+<td align="left">3_hr</td>
+<td align="left">1_hr</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">Yes</td>
+<td align="right">6</td>
+<td align="right">156</td>
+<td align="left">NA</td>
+<td align="left">No</td>
+<td align="left">Non-Smoker</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="left">Yes</td>
+<td align="right">30</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="left">No</td>
+<td align="left">Heterosexual</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">56328</td>
+<td align="left">2009_10</td>
+<td align="left">male</td>
+<td align="right">47</td>
+<td align="left">40-49</td>
+<td align="right">566</td>
+<td align="left">Other</td>
+<td align="left">NA</td>
+<td align="left">8th Grade</td>
+<td align="left">Married</td>
+<td align="left">65000-74999</td>
+<td align="right">70000</td>
+<td align="right">4.04</td>
+<td align="right">6</td>
+<td align="left">Own</td>
+<td align="left">Working</td>
+<td align="right">87.6</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">174.7</td>
+<td align="right">28.70</td>
+<td align="left">NA</td>
+<td align="left">25.0_to_29.9</td>
+<td align="right">64</td>
+<td align="right">142</td>
+<td align="right">80</td>
+<td align="right">140</td>
+<td align="right">88</td>
+<td align="right">150</td>
+<td align="right">82</td>
+<td align="right">134</td>
+<td align="right">78</td>
+<td align="right">NA</td>
+<td align="right">0.98</td>
+<td align="right">4.53</td>
+<td align="right">89</td>
+<td align="right">0.582</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">Good</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="left">None</td>
+<td align="left">None</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">6</td>
+<td align="left">No</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="left">No</td>
+<td align="left">Non-Smoker</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="left">Yes</td>
+<td align="right">16</td>
+<td align="right">13</td>
+<td align="right">1</td>
+<td align="left">No</td>
+<td align="left">Heterosexual</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="right">69637</td>
+<td align="left">2011_12</td>
+<td align="left">female</td>
+<td align="right">58</td>
+<td align="left">50-59</td>
+<td align="right">NA</td>
+<td align="left">White</td>
+<td align="left">White</td>
+<td align="left">9 - 11th Grade</td>
+<td align="left">Divorced</td>
+<td align="left">25000-34999</td>
+<td align="right">30000</td>
+<td align="right">2.60</td>
+<td align="right">3</td>
+<td align="left">Rent</td>
+<td align="left">Working</td>
+<td align="right">76.0</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">152.9</td>
+<td align="right">32.50</td>
+<td align="left">NA</td>
+<td align="left">30.0_plus</td>
+<td align="right">82</td>
+<td align="right">127</td>
+<td align="right">66</td>
+<td align="right">128</td>
+<td align="right">66</td>
+<td align="right">128</td>
+<td align="right">66</td>
+<td align="right">126</td>
+<td align="right">66</td>
+<td align="right">12.26</td>
+<td align="right">1.66</td>
+<td align="right">6.78</td>
+<td align="right">28</td>
+<td align="right">0.315</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">Fair</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="left">Most</td>
+<td align="left">Several</td>
+<td align="right">3</td>
+<td align="right">2</td>
+<td align="right">21</td>
+<td align="right">4</td>
+<td align="left">Yes</td>
+<td align="left">Yes</td>
+<td align="right">5</td>
+<td align="left">4_hr</td>
+<td align="left">3_hr</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">Yes</td>
+<td align="right">NA</td>
+<td align="right">0</td>
+<td align="left">NA</td>
+<td align="left">No</td>
+<td align="left">Non-Smoker</td>
+<td align="right">NA</td>
+<td align="left">Yes</td>
+<td align="right">26</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="left">Yes</td>
+<td align="right">18</td>
+<td align="right">15</td>
+<td align="right">0</td>
+<td align="left">No</td>
+<td align="left">Heterosexual</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">69864</td>
+<td align="left">2011_12</td>
+<td align="left">male</td>
+<td align="right">52</td>
+<td align="left">50-59</td>
+<td align="right">NA</td>
+<td align="left">Black</td>
+<td align="left">Black</td>
+<td align="left">High School</td>
+<td align="left">LivePartner</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">5</td>
+<td align="left">Own</td>
+<td align="left">Working</td>
+<td align="right">84.4</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">171.5</td>
+<td align="right">28.70</td>
+<td align="left">NA</td>
+<td align="left">25.0_to_29.9</td>
+<td align="right">54</td>
+<td align="right">146</td>
+<td align="right">87</td>
+<td align="right">148</td>
+<td align="right">82</td>
+<td align="right">148</td>
+<td align="right">86</td>
+<td align="right">144</td>
+<td align="right">88</td>
+<td align="right">237.49</td>
+<td align="right">1.60</td>
+<td align="right">4.78</td>
+<td align="right">212</td>
+<td align="right">1.087</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">Good</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="left">None</td>
+<td align="left">None</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">5</td>
+<td align="left">No</td>
+<td align="left">No</td>
+<td align="right">NA</td>
+<td align="left">4_hr</td>
+<td align="left">1_hr</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">Yes</td>
+<td align="right">3</td>
+<td align="right">156</td>
+<td align="left">No</td>
+<td align="left">Yes</td>
+<td align="left">Smoker</td>
+<td align="right">15</td>
+<td align="left">Yes</td>
+<td align="right">15</td>
+<td align="left">Yes</td>
+<td align="right">15</td>
+<td align="left">Yes</td>
+<td align="left">Yes</td>
+<td align="right">16</td>
+<td align="right">10</td>
+<td align="right">1</td>
+<td align="left">No</td>
+<td align="left">Heterosexual</td>
+<td align="left">NA</td>
+</tr>
+</tbody>
+</table></div>
 </div>
-<div id="summary-statistics-for-each-sample" class="section level3" number="7.4.3">
+<div id="summary-statistics-for-each-sample" class="section level3" number="7.3.3">
 <h3>
-<span class="header-section-number">7.4.3</span> Summary statistics for each sample<a class="anchor" aria-label="anchor" href="#summary-statistics-for-each-sample"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.3.3</span> Summary statistics for each sample<a class="anchor" aria-label="anchor" href="#summary-statistics-for-each-sample"><i class="fas fa-link"></i></a>
 </h3>
-<p>Notice that the different samples are labeled using the variable <code>replicate</code>. We can use this to get the proportion of marijuana triers in each sample using the old <code>group_by</code> routine. We will tell R to remember these sample proportions under the name <code>sample_props_mari_size5</code>:</p>
-<div class="sourceCode" id="cb180"><pre class="downlit sourceCode r">
+<p>Notice that the different samples are indexed using the new variable <code>replicate</code>. We can use this to get the proportion of marijuana triers in each sample using the old <code>group_by</code> routine. We will tell R to remember these sample proportions under the name <code>sample_props_mari_size5</code>:</p>
+<div class="sourceCode" id="cb158"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sample_props_mari_size5</span> <span class="op">&lt;-</span> <span class="va">samples_size5</span> <span class="op">%&gt;%</span>
     <span class="fu">group_by</span><span class="op">(</span><span class="va">replicate</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span>p_hat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Marijuana</span> <span class="op">==</span> <span class="st">"Yes"</span><span class="op">)</span><span class="op">)</span>
-
-<span class="va">sample_props_mari_size5</span></code></pre></div>
-<pre class="Rout text-muted"><code>## # A tibble: 1,000 × 2
-##    replicate p_hat
-##        &lt;int&gt; &lt;dbl&gt;
-##  1         1   0  
-##  2         2   0.8
-##  3         3   0.6
-##  4         4   0.8
-##  5         5   0.4
-##  6         6   0.8
-##  7         7   0.4
-##  8         8   0.8
-##  9         9   1  
-## 10        10   0.6
-## # … with 990 more rows</code></pre>
+    <span class="fu">summarize</span><span class="op">(</span>stat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Marijuana</span> <span class="op">==</span> <span class="st">"Yes"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Notice that the proportions calculated from each sample will tend to vary. We can visualize this using a histogram:</p>
-<div class="sourceCode" id="cb182"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb159"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sample_props_mari_size5</span> <span class="op">%&gt;%</span>
-    <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">p_hat</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">stat</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">geom_histogram</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">..density..</span><span class="op">)</span>, binwidth <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="07-normal_distribution_files/figure-html/unnamed-chunk-20-1.png" width="672"></div>
+<div class="inline-figure"><img src="07-normal_distribution_files/figure-html/unnamed-chunk-13-1.png" width="672"></div>
 </div>
-<div id="approximating-with-a-normal-distribution" class="section level3" number="7.4.4">
+<div id="approximating-with-a-normal-distribution" class="section level3" number="7.3.4">
 <h3>
-<span class="header-section-number">7.4.4</span> Approximating with a normal distribution<a class="anchor" aria-label="anchor" href="#approximating-with-a-normal-distribution"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.3.4</span> Approximating with a normal distribution<a class="anchor" aria-label="anchor" href="#approximating-with-a-normal-distribution"><i class="fas fa-link"></i></a>
 </h3>
-<p>Finally, to see whether we can approximate this sampling distribution with a normal distribution, we need to find the <em>mean</em> and <em>standard deviation</em> of the sampling distribution. Recall, that the standard deviation of a sampling distribution has a special name: the <strong>standard error (SE)</strong>.</p>
-<p>We will tell R to remember this numbers under the names <code>mean_props_mari_size5</code> and <code>se_props_mari_size5</code>:</p>
-<div class="sourceCode" id="cb183"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">mean_props_mari_size5</span> <span class="op">&lt;-</span> <span class="va">sample_props_mari_size5</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">p_hat</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">pull</span><span class="op">(</span><span class="op">)</span>
-
-<span class="va">se_props_mari_size5</span> <span class="op">&lt;-</span> <span class="va">sample_props_mari_size5</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">p_hat</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">pull</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p>Now we will draw the normal curve on top of the histogram we made earlier:</p>
-<div class="sourceCode" id="cb184"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">sample_props_mari_size5</span> <span class="op">%&gt;%</span>
-    <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">p_hat</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu">geom_histogram</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">..density..</span><span class="op">)</span>, binwidth <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu">stat_function</span><span class="op">(</span>fun <span class="op">=</span> <span class="va">dnorm</span>, args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="va">mean_props_mari_size5</span>, sd <span class="op">=</span> <span class="va">se_props_mari_size5</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">'darkred'</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="07-normal_distribution_files/figure-html/unnamed-chunk-22-1.png" width="672"></div>
-<p>Not bad!</p>
+<p>To see whether we can approximate this sampling distribution with a normal distribution, we need to find the <em>mean</em> and <em>standard deviation</em>. Recall, that the standard deviation of a sampling distribution has a special name: the <strong>standard error (SE)</strong>.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-49" class="exercise"><strong>Exercise 7.7  </strong></span>Use the <code>qnorm</code> function to help you find the 95% confidence interval for the proportion of marijuana triers based on samples of size 5.</p>
-<p>It may help to start from the “skeleton” below, which will put the lower and upper boundaries of the confidence interval under the labels <code>ci_lower</code> and <code>ci_upper</code> respectively.</p>
-<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="lab7.html#cb185-1" aria-hidden="true" tabindex="-1"></a>ci_lower <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="at">p =</span> ___, <span class="at">mean =</span> ___, <span class="at">sd =</span> ___, <span class="at">lower.tail =</span> ___)</span>
-<span id="cb185-2"><a href="lab7.html#cb185-2" aria-hidden="true" tabindex="-1"></a>ci_upper <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="at">p =</span> ___, <span class="at">mean =</span> ___, <span class="at">sd =</span> ___, <span class="at">lower.tail =</span> ___)</span></code></pre></div>
-<ol style="list-style-type: lower-alpha">
-<li>What is the 95% confidence interval, according to the normal distribution?</li>
-<li>Is there anything strange about this interval, given that it is meant to describe plausible values for a <em>proportion</em>? What does this suggest about whether or not the normal distribution is a good approximation to this particular sampling distribution?</li>
-</ol>
-</div>
-</div>
-<div id="a-larger-sample" class="section level3" number="7.4.5">
-<h3>
-<span class="header-section-number">7.4.5</span> A larger sample<a class="anchor" aria-label="anchor" href="#a-larger-sample"><i class="fas fa-link"></i></a>
-</h3>
-<p>The following chunk of code re-does everything we just did, but now with a sample size of 80 instead of 5:</p>
-<div class="sourceCode" id="cb186"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">samples_size80</span> <span class="op">&lt;-</span> <span class="va">nhanes</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://infer.tidymodels.org/reference/rep_sample_n.html">rep_sample_n</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">80</span>, reps <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span>
+<p><span id="exr:unlabeled-div-47" class="exercise"><strong>Exercise 7.5  </strong></span>First, run this chunk of code so that you’ll have your own sampling distribution to work with (this is just what we ran prior to this exercise):</p>
+<div class="sourceCode" id="cb160"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">samples_size5</span> <span class="op">&lt;-</span> <span class="va">nhanes</span> <span class="op">%&gt;%</span>
+    <span class="fu">rep_slice_sample</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span>, reps <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span>
 
-<span class="va">sample_props_mari_size80</span> <span class="op">&lt;-</span> <span class="va">samples_size80</span> <span class="op">%&gt;%</span>
+<span class="va">sample_props_mari_size5</span> <span class="op">&lt;-</span> <span class="va">samples_size5</span> <span class="op">%&gt;%</span>
     <span class="fu">group_by</span><span class="op">(</span><span class="va">replicate</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span>p_hat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Marijuana</span> <span class="op">==</span> <span class="st">"Yes"</span><span class="op">)</span><span class="op">)</span>
-
-<span class="va">mean_props_mari_size80</span> <span class="op">&lt;-</span> <span class="va">sample_props_mari_size80</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">p_hat</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">pull</span><span class="op">(</span><span class="op">)</span>
-
-<span class="va">se_props_mari_size80</span> <span class="op">&lt;-</span> <span class="va">sample_props_mari_size80</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">p_hat</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">pull</span><span class="op">(</span><span class="op">)</span>
-
-<span class="va">sample_props_mari_size80</span> <span class="op">%&gt;%</span>
-    <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">p_hat</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu">geom_histogram</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">..density..</span><span class="op">)</span>, binwidth <span class="op">=</span> <span class="fl">0.0125</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu">stat_function</span><span class="op">(</span>fun <span class="op">=</span> <span class="va">dnorm</span>, args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="va">mean_props_mari_size80</span>, sd <span class="op">=</span> <span class="va">se_props_mari_size80</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">'darkred'</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="07-normal_distribution_files/figure-html/unnamed-chunk-24-1.png" width="672"></div>
-<div class="exercise">
-<p><span id="exr:unlabeled-div-50" class="exercise"><strong>Exercise 7.8  </strong></span>–</p>
+    <span class="fu">summarize</span><span class="op">(</span>stat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Marijuana</span> <span class="op">==</span> <span class="st">"Yes"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>You should see <code>sample_props_mari_size5</code> in your R environment. This contains 1000 proportions from 1000 samples of size 5 from the NHANES population.</p>
+<p>Now, just like we did above for hours of sleep, play around with different <code>mean</code> and <code>sd</code> settings in the final line of the following chunk until you find a normal distribution that seems to be a good “fit” to the distribution of sample proportions.</p>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="lab7.html#cb161-1" aria-hidden="true" tabindex="-1"></a>sample_props_mari_size5 <span class="sc">%&gt;%</span></span>
+<span id="cb161-2"><a href="lab7.html#cb161-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> stat)) <span class="sc">+</span></span>
+<span id="cb161-3"><a href="lab7.html#cb161-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> ..density..), <span class="at">binwidth =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb161-4"><a href="lab7.html#cb161-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm, <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> ___, <span class="at">sd =</span> ___), <span class="at">color =</span> <span class="st">'darkred'</span>)</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
-<li>Does the normal distribution provide a good “fit” to the sampling distribution for samples of size 80?</li>
-<li>What is the 95% confidence interval based on a sample size of 80, according to the normal distribution? (<em>Hint:</em> see the previous exercise.)</li>
-<li>Compare the standard error when samples were size 5 (<code>se_props_mari_size5</code>) to when samples were size 80 (<code>se_props_mari_size80</code>). How does the standard error change with sample size?</li>
-<li>Compare the mean of the sampling distributions for samples of size 5 (<code>mean_props_mari_size5</code>) and samples of size 80 (<code>mean_props_mari_size80</code>). Does the mean change much with sample size? How close are these means to the “true” proportion in the population that we found earlier?</li>
-<li>Based on the relationships between the mean of a sampling distribution, the standard error, and sample size, conjecture a reason why we might call the standard deviation of a sampling distribution a “standard error”. (<em>Hint:</em> consider that we are typically trying to use a sample statistic as an imperfect estimate of a population parameter.)</li>
+<li>What values for <code>mean</code> and <code>sd</code> seemed to be best to you?</li>
+<li>Does it seem like the normal distribution is a good “fit” to this sampling distribution? (<em>Hint:</em> what happens to the tails of the normal distribution when you try to fit it to this sampling distribution?)</li>
+</ol>
+</div>
+</div>
+<div id="larger-samples-and-the-central-limit-theorem" class="section level3" number="7.3.5">
+<h3>
+<span class="header-section-number">7.3.5</span> Larger samples and the central limit theorem<a class="anchor" aria-label="anchor" href="#larger-samples-and-the-central-limit-theorem"><i class="fas fa-link"></i></a>
+</h3>
+<p>Recall that the central limit theorem says that the normal distribution will probably be a good model <em>if</em> the samples that go into our sampling distribution are sufficiently large (<em>and</em> if each observation in our sample is independent of the others, which is guaranteed by random sampling). If so, then the mean of the sampling distribution should be close to the population proportion <span class="math inline">\(\pi\)</span> and the standard error should be close to</p>
+<p><span class="math display">\[
+SE = \sqrt{\frac{\pi \left(1 - \pi \right)}{n}}
+\]</span></p>
+<p>Let’s see what happens if we use those when we fit our normal distribution to the sampling distribution. Remember that we found the population proportion earlier (it was about <span class="math inline">\(0.585\)</span>).</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-48" class="exercise"><strong>Exercise 7.6  </strong></span>Now, run the following chunk of code to generate 1000 samples of size 50, instead of size 5:</p>
+<div class="sourceCode" id="cb162"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">samples_size50</span> <span class="op">&lt;-</span> <span class="va">nhanes</span> <span class="op">%&gt;%</span>
+    <span class="fu">rep_sample_n</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">50</span>, reps <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span>
+
+<span class="va">sample_props_mari_size50</span> <span class="op">&lt;-</span> <span class="va">samples_size50</span> <span class="op">%&gt;%</span>
+    <span class="fu">group_by</span><span class="op">(</span><span class="va">replicate</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">summarize</span><span class="op">(</span>stat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Marijuana</span> <span class="op">==</span> <span class="st">"Yes"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>You should now see <code>sample_props_mari_size50</code> in your R environment.</p>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="lab7.html#cb163-1" aria-hidden="true" tabindex="-1"></a>sample_props_mari_size50 <span class="sc">%&gt;%</span></span>
+<span id="cb163-2"><a href="lab7.html#cb163-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> stat)) <span class="sc">+</span></span>
+<span id="cb163-3"><a href="lab7.html#cb163-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> ..density..), <span class="at">binwidth =</span> <span class="fl">0.02</span>) <span class="sc">+</span></span>
+<span id="cb163-4"><a href="lab7.html#cb163-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm, <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> ___, <span class="at">sd =</span> ___), <span class="at">color =</span> <span class="st">'darkred'</span>)</span></code></pre></div>
+<ol style="list-style-type: lower-alpha">
+<li>What is the standard error according to the central limit theorem (remember than the population proportion is <span class="math inline">\(\pi = 0.585\)</span> and our samples are of size <span class="math inline">\(n = 50\)</span>)?</li>
+<li>In the chunk of code above, set the <code>mean</code> to the population proportion (0.585) and the <code>sd</code> to the standard error you found in part [a]. Compare the fit of the normal distribution in this exercise to the one from the previous exercise—does the normal distribution make a better “fit” when we use bigger samples?</li>
+<li>Did the standard error get bigger, smaller, or stay about the same when we used bigger samples?</li>
+<li>Did the mean of the sampling distribution get bigger, smaller, or stay about the same when we used bigger samples?</li>
+</ol>
+</div>
+</div>
+<div id="what-if-we-dont-know-the-true-population" class="section level3" number="7.3.6">
+<h3>
+<span class="header-section-number">7.3.6</span> What if we don’t know the “true” population?<a class="anchor" aria-label="anchor" href="#what-if-we-dont-know-the-true-population"><i class="fas fa-link"></i></a>
+</h3>
+<p>Unlike in the previous example, in practice we usually have a single sample and <em>don’t</em> know what the true value of the population parameter is. But we can still use our sample to learn something about the population in general. We’ve seen how to use bootstrapping to construct a 95% confidence interval for a population proportion based on a sample. Let’s do the same with the normal distribution.</p>
+<p>To do this, we will do the following:</p>
+<ol style="list-style-type: decimal">
+<li>Draw a random sample of size 50 from the complete NHANES dataset.</li>
+<li>Use R to calculate the proportion of people in the same who have tried marijuana; this is our sample statistic <span class="math inline">\(\hat{p}\)</span> or <code>p_hat</code>.</li>
+<li>Use <span class="math inline">\(\hat{p}\)</span> from our sample to calculate the standard error according to the same formula as above:
+<span class="math display">\[
+SE = \sqrt{\frac{\hat{p} \left(1 - \hat{p} \right)}{n}}
+\]</span>
+</li>
+<li>Make a 95% confidence interval using our knowledge that 95% of a normal distribution is within 1.96 standard deviations of the mean; the 95% CI is <span class="math inline">\(\left( \hat{p} - 1.96 \times SE, \hat{p} + 1.96 \times SE \right)\)</span>.</li>
+</ol>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-49" class="exercise"><strong>Exercise 7.7  </strong></span>Run the following chunk of code to draw a single random sample of 50 people from the NHANES dataset, then calculate the sample proportion and save the result under the name <code>p_hat</code>.</p>
+<div class="sourceCode" id="cb164"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">my_sample</span> <span class="op">&lt;-</span> <span class="va">nhanes</span> <span class="op">%&gt;%</span>
+    <span class="fu">slice_sample</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">50</span><span class="op">)</span>
+
+<span class="va">p_hat</span> <span class="op">&lt;-</span> <span class="va">my_sample</span> <span class="op">%&gt;%</span>
+    <span class="fu">specify</span><span class="op">(</span>response <span class="op">=</span> <span class="va">Marijuana</span>, success <span class="op">=</span> <span class="st">"Yes"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">calculate</span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"prop"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">pull</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p>Fill in the blanks in the following chunk to help you calculate the standard error based on the <code>p_hat</code> from your sample. <em>Hint:</em> This is about translating the formula in step 3 above into R code; two of the blanks should be filled with the <em>name</em> of a value you just saved.</p>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="lab7.html#cb165-1" aria-hidden="true" tabindex="-1"></a>standard_error <span class="ot">&lt;-</span> <span class="fu">sqrt</span>((___ <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> ___)) <span class="sc">/</span> ___)</span></code></pre></div>
+<p>Now use the following chunk to help you find the 95% confidence interval (again, this is about translating the formula in step 4 above into R, and you’ll be able to use the <em>names</em> of values you’ve already saved).</p>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="lab7.html#cb166-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(___ <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> ___, ___ <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> ___)</span></code></pre></div>
+<ol style="list-style-type: lower-alpha">
+<li>How would you report the 95% confidence interval you found if this was your real sample (i.e., if you didn’t know what the true value was)?</li>
+<li>Does your interval contain the true population parameter (0.585)? In your own words, explain why your interval might or might not have contained the true value.</li>
 </ol>
 </div>
 </div>
 </div>
-<div id="wrap-up-6" class="section level2" number="7.5">
+<div id="wrap-up-6" class="section level2" number="7.4">
 <h2>
-<span class="header-section-number">7.5</span> Wrap-up<a class="anchor" aria-label="anchor" href="#wrap-up-6"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.4</span> Wrap-up<a class="anchor" aria-label="anchor" href="#wrap-up-6"><i class="fas fa-link"></i></a>
 </h2>
 <p>In this session, we saw how we can use the normal distribution as a model of either a population distribution or a sampling distribution. Sometimes the normal distribution fits well, and sometimes it does not, and it is important for us to check whether it provides a reasonable approximation or not. We saw how to use the normal distribution to find intervals and proportions. When using the normal distribution to model a sampling distribution, its standard deviation (spread) is called the “standard error” and has a close relationship with sample size.</p>
 
@@ -450,24 +2205,25 @@
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#lab7"><span class="header-section-number">7</span> The normal distribution</a></li>
-<li><a class="nav-link" href="#required-packages-tidyverse-and-infer"><span class="header-section-number">7.1</span> Required packages: tidyverse and infer</a></li>
-<li><a class="nav-link" href="#the-data-national-health-and-nutrition-examination-surveys-nhanes"><span class="header-section-number">7.2</span> The data: National Health and Nutrition Examination Surveys (NHANES)</a></li>
+<li><a class="nav-link" href="#the-data-national-health-and-nutrition-examination-surveys-nhanes"><span class="header-section-number">7.1</span> The data: National Health and Nutrition Examination Surveys (NHANES)</a></li>
 <li>
-<a class="nav-link" href="#the-normal-distribution-as-a-model-for-a-population-distribution"><span class="header-section-number">7.3</span> The normal distribution as a model for a population distribution</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#hours-of-sleep-sleephrsnight"><span class="header-section-number">7.3.1</span> Hours of Sleep (SleepHrsNight)</a></li>
-<li><a class="nav-link" href="#bad-days-daysmenthlthbad"><span class="header-section-number">7.3.2</span> Bad Days (DaysMentHlthBad)</a></li>
+<a class="nav-link" href="#the-normal-distribution-as-a-model-for-a-population-distribution"><span class="header-section-number">7.2</span> The normal distribution as a model for a population distribution</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#visualize-the-distribution"><span class="header-section-number">7.2.1</span> Visualize the distribution</a></li>
+<li><a class="nav-link" href="#is-the-normal-distribution-a-good-model"><span class="header-section-number">7.2.2</span> Is the normal distribution a good model?</a></li>
+<li><a class="nav-link" href="#bad-days-bad-models"><span class="header-section-number">7.2.3</span> Bad days, bad models?</a></li>
 </ul>
 </li>
 <li>
-<a class="nav-link" href="#the-normal-distribution-as-a-model-for-a-sampling-distribution"><span class="header-section-number">7.4</span> The normal distribution as a model for a sampling distribution</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#the-true-proportion"><span class="header-section-number">7.4.1</span> The “true” proportion</a></li>
-<li><a class="nav-link" href="#simulating-many-samples"><span class="header-section-number">7.4.2</span> Simulating many samples</a></li>
-<li><a class="nav-link" href="#summary-statistics-for-each-sample"><span class="header-section-number">7.4.3</span> Summary statistics for each sample</a></li>
-<li><a class="nav-link" href="#approximating-with-a-normal-distribution"><span class="header-section-number">7.4.4</span> Approximating with a normal distribution</a></li>
-<li><a class="nav-link" href="#a-larger-sample"><span class="header-section-number">7.4.5</span> A larger sample</a></li>
+<a class="nav-link" href="#the-normal-distribution-as-a-model-for-a-sampling-distribution"><span class="header-section-number">7.3</span> The normal distribution as a model for a sampling distribution</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#the-true-proportion"><span class="header-section-number">7.3.1</span> The “true” proportion</a></li>
+<li><a class="nav-link" href="#simulating-many-samples"><span class="header-section-number">7.3.2</span> Simulating many samples</a></li>
+<li><a class="nav-link" href="#summary-statistics-for-each-sample"><span class="header-section-number">7.3.3</span> Summary statistics for each sample</a></li>
+<li><a class="nav-link" href="#approximating-with-a-normal-distribution"><span class="header-section-number">7.3.4</span> Approximating with a normal distribution</a></li>
+<li><a class="nav-link" href="#larger-samples-and-the-central-limit-theorem"><span class="header-section-number">7.3.5</span> Larger samples and the central limit theorem</a></li>
+<li><a class="nav-link" href="#what-if-we-dont-know-the-true-population"><span class="header-section-number">7.3.6</span> What if we don’t know the “true” population?</a></li>
 </ul>
 </li>
-<li><a class="nav-link" href="#wrap-up-6"><span class="header-section-number">7.5</span> Wrap-up</a></li>
+<li><a class="nav-link" href="#wrap-up-6"><span class="header-section-number">7.4</span> Wrap-up</a></li>
 </ul>
 
       <div class="book-extra">
@@ -485,7 +2241,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-10-05.</p>
+    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-10-16.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

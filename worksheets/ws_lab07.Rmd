@@ -130,7 +130,7 @@ d. Did the mean of the sampling distribution get bigger, smaller, or stay about 
 
 Run the following chunk of code to draw a single random sample of 50 people from the NHANES dataset, then calculate the sample proportion and save the result under the name `p_hat`.
 
-```{r single_samp}
+```{r}
 my_sample <- nhanes %>%
     slice_sample(n = 50)
 
@@ -142,15 +142,15 @@ p_hat <- my_sample %>%
 
 Fill in the blanks in the following chunk to help you calculate the standard error based on the `p_hat` from your sample.  *Hint:* This is about translating the formula in step 3 above into R code; two of the blanks should be filled with the *name* of a value you just saved.
 
-```{r find_se}
+```{r eval = FALSE}
 standard_error <- sqrt((___ * (1 - ___)) / ___)
 ```
 
 Now use the following chunk to help you find the 95% confidence interval (again, this is about translating the formula in step 4 above into R, and you'll be able to use the *names* of values you've already saved).
 
-```{r find_ci}
+```{r eval = FALSE}
 c(___ - 1.96 * ___, ___ + 1.96 * ___)
 ```
 
-a. What is the 95% confidence interval based on your sample?
-b. Does your interval contain the true population parameter (0.585)?  Are you surprised or not about the outcome?
+a. How would you report the 95% confidence interval you found if this was your real sample (i.e., if you didn't know what the true value was)?
+b. Does your interval contain the true population parameter (0.585)?  In your own words, explain why your interval might or might not have contained the true value.

@@ -12,6 +12,11 @@ knitr::opts_chunk$set(
 )
 
 set.seed(12222)
+
+library(tidyverse)
+library(infer)
+
+nhanes <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/nhanes.csv")
 ```
 
 ```{r, echo=FALSE, out.width="100%"}
@@ -22,30 +27,17 @@ The venerable **normal distribution** or "bell curve" is almost like a mascot fo
 
 In this session, we will first use the normal distribution as a model for population distributions, that is the distribution of values on a particular variable across a whole population.  Along the way, we will get the hang of using R to find proportions and intervals based on the normal distribution.  Then, in the second part, we will use the normal distribution as a model for sampling distributions.  This will give us some insight into how **standard error** relates to things like sample size.
 
-## Required packages: `tidyverse` and `infer`
-
-We will require both the `tidyverse` and `infer` packages for this session, so make sure to load both from R's library:
-
-```{r}
-library(tidyverse)
-library(infer)
-```
+To help with the later exercises in this session, be sure to **download the worksheet for this session** by right-clicking on the following link and selecting "Save link as...": [Worksheet for Lab 7](https://raw.githubusercontent.com/gregcox7/StatLabs/main/worksheets/ws_lab07.Rmd).  Open the saved file (which by default is called "ws_lab07.Rmd") in RStudio.
 
 ## The data: National Health and Nutrition Examination Surveys (NHANES)
 
-The data we will be using in this lab were originally collected by the US National Center for Heath Statistics between 2009 and 2012.  This is a subset of what is effectively a simple random sample from the entire US population, though we will only use some of the observations out of the many they collected.  Load the data with the following line:
-
-```{r}
-nhanes <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/nhanes.csv")
-```
+The data we will be using in this lab---labeled `nhanes` in your R environment---were originally collected by the US National Center for Heath Statistics between 2009 and 2012.  This is a subset of what is effectively a simple random sample from the entire US population, though we will only use some of the observations out of the many they collected.
 
 ## The normal distribution as a model for a population distribution
 
-### Hours of Sleep (`SleepHrsNight`)
+The variable we will focus on first is the number of hours people report sleeping each night, measured in hours.  This is recorded for each individual in the sample under the variable `SleepHrsNight`.
 
-The variable we will focus on in this section is the number of hours people report sleeping each night, measured in hours.  This is recorded for each individual in the sample under the variable `SleepHrsNight`.
-
-#### Visualize the distribution
+### Visualize the distribution
 
 As usual, we begin by visualizing the actual data.  As a reminder, we will assume for the time being that these data constitute the entire population of interest.  The histogram below shows the population distribution of nightly hours of sleep:
 
@@ -55,7 +47,7 @@ nhanes %>%
     geom_histogram(binwidth = 1)
 ```
 
-#### Is the normal distribution a good model?
+### Is the normal distribution a good model?
 
 Next, we want to know whether the normal distribution will be a good model of the population distribution we just visualized.  To do this, we will draw a curve representing the normal distribution on top of the histogram we just made.
 
@@ -74,182 +66,101 @@ Notice that we needed to add `aes(y = ..density..)` to our histogram line, for r
 
 The whole "density" thing comes from this:  A histogram shows *absolute* counts.  But a normal distribution only specifies the *relative* frequency of different values.  The relative frequency is called the "density".  This is what the `dnorm` function gives us for the normal distribution.  So adding `aes(y = ..density..)` to the histogram line told R to show the density (relative frequency) rather than the absolute counts.
 
-Anyway, it is clear that a mean of 8 hours and standard deviation of 1 hour do not make a good fit.  What we should use instead are the actual mean and SD from our data:
-
-```{r}
-nhanes %>%
-    summarize(mean(SleepHrsNight), sd(SleepHrsNight))
-```
-
-Let's give those numbers a label so we can use them later:
-
-```{r}
-mean_sleep <- nhanes %>%
-    summarize(mean(SleepHrsNight)) %>%
-    pull()
-
-sd_sleep <- nhanes %>%
-    summarize(sd(SleepHrsNight)) %>%
-    pull()
-```
+Anyway, it is clear that a mean of 8 hours and standard deviation of 1 hour do not make a good fit.
 
 ::: {.exercise}
-Fill in the blanks in the code below to visualize the fit of the normal distribution using the values for the mean and SD we just found.
 
-```{r eval=FALSE}
+Play around with different values of "mean" and "sd" in the chunk of code below.  Try to find values that result in a normal distribution that is a good "fit" to the data.  You can start by setting `mean = 8` and `sd = 1` and then adjust from there.
+
+```{r eval = FALSE}
 nhanes %>%
     ggplot(aes(x = SleepHrsNight)) +
     geom_histogram(aes(y = ..density..), binwidth = 1) +
     stat_function(fun = dnorm, args = list(mean = ___, sd = ___), color = 'darkred')
 ```
 
-Does the normal distribution do a good job approximating the shape of the population distribution?
+a. Describe the strategy you used to find values for `mean` and `sd` that seemed to make a good fit.
+b. What values did you find?
+c. Try setting `mean = 6.86` and `sd = 1.32` and run the chunk.  These are close to the actual mean and standard deviation of the data in our sample.  Compared to the settings for `mean` and `sd` that you found, do you think these make a better or worse "fit"?
 
 :::
 
-#### Proportions from a normal distribution
-
-Using a normal distribution, it is possible to estimate what proportion of values will be above or below some number.  For example, the following uses the normal distribution to estimate the proportion of people who say they get less than eight hours of sleep per night:
-
-```{r}
-pnorm(q = 8, mean = mean_sleep, sd = sd_sleep, lower.tail = TRUE)
-```
-
-Conversely, this is the proportion that get *more* than eight hours of sleep per night:
-
-```{r}
-pnorm(q = 8, mean = mean_sleep, sd = sd_sleep, lower.tail = FALSE)
-```
-
-Notice that the difference is whether `lower.tail` is `TRUE` or `FALSE`.  If `lower.tail = TRUE`, we are asking the proportion that is *below* the value `q`, but if `lower.tail = FALSE` we are asking the proportion that is *above* the value `q`.
-
-::: {.exercise}
-Use the `pnorm` function to find the following proportions:
-
-a. The proportion of people who get *less than* 6 hours of sleep per night.
-b. The proportion of people who get *more than* 10 hours of sleep per night.
-c. The proportion of people who get *either* less than 6 hours of sleep per night *or* more than 10 hours of sleep per night (*Hint:* you can add proportions of things that do not overlap.)
-
-:::
-
-#### Quantiles from a normal distribution
-
-As we saw last time, things like confidence intervals are defined in terms of "quantiles".  Finding a quantile is the opposite of finding a proportion.  In R, this opposite relationship is clear because we just swap the `p` and `q`.  The `qnorm` function find the value `q` for which the proportion `p` of values are either below or above `q`.
-
-For example, if we want to know the "25th percentile", this is the quantile `q` for which `p = 0.25` are *less than* that value:
-
-```{r}
-qnorm(p = 0.25, mean = mean_sleep, sd = sd_sleep, lower.tail = TRUE)
-```
-
-Here's a neat trick, though:  If 0.25 are *less than* some value, that means 0.75 are *more than* that value.  So if we flip `lower.tail` to `FALSE` and `p` to `0.75`, we will get the same answer:
-
-```{r}
-qnorm(p = 0.75, mean = mean_sleep, sd = sd_sleep, lower.tail = FALSE)
-```
-
-::: {.exercise}
-Use the `qnorm` function to find the following quantiles:
-
-a. What is the quantile for which 0.025 of the data are *below* that value?
-a. What is the quantile for which 0.025 of the data are *above* that value?
-a. Between which two values does the middle 95% of the data fall?  (*Hint:* how much of the data would fall above and below the middle 95%?)
-
-:::
-
-### Bad Days (`DaysMentHlthBad`)
+### Bad days, bad models?
 
 As part of the same survey, people were asked how many days out of the last 30 would they consider their mental health to have been poor.  This is recorded under the variable named `DaysMentHlthBad`.
 
-Just like we did for the number of hours slept per night, find the mean and standard deviation of `DaysMentHlthBad` and see whether the normal distribution seems to provide a good approximation to the population distribution.
-
 ::: {.exercise}
-Fill in the blanks in the chunk of code below to find the mean and standard deviation of `DaysMentHlthBad` and plot the data along with the approximating normal distribution.
 
-```{r eval=FALSE}
-mean_mental_health <- nhanes %>%
-    summarize(mean(___)) %>%
-    pull()
+Use the chunk of code to help you make a histogram of the distribution of bad mental health days per month (remember that these are recorded in the `nhanes` dataset under the variable named `DaysMentHlthBad`; you can also try different bin widths as you like).
 
-sd_mental_health <- nhanes %>%
-    summarize(sd(___)) %>%
-    pull()
-
-nhanes %>%
+```{r eval = FALSE}
+___ %>%
     ggplot(aes(x = ___)) +
-    geom_histogram(aes(y = ..density..), binwidth = 1) +
-    stat_function(fun = dnorm, args = list(mean = ___, sd = ___), color = 'darkred')
+    geom_histogram(binwidth = 1)
 ```
 
-a. Describe the shape of the distribution of the observed data shown in the histogram.
-a. Does the normal distribution provide a good fit to these data?
-a. Make a reasoned guess about why the population distribution might have the shape that it has, taking note of the fact that respondents had to give a number of days out of 30.
+a. Do you think the normal distribution would be able to fit these data?  Why or why not?
+a. Make a reasonable guess about why the population distribution might have the shape that it has, taking note of the fact that respondents had to give a number of days out of 30.
 
 :::
 
 ## The normal distribution as a model for a sampling distribution
 
-In the previous section, we got a sense of how we can use the normal distribution to approximate a distribution of observed values from a population:
-
-1. Find the mean and standard deviation.
-2. Check to see how well the normal distribution with that mean and standard deviation fits the histogram of the observed data.
-
-We will now follow these same two steps, but instead of using the normal distribution to model a population distribution, we will use it to model a **sampling distribution**, that is, the distribution of summary statistics that we would get across many samples from the same population.
+In the previous section, we got a sense of how we can *sometimes* use the normal distribution to approximate a distribution of observed values from a population.  But more often, the normal distribution is used as a model of a **sampling distribution**.
 
 In this section, we will again assume that the `nhanes` dataset represents the *entire population* of interest.  We will *simulate* drawing many different samples of different sizes from this population and calculate a summary statistic on each sample.  The **sampling distribution** is the distribution of those summary statistics and we will see how well we can approximate it with a normal distribution.
 
 We will focus on just one of the questions asked on the NHANES survey.  This question asks whether someone has ever tried using marijuana.  This information resides in the variable `Marijuana` and a person's response is either "Yes" or "No".
 
 ::: {.exercise}
-Without even looking at the data, would it make sense to try to use a normal distribution to approximate the population distribution of the responses to the `Marijuana` question?  Why or why not?
+Without even looking at the data, would it make sense to try to use a normal distribution to approximate the *population distribution* of the responses to the `Marijuana` question?  Why or why not?
 
 :::
 
 ### The "true" proportion
 
-Because we are assuming that the `nhanes` data represent an entire population, we can directly find the "true" value of the population parameter $\pi_{\text{Marijuana}}$, that is, the proportion of people who have ever tried marijuana.  We can use the code below:
+Because we are assuming that the `nhanes` data represent the entire population we are interested in, we can find the "true" value of the population parameter $\pi_{\text{Marijuana}}$, that is, the proportion of people who have ever tried marijuana.  We can use the code below:
 
 ```{r}
 nhanes %>%
-    group_by(Marijuana) %>%
-    summarize(n = n()) %>%
-    mutate(pi = n / sum(n))
+    specify(response = Marijuana, success = "Yes") %>%
+    calculate(stat = "prop")
 ```
-
-Actually, since we are only interested in the proportion who said "Yes", we can find that proportion using some more compact code:
-
-```{r}
-nhanes %>%
-    summarize(pi_marijuana = mean(Marijuana == "Yes"))
-```
-
-The "trick" in the previous chunk of code is this: `Marijuana == "Yes"` checks to see, for each person, whether their response to the `Marijuana` question was "Yes".  If it was, it gives that person a "score" of 1, but if not, it gives that person a "score" of 0.  Recall that the mean is the *sum* of a set of numbers divided by the *total number* of numbers.  So when we find the `mean` of those scores using `mean(Marijuana == "Yes")`, we are really adding up the number of people who "scored" a 1 and dividing by the total number of people.
 
 ### Simulating many samples
 
-Last time, we used *bootstrapping* to simulate what would happen if we collected many samples from a population by using the sample we actually had to *estimate* the whole population.  Now, we have access to that population directly.  We can therefore draw as many samples of a given size as we want!
+Last session, we used *bootstrapping* to simulate what would happen if we collected many samples from a population.  We did that by using our sample to *estimate* the whole population.  Now, we have access to that whole population.  We can therefore draw as many samples of a given size as we want!
 
-For example, the following chunk of code randomly samples 5 people from the population and gets R to remember that sample under the name `sample_size5`.
+The following chunk of code randomly samples 5 people from the population and gets R to remember that sample under the name `sample_size5`.
 
 ```{r}
 sample_size5 <- nhanes %>%
-    sample_n(size = 5)
+    slice_sample(n = 5)
+```
 
-sample_size5
+This is what that sample looks like:
+
+```{r echo = FALSE}
+knitr::kable(sample_size5)
 ```
 
 Notice that we still have all of those people's responses to each question on the NHANES survey.  That means we can get a *summary statistic* for the `Marijuana` variable from this sample, just like we did from the population.
 
 ::: {.exercise}
-Based on the code we used above to find the "true" proportion in the population, get the point estimate based on the sample of 5 people you just drew (`sample_size5`).
+
+Fill in the blanks in the chunk of code below to draw your own sample of size 5 from the NHANES population and get the proportion of people in your sample who have used marijuana.  *Hint:* see above for how we calculated this proportion from the whole NHANES population, but remember that now we are calculating it from our new `sample_size5`.
 
 ```{r eval = FALSE}
+sample_size5 <- nhanes %>%
+    slice_sample(n = 5)
+
 ___ %>%
-    summarize(p_hat = ___)
+    specify(response = ___, success = "___") %>%
+    calculate(stat = "___")
 ```
 
 a. What is the proportion of people who tried marijuana in your sample?
-a. Would you expect to get the same proportion from another random sample from the population?  Why or why not?
+a. Try running your chunk of code a few times.  Explain in your own words why the calculated proportion is not always the same.
 
 :::
 
@@ -257,107 +168,147 @@ As we've seen, the great thing about computers is that they can do boring repeti
 
 ```{r}
 samples_size5 <- nhanes %>%
-    rep_sample_n(size = 5, reps = 1000)
+    rep_slice_sample(n = 5, reps = 1000)
+```
 
-samples_size5
+Here are the first three samples in our new `samples_size5`:
+
+```{r echo = FALSE}
+knitr::kable(head(samples_size5, 15))
 ```
 
 ### Summary statistics for each sample
 
-Notice that the different samples are labeled using the variable `replicate`.  We can use this to get the proportion of marijuana triers in each sample using the old `group_by` routine.  We will tell R to remember these sample proportions under the name `sample_props_mari_size5`:
+Notice that the different samples are indexed using the new variable `replicate`.  We can use this to get the proportion of marijuana triers in each sample using the old `group_by` routine.  We will tell R to remember these sample proportions under the name `sample_props_mari_size5`:
 
 ```{r}
 sample_props_mari_size5 <- samples_size5 %>%
     group_by(replicate) %>%
-    summarize(p_hat = mean(Marijuana == "Yes"))
-
-sample_props_mari_size5
+    summarize(stat = mean(Marijuana == "Yes"))
 ```
 
 Notice that the proportions calculated from each sample will tend to vary.  We can visualize this using a histogram:
 
 ```{r}
 sample_props_mari_size5 %>%
-    ggplot(aes(x = p_hat)) +
+    ggplot(aes(x = stat)) +
     geom_histogram(aes(y = ..density..), binwidth = 0.2)
 ```
 
 ### Approximating with a normal distribution
 
-Finally, to see whether we can approximate this sampling distribution with a normal distribution, we need to find the *mean* and *standard deviation* of the sampling distribution.  Recall, that the standard deviation of a sampling distribution has a special name: the **standard error (SE)**.
-
-We will tell R to remember this numbers under the names `mean_props_mari_size5` and `se_props_mari_size5`:
-
-```{r}
-mean_props_mari_size5 <- sample_props_mari_size5 %>%
-    summarize(mean(p_hat)) %>%
-    pull()
-
-se_props_mari_size5 <- sample_props_mari_size5 %>%
-    summarize(sd(p_hat)) %>%
-    pull()
-```
-
-Now we will draw the normal curve on top of the histogram we made earlier:
-
-```{r}
-sample_props_mari_size5 %>%
-    ggplot(aes(x = p_hat)) +
-    geom_histogram(aes(y = ..density..), binwidth = 0.2) +
-    stat_function(fun = dnorm, args = list(mean = mean_props_mari_size5, sd = se_props_mari_size5), color = 'darkred')
-```
-
-Not bad!
+To see whether we can approximate this sampling distribution with a normal distribution, we need to find the *mean* and *standard deviation*.  Recall, that the standard deviation of a sampling distribution has a special name: the **standard error (SE)**.
 
 ::: {.exercise}
-Use the `qnorm` function to help you find the 95% confidence interval for the proportion of marijuana triers based on samples of size 5.
 
-It may help to start from the "skeleton" below, which will put the lower and upper boundaries of the confidence interval under the labels `ci_lower` and `ci_upper` respectively.
+First, run this chunk of code so that you'll have your own sampling distribution to work with (this is just what we ran prior to this exercise):
 
-```{r eval=FALSE}
-ci_lower <- qnorm(p = ___, mean = ___, sd = ___, lower.tail = ___)
-ci_upper <- qnorm(p = ___, mean = ___, sd = ___, lower.tail = ___)
+```{r eval = FALSE}
+samples_size5 <- nhanes %>%
+    rep_slice_sample(n = 5, reps = 1000)
+
+sample_props_mari_size5 <- samples_size5 %>%
+    group_by(replicate) %>%
+    summarize(stat = mean(Marijuana == "Yes"))
 ```
 
-a. What is the 95% confidence interval, according to the normal distribution?
-a. Is there anything strange about this interval, given that it is meant to describe plausible values for a *proportion*?  What does this suggest about whether or not the normal distribution is a good approximation to this particular sampling distribution?
+You should see `sample_props_mari_size5` in your R environment.  This contains 1000 proportions from 1000 samples of size 5 from the NHANES population.
+
+Now, just like we did above for hours of sleep, play around with different `mean` and `sd` settings in the final line of the following chunk until you find a normal distribution that seems to be a good "fit" to the distribution of sample proportions.
+
+```{r eval = FALSE}
+sample_props_mari_size5 %>%
+    ggplot(aes(x = stat)) +
+    geom_histogram(aes(y = ..density..), binwidth = 0.2) +
+    stat_function(fun = dnorm, args = list(mean = ___, sd = ___), color = 'darkred')
+```
+
+a. What values for `mean` and `sd` seemed to be best to you?
+b. Does it seem like the normal distribution is a good "fit" to this sampling distribution?  (*Hint:* what happens to the tails of the normal distribution when you try to fit it to this sampling distribution?)
 
 :::
 
-### A larger sample
+### Larger samples and the central limit theorem
 
-The following chunk of code re-does everything we just did, but now with a sample size of 80 instead of 5:
+Recall that the central limit theorem says that the normal distribution will probably be a good model *if* the samples that go into our sampling distribution are sufficiently large (*and* if each observation in our sample is independent of the others, which is guaranteed by random sampling).  If so, then the mean of the sampling distribution should be close to the population proportion $\pi$ and the standard error should be close to
 
-```{r}
-samples_size80 <- nhanes %>%
-    rep_sample_n(size = 80, reps = 1000)
+$$
+SE = \sqrt{\frac{\pi \left(1 - \pi \right)}{n}}
+$$
 
-sample_props_mari_size80 <- samples_size80 %>%
-    group_by(replicate) %>%
-    summarize(p_hat = mean(Marijuana == "Yes"))
-
-mean_props_mari_size80 <- sample_props_mari_size80 %>%
-    summarize(mean(p_hat)) %>%
-    pull()
-
-se_props_mari_size80 <- sample_props_mari_size80 %>%
-    summarize(sd(p_hat)) %>%
-    pull()
-
-sample_props_mari_size80 %>%
-    ggplot(aes(x = p_hat)) +
-    geom_histogram(aes(y = ..density..), binwidth = 0.0125) +
-    stat_function(fun = dnorm, args = list(mean = mean_props_mari_size80, sd = se_props_mari_size80), color = 'darkred')
-```
+Let's see what happens if we use those when we fit our normal distribution to the sampling distribution.  Remember that we found the population proportion earlier (it was about $0.585$).
 
 ::: {.exercise}
---
 
-a. Does the normal distribution provide a good "fit" to the sampling distribution for samples of size 80?
-a. What is the 95% confidence interval based on a sample size of 80, according to the normal distribution?  (*Hint:* see the previous exercise.)
-a. Compare the standard error when samples were size 5 (`se_props_mari_size5`) to when samples were size 80 (`se_props_mari_size80`).  How does the standard error change with sample size?
-a. Compare the mean of the sampling distributions for samples of size 5 (`mean_props_mari_size5`) and samples of size 80 (`mean_props_mari_size80`).  Does the mean change much with sample size?  How close are these means to the "true" proportion in the population that we found earlier?
-a. Based on the relationships between the mean of a sampling distribution, the standard error, and sample size, conjecture a reason why we might call the standard deviation of a sampling distribution a "standard error". (*Hint:* consider that we are typically trying to use a sample statistic as an imperfect estimate of a population parameter.)
+Now, run the following chunk of code to generate 1000 samples of size 50, instead of size 5:
+
+```{r}
+samples_size50 <- nhanes %>%
+    rep_sample_n(size = 50, reps = 1000)
+
+sample_props_mari_size50 <- samples_size50 %>%
+    group_by(replicate) %>%
+    summarize(stat = mean(Marijuana == "Yes"))
+```
+
+You should now see `sample_props_mari_size50` in your R environment.
+
+```{r eval = FALSE}
+sample_props_mari_size50 %>%
+    ggplot(aes(x = stat)) +
+    geom_histogram(aes(y = ..density..), binwidth = 0.02) +
+    stat_function(fun = dnorm, args = list(mean = ___, sd = ___), color = 'darkred')
+```
+
+a. What is the standard error according to the central limit theorem (remember than the population proportion is $\pi = 0.585$ and our samples are of size $n = 50$)?
+b. In the chunk of code above, set the `mean` to the population proportion (0.585) and the `sd` to the standard error you found in part [a].  Compare the fit of the normal distribution in this exercise to the one from the previous exercise---does the normal distribution make a better "fit" when we use bigger samples?
+c. Did the standard error get bigger, smaller, or stay about the same when we used bigger samples?
+d. Did the mean of the sampling distribution get bigger, smaller, or stay about the same when we used bigger samples?
+
+:::
+
+### What if we don't know the "true" population?
+
+Unlike in the previous example, in practice we usually have a single sample and *don't* know what the true value of the population parameter is.  But we can still use our sample to learn something about the population in general.  We've seen how to use bootstrapping to construct a 95\% confidence interval for a population proportion based on a sample.  Let's do the same with the normal distribution.
+
+To do this, we will do the following:
+
+1. Draw a random sample of size 50 from the complete NHANES dataset.
+2. Use R to calculate the proportion of people in the same who have tried marijuana; this is our sample statistic $\hat{p}$ or `p_hat`.
+3. Use $\hat{p}$ from our sample to calculate the standard error according to the same formula as above:
+$$
+SE = \sqrt{\frac{\hat{p} \left(1 - \hat{p} \right)}{n}}
+$$
+4. Make a 95% confidence interval using our knowledge that 95% of a normal distribution is within 1.96 standard deviations of the mean; the 95% CI is $\left( \hat{p} - 1.96 \times SE, \hat{p} + 1.96 \times SE \right)$.
+
+::: {.exercise}
+
+Run the following chunk of code to draw a single random sample of 50 people from the NHANES dataset, then calculate the sample proportion and save the result under the name `p_hat`.
+
+```{r}
+my_sample <- nhanes %>%
+    slice_sample(n = 50)
+
+p_hat <- my_sample %>%
+    specify(response = Marijuana, success = "Yes") %>%
+    calculate(stat = "prop") %>%
+    pull()
+```
+
+Fill in the blanks in the following chunk to help you calculate the standard error based on the `p_hat` from your sample.  *Hint:* This is about translating the formula in step 3 above into R code; two of the blanks should be filled with the *name* of a value you just saved.
+
+```{r eval = FALSE}
+standard_error <- sqrt((___ * (1 - ___)) / ___)
+```
+
+Now use the following chunk to help you find the 95% confidence interval (again, this is about translating the formula in step 4 above into R, and you'll be able to use the *names* of values you've already saved).
+
+```{r eval = FALSE}
+c(___ - 1.96 * ___, ___ + 1.96 * ___)
+```
+
+a. How would you report the 95% confidence interval you found if this was your real sample (i.e., if you didn't know what the true value was)?
+b. Does your interval contain the true population parameter (0.585)?  In your own words, explain why your interval might or might not have contained the true value.
 
 :::
 
