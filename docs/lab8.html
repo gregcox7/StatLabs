@@ -56,8 +56,8 @@
 <h1>
 <span class="header-section-number">Lab 8</span> Inference for proportions<a class="anchor" aria-label="anchor" href="#lab8"><i class="fas fa-link"></i></a>
 </h1>
-<div class="inline-figure"><img src="img/robodoc.jpeg" width="100%"></div>
-<p>In this session, we will collect all the techniques we have encountered for doing inferential statistics with proportions:</p>
+<div class="inline-figure"><img src="img/lineup.jpg" width="100%"></div>
+<p>In this session, we will collect and apply all the techniques we have encountered for doing inferential statistics with proportions:</p>
 <ul>
 <li>
 <a href="lab5.html#lab5">Hypothesis testing</a> for deciding whether two proportions are significantly different from one another.</li>
@@ -66,274 +66,227 @@
 <li>
 <a href="lab7.html#lab7">Using the normal distribution</a> as a mathematical model for a sampling distribution.</li>
 </ul>
-<p>Many of the exercises in this activity will require you to look back to these previous sessions for hints and guidance as we apply these techniques to a new dataset that addresses the question of whether algorithms can help in making important medical diagnoses.</p>
-<div id="required-packages-1" class="section level2" number="8.1">
+<p>Many of the exercises in this activity may require you to look back to these previous sessions for hints and guidance as we apply these techniques to address some important questions about eyewitness memory.</p>
+<p>To help with the later exercises in this session, be sure to <strong>download the worksheet for this session</strong> by right-clicking on the following link and selecting “Save link as…”: <a href="https://raw.githubusercontent.com/gregcox7/StatLabs/main/worksheets/ws_lab08.Rmd">Worksheet for Lab 8</a>. Open the saved file (which by default is called “ws_lab08.Rmd”) in RStudio.</p>
+<div id="get-to-know-the-data" class="section level2" number="8.1">
 <h2>
-<span class="header-section-number">8.1</span> Required packages<a class="anchor" aria-label="anchor" href="#required-packages-1"><i class="fas fa-link"></i></a>
+<span class="header-section-number">8.1</span> Get to know the data<a class="anchor" aria-label="anchor" href="#get-to-know-the-data"><i class="fas fa-link"></i></a>
 </h2>
-<p>Make sure you have loaded both the <code>tidyverse</code> and <code>infer</code> packages from R’s library:</p>
-<div class="sourceCode" id="cb167"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-info"><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
-<pre class="Rout text-info"><code>## ✔ ggplot2 3.3.6     ✔ purrr   0.3.4
-## ✔ tibble  3.1.8     ✔ dplyr   1.0.9
-## ✔ tidyr   1.1.3     ✔ stringr 1.4.0
-## ✔ readr   2.1.2     ✔ forcats 0.5.1</code></pre>
-<pre class="Rout text-info"><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()</code></pre>
-<div class="sourceCode" id="cb171"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/infer">infer</a></span><span class="op">)</span></code></pre></div>
-</div>
-<div id="get-to-know-the-data" class="section level2" number="8.2">
-<h2>
-<span class="header-section-number">8.2</span> Get to know the data<a class="anchor" aria-label="anchor" href="#get-to-know-the-data"><i class="fas fa-link"></i></a>
-</h2>
-<p>The data we will be working with in this session are from a study of whether using an algorithm can aid in the detection of “adenomas” in images from colonoscopies <span class="citation">(<a href="references.html#ref-Wang2019" role="doc-biblioref">Wang et al., 2019</a>)</span>. An adenoma is a benign tumor that can, in time, become malignant. For this reason, it is important to detect them early so they can be removed before they lead to colon cancer. Adenomas are detected by looking for particular structures in images like the one below:</p>
+<p><strong>Eyewitness testimony</strong> is an important tool for establishing whether a suspect may or may not have committed a crime. If an eyewitness identifies a suspect as the person they saw at the scene of a crime, this is usually taken as strong evidence of the suspect’s potential culpability. These identifications are usually done within a <strong>lineup</strong>, where the eyewitness is shown a <em>suspect</em> among several other non-suspects known as <em>“fillers”</em>. If the witness identifies the suspect as the person they saw, this information can be used to investigate that person and to provide evidence in court.</p>
+<p>Despite the importance of eyewitness testimony, human memory is far from perfect. It can be difficult for people to (a) remember details of a person’s face in the midst of a stressful event like experiencing a crime; and (b) identify whether a suspect matches what they remember even when people are encountered in different settings (e.g., different light conditions, different clothes, different facial hair/makeup, etc.). Because of these difficulties, eyewitnesses will sometimes make false identifications. Moreover, subtle details of how the police present the lineup to the witness may influence how accurately they can pick out a suspect. As a result, there is considerable interest in understanding how accurate eyewitness testimony is and how best to conduct police lineups to minimize false identifications.</p>
+<p>The data for this session were collected as part of a long-term study of the use of police lineups <span class="citation">(<a href="#ref-WixtedEtAl2016" role="doc-biblioref"><strong>WixtedEtAl2016?</strong></a>)</span>. The study was conducted in the field in 2013, in the Robbery Division of the Houston (Texas) Police Department. The participants were eyewitnesses in various robbery cases. For each case, the investigating officer constructed a lineup consisting of <strong>six</strong> photographs. One photograph was of the <strong>suspect</strong> in the case, the remaining five were <strong>fillers</strong>, defined as non-suspects who still match the <em>physical description</em> of the suspect. The lineups were shown either <em>simultaneously</em> (all six photos at once) or <em>sequentially</em> (one photo at a time).</p>
 <div class="figure">
-<img src="img/adenoma.jpg" alt=""><p class="caption">Example of detecting adenomas (outlined in blue) from a medical image.</p>
+<img src="img/lineup_types.png" alt=""><p class="caption">Examples of simultaneous and sequential photo lineups <span class="citation">(<a href="#ref-GepshteinEtAl2020" role="doc-biblioref"><strong>GepshteinEtAl2020?</strong></a>)</span>.</p>
 </div>
-<p>As you can tell, looking for these structures is not always easy, even for experts. Part of the problem is that the images are all very similar to one another and an expert’s attention may not be drawn to the most important parts of the image. In other words, even though the application is in medical diagnosis, the “problem” is psychological. Perhaps a computer algorithm could help “solve” this problem by directing attention to the right parts of the image. On the other hand, it might be that the algorithm gives bad suggestions. The purpose of this study was to see whether the algorithm had an effect at all and, if so, whether it helped or hurt the detection of the adenomas that lead to colon cancer.</p>
-<p>Run the line below to download the data into your R environment:</p>
-<div class="sourceCode" id="cb172"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">colonoscopy</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/colonoscopy.csv"</span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-info"><code>## Rows: 1058 Columns: 2
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: ","
-## chr (2): method, detected
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<p>Let’s take a quick look at the data:</p>
-<div class="sourceCode" id="cb174"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">colonoscopy</span></code></pre></div>
-<pre class="Rout text-muted"><code>## # A tibble: 1,058 × 2
-##    method         detected
-##    &lt;chr&gt;          &lt;chr&gt;   
-##  1 Routine        No      
-##  2 Computer-aided No      
-##  3 Computer-aided No      
-##  4 Routine        No      
-##  5 Routine        Yes     
-##  6 Routine        No      
-##  7 Computer-aided No      
-##  8 Computer-aided Yes     
-##  9 Routine        No      
-## 10 Routine        No      
-## # … with 1,048 more rows</code></pre>
-<p>These data are from an <strong>experiment</strong>. Each row represents a specific image like the one shown above. Each image was randomly assigned to be analyzed using a different <code>method</code>: <code>"Routine"</code> analyses involved a professional analyst looking at the image; <code>"Computer-aided"</code> analyses used an automated algorithm to identify potential adenomas which were then double-checked by a human analyst. The variable <code>detected</code>, which is either <code>"Yes"</code> or <code>"No"</code>, indicates whether an adenoma was detected in the image.</p>
+<p>It is important to note that the investigators who showed these lineups to the eyewitnesses were <strong>blind</strong> as to which person in the lineup was the suspect. As a result, the investigators would not be able to systematically <em>bias</em> the identifications that witnesses made.</p>
+<p>Here are the first few rows of the data, to give a sense of what it looks like:</p>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr class="header">
+<th align="left">presentation</th>
+<th align="left">ID</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">Simultaneous</td>
+<td align="left">Suspect</td>
+</tr>
+<tr class="even">
+<td align="left">Simultaneous</td>
+<td align="left">Suspect</td>
+</tr>
+<tr class="odd">
+<td align="left">Sequential</td>
+<td align="left">Filler</td>
+</tr>
+<tr class="even">
+<td align="left">Simultaneous</td>
+<td align="left">Filler</td>
+</tr>
+<tr class="odd">
+<td align="left">Sequential</td>
+<td align="left">Filler</td>
+</tr>
+<tr class="even">
+<td align="left">Sequential</td>
+<td align="left">Filler</td>
+</tr>
+</tbody>
+</table></div>
+<p>Each row represents the response from a single witness to a single six-person photo lineup. There are just two variables:</p>
+<ul>
+<li>
+<strong>presentation</strong>: Whether the six photos were presented to the witness in “Sequential” or “Simultaneous” format.</li>
+<li>
+<strong>ID</strong>: Whether the witness identified the “Suspect” as being the person they saw, or whether they identified one of the “Filler” people instead.</li>
+</ul>
 </div>
-<div id="what-are-the-point-estimates" class="section level2" number="8.3">
+<div id="confidence-interval-bootstrapping-how-accurate-are-eyewitnesses" class="section level2" number="8.2">
 <h2>
-<span class="header-section-number">8.3</span> What are the point estimates?<a class="anchor" aria-label="anchor" href="#what-are-the-point-estimates"><i class="fas fa-link"></i></a>
+<span class="header-section-number">8.2</span> Confidence interval (bootstrapping): How accurate are eyewitnesses?<a class="anchor" aria-label="anchor" href="#confidence-interval-bootstrapping-how-accurate-are-eyewitnesses"><i class="fas fa-link"></i></a>
 </h2>
-<p>Before we start doing any fancy inference, let’s first get the <strong>point estimates</strong>, that is, the proportions of images identified as containing an adenoma using each method. We can figure this out by hand using the counts in the table below:</p>
-<div class="sourceCode" id="cb176"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">colonoscopy</span> <span class="op">%&gt;%</span>
-    <span class="fu">group_by</span><span class="op">(</span><span class="va">method</span>, <span class="va">detected</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">summarize</span><span class="op">(</span>n <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-info"><code>## `summarise()` has grouped output by 'method'. You can override using the
-## `.groups` argument.</code></pre>
-<pre class="Rout text-muted"><code>## # A tibble: 4 × 3
-## # Groups:   method [2]
-##   method         detected     n
-##   &lt;chr&gt;          &lt;chr&gt;    &lt;int&gt;
-## 1 Computer-aided No         370
-## 2 Computer-aided Yes        152
-## 3 Routine        No         427
-## 4 Routine        Yes        109</code></pre>
+<p>An important thing to keep in mind is that even if the witness identified the suspect in the lineup, that does not necessarily mean the suspect is guilty or even that they were present at the scene of the crime. On the other hand, identifying one of the fillers is <em>definitely</em> a mistake, since these people are known to have nothing to do with the crime being investigated.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-50" class="exercise"><strong>Exercise 8.1  </strong></span>Refer to the frequency table above to answer the following questions.</p>
+<p><span id="exr:unlabeled-div-50" class="exercise"><strong>Exercise 8.1  </strong></span>Our first task in analyzing these data is to estimate the proportion of suspect ID’s from these lineups. For the moment, we will ignore whether the lineup was presented simultaneously or sequentially. Our aim here is to build a 95% confidence interval that describes how often, on average, witnesses identify the suspect from the lineup.</p>
 <ol style="list-style-type: lower-alpha">
-<li>What is the proportion of images with an adenoma detected using the “Routine” method?</li>
-<li>What is the proportion of images with an adenoma detected using the “Computer-aided” method?</li>
-<li>Based on these point estimates, do these data suggest there may be a benefit to using the algorithm?</li>
+<li>Use the following chunk of code to calculate and store the proportion of suspect ID’s in the lineup data. <strong>Hint:</strong> look back at how we wrote the <code>specify</code> and <code>calculate</code> lines for Kobe’s Field Goal Percentage, and keep in mind that we are focused on the proportion of <em>suspect</em> ID’s, not the proportion of <em>filler</em> ID’s.</li>
 </ol>
-</div>
-</div>
-<div id="confidence-intervals" class="section level2" number="8.4">
-<h2>
-<span class="header-section-number">8.4</span> Confidence intervals<a class="anchor" aria-label="anchor" href="#confidence-intervals"><i class="fas fa-link"></i></a>
-</h2>
-<p>Before we consider the question of whether the difference in proportions between methods is large enough that it probably isn’t due to chance, let’s take a moment to look at the detection rates using the routine method. In particular, based on this sample, we will construct a confidence interval. This interval will reflect how often the routine analysis detects adenomas in the whole population. First, we will find this interval using bootstrapping like we have before. Then, we will use the normal distribution.</p>
-<div id="using-bootstrapping" class="section level3" number="8.4.1">
-<h3>
-<span class="header-section-number">8.4.1</span> Using bootstrapping<a class="anchor" aria-label="anchor" href="#using-bootstrapping"><i class="fas fa-link"></i></a>
-</h3>
-<div class="exercise">
-<p><span id="exr:unlabeled-div-51" class="exercise"><strong>Exercise 8.2  </strong></span>Fill in the blanks in the code below to generate a bootstrap distribution for the proportion of adenomas detected using the <code>"Routine"</code> method and find the <strong>95% confidence interval</strong>.</p>
-<p>The code will save the bootstrap distribution under the name <code>boot_dist_routine</code>. The confidence interval will be saved under <code>boot_ci_routine</code>. At the end, the code will <code>visualize</code> the result using a histogram with the confidence interval overlaid on top.</p>
-<p>For guidance, be sure to refer to the <a href="lab6.html#lab6">previous activity</a>.</p>
-<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="lab8.html#cb179-1" aria-hidden="true" tabindex="-1"></a>boot_dist_routine <span class="ot">&lt;-</span> colonoscopy <span class="sc">%&gt;%</span></span>
-<span id="cb179-2"><a href="lab8.html#cb179-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(method <span class="sc">==</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb179-3"><a href="lab8.html#cb179-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb179-4"><a href="lab8.html#cb179-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb179-5"><a href="lab8.html#cb179-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>)</span>
-<span id="cb179-6"><a href="lab8.html#cb179-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb179-7"><a href="lab8.html#cb179-7" aria-hidden="true" tabindex="-1"></a>boot_ci_routine <span class="ot">&lt;-</span> boot_dist_routine <span class="sc">%&gt;%</span></span>
-<span id="cb179-8"><a href="lab8.html#cb179-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_confidence_interval</span>(<span class="at">level =</span> ___)</span>
-<span id="cb179-9"><a href="lab8.html#cb179-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb179-10"><a href="lab8.html#cb179-10" aria-hidden="true" tabindex="-1"></a>boot_dist_routine <span class="sc">%&gt;%</span></span>
-<span id="cb179-11"><a href="lab8.html#cb179-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
-<span id="cb179-12"><a href="lab8.html#cb179-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_confidence_interval</span>(<span class="at">endpoints =</span> boot_ci_routine)</span></code></pre></div>
-<ol style="list-style-type: lower-alpha">
-<li>What code did you use?</li>
-<li>What is the 95% confidence interval you found?</li>
-<li>In your own words, interpret what this interval means in the context of this scenario.</li>
-<li>Based on the histogram, do you think a normal distribution will be a good fit to this sampling distribution? Why or why not?</li>
-</ol>
-</div>
-</div>
-<div id="using-the-normal-distribution" class="section level3" number="8.4.2">
-<h3>
-<span class="header-section-number">8.4.2</span> Using the normal distribution<a class="anchor" aria-label="anchor" href="#using-the-normal-distribution"><i class="fas fa-link"></i></a>
-</h3>
-<p>Last time, we saw that we could, at least some of the time, use the normal distribution to approximate a sampling distribution. An advantage of using the normal distribution is that we don’t need to simulate the distribution, we can figure out what it would look like using some math.</p>
-<p>In particular, the normal distribution says that the sampling distribution will have a mean equal to the point estimate from our sample (<span class="math inline">\(\hat{p}\)</span>) and a standard error equal to <span class="math inline">\(\sqrt{\frac{\hat{p} \left(1 - \hat{p} \right)}{n}}\)</span> where <span class="math inline">\(n\)</span> is the sample size.</p>
-<div class="exercise">
-<p><span id="exr:unlabeled-div-52" class="exercise"><strong>Exercise 8.3  </strong></span>Fill in the blanks below to get R to remember the point estimate for the “Routine” method that you found earlier (this is our <span class="math inline">\(\hat{p}\)</span>) as well as the total number of observations using the “Routine” method (this is our <span class="math inline">\(n\)</span>). The corresponding standard error is then calculated and saved in R under the name <code>se_routine</code>.</p>
-<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="lab8.html#cb180-1" aria-hidden="true" tabindex="-1"></a>p_hat_routine <span class="ot">&lt;-</span> ___</span>
-<span id="cb180-2"><a href="lab8.html#cb180-2" aria-hidden="true" tabindex="-1"></a>n_routine <span class="ot">&lt;-</span> ___</span>
-<span id="cb180-3"><a href="lab8.html#cb180-3" aria-hidden="true" tabindex="-1"></a>se_routine <span class="ot">&lt;-</span> <span class="fu">sqrt</span>((p_hat_routine <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat_routine)) <span class="sc">/</span> n_routine)</span>
-<span id="cb180-4"><a href="lab8.html#cb180-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-5"><a href="lab8.html#cb180-5" aria-hidden="true" tabindex="-1"></a>se_routine</span></code></pre></div>
-<ol style="list-style-type: lower-alpha">
-<li>What is the standard error?</li>
-<li>Fill in the blanks in the following code to use the normal distribution to find the lower and upper boundaries of the 95% confidence interval (<code>ci_lower</code> and <code>ci_upper</code>, respectively). What did you get for the lower and upper boundaries of the confidence interval?</li>
-</ol>
-<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="lab8.html#cb181-1" aria-hidden="true" tabindex="-1"></a>ci_lower <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="at">p =</span> <span class="fl">0.025</span>, <span class="at">mean =</span> ___, <span class="at">sd =</span> ___, <span class="at">lower.tail =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb181-2"><a href="lab8.html#cb181-2" aria-hidden="true" tabindex="-1"></a>ci_upper <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="at">p =</span> <span class="fl">0.025</span>, <span class="at">mean =</span> ___, <span class="at">sd =</span> ___, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
-<ol start="3" style="list-style-type: lower-alpha">
-<li>How does the interval you just found in part (b) compare to the 95% CI you found earlier using bootstrapping? Are the boundaries similar or different?</li>
-</ol>
-</div>
-</div>
-</div>
-<div id="hypothesis-test" class="section level2" number="8.5">
-<h2>
-<span class="header-section-number">8.5</span> Hypothesis test<a class="anchor" aria-label="anchor" href="#hypothesis-test"><i class="fas fa-link"></i></a>
-</h2>
-<p>Now that we have a handle on how well a routine analysis can detect adenomas, does using an algorithm have any effect at all? In other words, our <strong>research question</strong> is: <em>is there a difference in the proportion of detected adenomas using a routine method vs. a computer-aided method?</em> We will address this question using a hypothesis test, first doing it with randomization and then the normal distribution.</p>
-<p>Note that we are interested in whether there is <em>any</em> effect of using the computer-aided method because, as noted above, it is possible that the algorithm could help by directing attention to more important parts of the image, but it could also hurt by directing attention to uninformative parts of the image. We want to make sure that our test is sensitive to <em>both</em> of these possible outcomes.</p>
-<div class="exercise">
-<p><span id="exr:unlabeled-div-53" class="exercise"><strong>Exercise 8.4  </strong></span>–</p>
-<ol style="list-style-type: lower-alpha">
-<li>What is the explanatory variable and what is the response variable?</li>
-<li>What are the null and alternative hypotheses?</li>
-</ol>
-</div>
-<p>Many of the techniques we will use are the same as those we used in an <a href="lab5.html#lab5">earlier activity</a>, just applied to the current <code>colonoscopy</code> data instead. Be sure to refer to that earlier activity for hints and guidance.</p>
-<div id="the-point-estimate-of-the-difference" class="section level3" number="8.5.1">
-<h3>
-<span class="header-section-number">8.5.1</span> The point estimate of the difference<a class="anchor" aria-label="anchor" href="#the-point-estimate-of-the-difference"><i class="fas fa-link"></i></a>
-</h3>
-<div class="exercise">
-<p><span id="exr:unlabeled-div-54" class="exercise"><strong>Exercise 8.5  </strong></span>Fill in the blanks in the code below to find the point estimate of the <em>difference</em> in proportions between routine and computer-aided methods.</p>
-<p>For the <code>specify</code> line, remember that the first part goes <code>[name of response variable] ~ [name of explanatory variable]</code>.</p>
-<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="lab8.html#cb182-1" aria-hidden="true" tabindex="-1"></a>obs_diff <span class="ot">&lt;-</span> colonoscopy <span class="sc">%&gt;%</span></span>
-<span id="cb182-2"><a href="lab8.html#cb182-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb182-3"><a href="lab8.html#cb182-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"diff in props"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"Computer-aided"</span>, <span class="st">"Routine"</span>))</span>
-<span id="cb182-4"><a href="lab8.html#cb182-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb182-5"><a href="lab8.html#cb182-5" aria-hidden="true" tabindex="-1"></a>obs_diff</span></code></pre></div>
-<p>What was the code you used?</p>
-</div>
-</div>
-<div id="using-randomization" class="section level3" number="8.5.2">
-<h3>
-<span class="header-section-number">8.5.2</span> Using randomization<a class="anchor" aria-label="anchor" href="#using-randomization"><i class="fas fa-link"></i></a>
-</h3>
-<p>First, we will conduct our hypothesis test by using randomization to simulate what the data would have looked like if the null hypothesis were true.</p>
-<div class="exercise">
-<p><span id="exr:unlabeled-div-55" class="exercise"><strong>Exercise 8.6  </strong></span>Fill in the blanks in the code below to use random permutation to simulate what the data would have looked like if the null hypothesis were true. The resulting sampling distribution will be saved under <code>null_dist_random</code> and then visualized using a histogram.</p>
-<p><em>Hint:</em> For the last blank, there are three “legal” options: you can put either <code>direction = "less"</code>, <code>direction = "greater"</code>, or <code>direction = "two-sided"</code> depending on what the alternative hypothesis is.</p>
-<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="lab8.html#cb183-1" aria-hidden="true" tabindex="-1"></a>null_dist_random <span class="ot">&lt;-</span> colonoscopy <span class="sc">%&gt;%</span></span>
-<span id="cb183-2"><a href="lab8.html#cb183-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb183-3"><a href="lab8.html#cb183-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb183-4"><a href="lab8.html#cb183-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb183-5"><a href="lab8.html#cb183-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"diff in props"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"Computer-aided"</span>, <span class="st">"Routine"</span>))</span>
-<span id="cb183-6"><a href="lab8.html#cb183-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb183-7"><a href="lab8.html#cb183-7" aria-hidden="true" tabindex="-1"></a>null_dist_random <span class="sc">%&gt;%</span></span>
-<span id="cb183-8"><a href="lab8.html#cb183-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
-<span id="cb183-9"><a href="lab8.html#cb183-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> obs_diff, <span class="at">direction =</span> <span class="st">"___"</span>)</span></code></pre></div>
-<ol style="list-style-type: lower-alpha">
-<li>What was the code you used?</li>
-<li>Based on the visualization you just made, would the observed difference in proportions be plausible if the null hypothesis were true?</li>
-</ol>
-</div>
-</div>
-<div id="using-the-normal-distribution-1" class="section level3" number="8.5.3">
-<h3>
-<span class="header-section-number">8.5.3</span> Using the normal distribution<a class="anchor" aria-label="anchor" href="#using-the-normal-distribution-1"><i class="fas fa-link"></i></a>
-</h3>
-<p>To see how the hypothesis test would go if we had used the normal distribution, we actually don’t need to do very much to our code. The major difference is that the <code>stat</code> that we calculate is called a <code>"z"</code>, that is, the code will directly calculate the <span class="math inline">\(Z\)</span> value. As we know, a <span class="math inline">\(Z\)</span> value is given by</p>
-<p><span class="math display">\[
-\begin{align}
-Z &amp; = \frac{\text{Point estimate} - \text{Null mean}}{\text{Standard error}} \\
-Z &amp; = \frac{(\hat{p}_1 - \hat{p}_2) - 0}{SE}
-\end{align}
-\]</span></p>
-<p>where <span class="math inline">\((\hat{p}_1 - \hat{p}_2)\)</span> is the observed difference in proportions. As a result, a <span class="math inline">\(Z\)</span> value represents how unusual our observed difference is relative to the distribution of differences that would be expected if the null hypothesis were true.</p>
-<div class="exercise">
-<p><span id="exr:unlabeled-div-56" class="exercise"><strong>Exercise 8.7  </strong></span>–</p>
-<ol style="list-style-type: lower-alpha">
-<li>Fill in the blanks in the code below to find the <span class="math inline">\(Z\)</span> value for the observed difference. What was the <span class="math inline">\(Z\)</span> value you found?</li>
-</ol>
-<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="lab8.html#cb184-1" aria-hidden="true" tabindex="-1"></a>obs_z <span class="ot">&lt;-</span> colonoscopy <span class="sc">%&gt;%</span></span>
-<span id="cb184-2"><a href="lab8.html#cb184-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb184-3"><a href="lab8.html#cb184-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"z"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"Computer-aided"</span>, <span class="st">"Routine"</span>))</span>
-<span id="cb184-4"><a href="lab8.html#cb184-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb184-5"><a href="lab8.html#cb184-5" aria-hidden="true" tabindex="-1"></a>obs_z</span></code></pre></div>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="lab8.html#cb167-1" aria-hidden="true" tabindex="-1"></a>lineup <span class="sc">%&gt;%</span></span>
+<span id="cb167-2"><a href="lab8.html#cb167-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___) <span class="sc">%&gt;%</span></span>
+<span id="cb167-3"><a href="lab8.html#cb167-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(___)</span></code></pre></div>
+<p>What is the observed proportion of suspect ID’s?</p>
 <ol start="2" style="list-style-type: lower-alpha">
-<li>Run the following code to visualize where our observed difference falls on the normal distribution. Compare the code below to the code we used in the previous exercise; what is similar and what is different?</li>
+<li>Use the following chunk of code to use bootstrapping to build a sampling distribution for the proportion of suspect ID’s. We will use this distribution to find and visualize a 95% confidence interval. Be sure to generate at least 1000 simulated datasets.</li>
 </ol>
-<div class="sourceCode" id="cb185"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">null_dist_normal</span> <span class="op">&lt;-</span> <span class="va">colonoscopy</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span><span class="va">detected</span> <span class="op">~</span> <span class="va">method</span>, success <span class="op">=</span> <span class="st">"Yes"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://infer.tidymodels.org/reference/assume.html">assume</a></span><span class="op">(</span><span class="st">"z"</span><span class="op">)</span>
-
-<span class="va">null_dist_normal</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://infer.tidymodels.org/reference/visualize.html">visualize</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://infer.tidymodels.org/reference/shade_p_value.html">shade_p_value</a></span><span class="op">(</span>obs_stat <span class="op">=</span> <span class="va">obs_z</span>, direction <span class="op">=</span> <span class="st">"two-sided"</span><span class="op">)</span></code></pre></div>
-<ol start="3" style="list-style-type: lower-alpha">
-<li>Use the following code to find the <span class="math inline">\(p\)</span> value, that is, the proportion of differences that would be at least as extreme as the one we observed, if the null hypothesis were true. What is the <span class="math inline">\(p\)</span> value you got?</li>
-</ol>
-<div class="sourceCode" id="cb186"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">null_dist_normal</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://infer.tidymodels.org/reference/get_p_value.html">get_p_value</a></span><span class="op">(</span>obs_stat <span class="op">=</span> <span class="va">obs_z</span>, direction <span class="op">=</span> <span class="st">"two-sided"</span><span class="op">)</span></code></pre></div>
-<ol start="4" style="list-style-type: lower-alpha">
-<li>Assuming we adopt a significance level of 0.05, do we reject the null hypothesis? What can we conclude about the relationship between using computer-aided analysis and accuracy of adenoma detection? (Recall that this is an <em>experiment</em>.)</li>
-<li>Would we have ended up making a different decision using the randomization procedure in the previous section?</li>
-</ol>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="lab8.html#cb168-1" aria-hidden="true" tabindex="-1"></a>boot_prop_id_dist <span class="ot">&lt;-</span> lineup <span class="sc">%&gt;%</span></span>
+<span id="cb168-2"><a href="lab8.html#cb168-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___) <span class="sc">%&gt;%</span></span>
+<span id="cb168-3"><a href="lab8.html#cb168-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(___) <span class="sc">%&gt;%</span></span>
+<span id="cb168-4"><a href="lab8.html#cb168-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(___)</span>
+<span id="cb168-5"><a href="lab8.html#cb168-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb168-6"><a href="lab8.html#cb168-6" aria-hidden="true" tabindex="-1"></a>boot_prop_id_ci <span class="ot">&lt;-</span> boot_prop_id_dist <span class="sc">%&gt;%</span></span>
+<span id="cb168-7"><a href="lab8.html#cb168-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_confidence_interval</span>(<span class="at">level =</span> <span class="fl">0.95</span>)</span>
+<span id="cb168-8"><a href="lab8.html#cb168-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb168-9"><a href="lab8.html#cb168-9" aria-hidden="true" tabindex="-1"></a>boot_prop_id_dist <span class="sc">%&gt;%</span></span>
+<span id="cb168-10"><a href="lab8.html#cb168-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb168-11"><a href="lab8.html#cb168-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_confidence_interval</span>(boot_prop_id_ci)</span></code></pre></div>
+<p>Report and interpret the 95% confidence interval you found (stored under <code>boot_prop_id_ci</code> in the Environment pane). What do you think this interval tells us about the accuracy of eyewitnesses in general?</p>
 </div>
-<!-- To use the normal distribution rather than randomization, we need to know its mean and standard deviation.  The mean is equal to what the different would be if the null hypothesis were true, namely, 0.  The standard error is found using the formula -->
-<!-- $$ -->
-<!-- SE = \sqrt{\hat{p}_{\text{Pool}} \left(1 - \hat{p}_{\text{Pool}} \right) \left(\frac{1}{n_1} + \frac{1}{n_2} \right)} -->
-<!-- $$ -->
-<!-- where $\hat{p}_{\text{Pool}}$ is the "pooled" proportion across the two groups being compared and $n_1$ and $n_2$ are the total numbers of observations in each group.  We can find the SE using the frequency table we found at the beginning of the session, which we reproduce here so you don't have to scroll: -->
-<!-- ```{r echo = FALSE} -->
-<!-- colonoscopy %>% -->
-<!--     group_by(method, detected) %>% -->
-<!--     summarize(n = n()) -->
-<!-- ``` -->
-<!-- ::: {.exercise} -->
-<!-- Fill in the blanks below to get R to remember the pooled proportion (`p_hat_pool`) and the two group sizes (`n_routine` and `n_aided`).  The standard error for the difference in proportions is then calculated and saved in R under the name `se_diff`. -->
-<!-- The pooled proportion is the *total number of detected adenomas* divided by the *total number of all images*. -->
-<!-- ```{r eval=FALSE} -->
-<!-- p_hat_pool <- ___ -->
-<!-- n_routine <- ___ -->
-<!-- n_aided <- ___ -->
-<!-- se_diff <- sqrt(p_hat_pool * (1 - p_hat_pool) * ((1 / n_routine) + (1 / n_aided))) -->
-<!-- se_diff -->
-<!-- ``` -->
-<!-- a. What is the standard error? -->
-<!-- b. Fill in the blanks in the following code to use the normal distribution to find the lower and upper boundaries of the 95% confidence interval (`ci_lower` and `ci_upper`, respectively). -->
-<!-- ```{r eval=FALSE} -->
-<!-- ci_lower <- qnorm(p = 0.025, mean = ___, sd = ___, lower.tail = TRUE) -->
-<!-- ci_upper <- qnorm(p = 0.025, mean = ___, sd = ___, lower.tail = FALSE) -->
-<!-- ``` -->
-<!-- What did you get for the lower and upper boundaries of the confidence interval? -->
-<!-- c. How does the interval you just found in part (b) compare to the 95% CI you found earlier using bootstrapping?  Are the boundaries similar or different? -->
-<!-- ::: -->
+</div>
+<div id="hypothesis-test-1-normal-distribution-are-eyewitnesses-better-than-chance" class="section level2" number="8.3">
+<h2>
+<span class="header-section-number">8.3</span> Hypothesis test 1 (normal distribution): Are eyewitnesses better than chance?<a class="anchor" aria-label="anchor" href="#hypothesis-test-1-normal-distribution-are-eyewitnesses-better-than-chance"><i class="fas fa-link"></i></a>
+</h2>
+<p>In the previous exercise, you constructed a 95% confidence interval for the proportion of suspect ID’s from photo lineups. It is important to consider whether this proportion is higher than would be expected by chance. If eyewitnesses were merely picking a person at random from the lineup, they would still pick the suspect some of the time just by chance. We can frame this as a <strong>research question</strong> that can be tackled with a <strong>hypothesis test</strong>.</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-51" class="exercise"><strong>Exercise 8.2  </strong></span>Our research question is, “is the proportion of suspect ID’s greater than would be expected if eyewitnesses were picking randomly?”</p>
+<ol style="list-style-type: lower-alpha">
+<li>If eyewitnesses were picking randomly, what proportion of the time would we expect them to pick the suspect from the lineup? (Recall that each lineup has six photographs.)</li>
+<li>What are the null and alternative hypotheses corresponding to our research question?</li>
+<li>Use the chunk of code below to help you use the <em>normal distribution</em> to model the sampling distribution assuming the null hypothesis is true. For the first blank, this should be your answer to part [a]. For the second blank, see how many rows the <code>lineup</code> dataset has—this is our sample size. For the third blank, this should be your answer to part [a] of the previous exercise. The final result is a “Z score”.</li>
+</ol>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="lab8.html#cb169-1" aria-hidden="true" tabindex="-1"></a>null_prop_id <span class="ot">&lt;-</span> ___</span>
+<span id="cb169-2"><a href="lab8.html#cb169-2" aria-hidden="true" tabindex="-1"></a>sample_size <span class="ot">&lt;-</span> ___</span>
+<span id="cb169-3"><a href="lab8.html#cb169-3" aria-hidden="true" tabindex="-1"></a>obs_prop_id <span class="ot">&lt;-</span> ___</span>
+<span id="cb169-4"><a href="lab8.html#cb169-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb169-5"><a href="lab8.html#cb169-5" aria-hidden="true" tabindex="-1"></a>null_se <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(null_prop_id <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> null_prop_id) <span class="sc">/</span> sample_size)</span>
+<span id="cb169-6"><a href="lab8.html#cb169-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb169-7"><a href="lab8.html#cb169-7" aria-hidden="true" tabindex="-1"></a>z_score <span class="ot">&lt;-</span> (obs_prop_id <span class="sc">-</span> null_prop_id) <span class="sc">/</span> null_se</span></code></pre></div>
+<p>What is the Z score you found? In your own words, describe what this Z score tells us about how “extreme” our observed proportion is relative to what we would have expected if the null hypothesis were true.
+d. Run the following chunk to find the p value (note that you will need to have completed part [c] for this to work!):</p>
+<div class="sourceCode" id="cb170"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="va">z_score</span>, lower.tail <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<p>Based on the p value, would you reject the null hypothesis? What does this say about whether eyewitnesses might be picking the suspect just at random?</p>
+</div>
+</div>
+<div id="hypothesis-test-2-permutation-is-there-a-difference-between-sequential-and-simultaneous-lineups" class="section level2" number="8.4">
+<h2>
+<span class="header-section-number">8.4</span> Hypothesis test 2 (permutation): Is there a difference between sequential and simultaneous lineups?<a class="anchor" aria-label="anchor" href="#hypothesis-test-2-permutation-is-there-a-difference-between-sequential-and-simultaneous-lineups"><i class="fas fa-link"></i></a>
+</h2>
+<p>Recall that the lineups in this study were presented in one of two ways: either simultaneously or sequentially. Laboratory studies of eyewitness memory (using mock crimes instead of real ones) have found that simultaneous lineups tend to produce more “correct” identifications of the suspect. Will the same be true in the real lineups we have been analyzing?</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-52" class="exercise"><strong>Exercise 8.3  </strong></span>In this exercise, our research question is, “is there a difference in the proportion of suspect ID’s between sequential and simultaneous lineups?” We will address this question by using random permutation to conduct a hypothesis test.</p>
+<ol style="list-style-type: lower-alpha">
+<li>What are the null and alternative hypotheses corresponding to our research question?</li>
+<li>Use the following chunk of code to calculate the observed difference in the proportion of suspect ID’s between sequential and simultaneous lineups:</li>
+</ol>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="lab8.html#cb171-1" aria-hidden="true" tabindex="-1"></a>obs_diff <span class="ot">&lt;-</span> lineup <span class="sc">%&gt;%</span></span>
+<span id="cb171-2"><a href="lab8.html#cb171-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___) <span class="sc">%&gt;%</span></span>
+<span id="cb171-3"><a href="lab8.html#cb171-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(___, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"Sequential"</span>, <span class="st">"Simultaneous"</span>))</span></code></pre></div>
+<p>What is the observed difference in proportions (this will be stored under <code>obs_diff</code> after you run your code)? Based on this result, which type of presentation might produce a higher proportion of suspect ID’s?</p>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>Use the following chunk of code to use random permutation to simulate at least 1000 datasets assuming the null hypothesis is true, then visualize where our observed difference falls relative to that distribution. Remember to put one of “greater”, “less” or “two-sided” for the <code>direction</code> setting in the last line; the appropriate setting depends on the alternative hypothesis (i.e., your answer to part [a]). Also, make sure you’ve completed part [b], since this code needs <code>obs_diff</code> to run!</li>
+</ol>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="lab8.html#cb172-1" aria-hidden="true" tabindex="-1"></a>null_diff_dist <span class="ot">&lt;-</span> lineup <span class="sc">%&gt;%</span></span>
+<span id="cb172-2"><a href="lab8.html#cb172-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___) <span class="sc">%&gt;%</span></span>
+<span id="cb172-3"><a href="lab8.html#cb172-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(___) <span class="sc">%&gt;%</span></span>
+<span id="cb172-4"><a href="lab8.html#cb172-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(___) <span class="sc">%&gt;%</span></span>
+<span id="cb172-5"><a href="lab8.html#cb172-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(___, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"Sequential"</span>, <span class="st">"Simultaneous"</span>))</span>
+<span id="cb172-6"><a href="lab8.html#cb172-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb172-7"><a href="lab8.html#cb172-7" aria-hidden="true" tabindex="-1"></a>null_diff_dist <span class="sc">%&gt;%</span></span>
+<span id="cb172-8"><a href="lab8.html#cb172-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb172-9"><a href="lab8.html#cb172-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> obs_diff, <span class="at">direction =</span> ___)</span></code></pre></div>
+<ol start="4" style="list-style-type: lower-alpha">
+<li>Use the following chunk to find the p value for this hypothesis test (make sure you have completed parts [b] and [c], since this code depends on both of them having been completed successfully):</li>
+</ol>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="lab8.html#cb173-1" aria-hidden="true" tabindex="-1"></a>null_diff_dist <span class="sc">%&gt;%</span></span>
+<span id="cb173-2"><a href="lab8.html#cb173-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_p_value</span>(<span class="at">obs_stat =</span> obs_diff, <span class="at">direction =</span> ___)</span></code></pre></div>
+<p>What was the p value you got? Based on that p value, would you reject the null hypothesis? What does your conclusion tell us about whether simultaneous or sequential presentation differ in how much they produce suspect ID’s?</p>
+</div>
+</div>
+<div id="hypothesis-test-3-permutation-does-it-matter-if-police-know-who-the-suspect-is" class="section level2" number="8.5">
+<h2>
+<span class="header-section-number">8.5</span> Hypothesis test 3 (permutation): Does it matter if police know who the suspect is?<a class="anchor" aria-label="anchor" href="#hypothesis-test-3-permutation-does-it-matter-if-police-know-who-the-suspect-is"><i class="fas fa-link"></i></a>
+</h2>
+<p>Even though these lineups were conducted in the field, they were conducted in a well-controlled setting where the police investigator who assembled and presented the lineup was not working on that same case. As a result, the investigator was “blind” in the sense that they did not know which of the pictures was the suspect. This was to make sure that the investigator would not accidentally or intentionally bias the witness toward identifying the police’s suspect.</p>
+<p>What if the investigator who prepared the lineup <em>was</em> involved in the case and therefore knew who the suspect was? The photos would still be shuffled prior to presenting them to the witness, so the investigator still wouldn’t know which position the suspect is in. In a simultaneous presentation, the suspect could appear in any location and in a sequential presentation, the suspect could appear at any spot in the order. Even so, because the investigator is working the case, they might choose filler photographs in such a way as to make their suspect “stand out”, biasing the witness to pick that person.</p>
+<p>To study how much this matters, the authors of the study prepared a set of “mock” lineups. In these cases, real photo lineups were presented to people who were <em>not</em> witnesses to the crime. As a result, these people could only guess who the suspect was, since they had no information about the crime. The authors of the study compared lineups that were prepared either by the investigating officer (“Not blind”) or by an officer unfamiliar with the investigation (“Blind”—this is the type of lineup we analyzed above).</p>
+<p>This is what the first few rows of the resulting data look like, which are stored under the name <code>fairness</code>:</p>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr class="header">
+<th align="left">condition</th>
+<th align="left">ID</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">Blind</td>
+<td align="left">Filler</td>
+</tr>
+<tr class="even">
+<td align="left">Not blind</td>
+<td align="left">Filler</td>
+</tr>
+<tr class="odd">
+<td align="left">Not blind</td>
+<td align="left">Suspect</td>
+</tr>
+<tr class="even">
+<td align="left">Blind</td>
+<td align="left">Filler</td>
+</tr>
+<tr class="odd">
+<td align="left">Blind</td>
+<td align="left">Suspect</td>
+</tr>
+<tr class="even">
+<td align="left">Blind</td>
+<td align="left">Filler</td>
+</tr>
+</tbody>
+</table></div>
+<p>There are two variables:</p>
+<ul>
+<li>
+<strong>condition</strong>: Whether the lineup was “Blind” or “Not blind”</li>
+<li>
+<strong>ID</strong>: Whether the mock witness picked the “Suspect” or a “Filler”.</li>
+</ul>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-53" class="exercise"><strong>Exercise 8.4  </strong></span>Our research question is, “do mock witnesses make a higher proportion of suspect ID’s for not-blind lineups as opposed to blind lineups?” We will address this question by using random permutation to conduct a hypothesis test.</p>
+<ol style="list-style-type: lower-alpha">
+<li>What are the null and alternative hypotheses corresponding to our research question?</li>
+<li>Use the following chunk of code to calculate the observed difference in the proportion of suspect ID’s between sequential and simultaneous lineups:</li>
+</ol>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="lab8.html#cb174-1" aria-hidden="true" tabindex="-1"></a>obs_fairness_diff <span class="ot">&lt;-</span> fairness <span class="sc">%&gt;%</span></span>
+<span id="cb174-2"><a href="lab8.html#cb174-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___) <span class="sc">%&gt;%</span></span>
+<span id="cb174-3"><a href="lab8.html#cb174-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(___, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"Not blind"</span>, <span class="st">"Blind"</span>))</span></code></pre></div>
+<p>What is the observed difference in proportions (this will be stored under <code>obs_fairness_diff</code> after you run your code)? Is this result more consistent with the null hypothesis or with the alternative hypothesis?</p>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>Use the following chunk of code to use random permutation to simulate at least 1000 datasets assuming the null hypothesis is true, then visualize where our observed difference falls relative to that distribution. Remember to put one of “greater”, “less” or “two-sided” for the <code>direction</code> setting in the last line; the appropriate setting depends on the alternative hypothesis (i.e., your answer to part [a]). Also, make sure you’ve completed part [b], since this code needs <code>obs_fairness_diff</code> to run!</li>
+</ol>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="lab8.html#cb175-1" aria-hidden="true" tabindex="-1"></a>null_fairness_diff_dist <span class="ot">&lt;-</span> fairness <span class="sc">%&gt;%</span></span>
+<span id="cb175-2"><a href="lab8.html#cb175-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___) <span class="sc">%&gt;%</span></span>
+<span id="cb175-3"><a href="lab8.html#cb175-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(___) <span class="sc">%&gt;%</span></span>
+<span id="cb175-4"><a href="lab8.html#cb175-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(___) <span class="sc">%&gt;%</span></span>
+<span id="cb175-5"><a href="lab8.html#cb175-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(___, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"Not blind"</span>, <span class="st">"Blind"</span>))</span>
+<span id="cb175-6"><a href="lab8.html#cb175-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb175-7"><a href="lab8.html#cb175-7" aria-hidden="true" tabindex="-1"></a>null_fairness_diff_dist <span class="sc">%&gt;%</span></span>
+<span id="cb175-8"><a href="lab8.html#cb175-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb175-9"><a href="lab8.html#cb175-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> obs_fairness_diff, <span class="at">direction =</span> ___)</span></code></pre></div>
+<ol start="4" style="list-style-type: lower-alpha">
+<li>Use the following chunk to find the p value for this hypothesis test (make sure you have completed parts [b] and [c], since this code depends on both of them having been completed successfully):</li>
+</ol>
+<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="lab8.html#cb176-1" aria-hidden="true" tabindex="-1"></a>null_fairness_diff_dist <span class="sc">%&gt;%</span></span>
+<span id="cb176-2"><a href="lab8.html#cb176-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_p_value</span>(<span class="at">obs_stat =</span> obs_fairness_diff, <span class="at">direction =</span> ___)</span></code></pre></div>
+<p>What was the p value you got? Based on that p value, would you reject the null hypothesis? What does your conclusion tell us about whether non-blind police lineups are “fair” in the sense that they do not bias a witness toward a particular suspect?</p>
 </div>
 </div>
 <div id="wrap-up-7" class="section level2" number="8.6">
@@ -351,22 +304,11 @@ Z &amp; = \frac{(\hat{p}_1 - \hat{p}_2) - 0}{SE}
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#lab8"><span class="header-section-number">8</span> Inference for proportions</a></li>
-<li><a class="nav-link" href="#required-packages-1"><span class="header-section-number">8.1</span> Required packages</a></li>
-<li><a class="nav-link" href="#get-to-know-the-data"><span class="header-section-number">8.2</span> Get to know the data</a></li>
-<li><a class="nav-link" href="#what-are-the-point-estimates"><span class="header-section-number">8.3</span> What are the point estimates?</a></li>
-<li>
-<a class="nav-link" href="#confidence-intervals"><span class="header-section-number">8.4</span> Confidence intervals</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#using-bootstrapping"><span class="header-section-number">8.4.1</span> Using bootstrapping</a></li>
-<li><a class="nav-link" href="#using-the-normal-distribution"><span class="header-section-number">8.4.2</span> Using the normal distribution</a></li>
-</ul>
-</li>
-<li>
-<a class="nav-link" href="#hypothesis-test"><span class="header-section-number">8.5</span> Hypothesis test</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#the-point-estimate-of-the-difference"><span class="header-section-number">8.5.1</span> The point estimate of the difference</a></li>
-<li><a class="nav-link" href="#using-randomization"><span class="header-section-number">8.5.2</span> Using randomization</a></li>
-<li><a class="nav-link" href="#using-the-normal-distribution-1"><span class="header-section-number">8.5.3</span> Using the normal distribution</a></li>
-</ul>
-</li>
+<li><a class="nav-link" href="#get-to-know-the-data"><span class="header-section-number">8.1</span> Get to know the data</a></li>
+<li><a class="nav-link" href="#confidence-interval-bootstrapping-how-accurate-are-eyewitnesses"><span class="header-section-number">8.2</span> Confidence interval (bootstrapping): How accurate are eyewitnesses?</a></li>
+<li><a class="nav-link" href="#hypothesis-test-1-normal-distribution-are-eyewitnesses-better-than-chance"><span class="header-section-number">8.3</span> Hypothesis test 1 (normal distribution): Are eyewitnesses better than chance?</a></li>
+<li><a class="nav-link" href="#hypothesis-test-2-permutation-is-there-a-difference-between-sequential-and-simultaneous-lineups"><span class="header-section-number">8.4</span> Hypothesis test 2 (permutation): Is there a difference between sequential and simultaneous lineups?</a></li>
+<li><a class="nav-link" href="#hypothesis-test-3-permutation-does-it-matter-if-police-know-who-the-suspect-is"><span class="header-section-number">8.5</span> Hypothesis test 3 (permutation): Does it matter if police know who the suspect is?</a></li>
 <li><a class="nav-link" href="#wrap-up-7"><span class="header-section-number">8.6</span> Wrap-up</a></li>
 </ul>
 
@@ -385,7 +327,7 @@ Z &amp; = \frac{(\hat{p}_1 - \hat{p}_2) - 0}{SE}
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-10-16.</p>
+    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-10-24.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

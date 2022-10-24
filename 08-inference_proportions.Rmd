@@ -12,276 +12,224 @@ knitr::opts_chunk$set(
 )
 
 set.seed(12222)
+
+library(tidyverse)
+library(infer)
+
+lineup <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/lineup.csv")
+fairness <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/lineup_fairness.csv")
 ```
 
 ```{r, echo=FALSE, out.width="100%"}
-knitr::include_graphics("img/robodoc.jpeg")
+knitr::include_graphics("img/lineup.jpg")
 ```
 
-In this session, we will collect all the techniques we have encountered for doing inferential statistics with proportions:
+In this session, we will collect and apply all the techniques we have encountered for doing inferential statistics with proportions:
 
 * [Hypothesis testing](#lab5) for deciding whether two proportions are significantly different from one another.
 * [Confidence intervals](#lab6) for representing what values of a population proportion are plausible based on a sample.
 * [Using the normal distribution](#lab7) as a mathematical model for a sampling distribution.
 
-Many of the exercises in this activity will require you to look back to these previous sessions for hints and guidance as we apply these techniques to a new dataset that addresses the question of whether algorithms can help in making important medical diagnoses.
+Many of the exercises in this activity may require you to look back to these previous sessions for hints and guidance as we apply these techniques to address some important questions about eyewitness memory.
 
-## Required packages
-
-Make sure you have loaded both the `tidyverse` and `infer` packages from R's library:
-
-```{r}
-library(tidyverse)
-library(infer)
-```
+To help with the later exercises in this session, be sure to **download the worksheet for this session** by right-clicking on the following link and selecting "Save link as...": [Worksheet for Lab 8](https://raw.githubusercontent.com/gregcox7/StatLabs/main/worksheets/ws_lab08.Rmd).  Open the saved file (which by default is called "ws_lab08.Rmd") in RStudio.
 
 ## Get to know the data
 
-The data we will be working with in this session are from a study of whether using an algorithm can aid in the detection of "adenomas" in images from colonoscopies [@Wang2019].  An adenoma is a benign tumor that can, in time, become malignant.  For this reason, it is important to detect them early so they can be removed before they lead to colon cancer.  Adenomas are detected by looking for particular structures in images like the one below:
+**Eyewitness testimony** is an important tool for establishing whether a suspect may or may not have committed a crime.  If an eyewitness identifies a suspect as the person they saw at the scene of a crime, this is usually taken as strong evidence of the suspect's potential culpability.  These identifications are usually done within a **lineup**, where the eyewitness is shown a *suspect* among several other non-suspects known as *"fillers"*.  If the witness identifies the suspect as the person they saw, this information can be used to investigate that person and to provide evidence in court.
 
-![Example of detecting adenomas (outlined in blue) from a medical image.](img/adenoma.jpg)
+Despite the importance of eyewitness testimony, human memory is far from perfect.  It can be difficult for people to (a) remember details of a person's face in the midst of a stressful event like experiencing a crime; and (b) identify whether a suspect matches what they remember even when people are encountered in different settings (e.g., different light conditions, different clothes, different facial hair/makeup, etc.).  Because of these difficulties, eyewitnesses will sometimes make false identifications.  Moreover, subtle details of how the police present the lineup to the witness may influence how accurately they can pick out a suspect.  As a result, there is considerable interest in understanding how accurate eyewitness testimony is and how best to conduct police lineups to minimize false identifications.
 
-As you can tell, looking for these structures is not always easy, even for experts.  Part of the problem is that the images are all very similar to one another and an expert's attention may not be drawn to the most important parts of the image.  In other words, even though the application is in medical diagnosis, the "problem" is psychological.  Perhaps a computer algorithm could help "solve" this problem by directing attention to the right parts of the image.  On the other hand, it might be that the algorithm gives bad suggestions.  The purpose of this study was to see whether the algorithm had an effect at all and, if so, whether it helped or hurt the detection of the adenomas that lead to colon cancer.
+The data for this session were collected as part of a long-term study of the use of police lineups [@WixtedEtAl2016].  The study was conducted in the field in 2013, in the Robbery Division of the Houston (Texas) Police Department.  The participants were eyewitnesses in various robbery cases.  For each case, the investigating officer constructed a lineup consisting of **six** photographs.  One photograph was of the **suspect** in the case, the remaining five were **fillers**, defined as non-suspects who still match the *physical description* of the suspect.  The lineups were shown either *simultaneously* (all six photos at once) or *sequentially* (one photo at a time).
 
-Run the line below to download the data into your R environment:
+![Examples of simultaneous and sequential photo lineups [@GepshteinEtAl2020].](img/lineup_types.png)
 
-```{r}
-colonoscopy <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/colonoscopy.csv")
+It is important to note that the investigators who showed these lineups to the eyewitnesses were **blind** as to which person in the lineup was the suspect.  As a result, the investigators would not be able to systematically *bias* the identifications that witnesses made.
+
+Here are the first few rows of the data, to give a sense of what it looks like:
+
+```{r echo = FALSE}
+knitr::kable(head(lineup))
 ```
 
-Let's take a quick look at the data:
+Each row represents the response from a single witness to a single six-person photo lineup.  There are just two variables:
 
-```{r}
-colonoscopy
-```
+* **presentation**: Whether the six photos were presented to the witness in "Sequential" or "Simultaneous" format.
+* **ID**: Whether the witness identified the "Suspect" as being the person they saw, or whether they identified one of the "Filler" people instead.
 
-These data are from an **experiment**.  Each row represents a specific image like the one shown above.  Each image was randomly assigned to be analyzed using a different `method`:  `"Routine"` analyses involved a professional analyst looking at the image; `"Computer-aided"` analyses used an automated algorithm to identify potential adenomas which were then double-checked by a human analyst.  The variable `detected`, which is either `"Yes"` or `"No"`, indicates whether an adenoma was detected in the image.
+## Confidence interval (bootstrapping): How accurate are eyewitnesses?
 
-## What are the point estimates?
+An important thing to keep in mind is that even if the witness identified the suspect in the lineup, that does not necessarily mean the suspect is guilty or even that they were present at the scene of the crime.  On the other hand, identifying one of the fillers is *definitely* a mistake, since these people are known to have nothing to do with the crime being investigated.
 
-Before we start doing any fancy inference, let's first get the **point estimates**, that is, the proportions of images identified as containing an adenoma using each method.  We can figure this out by hand using the counts in the table below:
+:::{.exercise}
 
-```{r}
-colonoscopy %>%
-    group_by(method, detected) %>%
-    summarize(n = n())
-```
+Our first task in analyzing these data is to estimate the proportion of suspect ID's from these lineups.  For the moment, we will ignore whether the lineup was presented simultaneously or sequentially.  Our aim here is to build a 95% confidence interval that describes how often, on average, witnesses identify the suspect from the lineup.
 
-::: {.exercise}
-Refer to the frequency table above to answer the following questions.
-
-a. What is the proportion of images with an adenoma detected using the "Routine" method?
-b. What is the proportion of images with an adenoma detected using the "Computer-aided" method?
-c. Based on these point estimates, do these data suggest there may be a benefit to using the algorithm?
-
-:::
-
-## Confidence intervals
-
-Before we consider the question of whether the difference in proportions between methods is large enough that it probably isn't due to chance, let's take a moment to look at the detection rates using the routine method.  In particular, based on this sample, we will construct a confidence interval.  This interval will reflect how often the routine analysis detects adenomas in the whole population.  First, we will find this interval using bootstrapping like we have before.  Then, we will use the normal distribution.
-
-### Using bootstrapping
-
-::: {.exercise}
-Fill in the blanks in the code below to generate a bootstrap distribution for the proportion of adenomas detected using the `"Routine"` method and find the **95% confidence interval**.
-
-The code will save the bootstrap distribution under the name `boot_dist_routine`.  The confidence interval will be saved under `boot_ci_routine`.  At the end, the code will `visualize` the result using a histogram with the confidence interval overlaid on top.
-
-For guidance, be sure to refer to the [previous activity](#lab6).
+a. Use the following chunk of code to calculate and store the proportion of suspect ID's in the lineup data.  **Hint:** look back at how we wrote the `specify` and `calculate` lines for Kobe's Field Goal Percentage, and keep in mind that we are focused on the proportion of *suspect* ID's, not the proportion of *filler* ID's.
 
 ```{r eval = FALSE}
-boot_dist_routine <- colonoscopy %>%
-    filter(method == "___") %>%
-    specify(response = ___, success = "___") %>%
-    generate(reps = 1000, type = "___") %>%
-    calculate(stat = "___")
-
-boot_ci_routine <- boot_dist_routine %>%
-    get_confidence_interval(level = ___)
-
-boot_dist_routine %>%
-    visualize() +
-    shade_confidence_interval(endpoints = boot_ci_routine)
+lineup %>%
+    specify(___) %>%
+    calculate(___)
 ```
 
-a. What code did you use?
-b. What is the 95% confidence interval you found?
-c. In your own words, interpret what this interval means in the context of this scenario.
-d. Based on the histogram, do you think a normal distribution will be a good fit to this sampling distribution?  Why or why not?
+What is the observed proportion of suspect ID's?
 
-:::
-
-### Using the normal distribution
-
-Last time, we saw that we could, at least some of the time, use the normal distribution to approximate a sampling distribution.  An advantage of using the normal distribution is that we don't need to simulate the distribution, we can figure out what it would look like using some math.
-
-In particular, the normal distribution says that the sampling distribution will have a mean equal to the point estimate from our sample ($\hat{p}$) and a standard error equal to $\sqrt{\frac{\hat{p} \left(1 - \hat{p} \right)}{n}}$ where $n$ is the sample size.
-
-::: {.exercise}
-Fill in the blanks below to get R to remember the point estimate for the "Routine" method that you found earlier (this is our $\hat{p}$) as well as the total number of observations using the "Routine" method (this is our $n$).  The corresponding standard error is then calculated and saved in R under the name `se_routine`.
-
-```{r eval=FALSE}
-p_hat_routine <- ___
-n_routine <- ___
-se_routine <- sqrt((p_hat_routine * (1 - p_hat_routine)) / n_routine)
-
-se_routine
-```
-
-a. What is the standard error?
-b. Fill in the blanks in the following code to use the normal distribution to find the lower and upper boundaries of the 95% confidence interval (`ci_lower` and `ci_upper`, respectively).  What did you get for the lower and upper boundaries of the confidence interval?
-```{r eval=FALSE}
-ci_lower <- qnorm(p = 0.025, mean = ___, sd = ___, lower.tail = TRUE)
-ci_upper <- qnorm(p = 0.025, mean = ___, sd = ___, lower.tail = FALSE)
-```
-c. How does the interval you just found in part (b) compare to the 95% CI you found earlier using bootstrapping?  Are the boundaries similar or different?
-
-:::
-
-## Hypothesis test
-
-Now that we have a handle on how well a routine analysis can detect adenomas, does using an algorithm have any effect at all?  In other words, our **research question** is: *is there a difference in the proportion of detected adenomas using a routine method vs. a computer-aided method?*  We will address this question using a hypothesis test, first doing it with randomization and then the normal distribution.
-
-Note that we are interested in whether there is *any* effect of using the computer-aided method because, as noted above, it is possible that the algorithm could help by directing attention to more important parts of the image, but it could also hurt by directing attention to uninformative parts of the image.  We want to make sure that our test is sensitive to *both* of these possible outcomes.
-
-::: {.exercise}
---
-
-a. What is the explanatory variable and what is the response variable?
-a. What are the null and alternative hypotheses?
-
-:::
-
-Many of the techniques we will use are the same as those we used in an [earlier activity](#lab5), just applied to the current `colonoscopy` data instead.  Be sure to refer to that earlier activity for hints and guidance.
-
-### The point estimate of the difference
-
-::: {.exercise}
-Fill in the blanks in the code below to find the point estimate of the *difference* in proportions between routine and computer-aided methods.
-
-For the `specify` line, remember that the first part goes `[name of response variable] ~ [name of explanatory variable]`.
+b. Use the following chunk of code to use bootstrapping to build a sampling distribution for the proportion of suspect ID's.  We will use this distribution to find and visualize a 95% confidence interval.  Be sure to generate at least 1000 simulated datasets.
 
 ```{r eval = FALSE}
-obs_diff <- colonoscopy %>%
-    specify(___ ~ ___, success = "___") %>%
-    calculate(stat = "diff in props", order = c("Computer-aided", "Routine"))
+boot_prop_id_dist <- lineup %>%
+    specify(___) %>%
+    generate(___) %>%
+    calculate(___)
 
-obs_diff
+boot_prop_id_ci <- boot_prop_id_dist %>%
+    get_confidence_interval(level = 0.95)
+
+boot_prop_id_dist %>%
+    visualize() +
+    shade_confidence_interval(boot_prop_id_ci)
 ```
 
-What was the code you used?
+Report and interpret the 95% confidence interval you found (stored under `boot_prop_id_ci` in the Environment pane).  What do you think this interval tells us about the accuracy of eyewitnesses in general?
 
 :::
 
-### Using randomization
+## Hypothesis test 1 (normal distribution): Are eyewitnesses better than chance?
 
-First, we will conduct our hypothesis test by using randomization to simulate what the data would have looked like if the null hypothesis were true.
+In the previous exercise, you constructed a 95% confidence interval for the proportion of suspect ID's from photo lineups.  It is important to consider whether this proportion is higher than would be expected by chance.  If eyewitnesses were merely picking a person at random from the lineup, they would still pick the suspect some of the time just by chance.  We can frame this as a **research question** that can be tackled with a **hypothesis test**.
 
 ::: {.exercise}
-Fill in the blanks in the code below to use random permutation to simulate what the data would have looked like if the null hypothesis were true.  The resulting sampling distribution will be saved under `null_dist_random` and then visualized using a histogram.
 
-*Hint:* For the last blank, there are three "legal" options: you can put either `direction = "less"`, `direction = "greater"`, or `direction = "two-sided"` depending on what the alternative hypothesis is.
+Our research question is, "is the proportion of suspect ID's greater than would be expected if eyewitnesses were picking randomly?"
+
+a. If eyewitnesses were picking randomly, what proportion of the time would we expect them to pick the suspect from the lineup?  (Recall that each lineup has six photographs.)
+b. What are the null and alternative hypotheses corresponding to our research question?
+c. Use the chunk of code below to help you use the *normal distribution* to model the sampling distribution assuming the null hypothesis is true.  For the first blank, this should be your answer to part [a].  For the second blank, see how many rows the `lineup` dataset has---this is our sample size.  For the third blank, this should be your answer to part [a] of the previous exercise.  The final result is a "Z score".
 
 ```{r eval = FALSE}
-null_dist_random <- colonoscopy %>%
-    specify(___ ~ ___, success = "___") %>%
-    hypothesize(null = "___") %>%
-    generate(reps = 1000, type = "___") %>%
-    calculate(stat = "diff in props", order = c("Computer-aided", "Routine"))
+null_prop_id <- ___
+sample_size <- ___
+obs_prop_id <- ___
 
-null_dist_random %>%
-    visualize() +
-    shade_p_value(obs_stat = obs_diff, direction = "___")
+null_se <- sqrt(null_prop_id * (1 - null_prop_id) / sample_size)
+
+z_score <- (obs_prop_id - null_prop_id) / null_se
 ```
 
-a. What was the code you used?
-b. Based on the visualization you just made, would the observed difference in proportions be plausible if the null hypothesis were true?
+What is the Z score you found?  In your own words, describe what this Z score tells us about how "extreme" our observed proportion is relative to what we would have expected if the null hypothesis were true.
+d. Run the following chunk to find the p value (note that you will need to have completed part [c] for this to work!):
+
+```{r eval = FALSE}
+pnorm(z_score, lower.tail = FALSE)
+```
+
+Based on the p value, would you reject the null hypothesis?  What does this say about whether eyewitnesses might be picking the suspect just at random?
 
 :::
 
-### Using the normal distribution
+## Hypothesis test 2 (permutation): Is there a difference between sequential and simultaneous lineups?
 
-To see how the hypothesis test would go if we had used the normal distribution, we actually don't need to do very much to our code.  The major difference is that the `stat` that we calculate is called a `"z"`, that is, the code will directly calculate the $Z$ value.  As we know, a $Z$ value is given by
-
-$$
-\begin{align}
-Z & = \frac{\text{Point estimate} - \text{Null mean}}{\text{Standard error}} \\
-Z & = \frac{(\hat{p}_1 - \hat{p}_2) - 0}{SE}
-\end{align}
-$$
-
-where $(\hat{p}_1 - \hat{p}_2)$ is the observed difference in proportions.  As a result, a $Z$ value represents how unusual our observed difference is relative to the distribution of differences that would be expected if the null hypothesis were true.
+Recall that the lineups in this study were presented in one of two ways: either simultaneously or sequentially.  Laboratory studies of eyewitness memory (using mock crimes instead of real ones) have found that simultaneous lineups tend to produce more "correct" identifications of the suspect.  Will the same be true in the real lineups we have been analyzing?
 
 ::: {.exercise}
 
---
+In this exercise, our research question is, "is there a difference in the proportion of suspect ID's between sequential and simultaneous lineups?"  We will address this question by using random permutation to conduct a hypothesis test.
 
-a. Fill in the blanks in the code below to find the $Z$ value for the observed difference.  What was the $Z$ value you found?
-```{r eval=FALSE}
-obs_z <- colonoscopy %>%
-    specify(___ ~ ___, success = "___") %>%
-    calculate(stat = "z", order = c("Computer-aided", "Routine"))
+a. What are the null and alternative hypotheses corresponding to our research question?
+b. Use the following chunk of code to calculate the observed difference in the proportion of suspect ID's between sequential and simultaneous lineups:
 
-obs_z
+```{r eval = FALSE}
+obs_diff <- lineup %>%
+    specify(___) %>%
+    calculate(___, order = c("Sequential", "Simultaneous"))
 ```
-b. Run the following code to visualize where our observed difference falls on the normal distribution.  Compare the code below to the code we used in the previous exercise; what is similar and what is different?
-```{r eval=FALSE}
-null_dist_normal <- colonoscopy %>%
-    specify(detected ~ method, success = "Yes") %>%
-    assume("z")
 
-null_dist_normal %>%
+What is the observed difference in proportions (this will be stored under `obs_diff` after you run your code)?  Based on this result, which type of presentation might produce a higher proportion of suspect ID's?
+
+c. Use the following chunk of code to use random permutation to simulate at least 1000 datasets assuming the null hypothesis is true, then visualize where our observed difference falls relative to that distribution.  Remember to put one of "greater", "less" or "two-sided" for the `direction` setting in the last line; the appropriate setting depends on the alternative hypothesis (i.e., your answer to part [a]).  Also, make sure you've completed part [b], since this code needs `obs_diff` to run!
+
+```{r eval = FALSE}
+null_diff_dist <- lineup %>%
+    specify(___) %>%
+    hypothesize(___) %>%
+    generate(___) %>%
+    calculate(___, order = c("Sequential", "Simultaneous"))
+
+null_diff_dist %>%
     visualize() +
-    shade_p_value(obs_stat = obs_z, direction = "two-sided")
+    shade_p_value(obs_stat = obs_diff, direction = ___)
 ```
-c. Use the following code to find the $p$ value, that is, the proportion of differences that would be at least as extreme as the one we observed, if the null hypothesis were true.  What is the $p$ value you got?
-```{r eval=FALSE}
-null_dist_normal %>%
-    get_p_value(obs_stat = obs_z, direction = "two-sided")
+
+d. Use the following chunk to find the p value for this hypothesis test (make sure you have completed parts [b] and [c], since this code depends on both of them having been completed successfully):
+
+```{r eval = FALSE}
+null_diff_dist %>%
+    get_p_value(obs_stat = obs_diff, direction = ___)
 ```
-d. Assuming we adopt a significance level of 0.05, do we reject the null hypothesis?  What can we conclude about the relationship between using computer-aided analysis and accuracy of adenoma detection?  (Recall that this is an *experiment*.)
-e. Would we have ended up making a different decision using the randomization procedure in the previous section?
+
+What was the p value you got?  Based on that p value, would you reject the null hypothesis?  What does your conclusion tell us about whether simultaneous or sequential presentation differ in how much they produce suspect ID's?
 
 :::
 
-<!-- To use the normal distribution rather than randomization, we need to know its mean and standard deviation.  The mean is equal to what the different would be if the null hypothesis were true, namely, 0.  The standard error is found using the formula -->
+## Hypothesis test 3 (permutation): Does it matter if police know who the suspect is?
 
-<!-- $$ -->
-<!-- SE = \sqrt{\hat{p}_{\text{Pool}} \left(1 - \hat{p}_{\text{Pool}} \right) \left(\frac{1}{n_1} + \frac{1}{n_2} \right)} -->
-<!-- $$ -->
+Even though these lineups were conducted in the field, they were conducted in a well-controlled setting where the police investigator who assembled and presented the lineup was not working on that same case.  As a result, the investigator was "blind" in the sense that they did not know which of the pictures was the suspect.  This was to make sure that the investigator would not accidentally or intentionally bias the witness toward identifying the police's suspect.
 
-<!-- where $\hat{p}_{\text{Pool}}$ is the "pooled" proportion across the two groups being compared and $n_1$ and $n_2$ are the total numbers of observations in each group.  We can find the SE using the frequency table we found at the beginning of the session, which we reproduce here so you don't have to scroll: -->
+What if the investigator who prepared the lineup *was* involved in the case and therefore knew who the suspect was?  The photos would still be shuffled prior to presenting them to the witness, so the investigator still wouldn't know which position the suspect is in.  In a simultaneous presentation, the suspect could appear in any location and in a sequential presentation, the suspect could appear at any spot in the order.  Even so, because the investigator is working the case, they might choose filler photographs in such a way as to make their suspect "stand out", biasing the witness to pick that person.
 
-<!-- ```{r echo = FALSE} -->
-<!-- colonoscopy %>% -->
-<!--     group_by(method, detected) %>% -->
-<!--     summarize(n = n()) -->
-<!-- ``` -->
+To study how much this matters, the authors of the study prepared a set of "mock" lineups.  In these cases, real photo lineups were presented to people who were *not* witnesses to the crime.  As a result, these people could only guess who the suspect was, since they had no information about the crime.  The authors of the study compared lineups that were prepared either by the investigating officer ("Not blind") or by an officer unfamiliar with the investigation ("Blind"---this is the type of lineup we analyzed above).
 
-<!-- ::: {.exercise} -->
-<!-- Fill in the blanks below to get R to remember the pooled proportion (`p_hat_pool`) and the two group sizes (`n_routine` and `n_aided`).  The standard error for the difference in proportions is then calculated and saved in R under the name `se_diff`. -->
+This is what the first few rows of the resulting data look like, which are stored under the name `fairness`:
 
-<!-- The pooled proportion is the *total number of detected adenomas* divided by the *total number of all images*. -->
+```{r echo = FALSE}
+knitr::kable(head(fairness))
+```
 
-<!-- ```{r eval=FALSE} -->
-<!-- p_hat_pool <- ___ -->
-<!-- n_routine <- ___ -->
-<!-- n_aided <- ___ -->
-<!-- se_diff <- sqrt(p_hat_pool * (1 - p_hat_pool) * ((1 / n_routine) + (1 / n_aided))) -->
+There are two variables:
 
-<!-- se_diff -->
-<!-- ``` -->
+* **condition**: Whether the lineup was "Blind" or "Not blind"
+* **ID**: Whether the mock witness picked the "Suspect" or a "Filler".
 
-<!-- a. What is the standard error? -->
-<!-- b. Fill in the blanks in the following code to use the normal distribution to find the lower and upper boundaries of the 95% confidence interval (`ci_lower` and `ci_upper`, respectively). -->
-<!-- ```{r eval=FALSE} -->
-<!-- ci_lower <- qnorm(p = 0.025, mean = ___, sd = ___, lower.tail = TRUE) -->
-<!-- ci_upper <- qnorm(p = 0.025, mean = ___, sd = ___, lower.tail = FALSE) -->
-<!-- ``` -->
-<!-- What did you get for the lower and upper boundaries of the confidence interval? -->
-<!-- c. How does the interval you just found in part (b) compare to the 95% CI you found earlier using bootstrapping?  Are the boundaries similar or different? -->
+::: {.exercise}
 
-<!-- ::: -->
+Our research question is, "do mock witnesses make a higher proportion of suspect ID's for not-blind lineups as opposed to blind lineups?"  We will address this question by using random permutation to conduct a hypothesis test.
+
+a. What are the null and alternative hypotheses corresponding to our research question?
+b. Use the following chunk of code to calculate the observed difference in the proportion of suspect ID's between sequential and simultaneous lineups:
+
+```{r eval = FALSE}
+obs_fairness_diff <- fairness %>%
+    specify(___) %>%
+    calculate(___, order = c("Not blind", "Blind"))
+```
+
+What is the observed difference in proportions (this will be stored under `obs_fairness_diff` after you run your code)?  Is this result more consistent with the null hypothesis or with the alternative hypothesis?
+
+c. Use the following chunk of code to use random permutation to simulate at least 1000 datasets assuming the null hypothesis is true, then visualize where our observed difference falls relative to that distribution.  Remember to put one of "greater", "less" or "two-sided" for the `direction` setting in the last line; the appropriate setting depends on the alternative hypothesis (i.e., your answer to part [a]).  Also, make sure you've completed part [b], since this code needs `obs_fairness_diff` to run!
+
+```{r eval = FALSE}
+null_fairness_diff_dist <- fairness %>%
+    specify(___) %>%
+    hypothesize(___) %>%
+    generate(___) %>%
+    calculate(___, order = c("Not blind", "Blind"))
+
+null_fairness_diff_dist %>%
+    visualize() +
+    shade_p_value(obs_stat = obs_fairness_diff, direction = ___)
+```
+
+d. Use the following chunk to find the p value for this hypothesis test (make sure you have completed parts [b] and [c], since this code depends on both of them having been completed successfully):
+
+```{r eval = FALSE}
+null_fairness_diff_dist %>%
+    get_p_value(obs_stat = obs_fairness_diff, direction = ___)
+```
+
+What was the p value you got?  Based on that p value, would you reject the null hypothesis?  What does your conclusion tell us about whether non-blind police lineups are "fair" in the sense that they do not bias a witness toward a particular suspect?
+
+:::
 
 ## Wrap-up
 

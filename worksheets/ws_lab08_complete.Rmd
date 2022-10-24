@@ -37,8 +37,8 @@ a. Use the following chunk of code to calculate and store the proportion of susp
 
 ```{r susp_id_prop}
 lineup %>%
-    specify(___) %>%
-    calculate(___)
+    specify(response = ID, success = "Suspect") %>%
+    calculate(stat = "prop")
 ```
 
 What is the observed proportion of suspect ID's?
@@ -47,9 +47,9 @@ b. Use the following chunk of code to use bootstrapping to build a sampling dist
 
 ```{r susp_id_ci}
 boot_prop_id_dist <- lineup %>%
-    specify(___) %>%
-    generate(___) %>%
-    calculate(___)
+    specify(response = ID, success = "Suspect") %>%
+    generate(reps = 1000, type = "bootstrap") %>%
+    calculate(stat = "prop")
 
 boot_prop_id_ci <- boot_prop_id_dist %>%
     get_confidence_interval(level = 0.95)
@@ -70,9 +70,9 @@ b. What are the null and alternative hypotheses corresponding to our research qu
 c. Use the chunk of code below to help you use the *normal distribution* to model the sampling distribution assuming the null hypothesis is true.  For the first blank, this should be your answer to part [a].  For the second blank, see how many rows the `lineup` dataset has---this is our sample size.  For the third blank, this should be your answer to part [a] of the previous exercise.  The final result is a "Z score".
 
 ```{r prop_z_score}
-null_prop_id <- ___
-sample_size <- ___
-obs_prop_id <- ___
+null_prop_id <- 1 / 6
+sample_size <- 218
+obs_prop_id <- 0.5229358
 
 null_se <- sqrt(null_prop_id * (1 - null_prop_id) / sample_size)
 
@@ -97,8 +97,8 @@ b. Use the following chunk of code to calculate the observed difference in the p
 
 ```{r obs_pres_diff}
 obs_diff <- lineup %>%
-    specify(___) %>%
-    calculate(___, order = c("Sequential", "Simultaneous"))
+    specify(ID ~ presentation, success = "Suspect") %>%
+    calculate(stat = "diff in props", order = c("Sequential", "Simultaneous"))
 ```
 
 What is the observed difference in proportions (this will be stored under `obs_diff` after you run your code)?  Based on this result, which type of presentation might produce a higher proportion of suspect ID's?
@@ -107,21 +107,21 @@ c. Use the following chunk of code to use random permutation to simulate at leas
 
 ```{r null_pres_diff}
 null_diff_dist <- lineup %>%
-    specify(___) %>%
-    hypothesize(___) %>%
-    generate(___) %>%
-    calculate(___, order = c("Sequential", "Simultaneous"))
+    specify(ID ~ presentation, success = "Suspect") %>%
+    hypothesize(null = 'independence') %>%
+    generate(reps = 1000, type = 'permute') %>%
+    calculate(stat = "diff in props", order = c("Sequential", "Simultaneous"))
 
 null_diff_dist %>%
     visualize() +
-    shade_p_value(obs_stat = obs_diff, direction = ___)
+    shade_p_value(obs_stat = obs_diff, direction = 'two-sided')
 ```
 
 d. Use the following chunk to find the p value for this hypothesis test (make sure you have completed parts [b] and [c], since this code depends on both of them having been completed successfully):
 
 ```{r pres_p_val}
 null_diff_dist %>%
-    get_p_value(obs_stat = obs_diff, direction = ___)
+    get_p_value(obs_stat = obs_diff, direction = "two-sided")
 ```
 
 What was the p value you got?  Based on that p value, would you reject the null hypothesis?  What does your conclusion tell us about whether simultaneous or sequential presentation differ in how much they produce suspect ID's?
@@ -135,8 +135,8 @@ b. Use the following chunk of code to calculate the observed difference in the p
 
 ```{r obs_fair_diff}
 obs_fairness_diff <- fairness %>%
-    specify(___) %>%
-    calculate(___, order = c("Not blind", "Blind"))
+    specify(ID ~ condition, success = "Suspect") %>%
+    calculate(stat = "diff in props", order = c("Not blind", "Blind"))
 ```
 
 What is the observed difference in proportions (this will be stored under `obs_fairness_diff` after you run your code)?  Is this result more consistent with the null hypothesis or with the alternative hypothesis?
@@ -145,21 +145,21 @@ c. Use the following chunk of code to use random permutation to simulate at leas
 
 ```{r null_fair_diff}
 null_fairness_diff_dist <- fairness %>%
-    specify(___) %>%
-    hypothesize(___) %>%
-    generate(___) %>%
-    calculate(___, order = c("Not blind", "Blind"))
+    specify(ID ~ condition, success = "Suspect") %>%
+    hypothesize(null = 'independence') %>%
+    generate(reps = 1000, type = 'permute') %>%
+    calculate(stat = "diff in props", order = c("Not blind", "Blind"))
 
 null_fairness_diff_dist %>%
     visualize() +
-    shade_p_value(obs_stat = obs_fairness_diff, direction = ___)
+    shade_p_value(obs_stat = obs_fairness_diff, direction = 'greater')
 ```
 
 d. Use the following chunk to find the p value for this hypothesis test (make sure you have completed parts [b] and [c], since this code depends on both of them having been completed successfully):
 
 ```{r fair_p_val}
 null_fairness_diff_dist %>%
-    get_p_value(obs_stat = obs_fairness_diff, direction = ___)
+    get_p_value(obs_stat = obs_fairness_diff, direction = "greater")
 ```
 
 What was the p value you got?  Based on that p value, would you reject the null hypothesis?  What does your conclusion tell us about whether non-blind police lineups are "fair" in the sense that they do not bias a witness toward a particular suspect?
