@@ -118,6 +118,7 @@ z_score <- (obs_prop_id - null_prop_id) / null_se
 ```
 
 What is the Z score you found?  In your own words, describe what this Z score tells us about how "extreme" our observed proportion is relative to what we would have expected if the null hypothesis were true.
+
 d. Run the following chunk to find the p value (note that you will need to have completed part [c] for this to work!):
 
 ```{r eval = FALSE}
