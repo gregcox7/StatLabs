@@ -1,0 +1,212 @@
+---
+title: "Worksheet for Lab 9"
+author: "NAME"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+## Introduction
+
+With this worksheet, you can work on and run the chunks of code you need for different exercises.  Chunks of code appear between the three backquote marks and have a different color, like this:
+
+```{r chunk_name}
+2 + 3
+```
+
+## Preliminaries
+
+Run this chunk first!  This chunk of code loads the packages and datasets you need for this activity.
+
+```{r setup}
+library(tidyverse)
+library(infer)
+
+gss <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/gss2010.csv")
+lullaby <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/lullaby_wide.csv")
+```
+
+Within the braces at the beginning of each chunk, the letter `r` says that the code is written in the "R" language and the text after the little `r` is a helpful label for the chunk.
+
+To run a chunk of code, press the green arrow button in the upper right of the chunk.  The result of running the chunk will appear immediately below it.  You can run a chunk more than once.  If you need to change anything or get an error, you can always edit your chunk and try again.
+
+## Exercise 9.1
+
+Use the following chunk of code to make a histogram of the number of hours worked per week, based on the GSS data.  In R, the dataset is called `gss` and number of hours worked per week is recorded as the variable `HoursWorked`.  Play around with different binwidths until you find one that seems to give a good sense of the shape of the data.
+
+```{r}
+___ %>%
+    ggplot(aes(x = ___)) +
+    geom_histogram(binwidth = ___)
+```
+
+a. Describe the shape of the distribution of `HoursWorked`, noting whether it is skewed or symmetrical, how many modes it has, and whether there may be any outliers.
+b. Do these data appear to satisfy the "normality" condition for whether we can use a mathematical model?
+
+## Exercise 9.2
+
+Use the following chunk of code to use bootstrapping to build a sampling distribution for the mean number of hours worked per week, using the `gss` data.  Set `level` to give us 95% confidence interval and be sure to generate at least 1000 repetitions.  *Hint:* this will look a lot like when we were working with proportions, but with one important difference---instead of "prop" as the `stat`istic we calculate for each simulated dataset, we calculate the `mean`.
+
+```{r}
+hours_boot_dist <- ___ %>%
+    specify(response = ___) %>%
+    generate(reps = ___, type = "___") %>%
+    calculate(stat = "___")
+
+hours_boot_ci <- hours_boot_dist %>%
+    get_confidence_interval(level = ___)
+
+hours_boot_dist %>%
+    visualize() +
+    shade_confidence_interval(hours_boot_ci)
+```
+
+a. Report the 95% confidence interval you found and interpret it in context.
+b. Based on your results, is it plausible that people on average work around 40 hours per week?
+c. In your own words, describe the difference between the histogram you made in the previous exercise and the one you made in this exercise.  They are both histograms that show a distribution of numbers, but the numbers mean different things.
+
+## Exercise 9.3
+
+Fill in the blanks in the code below to use R to carry out the calculations needed to use the T distribution to find a 95% confidence interval.  This exercise is about translating the mathematical formulas above into meaningful labels.  Notice that the first part of the chunk finds and stores the `sample_mean`, `sample_sd` (sample standard deviation), and `sample_size`.  Use these labels to fill in the appropriate blanks.  You will also need to supply a number for the `confidence_level` (which should be between 0 and 1, like in the previous exercise).
+
+```{r}
+sample_mean <- gss %>%
+    summarize(mean(HoursWorked)) %>%
+    pull()
+
+sample_sd <- gss %>%
+    summarize(sd(HoursWorked)) %>%
+    pull()
+
+sample_size <- gss %>%
+    summarize(n()) %>%
+    pull()
+
+standard_error <- ___ / sqrt(___)
+
+degrees_of_freedom <- ___ - 1
+
+confidence_level <- ___
+
+tail_probability <- 1 - (1 - confidence_level) / 2
+
+critical_t <- qt(p = tail_probability, df = degrees_of_freedom)
+
+c(___ - critical_t * standard_error, ___ + critical_t * standard_error)
+```
+
+a. What was the 95% confidence interval that you found?
+b. Compare the 95% confidence interval you found in this exercise with the one you found in the previous exercise using bootstrapping.  Are they similar?  Why might you expect them to be at least a little different?
+
+## Exercise 9.4
+
+Our research question is, "do people on average work *more* than 40 hours per week?"  Fill in the blanks in the code below to find the T score.  The final line will calculate the $p$ value using the T distribution.  *Hint:* Like in the last exercise, use the *names* of stored values (like `sample_size`) to fill in each blank, with the exception of `null_value` which you will need to specify based on our research question.
+
+```{r}
+sample_mean <- gss %>%
+    summarize(mean(HoursWorked)) %>%
+    pull()
+
+sample_sd <- gss %>%
+    summarize(sd(HoursWorked)) %>%
+    pull()
+
+sample_size <- gss %>%
+    summarize(n()) %>%
+    pull()
+
+null_value <- ___
+
+standard_error <- ___ / sqrt(___)
+
+degrees_of_freedom <- ___ - 1
+
+t_score <- (___ - ___) / ___
+
+pt(q = t_score, df = ___, lower.tail = FALSE)
+```
+
+Based on the p value you got, would you reject the null hypothesis?  What do you conclude and why?
+
+## Exercise 9.6
+
+Run this chunk of code and examine the result:
+
+```{r}
+lullaby %>%
+    mutate(diff = After - Before)
+```
+
+a. In your own words, describe what the line of code `mutate(diff = After - Before)` did.
+b. Refer to the description of the study given above.  What does a positive value of `diff` say about how an infant's looking preferences changed?  What does a negative value of `diff` say about how their preferences changed?
+
+## Exercise 9.7
+
+Use the following chunk to make a histogram of the `diff`erences in looking times from Before to After hearing the people sing.
+
+```{r}
+lullaby %>%
+    mutate(diff = After - Before) %>%
+    ggplot(aes(x = ___)) +
+    geom_histogram(binwidth = 0.1)
+```
+
+a. Describe the shape of the distribution (be sure to note the number of modes, skewness, and whether there may be any outliers).
+b. Based on the histogram, do these data appear to satisfy the conditions required for using a mathematical model (specifically, the T distribution)?  Why or why not?
+c. Based on the histogram, does it seem like the average preference may have changed after hearing the people sing?  If so, in what direction?
+
+## Exercise 9.8
+
+To begin, let's use bootstrapping to construct a confidence interval for the difference in looking time between Before and After.  This confidence interval will describe how much hearing someone sing a familiar melody changes infants' looking preferences.
+
+Fill in the blanks in the code below to construct a **95% confidence interval** for the mean difference in looking proportion from before to after.  Be sure to refer to code from earlier in the session, as well as previous labs, for guidance.  (*Hint:* if you're looking for the name of the response variable, remember that we are doing inference about a *difference*.)
+
+```{r}
+lullaby_boot_dist <- lullaby %>%
+    mutate(diff = After - Before) %>%
+    specify(response = ___) %>%
+    generate(reps = ___, type = "___") %>%
+    calculate(stat = "___")
+
+lullaby_boot_ci <- lullaby_boot_dist %>%
+    get_confidence_interval(level = ___)
+
+lullaby_boot_dist %>%
+    visualize() +
+    shade_confidence_interval(lullaby_boot_ci)
+```
+
+Based on the confidence interval you found, is there evidence for a significance difference in looking preferences from before to after hearing the people sing?  Explain your reasoning.
+
+## Exercise 9.9
+
+Next, we will use a mathematical model to conduct a hypothesis test.  This hypothesis test will address the **research question**, "is there a difference in infants' average looking behavior from before to after hearing the two strangers sing?"
+
+a. What are the null and alternative hypotheses corresponding to our research question?
+b. Fill in the blanks in the code below to calculate the observed T score and visualize where it falls relative to the null distribution.  Based on the visualization you made, would our observed data be likely or unlikely if the null hypothesis were true?  (*Hint:* for `mu`, this is the *null value*; and for the last blank, check how we have filled it in in previous labs depending on what our alternative hypothesis is.)
+
+```{r}
+lullaby_obs_t <- lullaby %>%
+    mutate(diff = After - Before) %>%
+    specify(response = ___) %>%
+    hypothesize(null = "point", mu = ___) %>%
+    calculate(stat = "t")
+
+lullaby_null_dist <- lullaby %>%
+    mutate(diff = After - Before) %>%
+    specify(response = ___) %>%
+    hypothesize(null = "point", mu = ___) %>%
+    assume("t")
+
+lullaby_null_dist %>%
+    visualize() +
+    shade_p_value(obs_stat = lullaby_obs_t, direction = "___")
+```
+
+c. Fill in the blanks in the code below to get the $p$ value (make sure you've done part b first!).  What did you get for the $p$ value?  Would you reject the null hypothesis?
+
+```{r}
+lullaby_null_dist %>%
+    get_p_value(obs_stat = lullaby_obs_t, direction = "___")
+```
+
+d. Give a one-sentence summary of what the outcome of this hypothesis test tells us about how infant looking behavior is affected by hearing someone sing a familiar melody.
