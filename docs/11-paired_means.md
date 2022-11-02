@@ -90,7 +90,7 @@ Have a look at the data by clicking on `lullaby` in RStudio's "Environment" pane
 
 ::: {.exercise}
 
---
+Answer the following questions based on your understanding of how the study was designed:
 
 a. If an infant showed no preference during either the Before or After phase, what proportion of the time in that phase would they spend looking at the person who sang the familiar melody?
 b. If an infant did not change who they looked at after hearing each person sing, what would the difference in looking proportions be between the Before and After phase?
@@ -100,6 +100,10 @@ b. If an infant did not change who they looked at after hearing each person sing
 ### Examine the distribution of differences
 
 Our **research question** is whether hearing the two people sing affected infant's viewing preferences.  As a result, we are interested in the **difference** between `After` and `Before`.  To find this for each infant, we will use R's `mutate` function:
+
+::: {.exercise}
+
+Run this chunk of code and examine the result:
 
 
 ```r
@@ -123,10 +127,6 @@ lullaby %>%
 ## 10   110  0.800 0.586 -0.213 
 ## # … with 22 more rows
 ```
-
-::: {.exercise}
-
-Look at the result when we ran the chunk of code just prior to this exercise.
 
 a. In your own words, describe what the line of code `mutate(diff = After - Before)` did.
 b. Refer to the description of the study given above.  What does a positive value of `diff` say about how an infant's looking preferences changed?  What does a negative value of `diff` say about how their preferences changed?
@@ -157,9 +157,9 @@ c. Based on the histogram, does it seem like the average preference may have cha
 
 ### Confidence interval by bootstrapping
 
-To begin, let's use bootstrapping to construct a **confidence interval** for the difference in looking proportion between Before and After.  This confidence interval will describe how much hearing someone sing a familiar melody changes infants' looking preferences.
-
 ::: {.exercise}
+
+To begin, let's use bootstrapping to construct a **confidence interval** for the difference in looking proportion between Before and After.  This confidence interval will describe how much hearing someone sing a familiar melody changes infants' looking preferences.
 
 Fill in the blanks in the code below to construct a **95% confidence interval** for the mean difference in looking proportion from before to after.  Be sure to refer to code from earlier in the session, as well as previous labs, for guidance.  (*Hint:* if you're looking for the name of the response variable, remember that we are doing inference about a *difference*.)
 
@@ -186,11 +186,9 @@ b. Based on the confidence interval you found, is there evidence for a significa
 
 ### Hypothesis test via mathematical model
 
-Next, we will use a mathematical model to conduct a hypothesis test.  This hypothesis test will address the **research question**, "is there a difference in infants' average looking behavior from before to after hearing the two strangers sing?"
-
 ::: {.exercise}
 
---
+Next, we will use a mathematical model to conduct a hypothesis test.  This hypothesis test will address the **research question**, "is there a difference in infants' average looking behavior from before to after hearing the two strangers sing?"
 
 a. What are the null and alternative hypotheses corresponding to our research question?
 b. Fill in the blanks in the code below to calculate the **T score** for the observed data.  What code did you use?  (*Hint:* for `mu`, remember the null hypothesis.)

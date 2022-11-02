@@ -1,151 +1,85 @@
-# Inference for a single mean {#lab9}
+# Inference about a mean {#lab9}
 
 
 
-<img src="img/memory-tray.jpg" width="100%" />
+<img src="img/lullaby.png" width="100%" />
 
 In this session, we will learn about doing inference when the response variable is *numerical* rather than *categorical*.  Specifically, we will focus on how we can use data to draw inferences about what a population average might be, based on a sample.  This is very similar to how we have been drawing inferences about a population proportion.  As we shall see, simulation methods like bootstrapping work just the same with a numerical response variable as they do with a categorical response variable.  Where they differ is that the mathematical model for proportions is a *normal* distribution whereas the mathematical model for means is a **T distribution**.
 
-## Required packages
+These methods are also critical for estimating and testing differences within a *pair* of measurements.  Because each observation is *paired* with another, in the end we are just analyzing a single number for each case, which is the *difference* within each pair.
 
-Make sure you have loaded both the `tidyverse` and `infer` packages from R's library:
+To help with the later exercises in this session, be sure to **download the worksheet for this session** by right-clicking on the following link and selecting "Save link as...": [Worksheet for Lab 9](https://raw.githubusercontent.com/gregcox7/StatLabs/main/worksheets/ws_lab09.Rmd).  Open the saved file (which by default is called "ws_lab09.Rmd") in RStudio.
 
+## Overworked?
 
-```r
-library(tidyverse)
-```
-
-```{.Rout .text-info}
-## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
-```
-
-```{.Rout .text-info}
-## ✔ ggplot2 3.3.6     ✔ purrr   0.3.4
-## ✔ tibble  3.1.8     ✔ dplyr   1.0.9
-## ✔ tidyr   1.1.3     ✔ stringr 1.4.0
-## ✔ readr   2.1.2     ✔ forcats 0.5.1
-```
-
-```{.Rout .text-info}
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
-```
-
-```r
-library(infer)
-```
-
-## Inference with NHANES
-
-To begin, we will take another look at two variables from the NHANES dataset that we already looked at in a [previous lab](#lab7).  Load it now:
+To begin, we will first address some questions about the *number of hours people work per week*.  The relevant data was collected as part of the General Social Survey (GSS) in 2010.  The first few rows of the survey results look like this:
 
 
 ```r
-nhanes <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/nhanes.csv")
+knitr::kable(head(gss))
 ```
 
-```{.Rout .text-info}
-## Rows: 4924 Columns: 76
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: ","
-## chr (31): SurveyYr, Gender, AgeDecade, Race1, Race3, Education, MaritalStatu...
-## dbl (41): ID, Age, AgeMonths, HHIncomeMid, Poverty, HomeRooms, Weight, Heigh...
-## lgl  (4): Length, HeadCirc, TVHrsDayChild, CompHrsDayChild
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-```
-
-Remember that the variable `DaysMentHlthBad` represents the number of days, out of the past 30, that a person says their mental health was poor.  We saw already that the distribution of observed values of this variable is *not* well described by a normal curve, as we can see in the histogram below:
 
 
-```r
-nhanes %>%
-    ggplot(aes(x = DaysMentHlthBad)) +
-    geom_histogram(binwidth = 1)
-```
+|degree         | HoursWorked| HoursRelax|
+|:--------------|-----------:|----------:|
+|BACHELOR       |          55|          2|
+|BACHELOR       |          45|          4|
+|JUNIOR COLLEGE |          45|          3|
+|HIGH SCHOOL    |          40|          0|
+|HIGH SCHOOL    |          48|          5|
+|JUNIOR COLLEGE |          26|          5|
 
-<img src="09-single_mean_files/figure-html/unnamed-chunk-4-1.png" width="672" />
-
-Nonetheless, we know from the *central limit theorem* that, even though the distribution of the original data is not normal, the *distribution of sample means* will tend to look something like a normal distribution.
-
-### Bootstrapping
-
-We can construct the distribution of sample means using **bootstrapping**.  Run the following code to build this sampling distribution and save it under the name `boot_dist_mental_health`.
-
-
-```r
-boot_dist_mental_health <- nhanes %>%
-    specify(response = DaysMentHlthBad) %>%
-    generate(reps = 1000, type = "bootstrap") %>%
-    calculate(stat = "mean")
-
-boot_dist_mental_health
-```
-
-```{.Rout .text-muted}
-## Response: DaysMentHlthBad (numeric)
-## # A tibble: 1,000 × 2
-##    replicate  stat
-##        <int> <dbl>
-##  1         1  4.49
-##  2         2  4.45
-##  3         3  4.42
-##  4         4  4.69
-##  5         5  4.33
-##  6         6  4.38
-##  7         7  4.38
-##  8         8  4.35
-##  9         9  4.33
-## 10        10  4.62
-## # … with 990 more rows
-```
+There are a number of interesting variables here, but the one that we are interested in is called `HoursWorked`.  It is the number of hours that each person in the survey reports working per week.
 
 ::: {.exercise}
 
-The following chunk of code would use bootstrapping to construct a sampling distribution for the proportion of people who have tried marijuana:
+Use the following chunk of code to make a histogram of the number of hours worked per week, based on the GSS data.  In R, the dataset is called `gss` and number of hours worked per week is recorded as the variable `HoursWorked`.  Play around with different binwidths until you find one that seems to give a good sense of the shape of the data.
 
 
 ```r
-boot_dist_marijuana <- nhanes %>%
-    specify(response = Marijuana, success = "Yes") %>%
-    generate(reps = 1000, type = "bootstrap") %>%
-    calculate(stat = "prop")
+___ %>%
+    ggplot(aes(x = ___)) +
+    geom_histogram(binwidth = ___)
 ```
 
-Compare this chunk of code with the first four lines of the code just prior to this exercise that we used to build a sampling distribution for the mean number of bad mental health days.  For each of the four lines, what is similar and what is different?  For any difference, describe why you think there is a difference.
+a. Describe the shape of the distribution of `HoursWorked`, noting whether it is skewed or symmetrical, how many modes it has, and whether there may be any outliers.
+b. Do these data appear to satisfy the "normality" condition for whether we can use a mathematical model?
 
 :::
 
-Let's visualize the sampling distribution for the mean number of poor mental health days:
+### Confidence interval via bootstrapping
+
+As we've noted, we can still use **bootstrapping** to construct a sampling distribution.  But now, instead of a sampling distribution for a proportion, we will build a sampling distribution for the *mean*.
+
+::: {.exercise}
+
+Use the following chunk of code to use bootstrapping to build a sampling distribution for the mean number of hours worked per week, using the `gss` data.  Set `level` to give us 95% confidence interval and be sure to generate at least 1000 repetitions.  *Hint:* this will look a lot like when we were working with proportions, but with one important difference---instead of "prop" as the `stat`istic we calculate for each simulated dataset, we calculate the `mean`.
 
 
 ```r
-boot_dist_mental_health %>%
-    visualize()
+hours_boot_dist <- ___ %>%
+    specify(response = ___) %>%
+    generate(reps = ___, type = "___") %>%
+    calculate(stat = "___")
+
+hours_boot_ci <- hours_boot_dist %>%
+    get_confidence_interval(level = ___)
+
+hours_boot_dist %>%
+    visualize() +
+    shade_confidence_interval(hours_boot_ci)
 ```
 
-<img src="09-single_mean_files/figure-html/unnamed-chunk-7-1.png" width="672" />
+a. Report the 95% confidence interval you found and interpret it in context.
+b. Based on your results, is it plausible that people on average work around 40 hours per week?
+c. In your own words, describe the difference between the histogram you made in the previous exercise and the one you made in this exercise.  They are both histograms that show a distribution of numbers, but the numbers mean different things.
 
-### Standard error of the mean
+:::
 
-If we find the standard deviation of this sampling distribution, we will get an estimate of the **standard error of the mean**:
+### Confidence interval via mathematical model
 
-
-```r
-boot_dist_mental_health %>%
-    summarize(standard_error = sd(stat))
-```
-
-```{.Rout .text-muted}
-## # A tibble: 1 × 1
-##   standard_error
-##            <dbl>
-## 1          0.115
-```
-
-We can also estimate the standard error of the mean by using the mathematical model approach based on the central limit theorem.  According to this approach, the standard error is
+In addition to bootstrapping, when the conditions are met, we can also use a mathematical model for the sampling distribution.  This model is the **T distribution**.  To use it, we need to know the **standard error** of the mean, which we can calculate using this formula:
 
 $$
 SE = \frac{s}{\sqrt{n}}
@@ -153,211 +87,61 @@ $$
 
 where $s$ is the sample standard deviation and $n$ is the sample size.
 
-::: {.exercise}
-
-Fill in the blanks in the code below to use R to calculate what the standard error is, based on the mathematical model.  (Hint: the blanks will be the *names* of numbers calculated earlier in the chunk.)
-
-
-```r
-sample_sd <- nhanes %>%
-    summarize(sd(DaysMentHlthBad)) %>%
-    pull()
-
-sample_size <- nhanes %>%
-    summarize(n()) %>%
-    pull()
-
-standard_error <- ___ / sqrt(___)
-
-standard_error
-```
-
-
-
-a. What did you get for the `standard_error`?
-b. Compare the value in part (a) to what you found just before this exercise by calculating the standard deviation of the bootstrap distribution.  Are the values similar or different?  Describe why you would expect the two values to be similar or different.
-
-:::
-
-### Confidence intervals
-
-Suppose we want to construct a **95% confidence interval** for the population mean, based on our sample.  We've already seen how to do this with a bootstrap distribution:
-
-
-```r
-boot_ci_mental_health <- boot_dist_mental_health %>%
-    get_confidence_interval(level = 0.95)
-
-boot_ci_mental_health
-```
-
-```{.Rout .text-muted}
-## # A tibble: 1 × 2
-##   lower_ci upper_ci
-##      <dbl>    <dbl>
-## 1     4.26     4.71
-```
-
-To do the same using a mathematical model, we use this formula that we've seen before:
+Once we have the standard error, we use it to construct a confidence interval using this formula:
 
 $$
 \bar{x} \pm t^{\star}_{df} \times SE
 $$
 
-We already found the standard error ($SE$).  Next, we need to find $t^{\star}_{df}$, the "critical value" on the T distribution that divides the middle 95% of the distribution from its upper and lower tails.  R's `qt` function will help us do this, but as you'll recall, the T distribution has a different shape depending on the number of **degrees of freedom** ($df$).  When working with just a single sample, the degrees of freedom is one less than the sample size:
+Remember that $t^{\star}_{df} \times SE$ is the "margin of error" and represents how many standard error's from the mean ($\bar{x}$) we believe the true population parameter might be.
+
+We need the T distribution to find $t^{\star}_{df}$.  As we've noted, the T distribution has a different shape depending on how many **degrees of freedom** it has.  The number of degrees of freedom is one less than the sample size:
 
 $$
 df = n - 1
 $$
 
-Luckily, we already told R to remember the sample size during the previous exercise, so we can find the number of degrees of freedom:
+::: {.exercise}
+
+Fill in the blanks in the code below to use R to carry out the calculations needed to use the T distribution to find a 95% confidence interval.  This exercise is about translating the mathematical formulas above into meaningful labels.  Notice that the first part of the chunk finds and stores the `sample_mean`, `sample_sd` (sample standard deviation), and `sample_size`.  Use these labels to fill in the appropriate blanks.  You will also need to supply a number for the `confidence_level` (which should be between 0 and 1, like in the previous exercise).
 
 
 ```r
-degrees_of_freedom <- sample_size - 1
-
-degrees_of_freedom
-```
-
-```{.Rout .text-muted}
-## [1] 4923
-```
-
-Now, we can use the `qt` distribution to find which `q`uantile of the T distribution represents the upper tail of our confidence interval.  We set `p = 0.975` because we want to find the point at which 2.5% (or 0.025) of the distribution is *above* this quantile, so 97.5% will have to be *below* it.  The resulting quantile is our critical t value:
-
-
-```r
-critical_t <- qt(p = 0.975, df = degrees_of_freedom)
-
-critical_t
-```
-
-```{.Rout .text-muted}
-## [1] 1.960446
-```
-
-Finally, the last ingredient we need for a confidence interval is the sample mean ($\bar{x}$):
-
-
-```r
-sample_mean <- nhanes %>%
-    summarize(mean(DaysMentHlthBad)) %>%
+sample_mean <- gss %>%
+    summarize(mean(HoursWorked)) %>%
     pull()
 
-sample_mean
+sample_sd <- gss %>%
+    summarize(sd(HoursWorked)) %>%
+    pull()
+
+sample_size <- gss %>%
+    summarize(n()) %>%
+    pull()
+
+standard_error <- ___ / sqrt(___)
+
+degrees_of_freedom <- ___ - 1
+
+confidence_level <- ___
+
+tail_probability <- 1 - (1 - confidence_level) / 2
+
+critical_t <- qt(p = tail_probability, df = degrees_of_freedom)
+
+c(___ - critical_t * standard_error, ___ + critical_t * standard_error)
 ```
 
-```{.Rout .text-muted}
-## [1] 4.48355
-```
-
-::: {.exercise}
-
-Fill in the blanks below to find the 95% confidence interval according to the T distribution.  *Hint:* your best bet is to fill the blanks with *names* of numbers calculated from running the code chunks before this exercise.  Consider the formula for the confidence interval given above.  Also, remember that `*` in R does multiplication.
-
-
-```r
-ci_lower <- ___ - ___ * ___
-ci_upper <- ___ + ___ * ___
-
-c(ci_lower, ci_upper)
-```
-
-a. What code did you use?
-b. What was the interval you got?
-c. Is the resulting confidence interval similar or different to the one we found earlier using the bootstrap distribution?
-d. Interpret the confidence interval in the context of the research scenario.
+a. What was the 95% confidence interval that you found?
+b. Compare the 95% confidence interval you found in this exercise with the one you found in the previous exercise using bootstrapping.  Are they similar?  Why might you expect them to be at least a little different?
 
 :::
 
-### Hypothesis testing
+### Hypothesis test via mathematical model
 
-Consider that, over the course of the past 30 days, having more than 4 days of poor mental health would be equivalent to having roughly one bad mental health day per week.  While we don't know from people's responses to the question whether their bad days all occurred together or spread out, it is reasonable to ask the **research question**, "do Americans on average have more than four bad mental health days per month?"
+Finally, we can use the T distribution to conduct a hypothesis test.  To do this, we calculate a **T score** which represents how far our observed result is from what we would expect if the null hypothesis were true.  We can then use the T distribution to figure out the $p$ value, i.e., the probability of observing a T score at least as extreme as the one we observed.
 
-This is a question we can address via a hypothesis test.  The **null hypothesis** is that the average number of bad mental health days per month is less than or equal to 4.  The **alternative hypothesis** is that the average number of bad mental health days per month is more than 4.
-
-#### By simulation
-
-One way to conduct this hypothesis test is to use bootstrapping to simulate what our data would look like if the null hypothesis were true.  This will construct a sampling distribution under the assumption that the true average in the population is 4 bad days per month.  We will then see where the mean from our data falls on this distribution to find a $p$ value and decide whether or not to reject the null hypothesis.
-
-The code below constructs sampling distribution under the assumption that the true average in the population is 4 bad days per month:
-
-
-```r
-null_dist_mental_health <- nhanes %>%
-    specify(response = DaysMentHlthBad) %>%
-    hypothesize(null = "point", mu = 4) %>%
-    generate(reps = 1000, type = "bootstrap") %>%
-    calculate(stat = "mean")
-
-null_dist_mental_health
-```
-
-```{.Rout .text-muted}
-## Response: DaysMentHlthBad (numeric)
-## Null Hypothesis: point
-## # A tibble: 1,000 × 2
-##    replicate  stat
-##        <int> <dbl>
-##  1         1  3.93
-##  2         2  4.16
-##  3         3  4.14
-##  4         4  4.02
-##  5         5  3.91
-##  6         6  3.93
-##  7         7  4.23
-##  8         8  4.13
-##  9         9  4.07
-## 10        10  3.95
-## # … with 990 more rows
-```
-
-::: {.exercise}
-
-The chunk of code to build a sampling distribution for a confidence interval (that we used above) was
-
-
-```r
-boot_dist_mental_health <- nhanes %>%
-    specify(response = DaysMentHlthBad) %>%
-    generate(reps = 1000, type = "bootstrap") %>%
-    calculate(stat = "mean")
-```
-
-Compare this to the code we just ran to build a sampling distribution for a hypothesis test:
-
-
-```r
-null_dist_mental_health <- nhanes %>%
-    specify(response = DaysMentHlthBad) %>%
-    hypothesize(null = "point", mu = 4) %>%
-    generate(reps = 1000, type = "bootstrap") %>%
-    calculate(stat = "mean")
-```
-
-a. What is similar and what is different between the two chunks of code above?  For any difference you find, describe why you think that difference is there.
-b. In the second chunk of code we used the line `hypothesize(null = "point", mu = 4)` to tell R that we were hypothesizing that the true average in the population was 4.  How would you change this line if you wanted to hypothesize that the true average in the population was 7?
-
-:::
-
-Now that we have built our sampling distribution (assuming the null hypothesis is true), let's see where our observed sample mean falls on this distribution.  Note that we set `direction = "greater"` in the code below, because our alternative hypothesis is that the average is *greater than* 4 days:
-
-
-```r
-null_dist_mental_health %>%
-    visualize() +
-    shade_p_value(obs_stat = sample_mean, direction = "greater")
-```
-
-<img src="09-single_mean_files/figure-html/unnamed-chunk-19-1.png" width="672" />
-
-Not looking too good for the null hypothesis!  None (or very few) of our simulations were at least as extreme as the observed sample mean.
-
-#### Using the T distribution
-
-Because the sample is so large, we can also use a mathematical model to find the $p$ value we need for our hypothesis test.  To do this, we will use R to calculate the **T score** and then find out what proportion of the T distribution is larger than this T score.
-
-Recall that, just like a Z score, a T score is defined as the difference between a point estimate and its hypothesized value, relative to the standard error:
+Just like a Z score, a T score is defined as the difference between a point estimate and its hypothesized value, relative to the standard error:
 
 $$
 \begin{align*}
@@ -368,161 +152,187 @@ $$
 
 ::: {.exercise}
 
-Fill in the blanks in the code below to find the T score and then the corresponding $p$ value using the T distribution.  *Hint:* Try to fill in at least some of the blanks with the *names* of values we have already calculated earlier in the session.
+Our research question is, "do people on average work *more* than 40 hours per week?"  Fill in the blanks in the code below to find the T score.  The final line will calculate the $p$ value using the T distribution.  *Hint:* Like in the last exercise, use the *names* of stored values (like `sample_size`) to fill in each blank, with the exception of `null_value` which you will need to specify based on our research question.
 
 
 ```r
+sample_mean <- gss %>%
+    summarize(mean(HoursWorked)) %>%
+    pull()
+
+sample_sd <- gss %>%
+    summarize(sd(HoursWorked)) %>%
+    pull()
+
+sample_size <- gss %>%
+    summarize(n()) %>%
+    pull()
+
+null_value <- ___
+
+standard_error <- ___ / sqrt(___)
+
+degrees_of_freedom <- ___ - 1
+
 t_score <- (___ - ___) / ___
 
-p_value <- pt(q = t_score, df = ___, lower.tail = FALSE)
+pt(q = t_score, df = ___, lower.tail = FALSE)
 ```
 
-a. What code did you use?
-b. Assuming a significance level of 0.05, do you reject the null hypothesis?  Why or why not?
-c. Give a one sentence summary of the outcome of this hypothesis test in the context of the scenario.
+Based on the p value you got, would you reject the null hypothesis?  What do you conclude and why?
 
 :::
 
-## How much can people keep track of?
+## Do infants prefer people who sing familiar songs?
 
-To get further experience seeing how inference about the mean of a numerical variable is important in psychology, we will consider the case of "memory span".  To be clear, this is not the total amount of stuff you can remember over your whole life!  Rather, it is how much you can remember about a situation with multiple different things in it.  In that sense, it is related to the idea of "attention span": how many distinct things can you keep track of at one time?
+Sam Mehr, Lee Ann Song (aptly named), and Liz Spelke [@MehrEtAl2016] were interested in how infants use music as a social cue.  When an infant sees someone for the first time, are they more likely to be attracted to that person if they sing a song that the infant already knows?
 
-One way memory span is measured is by showing people a sequence of objects and then asking them to recall which objects were in the sequence.  The longest sequence you can recall without making errors is your "memory span".  For example, these are two sequences someone might be shown, with each row of pictures being a sequence:
-
-![Two example sequences of random objects, the top one with 3 objects and the bottom one with 4 objects.](img/span_ex.png)
-
-Say a participant sees the first sequence and correctly recalls a small black square, a large black triangle, and a small purple triangle.  Then they see the second sequence and recall a large blue cross, a small blue spiral, and a large red spiral.  They made an error by forgetting the small red spiral.  As a result, their memory span would be measured as 3 objects because that is the most they could recall without error.
-
-Measurements of memory span were recently collected by @MathyEtAl2018 using a random sample of college students.
-
-### Load the data
-
-Download their data, of which we will only look at two variables:  A participant ID number and the measured memory span for each participant.  Note that the reported spans are not always integers because they allowed partial credit for sequences that were not perfectly recalled.
-
-
-```r
-span_data <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/simple_span.csv")
-```
-
-```{.Rout .text-info}
-## Rows: 94 Columns: 2
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: ","
-## dbl (2): id, span
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-```
+@MehrEtAl2016 conducted an experiment in which a child's parents were taught a new melody and were instructed to sing it to their child at home over the course of 1--2 weeks.  After this exposure period, the parents brought their infant back to the lab.  The infant was seated in front of a screen showing videos of two adults the infant had never seen before.  At first, the two adults just smiled in silence.  They recorded the proportion of the time that the infant looked at each stranger during this "before" phase.  Then, one of these people sang the melody that the parents had been singing for 1--2 weeks, while the other sang a totally new song.  Finally, during the "after" phase, the infant saw the same videos of each person silently smiling and the researchers recorded the proportion of the time spent looking at the person who sang the familiar song.  Will infants tend to look more at the stranger who sang the familiar song?
 
 ### Check out the data
 
-First, let's get a sense of the raw data by making a histogram of the measured memory spans, recorded under the variable named `span`.
+First, let's take a look at the data, which are saved in R under the name `lullaby`.  These are the first few rows:
 
 
 ```r
-span_data %>%
-    ggplot(aes(x = span)) +
-    geom_histogram(binwidth = 1)
+knitr::kable(head(lullaby))
 ```
 
-<img src="09-single_mean_files/figure-html/unnamed-chunk-22-1.png" width="672" />
-
-And let's also get the sample mean, sample standard deviation, and sample size:
 
 
-```r
-span_data %>%
-    summarize(sample_mean = mean(span), sample_sd = sd(span), sample_size = n())
-```
+|  id|    Before|     After|
+|---:|---------:|---------:|
+| 101| 0.4371257| 0.6027398|
+| 102| 0.4125326| 0.6830266|
+| 103| 0.7544910| 0.7241379|
+| 104| 0.4388778| 0.2816538|
+| 105| 0.4746450| 0.4985423|
+| 106| 0.8709016| 0.9509202|
 
-```{.Rout .text-muted}
-## # A tibble: 1 × 3
-##   sample_mean sample_sd sample_size
-##         <dbl>     <dbl>       <int>
-## 1        4.05      1.06          94
-```
+Each row is data from a specific infant.  There are three variables in this dataset:
+
+* "id": A number identifying each infant in the study.
+* "Before": In the phase before the infants heard anyone sing, what proportion of the time did they look at the person who would eventually sing the familiar melody?
+* "After": In the phase after the infants heard the two people sing, what proportion of the time did they look at the person who sang the familiar melody?
 
 ::: {.exercise}
 
-Consider the histogram and summary statistics for the `span` variable we just made.
+Answer the following questions based on your understanding of how the study was designed:
 
-a. Describe the distribution of memory span, being sure to note the number of modes, skewness, and whether there are any outliers.
-b. Does it seem like the conditions are satisfied to use a mathematical model for the sampling distribution of the mean?
+a. If an infant showed no preference during either the Before or After phase, what proportion of the time in that phase would they spend looking at the person who sang the familiar melody?
+b. If an infant did not change who they looked at after hearing each person sing, what would the difference in looking proportions be between the Before and After phase?
 
 :::
 
-### Build a confidence interval
+### Examine the distribution of differences
+
+Our **research question** is whether hearing the two people sing affected infant's viewing preferences.  As a result, we are interested in the **difference** between `After` and `Before`.  To find this for each infant, we will use R's `mutate` function:
 
 ::: {.exercise}
 
-Use bootstrapping to construct a sampling distribution for the mean memory span, based on the data from this sample.  Use this distribution to find a 95% confidence interval for the mean memory span.  To do this, fill in the blanks in the chunk of code below (*Hint:* refer to code from earlier in the session and remember what the name of the response variable is.):
+Run this chunk of code and examine the result:
 
 
 ```r
-boot_dist_span <- span_data %>%
+lullaby %>%
+    mutate(diff = After - Before)
+```
+
+a. In your own words, describe what the line of code `mutate(diff = After - Before)` did.
+b. Refer to the description of the study given above.  What does a positive value of `diff` say about how an infant's looking preferences changed?  What does a negative value of `diff` say about how their preferences changed?
+
+:::
+
+The nice thing about that `mutate` line is that we can add more code after it that uses the `diff` variable we created in that line.  For example, we can make a histogram of the differences in looking time from before to after:
+
+::: {.exercise}
+
+Use the following chunk to make a histogram of the `diff`erences in looking times from Before to After hearing the people sing.
+
+
+```r
+lullaby %>%
+    mutate(diff = After - Before) %>%
+    ggplot(aes(x = ___)) +
+    geom_histogram(binwidth = 0.1)
+```
+
+a. Describe the shape of the distribution (be sure to note the number of modes, skewness, and whether there may be any outliers).
+b. Based on the histogram, do these data appear to satisfy the conditions required for using a mathematical model (specifically, the T distribution)?  Why or why not?
+c. Based on the histogram, does it seem like the average preference may have changed after hearing the people sing?  If so, in what direction?
+
+:::
+
+### Confidence interval by bootstrapping
+
+::: {.exercise}
+
+To begin, let's use bootstrapping to construct a confidence interval for the difference in looking time between Before and After.  This confidence interval will describe how much hearing someone sing a familiar melody changes infants' looking preferences.
+
+Fill in the blanks in the code below to construct a **95% confidence interval** for the mean difference in looking proportion from before to after.  Be sure to refer to code from earlier in the session, as well as previous labs, for guidance.  (*Hint:* if you're looking for the name of the response variable, remember that we are doing inference about a *difference*.)
+
+
+```r
+lullaby_boot_dist <- lullaby %>%
+    mutate(diff = After - Before) %>%
     specify(response = ___) %>%
-    generate(reps = 1000, type = "___") %>%
+    generate(reps = ___, type = "___") %>%
     calculate(stat = "___")
 
-boot_ci_span <- boot_dist_span %>%
+lullaby_boot_ci <- lullaby_boot_dist %>%
     get_confidence_interval(level = ___)
 
-boot_dist_span %>%
+lullaby_boot_dist %>%
     visualize() +
-    shade_confidence_interval(boot_ci_span)
-
-boot_ci_span
+    shade_confidence_interval(lullaby_boot_ci)
 ```
 
-a. What code did you use?
-b. Report the confidence interval you found (you can find this in R's environment under `boot_ci_span`) and interpret the interval in the context of the research scenario.
+Based on the confidence interval you found, is there evidence for a significance difference in looking preferences from before to after hearing the people sing?  Explain your reasoning.
 
 :::
 
-### Test a hypothesis
-
-Based on many prior studies of memory span, it seems that people on average can keep track of about 4 unique objects at a time.  It is therefore reasonable to ask the **research question**, "do these data provide evidence that the population sampled has a memory span *different* from 4 objects?"
+### Hypothesis test via mathematical model
 
 ::: {.exercise}
 
---
+Next, we will use a mathematical model to conduct a hypothesis test.  This hypothesis test will address the **research question**, "is there a difference in infants' average looking behavior from before to after hearing the two strangers sing?"
 
-a. What are the null and alternative hypotheses corresponding to this research question?
-b. Fill in the blanks in the code below to build a sampling distribution that assumes the null hypothesis is true.  In the end, you should get a histogram of the sampling distribution showing where the observed sample mean falls.  What code did you use?  (*Hint:* remember that the last blank has three options, `less`, `greater`, or `two-sided`, and which is appropriate depends on the null/alternative hypotheses.)
+a. What are the null and alternative hypotheses corresponding to our research question?
+b. Fill in the blanks in the code below to calculate the observed T score and visualize where it falls relative to the null distribution.  Based on the visualization you made, would our observed data be likely or unlikely if the null hypothesis were true?  (*Hint:* for `mu`, this is the *null value*; and for the last blank, check how we have filled it in in previous labs depending on what our alternative hypothesis is.)
 
 
 ```r
-null_dist_span <- span_data %>%
+lullaby_obs_t <- lullaby %>%
+    mutate(diff = After - Before) %>%
     specify(response = ___) %>%
-    hypothesize(null = "___", mu = ___) %>%
-    generate(reps = 1000, type = "___") %>%
-    calculate(stat = "___")
+    hypothesize(null = "point", mu = ___) %>%
+    calculate(stat = "t")
 
-sample_mean_span <- span_data %>%
-    summarize(mean(span)) %>%
-    pull()
+lullaby_null_dist <- lullaby %>%
+    mutate(diff = After - Before) %>%
+    specify(response = ___) %>%
+    hypothesize(null = "point", mu = ___) %>%
+    assume("t")
 
-null_dist_span %>%
+lullaby_null_dist %>%
     visualize() +
-    shade_p_value(obs_stat = sample_mean_span, direction = "___")
+    shade_p_value(obs_stat = lullaby_obs_t, direction = "___")
 ```
 
-c. Based on the visualization you made in part (b), would you expect the T score to have a large or small magnitude?  To be positive or negative?
+c. Fill in the blanks in the code below to get the $p$ value (make sure you've done part b first!).  What did you get for the $p$ value?  Would you reject the null hypothesis?
 
 
 ```r
-null_dist_span %>%
-    get_p_value(obs_stat = sample_mean_span, direction = "___")
+lullaby_null_dist %>%
+    get_p_value(obs_stat = lullaby_obs_t, direction = "___")
 ```
 
-d. Use the code above to find the $p$ value (making sure to use the same `direction` from part b).  Based on what you believe is a reasonable significance level, would you reject the null hypothesis?
-
-e. In one sentence, summarize the result of this hypothesis test in the context of the problem.
-
-f. Could we have anticipated the outcome of this hypothesis test based on the confidence interval you found in the previous exercise?  Why or why not?
+d. Give a one-sentence summary of what the outcome of this hypothesis test tells us about how infant looking behavior is affected by hearing someone sing a familiar melody.
 
 :::
 
 ## Wrap-up
 
 In this session, we saw how we can use the same kinds of computational techniques we applied to proportions---particularly bootstrapping---to construct confidence intervals and perform hypothesis tests about means.  We also saw how to use the T distribution to find confidence intervals and conduct hypothesis tests.
+
+In the second part, we used R's `mutate` function to compute the differences within each participant.  In the end, we were able to address the question of whether infants respond favorably (by looking more) to a stranger who sings a familiar song, giving us insight into the potential social importance of music.
