@@ -57,23 +57,73 @@
 </h1>
 <div class="inline-figure"><img src="img/german_apprentice.jpg" width="100%"></div>
 <p>In this session, we will see how to conduct inferences about whether two groups differ on average. In these situations, we have two separate and independent samples from two (potentially) different populations. We want to know if the observed differences in sample means reflect a difference in the means of the two populations or if they could reasonably be attributed to chance alone. Just like when we were doing inferences about differences in proportions, we can use both simulation and mathematical methods to address these types of questions.</p>
-<div id="required-packages-1" class="section level2" number="10.1">
+<p>To help with the later exercises in this session, be sure to <strong>download the worksheet for this session</strong> by right-clicking on the following link and selecting “Save link as…”: <a href="https://raw.githubusercontent.com/gregcox7/StatLabs/main/worksheets/ws_lab10.Rmd">Worksheet for Lab 10</a>. Open the saved file (which by default is called “ws_lab10.Rmd”) in RStudio.</p>
+<div id="what-if-there-were-two-groups-of-infants" class="section level2" number="10.1">
 <h2>
-<span class="header-section-number">10.1</span> Required packages<a class="anchor" aria-label="anchor" href="#required-packages-1"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.1</span> What if there were two groups of infants?<a class="anchor" aria-label="anchor" href="#what-if-there-were-two-groups-of-infants"><i class="fas fa-link"></i></a>
 </h2>
-<p>As we’ve practiced quite a bit by now, we will first load both the <code>tidyverse</code> and <code>infer</code> packages.</p>
-<div class="sourceCode" id="cb188"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-info"><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
-<pre class="Rout text-info"><code>## ✔ ggplot2 3.3.6     ✔ purrr   0.3.4
-## ✔ tibble  3.1.8     ✔ dplyr   1.0.9
-## ✔ tidyr   1.1.3     ✔ stringr 1.4.0
-## ✔ readr   2.1.2     ✔ forcats 0.5.1</code></pre>
-<pre class="Rout text-info"><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()</code></pre>
-<div class="sourceCode" id="cb192"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/infer">infer</a></span><span class="op">)</span></code></pre></div>
+<p>In our previous lab, we analyzed data from an experiment in which infants listened to two singers and then researchers recorded how much time each infant spent looking at the person who sang a familiar song, relative to someone who sang a new song. The data from the previous lab were <em>paired</em>. For each infant, we could compare the amount of time looking at the familiar singer <em>before</em> they sang vs. <em>after</em> they sang. To do this, we created a new variable called <code>diff</code> that was the difference between the “Before” and “After” looking times.</p>
+<p>In this first part of our activity, we are going to see how our conclusions would be affected if we had instead compared <em>two independent groups</em> of infants, one who didn’t hear anyone sing (the “Before” group) and another who did hear the two people sing (the “After” group). We will again look at the difference in mean looking times, only now we won’t be looking at that difference <em>within</em> each infant. We will be looking at the difference <em>between</em> each <em>group</em> of infants.</p>
+<div id="paired-vs.-two-group-data" class="section level3" number="10.1.1">
+<h3>
+<span class="header-section-number">10.1.1</span> Paired vs. two-group data<a class="anchor" aria-label="anchor" href="#paired-vs.-two-group-data"><i class="fas fa-link"></i></a>
+</h3>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-63" class="exercise"><strong>Exercise 10.1  </strong></span>Run the following chunk of code to examine the first few rows of the <em>original</em> infant data from last time:</p>
+<div class="sourceCode" id="cb186"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">lullaby_paired</span><span class="op">)</span></code></pre></div>
+<p>Now look at the first few rows of the data in which we <em>pretend</em> that the infants were two different groups:</p>
+<div class="sourceCode" id="cb187"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">lullaby_twogroups</span><span class="op">)</span></code></pre></div>
+<p>In your own words, describe the differences in how the data are structured between the original paired data and our pretend version with two groups. <em>Hint:</em> Would we be able to easily create a new <code>diff</code> variable with the two-group data like we did with the original paired data?</p>
+</div>
+</div>
+<div id="comparing-inferences" class="section level3" number="10.1.2">
+<h3>
+<span class="header-section-number">10.1.2</span> Comparing inferences<a class="anchor" aria-label="anchor" href="#comparing-inferences"><i class="fas fa-link"></i></a>
+</h3>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-64" class="exercise"><strong>Exercise 10.2  </strong></span>Last time, we tested the null hypothesis that the difference in mean looking times was zero. Another way to state that null hypothesis is that looking time and hearing people sing are <em>independent</em>. Now we will use our pretend two-group data to test the same null hypothesis and see whether our conclusions would be different.</p>
+<p>Fill in the blanks in the following chunk of code to use <em>random permutation</em> to simulated 1000 datasets assuming the null hypothesis is true. At the end of the chunk, we visualize the sampling distribution of the <em>difference in means</em> between groups across each of those simulations, along with a red line indicating where the observed difference falls. For guidance, check out how we did this with Kobe’s data in Lab 5; the only important difference is the <code>stat</code> in the <code>calculate</code> line (remember that we are looking at differences in means, not proportions). Also, remember that with the pretend two-group data we have both a response variable (<code>Looking</code>) and an explanatory variable (<code>Group</code>).</p>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="lab10.html#cb188-1" aria-hidden="true" tabindex="-1"></a>lullaby_twogroups_obs_diff <span class="ot">&lt;-</span> lullaby_twogroups <span class="sc">%&gt;%</span></span>
+<span id="cb188-2"><a href="lab10.html#cb188-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb188-3"><a href="lab10.html#cb188-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"After"</span>, <span class="st">"Before"</span>))</span>
+<span id="cb188-4"><a href="lab10.html#cb188-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb188-5"><a href="lab10.html#cb188-5" aria-hidden="true" tabindex="-1"></a>lullaby_twogroups_null_dist <span class="ot">&lt;-</span> lullaby_twogroups <span class="sc">%&gt;%</span></span>
+<span id="cb188-6"><a href="lab10.html#cb188-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb188-7"><a href="lab10.html#cb188-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb188-8"><a href="lab10.html#cb188-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb188-9"><a href="lab10.html#cb188-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"After"</span>, <span class="st">"Before"</span>))</span>
+<span id="cb188-10"><a href="lab10.html#cb188-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb188-11"><a href="lab10.html#cb188-11" aria-hidden="true" tabindex="-1"></a>lullaby_twogroups_null_dist <span class="sc">%&gt;%</span></span>
+<span id="cb188-12"><a href="lab10.html#cb188-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb188-13"><a href="lab10.html#cb188-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> lullaby_twogroups_obs_diff, <span class="at">direction =</span> <span class="st">"two-sided"</span>)</span></code></pre></div>
+<ol style="list-style-type: lower-alpha">
+<li>Based on the visualization you just made, what would you conclude? Would you reject the null hypothesis or not and why?</li>
+<li>Run the following chunk of code to perform the same test using the original paired data (last time, we did this with a mathematical model instead of simulation, but the outcome is the same). Would you come to the same conclusion with the original paired data as with our pretend two-group data?</li>
+</ol>
+<div class="sourceCode" id="cb189"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">lullaby_paired_obs_diff</span> <span class="op">&lt;-</span> <span class="va">lullaby_paired</span> <span class="op">%&gt;%</span>
+    <span class="fu">mutate</span><span class="op">(</span>diff <span class="op">=</span> <span class="va">After</span> <span class="op">-</span> <span class="va">Before</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">specify</span><span class="op">(</span>response <span class="op">=</span> <span class="va">diff</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">calculate</span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"mean"</span><span class="op">)</span>
+
+<span class="va">lullaby_paired_null_dist</span> <span class="op">&lt;-</span> <span class="va">lullaby_paired</span> <span class="op">%&gt;%</span>
+    <span class="fu">mutate</span><span class="op">(</span>diff <span class="op">=</span> <span class="va">After</span> <span class="op">-</span> <span class="va">Before</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">specify</span><span class="op">(</span>response <span class="op">=</span> <span class="va">diff</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">hypothesize</span><span class="op">(</span>null <span class="op">=</span> <span class="st">"point"</span>, mu <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">generate</span><span class="op">(</span>reps <span class="op">=</span> <span class="fl">1000</span>, type <span class="op">=</span> <span class="st">"bootstrap"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">calculate</span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"mean"</span><span class="op">)</span>
+
+<span class="va">lullaby_paired_null_dist</span> <span class="op">%&gt;%</span>
+    <span class="fu">visualize</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">shade_p_value</span><span class="op">(</span>obs_stat <span class="op">=</span> <span class="va">lullaby_paired_obs_diff</span>, direction <span class="op">=</span> <span class="st">"two-sided"</span><span class="op">)</span></code></pre></div>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>Why do you think the observed difference of means (the red line) is in the same position on the X axis in both graphs?</li>
+<li>Why do you think the sampling distribution is wider in part [a] (with the pretend two-group data) than part [b] (with the original paired data)?</li>
+</ol>
+</div>
+</div>
 </div>
 <div id="are-recruiters-more-impressed-by-a-spoken-vs.-written-hiring-pitch" class="section level2" number="10.2">
 <h2>
@@ -83,53 +133,275 @@
 <p>In this experiment, MBA students at the University of Chicago business school prepared short “elevator pitches” describing why they should be hired at a firm of their choice. The students then recorded themselves giving their pitch. Finally, a sample of professional recruiters was selected and randomly assigned to one of two groups: One group would hear the audio recording of the student’s pitch; another group would read a transcript of that audio recording. The recruiters evaluated the potential applicants on a number of scales, but we will focus only on one response variable: On a scale from 1–10, recruiters rated the likelihood that they would hire student based on their (spoken or written) pitch.</p>
 <p>The <strong>research question</strong> we will address with these data is, “is there a difference in average hiring ratings when a recruiter hears or reads a pitch?”</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-63" class="exercise"><strong>Exercise 10.1  </strong></span>What are the <strong>null</strong> and <strong>alternative</strong> hypotheses corresponding to our research question?</p>
+<p><span id="exr:unlabeled-div-65" class="exercise"><strong>Exercise 10.3  </strong></span>What are the <strong>null</strong> and <strong>alternative</strong> hypotheses corresponding to our research question?</p>
 </div>
 <div id="check-out-the-data-3" class="section level3" number="10.2.1">
 <h3>
 <span class="header-section-number">10.2.1</span> Check out the data<a class="anchor" aria-label="anchor" href="#check-out-the-data-3"><i class="fas fa-link"></i></a>
 </h3>
-<p>First, let’s load the data into our RStudio environment:</p>
-<div class="sourceCode" id="cb193"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">hiring_study</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/hiring_study.csv"</span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-info"><code>## Rows: 39 Columns: 27
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: ","
-## chr   (2): test, Condition
-## dbl  (23): compt, thought, intell, like, pos, neg, hire, age, gender, cond, ...
-## dttm  (2): start_time, end_time
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<p>First, let’s check out the first few rows of the data:</p>
+<div class="inline-table"><table style="width:100%;" class="table table-sm">
+<colgroup>
+<col width="2%">
+<col width="2%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="70%">
+<col width="0%">
+<col width="0%">
+<col width="1%">
+<col width="0%">
+<col width="1%">
+<col width="1%">
+<col width="0%">
+<col width="0%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">start_time</th>
+<th align="left">end_time</th>
+<th align="right">compt</th>
+<th align="right">thought</th>
+<th align="right">intell</th>
+<th align="right">like</th>
+<th align="right">pos</th>
+<th align="right">neg</th>
+<th align="right">hire</th>
+<th align="right">age</th>
+<th align="right">gender</th>
+<th align="left">test</th>
+<th align="right">cond</th>
+<th align="right">time</th>
+<th align="right">wordcount</th>
+<th align="right">negR</th>
+<th align="right">intellect</th>
+<th align="right">impression</th>
+<th align="right">speaker</th>
+<th align="right">pnum</th>
+<th align="right">meanhire</th>
+<th align="right">meanintellect</th>
+<th align="right">meanimpression</th>
+<th align="right">centhire</th>
+<th align="right">centintellect</th>
+<th align="right">centimpression</th>
+<th align="left">Condition</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">2014-05-01 20:40:05</td>
+<td align="left">2014-05-01 20:44:38</td>
+<td align="right">7</td>
+<td align="right">7</td>
+<td align="right">7</td>
+<td align="right">7</td>
+<td align="right">7</td>
+<td align="right">1</td>
+<td align="right">7</td>
+<td align="right">29</td>
+<td align="right">2</td>
+<td align="left">Miriam wanted to work at Mckinsey. Worked previously at teach for america where she worked on analytical skills and teamwork. She is founder of the Booth educational club and used power of persuasion to get funding.</td>
+<td align="right">1</td>
+<td align="right">135.045</td>
+<td align="right">36</td>
+<td align="right">10</td>
+<td align="right">7.000000</td>
+<td align="right">8.000000</td>
+<td align="right">9</td>
+<td align="right">1</td>
+<td align="right">4.583333</td>
+<td align="right">5.722222</td>
+<td align="right">6.638889</td>
+<td align="right">2.4166667</td>
+<td align="right">1.277778</td>
+<td align="right">1.3611111</td>
+<td align="left">audio</td>
+</tr>
+<tr class="even">
+<td align="left">2014-05-01 21:27:09</td>
+<td align="left">2014-05-01 21:36:03</td>
+<td align="right">6</td>
+<td align="right">8</td>
+<td align="right">6</td>
+<td align="right">6</td>
+<td align="right">6</td>
+<td align="right">6</td>
+<td align="right">5</td>
+<td align="right">27</td>
+<td align="right">2</td>
+<td align="left">The candidate worked at Citigroup in their leveraged finance team, working mainly on LBOs. He was offered the opportunity to remain with the firm as an associate, but chose to return to India to work for a home furnishings company. That company was struggling and he was attempting to turn it around as much as possible within 2 years. He know wants to work in a general management role at MetLife.</td>
+<td align="right">1</td>
+<td align="right">127.160</td>
+<td align="right">71</td>
+<td align="right">5</td>
+<td align="right">6.666667</td>
+<td align="right">5.666667</td>
+<td align="right">18</td>
+<td align="right">2</td>
+<td align="right">4.666667</td>
+<td align="right">5.577778</td>
+<td align="right">5.777778</td>
+<td align="right">0.3333333</td>
+<td align="right">1.088889</td>
+<td align="right">-0.1111111</td>
+<td align="left">audio</td>
+</tr>
+<tr class="odd">
+<td align="left">2014-05-01 22:01:34</td>
+<td align="left">2014-05-01 22:09:44</td>
+<td align="right">7</td>
+<td align="right">8</td>
+<td align="right">6</td>
+<td align="right">9</td>
+<td align="right">9</td>
+<td align="right">1</td>
+<td align="right">6</td>
+<td align="right">27</td>
+<td align="right">2</td>
+<td align="left">worked as an analyst at citigroup in levfin, said he was promoted twice. decided to move to india to help turn around a struggling business. was the most difficult decision of his life but believed taking that opportunity would be a better learning experience than continuing on as an associate in his current function.</td>
+<td align="right">1</td>
+<td align="right">140.512</td>
+<td align="right">54</td>
+<td align="right">10</td>
+<td align="right">7.000000</td>
+<td align="right">9.333333</td>
+<td align="right">18</td>
+<td align="right">3</td>
+<td align="right">4.666667</td>
+<td align="right">5.577778</td>
+<td align="right">5.777778</td>
+<td align="right">1.3333333</td>
+<td align="right">1.422222</td>
+<td align="right">3.5555556</td>
+<td align="left">audio</td>
+</tr>
+<tr class="even">
+<td align="left">2014-05-01 22:00:50</td>
+<td align="left">2014-05-01 22:11:41</td>
+<td align="right">4</td>
+<td align="right">3</td>
+<td align="right">6</td>
+<td align="right">6</td>
+<td align="right">6</td>
+<td align="right">6</td>
+<td align="right">5</td>
+<td align="right">40</td>
+<td align="right">2</td>
+<td align="left">The candidate was applying for a job with McKinsey, specifically. However might be looking for consulting positions with a premium firm. He believes that the most important characteristics for a consultant work communications, analytics, teamwork, entrepreneurship. He was a Teacher for teach for America where he felt he demonstrated analytics through his metric driven education of children; he demonstrated entrepreneurship by starting new club on campus, had demonstrated communication skills, which were seen in presentations that he made, one of which was in San Antonio.</td>
+<td align="right">0</td>
+<td align="right">59.906</td>
+<td align="right">85</td>
+<td align="right">5</td>
+<td align="right">4.333333</td>
+<td align="right">5.666667</td>
+<td align="right">9</td>
+<td align="right">4</td>
+<td align="right">4.583333</td>
+<td align="right">5.722222</td>
+<td align="right">6.638889</td>
+<td align="right">0.4166667</td>
+<td align="right">-1.388889</td>
+<td align="right">-0.9722222</td>
+<td align="left">transcript</td>
+</tr>
+<tr class="odd">
+<td align="left">2014-05-01 23:03:14</td>
+<td align="left">2014-05-01 23:13:44</td>
+<td align="right">2</td>
+<td align="right">3</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">8</td>
+<td align="right">2</td>
+<td align="right">32</td>
+<td align="right">2</td>
+<td align="left">Applied for a job at McKinsey, was a teacher in Brooklyn, started industry club at Booth- got admin approval &amp; budget money for club, convinced San Antonio mayor to give budget for sustainable project in a local school, worked at a mgmt consulting firm over the summer &amp; worked in teams</td>
+<td align="right">0</td>
+<td align="right">108.722</td>
+<td align="right">51</td>
+<td align="right">3</td>
+<td align="right">2.000000</td>
+<td align="right">2.333333</td>
+<td align="right">9</td>
+<td align="right">5</td>
+<td align="right">4.583333</td>
+<td align="right">5.722222</td>
+<td align="right">6.638889</td>
+<td align="right">-2.5833333</td>
+<td align="right">-3.722222</td>
+<td align="right">-4.3055556</td>
+<td align="left">transcript</td>
+</tr>
+<tr class="even">
+<td align="left">2014-05-02 10:18:38</td>
+<td align="left">2014-05-02 10:26:25</td>
+<td align="right">3</td>
+<td align="right">3</td>
+<td align="right">3</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">6</td>
+<td align="right">2</td>
+<td align="right">24</td>
+<td align="right">2</td>
+<td align="left">Previously worked at Citigroup for 3 years - then had to go back to India to help a struggling business. He was given 2 years to help turn the struggling business around and it was overall a great learning experience for him. He now wants a job at Metlife</td>
+<td align="right">0</td>
+<td align="right">75.190</td>
+<td align="right">49</td>
+<td align="right">5</td>
+<td align="right">3.000000</td>
+<td align="right">3.000000</td>
+<td align="right">18</td>
+<td align="right">6</td>
+<td align="right">4.666667</td>
+<td align="right">5.577778</td>
+<td align="right">5.777778</td>
+<td align="right">-2.6666667</td>
+<td align="right">-2.577778</td>
+<td align="right">-2.7777778</td>
+<td align="left">transcript</td>
+</tr>
+</tbody>
+</table></div>
 <p>Each row represents the responses from a particular recruiter. Whether the recruiter got a spoken or written pitch is recorded in the <code>Condition</code> variable, which is either “audio” (for hearing a spoken pitch) or “transcript” (for reading a transcript of the pitch). The recruiter’s hiring rating is recorded in the <code>hire</code> variable, which is a number between 1 and 10.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-64" class="exercise"><strong>Exercise 10.2  </strong></span>–</p>
+<p><span id="exr:unlabeled-div-66" class="exercise"><strong>Exercise 10.4  </strong></span>Fill in the blanks in the code below with the appropriate variable names to visualize the distribution of ratings in the two groups. <em>Hint:</em> Keep in mind what are the names of the explanatory variable and response variable.</p>
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="lab10.html#cb190-1" aria-hidden="true" tabindex="-1"></a>hiring_study <span class="sc">%&gt;%</span></span>
+<span id="cb190-2"><a href="lab10.html#cb190-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___)) <span class="sc">+</span></span>
+<span id="cb190-3"><a href="lab10.html#cb190-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb190-4"><a href="lab10.html#cb190-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="st">"___"</span>, <span class="at">ncol =</span> <span class="dv">1</span>)</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
-<li>What are the names of the <strong>response</strong> variable and <strong>explanatory</strong> variable in the <code>hiring_study1</code> dataset?</li>
-<li>Fill in the blanks in the code below with the corresponding variable names (from part [a] of this exercise) to visualize the distribution of ratings in the two groups. Describe the shape of the distributions and whether it seems like there may be a relationship between the type of pitch and hiring ratings.</li>
+<li>Describe the shape of the distributions and whether it seems like there may be a relationship between the type of pitch and hiring ratings.</li>
+<li>Fill in the blanks in the code below to use random permutation to simulate <em>one</em> way the data would look if the null hypothesis were true. Describe how, if at all, the distributions differ from how they looked in the original data in part (a).</li>
 </ol>
-<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="lab10.html#cb195-1" aria-hidden="true" tabindex="-1"></a>hiring_study <span class="sc">%&gt;%</span></span>
-<span id="cb195-2"><a href="lab10.html#cb195-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___)) <span class="sc">+</span></span>
-<span id="cb195-3"><a href="lab10.html#cb195-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb195-4"><a href="lab10.html#cb195-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="st">"___"</span>, <span class="at">ncol =</span> <span class="dv">1</span>)</span></code></pre></div>
-<ol start="3" style="list-style-type: lower-alpha">
-<li>Fill in the blanks in the code below with the corresponding variable names (from part [a] of this exercise) to simulate a version of how the data would look if the null hypothesis were true (using random permutation). Describe how, if at all, the distributions differ from how they looked in the original data in part (b).</li>
-</ol>
-<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="lab10.html#cb196-1" aria-hidden="true" tabindex="-1"></a>null_simulation <span class="ot">&lt;-</span> hiring_study <span class="sc">%&gt;%</span></span>
-<span id="cb196-2"><a href="lab10.html#cb196-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___) <span class="sc">%&gt;%</span></span>
-<span id="cb196-3"><a href="lab10.html#cb196-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"independence"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb196-4"><a href="lab10.html#cb196-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1</span>, <span class="at">type =</span> <span class="st">"permute"</span>)</span>
-<span id="cb196-5"><a href="lab10.html#cb196-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb196-6"><a href="lab10.html#cb196-6" aria-hidden="true" tabindex="-1"></a>null_simulation <span class="sc">%&gt;%</span></span>
-<span id="cb196-7"><a href="lab10.html#cb196-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___)) <span class="sc">+</span></span>
-<span id="cb196-8"><a href="lab10.html#cb196-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb196-9"><a href="lab10.html#cb196-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="st">"___"</span>, <span class="at">ncol=</span><span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="lab10.html#cb191-1" aria-hidden="true" tabindex="-1"></a>hiring_null_simulation <span class="ot">&lt;-</span> hiring_study <span class="sc">%&gt;%</span></span>
+<span id="cb191-2"><a href="lab10.html#cb191-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb191-3"><a href="lab10.html#cb191-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb191-4"><a href="lab10.html#cb191-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1</span>, <span class="at">type =</span> <span class="st">"___"</span>)</span>
+<span id="cb191-5"><a href="lab10.html#cb191-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb191-6"><a href="lab10.html#cb191-6" aria-hidden="true" tabindex="-1"></a>hiring_null_simulation <span class="sc">%&gt;%</span></span>
+<span id="cb191-7"><a href="lab10.html#cb191-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___)) <span class="sc">+</span></span>
+<span id="cb191-8"><a href="lab10.html#cb191-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb191-9"><a href="lab10.html#cb191-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="st">"___"</span>, <span class="at">ncol=</span><span class="dv">1</span>)</span></code></pre></div>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-65" class="exercise"><strong>Exercise 10.3  </strong></span>Fill in the blanks in the code below using the appropriate variable names to obtain numerical summaries of each group’s hiring ratings.</p>
-<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="lab10.html#cb197-1" aria-hidden="true" tabindex="-1"></a>hiring_study <span class="sc">%&gt;%</span></span>
-<span id="cb197-2"><a href="lab10.html#cb197-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(___) <span class="sc">%&gt;%</span></span>
-<span id="cb197-3"><a href="lab10.html#cb197-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">sample_mean =</span> <span class="fu">mean</span>(___), <span class="at">sample_sd =</span> <span class="fu">sd</span>(___), <span class="at">sample_size =</span> <span class="fu">n</span>())</span></code></pre></div>
+<p><span id="exr:unlabeled-div-67" class="exercise"><strong>Exercise 10.5  </strong></span>Fill in the blanks in the code below using the appropriate variable names to obtain numerical summaries of each group’s hiring ratings.</p>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="lab10.html#cb192-1" aria-hidden="true" tabindex="-1"></a>hiring_study <span class="sc">%&gt;%</span></span>
+<span id="cb192-2"><a href="lab10.html#cb192-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(___) <span class="sc">%&gt;%</span></span>
+<span id="cb192-3"><a href="lab10.html#cb192-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">sample_mean =</span> <span class="fu">mean</span>(___), <span class="at">sample_sd =</span> <span class="fu">sd</span>(___), <span class="at">sample_size =</span> <span class="fu">n</span>())</span></code></pre></div>
 <p>Use the resulting table to answer the following questions.</p>
 <ol style="list-style-type: lower-alpha">
 <li>Do the two groups have similar variability? (Be sure to refer to the “rule of thumb” for checking whether two samples have similar variability.)</li>
@@ -143,33 +415,21 @@
 </h3>
 <p>As we’ve seen, we can use random permutation to model how the data would look if the null hypothesis were true. For each of these simulated datasets, we compute the difference in mean hiring ratings between the audio and transcript conditions. By doing this many times, we build up a sampling distribution of the difference in means. If very few simulated datasets produce a difference at least as extreme as what we actually observed, we can reject the null hypothesis.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-66" class="exercise"><strong>Exercise 10.4  </strong></span>–</p>
-<ol style="list-style-type: lower-alpha">
-<li>Fill in the blanks in the code below (using the appropriate variable names) to find the observed difference in mean hiring ratings between conditions. What is the observed difference in means?</li>
-</ol>
-<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="lab10.html#cb198-1" aria-hidden="true" tabindex="-1"></a>obs_diff <span class="ot">&lt;-</span> hiring_study <span class="sc">%&gt;%</span></span>
-<span id="cb198-2"><a href="lab10.html#cb198-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___) <span class="sc">%&gt;%</span></span>
-<span id="cb198-3"><a href="lab10.html#cb198-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"diff in means"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"audio"</span>, <span class="st">"transcript"</span>))</span>
-<span id="cb198-4"><a href="lab10.html#cb198-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb198-5"><a href="lab10.html#cb198-5" aria-hidden="true" tabindex="-1"></a>obs_diff</span></code></pre></div>
-<ol start="2" style="list-style-type: lower-alpha">
-<li>Fill in the blanks in the code below to simulate and visualize 1000 differences in means according to the null hypothesis. For the final blank, the <code>direction</code> can be either <code>less</code>, <code>greater</code>, or <code>two-sided</code>; pick the one corresponding to the alternative hypothesis. Based on the visualization, would the observed difference be unusual if the null hypothesis were true?</li>
-</ol>
-<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="lab10.html#cb199-1" aria-hidden="true" tabindex="-1"></a>null_dist_simulation <span class="ot">&lt;-</span> hiring_study <span class="sc">%&gt;%</span></span>
-<span id="cb199-2"><a href="lab10.html#cb199-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___) <span class="sc">%&gt;%</span></span>
-<span id="cb199-3"><a href="lab10.html#cb199-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"independence"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb199-4"><a href="lab10.html#cb199-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">"permute"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb199-5"><a href="lab10.html#cb199-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"diff in means"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"audio"</span>, <span class="st">"transcript"</span>))</span>
-<span id="cb199-6"><a href="lab10.html#cb199-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb199-7"><a href="lab10.html#cb199-7" aria-hidden="true" tabindex="-1"></a>null_dist_simulation <span class="sc">%&gt;%</span></span>
-<span id="cb199-8"><a href="lab10.html#cb199-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
-<span id="cb199-9"><a href="lab10.html#cb199-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> obs_diff, <span class="at">direction =</span> <span class="st">"___"</span>)</span></code></pre></div>
-<ol start="3" style="list-style-type: lower-alpha">
-<li>Fill in the blank below (using the same <code>direction</code> you gave in part b) to get the proportion of simulated datasets that were at least as extreme as what we observed. If we assume a significance level of 0.05, would we reject the null hypothesis? Why or why not?</li>
-</ol>
-<div class="sourceCode" id="cb200"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">null_dist_simulation</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://infer.tidymodels.org/reference/get_p_value.html">get_p_value</a></span><span class="op">(</span>obs_stat <span class="op">=</span> <span class="va">obs_diff</span>, direction <span class="op">=</span> <span class="st">"___"</span><span class="op">)</span></code></pre></div>
+<p><span id="exr:unlabeled-div-68" class="exercise"><strong>Exercise 10.6  </strong></span>Fill in the blanks in the code below (using the appropriate variable names) to find the observed difference in mean hiring ratings between conditions, then compare this against the differences we would expect <em>if</em> the null hypothesis were true. We will build the sampling distribution of differences in means using random permutation. Be sure to make at least 1000 simulations. For the final blank, the <code>direction</code> can be either <code>less</code>, <code>greater</code>, or <code>two-sided</code>; pick the one corresponding to the alternative hypothesis.</p>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="lab10.html#cb193-1" aria-hidden="true" tabindex="-1"></a>hiring_obs_diff <span class="ot">&lt;-</span> hiring_study <span class="sc">%&gt;%</span></span>
+<span id="cb193-2"><a href="lab10.html#cb193-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb193-3"><a href="lab10.html#cb193-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"audio"</span>, <span class="st">"transcript"</span>))</span>
+<span id="cb193-4"><a href="lab10.html#cb193-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb193-5"><a href="lab10.html#cb193-5" aria-hidden="true" tabindex="-1"></a>hiring_null_simulation <span class="ot">&lt;-</span> hiring_study <span class="sc">%&gt;%</span></span>
+<span id="cb193-6"><a href="lab10.html#cb193-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb193-7"><a href="lab10.html#cb193-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb193-8"><a href="lab10.html#cb193-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> ___, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb193-9"><a href="lab10.html#cb193-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"audio"</span>, <span class="st">"transcript"</span>))</span>
+<span id="cb193-10"><a href="lab10.html#cb193-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb193-11"><a href="lab10.html#cb193-11" aria-hidden="true" tabindex="-1"></a>hiring_null_simulation <span class="sc">%&gt;%</span></span>
+<span id="cb193-12"><a href="lab10.html#cb193-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb193-13"><a href="lab10.html#cb193-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> hiring_obs_diff, <span class="at">direction =</span> <span class="st">"___"</span>)</span></code></pre></div>
+<p>Based on the visualization, does it seems like the observed difference would be unusual if the null hypothesis were true?</p>
 </div>
 </div>
 <div id="hypothesis-testing-using-the-t-distribution" class="section level3" number="10.2.3">
@@ -178,34 +438,33 @@
 </h3>
 <p>In this section, we will relate the simulation approach we just used to the mathematical model approach using the T distribution.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-67" class="exercise"><strong>Exercise 10.5  </strong></span>Fill in the blanks in the code below (using the appropriate variable names) to calculate the <strong>T score</strong> associated with our sample:</p>
-<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="lab10.html#cb201-1" aria-hidden="true" tabindex="-1"></a>obs_t <span class="ot">&lt;-</span> hiring_study <span class="sc">%&gt;%</span></span>
-<span id="cb201-2"><a href="lab10.html#cb201-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___) <span class="sc">%&gt;%</span></span>
-<span id="cb201-3"><a href="lab10.html#cb201-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"t"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"audio"</span>, <span class="st">"transcript"</span>))</span>
-<span id="cb201-4"><a href="lab10.html#cb201-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb201-5"><a href="lab10.html#cb201-5" aria-hidden="true" tabindex="-1"></a>obs_t</span></code></pre></div>
+<p><span id="exr:unlabeled-div-69" class="exercise"><strong>Exercise 10.7  </strong></span>Fill in the blanks in the code below (using the appropriate variable names) to calculate the <strong>T score</strong> associated with our sample:</p>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="lab10.html#cb194-1" aria-hidden="true" tabindex="-1"></a>hiring_obs_t <span class="ot">&lt;-</span> hiring_study <span class="sc">%&gt;%</span></span>
+<span id="cb194-2"><a href="lab10.html#cb194-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb194-3"><a href="lab10.html#cb194-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"t"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"audio"</span>, <span class="st">"transcript"</span>))</span>
+<span id="cb194-4"><a href="lab10.html#cb194-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb194-5"><a href="lab10.html#cb194-5" aria-hidden="true" tabindex="-1"></a>hiring_obs_t</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
-<li>What is the T score you got?</li>
-<li>Does the T score indicate that the observed difference is relatively near or far from what the null hypothesis would predict? What about the T score tells you how near/far it is from the null?</li>
-<li>Above, we used code with the line <code><a href="https://infer.tidymodels.org/reference/calculate.html">calculate(stat = "diff in means", order = c("audio", "transcript"))</a></code> to get the observed difference in sample means. How does that line differ from the <code>calculate</code> line in the code you used in this Exercise to find the T score? Describe in your own words what the <code>stat</code> option seems to do.</li>
+<li>Does the T score indicate that the observed difference is relatively near or far from what we would expect if the null hypothesis were true? Explain your reasoning.</li>
+<li>Above, we used code with the line <code>calculate(stat = "diff in means", order = c("audio", "transcript"))</code> to get the observed difference in sample means. How does that line differ from the <code>calculate</code> line in the code you used in this Exercise to find the T score? Describe in your own words what the <code>stat</code> option seems to do.</li>
 </ol>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-68" class="exercise"><strong>Exercise 10.6  </strong></span>Fill in the blanks in the code below to visualize where our sample falls on the corresponding T distribution. As above, be sure to fill in the last blank according to the alternative hypothesis (either <code>two-sided</code>, <code>less</code>, or <code>greater</code>).</p>
-<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="lab10.html#cb202-1" aria-hidden="true" tabindex="-1"></a>null_dist_math <span class="ot">&lt;-</span> hiring_study <span class="sc">%&gt;%</span></span>
-<span id="cb202-2"><a href="lab10.html#cb202-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___) <span class="sc">%&gt;%</span></span>
-<span id="cb202-3"><a href="lab10.html#cb202-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">assume</span>(<span class="st">"t"</span>)</span>
-<span id="cb202-4"><a href="lab10.html#cb202-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb202-5"><a href="lab10.html#cb202-5" aria-hidden="true" tabindex="-1"></a>null_dist_math <span class="sc">%&gt;%</span></span>
-<span id="cb202-6"><a href="lab10.html#cb202-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
-<span id="cb202-7"><a href="lab10.html#cb202-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> obs_t, <span class="at">direction =</span> <span class="st">"___"</span>)</span></code></pre></div>
+<p><span id="exr:unlabeled-div-70" class="exercise"><strong>Exercise 10.8  </strong></span>Fill in the blanks in the code below to visualize where our sample falls on the corresponding T distribution. As above, be sure to fill in the last blank according to the alternative hypothesis (either <code>two-sided</code>, <code>less</code>, or <code>greater</code>).</p>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="lab10.html#cb195-1" aria-hidden="true" tabindex="-1"></a>hiring_null_math <span class="ot">&lt;-</span> hiring_study <span class="sc">%&gt;%</span></span>
+<span id="cb195-2"><a href="lab10.html#cb195-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb195-3"><a href="lab10.html#cb195-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">assume</span>(<span class="st">"t"</span>)</span>
+<span id="cb195-4"><a href="lab10.html#cb195-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb195-5"><a href="lab10.html#cb195-5" aria-hidden="true" tabindex="-1"></a>hiring_null_math <span class="sc">%&gt;%</span></span>
+<span id="cb195-6"><a href="lab10.html#cb195-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb195-7"><a href="lab10.html#cb195-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> hiring_obs_t, <span class="at">direction =</span> <span class="st">"___"</span>)</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li><p>Compare the visualization you just made using the mathematical model with the visualization you made earlier using simulation. Relative to each null distribution, is our observed data (the red vertical line) in a similar place? Is a similar proportion of the null distribution more extreme than what was observed?</p></li>
-<li><p>Fill in the blanks in the code below to get the <span class="math inline">\(p\)</span> value according to the mathematical model (again, the <code>direction</code> should correspond to the alternative hypothesis). What was the <span class="math inline">\(p\)</span> value you got? Again assuming a significance level of 0.05, would we reject the null hypothesis? Do we come to a different conclusion than we did using simulation?</p></li>
+<li><p>Fill in the blanks in the code below to get the <span class="math inline">\(p\)</span> value according to the mathematical model (again, the <code>direction</code> should correspond to the alternative hypothesis). Would you reject the null hypothesis or not and why? (Be sure to state your significance level!)</p></li>
 </ol>
-<div class="sourceCode" id="cb203"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">null_dist_math</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://infer.tidymodels.org/reference/get_p_value.html">get_p_value</a></span><span class="op">(</span>obs_stat <span class="op">=</span> <span class="va">obs_t</span>, direction <span class="op">=</span> <span class="st">"___"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb196"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">hiring_null_math</span> <span class="op">%&gt;%</span>
+    <span class="fu">get_p_value</span><span class="op">(</span>obs_stat <span class="op">=</span> <span class="va">hiring_obs_t</span>, direction <span class="op">=</span> <span class="st">"___"</span><span class="op">)</span></code></pre></div>
 <ol start="3" style="list-style-type: lower-alpha">
 <li>Based on this hypothesis test (either the simulation or mathematical approach will do), give a one sentence summary of what we should conclude about the effectiveness of spoken vs. written pitches on hiring ratings.</li>
 <li>Speculate about why these results turned out the way they did. Do you expect this result would generalize to hiring decisions in real life? Why or why not?</li>
@@ -228,7 +487,12 @@
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#lab10"><span class="header-section-number">10</span> Inference for comparing two independent means</a></li>
-<li><a class="nav-link" href="#required-packages-1"><span class="header-section-number">10.1</span> Required packages</a></li>
+<li>
+<a class="nav-link" href="#what-if-there-were-two-groups-of-infants"><span class="header-section-number">10.1</span> What if there were two groups of infants?</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#paired-vs.-two-group-data"><span class="header-section-number">10.1.1</span> Paired vs. two-group data</a></li>
+<li><a class="nav-link" href="#comparing-inferences"><span class="header-section-number">10.1.2</span> Comparing inferences</a></li>
+</ul>
+</li>
 <li>
 <a class="nav-link" href="#are-recruiters-more-impressed-by-a-spoken-vs.-written-hiring-pitch"><span class="header-section-number">10.2</span> Are recruiters more impressed by a spoken vs. written hiring pitch?</a><ul class="nav navbar-nav">
 <li><a class="nav-link" href="#check-out-the-data-3"><span class="header-section-number">10.2.1</span> Check out the data</a></li>
@@ -254,7 +518,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-11-01.</p>
+    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-11-09.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

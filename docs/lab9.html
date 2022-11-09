@@ -64,8 +64,6 @@
 <span class="header-section-number">9.1</span> Overworked?<a class="anchor" aria-label="anchor" href="#overworked"><i class="fas fa-link"></i></a>
 </h2>
 <p>To begin, we will first address some questions about the <em>number of hours people work per week</em>. The relevant data was collected as part of the General Social Survey (GSS) in 2010. The first few rows of the survey results look like this:</p>
-<div class="sourceCode" id="cb177"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">gss</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="inline-table"><table class="table table-sm">
 <thead><tr class="header">
 <th align="left">degree</th>
@@ -108,9 +106,9 @@
 <p>There are a number of interesting variables here, but the one that we are interested in is called <code>HoursWorked</code>. It is the number of hours that each person in the survey reports working per week.</p>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-54" class="exercise"><strong>Exercise 9.1  </strong></span>Use the following chunk of code to make a histogram of the number of hours worked per week, based on the GSS data. In R, the dataset is called <code>gss</code> and number of hours worked per week is recorded as the variable <code>HoursWorked</code>. Play around with different binwidths until you find one that seems to give a good sense of the shape of the data.</p>
-<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="lab9.html#cb178-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
-<span id="cb178-2"><a href="lab9.html#cb178-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___)) <span class="sc">+</span></span>
-<span id="cb178-3"><a href="lab9.html#cb178-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> ___)</span></code></pre></div>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="lab9.html#cb177-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
+<span id="cb177-2"><a href="lab9.html#cb177-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___)) <span class="sc">+</span></span>
+<span id="cb177-3"><a href="lab9.html#cb177-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> ___)</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>Describe the shape of the distribution of <code>HoursWorked</code>, noting whether it is skewed or symmetrical, how many modes it has, and whether there may be any outliers.</li>
 <li>Do these data appear to satisfy the “normality” condition for whether we can use a mathematical model?</li>
@@ -123,17 +121,17 @@
 <p>As we’ve noted, we can still use <strong>bootstrapping</strong> to construct a sampling distribution. But now, instead of a sampling distribution for a proportion, we will build a sampling distribution for the <em>mean</em>.</p>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-55" class="exercise"><strong>Exercise 9.2  </strong></span>Use the following chunk of code to use bootstrapping to build a sampling distribution for the mean number of hours worked per week, using the <code>gss</code> data. Set <code>level</code> to give us 95% confidence interval and be sure to generate at least 1000 repetitions. <em>Hint:</em> this will look a lot like when we were working with proportions, but with one important difference—instead of “prop” as the <code>stat</code>istic we calculate for each simulated dataset, we calculate the <code>mean</code>.</p>
-<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="lab9.html#cb179-1" aria-hidden="true" tabindex="-1"></a>hours_boot_dist <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
-<span id="cb179-2"><a href="lab9.html#cb179-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___) <span class="sc">%&gt;%</span></span>
-<span id="cb179-3"><a href="lab9.html#cb179-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> ___, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb179-4"><a href="lab9.html#cb179-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>)</span>
-<span id="cb179-5"><a href="lab9.html#cb179-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb179-6"><a href="lab9.html#cb179-6" aria-hidden="true" tabindex="-1"></a>hours_boot_ci <span class="ot">&lt;-</span> hours_boot_dist <span class="sc">%&gt;%</span></span>
-<span id="cb179-7"><a href="lab9.html#cb179-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_confidence_interval</span>(<span class="at">level =</span> ___)</span>
-<span id="cb179-8"><a href="lab9.html#cb179-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb179-9"><a href="lab9.html#cb179-9" aria-hidden="true" tabindex="-1"></a>hours_boot_dist <span class="sc">%&gt;%</span></span>
-<span id="cb179-10"><a href="lab9.html#cb179-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
-<span id="cb179-11"><a href="lab9.html#cb179-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_confidence_interval</span>(hours_boot_ci)</span></code></pre></div>
+<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="lab9.html#cb178-1" aria-hidden="true" tabindex="-1"></a>hours_boot_dist <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
+<span id="cb178-2"><a href="lab9.html#cb178-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb178-3"><a href="lab9.html#cb178-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> ___, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb178-4"><a href="lab9.html#cb178-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>)</span>
+<span id="cb178-5"><a href="lab9.html#cb178-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb178-6"><a href="lab9.html#cb178-6" aria-hidden="true" tabindex="-1"></a>hours_boot_ci <span class="ot">&lt;-</span> hours_boot_dist <span class="sc">%&gt;%</span></span>
+<span id="cb178-7"><a href="lab9.html#cb178-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_confidence_interval</span>(<span class="at">level =</span> ___)</span>
+<span id="cb178-8"><a href="lab9.html#cb178-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb178-9"><a href="lab9.html#cb178-9" aria-hidden="true" tabindex="-1"></a>hours_boot_dist <span class="sc">%&gt;%</span></span>
+<span id="cb178-10"><a href="lab9.html#cb178-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb178-11"><a href="lab9.html#cb178-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_confidence_interval</span>(hours_boot_ci)</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>Report the 95% confidence interval you found and interpret it in context.</li>
 <li>Based on your results, is it plausible that people on average work around 40 hours per week?</li>
@@ -161,29 +159,29 @@ df = n - 1
 \]</span></p>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-56" class="exercise"><strong>Exercise 9.3  </strong></span>Fill in the blanks in the code below to use R to carry out the calculations needed to use the T distribution to find a 95% confidence interval. This exercise is about translating the mathematical formulas above into meaningful labels. Notice that the first part of the chunk finds and stores the <code>sample_mean</code>, <code>sample_sd</code> (sample standard deviation), and <code>sample_size</code>. Use these labels to fill in the appropriate blanks. You will also need to supply a number for the <code>confidence_level</code> (which should be between 0 and 1, like in the previous exercise).</p>
-<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="lab9.html#cb180-1" aria-hidden="true" tabindex="-1"></a>sample_mean <span class="ot">&lt;-</span> gss <span class="sc">%&gt;%</span></span>
-<span id="cb180-2"><a href="lab9.html#cb180-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="fu">mean</span>(HoursWorked)) <span class="sc">%&gt;%</span></span>
-<span id="cb180-3"><a href="lab9.html#cb180-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>()</span>
-<span id="cb180-4"><a href="lab9.html#cb180-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-5"><a href="lab9.html#cb180-5" aria-hidden="true" tabindex="-1"></a>sample_sd <span class="ot">&lt;-</span> gss <span class="sc">%&gt;%</span></span>
-<span id="cb180-6"><a href="lab9.html#cb180-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="fu">sd</span>(HoursWorked)) <span class="sc">%&gt;%</span></span>
-<span id="cb180-7"><a href="lab9.html#cb180-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>()</span>
-<span id="cb180-8"><a href="lab9.html#cb180-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-9"><a href="lab9.html#cb180-9" aria-hidden="true" tabindex="-1"></a>sample_size <span class="ot">&lt;-</span> gss <span class="sc">%&gt;%</span></span>
-<span id="cb180-10"><a href="lab9.html#cb180-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb180-11"><a href="lab9.html#cb180-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>()</span>
-<span id="cb180-12"><a href="lab9.html#cb180-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-13"><a href="lab9.html#cb180-13" aria-hidden="true" tabindex="-1"></a>standard_error <span class="ot">&lt;-</span> ___ <span class="sc">/</span> <span class="fu">sqrt</span>(___)</span>
-<span id="cb180-14"><a href="lab9.html#cb180-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-15"><a href="lab9.html#cb180-15" aria-hidden="true" tabindex="-1"></a>degrees_of_freedom <span class="ot">&lt;-</span> ___ <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb180-16"><a href="lab9.html#cb180-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-17"><a href="lab9.html#cb180-17" aria-hidden="true" tabindex="-1"></a>confidence_level <span class="ot">&lt;-</span> ___</span>
-<span id="cb180-18"><a href="lab9.html#cb180-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-19"><a href="lab9.html#cb180-19" aria-hidden="true" tabindex="-1"></a>tail_probability <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> (<span class="dv">1</span> <span class="sc">-</span> confidence_level) <span class="sc">/</span> <span class="dv">2</span></span>
-<span id="cb180-20"><a href="lab9.html#cb180-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-21"><a href="lab9.html#cb180-21" aria-hidden="true" tabindex="-1"></a>critical_t <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="at">p =</span> tail_probability, <span class="at">df =</span> degrees_of_freedom)</span>
-<span id="cb180-22"><a href="lab9.html#cb180-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-23"><a href="lab9.html#cb180-23" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(___ <span class="sc">-</span> critical_t <span class="sc">*</span> standard_error, ___ <span class="sc">+</span> critical_t <span class="sc">*</span> standard_error)</span></code></pre></div>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="lab9.html#cb179-1" aria-hidden="true" tabindex="-1"></a>sample_mean <span class="ot">&lt;-</span> gss <span class="sc">%&gt;%</span></span>
+<span id="cb179-2"><a href="lab9.html#cb179-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="fu">mean</span>(HoursWorked)) <span class="sc">%&gt;%</span></span>
+<span id="cb179-3"><a href="lab9.html#cb179-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>()</span>
+<span id="cb179-4"><a href="lab9.html#cb179-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb179-5"><a href="lab9.html#cb179-5" aria-hidden="true" tabindex="-1"></a>sample_sd <span class="ot">&lt;-</span> gss <span class="sc">%&gt;%</span></span>
+<span id="cb179-6"><a href="lab9.html#cb179-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="fu">sd</span>(HoursWorked)) <span class="sc">%&gt;%</span></span>
+<span id="cb179-7"><a href="lab9.html#cb179-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>()</span>
+<span id="cb179-8"><a href="lab9.html#cb179-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb179-9"><a href="lab9.html#cb179-9" aria-hidden="true" tabindex="-1"></a>sample_size <span class="ot">&lt;-</span> gss <span class="sc">%&gt;%</span></span>
+<span id="cb179-10"><a href="lab9.html#cb179-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb179-11"><a href="lab9.html#cb179-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>()</span>
+<span id="cb179-12"><a href="lab9.html#cb179-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb179-13"><a href="lab9.html#cb179-13" aria-hidden="true" tabindex="-1"></a>standard_error <span class="ot">&lt;-</span> ___ <span class="sc">/</span> <span class="fu">sqrt</span>(___)</span>
+<span id="cb179-14"><a href="lab9.html#cb179-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb179-15"><a href="lab9.html#cb179-15" aria-hidden="true" tabindex="-1"></a>degrees_of_freedom <span class="ot">&lt;-</span> ___ <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb179-16"><a href="lab9.html#cb179-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb179-17"><a href="lab9.html#cb179-17" aria-hidden="true" tabindex="-1"></a>confidence_level <span class="ot">&lt;-</span> ___</span>
+<span id="cb179-18"><a href="lab9.html#cb179-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb179-19"><a href="lab9.html#cb179-19" aria-hidden="true" tabindex="-1"></a>tail_probability <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> (<span class="dv">1</span> <span class="sc">-</span> confidence_level) <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb179-20"><a href="lab9.html#cb179-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb179-21"><a href="lab9.html#cb179-21" aria-hidden="true" tabindex="-1"></a>critical_t <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="at">p =</span> tail_probability, <span class="at">df =</span> degrees_of_freedom)</span>
+<span id="cb179-22"><a href="lab9.html#cb179-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb179-23"><a href="lab9.html#cb179-23" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(___ <span class="sc">-</span> critical_t <span class="sc">*</span> standard_error, ___ <span class="sc">+</span> critical_t <span class="sc">*</span> standard_error)</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>What was the 95% confidence interval that you found?</li>
 <li>Compare the 95% confidence interval you found in this exercise with the one you found in the previous exercise using bootstrapping. Are they similar? Why might you expect them to be at least a little different?</li>
@@ -204,27 +202,27 @@ T &amp; = \frac{\text{point estimate} - \text{null value}}{\text{standard error}
 \]</span></p>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-57" class="exercise"><strong>Exercise 9.4  </strong></span>Our research question is, “do people on average work <em>more</em> than 40 hours per week?” Fill in the blanks in the code below to find the T score. The final line will calculate the <span class="math inline">\(p\)</span> value using the T distribution. <em>Hint:</em> Like in the last exercise, use the <em>names</em> of stored values (like <code>sample_size</code>) to fill in each blank, with the exception of <code>null_value</code> which you will need to specify based on our research question.</p>
-<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="lab9.html#cb181-1" aria-hidden="true" tabindex="-1"></a>sample_mean <span class="ot">&lt;-</span> gss <span class="sc">%&gt;%</span></span>
-<span id="cb181-2"><a href="lab9.html#cb181-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="fu">mean</span>(HoursWorked)) <span class="sc">%&gt;%</span></span>
-<span id="cb181-3"><a href="lab9.html#cb181-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>()</span>
-<span id="cb181-4"><a href="lab9.html#cb181-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb181-5"><a href="lab9.html#cb181-5" aria-hidden="true" tabindex="-1"></a>sample_sd <span class="ot">&lt;-</span> gss <span class="sc">%&gt;%</span></span>
-<span id="cb181-6"><a href="lab9.html#cb181-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="fu">sd</span>(HoursWorked)) <span class="sc">%&gt;%</span></span>
-<span id="cb181-7"><a href="lab9.html#cb181-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>()</span>
-<span id="cb181-8"><a href="lab9.html#cb181-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb181-9"><a href="lab9.html#cb181-9" aria-hidden="true" tabindex="-1"></a>sample_size <span class="ot">&lt;-</span> gss <span class="sc">%&gt;%</span></span>
-<span id="cb181-10"><a href="lab9.html#cb181-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb181-11"><a href="lab9.html#cb181-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>()</span>
-<span id="cb181-12"><a href="lab9.html#cb181-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb181-13"><a href="lab9.html#cb181-13" aria-hidden="true" tabindex="-1"></a>null_value <span class="ot">&lt;-</span> ___</span>
-<span id="cb181-14"><a href="lab9.html#cb181-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb181-15"><a href="lab9.html#cb181-15" aria-hidden="true" tabindex="-1"></a>standard_error <span class="ot">&lt;-</span> ___ <span class="sc">/</span> <span class="fu">sqrt</span>(___)</span>
-<span id="cb181-16"><a href="lab9.html#cb181-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb181-17"><a href="lab9.html#cb181-17" aria-hidden="true" tabindex="-1"></a>degrees_of_freedom <span class="ot">&lt;-</span> ___ <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb181-18"><a href="lab9.html#cb181-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb181-19"><a href="lab9.html#cb181-19" aria-hidden="true" tabindex="-1"></a>t_score <span class="ot">&lt;-</span> (___ <span class="sc">-</span> ___) <span class="sc">/</span> ___</span>
-<span id="cb181-20"><a href="lab9.html#cb181-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb181-21"><a href="lab9.html#cb181-21" aria-hidden="true" tabindex="-1"></a><span class="fu">pt</span>(<span class="at">q =</span> t_score, <span class="at">df =</span> ___, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="lab9.html#cb180-1" aria-hidden="true" tabindex="-1"></a>sample_mean <span class="ot">&lt;-</span> gss <span class="sc">%&gt;%</span></span>
+<span id="cb180-2"><a href="lab9.html#cb180-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="fu">mean</span>(HoursWorked)) <span class="sc">%&gt;%</span></span>
+<span id="cb180-3"><a href="lab9.html#cb180-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>()</span>
+<span id="cb180-4"><a href="lab9.html#cb180-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb180-5"><a href="lab9.html#cb180-5" aria-hidden="true" tabindex="-1"></a>sample_sd <span class="ot">&lt;-</span> gss <span class="sc">%&gt;%</span></span>
+<span id="cb180-6"><a href="lab9.html#cb180-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="fu">sd</span>(HoursWorked)) <span class="sc">%&gt;%</span></span>
+<span id="cb180-7"><a href="lab9.html#cb180-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>()</span>
+<span id="cb180-8"><a href="lab9.html#cb180-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb180-9"><a href="lab9.html#cb180-9" aria-hidden="true" tabindex="-1"></a>sample_size <span class="ot">&lt;-</span> gss <span class="sc">%&gt;%</span></span>
+<span id="cb180-10"><a href="lab9.html#cb180-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb180-11"><a href="lab9.html#cb180-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>()</span>
+<span id="cb180-12"><a href="lab9.html#cb180-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb180-13"><a href="lab9.html#cb180-13" aria-hidden="true" tabindex="-1"></a>null_value <span class="ot">&lt;-</span> ___</span>
+<span id="cb180-14"><a href="lab9.html#cb180-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb180-15"><a href="lab9.html#cb180-15" aria-hidden="true" tabindex="-1"></a>standard_error <span class="ot">&lt;-</span> ___ <span class="sc">/</span> <span class="fu">sqrt</span>(___)</span>
+<span id="cb180-16"><a href="lab9.html#cb180-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb180-17"><a href="lab9.html#cb180-17" aria-hidden="true" tabindex="-1"></a>degrees_of_freedom <span class="ot">&lt;-</span> ___ <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb180-18"><a href="lab9.html#cb180-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb180-19"><a href="lab9.html#cb180-19" aria-hidden="true" tabindex="-1"></a>t_score <span class="ot">&lt;-</span> (___ <span class="sc">-</span> ___) <span class="sc">/</span> ___</span>
+<span id="cb180-20"><a href="lab9.html#cb180-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb180-21"><a href="lab9.html#cb180-21" aria-hidden="true" tabindex="-1"></a><span class="fu">pt</span>(<span class="at">q =</span> t_score, <span class="at">df =</span> ___, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <p>Based on the p value you got, would you reject the null hypothesis? What do you conclude and why?</p>
 </div>
 </div>
@@ -240,8 +238,6 @@ T &amp; = \frac{\text{point estimate} - \text{null value}}{\text{standard error}
 <span class="header-section-number">9.2.1</span> Check out the data<a class="anchor" aria-label="anchor" href="#check-out-the-data-2"><i class="fas fa-link"></i></a>
 </h3>
 <p>First, let’s take a look at the data, which are saved in R under the name <code>lullaby</code>. These are the first few rows:</p>
-<div class="sourceCode" id="cb182"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">lullaby</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="inline-table"><table class="table table-sm">
 <thead><tr class="header">
 <th align="right">id</th>
@@ -302,7 +298,7 @@ T &amp; = \frac{\text{point estimate} - \text{null value}}{\text{standard error}
 <p>Our <strong>research question</strong> is whether hearing the two people sing affected infant’s viewing preferences. As a result, we are interested in the <strong>difference</strong> between <code>After</code> and <code>Before</code>. To find this for each infant, we will use R’s <code>mutate</code> function:</p>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-59" class="exercise"><strong>Exercise 9.6  </strong></span>Run this chunk of code and examine the result:</p>
-<div class="sourceCode" id="cb183"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb181"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">lullaby</span> <span class="op">%&gt;%</span>
     <span class="fu">mutate</span><span class="op">(</span>diff <span class="op">=</span> <span class="va">After</span> <span class="op">-</span> <span class="va">Before</span><span class="op">)</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
@@ -313,10 +309,10 @@ T &amp; = \frac{\text{point estimate} - \text{null value}}{\text{standard error}
 <p>The nice thing about that <code>mutate</code> line is that we can add more code after it that uses the <code>diff</code> variable we created in that line. For example, we can make a histogram of the differences in looking time from before to after:</p>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-60" class="exercise"><strong>Exercise 9.7  </strong></span>Use the following chunk to make a histogram of the <code>diff</code>erences in looking times from Before to After hearing the people sing.</p>
-<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="lab9.html#cb184-1" aria-hidden="true" tabindex="-1"></a>lullaby <span class="sc">%&gt;%</span></span>
-<span id="cb184-2"><a href="lab9.html#cb184-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">diff =</span> After <span class="sc">-</span> Before) <span class="sc">%&gt;%</span></span>
-<span id="cb184-3"><a href="lab9.html#cb184-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___)) <span class="sc">+</span></span>
-<span id="cb184-4"><a href="lab9.html#cb184-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="lab9.html#cb182-1" aria-hidden="true" tabindex="-1"></a>lullaby <span class="sc">%&gt;%</span></span>
+<span id="cb182-2"><a href="lab9.html#cb182-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">diff =</span> After <span class="sc">-</span> Before) <span class="sc">%&gt;%</span></span>
+<span id="cb182-3"><a href="lab9.html#cb182-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___)) <span class="sc">+</span></span>
+<span id="cb182-4"><a href="lab9.html#cb182-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.1</span>)</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>Describe the shape of the distribution (be sure to note the number of modes, skewness, and whether there may be any outliers).</li>
 <li>Based on the histogram, do these data appear to satisfy the conditions required for using a mathematical model (specifically, the T distribution)? Why or why not?</li>
@@ -331,18 +327,18 @@ T &amp; = \frac{\text{point estimate} - \text{null value}}{\text{standard error}
 <div class="exercise">
 <p><span id="exr:unlabeled-div-61" class="exercise"><strong>Exercise 9.8  </strong></span>To begin, let’s use bootstrapping to construct a confidence interval for the difference in looking time between Before and After. This confidence interval will describe how much hearing someone sing a familiar melody changes infants’ looking preferences.</p>
 <p>Fill in the blanks in the code below to construct a <strong>95% confidence interval</strong> for the mean difference in looking proportion from before to after. Be sure to refer to code from earlier in the session, as well as previous labs, for guidance. (<em>Hint:</em> if you’re looking for the name of the response variable, remember that we are doing inference about a <em>difference</em>.)</p>
-<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="lab9.html#cb185-1" aria-hidden="true" tabindex="-1"></a>lullaby_boot_dist <span class="ot">&lt;-</span> lullaby <span class="sc">%&gt;%</span></span>
-<span id="cb185-2"><a href="lab9.html#cb185-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">diff =</span> After <span class="sc">-</span> Before) <span class="sc">%&gt;%</span></span>
-<span id="cb185-3"><a href="lab9.html#cb185-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___) <span class="sc">%&gt;%</span></span>
-<span id="cb185-4"><a href="lab9.html#cb185-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> ___, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb185-5"><a href="lab9.html#cb185-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>)</span>
-<span id="cb185-6"><a href="lab9.html#cb185-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb185-7"><a href="lab9.html#cb185-7" aria-hidden="true" tabindex="-1"></a>lullaby_boot_ci <span class="ot">&lt;-</span> lullaby_boot_dist <span class="sc">%&gt;%</span></span>
-<span id="cb185-8"><a href="lab9.html#cb185-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_confidence_interval</span>(<span class="at">level =</span> ___)</span>
-<span id="cb185-9"><a href="lab9.html#cb185-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb185-10"><a href="lab9.html#cb185-10" aria-hidden="true" tabindex="-1"></a>lullaby_boot_dist <span class="sc">%&gt;%</span></span>
-<span id="cb185-11"><a href="lab9.html#cb185-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
-<span id="cb185-12"><a href="lab9.html#cb185-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_confidence_interval</span>(lullaby_boot_ci)</span></code></pre></div>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="lab9.html#cb183-1" aria-hidden="true" tabindex="-1"></a>lullaby_boot_dist <span class="ot">&lt;-</span> lullaby <span class="sc">%&gt;%</span></span>
+<span id="cb183-2"><a href="lab9.html#cb183-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">diff =</span> After <span class="sc">-</span> Before) <span class="sc">%&gt;%</span></span>
+<span id="cb183-3"><a href="lab9.html#cb183-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb183-4"><a href="lab9.html#cb183-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> ___, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb183-5"><a href="lab9.html#cb183-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>)</span>
+<span id="cb183-6"><a href="lab9.html#cb183-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb183-7"><a href="lab9.html#cb183-7" aria-hidden="true" tabindex="-1"></a>lullaby_boot_ci <span class="ot">&lt;-</span> lullaby_boot_dist <span class="sc">%&gt;%</span></span>
+<span id="cb183-8"><a href="lab9.html#cb183-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_confidence_interval</span>(<span class="at">level =</span> ___)</span>
+<span id="cb183-9"><a href="lab9.html#cb183-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb183-10"><a href="lab9.html#cb183-10" aria-hidden="true" tabindex="-1"></a>lullaby_boot_dist <span class="sc">%&gt;%</span></span>
+<span id="cb183-11"><a href="lab9.html#cb183-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb183-12"><a href="lab9.html#cb183-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_confidence_interval</span>(lullaby_boot_ci)</span></code></pre></div>
 <p>Based on the confidence interval you found, is there evidence for a significance difference in looking preferences from before to after hearing the people sing? Explain your reasoning.</p>
 </div>
 </div>
@@ -356,25 +352,25 @@ T &amp; = \frac{\text{point estimate} - \text{null value}}{\text{standard error}
 <li>What are the null and alternative hypotheses corresponding to our research question?</li>
 <li>Fill in the blanks in the code below to calculate the observed T score and visualize where it falls relative to the null distribution. Based on the visualization you made, would our observed data be likely or unlikely if the null hypothesis were true? (<em>Hint:</em> for <code>mu</code>, this is the <em>null value</em>; and for the last blank, check how we have filled it in in previous labs depending on what our alternative hypothesis is.)</li>
 </ol>
-<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="lab9.html#cb186-1" aria-hidden="true" tabindex="-1"></a>lullaby_obs_t <span class="ot">&lt;-</span> lullaby <span class="sc">%&gt;%</span></span>
-<span id="cb186-2"><a href="lab9.html#cb186-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">diff =</span> After <span class="sc">-</span> Before) <span class="sc">%&gt;%</span></span>
-<span id="cb186-3"><a href="lab9.html#cb186-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___) <span class="sc">%&gt;%</span></span>
-<span id="cb186-4"><a href="lab9.html#cb186-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"point"</span>, <span class="at">mu =</span> ___) <span class="sc">%&gt;%</span></span>
-<span id="cb186-5"><a href="lab9.html#cb186-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"t"</span>)</span>
-<span id="cb186-6"><a href="lab9.html#cb186-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb186-7"><a href="lab9.html#cb186-7" aria-hidden="true" tabindex="-1"></a>lullaby_null_dist <span class="ot">&lt;-</span> lullaby <span class="sc">%&gt;%</span></span>
-<span id="cb186-8"><a href="lab9.html#cb186-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">diff =</span> After <span class="sc">-</span> Before) <span class="sc">%&gt;%</span></span>
-<span id="cb186-9"><a href="lab9.html#cb186-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___) <span class="sc">%&gt;%</span></span>
-<span id="cb186-10"><a href="lab9.html#cb186-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"point"</span>, <span class="at">mu =</span> ___) <span class="sc">%&gt;%</span></span>
-<span id="cb186-11"><a href="lab9.html#cb186-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">assume</span>(<span class="st">"t"</span>)</span>
-<span id="cb186-12"><a href="lab9.html#cb186-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb186-13"><a href="lab9.html#cb186-13" aria-hidden="true" tabindex="-1"></a>lullaby_null_dist <span class="sc">%&gt;%</span></span>
-<span id="cb186-14"><a href="lab9.html#cb186-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
-<span id="cb186-15"><a href="lab9.html#cb186-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> lullaby_obs_t, <span class="at">direction =</span> <span class="st">"___"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="lab9.html#cb184-1" aria-hidden="true" tabindex="-1"></a>lullaby_obs_t <span class="ot">&lt;-</span> lullaby <span class="sc">%&gt;%</span></span>
+<span id="cb184-2"><a href="lab9.html#cb184-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">diff =</span> After <span class="sc">-</span> Before) <span class="sc">%&gt;%</span></span>
+<span id="cb184-3"><a href="lab9.html#cb184-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb184-4"><a href="lab9.html#cb184-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"point"</span>, <span class="at">mu =</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb184-5"><a href="lab9.html#cb184-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"t"</span>)</span>
+<span id="cb184-6"><a href="lab9.html#cb184-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb184-7"><a href="lab9.html#cb184-7" aria-hidden="true" tabindex="-1"></a>lullaby_null_dist <span class="ot">&lt;-</span> lullaby <span class="sc">%&gt;%</span></span>
+<span id="cb184-8"><a href="lab9.html#cb184-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">diff =</span> After <span class="sc">-</span> Before) <span class="sc">%&gt;%</span></span>
+<span id="cb184-9"><a href="lab9.html#cb184-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb184-10"><a href="lab9.html#cb184-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"point"</span>, <span class="at">mu =</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb184-11"><a href="lab9.html#cb184-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">assume</span>(<span class="st">"t"</span>)</span>
+<span id="cb184-12"><a href="lab9.html#cb184-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb184-13"><a href="lab9.html#cb184-13" aria-hidden="true" tabindex="-1"></a>lullaby_null_dist <span class="sc">%&gt;%</span></span>
+<span id="cb184-14"><a href="lab9.html#cb184-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb184-15"><a href="lab9.html#cb184-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> lullaby_obs_t, <span class="at">direction =</span> <span class="st">"___"</span>)</span></code></pre></div>
 <ol start="3" style="list-style-type: lower-alpha">
 <li>Fill in the blanks in the code below to get the <span class="math inline">\(p\)</span> value (make sure you’ve done part b first!). What did you get for the <span class="math inline">\(p\)</span> value? Would you reject the null hypothesis?</li>
 </ol>
-<div class="sourceCode" id="cb187"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb185"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">lullaby_null_dist</span> <span class="op">%&gt;%</span>
     <span class="fu">get_p_value</span><span class="op">(</span>obs_stat <span class="op">=</span> <span class="va">lullaby_obs_t</span>, direction <span class="op">=</span> <span class="st">"___"</span><span class="op">)</span></code></pre></div>
 <ol start="4" style="list-style-type: lower-alpha">
@@ -432,7 +428,7 @@ T &amp; = \frac{\text{point estimate} - \text{null value}}{\text{standard error}
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-11-01.</p>
+    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-11-09.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

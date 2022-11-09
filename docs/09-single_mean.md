@@ -15,12 +15,6 @@ To help with the later exercises in this session, be sure to **download the work
 To begin, we will first address some questions about the *number of hours people work per week*.  The relevant data was collected as part of the General Social Survey (GSS) in 2010.  The first few rows of the survey results look like this:
 
 
-```r
-knitr::kable(head(gss))
-```
-
-
-
 |degree         | HoursWorked| HoursRelax|
 |:--------------|-----------:|----------:|
 |BACHELOR       |          55|          2|
@@ -192,12 +186,6 @@ Sam Mehr, Lee Ann Song (aptly named), and Liz Spelke [@MehrEtAl2016] were intere
 ### Check out the data
 
 First, let's take a look at the data, which are saved in R under the name `lullaby`.  These are the first few rows:
-
-
-```r
-knitr::kable(head(lullaby))
-```
-
 
 
 |  id|    Before|     After|

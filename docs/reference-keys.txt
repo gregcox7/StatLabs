@@ -71,6 +71,8 @@ exr:unlabeled-div-70
 exr:unlabeled-div-71
 exr:unlabeled-div-72
 exr:unlabeled-div-73
+exr:unlabeled-div-74
+exr:unlabeled-div-75
 lab1
 r-and-rstudio
 installation-on-your-own-computer
@@ -200,14 +202,16 @@ confidence-interval-by-bootstrapping
 hypothesis-test-via-mathematical-model-1
 wrap-up-8
 lab10
-required-packages-1
+what-if-there-were-two-groups-of-infants
+paired-vs.-two-group-data
+comparing-inferences
 are-recruiters-more-impressed-by-a-spoken-vs.-written-hiring-pitch
 check-out-the-data-3
 hypothesis-testing-via-simulation
 hypothesis-testing-using-the-t-distribution
 wrap-up-9
 lab12
-required-packages-2
+required-packages-1
 can-we-reduce-intrusions-of-traumatic-memories
 load-the-data-6
 visualize-the-data
