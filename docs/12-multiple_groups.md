@@ -1,4 +1,4 @@
-# Inference for multiple independent groups {#lab12}
+# Inference for multiple independent groups {#lab11}
 
 
 
@@ -6,35 +6,7 @@
 
 In this session, we will use R to do inference for comparing averages from multiple independent groups.  Specifically, we will be interested in doing hypothesis tests to address questions about whether multiple groups differ on average, called **Analysis of Variance (ANOVA)**.  We will see that the simulation techniques we learned for comparing proportions or means between two groups also apply when we have multiple groups.  The mathematical model for ANOVA is different, however; it is an "F distribution".  We will use these techniques to analyse an experiment designed to compare different ways to minimize intrusions of traumatic memories.
 
-## Required packages
-
-For this session, we are going to need to load both our standard `tidyverse` package as well as the `infer` package from R's library.
-
-
-```r
-library(tidyverse)
-```
-
-```{.Rout .text-info}
-## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
-```
-
-```{.Rout .text-info}
-## ✔ ggplot2 3.3.6     ✔ purrr   0.3.4
-## ✔ tibble  3.1.8     ✔ dplyr   1.0.9
-## ✔ tidyr   1.1.3     ✔ stringr 1.4.0
-## ✔ readr   2.1.2     ✔ forcats 0.5.1
-```
-
-```{.Rout .text-info}
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
-```
-
-```r
-library(infer)
-```
+To help with the exercises in this session, be sure to **download the worksheet for this session** by right-clicking on the following link and selecting "Save link as...": [Worksheet for Lab 11](https://raw.githubusercontent.com/gregcox7/StatLabs/main/worksheets/ws_lab11.Rmd).  Open the saved file (which by default is called "ws_lab11.Rmd") in RStudio.
 
 ## Can we reduce intrusions of traumatic memories?
 
@@ -47,48 +19,21 @@ One way to modify intrusive memories was studied by @JamesEtAl2015.  They though
 * Tetris only: In this group, participants were not shown any images from the film but simply played Tetris for 12 minutes.
 * No task (control): In this group, participants simply sat quietly for 12 minutes.
 
-According to reconsolidation theory, people in the reactivation-plus-Tetris condition should experience fewer intrusive memories because playing Tetris should change those memories to be less disruptive.  This is not predicted to happen in any other group either because the original traumatic memories are not being reactivated (control or Tetris-only) or because they are not being changed after reactivation (control or reactivation-only).
+According to reconsolidation theory, people in the reactivation-plus-Tetris condition should experience fewer intrusive memories because playing Tetris should change those memories to be less disruptive.  This is not predicted to happen in any other group.  In the control and Tetris-only conditions, the original traumatic memories are not being reactivated, so they should not be affected.  In the reactivation-only condition, although memories are being reactivated, they are not being altered.  Of course, this is just what the theory *says* should happen.  Let's see what actually transpired.
 
-### Load the data
+### Check out the data
 
-Load the relevant data into R now:
+These are the first few rows of our data, which is loaded into R under the name `tetris_data`:
 
 
-```r
-tetris_data <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/tetris.csv")
-```
-
-```{.Rout .text-info}
-## Rows: 72 Columns: 3
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: ","
-## chr (1): condition
-## dbl (2): intrusions_pre, intrusions_post
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-```
-
-```r
-tetris_data
-```
-
-```{.Rout .text-muted}
-## # A tibble: 72 × 3
-##    condition         intrusions_pre intrusions_post
-##    <chr>                      <dbl>           <dbl>
-##  1 No task (control)              2               4
-##  2 No task (control)              2               3
-##  3 No task (control)              5               6
-##  4 No task (control)              0               2
-##  5 No task (control)              5               3
-##  6 No task (control)              4               4
-##  7 No task (control)              0               0
-##  8 No task (control)              4               4
-##  9 No task (control)              3               2
-## 10 No task (control)              5              11
-## # … with 62 more rows
-```
+|condition         | intrusions_pre| intrusions_post|
+|:-----------------|--------------:|---------------:|
+|No task (control) |              2|               4|
+|No task (control) |              2|               3|
+|No task (control) |              5|               6|
+|No task (control) |              0|               2|
+|No task (control) |              5|               3|
+|No task (control) |              4|               4|
 
 Each row shows data from a single participant.  There are 3 variables in the dataset:
 
@@ -115,13 +60,13 @@ tetris_data %>%
 
 ::: {.exercise}
 
-Fill in the blanks in the code below to make a boxplot that compares the distribution of `effect` for each group (defined by their treatment `condition`):
+Fill in the blanks in the code below to make a boxplot that compares the distribution of `effect` for each group (defined by their treatment `condition`).  Your `mutate` line should be the same as in the previous exercise.  Try putting treatment condition on the horizontal ("x") axis and treatment effect on the vertical ("y") axis.
 
 
 ```r
 tetris_data %>%
     mutate(effect = ___ - ___) %>%
-    ggplot(aes(x = ___, y = effect)) +
+    ggplot(aes(x = ___, y = ___)) +
     geom_boxplot()
 ```
 
@@ -162,7 +107,7 @@ Just like when we were comparing proportions or comparing means from independent
 
 ::: {.exercise}
 
-Fill in the blanks in the code below to use random permutation to conduct a hypothesis test.  The final result should be a histogram of simulated F statistics along with a line indicating where our observed F statistic (`obs_f` from the last exercise) falls in that distribution.  *Hint:* For the blanks in the `hypothesize` and `generate` lines, consider how we simulated the null hypothesis for [comparing proportions](#lab5) or [means from independent samples](#lab10).
+Fill in the blanks in the code below to use random permutation to conduct a hypothesis test.  The final result should be a histogram of simulated F statistics along with a line indicating where our observed F statistic (`obs_f` from the last exercise) falls in that distribution.  *Hint:* For the blanks in the `hypothesize` and `generate` lines, consider how we simulated the null hypothesis for [comparing proportions](#lab5) or [means from independent samples](#lab10).  Also, make sure that `obs_f` from the last exercise is present in R's environment (upper right part of RStudio), otherwise this won't work!
 
 
 ```r
@@ -210,10 +155,62 @@ lm(___ ~ ___, data = tetris_data_effect) %>%
 a. Find the mathematically computed $p$ value in the table you just produced (the column headings will be helpful, you may also compare the format to ANOVA tables from class or the book).  What is the $p$ value?
 b. Using a significance level of 0.05, would we reject the null hypothesis or not?  Why or why not?
 c. Summarize what the results of this hypothesis test tell us about whether the treatment conditions were equally effective in reducing intrusive memories.
-d. The reconsolidation theory predicts that reactivation-plus-Tetris should be significantly more effective than all three other treatment conditions.  Describe follow-up analyses you would use to test this prediction as well as whether those follow-up analyses would require any special adjustments.
+
+:::
+
+### Post-hoc comparisons
+
+The reconsolidation theory predicts that reactivation-and-Tetris should be significantly more effective than all three other treatment conditions.  Although we have established that the treatment conditions are not equally effective, we do not know whether we have evidence that reactivation-and-Tetris is significantly better than other treatments.
+
+Fortunately, R provides a convenient way to test, for every possible pair of groups, the null hypothesis that the difference in means between groups is zero.  R does so using the independent samples T test that we used last time.  R will report the *adjusted* $p$ value from each test.
+
+#### Adjusted $p$ value vs. adjusted significance level
+
+In class, we discussed that when making multiple comparisons, you have to *adjust* your significance level.  This is because the significance level is the chance that we make a "false alarm" or **Type I error**.  The more tests we perform, the more opportunities we have to make this kind of error.  So by reducing the significance level, we can reduce the total probability of making a Type I error.
+
+The **Bonferroni correction** says that we should adjust our significance level by *dividing* it by the number of pairwise comparisons we make.  If there are $k$ groups, the number of comparisons is
+
+$$
+\text{Number of pairwise comparisons} = \frac{k (k - 1)}{2}
+$$
+
+Then, for *each* pairwise test, we reject the null hypothesis *for that specific pair* if
+
+$$
+p \text{ value} < \frac{\text{Significance level}}{\text{Number of pairwise comparisons}}
+$$
+
+An equivalent way to say when we would reject the null hypothesis is this:
+
+$$
+\left( p \text{ value} \right) \times \left( \text{Number of pairwise comparisons} \right) < \text{Significance level}
+$$
+
+In other words, we can either reduce our significance level (the first inequality) or increase our $p$ value.  Both approaches involve the same adjustment factor, namely, the number of pairwise comparisons.  And both approaches will result in the same decision, so they can be treated as equivalent.
+
+R takes the second approach.  That is, for each pairwise comparison, R reports the *adjusted $p$ value*.  The reason is because R doesn't know what our significance level is---that's our choice.  So by adjusting the $p$ value, R gives us a result that we can use regardless of what our significance level is.  We will look at each $p$ value that R reports and, for each one, decide whether or not to reject the corresponding null hypothesis by seeing whether the adjusted $p$ value is less than our significance level.
+
+::: {.exercise}
+
+Fill in the blanks in the code below to tell R to conduct an independent samples T test for every pair of groups in our data.  Remember to use the same `mutate` line we've been using.  Also note that you'll need to put the name of the response variable following `x` and the name of the explanatory ("grouping") variable following `g`.  Finally, see that we have specified the **Bonferroni** correction for multiple comparisons.  The result of running this chunk should be a table of adjusted $p$ values.
+
+
+```r
+with(
+    tetris_data %>%
+        mutate(effect = ___ - ___),
+    pairwise.t.test(x = ___, g = ___, p.adjust.method = "bonferroni")
+)
+```
+
+Each entry in the table is the result of a two-tailed independent samples T test testing the null hypothesis that the two groups have the same mean.  The row and column labels indicate which groups are being compared.  Each P value in the table has been multiplied by an adjustment factor according to the Bonferroni method.
+
+a. What is the Bonferroni adjustment factor for these posthoc pairwise tests?
+b. We retain our significance level of 0.05.  Which comparisons, if any, would lead us to reject the null hypothesis and conclude that there is a significance difference in means between conditions?
+c. Is the result of the post-hoc pairwise tests consistent with reconsolidation theory?  Why do you think the post-hoc comparisons turned out the way they did, given the result of our ANOVA?
 
 :::
 
 ## Wrap-up
 
-The final technique we've learned, Analysis of Variance, is used to address questions about whether multiple independent groups differ from one another on average.  The F statistic is used to summarize how much variability there is between groups versus the amount of variability within groups.  We used random permutation to simulate the kinds of data that would occur if the null hypothesis were true.  We used simulation as well as a mathematical model to determine whether the observed F statistic is large enough to reject the null hypothesis.
+Analysis of Variance, is used to address questions about whether multiple independent groups differ from one another on average.  The F statistic is used to summarize how much variability there is between groups versus the amount of variability within groups.  We used random permutation to simulate the kinds of data that would occur if the null hypothesis were true.  We used simulation as well as a mathematical model to determine whether the observed F statistic is large enough to reject the null hypothesis.

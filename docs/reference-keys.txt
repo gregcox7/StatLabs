@@ -73,6 +73,7 @@ exr:unlabeled-div-72
 exr:unlabeled-div-73
 exr:unlabeled-div-74
 exr:unlabeled-div-75
+exr:unlabeled-div-76
 lab1
 r-and-rstudio
 installation-on-your-own-computer
@@ -210,13 +211,14 @@ check-out-the-data-3
 hypothesis-testing-via-simulation
 hypothesis-testing-using-the-t-distribution
 wrap-up-9
-lab12
-required-packages-1
+lab11
 can-we-reduce-intrusions-of-traumatic-memories
-load-the-data-6
+check-out-the-data-4
 visualize-the-data
 hypothesis-testing-by-randomization
 the-observed-f-statistic
 simulating-the-null-hypothesis
 hypothesis-testing-by-mathematical-model
+post-hoc-comparisons
+adjusted-p-value-vs.-adjusted-significance-level
 wrap-up-10

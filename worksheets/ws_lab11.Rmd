@@ -1,0 +1,132 @@
+---
+title: "Worksheet for Lab 11"
+author: "NAME"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+## Introduction
+
+With this worksheet, you can work on and run the chunks of code you need for different exercises.  Chunks of code appear between the three backquote marks and have a different color, like this:
+
+```{r chunk_name}
+2 + 3
+```
+
+## Preliminaries
+
+Run this chunk first!  This chunk of code loads the packages and datasets you need for this activity.
+
+```{r setup}
+library(tidyverse)
+library(infer)
+
+tetris_data <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/tetris.csv")
+```
+
+Within the braces at the beginning of each chunk, the letter `r` says that the code is written in the "R" language and the text after the little `r` is a helpful label for the chunk.
+
+To run a chunk of code, press the green arrow button in the upper right of the chunk.  The result of running the chunk will appear immediately below it.  You can run a chunk more than once.  If you need to change anything or get an error, you can always edit your chunk and try again.
+
+## Exercise 11.1
+
+Consider the design of this study to address the following questions.
+
+a. Would it be possible to conclude that the treatment condition plays a role in *causing* any changes we might observe in the number of intrusive memories?  Why or why not?
+b. Fill in the blanks in the code below to use `mutate` to create a new variable called `effect` that represents the *difference* between the number of intrusions after treatment and the number of intrusions before treatment.  Write the code so that a *negative* value of `effect` means a *reduction* in the number of intrusive memories from before to after treatment.  What code did you use?
+
+```{r}
+tetris_data %>%
+    mutate(effect = ___ - ___)
+```
+
+## Exercise 11.2
+
+Fill in the blanks in the code below to make a boxplot that compares the distribution of `effect` for each group (defined by their treatment `condition`).  Your `mutate` line should be the same as in the previous exercise.  Try putting treatment condition on the horizontal ("x") axis and treatment effect on the vertical ("y") axis.
+
+```{r}
+tetris_data %>%
+    mutate(effect = ___ - ___) %>%
+    ggplot(aes(x = ___, y = ___)) +
+    geom_boxplot()
+```
+
+a. Our **research question** is, "is there a difference in average effectiveness between treatment conditions?"  What are the null and alternative hypotheses corresponding to this research question?
+b. What are the names of the explanatory variable and response variable?
+c. Based on the boxplot you just made in this exercise, do these data seem more consistent with the null or the alternative hypothesis?  Explain your reasoning.
+
+## Exercise 11.3
+
+Fill in the blanks in the code below to find the F statistic for our observed data.  *Hint:* for the `specify` line, remember to put the name of the response variable on the left of the `~` and the name of the explanatory variable on the right.
+
+```{r}
+obs_f <- tetris_data %>%
+    mutate(effect = ___ - ___) %>%
+    specify(___ ~ ___) %>%
+    calculate(stat = "F")
+
+obs_f
+```
+
+a. What was the F statistic you found?
+b. Does the F statistic you found indicate that the between-group variability is greater or smaller than the within-group variability?  Explain your reasoning.
+
+## Exercise 11.4
+
+Fill in the blanks in the code below to use random permutation to conduct a hypothesis test.  The final result should be a histogram of simulated F statistics along with a line indicating where our observed F statistic (`obs_f` from the last exercise) falls in that distribution.  *Hint:* For the blanks in the `hypothesize` and `generate` lines, consider how we simulated the null hypothesis for [comparing proportions](#lab5) or [means from independent samples](#lab10).  Also, make sure that `obs_f` from the last exercise is present in R's environment (upper right part of RStudio), otherwise this won't work!
+
+```{r}
+null_dist <- tetris_data %>%
+    mutate(effect = ___ - ___) %>%
+    specify(___ ~ ___) %>%
+    hypothesize(null = "___") %>%
+    generate(reps = 1000, type = "___") %>%
+    calculate(stat = "F")
+
+null_dist %>%
+    visualize() +
+    shade_p_value(obs_stat = obs_f, direction = "greater")
+```
+
+a. Based on the histogram you just produced, would you consider the observed F statistic to be unusually large if the null hypothesis were true?
+b. Run the chunk of code below to overlay the mathematical model of the null hypothesis---the "F distribution"---on the histogram of simulated F statistics.  Describe the shape of the F distribution (skewness, number of modes) as well as whether the F distribution (the smooth curve) make a good "fit" with the histogram of simulated F statistics.
+
+```{r}
+null_dist %>%
+    visualize(method = "both") +
+    shade_p_value(obs_stat = obs_f, direction = "greater")
+```
+
+## Exercise 11.5
+
+Fill in the blanks in the code below to use R to produce an ANOVA table.  *Hint:* The first two lines are just for convenience; they tell R to store a version of the data that already has the `effect` variable.  So be sure to use the same `mutate` line you've been using in previous exercises.  For the `lm` line, recall that the squiggly `~` is used to `specify` the response and explanatory variables.
+
+```{r}
+tetris_data_effect <- tetris_data %>%
+    mutate(effect = ___ - ___)
+
+lm(___ ~ ___, data = tetris_data_effect) %>%
+    anova()
+```
+
+a. Find the mathematically computed $p$ value in the table you just produced (the column headings will be helpful, you may also compare the format to ANOVA tables from class or the book).  What is the $p$ value?
+b. Using a significance level of 0.05, would we reject the null hypothesis or not?  Why or why not?
+c. Summarize what the results of this hypothesis test tell us about whether the treatment conditions were equally effective in reducing intrusive memories.
+
+## Exercise 11.6
+
+Fill in the blanks in the code below to tell R to conduct an independent samples T test for every pair of groups in our data.  Remember to use the same `mutate` line we've been using.  Also note that you'll need to put the name of the response variable following `x` and the name of the explanatory ("grouping") variable following `g`.  Finally, see that we have specified the **Bonferroni** correction for multiple comparisons.  The result of running this chunk should be a table of adjusted $p$ values.
+
+```{r}
+with(
+    tetris_data %>%
+        mutate(effect = ___ - ___),
+    pairwise.t.test(x = ___, g = ___, p.adjust.method = "bonferroni")
+)
+```
+
+Each entry in the table is the result of a two-tailed independent samples T test testing the null hypothesis that the two groups have the same mean.  The row and column labels indicate which groups are being compared.  Each P value in the table has been multiplied by an adjustment factor according to the Bonferroni method.
+
+a. What is the Bonferroni adjustment factor for these posthoc pairwise tests?
+b. We retain our significance level of 0.05.  Which comparisons, if any, would lead us to reject the null hypothesis and conclude that there is a significance difference in means between conditions?
+c. Is the result of the post-hoc pairwise tests consistent with reconsolidation theory?  Why do you think the post-hoc comparisons turned out the way they did, given the result of our ANOVA?

@@ -30,21 +30,7 @@
 </form>
 
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
-        <ul class="book-toc list-unstyled">
-<li><a class="" href="index.html">Overview</a></li>
-<li><a class="" href="lab1.html"><span class="header-section-number">1</span> Exploring data with R</a></li>
-<li><a class="" href="lab2.html"><span class="header-section-number">2</span> Sampling</a></li>
-<li><a class="" href="lab3.html"><span class="header-section-number">3</span> Describing data</a></li>
-<li><a class="" href="lab4.html"><span class="header-section-number">4</span> Relationships between numerical variables</a></li>
-<li><a class="" href="lab5.html"><span class="header-section-number">5</span> Hypothesis testing with randomization</a></li>
-<li><a class="" href="lab6.html"><span class="header-section-number">6</span> Confidence intervals with bootstrapping</a></li>
-<li><a class="" href="lab7.html"><span class="header-section-number">7</span> The normal distribution</a></li>
-<li><a class="" href="lab8.html"><span class="header-section-number">8</span> Inference for proportions</a></li>
-<li><a class="" href="lab9.html"><span class="header-section-number">9</span> Inference about a mean</a></li>
-<li><a class="" href="lab10.html"><span class="header-section-number">10</span> Inference for comparing two independent means</a></li>
-<li><a class="active" href="lab12.html"><span class="header-section-number">11</span> Inference for multiple independent groups</a></li>
-<li><a class="" href="references.html">References</a></li>
-</ul>
+        <ul class="book-toc list-unstyled"><li><a class="" href="index.html"><span class="header-section-number">Lab 11</span> Inference for multiple independent groups</a></li></ul>
 
         <div class="book-extra">
           <p><a id="book-repo" href="https://github.com/gregcox7/StatLabs">View book source <i class="fab fa-github"></i></a></p>
@@ -57,27 +43,9 @@
 </h1>
 <div class="inline-figure"><img src="img/tetris.png" width="100%"></div>
 <p>In this session, we will use R to do inference for comparing averages from multiple independent groups. Specifically, we will be interested in doing hypothesis tests to address questions about whether multiple groups differ on average, called <strong>Analysis of Variance (ANOVA)</strong>. We will see that the simulation techniques we learned for comparing proportions or means between two groups also apply when we have multiple groups. The mathematical model for ANOVA is different, however; it is an “F distribution”. We will use these techniques to analyse an experiment designed to compare different ways to minimize intrusions of traumatic memories.</p>
-<div id="required-packages-1" class="section level2" number="11.1">
+<div id="can-we-reduce-intrusions-of-traumatic-memories" class="section level2" number="11.1">
 <h2>
-<span class="header-section-number">11.1</span> Required packages<a class="anchor" aria-label="anchor" href="#required-packages-1"><i class="fas fa-link"></i></a>
-</h2>
-<p>For this session, we are going to need to load both our standard <code>tidyverse</code> package as well as the <code>infer</code> package from R’s library.</p>
-<div class="sourceCode" id="cb197"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-info"><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
-<pre class="Rout text-info"><code>## ✔ ggplot2 3.3.6     ✔ purrr   0.3.4
-## ✔ tibble  3.1.8     ✔ dplyr   1.0.9
-## ✔ tidyr   1.1.3     ✔ stringr 1.4.0
-## ✔ readr   2.1.2     ✔ forcats 0.5.1</code></pre>
-<pre class="Rout text-info"><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()</code></pre>
-<div class="sourceCode" id="cb201"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/infer">infer</a></span><span class="op">)</span></code></pre></div>
-</div>
-<div id="can-we-reduce-intrusions-of-traumatic-memories" class="section level2" number="11.2">
-<h2>
-<span class="header-section-number">11.2</span> Can we reduce intrusions of traumatic memories?<a class="anchor" aria-label="anchor" href="#can-we-reduce-intrusions-of-traumatic-memories"><i class="fas fa-link"></i></a>
+<span class="header-section-number">11.1</span> Can we reduce intrusions of traumatic memories?<a class="anchor" aria-label="anchor" href="#can-we-reduce-intrusions-of-traumatic-memories"><i class="fas fa-link"></i></a>
 </h2>
 <p>One of the hallmarks of post-traumatic stress disorder is that memories of the traumatic event “intrude” on everyday life, popping up when they are not wanted. When you remember a previous event, the memory is said to be “active”. According to reconsolidation theory, active memories can also be changed. For example, when you tell a story from memory, telling the story might change your memory such that you would tell it differently next time. Reconsolidation theory suggests that one way to reduce intrusions of traumatic memories is to “activate” them and then change them so they are less likely to intrude on everyday life.</p>
 <p>One way to modify intrusive memories was studied by <span class="citation">James et al. (<a href="references.html#ref-JamesEtAl2015" role="doc-biblioref">2015</a>)</span>. They thought that playing a video game, namely <em>Tetris</em>, while a memory was active would help make that memory less traumatic. They had participants first view a traumatic film (including scenes of real car accidents). Over the next week, participants recorded how often a memory of the traumatic film <em>intruded</em> on their everyday life. During that week, participants came back into the lab and were randomly assigned to one of four treatment conditions:</p>
@@ -88,37 +56,50 @@
 <li>No task (control): In this group, participants simply sat quietly for 12 minutes.</li>
 </ul>
 <p>According to reconsolidation theory, people in the reactivation-plus-Tetris condition should experience fewer intrusive memories because playing Tetris should change those memories to be less disruptive. This is not predicted to happen in any other group either because the original traumatic memories are not being reactivated (control or Tetris-only) or because they are not being changed after reactivation (control or reactivation-only).</p>
-<div id="load-the-data-6" class="section level3" number="11.2.1">
+<div id="check-out-the-data-4" class="section level3" number="11.1.1">
 <h3>
-<span class="header-section-number">11.2.1</span> Load the data<a class="anchor" aria-label="anchor" href="#load-the-data-6"><i class="fas fa-link"></i></a>
+<span class="header-section-number">11.1.1</span> Check out the data<a class="anchor" aria-label="anchor" href="#check-out-the-data-4"><i class="fas fa-link"></i></a>
 </h3>
-<p>Load the relevant data into R now:</p>
-<div class="sourceCode" id="cb202"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">tetris_data</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/tetris.csv"</span><span class="op">)</span></code></pre></div>
-<pre class="Rout text-info"><code>## Rows: 72 Columns: 3
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: ","
-## chr (1): condition
-## dbl (2): intrusions_pre, intrusions_post
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<div class="sourceCode" id="cb204"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">tetris_data</span></code></pre></div>
-<pre class="Rout text-muted"><code>## # A tibble: 72 × 3
-##    condition         intrusions_pre intrusions_post
-##    &lt;chr&gt;                      &lt;dbl&gt;           &lt;dbl&gt;
-##  1 No task (control)              2               4
-##  2 No task (control)              2               3
-##  3 No task (control)              5               6
-##  4 No task (control)              0               2
-##  5 No task (control)              5               3
-##  6 No task (control)              4               4
-##  7 No task (control)              0               0
-##  8 No task (control)              4               4
-##  9 No task (control)              3               2
-## 10 No task (control)              5              11
-## # … with 62 more rows</code></pre>
+<p>These are the first few rows of our data, which is loaded into R under the name <code>tetris_data</code>:</p>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr class="header">
+<th align="left">condition</th>
+<th align="right">intrusions_pre</th>
+<th align="right">intrusions_post</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">No task (control)</td>
+<td align="right">2</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td align="left">No task (control)</td>
+<td align="right">2</td>
+<td align="right">3</td>
+</tr>
+<tr class="odd">
+<td align="left">No task (control)</td>
+<td align="right">5</td>
+<td align="right">6</td>
+</tr>
+<tr class="even">
+<td align="left">No task (control)</td>
+<td align="right">0</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">No task (control)</td>
+<td align="right">5</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">No task (control)</td>
+<td align="right">4</td>
+<td align="right">4</td>
+</tr>
+</tbody>
+</table></div>
 <p>Each row shows data from a single participant. There are 3 variables in the dataset:</p>
 <ul>
 <li>
@@ -129,25 +110,25 @@
 <code>intrusions_post</code>: The number of times the participant reported an intrusive memory of the traumatic film after treatment.</li>
 </ul>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-71" class="exercise"><strong>Exercise 11.1  </strong></span>Consider the design of this study to address the following questions.</p>
+<p><span id="exr:unlabeled-div-1" class="exercise"><strong>Exercise 11.1  </strong></span>Consider the design of this study to address the following questions.</p>
 <ol style="list-style-type: lower-alpha">
 <li>Would it be possible to conclude that the treatment condition plays a role in <em>causing</em> any changes we might observe in the number of intrusive memories? Why or why not?</li>
 <li>Fill in the blanks in the code below to use <code>mutate</code> to create a new variable called <code>effect</code> that represents the <em>difference</em> between the number of intrusions after treatment and the number of intrusions before treatment. Write the code so that a <em>negative</em> value of <code>effect</code> means a <em>reduction</em> in the number of intrusive memories from before to after treatment. What code did you use?</li>
 </ol>
-<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="lab12.html#cb206-1" aria-hidden="true" tabindex="-1"></a>tetris_data <span class="sc">%&gt;%</span></span>
-<span id="cb206-2"><a href="lab12.html#cb206-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">effect =</span> ___ <span class="sc">-</span> ___)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="lab12.html#cb1-1" aria-hidden="true" tabindex="-1"></a>tetris_data <span class="sc">%&gt;%</span></span>
+<span id="cb1-2"><a href="lab12.html#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">effect =</span> ___ <span class="sc">-</span> ___)</span></code></pre></div>
 </div>
 </div>
-<div id="visualize-the-data" class="section level3" number="11.2.2">
+<div id="visualize-the-data" class="section level3" number="11.1.2">
 <h3>
-<span class="header-section-number">11.2.2</span> Visualize the data<a class="anchor" aria-label="anchor" href="#visualize-the-data"><i class="fas fa-link"></i></a>
+<span class="header-section-number">11.1.2</span> Visualize the data<a class="anchor" aria-label="anchor" href="#visualize-the-data"><i class="fas fa-link"></i></a>
 </h3>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-72" class="exercise"><strong>Exercise 11.2  </strong></span>Fill in the blanks in the code below to make a boxplot that compares the distribution of <code>effect</code> for each group (defined by their treatment <code>condition</code>):</p>
-<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="lab12.html#cb207-1" aria-hidden="true" tabindex="-1"></a>tetris_data <span class="sc">%&gt;%</span></span>
-<span id="cb207-2"><a href="lab12.html#cb207-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">effect =</span> ___ <span class="sc">-</span> ___) <span class="sc">%&gt;%</span></span>
-<span id="cb207-3"><a href="lab12.html#cb207-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___, <span class="at">y =</span> effect)) <span class="sc">+</span></span>
-<span id="cb207-4"><a href="lab12.html#cb207-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>()</span></code></pre></div>
+<p><span id="exr:unlabeled-div-2" class="exercise"><strong>Exercise 11.2  </strong></span>Fill in the blanks in the code below to make a boxplot that compares the distribution of <code>effect</code> for each group (defined by their treatment <code>condition</code>). Your <code>mutate</code> line should be the same as in the previous exercise. Try putting treatment condition on the horizontal (“x”) axis and treatment effect on the vertical (“y”) axis.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="lab12.html#cb2-1" aria-hidden="true" tabindex="-1"></a>tetris_data <span class="sc">%&gt;%</span></span>
+<span id="cb2-2"><a href="lab12.html#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">effect =</span> ___ <span class="sc">-</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb2-3"><a href="lab12.html#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___, <span class="at">y =</span> ___)) <span class="sc">+</span></span>
+<span id="cb2-4"><a href="lab12.html#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>()</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>Our <strong>research question</strong> is, “is there a difference in average effectiveness between treatment conditions?” What are the null and alternative hypotheses corresponding to this research question?</li>
 <li>What are the names of the explanatory variable and response variable?</li>
@@ -155,109 +136,135 @@
 </ol>
 </div>
 </div>
-<div id="hypothesis-testing-by-randomization" class="section level3" number="11.2.3">
+<div id="hypothesis-testing-by-randomization" class="section level3" number="11.1.3">
 <h3>
-<span class="header-section-number">11.2.3</span> Hypothesis testing by randomization<a class="anchor" aria-label="anchor" href="#hypothesis-testing-by-randomization"><i class="fas fa-link"></i></a>
+<span class="header-section-number">11.1.3</span> Hypothesis testing by randomization<a class="anchor" aria-label="anchor" href="#hypothesis-testing-by-randomization"><i class="fas fa-link"></i></a>
 </h3>
 <p>We will use these data to conduct a hypothesis test to help us address the research question, “is there a difference in average effectiveness between treatment conditions?” As we’ve seen, the test statistic that we need is a <strong>F statistic</strong>, which represents how much variability there is <em>between</em> groups, relative to the amount of variability <em>within</em> groups.</p>
-<div id="the-observed-f-statistic" class="section level4" number="11.2.3.1">
+<div id="the-observed-f-statistic" class="section level4" number="11.1.3.1">
 <h4>
-<span class="header-section-number">11.2.3.1</span> The observed F statistic<a class="anchor" aria-label="anchor" href="#the-observed-f-statistic"><i class="fas fa-link"></i></a>
+<span class="header-section-number">11.1.3.1</span> The observed F statistic<a class="anchor" aria-label="anchor" href="#the-observed-f-statistic"><i class="fas fa-link"></i></a>
 </h4>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-73" class="exercise"><strong>Exercise 11.3  </strong></span>Fill in the blanks in the code below to find the F statistic for our observed data. <em>Hint:</em> for the <code>specify</code> line, remember to put the name of the response variable on the left of the <code><a href="https://rdrr.io/r/base/tilde.html">~</a></code> and the name of the explanatory variable on the right.</p>
-<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="lab12.html#cb208-1" aria-hidden="true" tabindex="-1"></a>obs_f <span class="ot">&lt;-</span> tetris_data <span class="sc">%&gt;%</span></span>
-<span id="cb208-2"><a href="lab12.html#cb208-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">effect =</span> ___ <span class="sc">-</span> ___) <span class="sc">%&gt;%</span></span>
-<span id="cb208-3"><a href="lab12.html#cb208-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___) <span class="sc">%&gt;%</span></span>
-<span id="cb208-4"><a href="lab12.html#cb208-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"F"</span>)</span>
-<span id="cb208-5"><a href="lab12.html#cb208-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb208-6"><a href="lab12.html#cb208-6" aria-hidden="true" tabindex="-1"></a>obs_f</span></code></pre></div>
+<p><span id="exr:unlabeled-div-3" class="exercise"><strong>Exercise 11.3  </strong></span>Fill in the blanks in the code below to find the F statistic for our observed data. <em>Hint:</em> for the <code>specify</code> line, remember to put the name of the response variable on the left of the <code><a href="https://rdrr.io/r/base/tilde.html">~</a></code> and the name of the explanatory variable on the right.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="lab12.html#cb3-1" aria-hidden="true" tabindex="-1"></a>obs_f <span class="ot">&lt;-</span> tetris_data <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="lab12.html#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">effect =</span> ___ <span class="sc">-</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="lab12.html#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb3-4"><a href="lab12.html#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"F"</span>)</span>
+<span id="cb3-5"><a href="lab12.html#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="lab12.html#cb3-6" aria-hidden="true" tabindex="-1"></a>obs_f</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>What was the F statistic you found?</li>
 <li>Does the F statistic you found indicate that the between-group variability is greater or smaller than the within-group variability? Explain your reasoning.</li>
 </ol>
 </div>
 </div>
-<div id="simulating-the-null-hypothesis" class="section level4" number="11.2.3.2">
+<div id="simulating-the-null-hypothesis" class="section level4" number="11.1.3.2">
 <h4>
-<span class="header-section-number">11.2.3.2</span> Simulating the null hypothesis<a class="anchor" aria-label="anchor" href="#simulating-the-null-hypothesis"><i class="fas fa-link"></i></a>
+<span class="header-section-number">11.1.3.2</span> Simulating the null hypothesis<a class="anchor" aria-label="anchor" href="#simulating-the-null-hypothesis"><i class="fas fa-link"></i></a>
 </h4>
 <p>Just like when we were comparing proportions or comparing means from independent samples, we can simulate how the data would look if the null hypothesis were true. Specifically, to simulate a single dataset, we randomly re-assign (<em>permute</em>) the values of the explanatory variable across observations. We then calculate an F statistic for that simulated dataset. We then repeat that process many times to build a <strong>sampling distribution</strong> for the F statistic. Finally, we see whether the F statistic for the actual data is large enough that we reject the idea that it came about by sampling error alone.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-74" class="exercise"><strong>Exercise 11.4  </strong></span>Fill in the blanks in the code below to use random permutation to conduct a hypothesis test. The final result should be a histogram of simulated F statistics along with a line indicating where our observed F statistic (<code>obs_f</code> from the last exercise) falls in that distribution. <em>Hint:</em> For the blanks in the <code>hypothesize</code> and <code>generate</code> lines, consider how we simulated the null hypothesis for <a href="lab5.html#lab5">comparing proportions</a> or <a href="lab10.html#lab10">means from independent samples</a>.</p>
-<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="lab12.html#cb209-1" aria-hidden="true" tabindex="-1"></a>null_dist <span class="ot">&lt;-</span> tetris_data <span class="sc">%&gt;%</span></span>
-<span id="cb209-2"><a href="lab12.html#cb209-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">effect =</span> ___ <span class="sc">-</span> ___) <span class="sc">%&gt;%</span></span>
-<span id="cb209-3"><a href="lab12.html#cb209-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___) <span class="sc">%&gt;%</span></span>
-<span id="cb209-4"><a href="lab12.html#cb209-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb209-5"><a href="lab12.html#cb209-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb209-6"><a href="lab12.html#cb209-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"F"</span>)</span>
-<span id="cb209-7"><a href="lab12.html#cb209-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb209-8"><a href="lab12.html#cb209-8" aria-hidden="true" tabindex="-1"></a>null_dist <span class="sc">%&gt;%</span></span>
-<span id="cb209-9"><a href="lab12.html#cb209-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
-<span id="cb209-10"><a href="lab12.html#cb209-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> obs_f, <span class="at">direction =</span> <span class="st">"greater"</span>)</span></code></pre></div>
+<p><span id="exr:unlabeled-div-4" class="exercise"><strong>Exercise 11.4  </strong></span>Fill in the blanks in the code below to use random permutation to conduct a hypothesis test. The final result should be a histogram of simulated F statistics along with a line indicating where our observed F statistic (<code>obs_f</code> from the last exercise) falls in that distribution. <em>Hint:</em> For the blanks in the <code>hypothesize</code> and <code>generate</code> lines, consider how we simulated the null hypothesis for <a href="lab5.html#lab5">comparing proportions</a> or <a href="lab10.html#lab10">means from independent samples</a>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="lab12.html#cb4-1" aria-hidden="true" tabindex="-1"></a>null_dist <span class="ot">&lt;-</span> tetris_data <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="lab12.html#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">effect =</span> ___ <span class="sc">-</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb4-3"><a href="lab12.html#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb4-4"><a href="lab12.html#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-5"><a href="lab12.html#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-6"><a href="lab12.html#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"F"</span>)</span>
+<span id="cb4-7"><a href="lab12.html#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="lab12.html#cb4-8" aria-hidden="true" tabindex="-1"></a>null_dist <span class="sc">%&gt;%</span></span>
+<span id="cb4-9"><a href="lab12.html#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb4-10"><a href="lab12.html#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> obs_f, <span class="at">direction =</span> <span class="st">"greater"</span>)</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>Based on the histogram you just produced, would you consider the observed F statistic to be unusually large if the null hypothesis were true?</li>
 <li>Run the chunk of code below to overlay the mathematical model of the null hypothesis—the “F distribution”—on the histogram of simulated F statistics. Describe the shape of the F distribution (skewness, number of modes) as well as whether the F distribution (the smooth curve) make a good “fit” with the histogram of simulated F statistics.</li>
 </ol>
-<div class="sourceCode" id="cb210"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">null_dist</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://infer.tidymodels.org/reference/visualize.html">visualize</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"both"</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://infer.tidymodels.org/reference/shade_p_value.html">shade_p_value</a></span><span class="op">(</span>obs_stat <span class="op">=</span> <span class="va">obs_f</span>, direction <span class="op">=</span> <span class="st">"greater"</span><span class="op">)</span></code></pre></div>
+    <span class="fu">visualize</span><span class="op">(</span>method <span class="op">=</span> <span class="st">"both"</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">shade_p_value</span><span class="op">(</span>obs_stat <span class="op">=</span> <span class="va">obs_f</span>, direction <span class="op">=</span> <span class="st">"greater"</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
 </div>
-<div id="hypothesis-testing-by-mathematical-model" class="section level3" number="11.2.4">
+<div id="hypothesis-testing-by-mathematical-model" class="section level3" number="11.1.4">
 <h3>
-<span class="header-section-number">11.2.4</span> Hypothesis testing by mathematical model<a class="anchor" aria-label="anchor" href="#hypothesis-testing-by-mathematical-model"><i class="fas fa-link"></i></a>
+<span class="header-section-number">11.1.4</span> Hypothesis testing by mathematical model<a class="anchor" aria-label="anchor" href="#hypothesis-testing-by-mathematical-model"><i class="fas fa-link"></i></a>
 </h3>
 <p>In practice, ANOVA is often done using a mathematical model of the null hypothesis instead of using simulation. The relevant calculations are carried out by computer, but the results are often presented in a table that makes it easier to see how the sausage is made (this is the same format used in class and in the book).</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-75" class="exercise"><strong>Exercise 11.5  </strong></span>Fill in the blanks in the code below to use R to produce an ANOVA table. <em>Hint:</em> The first two lines are just for convenience; they tell R to store a version of the data that already has the <code>effect</code> variable. So be sure to use the same <code>mutate</code> line you’ve been using in previous exercises. For the <code>lm</code> line, recall that the squiggly <code><a href="https://rdrr.io/r/base/tilde.html">~</a></code> is used to <code>specify</code> the response and explanatory variables.</p>
-<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="lab12.html#cb211-1" aria-hidden="true" tabindex="-1"></a>tetris_data_effect <span class="ot">&lt;-</span> tetris_data <span class="sc">%&gt;%</span></span>
-<span id="cb211-2"><a href="lab12.html#cb211-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">effect =</span> ___ <span class="sc">-</span> ___)</span>
-<span id="cb211-3"><a href="lab12.html#cb211-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb211-4"><a href="lab12.html#cb211-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(___ <span class="sc">~</span> ___, <span class="at">data =</span> tetris_data_effect) <span class="sc">%&gt;%</span></span>
-<span id="cb211-5"><a href="lab12.html#cb211-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">anova</span>()</span></code></pre></div>
+<p><span id="exr:unlabeled-div-5" class="exercise"><strong>Exercise 11.5  </strong></span>Fill in the blanks in the code below to use R to produce an ANOVA table. <em>Hint:</em> The first two lines are just for convenience; they tell R to store a version of the data that already has the <code>effect</code> variable. So be sure to use the same <code>mutate</code> line you’ve been using in previous exercises. For the <code>lm</code> line, recall that the squiggly <code><a href="https://rdrr.io/r/base/tilde.html">~</a></code> is used to <code>specify</code> the response and explanatory variables.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="lab12.html#cb6-1" aria-hidden="true" tabindex="-1"></a>tetris_data_effect <span class="ot">&lt;-</span> tetris_data <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="lab12.html#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">effect =</span> ___ <span class="sc">-</span> ___)</span>
+<span id="cb6-3"><a href="lab12.html#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="lab12.html#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(___ <span class="sc">~</span> ___, <span class="at">data =</span> tetris_data_effect) <span class="sc">%&gt;%</span></span>
+<span id="cb6-5"><a href="lab12.html#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">anova</span>()</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>Find the mathematically computed <span class="math inline">\(p\)</span> value in the table you just produced (the column headings will be helpful, you may also compare the format to ANOVA tables from class or the book). What is the <span class="math inline">\(p\)</span> value?</li>
 <li>Using a significance level of 0.05, would we reject the null hypothesis or not? Why or why not?</li>
 <li>Summarize what the results of this hypothesis test tell us about whether the treatment conditions were equally effective in reducing intrusive memories.</li>
-<li>The reconsolidation theory predicts that reactivation-plus-Tetris should be significantly more effective than all three other treatment conditions. Describe follow-up analyses you would use to test this prediction as well as whether those follow-up analyses would require any special adjustments.</li>
+</ol>
+</div>
+</div>
+<div id="post-hoc-comparisons" class="section level3" number="11.1.5">
+<h3>
+<span class="header-section-number">11.1.5</span> Post-hoc comparisons<a class="anchor" aria-label="anchor" href="#post-hoc-comparisons"><i class="fas fa-link"></i></a>
+</h3>
+<p>The reconsolidation theory predicts that reactivation-and-Tetris should be significantly more effective than all three other treatment conditions. Although we have established that the treatment conditions are not equally effective, we do not know whether we have evidence that reactivation-and-Tetris is significantly better than other treatments.</p>
+<p>Fortunately, R provides a convenient way to test, for every possible pair of groups, the null hypothesis that the difference in means between groups is zero. R does so using the independent samples T test that we used last time. R will report the <em>adjusted</em> <span class="math inline">\(p\)</span> value from each test.</p>
+<div id="adjusted-p-value-vs.-adjusted-significance-level" class="section level4" number="11.1.5.1">
+<h4>
+<span class="header-section-number">11.1.5.1</span> Adjusted <span class="math inline">\(p\)</span> value vs. adjusted significance level<a class="anchor" aria-label="anchor" href="#adjusted-p-value-vs.-adjusted-significance-level"><i class="fas fa-link"></i></a>
+</h4>
+<p>In class, we discussed that when making multiple comparisons, you have to <em>adjust</em> your significance level. This is because the significance level is the chance that we make a “false alarm” or <strong>Type I error</strong>. The more tests we perform, the more opportunities we have to make this kind of error. So by reducing the significance level, we can reduce the total probability of making a Type I error.</p>
+<p>The <strong>Bonferroni correction</strong> says that we should adjust our significance level by <em>dividing</em> it by the number of pairwise comparisons we make. If there are <span class="math inline">\(k\)</span> groups, the number of comparisons is</p>
+<p><span class="math display">\[
+\text{Number of pairwise comparisons} = \frac{k (k - 1)}{2}
+\]</span></p>
+<p>Then, for <em>each</em> pairwise test, we reject the null hypothesis <em>for that specific pair</em> if</p>
+<p><span class="math display">\[
+p \text{ value} &lt; \frac{\text{Significance level}}{\text{Number of pairwise comparisons}}
+\]</span></p>
+<p>An equivalent way to say when we would reject the null hypothesis is this:</p>
+<p><span class="math display">\[
+\left( p \text{ value} \right) \times \left( \text{Number of pairwise comparisons} \right) &lt; \text{Significance level}
+\]</span></p>
+<p>In other words, we can either reduce our significance level (the first inequality) or increase our <span class="math inline">\(p\)</span> value. Both approaches involve the same adjustment factor, namely, the number of pairwise comparisons. And both approaches will result in the same decision, so they can be treated as equivalent.</p>
+<p>R takes the second approach. That is, for each pairwise comparison, R reports the <em>adjusted <span class="math inline">\(p\)</span> value</em>. The reason is because R doesn’t know what our significance level is—that’s our choice. So by adjusting the <span class="math inline">\(p\)</span> value, R gives us a result that we can use regardless of what our significance level is. We will look at each <span class="math inline">\(p\)</span> value that R reports and, for each one, decide whether or not to reject the corresponding null hypothesis by seeing whether the adjusted <span class="math inline">\(p\)</span> value is less than our significance level.</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-6" class="exercise"><strong>Exercise 11.6  </strong></span>Fill in the blanks in the code below to tell R to conduct an independent samples T test for every pair of groups in our data. Remember to use the same <code>mutate</code> line we’ve been using. Also note that you’ll need to put the name of the response variable following <code>x</code> and the name of the explanatory (“grouping”) variable following <code>g</code>. Finally, see that we have specified the <strong>Bonferroni</strong> correction for multiple comparisons. The result of running this chunk should be a table of adjusted <span class="math inline">\(p\)</span> values.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="lab12.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(</span>
+<span id="cb7-2"><a href="lab12.html#cb7-2" aria-hidden="true" tabindex="-1"></a>    tetris_data <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="lab12.html#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="at">effect =</span> ___ <span class="sc">-</span> ___),</span>
+<span id="cb7-4"><a href="lab12.html#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pairwise.t.test</span>(<span class="at">x =</span> ___, <span class="at">g =</span> ___, <span class="at">p.adjust.method =</span> <span class="st">"bonferroni"</span>)</span>
+<span id="cb7-5"><a href="lab12.html#cb7-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>Each entry in the table is the result of a two-tailed independent samples T test testing the null hypothesis that the two groups have the same mean. The row and column labels indicate which groups are being compared. Each P value in the table has been multiplied by an adjustment factor according to the Bonferroni method.</p>
+<ol style="list-style-type: lower-alpha">
+<li>What is the Bonferroni adjustment for these posthoc pairwise tests? (<em>Hint:</em> how many groups are there?)</li>
+<li>We will retain our significance level of 0.05.</li>
 </ol>
 </div>
 </div>
 </div>
-<div id="wrap-up-10" class="section level2" number="11.3">
+</div>
+<div id="wrap-up-10" class="section level2" number="11.2">
 <h2>
-<span class="header-section-number">11.3</span> Wrap-up<a class="anchor" aria-label="anchor" href="#wrap-up-10"><i class="fas fa-link"></i></a>
+<span class="header-section-number">11.2</span> Wrap-up<a class="anchor" aria-label="anchor" href="#wrap-up-10"><i class="fas fa-link"></i></a>
 </h2>
 <p>The final technique we’ve learned, Analysis of Variance, is used to address questions about whether multiple independent groups differ from one another on average. The F statistic is used to summarize how much variability there is between groups versus the amount of variability within groups. We used random permutation to simulate the kinds of data that would occur if the null hypothesis were true. We used simulation as well as a mathematical model to determine whether the observed F statistic is large enough to reject the null hypothesis.</p>
 
 </div>
 </div>
   <div class="chapter-nav">
-<div class="prev"><a href="lab10.html"><span class="header-section-number">10</span> Inference for comparing two independent means</a></div>
-<div class="next"><a href="references.html">References</a></div>
+<div class="empty"></div>
+<div class="empty"></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#lab12"><span class="header-section-number">11</span> Inference for multiple independent groups</a></li>
-<li><a class="nav-link" href="#required-packages-1"><span class="header-section-number">11.1</span> Required packages</a></li>
-<li>
-<a class="nav-link" href="#can-we-reduce-intrusions-of-traumatic-memories"><span class="header-section-number">11.2</span> Can we reduce intrusions of traumatic memories?</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#load-the-data-6"><span class="header-section-number">11.2.1</span> Load the data</a></li>
-<li><a class="nav-link" href="#visualize-the-data"><span class="header-section-number">11.2.2</span> Visualize the data</a></li>
-<li><a class="nav-link" href="#hypothesis-testing-by-randomization"><span class="header-section-number">11.2.3</span> Hypothesis testing by randomization</a></li>
-<li><a class="nav-link" href="#hypothesis-testing-by-mathematical-model"><span class="header-section-number">11.2.4</span> Hypothesis testing by mathematical model</a></li>
-</ul>
-</li>
-<li><a class="nav-link" href="#wrap-up-10"><span class="header-section-number">11.3</span> Wrap-up</a></li>
-</ul>
+      <div id="book-on-this-page"></div>
 
       <div class="book-extra">
         <ul class="list-unstyled">
-<li><a id="book-source" href="https://github.com/gregcox7/StatLabs/blob/master/12-multiple_groups.Rmd">View source <i class="fab fa-github"></i></a></li>
-          <li><a id="book-edit" href="https://github.com/gregcox7/StatLabs/edit/master/12-multiple_groups.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+          
         </ul>
 </div>
     </nav>
