@@ -129,4 +129,4 @@ Each entry in the table is the result of a two-tailed independent samples T test
 
 a. What is the Bonferroni adjustment factor for these posthoc pairwise tests?
 b. We retain our significance level of 0.05.  Which comparisons, if any, would lead us to reject the null hypothesis and conclude that there is a significance difference in means between conditions?
-c. Is the result of the post-hoc pairwise tests consistent with reconsolidation theory?  Why do you think the post-hoc comparisons turned out the way they did, given the result of our ANOVA?
+c. Do these results provide strong support reconsolidation theory?  Why do you think the post-hoc comparisons turned out the way they did, given the result of our ANOVA?
