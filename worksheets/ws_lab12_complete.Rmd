@@ -1,0 +1,201 @@
+---
+title: "Worksheet for Lab 12"
+author: "NAME"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+## Introduction
+
+With this worksheet, you can work on and run the chunks of code you need for different exercises.  Chunks of code appear between the three backquote marks and have a different color, like this:
+
+```{r chunk_name}
+2 + 3
+```
+
+## Preliminaries
+
+Run this chunk first!  This chunk of code loads the packages and datasets you need for this activity.
+
+```{r setup}
+library(tidyverse)
+library(infer)
+
+bike_data <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/bike2011.csv")
+```
+
+Within the braces at the beginning of each chunk, the letter `r` says that the code is written in the "R" language and the text after the little `r` is a helpful label for the chunk.
+
+To run a chunk of code, press the green arrow button in the upper right of the chunk.  The result of running the chunk will appear immediately below it.  You can run a chunk more than once.  If you need to change anything or get an error, you can always edit your chunk and try again.
+
+## Exercise 12.1
+
+First, let's make ourselves a histogram to get a sense of how ridership is distributed from day to day.  Remember that our dataset is called `bike_data` and that daily ridership is recorded under the variable `num_riders`.  Try setting the binwidth to 500 to start, but feel free to adjust as you like.
+
+```{r}
+bike_data %>%
+    ggplot(aes(x = num_riders)) +
+    geom_histogram(binwidth = 500)
+```
+
+a. Describe the shape of the distribution of daily ridership.  Is it skewed?  Are there any obvious outliers?  How many modes does the distribution have?
+b. Why do think the distribution has the shape that it has?  *Hint:* Consider that the data spans an entire year of time---what sorts of trends happen on a yearly basis?
+
+## Exercise 12.2
+
+Let's dig a little deeper and make a scatterplot of the number of riders per day.  In addition, try using the variable `season` to color each point.
+
+```{r}
+bike_data %>%
+    ggplot(aes(x = date, y = num_riders, color = season)) +
+    geom_point()
+```
+
+a. Describe the trends you see in daily ridership and how those trends relates to the season.
+b. Use the code block below to make a scatterplot using `celsius_actual` instead of `season` to color each point.  The variable `celsius_actual` records the daily temperature in degrees Celsius.  Which trends in the data seem to be better explained by variation in daily temperature rather than season?  (*Hint:* take a look at the "transitional" seasons, Fall and Spring.)
+
+```{r}
+bike_data %>%
+    ggplot(aes(x = date, y = num_riders, color = celsius_actual)) +
+    geom_point()
+```
+
+## Exercise 12.3
+
+Let's see how much `season` could help us explain the daily variation in ridership.  To do this, we will use R to conduct an Analysis of Variance using a mathematical model, like we did last time.  Our primary interest is not testing a null hypothesis.  Instead, we are interested in $R^2$, the proportion of variance in daily ridership that can be explained by season.  Recall from class that we can calculate this from an ANOVA table using the values in the `Sum Sq` ("sum of squares") column.
+
+Fill in the blanks in the code below to use R to produce an ANOVA table.  We will use `season` as the explanatory variable and `num_riders` as the response variable.
+
+```{r}
+lm(num_riders ~ season, data = bike_data) %>%
+    anova()
+```
+
+a. Summarize the results of the ANOVA you just conducted in terms of what it tells us about number of daily riders and season.
+b. What is the proportion of variance in number of daily riders that can be explained by season?  Feel free to use the code block below to use R as a calculator (the numbers you need can be copy-pasted from the ANOVA table you just made):
+
+```{r}
+396051385 / (396051385 + 295898663)
+```
+
+c. Do you expect that `celsius_actual` will have a lower or higher $R^2$ than `season`?  Explain your reasoning.
+
+## Exercise 12.4
+
+Earlier, we got a hint about the possible relationship between ridership and temperature.  Now let's visualize that relationship directly.  Make a scatterplot with `celsius_actual` on the horizontal axis and `num_riders` on the vertical axis, including the line of best fit on top.
+
+```{r}
+bike_data %>%
+    ggplot(aes(x = celsius_actual, y = num_riders)) +
+    geom_point() +
+    geom_smooth(method = lm)
+```
+
+a. Speculate about why the trend in the scatterplot may not be completely linear.  *Hint:* think about what may happen with very high temperatures.
+b. Use the following chunk of code to help you calculate the Pearson correlation coefficient between `celsius_actual` and `num_riders`.  Based on the result, what is the proportion of variance in daily ridership that can be explained by daily temperature?
+
+```{r}
+bike_data %>%
+    specify(num_riders ~ celsius_actual) %>%
+    calculate(stat = "correlation")
+```
+
+c. Compare $R^2$ based on `season` with $R^2$ based on `celsius_actual`.  Although temperature explains more variance than season, it does not explain that much more.  Why do you think daily temperature variation does not explain even more variance than season?  *Hint:* Think about what changes from season to season besides temperature---how many of those things are relevant to bike riding?
+
+## Exercise 12.5
+
+First, let's get a sense of what values of the slope in the "population" are plausible by making a confidence interval.
+
+a. We've used the word "population" a few times now.  What is the "population" from which our data were sampled?  *Hint:* imagine that you are the operator of the bike ride share program---what would you want to be able to do based on the data we are analyzing?
+b. Fill in the blanks in the following chunk of code to use bootstrapping to generate twelve imaginary datasets.  The code will then plot each imaginary dataset *as if it were real*, along with the best-fitting line for each imaginary dataset.  How many of your simulated datasets resulted in a positive slope for the best-fitting line?
+
+```{r}
+bike_boot_simulations <- bike_data %>%
+    specify(num_riders ~ celsius_actual) %>%
+    generate(reps = 12, type = 'bootstrap')
+
+bike_boot_simulations %>%
+    ggplot(aes(x = celsius_actual, y = num_riders)) +
+    geom_point() +
+    geom_smooth(method = lm) +
+    facet_wrap("replicate")
+```
+
+c. Fill in the blanks in the following chunk of code to generate 1000 simulated datasets using bootstrapping, then plot the distribution of slopes across those simulated datasets along with a 95% confidence interval (click on `bike_temp_boot_ci` in your R environment to see the limits of your confidence interval).  Based on your results, if the daily temperature increases by 1 degree Celsius, what is the 95% confidence interval for the number of additional riders we should expect to see?
+
+```{r}
+bike_temp_boot_dist <- bike_data %>%
+    specify(num_riders ~ celsius_actual) %>%
+    generate(reps = 1000, type = 'bootstrap') %>%
+    calculate(stat = "slope")
+
+bike_temp_boot_ci <- bike_temp_boot_dist %>%
+    get_confidence_interval(level = 0.95)
+
+bike_temp_boot_dist %>%
+    visualize() +
+    shade_confidence_interval(bike_temp_boot_ci)
+```
+
+d. One degree Fahrenheit is about 0.56 degrees Celsius.  Based on your result in part [c], for each degree *Fahrenheit* that the temperature increases, what is the 95% confidence interval for the number of additional riders we should expect to see?
+
+## Exercise 12.6
+
+Now, let's use a hypothesis test to address the **research question**, "is there a relationship between number of daily riders and daily temperature?"
+
+a. State the null and alternative hypotheses corresponding to our research question.
+b. Fill in the blanks in the following chunk of code to use random permutation to generate a 12 simulated datasets assuming the null hypothesis is true (*Hint:* for the `hypothesize` line, think about how we have dealt with other situations in which we were testing whether or not there was a relationship between an explanatory and response variable.).  The code will then plot each imaginary dataset *as if it were real*, along with the best-fitting line for each imaginary dataset.  Out of 12 times, how many simulations produced an imaginary dataset where there was a positive slope for the best-fitting line?
+
+```{r}
+bike_null_once <- bike_data %>%
+    specify(num_riders ~ celsius_actual) %>%
+    hypothesize(null = "independence") %>%
+    generate(reps = 12, type = 'permute')
+
+bike_null_once %>%
+    ggplot(aes(x = celsius_actual, y = num_riders)) +
+    geom_point() +
+    geom_smooth(method = lm) +
+    facet_wrap("replicate")
+```
+
+c. Fill in the blanks in the following chunk of code to use random permutation to generate a 1000 simulated datasets assuming the null hypothesis is true, then plot the distribution of slopes across those simulated datasets along with a red line where the actual observed slope is (this will be saved in R under the name `bike_temp_slope`).  In your own words, explain why the null distribution is centered around zero.
+
+```{r}
+bike_temp_slope <- bike_data %>%
+    specify(num_riders ~ celsius_actual) %>%
+    calculate(stat = "slope")
+
+bike_null_dist <- bike_data %>%
+    specify(num_riders ~ celsius_actual) %>%
+    hypothesize(null = "independence") %>%
+    generate(reps = 1000, type = "permute") %>%
+    calculate(stat = "slope")
+
+bike_null_dist %>%
+    visualize() +
+    shade_p_value(obs_stat = bike_temp_slope, direction = "two-sided")
+```
+
+## Exercise 12.7
+
+Use the chunk of code below to make a scatterplot with windspeed on the horizontal axis and ridership on the vertical axis, along with the best-fitting line on top.
+
+```{r}
+bike_data %>%
+    ggplot(aes(x = windspeed, y = num_riders)) +
+    geom_point() +
+    geom_smooth(method = lm)
+```
+
+a. Does the relationship between windspeed and ridership go in the direction you would expect?  Why or why not?
+b. Fill in the blanks in the code below to use R to apply a mathematical model to the slope.  *Hint:* Notice the similarity to how we did ANOVA in R!
+
+```{r}
+lm(num_riders ~ windspeed, data = bike_data) %>%
+    summary()
+```
+
+Based on your results, can you reject the null hypothesis that there is no relationship between number of riders and windspeed?  What would you conclude?
+
+c. Does variability in windspeed explain as much variance in ridership as temperature or season?  Justify your answer.

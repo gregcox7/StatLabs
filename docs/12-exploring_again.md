@@ -1,27 +1,8 @@
 # Explaining data with R {#lab12}
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-knitr::opts_chunk$set(results = 'hold')
-# knitr::opts_chunk$set(class.source = 'Rcode')
-knitr::opts_chunk$set(
-    class.output  = "Rout text-muted",
-    class.message = "Rout text-info",
-    class.warning = "Rout text-warning",
-    class.error   = "Rout text-danger"
-)
 
-library(tidyverse)
-library(infer)
 
-set.seed(12222)
-
-bike_data <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/bike2011.csv")
-```
-
-```{r, echo=FALSE, out.width="100%"}
-knitr::include_graphics("img/bike.png")
-```
+<img src="img/bike.png" width="100%" />
 
 We began the semester exploring data with R.  In this session, we will not just explore data, we will see how well we can *explain* it.  To do so, we will use some of the new tools and understanding we have developed since then.  Our main focus will be on **linear regression**.
 
@@ -33,9 +14,15 @@ To help with the exercises in this session, be sure to **download the worksheet 
 
 These are the first few rows of our bike sharing data, which are saved in R under the name `bike_data`.
 
-```{r echo = FALSE}
-knitr::kable(head(bike_data))
-```
+
+|date       | year|season | month|day       |holiday |workday |weather | celsius_actual| celsius_feelslike| humidity| windspeed| num_riders|
+|:----------|----:|:------|-----:|:---------|:-------|:-------|:-------|--------------:|-----------------:|--------:|---------:|----------:|
+|2011-01-01 | 2011|Winter |     1|Saturday  |FALSE   |FALSE   |Cloudy  |      14.110847|          18.18125|  80.5833| 10.749882|        985|
+|2011-01-02 | 2011|Winter |     1|Sunday    |FALSE   |FALSE   |Cloudy  |      14.902598|          17.68695|  69.6087| 16.652113|        801|
+|2011-01-03 | 2011|Winter |     1|Monday    |FALSE   |TRUE    |Clear   |       8.050924|           9.47025|  43.7273| 16.636703|       1349|
+|2011-01-04 | 2011|Winter |     1|Tuesday   |FALSE   |TRUE    |Clear   |       8.200000|          10.60610|  59.0435| 10.739832|       1562|
+|2011-01-05 | 2011|Winter |     1|Wednesday |FALSE   |TRUE    |Clear   |       9.305237|          11.46350|  43.6957| 12.522300|       1600|
+|2011-01-06 | 2011|Winter |     1|Thursday  |FALSE   |TRUE    |Clear   |       8.378268|          11.66045|  51.8261|  6.000868|       1606|
 
 Each row corresponds to a specific day.  The **response variable** we are interested in is called `num_riders`, the number of people who used the bike share that day.  Many of the other variables are self-explanatory, though we will see more of them as we go.
 
@@ -43,7 +30,8 @@ Each row corresponds to a specific day.  The **response variable** we are intere
 
 First, let's make ourselves a histogram to get a sense of how ridership is distributed from day to day.  Remember that our dataset is called `bike_data` and that daily ridership is recorded under the variable `num_riders`.  Try setting the binwidth to 500 to start, but feel free to adjust as you like.
 
-```{r eval = FALSE}
+
+```r
 ___ %>%
     ggplot(aes(x = ___)) +
     ___(binwidth = ___)
@@ -58,7 +46,8 @@ b. Why do think the distribution has the shape that it has?  *Hint:* Consider th
 
 Let's dig a little deeper and make a scatterplot of the number of riders per day (dates are recorded under the variable named `date`).  In addition, try using the variable `season` to color each point.
 
-```{r eval = FALSE}
+
+```r
 ___ %>%
     ggplot(aes(x = ___, y = ___, color = ___)) +
     geom_point()
@@ -67,7 +56,8 @@ ___ %>%
 a. Describe the trends you see in daily ridership and how those trends relates to the season.
 b. Use the code block below to make a scatterplot using `celsius_actual` instead of `season` to color each point.  The variable `celsius_actual` records the daily temperature in degrees Celsius.  Which trends in the data seem to be better explained by variation in daily temperature rather than season?  (*Hint:* take a look at the "transitional" seasons, Fall and Spring.)
 
-```{r eval = FALSE}
+
+```r
 ___ %>%
     ggplot(aes(x = ___, y = ___, color = ___)) +
     geom_point()
@@ -92,7 +82,8 @@ Let's see how much `season` could help us explain the daily variation in ridersh
 
 Fill in the blanks in the code below to use R to produce an ANOVA table.  We will use `season` as the explanatory variable and `num_riders` as the response variable.
 
-```{r eval = FALSE}
+
+```r
 lm(___ ~ ___, data = ___) %>%
     anova()
 ```
@@ -100,9 +91,7 @@ lm(___ ~ ___, data = ___) %>%
 a. Summarize the results of the ANOVA you just conducted in terms of what it tells us about number of daily riders and season.
 b. What is the proportion of variance in number of daily riders that can be explained by season?  Feel free to use the code block below to use R as a calculator (the numbers you need can be copy-pasted from the ANOVA table you just made):
 
-```{r eval = FALSE}
 
-```
 
 c. Do you expect that `celsius_actual` will have a lower or higher $R^2$ than `season`?  Explain your reasoning.
 
@@ -114,7 +103,8 @@ c. Do you expect that `celsius_actual` will have a lower or higher $R^2$ than `s
 
 Earlier, we got a hint about the possible relationship between ridership and temperature.  Now let's visualize that relationship directly.  Make a scatterplot with `celsius_actual` on the horizontal axis and `num_riders` on the vertical axis, including the line of best fit on top.
 
-```{r eval = FALSE}
+
+```r
 ___ %>%
     ggplot(aes(x = ___, y = ___)) +
     geom_point() +
@@ -124,7 +114,8 @@ ___ %>%
 a. Speculate about why the trend in the scatterplot may not be completely linear.  *Hint:* think about what may happen with very high temperatures.
 b. Use the following chunk of code to help you calculate the Pearson correlation coefficient between `celsius_actual` and `num_riders`.  Based on the result, what is the proportion of variance in daily ridership that can be explained by daily temperature?
 
-```{r eval = FALSE}
+
+```r
 ___ %>%
     specify(___ ~ ___) %>%
     calculate(stat = "correlation")
@@ -147,7 +138,8 @@ First, let's get a sense of what values of the slope in the "population" are pla
 a. We've used the word "population" a few times now.  What is the "population" from which our data were sampled?  *Hint:* imagine that you are the operator of the bike ride share program---what would you want to be able to do based on the data we are analyzing?
 b. Fill in the blanks in the following chunk of code to use bootstrapping to generate twelve imaginary datasets.  The code will then plot each imaginary dataset *as if it were real*, along with the best-fitting line for each imaginary dataset.  How many of your simulated datasets resulted in a positive slope for the best-fitting line?
 
-```{r eval = FALSE}
+
+```r
 bike_boot_simulations <- bike_data %>%
     specify(___ ~ ___) %>%
     generate(reps = 12, type = "___")
@@ -161,7 +153,8 @@ bike_boot_simulations %>%
 
 c. Fill in the blanks in the following chunk of code to generate 1000 simulated datasets using bootstrapping, then plot the distribution of slopes across those simulated datasets along with a 95% confidence interval (click on `bike_temp_boot_ci` in your R environment to see the limits of your confidence interval).  Based on your results, if the daily temperature increases by 1 degree Celsius, what is the 95% confidence interval for the number of additional riders we should expect to see?
 
-```{r eval = FALSE}
+
+```r
 bike_temp_boot_dist <- bike_data %>%
     specify(___ ~ ___) %>%
     generate(reps = 1000, type = "___") %>%
@@ -188,7 +181,8 @@ Now, let's use a hypothesis test to address the **research question**, "is there
 a. State the null and alternative hypotheses corresponding to our research question.
 b. Fill in the blanks in the following chunk of code to use random permutation to generate 12 simulated datasets assuming the null hypothesis is true (*Hint:* for the `hypothesize` line, think about how we have dealt with other situations in which we were testing whether or not there was a relationship between an explanatory and response variable.).  The code will then plot each imaginary dataset *as if it were real*, along with the best-fitting line for each imaginary dataset.  Out of 12 times, how many simulations produced an imaginary dataset where there was a positive slope for the best-fitting line?
 
-```{r eval = FALSE}
+
+```r
 bike_null_simulations <- bike_data %>%
     specify(___ ~ ___) %>%
     hypothesize(null = "___") %>%
@@ -203,7 +197,8 @@ bike_null_simulations %>%
 
 c. Fill in the blanks in the following chunk of code to use random permutation to generate a 1000 simulated datasets assuming the null hypothesis is true, then plot the distribution of slopes across those simulated datasets along with a red line where the actual observed slope is (this will be saved in R under the name `bike_temp_slope`).  In your own words, explain why the null distribution is centered around zero.
 
-```{r eval = FALSE}
+
+```r
 bike_temp_slope <- bike_data %>%
     specify(___ ~ ___) %>%
     calculate(stat = "___")
@@ -229,7 +224,8 @@ Since it is clear that temperature is an important explanatory variable, let's h
 
 Use the chunk of code below to make a scatterplot with windspeed on the horizontal axis and ridership on the vertical axis, along with the best-fitting line on top.
 
-```{r eval = FALSE}
+
+```r
 ___ %>%
     ggplot(aes(x = ___, y = ___)) +
     geom_point() +
@@ -239,7 +235,8 @@ ___ %>%
 a. Does the relationship between windspeed and ridership go in the direction you would expect?  Why or why not?
 b. Fill in the blanks in the code below to use R to apply a mathematical model to the slope.  *Hint:* Notice the similarity to how we did ANOVA in R!
 
-```{r eval = FALSE}
+
+```r
 lm(___ ~ ___, data = ___) %>%
     summary()
 ```

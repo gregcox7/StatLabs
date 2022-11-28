@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Lab 11 Inference for multiple independent groups | Labs</title>
+<title>Lab 12 Explaining data with R | Labs</title>
 <meta name="author" content="Greg Cox">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.14/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
@@ -30,241 +30,386 @@
 </form>
 
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
-        <ul class="book-toc list-unstyled"><li><a class="" href="index.html"><span class="header-section-number">Lab 11</span> Inference for multiple independent groups</a></li></ul>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Overview</a></li>
+<li><a class="" href="lab1.html"><span class="header-section-number">1</span> Exploring data with R</a></li>
+<li><a class="" href="lab2.html"><span class="header-section-number">2</span> Sampling</a></li>
+<li><a class="" href="lab3.html"><span class="header-section-number">3</span> Describing data</a></li>
+<li><a class="" href="lab4.html"><span class="header-section-number">4</span> Relationships between numerical variables</a></li>
+<li><a class="" href="lab5.html"><span class="header-section-number">5</span> Hypothesis testing with randomization</a></li>
+<li><a class="" href="lab6.html"><span class="header-section-number">6</span> Confidence intervals with bootstrapping</a></li>
+<li><a class="" href="lab7.html"><span class="header-section-number">7</span> The normal distribution</a></li>
+<li><a class="" href="lab8.html"><span class="header-section-number">8</span> Inference for proportions</a></li>
+<li><a class="" href="lab9.html"><span class="header-section-number">9</span> Inference about a mean</a></li>
+<li><a class="" href="lab10.html"><span class="header-section-number">10</span> Inference for comparing two independent means</a></li>
+<li><a class="" href="lab11.html"><span class="header-section-number">11</span> Inference for multiple independent groups</a></li>
+<li><a class="active" href="lab12.html"><span class="header-section-number">12</span> Explaining data with R</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
 
         <div class="book-extra">
           <p><a id="book-repo" href="https://github.com/gregcox7/StatLabs">View book source <i class="fab fa-github"></i></a></p>
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="lab12" class="section level1" number="11">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="lab12" class="section level1" number="12">
 <h1>
-<span class="header-section-number">Lab 11</span> Inference for multiple independent groups<a class="anchor" aria-label="anchor" href="#lab12"><i class="fas fa-link"></i></a>
+<span class="header-section-number">Lab 12</span> Explaining data with R<a class="anchor" aria-label="anchor" href="#lab12"><i class="fas fa-link"></i></a>
 </h1>
-<div class="inline-figure"><img src="img/tetris.png" width="100%"></div>
-<p>In this session, we will use R to do inference for comparing averages from multiple independent groups. Specifically, we will be interested in doing hypothesis tests to address questions about whether multiple groups differ on average, called <strong>Analysis of Variance (ANOVA)</strong>. We will see that the simulation techniques we learned for comparing proportions or means between two groups also apply when we have multiple groups. The mathematical model for ANOVA is different, however; it is an “F distribution”. We will use these techniques to analyse an experiment designed to compare different ways to minimize intrusions of traumatic memories.</p>
-<div id="can-we-reduce-intrusions-of-traumatic-memories" class="section level2" number="11.1">
+<div class="inline-figure"><img src="img/bike.png" width="100%"></div>
+<p>We began the semester exploring data with R. In this session, we will not just explore data, we will see how well we can <em>explain</em> it. To do so, we will use some of the new tools and understanding we have developed since then. Our main focus will be on <strong>linear regression</strong>.</p>
+<p>In keeping with the theme of exploration, we will be looking at a dataset about a bike share program started in Washington, DC. These programs are now popular in many cities because they give a convenient way for commuters and tourists to travel short distances without the need for a motor vehicle or fixed-track public transit. The data we will look at were recorded for every day in the year 2011. The data include the number of riders per day who made use of the program. We will try to explain why more people ride on some days and not others. This may not be quite as satisfying as exploring on a real bike, but it comes pretty close.</p>
+<p>To help with the exercises in this session, be sure to <strong>download the worksheet for this session</strong> by right-clicking on the following link and selecting “Save link as…”: <a href="https://raw.githubusercontent.com/gregcox7/StatLabs/main/worksheets/ws_lab12.Rmd">Worksheet for Lab 12</a>. Open the saved file (which by default is called “ws_lab12.Rmd”) in RStudio.</p>
+<div id="meet-the-data" class="section level2" number="12.1">
 <h2>
-<span class="header-section-number">11.1</span> Can we reduce intrusions of traumatic memories?<a class="anchor" aria-label="anchor" href="#can-we-reduce-intrusions-of-traumatic-memories"><i class="fas fa-link"></i></a>
+<span class="header-section-number">12.1</span> Meet the data<a class="anchor" aria-label="anchor" href="#meet-the-data"><i class="fas fa-link"></i></a>
 </h2>
-<p>One of the hallmarks of post-traumatic stress disorder is that memories of the traumatic event “intrude” on everyday life, popping up when they are not wanted. When you remember a previous event, the memory is said to be “active”. According to reconsolidation theory, active memories can also be changed. For example, when you tell a story from memory, telling the story might change your memory such that you would tell it differently next time. Reconsolidation theory suggests that one way to reduce intrusions of traumatic memories is to “activate” them and then change them so they are less likely to intrude on everyday life.</p>
-<p>One way to modify intrusive memories was studied by <span class="citation">James et al. (<a href="references.html#ref-JamesEtAl2015" role="doc-biblioref">2015</a>)</span>. They thought that playing a video game, namely <em>Tetris</em>, while a memory was active would help make that memory less traumatic. They had participants first view a traumatic film (including scenes of real car accidents). Over the next week, participants recorded how often a memory of the traumatic film <em>intruded</em> on their everyday life. During that week, participants came back into the lab and were randomly assigned to one of four treatment conditions:</p>
-<ul>
-<li>Reactivation-plus-Tetris: In this group, participants were shown still images from the traumatic film to “reactivate” memories for the film. They then played Tetris for 12 minutes.</li>
-<li>Reactivation only: In this group, participants were shown still images from the traumatic film to “reactivate” memories for the film, but then sat silently for 12 minutes and did not play Tetris.</li>
-<li>Tetris only: In this group, participants were not shown any images from the film but simply played Tetris for 12 minutes.</li>
-<li>No task (control): In this group, participants simply sat quietly for 12 minutes.</li>
-</ul>
-<p>According to reconsolidation theory, people in the reactivation-plus-Tetris condition should experience fewer intrusive memories because playing Tetris should change those memories to be less disruptive. This is not predicted to happen in any other group either because the original traumatic memories are not being reactivated (control or Tetris-only) or because they are not being changed after reactivation (control or reactivation-only).</p>
-<div id="check-out-the-data-4" class="section level3" number="11.1.1">
-<h3>
-<span class="header-section-number">11.1.1</span> Check out the data<a class="anchor" aria-label="anchor" href="#check-out-the-data-4"><i class="fas fa-link"></i></a>
-</h3>
-<p>These are the first few rows of our data, which is loaded into R under the name <code>tetris_data</code>:</p>
-<div class="inline-table"><table class="table table-sm">
+<p>These are the first few rows of our bike sharing data, which are saved in R under the name <code>bike_data</code>.</p>
+<div class="inline-table"><table style="width:100%;" class="table table-sm">
+<colgroup>
+<col width="8%">
+<col width="3%">
+<col width="5%">
+<col width="4%">
+<col width="7%">
+<col width="6%">
+<col width="6%">
+<col width="6%">
+<col width="11%">
+<col width="14%">
+<col width="7%">
+<col width="7%">
+<col width="8%">
+</colgroup>
 <thead><tr class="header">
-<th align="left">condition</th>
-<th align="right">intrusions_pre</th>
-<th align="right">intrusions_post</th>
+<th align="left">date</th>
+<th align="right">year</th>
+<th align="left">season</th>
+<th align="right">month</th>
+<th align="left">day</th>
+<th align="left">holiday</th>
+<th align="left">workday</th>
+<th align="left">weather</th>
+<th align="right">celsius_actual</th>
+<th align="right">celsius_feelslike</th>
+<th align="right">humidity</th>
+<th align="right">windspeed</th>
+<th align="right">num_riders</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">No task (control)</td>
-<td align="right">2</td>
-<td align="right">4</td>
+<td align="left">2011-01-01</td>
+<td align="right">2011</td>
+<td align="left">Winter</td>
+<td align="right">1</td>
+<td align="left">Saturday</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">Cloudy</td>
+<td align="right">14.110847</td>
+<td align="right">18.18125</td>
+<td align="right">80.5833</td>
+<td align="right">10.749882</td>
+<td align="right">985</td>
 </tr>
 <tr class="even">
-<td align="left">No task (control)</td>
-<td align="right">2</td>
-<td align="right">3</td>
+<td align="left">2011-01-02</td>
+<td align="right">2011</td>
+<td align="left">Winter</td>
+<td align="right">1</td>
+<td align="left">Sunday</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">Cloudy</td>
+<td align="right">14.902598</td>
+<td align="right">17.68695</td>
+<td align="right">69.6087</td>
+<td align="right">16.652113</td>
+<td align="right">801</td>
 </tr>
 <tr class="odd">
-<td align="left">No task (control)</td>
-<td align="right">5</td>
-<td align="right">6</td>
+<td align="left">2011-01-03</td>
+<td align="right">2011</td>
+<td align="left">Winter</td>
+<td align="right">1</td>
+<td align="left">Monday</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="left">Clear</td>
+<td align="right">8.050924</td>
+<td align="right">9.47025</td>
+<td align="right">43.7273</td>
+<td align="right">16.636703</td>
+<td align="right">1349</td>
 </tr>
 <tr class="even">
-<td align="left">No task (control)</td>
-<td align="right">0</td>
-<td align="right">2</td>
+<td align="left">2011-01-04</td>
+<td align="right">2011</td>
+<td align="left">Winter</td>
+<td align="right">1</td>
+<td align="left">Tuesday</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="left">Clear</td>
+<td align="right">8.200000</td>
+<td align="right">10.60610</td>
+<td align="right">59.0435</td>
+<td align="right">10.739832</td>
+<td align="right">1562</td>
 </tr>
 <tr class="odd">
-<td align="left">No task (control)</td>
-<td align="right">5</td>
-<td align="right">3</td>
+<td align="left">2011-01-05</td>
+<td align="right">2011</td>
+<td align="left">Winter</td>
+<td align="right">1</td>
+<td align="left">Wednesday</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="left">Clear</td>
+<td align="right">9.305237</td>
+<td align="right">11.46350</td>
+<td align="right">43.6957</td>
+<td align="right">12.522300</td>
+<td align="right">1600</td>
 </tr>
 <tr class="even">
-<td align="left">No task (control)</td>
-<td align="right">4</td>
-<td align="right">4</td>
+<td align="left">2011-01-06</td>
+<td align="right">2011</td>
+<td align="left">Winter</td>
+<td align="right">1</td>
+<td align="left">Thursday</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="left">Clear</td>
+<td align="right">8.378268</td>
+<td align="right">11.66045</td>
+<td align="right">51.8261</td>
+<td align="right">6.000868</td>
+<td align="right">1606</td>
 </tr>
 </tbody>
 </table></div>
-<p>Each row shows data from a single participant. There are 3 variables in the dataset:</p>
-<ul>
-<li>
-<code>condition</code>: Which of the four treatment conditions the participant was in.</li>
-<li>
-<code>intrusions_pre</code>: The number of times the participant reported an intrusive memory of the traumatic film prior to treatment.</li>
-<li>
-<code>intrusions_post</code>: The number of times the participant reported an intrusive memory of the traumatic film after treatment.</li>
-</ul>
+<p>Each row corresponds to a specific day. The <strong>response variable</strong> we are interested in is called <code>num_riders</code>, the number of people who used the bike share that day. Many of the other variables are self-explanatory, though we will see more of them as we go.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-1" class="exercise"><strong>Exercise 11.1  </strong></span>Consider the design of this study to address the following questions.</p>
+<p><span id="exr:unlabeled-div-77" class="exercise"><strong>Exercise 12.1  </strong></span>First, let’s make ourselves a histogram to get a sense of how ridership is distributed from day to day. Remember that our dataset is called <code>bike_data</code> and that daily ridership is recorded under the variable <code>num_riders</code>. Try setting the binwidth to 500 to start, but feel free to adjust as you like.</p>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="lab12.html#cb204-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
+<span id="cb204-2"><a href="lab12.html#cb204-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___)) <span class="sc">+</span></span>
+<span id="cb204-3"><a href="lab12.html#cb204-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">___</span>(<span class="at">binwidth =</span> ___)</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
-<li>Would it be possible to conclude that the treatment condition plays a role in <em>causing</em> any changes we might observe in the number of intrusive memories? Why or why not?</li>
-<li>Fill in the blanks in the code below to use <code>mutate</code> to create a new variable called <code>effect</code> that represents the <em>difference</em> between the number of intrusions after treatment and the number of intrusions before treatment. Write the code so that a <em>negative</em> value of <code>effect</code> means a <em>reduction</em> in the number of intrusive memories from before to after treatment. What code did you use?</li>
-</ol>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="lab12.html#cb1-1" aria-hidden="true" tabindex="-1"></a>tetris_data <span class="sc">%&gt;%</span></span>
-<span id="cb1-2"><a href="lab12.html#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">effect =</span> ___ <span class="sc">-</span> ___)</span></code></pre></div>
-</div>
-</div>
-<div id="visualize-the-data" class="section level3" number="11.1.2">
-<h3>
-<span class="header-section-number">11.1.2</span> Visualize the data<a class="anchor" aria-label="anchor" href="#visualize-the-data"><i class="fas fa-link"></i></a>
-</h3>
-<div class="exercise">
-<p><span id="exr:unlabeled-div-2" class="exercise"><strong>Exercise 11.2  </strong></span>Fill in the blanks in the code below to make a boxplot that compares the distribution of <code>effect</code> for each group (defined by their treatment <code>condition</code>). Your <code>mutate</code> line should be the same as in the previous exercise. Try putting treatment condition on the horizontal (“x”) axis and treatment effect on the vertical (“y”) axis.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="lab12.html#cb2-1" aria-hidden="true" tabindex="-1"></a>tetris_data <span class="sc">%&gt;%</span></span>
-<span id="cb2-2"><a href="lab12.html#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">effect =</span> ___ <span class="sc">-</span> ___) <span class="sc">%&gt;%</span></span>
-<span id="cb2-3"><a href="lab12.html#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___, <span class="at">y =</span> ___)) <span class="sc">+</span></span>
-<span id="cb2-4"><a href="lab12.html#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>()</span></code></pre></div>
-<ol style="list-style-type: lower-alpha">
-<li>Our <strong>research question</strong> is, “is there a difference in average effectiveness between treatment conditions?” What are the null and alternative hypotheses corresponding to this research question?</li>
-<li>What are the names of the explanatory variable and response variable?</li>
-<li>Based on the boxplot you just made in this exercise, do these data seem more consistent with the null or the alternative hypothesis? Explain your reasoning.</li>
+<li>Describe the shape of the distribution of daily ridership. Is it skewed? Are there any obvious outliers? How many modes does the distribution have?</li>
+<li>Why do think the distribution has the shape that it has? <em>Hint:</em> Consider that the data spans an entire year of time—what sorts of trends happen on a yearly basis?</li>
 </ol>
 </div>
-</div>
-<div id="hypothesis-testing-by-randomization" class="section level3" number="11.1.3">
-<h3>
-<span class="header-section-number">11.1.3</span> Hypothesis testing by randomization<a class="anchor" aria-label="anchor" href="#hypothesis-testing-by-randomization"><i class="fas fa-link"></i></a>
-</h3>
-<p>We will use these data to conduct a hypothesis test to help us address the research question, “is there a difference in average effectiveness between treatment conditions?” As we’ve seen, the test statistic that we need is a <strong>F statistic</strong>, which represents how much variability there is <em>between</em> groups, relative to the amount of variability <em>within</em> groups.</p>
-<div id="the-observed-f-statistic" class="section level4" number="11.1.3.1">
-<h4>
-<span class="header-section-number">11.1.3.1</span> The observed F statistic<a class="anchor" aria-label="anchor" href="#the-observed-f-statistic"><i class="fas fa-link"></i></a>
-</h4>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-3" class="exercise"><strong>Exercise 11.3  </strong></span>Fill in the blanks in the code below to find the F statistic for our observed data. <em>Hint:</em> for the <code>specify</code> line, remember to put the name of the response variable on the left of the <code><a href="https://rdrr.io/r/base/tilde.html">~</a></code> and the name of the explanatory variable on the right.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="lab12.html#cb3-1" aria-hidden="true" tabindex="-1"></a>obs_f <span class="ot">&lt;-</span> tetris_data <span class="sc">%&gt;%</span></span>
-<span id="cb3-2"><a href="lab12.html#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">effect =</span> ___ <span class="sc">-</span> ___) <span class="sc">%&gt;%</span></span>
-<span id="cb3-3"><a href="lab12.html#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___) <span class="sc">%&gt;%</span></span>
-<span id="cb3-4"><a href="lab12.html#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"F"</span>)</span>
-<span id="cb3-5"><a href="lab12.html#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="lab12.html#cb3-6" aria-hidden="true" tabindex="-1"></a>obs_f</span></code></pre></div>
+<p><span id="exr:unlabeled-div-78" class="exercise"><strong>Exercise 12.2  </strong></span>Let’s dig a little deeper and make a scatterplot of the number of riders per day (dates are recorded under the variable named <code>date</code>). In addition, try using the variable <code>season</code> to color each point.</p>
+<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="lab12.html#cb205-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
+<span id="cb205-2"><a href="lab12.html#cb205-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___, <span class="at">y =</span> ___, <span class="at">color =</span> ___)) <span class="sc">+</span></span>
+<span id="cb205-3"><a href="lab12.html#cb205-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>()</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
-<li>What was the F statistic you found?</li>
-<li>Does the F statistic you found indicate that the between-group variability is greater or smaller than the within-group variability? Explain your reasoning.</li>
+<li>Describe the trends you see in daily ridership and how those trends relates to the season.</li>
+<li>Use the code block below to make a scatterplot using <code>celsius_actual</code> instead of <code>season</code> to color each point. The variable <code>celsius_actual</code> records the daily temperature in degrees Celsius. Which trends in the data seem to be better explained by variation in daily temperature rather than season? (<em>Hint:</em> take a look at the “transitional” seasons, Fall and Spring.)</li>
 </ol>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="lab12.html#cb206-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
+<span id="cb206-2"><a href="lab12.html#cb206-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___, <span class="at">y =</span> ___, <span class="at">color =</span> ___)) <span class="sc">+</span></span>
+<span id="cb206-3"><a href="lab12.html#cb206-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>()</span></code></pre></div>
 </div>
 </div>
-<div id="simulating-the-null-hypothesis" class="section level4" number="11.1.3.2">
-<h4>
-<span class="header-section-number">11.1.3.2</span> Simulating the null hypothesis<a class="anchor" aria-label="anchor" href="#simulating-the-null-hypothesis"><i class="fas fa-link"></i></a>
-</h4>
-<p>Just like when we were comparing proportions or comparing means from independent samples, we can simulate how the data would look if the null hypothesis were true. Specifically, to simulate a single dataset, we randomly re-assign (<em>permute</em>) the values of the explanatory variable across observations. We then calculate an F statistic for that simulated dataset. We then repeat that process many times to build a <strong>sampling distribution</strong> for the F statistic. Finally, we see whether the F statistic for the actual data is large enough that we reject the idea that it came about by sampling error alone.</p>
-<div class="exercise">
-<p><span id="exr:unlabeled-div-4" class="exercise"><strong>Exercise 11.4  </strong></span>Fill in the blanks in the code below to use random permutation to conduct a hypothesis test. The final result should be a histogram of simulated F statistics along with a line indicating where our observed F statistic (<code>obs_f</code> from the last exercise) falls in that distribution. <em>Hint:</em> For the blanks in the <code>hypothesize</code> and <code>generate</code> lines, consider how we simulated the null hypothesis for <a href="lab5.html#lab5">comparing proportions</a> or <a href="lab10.html#lab10">means from independent samples</a>.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="lab12.html#cb4-1" aria-hidden="true" tabindex="-1"></a>null_dist <span class="ot">&lt;-</span> tetris_data <span class="sc">%&gt;%</span></span>
-<span id="cb4-2"><a href="lab12.html#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">effect =</span> ___ <span class="sc">-</span> ___) <span class="sc">%&gt;%</span></span>
-<span id="cb4-3"><a href="lab12.html#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___) <span class="sc">%&gt;%</span></span>
-<span id="cb4-4"><a href="lab12.html#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb4-5"><a href="lab12.html#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb4-6"><a href="lab12.html#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"F"</span>)</span>
-<span id="cb4-7"><a href="lab12.html#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-8"><a href="lab12.html#cb4-8" aria-hidden="true" tabindex="-1"></a>null_dist <span class="sc">%&gt;%</span></span>
-<span id="cb4-9"><a href="lab12.html#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
-<span id="cb4-10"><a href="lab12.html#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> obs_f, <span class="at">direction =</span> <span class="st">"greater"</span>)</span></code></pre></div>
-<ol style="list-style-type: lower-alpha">
-<li>Based on the histogram you just produced, would you consider the observed F statistic to be unusually large if the null hypothesis were true?</li>
-<li>Run the chunk of code below to overlay the mathematical model of the null hypothesis—the “F distribution”—on the histogram of simulated F statistics. Describe the shape of the F distribution (skewness, number of modes) as well as whether the F distribution (the smooth curve) make a good “fit” with the histogram of simulated F statistics.</li>
-</ol>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">null_dist</span> <span class="op">%&gt;%</span>
-    <span class="fu">visualize</span><span class="op">(</span>method <span class="op">=</span> <span class="st">"both"</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu">shade_p_value</span><span class="op">(</span>obs_stat <span class="op">=</span> <span class="va">obs_f</span>, direction <span class="op">=</span> <span class="st">"greater"</span><span class="op">)</span></code></pre></div>
-</div>
-</div>
-</div>
-<div id="hypothesis-testing-by-mathematical-model" class="section level3" number="11.1.4">
-<h3>
-<span class="header-section-number">11.1.4</span> Hypothesis testing by mathematical model<a class="anchor" aria-label="anchor" href="#hypothesis-testing-by-mathematical-model"><i class="fas fa-link"></i></a>
-</h3>
-<p>In practice, ANOVA is often done using a mathematical model of the null hypothesis instead of using simulation. The relevant calculations are carried out by computer, but the results are often presented in a table that makes it easier to see how the sausage is made (this is the same format used in class and in the book).</p>
-<div class="exercise">
-<p><span id="exr:unlabeled-div-5" class="exercise"><strong>Exercise 11.5  </strong></span>Fill in the blanks in the code below to use R to produce an ANOVA table. <em>Hint:</em> The first two lines are just for convenience; they tell R to store a version of the data that already has the <code>effect</code> variable. So be sure to use the same <code>mutate</code> line you’ve been using in previous exercises. For the <code>lm</code> line, recall that the squiggly <code><a href="https://rdrr.io/r/base/tilde.html">~</a></code> is used to <code>specify</code> the response and explanatory variables.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="lab12.html#cb6-1" aria-hidden="true" tabindex="-1"></a>tetris_data_effect <span class="ot">&lt;-</span> tetris_data <span class="sc">%&gt;%</span></span>
-<span id="cb6-2"><a href="lab12.html#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">effect =</span> ___ <span class="sc">-</span> ___)</span>
-<span id="cb6-3"><a href="lab12.html#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="lab12.html#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(___ <span class="sc">~</span> ___, <span class="at">data =</span> tetris_data_effect) <span class="sc">%&gt;%</span></span>
-<span id="cb6-5"><a href="lab12.html#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">anova</span>()</span></code></pre></div>
-<ol style="list-style-type: lower-alpha">
-<li>Find the mathematically computed <span class="math inline">\(p\)</span> value in the table you just produced (the column headings will be helpful, you may also compare the format to ANOVA tables from class or the book). What is the <span class="math inline">\(p\)</span> value?</li>
-<li>Using a significance level of 0.05, would we reject the null hypothesis or not? Why or why not?</li>
-<li>Summarize what the results of this hypothesis test tell us about whether the treatment conditions were equally effective in reducing intrusive memories.</li>
-</ol>
-</div>
-</div>
-<div id="post-hoc-comparisons" class="section level3" number="11.1.5">
-<h3>
-<span class="header-section-number">11.1.5</span> Post-hoc comparisons<a class="anchor" aria-label="anchor" href="#post-hoc-comparisons"><i class="fas fa-link"></i></a>
-</h3>
-<p>The reconsolidation theory predicts that reactivation-and-Tetris should be significantly more effective than all three other treatment conditions. Although we have established that the treatment conditions are not equally effective, we do not know whether we have evidence that reactivation-and-Tetris is significantly better than other treatments.</p>
-<p>Fortunately, R provides a convenient way to test, for every possible pair of groups, the null hypothesis that the difference in means between groups is zero. R does so using the independent samples T test that we used last time. R will report the <em>adjusted</em> <span class="math inline">\(p\)</span> value from each test.</p>
-<div id="adjusted-p-value-vs.-adjusted-significance-level" class="section level4" number="11.1.5.1">
-<h4>
-<span class="header-section-number">11.1.5.1</span> Adjusted <span class="math inline">\(p\)</span> value vs. adjusted significance level<a class="anchor" aria-label="anchor" href="#adjusted-p-value-vs.-adjusted-significance-level"><i class="fas fa-link"></i></a>
-</h4>
-<p>In class, we discussed that when making multiple comparisons, you have to <em>adjust</em> your significance level. This is because the significance level is the chance that we make a “false alarm” or <strong>Type I error</strong>. The more tests we perform, the more opportunities we have to make this kind of error. So by reducing the significance level, we can reduce the total probability of making a Type I error.</p>
-<p>The <strong>Bonferroni correction</strong> says that we should adjust our significance level by <em>dividing</em> it by the number of pairwise comparisons we make. If there are <span class="math inline">\(k\)</span> groups, the number of comparisons is</p>
-<p><span class="math display">\[
-\text{Number of pairwise comparisons} = \frac{k (k - 1)}{2}
-\]</span></p>
-<p>Then, for <em>each</em> pairwise test, we reject the null hypothesis <em>for that specific pair</em> if</p>
-<p><span class="math display">\[
-p \text{ value} &lt; \frac{\text{Significance level}}{\text{Number of pairwise comparisons}}
-\]</span></p>
-<p>An equivalent way to say when we would reject the null hypothesis is this:</p>
-<p><span class="math display">\[
-\left( p \text{ value} \right) \times \left( \text{Number of pairwise comparisons} \right) &lt; \text{Significance level}
-\]</span></p>
-<p>In other words, we can either reduce our significance level (the first inequality) or increase our <span class="math inline">\(p\)</span> value. Both approaches involve the same adjustment factor, namely, the number of pairwise comparisons. And both approaches will result in the same decision, so they can be treated as equivalent.</p>
-<p>R takes the second approach. That is, for each pairwise comparison, R reports the <em>adjusted <span class="math inline">\(p\)</span> value</em>. The reason is because R doesn’t know what our significance level is—that’s our choice. So by adjusting the <span class="math inline">\(p\)</span> value, R gives us a result that we can use regardless of what our significance level is. We will look at each <span class="math inline">\(p\)</span> value that R reports and, for each one, decide whether or not to reject the corresponding null hypothesis by seeing whether the adjusted <span class="math inline">\(p\)</span> value is less than our significance level.</p>
-<div class="exercise">
-<p><span id="exr:unlabeled-div-6" class="exercise"><strong>Exercise 11.6  </strong></span>Fill in the blanks in the code below to tell R to conduct an independent samples T test for every pair of groups in our data. Remember to use the same <code>mutate</code> line we’ve been using. Also note that you’ll need to put the name of the response variable following <code>x</code> and the name of the explanatory (“grouping”) variable following <code>g</code>. Finally, see that we have specified the <strong>Bonferroni</strong> correction for multiple comparisons. The result of running this chunk should be a table of adjusted <span class="math inline">\(p\)</span> values.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="lab12.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(</span>
-<span id="cb7-2"><a href="lab12.html#cb7-2" aria-hidden="true" tabindex="-1"></a>    tetris_data <span class="sc">%&gt;%</span></span>
-<span id="cb7-3"><a href="lab12.html#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="at">effect =</span> ___ <span class="sc">-</span> ___),</span>
-<span id="cb7-4"><a href="lab12.html#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pairwise.t.test</span>(<span class="at">x =</span> ___, <span class="at">g =</span> ___, <span class="at">p.adjust.method =</span> <span class="st">"bonferroni"</span>)</span>
-<span id="cb7-5"><a href="lab12.html#cb7-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<p>Each entry in the table is the result of a two-tailed independent samples T test testing the null hypothesis that the two groups have the same mean. The row and column labels indicate which groups are being compared. Each P value in the table has been multiplied by an adjustment factor according to the Bonferroni method.</p>
-<ol style="list-style-type: lower-alpha">
-<li>What is the Bonferroni adjustment for these posthoc pairwise tests? (<em>Hint:</em> how many groups are there?)</li>
-<li>We will retain our significance level of 0.05.</li>
-</ol>
-</div>
-</div>
-</div>
-</div>
-<div id="wrap-up-10" class="section level2" number="11.2">
+<div id="explaining-ridership-using-season-alone" class="section level2" number="12.2">
 <h2>
-<span class="header-section-number">11.2</span> Wrap-up<a class="anchor" aria-label="anchor" href="#wrap-up-10"><i class="fas fa-link"></i></a>
+<span class="header-section-number">12.2</span> Explaining ridership using season alone<a class="anchor" aria-label="anchor" href="#explaining-ridership-using-season-alone"><i class="fas fa-link"></i></a>
 </h2>
-<p>The final technique we’ve learned, Analysis of Variance, is used to address questions about whether multiple independent groups differ from one another on average. The F statistic is used to summarize how much variability there is between groups versus the amount of variability within groups. We used random permutation to simulate the kinds of data that would occur if the null hypothesis were true. We used simulation as well as a mathematical model to determine whether the observed F statistic is large enough to reject the null hypothesis.</p>
+<p>As you recall, with both Analysis of Variance and linear regression, it is possible to calculate <span class="math inline">\(R^2\)</span>, the <strong>proportion of variance explained</strong>. To spell that out more, <span class="math inline">\(R^2\)</span> is the proportion of the variability in the response variable that can be “explained” or “accounted for” by an explanatory variable. Some explanatory variables explain a lot, others just a little. The proportion of variance that <em>not</em> explained by an explanatory variable might be explained by some other variable or perhaps by things we haven’t measured. In ANOVA, we defined the proportion of variance explained as:</p>
+<p><span class="math display">\[
+R^2 = \frac{SSG}{SSG + SSE}
+\]</span></p>
+<p>where <span class="math inline">\(SSG\)</span> is the Sum of Squares between <em>Groups</em> and <span class="math inline">\(SSE\)</span> is the Sum of Squared Errors.</p>
+<p>To say that we can “explain” something does <em>not</em> necessarily mean that we know what <em>caused</em> it. For example, the size of your feet “explain” a lot of the variability in the size of your vocabulary. This is not because having large feet causes you to know more words. It is because both foot size and vocabulary size increase with <em>age</em>. Foot size and vocabulary size are <em>correlated</em> but they do not <em>cause</em> one another. Even so, if we knew someone’s foot size, we could probably make a good guess about their vocabulary size. This is what we mean by “explanation” in statistics. In statistics, anything that allows us to make better predictions is an “explanation”. This is different from the everyday definition of “explanation”, which requires that we be able to say <em>why</em> something happened. Understanding <em>why</em> goes beyond pure statistics and into scientific inquiry.</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-79" class="exercise"><strong>Exercise 12.3  </strong></span>Let’s see how much <code>season</code> could help us explain the daily variation in ridership. To do this, we will use R to conduct an Analysis of Variance using a mathematical model, like we did last time. Our primary interest is not testing a null hypothesis. Instead, we are interested in <span class="math inline">\(R^2\)</span>, the proportion of variance in daily ridership that can be explained by season. Recall from class that we can calculate this from an ANOVA table using the values in the <code>Sum Sq</code> (“sum of squares”) column.</p>
+<p>Fill in the blanks in the code below to use R to produce an ANOVA table. We will use <code>season</code> as the explanatory variable and <code>num_riders</code> as the response variable.</p>
+<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="lab12.html#cb207-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(___ <span class="sc">~</span> ___, <span class="at">data =</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb207-2"><a href="lab12.html#cb207-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">anova</span>()</span></code></pre></div>
+<ol style="list-style-type: lower-alpha">
+<li><p>Summarize the results of the ANOVA you just conducted in terms of what it tells us about number of daily riders and season.</p></li>
+<li><p>What is the proportion of variance in number of daily riders that can be explained by season? Feel free to use the code block below to use R as a calculator (the numbers you need can be copy-pasted from the ANOVA table you just made):</p></li>
+<li><p>Do you expect that <code>celsius_actual</code> will have a lower or higher <span class="math inline">\(R^2\)</span> than <code>season</code>? Explain your reasoning.</p></li>
+</ol>
+</div>
+</div>
+<div id="explaining-ridership-using-temperature" class="section level2" number="12.3">
+<h2>
+<span class="header-section-number">12.3</span> Explaining ridership using temperature<a class="anchor" aria-label="anchor" href="#explaining-ridership-using-temperature"><i class="fas fa-link"></i></a>
+</h2>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-80" class="exercise"><strong>Exercise 12.4  </strong></span>Earlier, we got a hint about the possible relationship between ridership and temperature. Now let’s visualize that relationship directly. Make a scatterplot with <code>celsius_actual</code> on the horizontal axis and <code>num_riders</code> on the vertical axis, including the line of best fit on top.</p>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="lab12.html#cb208-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
+<span id="cb208-2"><a href="lab12.html#cb208-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___, <span class="at">y =</span> ___)) <span class="sc">+</span></span>
+<span id="cb208-3"><a href="lab12.html#cb208-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb208-4"><a href="lab12.html#cb208-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">method =</span> lm)</span></code></pre></div>
+<ol style="list-style-type: lower-alpha">
+<li>Speculate about why the trend in the scatterplot may not be completely linear. <em>Hint:</em> think about what may happen with very high temperatures.</li>
+<li>Use the following chunk of code to help you calculate the Pearson correlation coefficient between <code>celsius_actual</code> and <code>num_riders</code>. Based on the result, what is the proportion of variance in daily ridership that can be explained by daily temperature?</li>
+</ol>
+<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="lab12.html#cb209-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
+<span id="cb209-2"><a href="lab12.html#cb209-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb209-3"><a href="lab12.html#cb209-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"correlation"</span>)</span></code></pre></div>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>Compare <span class="math inline">\(R^2\)</span> based on <code>season</code> with <span class="math inline">\(R^2\)</span> based on <code>celsius_actual</code>. Although temperature explains more variance than season, it does not explain that much more. Why do you think daily temperature variation does not explain even more variance than season? <em>Hint:</em> Think about what changes from season to season besides temperature—how many of those things are relevant to bike riding?</li>
+</ol>
+</div>
+</div>
+<div id="inference-about-a-slope-using-simulation" class="section level2" number="12.4">
+<h2>
+<span class="header-section-number">12.4</span> Inference about a slope using simulation<a class="anchor" aria-label="anchor" href="#inference-about-a-slope-using-simulation"><i class="fas fa-link"></i></a>
+</h2>
+<p>Although the relationship between daily ridership and temperature may not be completely linear, it is clear that we can still explain a lot of the variability in daily ridership in terms of variability in daily temperature. In this section, we will see how to use simulation to draw inferences about two things: First, whether we might expect the relationship in our data to hold in the population at large (which we check via <em>bootstrapping</em>). Second, whether we can rule out the possibility that there is no relationship in the population at large (which we check via <em>permutation</em>).</p>
+<div id="confidence-interval-for-a-slope" class="section level3" number="12.4.1">
+<h3>
+<span class="header-section-number">12.4.1</span> Confidence interval for a slope<a class="anchor" aria-label="anchor" href="#confidence-interval-for-a-slope"><i class="fas fa-link"></i></a>
+</h3>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-81" class="exercise"><strong>Exercise 12.5  </strong></span>First, let’s get a sense of what values of the slope in the “population” are plausible by making a confidence interval.</p>
+<ol style="list-style-type: lower-alpha">
+<li>We’ve used the word “population” a few times now. What is the “population” from which our data were sampled? <em>Hint:</em> imagine that you are the operator of the bike ride share program—what would you want to be able to do based on the data we are analyzing?</li>
+<li>Fill in the blanks in the following chunk of code to use bootstrapping to generate twelve imaginary datasets. The code will then plot each imaginary dataset <em>as if it were real</em>, along with the best-fitting line for each imaginary dataset. How many of your simulated datasets resulted in a positive slope for the best-fitting line?</li>
+</ol>
+<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="lab12.html#cb210-1" aria-hidden="true" tabindex="-1"></a>bike_boot_simulations <span class="ot">&lt;-</span> bike_data <span class="sc">%&gt;%</span></span>
+<span id="cb210-2"><a href="lab12.html#cb210-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb210-3"><a href="lab12.html#cb210-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">12</span>, <span class="at">type =</span> <span class="st">"___"</span>)</span>
+<span id="cb210-4"><a href="lab12.html#cb210-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb210-5"><a href="lab12.html#cb210-5" aria-hidden="true" tabindex="-1"></a>bike_boot_simulations <span class="sc">%&gt;%</span></span>
+<span id="cb210-6"><a href="lab12.html#cb210-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___, <span class="at">y =</span> ___)) <span class="sc">+</span></span>
+<span id="cb210-7"><a href="lab12.html#cb210-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb210-8"><a href="lab12.html#cb210-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">method =</span> lm) <span class="sc">+</span></span>
+<span id="cb210-9"><a href="lab12.html#cb210-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="st">"replicate"</span>)</span></code></pre></div>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>Fill in the blanks in the following chunk of code to generate 1000 simulated datasets using bootstrapping, then plot the distribution of slopes across those simulated datasets along with a 95% confidence interval (click on <code>bike_temp_boot_ci</code> in your R environment to see the limits of your confidence interval). Based on your results, if the daily temperature increases by 1 degree Celsius, what is the 95% confidence interval for the number of additional riders we should expect to see?</li>
+</ol>
+<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="lab12.html#cb211-1" aria-hidden="true" tabindex="-1"></a>bike_temp_boot_dist <span class="ot">&lt;-</span> bike_data <span class="sc">%&gt;%</span></span>
+<span id="cb211-2"><a href="lab12.html#cb211-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb211-3"><a href="lab12.html#cb211-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb211-4"><a href="lab12.html#cb211-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"slope"</span>)</span>
+<span id="cb211-5"><a href="lab12.html#cb211-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb211-6"><a href="lab12.html#cb211-6" aria-hidden="true" tabindex="-1"></a>bike_temp_boot_ci <span class="ot">&lt;-</span> bike_temp_boot_dist <span class="sc">%&gt;%</span></span>
+<span id="cb211-7"><a href="lab12.html#cb211-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_confidence_interval</span>(<span class="at">level =</span> ___)</span>
+<span id="cb211-8"><a href="lab12.html#cb211-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb211-9"><a href="lab12.html#cb211-9" aria-hidden="true" tabindex="-1"></a>bike_temp_boot_dist <span class="sc">%&gt;%</span></span>
+<span id="cb211-10"><a href="lab12.html#cb211-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb211-11"><a href="lab12.html#cb211-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_confidence_interval</span>(bike_temp_boot_ci)</span></code></pre></div>
+<ol start="4" style="list-style-type: lower-alpha">
+<li>One degree Fahrenheit is about 0.56 degrees Celsius. Based on your result in part [c], for each degree <em>Fahrenheit</em> that the temperature increases, what is the 95% confidence interval for the number of additional riders we should expect to see?</li>
+</ol>
+</div>
+</div>
+<div id="hypothesis-test-for-a-slope" class="section level3" number="12.4.2">
+<h3>
+<span class="header-section-number">12.4.2</span> Hypothesis test for a slope<a class="anchor" aria-label="anchor" href="#hypothesis-test-for-a-slope"><i class="fas fa-link"></i></a>
+</h3>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-82" class="exercise"><strong>Exercise 12.6  </strong></span>Now, let’s use a hypothesis test to address the <strong>research question</strong>, “is there a relationship between number of daily riders and daily temperature?”</p>
+<ol style="list-style-type: lower-alpha">
+<li>State the null and alternative hypotheses corresponding to our research question.</li>
+<li>Fill in the blanks in the following chunk of code to use random permutation to generate 12 simulated datasets assuming the null hypothesis is true (<em>Hint:</em> for the <code>hypothesize</code> line, think about how we have dealt with other situations in which we were testing whether or not there was a relationship between an explanatory and response variable.). The code will then plot each imaginary dataset <em>as if it were real</em>, along with the best-fitting line for each imaginary dataset. Out of 12 times, how many simulations produced an imaginary dataset where there was a positive slope for the best-fitting line?</li>
+</ol>
+<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="lab12.html#cb212-1" aria-hidden="true" tabindex="-1"></a>bike_null_simulations <span class="ot">&lt;-</span> bike_data <span class="sc">%&gt;%</span></span>
+<span id="cb212-2"><a href="lab12.html#cb212-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb212-3"><a href="lab12.html#cb212-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb212-4"><a href="lab12.html#cb212-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">12</span>, <span class="at">type =</span> <span class="st">"___"</span>)</span>
+<span id="cb212-5"><a href="lab12.html#cb212-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb212-6"><a href="lab12.html#cb212-6" aria-hidden="true" tabindex="-1"></a>bike_null_simulations <span class="sc">%&gt;%</span></span>
+<span id="cb212-7"><a href="lab12.html#cb212-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___, <span class="at">y =</span> ___)) <span class="sc">+</span></span>
+<span id="cb212-8"><a href="lab12.html#cb212-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb212-9"><a href="lab12.html#cb212-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">method =</span> lm) <span class="sc">+</span></span>
+<span id="cb212-10"><a href="lab12.html#cb212-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="st">"replicate"</span>)</span></code></pre></div>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>Fill in the blanks in the following chunk of code to use random permutation to generate a 1000 simulated datasets assuming the null hypothesis is true, then plot the distribution of slopes across those simulated datasets along with a red line where the actual observed slope is (this will be saved in R under the name <code>bike_temp_slope</code>). In your own words, explain why the null distribution is centered around zero.</li>
+</ol>
+<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="lab12.html#cb213-1" aria-hidden="true" tabindex="-1"></a>bike_temp_slope <span class="ot">&lt;-</span> bike_data <span class="sc">%&gt;%</span></span>
+<span id="cb213-2"><a href="lab12.html#cb213-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb213-3"><a href="lab12.html#cb213-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>)</span>
+<span id="cb213-4"><a href="lab12.html#cb213-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb213-5"><a href="lab12.html#cb213-5" aria-hidden="true" tabindex="-1"></a>bike_null_dist <span class="ot">&lt;-</span> bike_data <span class="sc">%&gt;%</span></span>
+<span id="cb213-6"><a href="lab12.html#cb213-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb213-7"><a href="lab12.html#cb213-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb213-8"><a href="lab12.html#cb213-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb213-9"><a href="lab12.html#cb213-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>)</span>
+<span id="cb213-10"><a href="lab12.html#cb213-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb213-11"><a href="lab12.html#cb213-11" aria-hidden="true" tabindex="-1"></a>bike_null_dist <span class="sc">%&gt;%</span></span>
+<span id="cb213-12"><a href="lab12.html#cb213-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb213-13"><a href="lab12.html#cb213-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> bike_temp_slope, <span class="at">direction =</span> <span class="st">"___"</span>)</span></code></pre></div>
+</div>
+</div>
+</div>
+<div id="inference-about-a-slope-using-a-mathematical-model" class="section level2" number="12.5">
+<h2>
+<span class="header-section-number">12.5</span> Inference about a slope using a mathematical model<a class="anchor" aria-label="anchor" href="#inference-about-a-slope-using-a-mathematical-model"><i class="fas fa-link"></i></a>
+</h2>
+<p>Since it is clear that temperature is an important explanatory variable, let’s have a look at another potentially useful variable: wind speed. The average daily wind speed is recorded under the variable <code>windspeed</code> in the <code>bike_data</code> dataset.</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-83" class="exercise"><strong>Exercise 12.7  </strong></span>Use the chunk of code below to make a scatterplot with windspeed on the horizontal axis and ridership on the vertical axis, along with the best-fitting line on top.</p>
+<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="lab12.html#cb214-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
+<span id="cb214-2"><a href="lab12.html#cb214-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___, <span class="at">y =</span> ___)) <span class="sc">+</span></span>
+<span id="cb214-3"><a href="lab12.html#cb214-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb214-4"><a href="lab12.html#cb214-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">method =</span> lm)</span></code></pre></div>
+<ol style="list-style-type: lower-alpha">
+<li>Does the relationship between windspeed and ridership go in the direction you would expect? Why or why not?</li>
+<li>Fill in the blanks in the code below to use R to apply a mathematical model to the slope. <em>Hint:</em> Notice the similarity to how we did ANOVA in R!</li>
+</ol>
+<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="lab12.html#cb215-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(___ <span class="sc">~</span> ___, <span class="at">data =</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb215-2"><a href="lab12.html#cb215-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summary</span>()</span></code></pre></div>
+<p>Based on your results, can you reject the null hypothesis that there is no relationship between number of riders and windspeed? What would you conclude?</p>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>Does variability in windspeed explain as much variance in ridership as temperature or season? Justify your answer.</li>
+</ol>
+</div>
+</div>
+<div id="whats-up-with-those-weird-days" class="section level2" number="12.6">
+<h2>
+<span class="header-section-number">12.6</span> What’s up with those weird days?<a class="anchor" aria-label="anchor" href="#whats-up-with-those-weird-days"><i class="fas fa-link"></i></a>
+</h2>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-84" class="exercise"><strong>Exercise 12.8  </strong></span>In all the scatterplots we made above, you may have noticed that there are some days that would normally have large numbers of riders, but actually have very low ridership. It’s a bit hard to see the actual days on the plots, so here are a few of these apparent “outlier” days with very low ridership:</p>
+<ul>
+<li>2011-04-16</li>
+<li>2011-08-27</li>
+<li>2011-10-29</li>
+</ul>
+<p>Use your search engine of choice to do a search using each of the dates given above plus the term “Washington DC” (where these data were recorded). What unusual events were happening on or around each of these three days in the DC area that might explain the abnormally low ridership on each of these days?</p>
+</div>
+</div>
+<div id="wrap-up-11" class="section level2" number="12.7">
+<h2>
+<span class="header-section-number">12.7</span> Wrap-up<a class="anchor" aria-label="anchor" href="#wrap-up-11"><i class="fas fa-link"></i></a>
+</h2>
+<p>We have explored an interesting dataset with the aim of explaining why bike riding behavior change from day to day. We have illustrated the power of both visualization and inferential statistics for helping us use data to answer interesting questions. We have also discovered outliers and gone beyond our data to understand why they might have occurred. This reinforces the larger point that statistics is rarely the end of the story, but it tells us whether there is a story to be told.</p>
 
 </div>
 </div>
   <div class="chapter-nav">
-<div class="empty"></div>
-<div class="empty"></div>
+<div class="prev"><a href="lab11.html"><span class="header-section-number">11</span> Inference for multiple independent groups</a></div>
+<div class="next"><a href="references.html">References</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <div id="book-on-this-page"></div>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#lab12"><span class="header-section-number">12</span> Explaining data with R</a></li>
+<li><a class="nav-link" href="#meet-the-data"><span class="header-section-number">12.1</span> Meet the data</a></li>
+<li><a class="nav-link" href="#explaining-ridership-using-season-alone"><span class="header-section-number">12.2</span> Explaining ridership using season alone</a></li>
+<li><a class="nav-link" href="#explaining-ridership-using-temperature"><span class="header-section-number">12.3</span> Explaining ridership using temperature</a></li>
+<li>
+<a class="nav-link" href="#inference-about-a-slope-using-simulation"><span class="header-section-number">12.4</span> Inference about a slope using simulation</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#confidence-interval-for-a-slope"><span class="header-section-number">12.4.1</span> Confidence interval for a slope</a></li>
+<li><a class="nav-link" href="#hypothesis-test-for-a-slope"><span class="header-section-number">12.4.2</span> Hypothesis test for a slope</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#inference-about-a-slope-using-a-mathematical-model"><span class="header-section-number">12.5</span> Inference about a slope using a mathematical model</a></li>
+<li><a class="nav-link" href="#whats-up-with-those-weird-days"><span class="header-section-number">12.6</span> What’s up with those weird days?</a></li>
+<li><a class="nav-link" href="#wrap-up-11"><span class="header-section-number">12.7</span> Wrap-up</a></li>
+</ul>
 
       <div class="book-extra">
         <ul class="list-unstyled">
-          
+<li><a id="book-source" href="https://github.com/gregcox7/StatLabs/blob/master/12-exploring_again.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/gregcox7/StatLabs/edit/master/12-exploring_again.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
         </ul>
 </div>
     </nav>
@@ -276,7 +421,7 @@ p \text{ value} &lt; \frac{\text{Significance level}}{\text{Number of pairwise c
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-11-09.</p>
+    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-11-28.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
