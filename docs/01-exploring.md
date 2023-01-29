@@ -1,45 +1,24 @@
-# Exploring data with R {#lab1}
+# Exploring Data with R {#lab1}
 
 
 
 <img src="img/titanic.png" width="100%" />
 
-In this session, we will learn a bit about data and how to explore it using R/RStudio.  The point is to learn a bit more about data and variables and to get a feel for the power of the tools we will be learning to use in the rest of the semester.
+In this session, we will learn a bit about data and how to explore it using the statistical computing language called `R`.  The point is to learn a bit more about data and variables and to get a feel for the power of the tools we will be learning to use in the rest of the semester.
 
-As you follow along in this activity, you will be asked to run bits of code in RStudio.  This code can be copied-and-pasted into the "Console" at the lower left of RStudio.  You will also be asked to modify code and run it yourself, which again you can do by typing your code into the console.
+Another point of today's activity is to illustrate how even though statistics is about dealing with data, those data are *meaningful*.  They are not just numbers or names, they are a peek into the world.  They offer glimpses of someone's life, of the workings of some natural process, of some social structure, etc.  Any dataset will be limited in how wide of a glimpse it gives us.  The point of statistics is to help us learn and make decisions based on that glimpse.
 
-When this document shows you a snippet of code, it also shows typical R output that should result from running that code.  For example, the following snippet of code adds two numbers; the way R prints the result is shown below the snippet of code.
+## Working with R and RStudio
 
+All of our labs will make use of the statistical computing language called "R".  The R language represents the current state of the art for statistical computing in both academic and industrial research.  It is likely to remain relevant for many years to come because it is free and open-source, meaning both that it is widely accessible and that improvements and extensions are being made continuously by a large community of professionals and hobbyists.  In fact, many of the best features of R that we will be using are extensions made by people outside the "core" development team for R.  These extensions are called "packages", and they represent bundles of code that are useful for doing statistics.
 
-```r
-2 + 3
-```
+### Using packages
 
-```{.Rout .text-muted}
-## [1] 5
-```
+Let's load one of those packages now.  This package is called `tidyverse` and is one that we will use for *every* lab activity in this course.  The `tidyverse` package contains a lot of useful tools for summarizing data and making graphs.
 
-Another point of today's activity is to illustrate how even though statistics is about dealing with data, those data are *meaningful*.  They are not just numbers or names, they are a peek into the world.  They offer glimpses of someone's life, of the workings of some natural process, of some social structure, etc.  Any dataset will be limited in how wide of a glimpse it gives us, and the point of statistics is how to learn and make decisions based on that glimpse.
+The box below is called a "chunk" of code.  They always begin and end with three back-quotes.  There is also a little "{r}" at the beginning, which tells RStudio that the stuff in between the back-quotes is R code.  Finally, there are a couple buttons in the upper-right of the chunk.  The cog-wheel lets you set various options for a chunk, but we don't need that for now.  The downward-facing arrow above the line runs all the chunks of code *above* the current one.  This can come in handy for later labs which involve multiple steps.
 
-## R and RStudio
-
-All of our labs will make use of RStudio, a graphical interface to the statistical computing language R.  The R language represents the current state of the art for statistical computing in both academic and industrial research.  It is likely to remain relevant for many years to come because it is free and open-source, meaning both that it is widely accessible and that improvements and extensions are being made continuously by a large community of professionals and hobbyists.  In fact, many of the best features of R that we will be using are extensions made by people outside the "core" development team for R.  These extensions are called "packages", and they represent bundles of code that are useful for doing statistics.
-
-RStudio is an interface that makes it easier to work with the R language, and it is also free and can be installed on computers running any modern operating system (Windows, Mac, Linux, etc.).  R and RStudio are both already installed on the computers in our classroom, as well as those in other Technology-Enhanced Classrooms and the Library Public Computing Sites on campus.  If you are working on your own computer, you will have an easier time of it if you install RStudio on it.  Installing RStudio requires installing R first.
-
-### Installation on your own computer
-
-You can **install R** on your own computer by following the instructions here: <https://cran.rstudio.com/>
-
-After installing R, you can install **RStudio Desktop** by following the instructions here: <https://rstudio.com/products/rstudio/download/>
-
-### Running R in a browser
-
-Even if you don't have access to a computer with RStudio installed locally, you can use it if you have access to the internet.  You can run RStudio online here: <https://rstudio.cloud/>.  The downside with this is that there is a cap to the amount of time you can spend using the online version, so you are better off using a local installation whenever possible.  You may need to create an account to use the online version, but it is free to do so.
-
-## Required packages
-
-Once you have RStudio up and running, run the line of code in the grey box below by copying it and pasting it after the ">" in the "Console" in the lower left pane of the RStudio window.
+For now, though, all we need is the green rightward-facing arrow.  Clicking this arrow will *run* the chunk of code.  Run the chunk below to tell R to load a package called "tidyverse" from its "library" of packages.
 
 
 ```r
@@ -63,35 +42,60 @@ library(tidyverse)
 ## ✖ dplyr::lag()    masks stats::lag()
 ```
 
-If you are working on a computer on campus, you should see some messages similar to the ones shown above.  These messages tell us that R has loaded some helpful "packages" from its "library" that we will use.  You may notice some messages about "conflicts", but these are nothing we need to worry about.
+You might see some messages from R about loading some helpful "packages" from its "library" that we will use.  You may also notice some messages about "conflicts", but these are nothing we need to worry about.  As you'll come to see, R often gives us more information than we really need, but it is usually trying to be helpful.
 
-If you are working on your own computer or on the online version of RStudio, you might have gotten an error when you tried to run that last line.  If you did get an error, run the following line to install the "tidyverse" package that we will need for this course.
+### Chunks of code
 
-
-```r
-install.packages("tidyverse")
-```
-
-Installing the "tidyverse" package takes a while, but you'll only need to do it once.  After it is installed, you can just run `library(tidyverse)` when you start RStudio and have everything you need.
-
-### Troubleshooting tip
-
-Because the "tidyverse" package is not automatically loaded when you first start RStudio, you should make sure to run the line
+Our lab activities will involve writing and running chunks of code like the one we just used to load the `tidyverse` package.  The chunk below tells R to add the numbers 2 and 3.  Run the chunk to see the result.
 
 
 ```r
-library(tidyverse)
+2 + 3
 ```
 
-first thing each time you open RStudio.  Chances are, if you try running something and you get an error, it is because the "tidyverse" package is not loaded.  Of course, that's not the only possible thing that can cause an error!  But it's good to try this first to see if it clears things up.
+```{.Rout .text-muted}
+## [1] 5
+```
+
+Notice that there's a mysterious "1" between two brackets in front of our answer.  Why is that?  It's because R is telling us that "5" is the "first part" of our answer.  Sometimes we will ask R to do things that give multiple answers at once, but this time we only asked it for one answer.  This may seem pedantic, but it is just R trying to help by giving us more information than we really need at the moment.
+
+### Interactive worksheets
+
+Our labs make use of these interactive worksheets that allow us to mix English with computer code like we've just seen.  Text like this is meant to give context and instruction to what you are doing in each lab.  We work through the lab activities from beginning to end, i.e., from top to bottom.  As we go, you will encounter **Exercises** like the one below which may require you to write and run some code, to write a response in English, or both.
+
+After you're done with each lab activity, you'll need to turn in your worksheet on Blackboard.  To do so, click the little arrow just to the right of the "Knit" button in the upper left area of the RStudio window and then click "Knit to PDF".  This will run all your chunks of code in the order they appear in your worksheet.  It will then compile those results alongside the normal text in your worksheet into a single PDF document.  You will then save this document and submit it on Blackboard.
+
+------
+
+### Exercise 1
+
+Now give it a try yourself!  This is our first "exercise".  In most exercises, you will need to run a chunk of code and say something about the result.  In this exercise, you'll just be writing and running some small chunks of code.  For each blank chunk below, write code to accomplish the given goal.
+
+a) Tell R to add 5 and 7, then click the green arrow to run your chunk.
+
+
+
+b) Tell R to subtract 10 from 33 (using `-` for subtraction), then click the green arrow to run your chunk.
+
+
+
+c) Tell R to multiply 4 and 20 (using `*` for multiplication), then click the green arrow to run your chunk.
+
+
+
+d) Tell R to divide 10 by 3 (using `/` for division), then click the green arrow to run your chunk.
+
+
+
+------
 
 ## Meet your data
 
-The data we will be looking at are passenger records from the RMS *Titanic*, an oceanliner which famously sank on April 15, 1912.  Though the liner was not filled to capacity, lax safety precautions---including a failure to carry enough lifeboats---meant that many of her passengers died because they were unable to evacuate when the ship struck an iceberg.
+The data we will be looking at for the rest of the activity are passenger records from the RMS *Titanic*, an ocean liner which famously sank on April 15, 1912.  Passengers on the *Titanic* were divided into different "classes", 1st, 2nd, and 3rd.  Though the liner was not filled to capacity, lax safety precautions---including a failure to carry enough lifeboats---meant that many of her passengers died because they were unable to evacuate when the ship struck an iceberg.  This was true for passengers regardless of class, but perhaps not *equally* true, as we shall see.
 
 ### Load the data
 
-Run the following line of code at the console to load our data into your RStudio "environment":
+Run the following chunk of code to tell R to download our data into your current R environment.
 
 
 ```r
@@ -110,33 +114,35 @@ titanic <- read_csv("https://raw.githubusercontent.com/gregcox7/StatLabs/main/da
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
-You should now see "titanic" pop up in the upper right hand pane of the RStudio window.  Click on "titanic" in the upper right to take a look at the data.
-
 ### Check out the variables
 
-This is what RStudio looks like (with some helpful colored labels):
+After running the chunk above, you should see something called `titanic` in your RStudio "Environment" in the upper right of the RStudio window.  If you click on the word `titanic`, you can check out the data we have just loaded.  Each row represents a specific passenger ("case") and each column represents a different *variable*.  Notice that there are some *missing values* that we don't have for every passenger.  These are labeled `NA`.
 
-<img src="img/rstudio_window.png" width="100%" />
+------
 
-In the upper left of the RStudio screen, you'll see a bunch of columns.  These are our data in "raw" form.  Each row represents a specific passenger ("case") and each column represents a different *variable*.
+### Exercise 2
 
-::: {.exercise}
-Find an example of each of the following types of variable in the dataset.  Explain your reasoning for each choice.
+This second exercise only involves a written response.  Find an example of each of the following types of variable in the dataset.  Explain your reasoning for each choice.
 
 a) Numerical (either discrete or continuous)
+
+**PROVIDE YOUR WRITTEN RESPONSE HERE**
+
 b) Ordinal categorical
+
+**PROVIDE YOUR WRITTEN RESPONSE HERE**
+
 c) Nominal categorical
-:::
 
-## Answering questions with data
+**PROVIDE YOUR WRITTEN RESPONSE HERE**
 
-Now that we've gotten acquainted with the kind of data we have, we can begin using it to answer some questions.  This will involve simplifying the data, turning it into a summary form that makes it easier to understand.  These summaries fall under the heading of "descriptive statistics", because they are meant to *describe* important aspects of the data.  The four types of summaries we will explore today are **frequency tables**, **proportions**, **bar charts**, and **histograms**.  The questions we will attempt to answer are all about *who* survived and *who* perished on the *Titanic*.
+------
 
-### Frequency tables
+## Frequency tables
 
-One way we could answer literally the question, "who survived and who died on the *Titanic*?" would be to read the names of each of the 1300 or so passengers in our dataset.  The problem is that this would not give us much of a sense of *why* particular people might have survived versus not.  Treating survival as a **response variable**, we would like to treat other variables in these data as **explanatory variables**.  This gives us a sense of the *types* of people who were more or less likely to have survived, and what this tells us about the *Titanic* disaster as a whole.
+Now that we've gotten acquainted with the kind of data we have, we can begin using it to answer some questions.  The questions we will attempt to answer are all about *who* survived and *who* perished on the *Titanic*.  Answering these questions will involve simplifying the data, turning it into a summary form that makes it easier to see and understand patterns or trends.  These summaries fall under the heading of "descriptive statistics", because they are meant to *describe* important aspects of the data.  The first type of summary we will use is a **frequency table**.
 
-To begin, the first thing we can do as construct a **frequency table** that simply counts the number of people who survived and the number of people who died.  This summary will give us a sense of the scale of the disaster.  In the RStudio window, see the big open space just below our data?  This is called the "console" and is where we will do most of our work.  Copy and paste the code below into the "Console".  The code should appear right after the ">".  Once it is there, hit **enter** to run it and see the results.
+One way we could answer literally the question, "who survived and who died on the *Titanic*?" would be to read the names of each of the 1300 or so passengers in our dataset and sort them into piles, one pile for the people who survived and another pile for those who did not.  Fortunately, computers are great at those kinds of tedious tasks!  The chunk of code below gives a **frequency table** that counts the number of passengers who survived (for whom the value of the `survived` variable is `TRUE`) and the number of passengers who did not survive (for whom the value of the `survived` variable is `FALSE`).  This summary will give us a sense of the scale of the disaster.  The code below provides such a table.
 
 
 ```r
@@ -157,10 +163,16 @@ We got a table that counted the number of people who did and did not survive.  W
 
 * `titanic` is the name of our dataset.
 * `group_by(survived)` tells R to group the cases in that dataset by whether they survived (`TRUE`) or not (`FALSE`).
-* `summarize(n=n())` tells R to take our grouped cases and *summarize* them by counting the `n`umber of people in each group and labeling the resulting number "`n`".
+* `summarize(n = n())` tells R to take our grouped cases and *summarize* them by counting the `n`umber of people in each group and labeling the resulting number "`n`".
 * The funky symbol `%>%` connects the three steps above and makes sure R does them in the order we want.  This symbol is called a "pipe".
 
-Let's try a few things to get a sense of why that code did what it did.  What happens if we change `n = n()` in the last line to `Number = n()`?
+------
+
+### Exercise 3
+
+To get a better understanding of how R interprets instructions like the chunk of code above, run each of the following chunks of code and provide a written response to the corresponding questions.
+
+a) This one changes `n = n()` in the last line to `Number = n()`.  What has changed about the result R gives us?
 
 
 ```r
@@ -177,28 +189,9 @@ titanic %>%
 ## 2 TRUE        500
 ```
 
-Everything looks the same except that instead of the column being labeled "n", it is labeled "Number".  So the bit before the equals sign is how the frequency table will be labeled.
+**PROVIDE YOUR WRITTEN RESPONSE HERE**
 
-Now let's try something that seems like a small change:  Instead of `n = n()` in the last line, let's write `n = m()`.  Only one letter, surely it can't be that big of a difference?
-
-
-```r
-titanic %>%
-  group_by(survived) %>%
-  summarize(n = m())
-```
-
-```{.Rout .text-danger}
-## Error in `summarize()`:
-## ! Problem while computing `n = m()`.
-## ℹ The error occurred in group 1: survived = FALSE.
-## Caused by error in `m()`:
-## ! could not find function "m"
-```
-
-R doesn't like it!  It reports an error because it doesn't know what to do with `m()`.  That's because `n()` is a **function**, it is an instruction that tells R to count the `n`umber of something.  On the other hand, `m()` doesn't mean anything to R so it throws up its hands.
-
-We can also get counts based on other variables.  For example, let's ask how many passengers there were in each "class" by changing the grouping variable in our code:
+b) This one changes `survived` to `class`.  The result is another frequency table, but what are these frequencies of?
 
 
 ```r
@@ -216,9 +209,9 @@ titanic %>%
 ## 3     3   709
 ```
 
-::: {.exercise}
+**PROVIDE YOUR WRITTEN RESPONSE HERE**
 
-Try running the chunk of code below which was written to count the number of passengers with or without college degrees:
+c) The following changes `survived` to `degree`, short for whether or not a passenger had a college degree.  When you run the chunk below, it will give you an error.  In your own words, why doesn't it work?
 
 
 ```r
@@ -227,40 +220,38 @@ titanic %>%
   summarize(n = n())
 ```
 
-Explain in your own words why this chunk of code does not work.
+```{.Rout .text-danger}
+## Error in `group_by()`:
+## ! Must group by variables found in `.data`.
+## ✖ Column `degree` is not found.
+```
 
-:::
+**PROVIDE YOUR WRITTEN RESPONSE HERE**
 
-Finally, let's construct a frequency table using multiple variables.  This lets us answer more complex questions like, **how many British women were aboard the _Titanic_**?  That question involves two variables, `residence` (where people were from) and `sex` (whether classified as male or female).  We can put both of those variables in the `group_by` line to find our answer.
+d) The following changes `n = n()` to `n = m()`.  This will also result in an error.  In your own words, describe why it doesn't work.
 
 
 ```r
 titanic %>%
-  group_by(residence, sex) %>%
-  summarize(n = n())
+  group_by(survived) %>%
+  summarize(n = m())
 ```
 
-```{.Rout .text-info}
-## `summarise()` has grouped output by 'residence'. You can override using the
-## `.groups` argument.
+```{.Rout .text-danger}
+## Error in `summarize()`:
+## ! Problem while computing `n = m()`.
+## ℹ The error occurred in group 1: survived = FALSE.
+## Caused by error in `m()`:
+## ! could not find function "m"
 ```
 
-```{.Rout .text-muted}
-## # A tibble: 6 × 3
-## # Groups:   residence [3]
-##   residence sex        n
-##   <chr>     <chr>  <int>
-## 1 American  Female   108
-## 2 American  Male     150
-## 3 British   Female    94
-## 4 British   Male     208
-## 5 Other     Female   264
-## 6 Other     Male     485
-```
+**PROVIDE YOUR WRITTEN RESPONSE HERE**
 
-### Proportions {#titanic-props}
+------
 
-You may have heard that, when trying to evacuate the *Titanic*, there was a rule to put "women and children first" onto lifeboats.  This suggests a **hypothesis**, assuming this rule was actually followed: female passengers should have survived more often than male passengers.
+## Bar charts
+
+You may have heard that, when trying to evacuate the *Titanic*, there was a rule to put "women and children first" onto lifeboats.  This suggests a **hypothesis**:  *If* this rule was actually followed, *then* female passengers should have a higher survival rate than male passengers.
 
 To see if the data are consistent with this hypothesis, we can begin by using code similar to what we've been using to count the number of male and female passengers who either did or did not survive.  Notice that we can `group_by` more than one variable using a list of the variable names separated by commas:
 
@@ -287,136 +278,79 @@ titanic %>%
 ## 4 Male   TRUE       161
 ```
 
-While this table contains all the information we need to test this hypothesis, it is hard to read because there were different numbers of male and female passengers.  What we want to know is whether a greater *proportion* of female passengers survived, compared to the *proportion* of male passengers who survived.
+Now each row of the table tells us the number of passengers (in column `n`) that fall into categories defined by the *combination* of `sex` and `survived`.  So the first row is the number of female passengers who did not survive, the second row is the number of female passengers who did survive, etc.
 
-We find proportions by taking a count and dividing by a sum of counts.  Specifically, if we have some group "A" and want to find the proportion of the elements in group "A" that have some characteristic "B", we find
+The table we just made contains all the information we need to test the hypothesis about whether women in fact survived at a higher rate than men.  However, it is hard to compare male and female survival rates because there were different numbers of male and female passengers.  This is a case where a visual summary would make it easier to compare the survival rate of male and female passengers.
 
-$$
-\text{Proportion of A that are B} = \frac{\text{Number of A that are B}}{\text{Total number of A's}}
-$$
-
-#### R is a fancy calculator
-
-Let's use the numbers in the frequency table above to find the proportion of male passengers who survived and the proportion of female passengers who survived.  This will illustrate how, although R is quite powerful, it is in many ways just a fancy calculator.  But a calculator is still handy!
-
-From the table we just made, we see that 339 female passengers survived.  There are $339 + 127$ total female passengers.  So we can use R to find the *proportion* of female passengers who survived using the line of code below:
-
-
-```r
-339 / (339 + 127)
-```
-
-```{.Rout .text-muted}
-## [1] 0.7274678
-```
-
-Notice that `/` stands for "division" and we put $339 + 127$ in *parentheses* to tell R that that whole sum should be in the denominator.
-
-::: {.exercise}
-Find the proportion of *male* passengers who survived (*Hint: the numbers you need come from the same table that showed the number of female passengers who did and did not survive.*).  Compare the proportion of survivors among male and female passengers---are these proportions consistent with the "women and children first" policy?  Explain your reasoning.
-
-:::
-
-#### Another way to get proportions
-
-One thing you will notice with R is that there are many ways to do the same thing.  Instead of calculating proportions by hand, we can add a line to the code we used to make the frequency table before to get R to give us the proportions of female and male passengers who did and did not survive:
+Run the chunk of code below to tell R make a visual summary of the number of male and female survivors.  The result is what we call a **dodged bar plot**.
 
 
 ```r
 titanic %>%
-  group_by(sex, survived) %>%
-  summarize(n = n()) %>%
-  mutate(p = n / sum(n))
+    ggplot(aes(x = sex, fill = survived)) +
+    geom_bar(position = "dodge")
 ```
 
-```{.Rout .text-info}
-## `summarise()` has grouped output by 'sex'. You can override using the `.groups`
-## argument.
-```
+<img src="01-exploring_files/figure-html/unnamed-chunk-15-1.png" width="672" />
 
-```{.Rout .text-muted}
-## # A tibble: 4 × 4
-## # Groups:   sex [2]
-##   sex    survived     n     p
-##   <chr>  <lgl>    <int> <dbl>
-## 1 Female FALSE      127 0.273
-## 2 Female TRUE       339 0.727
-## 3 Male   FALSE      682 0.809
-## 4 Male   TRUE       161 0.191
-```
+Pretty neat!  The height of each bar corresponds to the number of passengers of each combination of male/female and survived/not survived.  The code we used is similar to what we've been using, but differs in some important ways:
 
-The new column `p` is a proportion and represents the proportion of people in each group (either male or female) who either did or did not survive.  Notice that the numbers in the `p` column for male and female survivors are the same as the ones we found in the preceding section.
+* The first line is the same, telling R what dataset we are using (`titanic`).
+* The second line tells R that we want to make a `plot` and that we want to put the variable `sex` along the horizontal axis of that plot (the `x` axis).  We are also telling R that we want to make multiple bars where they are `fill`ed with a different color depending on whether the people counted in that bar `survived`.  The "gg" in front of "plot" refers to the "**g**rammar of **g**raphics", which is the language R uses to describe plots.  In this language, different parts of a plot are called "**aes**thetics", which is why `x = sex` falls inside a parenthetical labeled `aes`(thetic).
+* The final line just tells R that we want to make a `bar` chart.  In the grammar of graphics, different types of charts are called `geom`s.  We also told R that we want the bars within each group to `dodge` one another.  We will see different options in the next exercise.
+* Notice that the second 2 lines are connected by a `+` rather than the `%>%` symbol.  This is a historical accident, but the meaning of the two symbols is basically the same.  Both of them are telling R the order in which it should follow our instructions.
 
-::: {.exercise}
-Write and run code that gives us a table, like the one above, which shows the proportion of people in each class (1, 2, or 3) who survived or died.  Again, you will find it helpful to start from code we already used and try filling in the blanks:
+------
+
+### Exercise 4
+
+Try running the following chunks of code.  Each of them are different ways to make a bar chart of the number of male and female passengers who did or did not survive.  After running each one, provide your response to the question below.
+
+a) In this one, we change `position = "dodge"` to `position = "stack"`.  The result is a **stacked bar plot**.  In your own words, what visual feature of the resulting graph tells you the total number of male and female passengers?  What visual feature tells you how many of each of them survived?
 
 
 ```r
 titanic %>%
-  group_by(___, survived) %>%
-  summarize(n = n()) %>%
-  mutate(p = n / sum(n))
+    ggplot(aes(x = sex, fill = survived)) +
+    geom_bar(position = "stack")
 ```
 
-What code did you use?  Which Class had the highest proportion of survivors?
+<img src="01-exploring_files/figure-html/unnamed-chunk-16-1.png" width="672" />
 
-:::
+**PROVIDE YOUR WRITTEN RESPONSE HERE**
 
-### Bar charts {#titanic-bar}
-
-If we are looking for patterns or trends in data, it is often easier to see them with a visualization rather than a table of numbers.  Bar charts make numerical relationships easy to see visually, so we don't need to compare a bunch of numbers.
-
-For example, above we made a table to count the number of passengers in each class.  A bar chart conveys the same information in terms of the height of the bars.
+b) In this one, instead of using different colors to tell apart people who did or did not survive, we put male and female passengers into separate "facets".  How is the resulting graph similar or different to the dodged bar plot we made earlier?
 
 
 ```r
 titanic %>%
-  ggplot(aes(x = class)) +
-  geom_bar()
+    ggplot(aes(x = survived)) +
+    geom_bar() +
+    facet_wrap("sex")
+```
+
+<img src="01-exploring_files/figure-html/unnamed-chunk-17-1.png" width="672" />
+
+**PROVIDE YOUR WRITTEN RESPONSE HERE**
+
+c) The following graph swaps `sex` and `survived`.  In your own words, describe a question that would be easier to answer using the graph below than it would using the graph we made just prior to this exercise.
+
+
+```r
+titanic %>%
+    ggplot(aes(x = survived, fill = sex)) +
+    geom_bar(position = "dodge")
 ```
 
 <img src="01-exploring_files/figure-html/unnamed-chunk-18-1.png" width="672" />
 
-Pretty neat!  It is now easy to see how many more 3rd class passengers there were than 1st or 2nd, and that interestingly, there are fewer 2nd class than 1st class passengers.
+**PROVIDE YOUR WRITTEN RESPONSE HERE**
 
-The code we used is similar to what we've been using, but differs in some important ways:
-* The first line is the same, telling R what dataset we are using (`titanic`).
-* The second line tells R that we want to make a `plot` and that we want to put the variable `class` along the horizontal axis of that plot (the `x` axis).  The "gg" in front of "plot" refers to the "**g**rammar of **g**raphics", which is the language R uses to describe plots.  In this language, different parts of a plot are called "**aes**thetics", which is why `x = class` falls inside a parenthetical labeled `aes`(thetic).
-* The final line just tells R that we want to make a `bar` chart.  In the grammar of graphics, different types of charts are called `geom`s.
-* Notice that the second 2 lines are connected by a `+` rather than the `%>%` symbol.  This is a historical accident, but the meaning of the two symbols is basically the same.  Both of them are telling R the order in which it should follow our instructions.
+------
 
-If we put bar charts side-by-side, we can use them to compare groups.  In R, putting multiple graphs together is called **faceting**.  Each graph is a "facet".  We can tell R to make facets based on a specific variable by adding a line to our code, like so:
+## Histograms
 
-
-```r
-titanic %>%
-  ggplot(aes(x = class)) +
-  geom_bar() +
-  facet_wrap("residence")
-```
-
-<img src="01-exploring_files/figure-html/unnamed-chunk-19-1.png" width="672" />
-
-The line at the end splits the plot into different "facets", one for each level of the `residence` variable.  Note that we have to put the "faceting" variable name in quotes (for some reason).  The result makes it easy to see that the distribution of passengers across classes is different depending on where they were from---Americans on the *Titanic* tended to be wealthier first class passengers, relative to passengers from Britain or elsewhere.
-
-::: {.exercise}
-Make a bar chart that shows the number of people who either did or did not survive depending on their country of residence.  To do this, fill in the blanks in the code below so that each "facet" corresponds to country of residence and each "facet" has two bars in it, one bar for survivors and one bar for non-survivors.
-
-
-```r
-titanic %>%
-  ggplot(aes(x = ___)) +
-  geom_bar() +
-  facet_wrap("___")
-```
-
-What code did you use?  What is a possible reason why the relative number of survivors is different depending on where passengers were from?
-
-:::
-
-### Histograms
-
-So far, we have been summarizing *categorical* variables.  There are also some numerical variables in our data, for example the age of each passenger as well as how much they paid for their tickets.  Let's try making a frequency table to figure out how many people of different ages sailed on the *Titanic*:
+So far, we have been summarizing *categorical* variables.  There are also some numerical variables in our data, including the age of each passenger.  Let's try running the chunk of code below to make a frequency table to figure out how many people of different ages sailed on the *Titanic*:
 
 
 ```r
@@ -444,9 +378,9 @@ titanic %>%
 
 Well that's not very helpful!  R didn't even bother to show us the whole thing.  Though we can see something interesting:  Age is measured in years, and for passengers at least one year old, their age is a whole number.  But there are fractions of years for passengers less than a year old---these ages were *measured* in months rather than years.
 
-The main point is that even though age can be measured in a more or less fine-grained manner, age is effectively *continuous*.  We don't want to know how many passengers were exactly 31.3491 years old, we want to get a general sense of the *distribution* of ages across passengers.
+The main point is that even though age can be measured in a more or less fine-grained manner, age is effectively *continuous*.  We don't want to know how many passengers were exactly 31.3491 years old or whatever.  We want to get an overall sense of the *distribution* of ages across passengers.
 
-We can construct a summary that conveys this information using a **histogram**.  A histogram is very similar to a bar chart; the difference is that bar charts are for categorical variables while histograms are for numerical variables.  The code below constructs a histogram to summarize passenger age:
+We can construct a summary that conveys this information using a **histogram**.  A histogram is very similar to a bar chart; the difference is that bar charts are for categorical variables while histograms are for numerical variables.  Run the code below to construct a histogram to summarize passenger age:
 
 
 ```r
@@ -463,9 +397,11 @@ titanic %>%
 ## Warning: Removed 263 rows containing non-finite values (stat_bin).
 ```
 
-<img src="01-exploring_files/figure-html/unnamed-chunk-22-1.png" width="672" />
+<img src="01-exploring_files/figure-html/unnamed-chunk-20-1.png" width="672" />
 
-The resulting histogram shows a bunch of bars, the height of which indicate the number of passengers within a particular age range.  Notice that we got a couple messages from R in addition to our plot, one about "non-finite values" and another about "picking a better value".  When R says, "non-finite values", it is talking about people for whom their age was not recorded.  This is an unfortunate thing about real data: sometimes it has missing pieces.  This didn't stop R from making the plot we wanted using the non-missing data, but R wanted to warn us just in case.
+The resulting histogram shows a bunch of bars.  Just like in a bar chart, the height of each bar indicates the number of passengers within a particular age range.
+
+We got a couple of messages from R in addition to our plot, one about "non-finite values" and another about "picking a better value".  When R says, "non-finite values", it is talking about people for whom their age was not recorded.  This is an unfortunate thing about real data: sometimes it has missing pieces.  This didn't stop R from making the plot we wanted using the non-missing data, but R wanted to warn us just in case.
 
 The message about "picking a better value" is important:  When you make a histogram, you are looking at how many things fall within a particular range of values, say, between ages 4 and 8.  How do you decide those ranges?  If you don't tell R how to do that, it will decide on its own to divide up the range of values into 30 "bins", each of which corresponds to a range of values that is the same width.  This is usually not what we want.
 
@@ -482,7 +418,7 @@ titanic %>%
 ## Warning: Removed 263 rows containing non-finite values (stat_bin).
 ```
 
-<img src="01-exploring_files/figure-html/unnamed-chunk-23-1.png" width="672" />
+<img src="01-exploring_files/figure-html/unnamed-chunk-21-1.png" width="672" />
 
 And just like we did with bar charts, we can split a histogram into different "facets".  The pair of histograms below shows the distribution of ages of passengers that either did or did not survive:
 
@@ -498,28 +434,38 @@ titanic %>%
 ## Warning: Removed 263 rows containing non-finite values (stat_bin).
 ```
 
-<img src="01-exploring_files/figure-html/unnamed-chunk-24-1.png" width="672" />
+<img src="01-exploring_files/figure-html/unnamed-chunk-22-1.png" width="672" />
 
-::: {.exercise}
-Try making several different histograms of passenger age split by survival, using different bin widths:
+------
+
+### Exercise 5
+
+Use the chunk below to try making several different histograms of passenger age split by survival, using different bin widths of your own choice.  Each time, just put in a new number after `binwidth = ` and hit the green "Run" arrow on the upper right of the chunk to re-run the code and make a new graph.
+
+After trying out several options, what bin width do you believe gives the best visual summary and why?  Describe whether the shapes of the histograms in each facet are consistent with the "women and *children* first" rule.
 
 
 ```r
 titanic %>%
   ggplot(aes(x = age)) +
-  geom_histogram(binwidth = ___) +
+  geom_histogram(binwidth = 2) +
   facet_wrap("survived")
 ```
 
-What bin width do you believe gives the best visual summary and why?  Describe whether the shapes of the histograms in each facet are consistent with the "women and *children* first" rule.
+```{.Rout .text-warning}
+## Warning: Removed 263 rows containing non-finite values (stat_bin).
+```
 
-:::
+<img src="01-exploring_files/figure-html/unnamed-chunk-23-1.png" width="672" />
+
+**PROVIDE YOUR WRITTEN RESPONSE HERE**
+
+------
 
 ## Wrap-up
 
 Today we began our adventure by using RStudio to explore some data.  We saw how to look at data and how to summarize it in various helpful ways.  These were frequency tables, proportions, bar charts, and histograms.
 
 * Frequency tables count the number of times a particular value of a particular variable (or combination of values across multiple variables) occurs in our dataset.
-* We can use the counts in frequency tables to calculate proportions, which are better at conveying relative values.
 * Bar charts display counts of categorical variables in a visual form that makes it easier to compare them.
 * Histograms let us visually summarize counts of numerical variables by putting them in "bins", the width of which we need to decide.

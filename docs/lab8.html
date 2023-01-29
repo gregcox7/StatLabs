@@ -32,7 +32,7 @@
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
         <ul class="book-toc list-unstyled">
 <li><a class="" href="index.html">Overview</a></li>
-<li><a class="" href="lab1.html"><span class="header-section-number">1</span> Exploring data with R</a></li>
+<li><a class="" href="lab1.html"><span class="header-section-number">1</span> Exploring Data with R</a></li>
 <li><a class="" href="lab2.html"><span class="header-section-number">2</span> Sampling</a></li>
 <li><a class="" href="lab3.html"><span class="header-section-number">3</span> Describing data</a></li>
 <li><a class="" href="lab4.html"><span class="header-section-number">4</span> Relationships between numerical variables</a></li>
@@ -126,28 +126,28 @@
 </h2>
 <p>An important thing to keep in mind is that even if the witness identified the suspect in the lineup, that does not necessarily mean the suspect is guilty or even that they were present at the scene of the crime. On the other hand, identifying one of the fillers is <em>definitely</em> a mistake, since these people are known to have nothing to do with the crime being investigated.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-50" class="exercise"><strong>Exercise 8.1  </strong></span>Our first task in analyzing these data is to estimate the proportion of suspect ID’s from these lineups. For the moment, we will ignore whether the lineup was presented simultaneously or sequentially. Our aim here is to build a 95% confidence interval that describes how often, on average, witnesses identify the suspect from the lineup.</p>
+<p><span id="exr:unlabeled-div-44" class="exercise"><strong>Exercise 8.1  </strong></span>Our first task in analyzing these data is to estimate the proportion of suspect ID’s from these lineups. For the moment, we will ignore whether the lineup was presented simultaneously or sequentially. Our aim here is to build a 95% confidence interval that describes how often, on average, witnesses identify the suspect from the lineup.</p>
 <ol style="list-style-type: lower-alpha">
 <li>Use the following chunk of code to calculate and store the proportion of suspect ID’s in the lineup data. <strong>Hint:</strong> look back at how we wrote the <code>specify</code> and <code>calculate</code> lines for Kobe’s Field Goal Percentage, and keep in mind that we are focused on the proportion of <em>suspect</em> ID’s, not the proportion of <em>filler</em> ID’s.</li>
 </ol>
-<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="lab8.html#cb167-1" aria-hidden="true" tabindex="-1"></a>lineup <span class="sc">%&gt;%</span></span>
-<span id="cb167-2"><a href="lab8.html#cb167-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___) <span class="sc">%&gt;%</span></span>
-<span id="cb167-3"><a href="lab8.html#cb167-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(___)</span></code></pre></div>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="lab8.html#cb159-1" aria-hidden="true" tabindex="-1"></a>lineup <span class="sc">%&gt;%</span></span>
+<span id="cb159-2"><a href="lab8.html#cb159-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___) <span class="sc">%&gt;%</span></span>
+<span id="cb159-3"><a href="lab8.html#cb159-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(___)</span></code></pre></div>
 <p>What is the observed proportion of suspect ID’s?</p>
 <ol start="2" style="list-style-type: lower-alpha">
 <li>Use the following chunk of code to use bootstrapping to build a sampling distribution for the proportion of suspect ID’s. We will use this distribution to find and visualize a 95% confidence interval. Be sure to generate at least 1000 simulated datasets.</li>
 </ol>
-<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="lab8.html#cb168-1" aria-hidden="true" tabindex="-1"></a>boot_prop_id_dist <span class="ot">&lt;-</span> lineup <span class="sc">%&gt;%</span></span>
-<span id="cb168-2"><a href="lab8.html#cb168-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___) <span class="sc">%&gt;%</span></span>
-<span id="cb168-3"><a href="lab8.html#cb168-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(___) <span class="sc">%&gt;%</span></span>
-<span id="cb168-4"><a href="lab8.html#cb168-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(___)</span>
-<span id="cb168-5"><a href="lab8.html#cb168-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb168-6"><a href="lab8.html#cb168-6" aria-hidden="true" tabindex="-1"></a>boot_prop_id_ci <span class="ot">&lt;-</span> boot_prop_id_dist <span class="sc">%&gt;%</span></span>
-<span id="cb168-7"><a href="lab8.html#cb168-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_confidence_interval</span>(<span class="at">level =</span> <span class="fl">0.95</span>)</span>
-<span id="cb168-8"><a href="lab8.html#cb168-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb168-9"><a href="lab8.html#cb168-9" aria-hidden="true" tabindex="-1"></a>boot_prop_id_dist <span class="sc">%&gt;%</span></span>
-<span id="cb168-10"><a href="lab8.html#cb168-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
-<span id="cb168-11"><a href="lab8.html#cb168-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_confidence_interval</span>(boot_prop_id_ci)</span></code></pre></div>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="lab8.html#cb160-1" aria-hidden="true" tabindex="-1"></a>boot_prop_id_dist <span class="ot">&lt;-</span> lineup <span class="sc">%&gt;%</span></span>
+<span id="cb160-2"><a href="lab8.html#cb160-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___) <span class="sc">%&gt;%</span></span>
+<span id="cb160-3"><a href="lab8.html#cb160-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(___) <span class="sc">%&gt;%</span></span>
+<span id="cb160-4"><a href="lab8.html#cb160-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(___)</span>
+<span id="cb160-5"><a href="lab8.html#cb160-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb160-6"><a href="lab8.html#cb160-6" aria-hidden="true" tabindex="-1"></a>boot_prop_id_ci <span class="ot">&lt;-</span> boot_prop_id_dist <span class="sc">%&gt;%</span></span>
+<span id="cb160-7"><a href="lab8.html#cb160-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_confidence_interval</span>(<span class="at">level =</span> <span class="fl">0.95</span>)</span>
+<span id="cb160-8"><a href="lab8.html#cb160-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb160-9"><a href="lab8.html#cb160-9" aria-hidden="true" tabindex="-1"></a>boot_prop_id_dist <span class="sc">%&gt;%</span></span>
+<span id="cb160-10"><a href="lab8.html#cb160-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb160-11"><a href="lab8.html#cb160-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_confidence_interval</span>(boot_prop_id_ci)</span></code></pre></div>
 <p>Report and interpret the 95% confidence interval you found (stored under <code>boot_prop_id_ci</code> in the Environment pane). What do you think this interval tells us about the accuracy of eyewitnesses in general?</p>
 </div>
 </div>
@@ -157,24 +157,24 @@
 </h2>
 <p>In the previous exercise, you constructed a 95% confidence interval for the proportion of suspect ID’s from photo lineups. It is important to consider whether this proportion is higher than would be expected by chance. If eyewitnesses were merely picking a person at random from the lineup, they would still pick the suspect some of the time just by chance. We can frame this as a <strong>research question</strong> that can be tackled with a <strong>hypothesis test</strong>.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-51" class="exercise"><strong>Exercise 8.2  </strong></span>Our research question is, “is the proportion of suspect ID’s greater than would be expected if eyewitnesses were picking randomly?”</p>
+<p><span id="exr:unlabeled-div-45" class="exercise"><strong>Exercise 8.2  </strong></span>Our research question is, “is the proportion of suspect ID’s greater than would be expected if eyewitnesses were picking randomly?”</p>
 <ol style="list-style-type: lower-alpha">
 <li>If eyewitnesses were picking randomly, what proportion of the time would we expect them to pick the suspect from the lineup? (Recall that each lineup has six photographs.)</li>
 <li>What are the null and alternative hypotheses corresponding to our research question?</li>
 <li>Use the chunk of code below to help you use the <em>normal distribution</em> to model the sampling distribution assuming the null hypothesis is true. For the first blank, this should be your answer to part [a]. For the second blank, see how many rows the <code>lineup</code> dataset has—this is our sample size. For the third blank, this should be your answer to part [a] of the previous exercise. The final result is a “Z score”.</li>
 </ol>
-<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="lab8.html#cb169-1" aria-hidden="true" tabindex="-1"></a>null_prop_id <span class="ot">&lt;-</span> ___</span>
-<span id="cb169-2"><a href="lab8.html#cb169-2" aria-hidden="true" tabindex="-1"></a>sample_size <span class="ot">&lt;-</span> ___</span>
-<span id="cb169-3"><a href="lab8.html#cb169-3" aria-hidden="true" tabindex="-1"></a>obs_prop_id <span class="ot">&lt;-</span> ___</span>
-<span id="cb169-4"><a href="lab8.html#cb169-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb169-5"><a href="lab8.html#cb169-5" aria-hidden="true" tabindex="-1"></a>null_se <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(null_prop_id <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> null_prop_id) <span class="sc">/</span> sample_size)</span>
-<span id="cb169-6"><a href="lab8.html#cb169-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb169-7"><a href="lab8.html#cb169-7" aria-hidden="true" tabindex="-1"></a>z_score <span class="ot">&lt;-</span> (obs_prop_id <span class="sc">-</span> null_prop_id) <span class="sc">/</span> null_se</span></code></pre></div>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="lab8.html#cb161-1" aria-hidden="true" tabindex="-1"></a>null_prop_id <span class="ot">&lt;-</span> ___</span>
+<span id="cb161-2"><a href="lab8.html#cb161-2" aria-hidden="true" tabindex="-1"></a>sample_size <span class="ot">&lt;-</span> ___</span>
+<span id="cb161-3"><a href="lab8.html#cb161-3" aria-hidden="true" tabindex="-1"></a>obs_prop_id <span class="ot">&lt;-</span> ___</span>
+<span id="cb161-4"><a href="lab8.html#cb161-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb161-5"><a href="lab8.html#cb161-5" aria-hidden="true" tabindex="-1"></a>null_se <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(null_prop_id <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> null_prop_id) <span class="sc">/</span> sample_size)</span>
+<span id="cb161-6"><a href="lab8.html#cb161-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb161-7"><a href="lab8.html#cb161-7" aria-hidden="true" tabindex="-1"></a>z_score <span class="ot">&lt;-</span> (obs_prop_id <span class="sc">-</span> null_prop_id) <span class="sc">/</span> null_se</span></code></pre></div>
 <p>What is the Z score you found? In your own words, describe what this Z score tells us about how “extreme” our observed proportion is relative to what we would have expected if the null hypothesis were true.</p>
 <ol start="4" style="list-style-type: lower-alpha">
 <li>Run the following chunk to find the p value (note that you will need to have completed part [c] for this to work!):</li>
 </ol>
-<div class="sourceCode" id="cb170"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb162"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="va">z_score</span>, lower.tail <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <p>Based on the p value, would you reject the null hypothesis? What does this say about whether eyewitnesses might be picking the suspect just at random?</p>
 </div>
@@ -185,32 +185,32 @@
 </h2>
 <p>Recall that the lineups in this study were presented in one of two ways: either simultaneously or sequentially. Laboratory studies of eyewitness memory (using mock crimes instead of real ones) have found that simultaneous lineups tend to produce more “correct” identifications of the suspect. Will the same be true in the real lineups we have been analyzing?</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-52" class="exercise"><strong>Exercise 8.3  </strong></span>In this exercise, our research question is, “is there a difference in the proportion of suspect ID’s between sequential and simultaneous lineups?” We will address this question by using random permutation to conduct a hypothesis test.</p>
+<p><span id="exr:unlabeled-div-46" class="exercise"><strong>Exercise 8.3  </strong></span>In this exercise, our research question is, “is there a difference in the proportion of suspect ID’s between sequential and simultaneous lineups?” We will address this question by using random permutation to conduct a hypothesis test.</p>
 <ol style="list-style-type: lower-alpha">
 <li>What are the null and alternative hypotheses corresponding to our research question?</li>
 <li>Use the following chunk of code to calculate the observed difference in the proportion of suspect ID’s between sequential and simultaneous lineups:</li>
 </ol>
-<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="lab8.html#cb171-1" aria-hidden="true" tabindex="-1"></a>obs_diff <span class="ot">&lt;-</span> lineup <span class="sc">%&gt;%</span></span>
-<span id="cb171-2"><a href="lab8.html#cb171-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___) <span class="sc">%&gt;%</span></span>
-<span id="cb171-3"><a href="lab8.html#cb171-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(___, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"Sequential"</span>, <span class="st">"Simultaneous"</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="lab8.html#cb163-1" aria-hidden="true" tabindex="-1"></a>obs_diff <span class="ot">&lt;-</span> lineup <span class="sc">%&gt;%</span></span>
+<span id="cb163-2"><a href="lab8.html#cb163-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___) <span class="sc">%&gt;%</span></span>
+<span id="cb163-3"><a href="lab8.html#cb163-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(___, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"Sequential"</span>, <span class="st">"Simultaneous"</span>))</span></code></pre></div>
 <p>What is the observed difference in proportions (this will be stored under <code>obs_diff</code> after you run your code)? Based on this result, which type of presentation might produce a higher proportion of suspect ID’s?</p>
 <ol start="3" style="list-style-type: lower-alpha">
 <li>Use the following chunk of code to use random permutation to simulate at least 1000 datasets assuming the null hypothesis is true, then visualize where our observed difference falls relative to that distribution. Remember to put one of “greater”, “less” or “two-sided” for the <code>direction</code> setting in the last line; the appropriate setting depends on the alternative hypothesis (i.e., your answer to part [a]). Also, make sure you’ve completed part [b], since this code needs <code>obs_diff</code> to run!</li>
 </ol>
-<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="lab8.html#cb172-1" aria-hidden="true" tabindex="-1"></a>null_diff_dist <span class="ot">&lt;-</span> lineup <span class="sc">%&gt;%</span></span>
-<span id="cb172-2"><a href="lab8.html#cb172-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___) <span class="sc">%&gt;%</span></span>
-<span id="cb172-3"><a href="lab8.html#cb172-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(___) <span class="sc">%&gt;%</span></span>
-<span id="cb172-4"><a href="lab8.html#cb172-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(___) <span class="sc">%&gt;%</span></span>
-<span id="cb172-5"><a href="lab8.html#cb172-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(___, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"Sequential"</span>, <span class="st">"Simultaneous"</span>))</span>
-<span id="cb172-6"><a href="lab8.html#cb172-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb172-7"><a href="lab8.html#cb172-7" aria-hidden="true" tabindex="-1"></a>null_diff_dist <span class="sc">%&gt;%</span></span>
-<span id="cb172-8"><a href="lab8.html#cb172-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
-<span id="cb172-9"><a href="lab8.html#cb172-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> obs_diff, <span class="at">direction =</span> ___)</span></code></pre></div>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="lab8.html#cb164-1" aria-hidden="true" tabindex="-1"></a>null_diff_dist <span class="ot">&lt;-</span> lineup <span class="sc">%&gt;%</span></span>
+<span id="cb164-2"><a href="lab8.html#cb164-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___) <span class="sc">%&gt;%</span></span>
+<span id="cb164-3"><a href="lab8.html#cb164-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(___) <span class="sc">%&gt;%</span></span>
+<span id="cb164-4"><a href="lab8.html#cb164-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(___) <span class="sc">%&gt;%</span></span>
+<span id="cb164-5"><a href="lab8.html#cb164-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(___, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"Sequential"</span>, <span class="st">"Simultaneous"</span>))</span>
+<span id="cb164-6"><a href="lab8.html#cb164-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb164-7"><a href="lab8.html#cb164-7" aria-hidden="true" tabindex="-1"></a>null_diff_dist <span class="sc">%&gt;%</span></span>
+<span id="cb164-8"><a href="lab8.html#cb164-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb164-9"><a href="lab8.html#cb164-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> obs_diff, <span class="at">direction =</span> ___)</span></code></pre></div>
 <ol start="4" style="list-style-type: lower-alpha">
 <li>Use the following chunk to find the p value for this hypothesis test (make sure you have completed parts [b] and [c], since this code depends on both of them having been completed successfully):</li>
 </ol>
-<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="lab8.html#cb173-1" aria-hidden="true" tabindex="-1"></a>null_diff_dist <span class="sc">%&gt;%</span></span>
-<span id="cb173-2"><a href="lab8.html#cb173-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_p_value</span>(<span class="at">obs_stat =</span> obs_diff, <span class="at">direction =</span> ___)</span></code></pre></div>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="lab8.html#cb165-1" aria-hidden="true" tabindex="-1"></a>null_diff_dist <span class="sc">%&gt;%</span></span>
+<span id="cb165-2"><a href="lab8.html#cb165-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_p_value</span>(<span class="at">obs_stat =</span> obs_diff, <span class="at">direction =</span> ___)</span></code></pre></div>
 <p>What was the p value you got? Based on that p value, would you reject the null hypothesis? What does your conclusion tell us about whether simultaneous or sequential presentation differ in how much they produce suspect ID’s?</p>
 </div>
 </div>
@@ -262,32 +262,32 @@
 <strong>ID</strong>: Whether the mock witness picked the “Suspect” or a “Filler”.</li>
 </ul>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-53" class="exercise"><strong>Exercise 8.4  </strong></span>Our research question is, “do mock witnesses make a higher proportion of suspect ID’s for not-blind lineups as opposed to blind lineups?” We will address this question by using random permutation to conduct a hypothesis test.</p>
+<p><span id="exr:unlabeled-div-47" class="exercise"><strong>Exercise 8.4  </strong></span>Our research question is, “do mock witnesses make a higher proportion of suspect ID’s for not-blind lineups as opposed to blind lineups?” We will address this question by using random permutation to conduct a hypothesis test.</p>
 <ol style="list-style-type: lower-alpha">
 <li>What are the null and alternative hypotheses corresponding to our research question?</li>
 <li>Use the following chunk of code to calculate the observed difference in the proportion of suspect ID’s between sequential and simultaneous lineups:</li>
 </ol>
-<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="lab8.html#cb174-1" aria-hidden="true" tabindex="-1"></a>obs_fairness_diff <span class="ot">&lt;-</span> fairness <span class="sc">%&gt;%</span></span>
-<span id="cb174-2"><a href="lab8.html#cb174-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___) <span class="sc">%&gt;%</span></span>
-<span id="cb174-3"><a href="lab8.html#cb174-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(___, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"Not blind"</span>, <span class="st">"Blind"</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="lab8.html#cb166-1" aria-hidden="true" tabindex="-1"></a>obs_fairness_diff <span class="ot">&lt;-</span> fairness <span class="sc">%&gt;%</span></span>
+<span id="cb166-2"><a href="lab8.html#cb166-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___) <span class="sc">%&gt;%</span></span>
+<span id="cb166-3"><a href="lab8.html#cb166-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(___, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"Not blind"</span>, <span class="st">"Blind"</span>))</span></code></pre></div>
 <p>What is the observed difference in proportions (this will be stored under <code>obs_fairness_diff</code> after you run your code)? Is this result more consistent with the null hypothesis or with the alternative hypothesis?</p>
 <ol start="3" style="list-style-type: lower-alpha">
 <li>Use the following chunk of code to use random permutation to simulate at least 1000 datasets assuming the null hypothesis is true, then visualize where our observed difference falls relative to that distribution. Remember to put one of “greater”, “less” or “two-sided” for the <code>direction</code> setting in the last line; the appropriate setting depends on the alternative hypothesis (i.e., your answer to part [a]). Also, make sure you’ve completed part [b], since this code needs <code>obs_fairness_diff</code> to run!</li>
 </ol>
-<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="lab8.html#cb175-1" aria-hidden="true" tabindex="-1"></a>null_fairness_diff_dist <span class="ot">&lt;-</span> fairness <span class="sc">%&gt;%</span></span>
-<span id="cb175-2"><a href="lab8.html#cb175-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___) <span class="sc">%&gt;%</span></span>
-<span id="cb175-3"><a href="lab8.html#cb175-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(___) <span class="sc">%&gt;%</span></span>
-<span id="cb175-4"><a href="lab8.html#cb175-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(___) <span class="sc">%&gt;%</span></span>
-<span id="cb175-5"><a href="lab8.html#cb175-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(___, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"Not blind"</span>, <span class="st">"Blind"</span>))</span>
-<span id="cb175-6"><a href="lab8.html#cb175-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb175-7"><a href="lab8.html#cb175-7" aria-hidden="true" tabindex="-1"></a>null_fairness_diff_dist <span class="sc">%&gt;%</span></span>
-<span id="cb175-8"><a href="lab8.html#cb175-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
-<span id="cb175-9"><a href="lab8.html#cb175-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> obs_fairness_diff, <span class="at">direction =</span> ___)</span></code></pre></div>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="lab8.html#cb167-1" aria-hidden="true" tabindex="-1"></a>null_fairness_diff_dist <span class="ot">&lt;-</span> fairness <span class="sc">%&gt;%</span></span>
+<span id="cb167-2"><a href="lab8.html#cb167-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___) <span class="sc">%&gt;%</span></span>
+<span id="cb167-3"><a href="lab8.html#cb167-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(___) <span class="sc">%&gt;%</span></span>
+<span id="cb167-4"><a href="lab8.html#cb167-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(___) <span class="sc">%&gt;%</span></span>
+<span id="cb167-5"><a href="lab8.html#cb167-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(___, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"Not blind"</span>, <span class="st">"Blind"</span>))</span>
+<span id="cb167-6"><a href="lab8.html#cb167-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb167-7"><a href="lab8.html#cb167-7" aria-hidden="true" tabindex="-1"></a>null_fairness_diff_dist <span class="sc">%&gt;%</span></span>
+<span id="cb167-8"><a href="lab8.html#cb167-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb167-9"><a href="lab8.html#cb167-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> obs_fairness_diff, <span class="at">direction =</span> ___)</span></code></pre></div>
 <ol start="4" style="list-style-type: lower-alpha">
 <li>Use the following chunk to find the p value for this hypothesis test (make sure you have completed parts [b] and [c], since this code depends on both of them having been completed successfully):</li>
 </ol>
-<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="lab8.html#cb176-1" aria-hidden="true" tabindex="-1"></a>null_fairness_diff_dist <span class="sc">%&gt;%</span></span>
-<span id="cb176-2"><a href="lab8.html#cb176-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_p_value</span>(<span class="at">obs_stat =</span> obs_fairness_diff, <span class="at">direction =</span> ___)</span></code></pre></div>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="lab8.html#cb168-1" aria-hidden="true" tabindex="-1"></a>null_fairness_diff_dist <span class="sc">%&gt;%</span></span>
+<span id="cb168-2"><a href="lab8.html#cb168-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_p_value</span>(<span class="at">obs_stat =</span> obs_fairness_diff, <span class="at">direction =</span> ___)</span></code></pre></div>
 <p>What was the p value you got? Based on that p value, would you reject the null hypothesis? What does your conclusion tell us about whether non-blind police lineups are “fair” in the sense that they do not bias a witness toward a particular suspect?</p>
 </div>
 </div>
@@ -329,7 +329,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-11-28.</p>
+    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2023-01-29.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

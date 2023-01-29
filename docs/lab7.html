@@ -32,7 +32,7 @@
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
         <ul class="book-toc list-unstyled">
 <li><a class="" href="index.html">Overview</a></li>
-<li><a class="" href="lab1.html"><span class="header-section-number">1</span> Exploring data with R</a></li>
+<li><a class="" href="lab1.html"><span class="header-section-number">1</span> Exploring Data with R</a></li>
 <li><a class="" href="lab2.html"><span class="header-section-number">2</span> Sampling</a></li>
 <li><a class="" href="lab3.html"><span class="header-section-number">3</span> Describing data</a></li>
 <li><a class="" href="lab4.html"><span class="header-section-number">4</span> Relationships between numerical variables</a></li>
@@ -76,7 +76,7 @@
 <span class="header-section-number">7.2.1</span> Visualize the distribution<a class="anchor" aria-label="anchor" href="#visualize-the-distribution"><i class="fas fa-link"></i></a>
 </h3>
 <p>As usual, we begin by visualizing the actual data. As a reminder, we will assume for the time being that these data constitute the entire population of interest. The histogram below shows the population distribution of nightly hours of sleep:</p>
-<div class="sourceCode" id="cb149"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb141"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nhanes</span> <span class="op">%&gt;%</span>
     <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">SleepHrsNight</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">geom_histogram</span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
@@ -89,7 +89,7 @@
 <p>Next, we want to know whether the normal distribution will be a good model of the population distribution we just visualized. To do this, we will draw a curve representing the normal distribution on top of the histogram we just made.</p>
 <p>But remember that the normal distribution is just a shape. Its center and spread are determined by two population parameters: the <strong>mean</strong> (<span class="math inline">\(\mu\)</span>) and <strong>standard deviation</strong> (<span class="math inline">\(\sigma\)</span>). What should those parameters be?</p>
 <p>Let’s first take a wild guess and say they should be <span class="math inline">\(\mu = 8\)</span> and <span class="math inline">\(\sigma = 1\)</span>. We can draw this distribution using the chunk of code below:</p>
-<div class="sourceCode" id="cb150"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb142"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nhanes</span> <span class="op">%&gt;%</span>
     <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">SleepHrsNight</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">geom_histogram</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">..density..</span><span class="op">)</span>, binwidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span>
@@ -99,11 +99,11 @@
 <p>The whole “density” thing comes from this: A histogram shows <em>absolute</em> counts. But a normal distribution only specifies the <em>relative</em> frequency of different values. The relative frequency is called the “density”. This is what the <code>dnorm</code> function gives us for the normal distribution. So adding <code>aes(y = ..density..)</code> to the histogram line told R to show the density (relative frequency) rather than the absolute counts.</p>
 <p>Anyway, it is clear that a mean of 8 hours and standard deviation of 1 hour do not make a good fit.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-43" class="exercise"><strong>Exercise 7.1  </strong></span>Play around with different values of “mean” and “sd” in the chunk of code below. Try to find values that result in a normal distribution that is a good “fit” to the data. You can start by setting <code>mean = 8</code> and <code>sd = 1</code> and then adjust from there.</p>
-<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="lab7.html#cb151-1" aria-hidden="true" tabindex="-1"></a>nhanes <span class="sc">%&gt;%</span></span>
-<span id="cb151-2"><a href="lab7.html#cb151-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> SleepHrsNight)) <span class="sc">+</span></span>
-<span id="cb151-3"><a href="lab7.html#cb151-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> ..density..), <span class="at">binwidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb151-4"><a href="lab7.html#cb151-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm, <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> ___, <span class="at">sd =</span> ___), <span class="at">color =</span> <span class="st">'darkred'</span>)</span></code></pre></div>
+<p><span id="exr:unlabeled-div-37" class="exercise"><strong>Exercise 7.1  </strong></span>Play around with different values of “mean” and “sd” in the chunk of code below. Try to find values that result in a normal distribution that is a good “fit” to the data. You can start by setting <code>mean = 8</code> and <code>sd = 1</code> and then adjust from there.</p>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="lab7.html#cb143-1" aria-hidden="true" tabindex="-1"></a>nhanes <span class="sc">%&gt;%</span></span>
+<span id="cb143-2"><a href="lab7.html#cb143-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> SleepHrsNight)) <span class="sc">+</span></span>
+<span id="cb143-3"><a href="lab7.html#cb143-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> ..density..), <span class="at">binwidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb143-4"><a href="lab7.html#cb143-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm, <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> ___, <span class="at">sd =</span> ___), <span class="at">color =</span> <span class="st">'darkred'</span>)</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>Describe the strategy you used to find values for <code>mean</code> and <code>sd</code> that seemed to make a good fit.</li>
 <li>What values did you find?</li>
@@ -117,10 +117,10 @@
 </h3>
 <p>As part of the same survey, people were asked how many days out of the last 30 would they consider their mental health to have been poor. This is recorded under the variable named <code>DaysMentHlthBad</code>.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-44" class="exercise"><strong>Exercise 7.2  </strong></span>Use the chunk of code to help you make a histogram of the distribution of bad mental health days per month (remember that these are recorded in the <code>nhanes</code> dataset under the variable named <code>DaysMentHlthBad</code>; you can also try different bin widths as you like).</p>
-<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="lab7.html#cb152-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
-<span id="cb152-2"><a href="lab7.html#cb152-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___)) <span class="sc">+</span></span>
-<span id="cb152-3"><a href="lab7.html#cb152-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>)</span></code></pre></div>
+<p><span id="exr:unlabeled-div-38" class="exercise"><strong>Exercise 7.2  </strong></span>Use the chunk of code to help you make a histogram of the distribution of bad mental health days per month (remember that these are recorded in the <code>nhanes</code> dataset under the variable named <code>DaysMentHlthBad</code>; you can also try different bin widths as you like).</p>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="lab7.html#cb144-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
+<span id="cb144-2"><a href="lab7.html#cb144-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___)) <span class="sc">+</span></span>
+<span id="cb144-3"><a href="lab7.html#cb144-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>)</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>Do you think the normal distribution would be able to fit these data? Why or why not?</li>
 <li>Make a reasonable guess about why the population distribution might have the shape that it has, taking note of the fact that respondents had to give a number of days out of 30.</li>
@@ -136,14 +136,14 @@
 <p>In this section, we will again assume that the <code>nhanes</code> dataset represents the <em>entire population</em> of interest. We will <em>simulate</em> drawing many different samples of different sizes from this population and calculate a summary statistic on each sample. The <strong>sampling distribution</strong> is the distribution of those summary statistics and we will see how well we can approximate it with a normal distribution.</p>
 <p>We will focus on just one of the questions asked on the NHANES survey. This question asks whether someone has ever tried using marijuana. This information resides in the variable <code>Marijuana</code> and a person’s response is either “Yes” or “No”.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-45" class="exercise"><strong>Exercise 7.3  </strong></span>Without even looking at the data, would it make sense to try to use a normal distribution to approximate the <em>population distribution</em> of the responses to the <code>Marijuana</code> question? Why or why not?</p>
+<p><span id="exr:unlabeled-div-39" class="exercise"><strong>Exercise 7.3  </strong></span>Without even looking at the data, would it make sense to try to use a normal distribution to approximate the <em>population distribution</em> of the responses to the <code>Marijuana</code> question? Why or why not?</p>
 </div>
 <div id="the-true-proportion" class="section level3" number="7.3.1">
 <h3>
 <span class="header-section-number">7.3.1</span> The “true” proportion<a class="anchor" aria-label="anchor" href="#the-true-proportion"><i class="fas fa-link"></i></a>
 </h3>
 <p>Because we are assuming that the <code>nhanes</code> data represent the entire population we are interested in, we can find the “true” value of the population parameter <span class="math inline">\(\pi_{\text{Marijuana}}\)</span>, that is, the proportion of people who have ever tried marijuana. We can use the code below:</p>
-<div class="sourceCode" id="cb153"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb145"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nhanes</span> <span class="op">%&gt;%</span>
     <span class="fu">specify</span><span class="op">(</span>response <span class="op">=</span> <span class="va">Marijuana</span>, success <span class="op">=</span> <span class="st">"Yes"</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">calculate</span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"prop"</span><span class="op">)</span></code></pre></div>
@@ -159,7 +159,7 @@
 </h3>
 <p>Last session, we used <em>bootstrapping</em> to simulate what would happen if we collected many samples from a population. We did that by using our sample to <em>estimate</em> the whole population. Now, we have access to that whole population. We can therefore draw as many samples of a given size as we want!</p>
 <p>The following chunk of code randomly samples 5 people from the population and gets R to remember that sample under the name <code>sample_size5</code>.</p>
-<div class="sourceCode" id="cb155"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb147"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sample_size5</span> <span class="op">&lt;-</span> <span class="va">nhanes</span> <span class="op">%&gt;%</span>
     <span class="fu">slice_sample</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></code></pre></div>
 <p>This is what that sample looks like:</p>
@@ -715,20 +715,20 @@
 </table></div>
 <p>Notice that we still have all of those people’s responses to each question on the NHANES survey. That means we can get a <em>summary statistic</em> for the <code>Marijuana</code> variable from this sample, just like we did from the population.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-46" class="exercise"><strong>Exercise 7.4  </strong></span>Fill in the blanks in the chunk of code below to draw your own sample of size 5 from the NHANES population and get the proportion of people in your sample who have used marijuana. <em>Hint:</em> see above for how we calculated this proportion from the whole NHANES population, but remember that now we are calculating it from our new <code>sample_size5</code>.</p>
-<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="lab7.html#cb156-1" aria-hidden="true" tabindex="-1"></a>sample_size5 <span class="ot">&lt;-</span> nhanes <span class="sc">%&gt;%</span></span>
-<span id="cb156-2"><a href="lab7.html#cb156-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">5</span>)</span>
-<span id="cb156-3"><a href="lab7.html#cb156-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb156-4"><a href="lab7.html#cb156-4" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
-<span id="cb156-5"><a href="lab7.html#cb156-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb156-6"><a href="lab7.html#cb156-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>)</span></code></pre></div>
+<p><span id="exr:unlabeled-div-40" class="exercise"><strong>Exercise 7.4  </strong></span>Fill in the blanks in the chunk of code below to draw your own sample of size 5 from the NHANES population and get the proportion of people in your sample who have used marijuana. <em>Hint:</em> see above for how we calculated this proportion from the whole NHANES population, but remember that now we are calculating it from our new <code>sample_size5</code>.</p>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="lab7.html#cb148-1" aria-hidden="true" tabindex="-1"></a>sample_size5 <span class="ot">&lt;-</span> nhanes <span class="sc">%&gt;%</span></span>
+<span id="cb148-2"><a href="lab7.html#cb148-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">5</span>)</span>
+<span id="cb148-3"><a href="lab7.html#cb148-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb148-4"><a href="lab7.html#cb148-4" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
+<span id="cb148-5"><a href="lab7.html#cb148-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb148-6"><a href="lab7.html#cb148-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>)</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>What is the proportion of people who tried marijuana in your sample?</li>
 <li>Try running your chunk of code a few times. Explain in your own words why the calculated proportion is not always the same.</li>
 </ol>
 </div>
 <p>As we’ve seen, the great thing about computers is that they can do boring repetitive things for us very quickly. Now, we will draw 1000 samples of size 5 from the population and get R to remember them under the name <code>samples_size5</code>.</p>
-<div class="sourceCode" id="cb157"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb149"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">samples_size5</span> <span class="op">&lt;-</span> <span class="va">nhanes</span> <span class="op">%&gt;%</span>
     <span class="fu">rep_slice_sample</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span>, reps <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></code></pre></div>
 <p>Here are the first three samples in our new <code>samples_size5</code>:</p>
@@ -2085,12 +2085,12 @@
 <span class="header-section-number">7.3.3</span> Summary statistics for each sample<a class="anchor" aria-label="anchor" href="#summary-statistics-for-each-sample"><i class="fas fa-link"></i></a>
 </h3>
 <p>Notice that the different samples are indexed using the new variable <code>replicate</code>. We can use this to get the proportion of marijuana triers in each sample using the old <code>group_by</code> routine. We will tell R to remember these sample proportions under the name <code>sample_props_mari_size5</code>:</p>
-<div class="sourceCode" id="cb158"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb150"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sample_props_mari_size5</span> <span class="op">&lt;-</span> <span class="va">samples_size5</span> <span class="op">%&gt;%</span>
     <span class="fu">group_by</span><span class="op">(</span><span class="va">replicate</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">summarize</span><span class="op">(</span>stat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Marijuana</span> <span class="op">==</span> <span class="st">"Yes"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Notice that the proportions calculated from each sample will tend to vary. We can visualize this using a histogram:</p>
-<div class="sourceCode" id="cb159"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb151"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sample_props_mari_size5</span> <span class="op">%&gt;%</span>
     <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">stat</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">geom_histogram</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">..density..</span><span class="op">)</span>, binwidth <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></code></pre></div>
@@ -2102,8 +2102,8 @@
 </h3>
 <p>To see whether we can approximate this sampling distribution with a normal distribution, we need to find the <em>mean</em> and <em>standard deviation</em>. Recall, that the standard deviation of a sampling distribution has a special name: the <strong>standard error (SE)</strong>.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-47" class="exercise"><strong>Exercise 7.5  </strong></span>First, run this chunk of code so that you’ll have your own sampling distribution to work with (this is just what we ran prior to this exercise):</p>
-<div class="sourceCode" id="cb160"><pre class="downlit sourceCode r">
+<p><span id="exr:unlabeled-div-41" class="exercise"><strong>Exercise 7.5  </strong></span>First, run this chunk of code so that you’ll have your own sampling distribution to work with (this is just what we ran prior to this exercise):</p>
+<div class="sourceCode" id="cb152"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">samples_size5</span> <span class="op">&lt;-</span> <span class="va">nhanes</span> <span class="op">%&gt;%</span>
     <span class="fu">rep_slice_sample</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span>, reps <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span>
 
@@ -2112,10 +2112,10 @@
     <span class="fu">summarize</span><span class="op">(</span>stat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Marijuana</span> <span class="op">==</span> <span class="st">"Yes"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>You should see <code>sample_props_mari_size5</code> in your R environment. This contains 1000 proportions from 1000 samples of size 5 from the NHANES population.</p>
 <p>Now, just like we did above for hours of sleep, play around with different <code>mean</code> and <code>sd</code> settings in the final line of the following chunk until you find a normal distribution that seems to be a good “fit” to the distribution of sample proportions.</p>
-<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="lab7.html#cb161-1" aria-hidden="true" tabindex="-1"></a>sample_props_mari_size5 <span class="sc">%&gt;%</span></span>
-<span id="cb161-2"><a href="lab7.html#cb161-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> stat)) <span class="sc">+</span></span>
-<span id="cb161-3"><a href="lab7.html#cb161-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> ..density..), <span class="at">binwidth =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb161-4"><a href="lab7.html#cb161-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm, <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> ___, <span class="at">sd =</span> ___), <span class="at">color =</span> <span class="st">'darkred'</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="lab7.html#cb153-1" aria-hidden="true" tabindex="-1"></a>sample_props_mari_size5 <span class="sc">%&gt;%</span></span>
+<span id="cb153-2"><a href="lab7.html#cb153-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> stat)) <span class="sc">+</span></span>
+<span id="cb153-3"><a href="lab7.html#cb153-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> ..density..), <span class="at">binwidth =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb153-4"><a href="lab7.html#cb153-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm, <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> ___, <span class="at">sd =</span> ___), <span class="at">color =</span> <span class="st">'darkred'</span>)</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>What values for <code>mean</code> and <code>sd</code> seemed to be best to you?</li>
 <li>Does it seem like the normal distribution is a good “fit” to this sampling distribution? (<em>Hint:</em> what happens to the tails of the normal distribution when you try to fit it to this sampling distribution?)</li>
@@ -2132,8 +2132,8 @@ SE = \sqrt{\frac{\pi \left(1 - \pi \right)}{n}}
 \]</span></p>
 <p>Let’s see what happens if we use those when we fit our normal distribution to the sampling distribution. Remember that we found the population proportion earlier (it was about <span class="math inline">\(0.585\)</span>).</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-48" class="exercise"><strong>Exercise 7.6  </strong></span>Now, run the following chunk of code to generate 1000 samples of size 50, instead of size 5:</p>
-<div class="sourceCode" id="cb162"><pre class="downlit sourceCode r">
+<p><span id="exr:unlabeled-div-42" class="exercise"><strong>Exercise 7.6  </strong></span>Now, run the following chunk of code to generate 1000 samples of size 50, instead of size 5:</p>
+<div class="sourceCode" id="cb154"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">samples_size50</span> <span class="op">&lt;-</span> <span class="va">nhanes</span> <span class="op">%&gt;%</span>
     <span class="fu">rep_sample_n</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">50</span>, reps <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span>
 
@@ -2141,10 +2141,10 @@ SE = \sqrt{\frac{\pi \left(1 - \pi \right)}{n}}
     <span class="fu">group_by</span><span class="op">(</span><span class="va">replicate</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">summarize</span><span class="op">(</span>stat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Marijuana</span> <span class="op">==</span> <span class="st">"Yes"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>You should now see <code>sample_props_mari_size50</code> in your R environment.</p>
-<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="lab7.html#cb163-1" aria-hidden="true" tabindex="-1"></a>sample_props_mari_size50 <span class="sc">%&gt;%</span></span>
-<span id="cb163-2"><a href="lab7.html#cb163-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> stat)) <span class="sc">+</span></span>
-<span id="cb163-3"><a href="lab7.html#cb163-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> ..density..), <span class="at">binwidth =</span> <span class="fl">0.02</span>) <span class="sc">+</span></span>
-<span id="cb163-4"><a href="lab7.html#cb163-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm, <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> ___, <span class="at">sd =</span> ___), <span class="at">color =</span> <span class="st">'darkred'</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="lab7.html#cb155-1" aria-hidden="true" tabindex="-1"></a>sample_props_mari_size50 <span class="sc">%&gt;%</span></span>
+<span id="cb155-2"><a href="lab7.html#cb155-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> stat)) <span class="sc">+</span></span>
+<span id="cb155-3"><a href="lab7.html#cb155-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> ..density..), <span class="at">binwidth =</span> <span class="fl">0.02</span>) <span class="sc">+</span></span>
+<span id="cb155-4"><a href="lab7.html#cb155-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm, <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> ___, <span class="at">sd =</span> ___), <span class="at">color =</span> <span class="st">'darkred'</span>)</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>What is the standard error according to the central limit theorem (remember than the population proportion is <span class="math inline">\(\pi = 0.585\)</span> and our samples are of size <span class="math inline">\(n = 50\)</span>)?</li>
 <li>In the chunk of code above, set the <code>mean</code> to the population proportion (0.585) and the <code>sd</code> to the standard error you found in part [a]. Compare the fit of the normal distribution in this exercise to the one from the previous exercise—does the normal distribution make a better “fit” when we use bigger samples?</li>
@@ -2170,8 +2170,8 @@ SE = \sqrt{\frac{\hat{p} \left(1 - \hat{p} \right)}{n}}
 <li>Make a 95% confidence interval using our knowledge that 95% of a normal distribution is within 1.96 standard deviations of the mean; the 95% CI is <span class="math inline">\(\left( \hat{p} - 1.96 \times SE, \hat{p} + 1.96 \times SE \right)\)</span>.</li>
 </ol>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-49" class="exercise"><strong>Exercise 7.7  </strong></span>Run the following chunk of code to draw a single random sample of 50 people from the NHANES dataset, then calculate the sample proportion and save the result under the name <code>p_hat</code>.</p>
-<div class="sourceCode" id="cb164"><pre class="downlit sourceCode r">
+<p><span id="exr:unlabeled-div-43" class="exercise"><strong>Exercise 7.7  </strong></span>Run the following chunk of code to draw a single random sample of 50 people from the NHANES dataset, then calculate the sample proportion and save the result under the name <code>p_hat</code>.</p>
+<div class="sourceCode" id="cb156"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">my_sample</span> <span class="op">&lt;-</span> <span class="va">nhanes</span> <span class="op">%&gt;%</span>
     <span class="fu">slice_sample</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">50</span><span class="op">)</span>
 
@@ -2180,9 +2180,9 @@ SE = \sqrt{\frac{\hat{p} \left(1 - \hat{p} \right)}{n}}
     <span class="fu">calculate</span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"prop"</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">pull</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>Fill in the blanks in the following chunk to help you calculate the standard error based on the <code>p_hat</code> from your sample. <em>Hint:</em> This is about translating the formula in step 3 above into R code; two of the blanks should be filled with the <em>name</em> of a value you just saved.</p>
-<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="lab7.html#cb165-1" aria-hidden="true" tabindex="-1"></a>standard_error <span class="ot">&lt;-</span> <span class="fu">sqrt</span>((___ <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> ___)) <span class="sc">/</span> ___)</span></code></pre></div>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="lab7.html#cb157-1" aria-hidden="true" tabindex="-1"></a>standard_error <span class="ot">&lt;-</span> <span class="fu">sqrt</span>((___ <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> ___)) <span class="sc">/</span> ___)</span></code></pre></div>
 <p>Now use the following chunk to help you find the 95% confidence interval (again, this is about translating the formula in step 4 above into R, and you’ll be able to use the <em>names</em> of values you’ve already saved).</p>
-<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="lab7.html#cb166-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(___ <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> ___, ___ <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> ___)</span></code></pre></div>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="lab7.html#cb158-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(___ <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> ___, ___ <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> ___)</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>How would you report the 95% confidence interval you found if this was your real sample (i.e., if you didn’t know what the true value was)?</li>
 <li>Does your interval contain the true population parameter (0.585)? In your own words, explain why your interval might or might not have contained the true value.</li>
@@ -2241,7 +2241,7 @@ SE = \sqrt{\frac{\hat{p} \left(1 - \hat{p} \right)}{n}}
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-11-28.</p>
+    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2023-01-29.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

@@ -2,7 +2,9 @@
 title: "Worksheet for Lab 8"
 author: "NAME"
 date: "`r Sys.Date()`"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ## Introduction

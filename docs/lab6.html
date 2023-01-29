@@ -32,7 +32,7 @@
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
         <ul class="book-toc list-unstyled">
 <li><a class="" href="index.html">Overview</a></li>
-<li><a class="" href="lab1.html"><span class="header-section-number">1</span> Exploring data with R</a></li>
+<li><a class="" href="lab1.html"><span class="header-section-number">1</span> Exploring Data with R</a></li>
 <li><a class="" href="lab2.html"><span class="header-section-number">2</span> Sampling</a></li>
 <li><a class="" href="lab3.html"><span class="header-section-number">3</span> Describing data</a></li>
 <li><a class="" href="lab4.html"><span class="header-section-number">4</span> Relationships between numerical variables</a></li>
@@ -72,7 +72,7 @@
 </h3>
 <p>What we are interested in this time is just the proportion of Kobe’s shots that were hits rather than misses. For today, we don’t care what the outcome of his previous shot was.</p>
 <p>To get the point estimate of the proportion of Kobe’s shots that were hits rather than misses, we can use the following chunk of code:</p>
-<div class="sourceCode" id="cb133"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb125"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
     <span class="fu">specify</span><span class="op">(</span>response <span class="op">=</span> <span class="va">shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">calculate</span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"prop"</span><span class="op">)</span></code></pre></div>
@@ -82,8 +82,8 @@
 ##   &lt;dbl&gt;
 ## 1 0.387</code></pre>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-36" class="exercise"><strong>Exercise 6.1  </strong></span>As a reminder, this is the chunk of code we used to find the observed <em>difference</em> in hit proportions last time, as a function of whether Kobe’s previous shot was a hit or not:</p>
-<div class="sourceCode" id="cb135"><pre class="downlit sourceCode r">
+<p><span id="exr:unlabeled-div-30" class="exercise"><strong>Exercise 6.1  </strong></span>As a reminder, this is the chunk of code we used to find the observed <em>difference</em> in hit proportions last time, as a function of whether Kobe’s previous shot was a hit or not:</p>
+<div class="sourceCode" id="cb127"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
     <span class="fu">specify</span><span class="op">(</span><span class="va">shot</span> <span class="op">~</span> <span class="va">prev_shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">calculate</span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"diff in props"</span>, order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"prev_H"</span>, <span class="st">"prev_M"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -104,7 +104,7 @@
 <span class="header-section-number">6.1.2.1</span> A single resample<a class="anchor" aria-label="anchor" href="#a-single-resample"><i class="fas fa-link"></i></a>
 </h4>
 <p>As we’ve seen, “resampling” treats the original data as if it were a whole population. By <em>sampling with replacement</em> from that imaginary population, we can simulate what a new sample from that same population might look like. The following chunk of code resamples from Kobe’s shots to produce a new sample of shots:</p>
-<div class="sourceCode" id="cb136"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb128"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
     <span class="fu">specify</span><span class="op">(</span>response <span class="op">=</span> <span class="va">shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">generate</span><span class="op">(</span>reps <span class="op">=</span> <span class="fl">1</span>, type <span class="op">=</span> <span class="st">"bootstrap"</span><span class="op">)</span></code></pre></div>
@@ -125,8 +125,8 @@
 ## 10         1 M    
 ## # … with 101 more rows</code></pre>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-37" class="exercise"><strong>Exercise 6.2  </strong></span>The chunk of code below is what we used last time to generate a single “shuffle” of these same shots:</p>
-<div class="sourceCode" id="cb138"><pre class="downlit sourceCode r">
+<p><span id="exr:unlabeled-div-31" class="exercise"><strong>Exercise 6.2  </strong></span>The chunk of code below is what we used last time to generate a single “shuffle” of these same shots:</p>
+<div class="sourceCode" id="cb130"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
     <span class="fu">specify</span><span class="op">(</span><span class="va">shot</span> <span class="op">~</span> <span class="va">prev_shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">hypothesize</span><span class="op">(</span>null <span class="op">=</span> <span class="st">"independence"</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -134,7 +134,7 @@
 <p>In your own words, explain why do we <em>not</em> need to include a <code>hypothesize</code> line when doing bootstrapping, like we did when using permutation to test a null hypothesis?</p>
 </div>
 <p>The final step in doing bootstrapping is to calculate the sample statistic—in this case, the proportion of hits—on our randomly generated re-sample. We can do this by adding a <code>calculate</code> line at the end of the code we used to make the resample:</p>
-<div class="sourceCode" id="cb139"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb131"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
     <span class="fu">specify</span><span class="op">(</span>response <span class="op">=</span> <span class="va">shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">generate</span><span class="op">(</span>reps <span class="op">=</span> <span class="fl">1</span>, type <span class="op">=</span> <span class="st">"bootstrap"</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -151,13 +151,13 @@
 </h4>
 <p>The whole point of bootstrapping is to get a <em>range</em> of plausible values and so we will need more than one resample! And like last time, we will want to get R to remember the proportions from each resample so we can use them later; we will call it <code>kobe_boot_dist</code>.</p>
 <p>The following chunk of code uses bootstrapping to produce a distribution of sample proportions, the variability of which mimics the sampling variability that was at work when generating our original observed sample:</p>
-<div class="sourceCode" id="cb141"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb133"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kobe_boot_dist</span> <span class="op">&lt;-</span> <span class="va">kobe</span> <span class="op">%&gt;%</span>
     <span class="fu">specify</span><span class="op">(</span>response <span class="op">=</span> <span class="va">shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">generate</span><span class="op">(</span>reps <span class="op">=</span> <span class="fl">1000</span>, type <span class="op">=</span> <span class="st">"bootstrap"</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">calculate</span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"prop"</span><span class="op">)</span></code></pre></div>
 <p>And like last time, we can use a histogram to get a nice visual summary of the bootstrap distribution:</p>
-<div class="sourceCode" id="cb142"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb134"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kobe_boot_dist</span> <span class="op">%&gt;%</span>
     <span class="fu">visualize</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="06-bootstrapping_files/figure-html/unnamed-chunk-8-1.png" width="672"></div>
@@ -170,11 +170,11 @@
 <p>To find a confidence interval, we need to find the “middle” of the bootstrap distribution. We also need to decide how wide that “middle” should be. For example, to create a 95% confidence interval, we need to find where the middle 95% of the distribution is.</p>
 <p>The middle 95% is between two different <em>quantiles</em> of the bootstrap distribution. Specifically, the 2.5% and 97.5% quantiles define the boundaries of the 95% confidence interval. This is because they are the values for which 2.5% of the simulated proportions are below the interval and 2.5% of the simulated proportions are above the interval. So, in total, 5% of the values are outside the interval meaning the remainder (95%) are inside it.</p>
 <p>As with many things, R has some shortcuts! The following code finds the 95% confidence interval, where we use <code>level</code> to set how wide we want the interval. Note that we are putting the result under the label <code>kobe_boot_ci</code> so we can use it to help us visualize the interval:</p>
-<div class="sourceCode" id="cb143"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb135"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kobe_boot_ci</span> <span class="op">&lt;-</span> <span class="va">kobe_boot_dist</span> <span class="op">%&gt;%</span>
     <span class="fu">get_confidence_interval</span><span class="op">(</span>level <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></code></pre></div>
 <p>Now we can add the 95% confidence interval that we saved under <code>kobe_boot_ci</code> to our visualization:</p>
-<div class="sourceCode" id="cb144"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb136"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kobe_boot_dist</span> <span class="op">%&gt;%</span>
     <span class="fu">visualize</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">shade_confidence_interval</span><span class="op">(</span>endpoints <span class="op">=</span> <span class="va">kobe_boot_ci</span><span class="op">)</span></code></pre></div>
@@ -186,7 +186,7 @@
 </h3>
 <p>Now we are in a position to form a conclusion about Kobe’s true field goal percentage based on the sample that we had.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-38" class="exercise"><strong>Exercise 6.3  </strong></span>Answer the following based on the 95% confidence interval we just constructed for Kobe’s field goal percentage. (<em>Hint:</em> the visualization alone is enough to answer these questions.)</p>
+<p><span id="exr:unlabeled-div-32" class="exercise"><strong>Exercise 6.3  </strong></span>Answer the following based on the 95% confidence interval we just constructed for Kobe’s field goal percentage. (<em>Hint:</em> the visualization alone is enough to answer these questions.)</p>
 <ol style="list-style-type: lower-alpha">
 <li>Is it plausible that Kobe makes more than half of the shots he attempts? Explain your reasoning.</li>
 <li>Kobe’s actual career field goal percentage was 44.7%. In other words, the true value of the population parameter was <span class="math inline">\(\pi_{\text{Kobe}} = 0.447\)</span>. Based on the 95% CI, are you surprised by this? Explain your reasoning.</li>
@@ -215,18 +215,18 @@
 </h3>
 <p>The data from Milgram’s original study are loaded into R’s environment under the name <code>milgram</code>.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-39" class="exercise"><strong>Exercise 6.4  </strong></span>Use the chunk of code below to generate 1000 simulated datasets based on Milgram’s study and visualize the 95% confidence interval.</p>
-<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="lab6.html#cb145-1" aria-hidden="true" tabindex="-1"></a>milgram_boot_dist <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
-<span id="cb145-2"><a href="lab6.html#cb145-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb145-3"><a href="lab6.html#cb145-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> ___, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb145-4"><a href="lab6.html#cb145-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>)</span>
-<span id="cb145-5"><a href="lab6.html#cb145-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb145-6"><a href="lab6.html#cb145-6" aria-hidden="true" tabindex="-1"></a>milgram_ci <span class="ot">&lt;-</span> milgram_boot_dist <span class="sc">%&gt;%</span></span>
-<span id="cb145-7"><a href="lab6.html#cb145-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_confidence_interval</span>(<span class="at">level =</span> ___)</span>
-<span id="cb145-8"><a href="lab6.html#cb145-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb145-9"><a href="lab6.html#cb145-9" aria-hidden="true" tabindex="-1"></a>milgram_boot_dist <span class="sc">%&gt;%</span></span>
-<span id="cb145-10"><a href="lab6.html#cb145-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
-<span id="cb145-11"><a href="lab6.html#cb145-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_confidence_interval</span>(<span class="at">endpoints =</span> milgram_ci)</span></code></pre></div>
+<p><span id="exr:unlabeled-div-33" class="exercise"><strong>Exercise 6.4  </strong></span>Use the chunk of code below to generate 1000 simulated datasets based on Milgram’s study and visualize the 95% confidence interval.</p>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="lab6.html#cb137-1" aria-hidden="true" tabindex="-1"></a>milgram_boot_dist <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
+<span id="cb137-2"><a href="lab6.html#cb137-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb137-3"><a href="lab6.html#cb137-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> ___, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb137-4"><a href="lab6.html#cb137-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>)</span>
+<span id="cb137-5"><a href="lab6.html#cb137-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb137-6"><a href="lab6.html#cb137-6" aria-hidden="true" tabindex="-1"></a>milgram_ci <span class="ot">&lt;-</span> milgram_boot_dist <span class="sc">%&gt;%</span></span>
+<span id="cb137-7"><a href="lab6.html#cb137-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_confidence_interval</span>(<span class="at">level =</span> ___)</span>
+<span id="cb137-8"><a href="lab6.html#cb137-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb137-9"><a href="lab6.html#cb137-9" aria-hidden="true" tabindex="-1"></a>milgram_boot_dist <span class="sc">%&gt;%</span></span>
+<span id="cb137-10"><a href="lab6.html#cb137-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb137-11"><a href="lab6.html#cb137-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_confidence_interval</span>(<span class="at">endpoints =</span> milgram_ci)</span></code></pre></div>
 <p>Based on the confidence interval you found (you can see the exact numbers if you click on <code>milgram_ci</code> in R’s <strong>Environment</strong> window after running your code), what can you say about the proportion of people in general who would be willing to risk someone’s life out of obedience?</p>
 </div>
 </div>
@@ -239,28 +239,28 @@
 <p>Because of the horrific effects on the participants, it would be impossible to replicate Milgram’s procedure exactly in an ethical way. <span class="citation">Burger (<a href="references.html#ref-Burger2009" role="doc-biblioref">2009</a>)</span> got as close as one could get. First, Burger screened his participants beforehand to ensure that they did not have risk factors that would lead to the kind of extreme reactions described above. Second, although Burger’s fake electric shock machine looked the same as Milgram’s, the experiment would stop before reaching any dangerous setting. Even if a participant obeyed the command to increase the voltage past a certain point, the experiment would stop before any “shock” was applied. As a result, participants never thought that they were inflicting any more than mild discomfort. Even so, Burger’s experiment allows us to measure whether someone was <em>willing</em> to continue the shocks.</p>
 <p>The data from Burger’s replication is loaded into R under the name <code>milgram_replication</code>.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-40" class="exercise"><strong>Exercise 6.5  </strong></span>Fill in the blanks in the following chunk to calculate the proportion of participants in Burger’s replication who continue to obey the experimenter.</p>
-<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="lab6.html#cb146-1" aria-hidden="true" tabindex="-1"></a>milgram_replication <span class="sc">%&gt;%</span></span>
-<span id="cb146-2"><a href="lab6.html#cb146-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb146-3"><a href="lab6.html#cb146-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>)</span></code></pre></div>
+<p><span id="exr:unlabeled-div-34" class="exercise"><strong>Exercise 6.5  </strong></span>Fill in the blanks in the following chunk to calculate the proportion of participants in Burger’s replication who continue to obey the experimenter.</p>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="lab6.html#cb138-1" aria-hidden="true" tabindex="-1"></a>milgram_replication <span class="sc">%&gt;%</span></span>
+<span id="cb138-2"><a href="lab6.html#cb138-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb138-3"><a href="lab6.html#cb138-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>)</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>Does this proportion fall inside or outside the 95% confidence interval you found for Milgram’s original experiment (in the previous exercise)?</li>
 <li>What does your answer to part [a] suggest about whether attitudes toward obedience have changed between 1963 and 2009? Explain your reasoning.</li>
 </ol>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-41" class="exercise"><strong>Exercise 6.6  </strong></span>Fill in the blanks in the chunk of code to repeat the analysis you performed on Milgram’s original data (called <code>milgram</code>) with the more recent replication (called <code>milgram_replication</code>). <em>Hint:</em> As usual, you will be able to re-use a lot of code!</p>
-<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="lab6.html#cb147-1" aria-hidden="true" tabindex="-1"></a>milgram_replication_boot_dist <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
-<span id="cb147-2"><a href="lab6.html#cb147-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb147-3"><a href="lab6.html#cb147-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> ___, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb147-4"><a href="lab6.html#cb147-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>)</span>
-<span id="cb147-5"><a href="lab6.html#cb147-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb147-6"><a href="lab6.html#cb147-6" aria-hidden="true" tabindex="-1"></a>milgram_replication_ci <span class="ot">&lt;-</span> milgram_replication_boot_dist <span class="sc">%&gt;%</span></span>
-<span id="cb147-7"><a href="lab6.html#cb147-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_confidence_interval</span>(<span class="at">level =</span> ___)</span>
-<span id="cb147-8"><a href="lab6.html#cb147-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb147-9"><a href="lab6.html#cb147-9" aria-hidden="true" tabindex="-1"></a>milgram_replication_boot_dist <span class="sc">%&gt;%</span></span>
-<span id="cb147-10"><a href="lab6.html#cb147-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
-<span id="cb147-11"><a href="lab6.html#cb147-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_confidence_interval</span>(<span class="at">endpoints =</span> milgram_replication_ci)</span></code></pre></div>
+<p><span id="exr:unlabeled-div-35" class="exercise"><strong>Exercise 6.6  </strong></span>Fill in the blanks in the chunk of code to repeat the analysis you performed on Milgram’s original data (called <code>milgram</code>) with the more recent replication (called <code>milgram_replication</code>). <em>Hint:</em> As usual, you will be able to re-use a lot of code!</p>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="lab6.html#cb139-1" aria-hidden="true" tabindex="-1"></a>milgram_replication_boot_dist <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
+<span id="cb139-2"><a href="lab6.html#cb139-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(<span class="at">response =</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb139-3"><a href="lab6.html#cb139-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> ___, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb139-4"><a href="lab6.html#cb139-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>)</span>
+<span id="cb139-5"><a href="lab6.html#cb139-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb139-6"><a href="lab6.html#cb139-6" aria-hidden="true" tabindex="-1"></a>milgram_replication_ci <span class="ot">&lt;-</span> milgram_replication_boot_dist <span class="sc">%&gt;%</span></span>
+<span id="cb139-7"><a href="lab6.html#cb139-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_confidence_interval</span>(<span class="at">level =</span> ___)</span>
+<span id="cb139-8"><a href="lab6.html#cb139-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb139-9"><a href="lab6.html#cb139-9" aria-hidden="true" tabindex="-1"></a>milgram_replication_boot_dist <span class="sc">%&gt;%</span></span>
+<span id="cb139-10"><a href="lab6.html#cb139-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb139-11"><a href="lab6.html#cb139-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_confidence_interval</span>(<span class="at">endpoints =</span> milgram_replication_ci)</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>What is the 95% confidence interval you found? (You can see the raw numbers by clicking on <code>milgram_replication_ci</code> after running your code.)</li>
 <li>This is how Milgram described his sample: <em>“The subjects were 40 males between the ages of 20 and 50, drawn from New Haven [Connecticut] and the surrounding communities…subjects were postal clerks, high school teachers, salesmen, engineers, and laborers. Subjects ranged in educational level from one who had not finished elementary school, to those who had doctorate and other professional degrees.”</em> Burger’s sample also includes a range of educational experiences, but is comprised of 18 men and 22 women who range in age between 20 and 81 years old. Do you think the 95% CI from Milgram’s original study or the one from Burger’s replication gives a better description of where the true population proportion probably is? Explain your reasoning.</li>
@@ -273,28 +273,28 @@
 </h3>
 <p>A major difference between Milgram’s original study and Burger’s replication is that Burger’s sample contains both men and women. This allows us to address a <strong>research question</strong>: <em>Do men and women differ in their tendency toward obedience in this situation?</em></p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-42" class="exercise"><strong>Exercise 6.7  </strong></span>Fill in the blanks in the code below to use random permutation to test the <em>null hypothesis</em> that men and women <em>do not differ</em> in the proportion who obey.</p>
+<p><span id="exr:unlabeled-div-36" class="exercise"><strong>Exercise 6.7  </strong></span>Fill in the blanks in the code below to use random permutation to test the <em>null hypothesis</em> that men and women <em>do not differ</em> in the proportion who obey.</p>
 <ul>
 <li>For the <code>specify</code> lines: The <strong>response variable</strong> is still <code>obeyed</code>, but now we have an <strong>explanatory variable</strong> which is labeled <code>gender</code>.</li>
 <li>For the blanks in the <code>hypothesize</code>, <code>generate</code>, and <code>calculate</code> lines: look up how we set those in the previous activity.</li>
 <li>For the <code>direction</code> lines: There are three possible settings: <code>direction = "less"</code>, <code>direction = "greater"</code>, or <code>direction = "two-sided"</code>. Set it to the <code>direction</code> in which results would be considered “extreme” if the null hypothesis were true.</li>
 </ul>
-<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="lab6.html#cb148-1" aria-hidden="true" tabindex="-1"></a>milgram_replication_null_dist <span class="ot">&lt;-</span> milgram_replication <span class="sc">%&gt;%</span></span>
-<span id="cb148-2"><a href="lab6.html#cb148-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___, <span class="at">success =</span> <span class="st">"Yes"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb148-3"><a href="lab6.html#cb148-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb148-4"><a href="lab6.html#cb148-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb148-5"><a href="lab6.html#cb148-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"Male"</span>, <span class="st">"Female"</span>))</span>
-<span id="cb148-6"><a href="lab6.html#cb148-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb148-7"><a href="lab6.html#cb148-7" aria-hidden="true" tabindex="-1"></a>milgram_replication_obs_diff <span class="ot">&lt;-</span> milgram_replication <span class="sc">%&gt;%</span></span>
-<span id="cb148-8"><a href="lab6.html#cb148-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___, <span class="at">success =</span> <span class="st">"Yes"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb148-9"><a href="lab6.html#cb148-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"Male"</span>, <span class="st">"Female"</span>))</span>
-<span id="cb148-10"><a href="lab6.html#cb148-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb148-11"><a href="lab6.html#cb148-11" aria-hidden="true" tabindex="-1"></a>milgram_replication_p_value <span class="ot">&lt;-</span> milgram_replication_null_dist <span class="sc">%&gt;%</span></span>
-<span id="cb148-12"><a href="lab6.html#cb148-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_p_value</span>(<span class="at">obs_stat =</span> milgram_replication_obs_diff, <span class="at">direction =</span> <span class="st">"___"</span>)</span>
-<span id="cb148-13"><a href="lab6.html#cb148-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb148-14"><a href="lab6.html#cb148-14" aria-hidden="true" tabindex="-1"></a>milgram_replication_null_dist <span class="sc">%&gt;%</span></span>
-<span id="cb148-15"><a href="lab6.html#cb148-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
-<span id="cb148-16"><a href="lab6.html#cb148-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> milgram_replication_obs_diff, <span class="at">direction =</span> <span class="st">"___"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="lab6.html#cb140-1" aria-hidden="true" tabindex="-1"></a>milgram_replication_null_dist <span class="ot">&lt;-</span> milgram_replication <span class="sc">%&gt;%</span></span>
+<span id="cb140-2"><a href="lab6.html#cb140-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___, <span class="at">success =</span> <span class="st">"Yes"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb140-3"><a href="lab6.html#cb140-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb140-4"><a href="lab6.html#cb140-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb140-5"><a href="lab6.html#cb140-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"Male"</span>, <span class="st">"Female"</span>))</span>
+<span id="cb140-6"><a href="lab6.html#cb140-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb140-7"><a href="lab6.html#cb140-7" aria-hidden="true" tabindex="-1"></a>milgram_replication_obs_diff <span class="ot">&lt;-</span> milgram_replication <span class="sc">%&gt;%</span></span>
+<span id="cb140-8"><a href="lab6.html#cb140-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___, <span class="at">success =</span> <span class="st">"Yes"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb140-9"><a href="lab6.html#cb140-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"Male"</span>, <span class="st">"Female"</span>))</span>
+<span id="cb140-10"><a href="lab6.html#cb140-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb140-11"><a href="lab6.html#cb140-11" aria-hidden="true" tabindex="-1"></a>milgram_replication_p_value <span class="ot">&lt;-</span> milgram_replication_null_dist <span class="sc">%&gt;%</span></span>
+<span id="cb140-12"><a href="lab6.html#cb140-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_p_value</span>(<span class="at">obs_stat =</span> milgram_replication_obs_diff, <span class="at">direction =</span> <span class="st">"___"</span>)</span>
+<span id="cb140-13"><a href="lab6.html#cb140-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb140-14"><a href="lab6.html#cb140-14" aria-hidden="true" tabindex="-1"></a>milgram_replication_null_dist <span class="sc">%&gt;%</span></span>
+<span id="cb140-15"><a href="lab6.html#cb140-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb140-16"><a href="lab6.html#cb140-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> milgram_replication_obs_diff, <span class="at">direction =</span> <span class="st">"___"</span>)</span></code></pre></div>
 <p>Based on the results you obtained, would you reject the null hypothesis? (You can check out the <span class="math inline">\(p\)</span> value by clicking on <code>milgram_replication_p_value</code> in R’s <strong>Environment</strong> window after running your code.) What does the result of this hypothesis test say about whether men and women differ in their tendency to obey commands that potentially endanger someone’s life?</p>
 </div>
 </div>
@@ -347,7 +347,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2022-11-28.</p>
+    <p>"<strong>Labs</strong>" was written by Greg Cox. It was last built on 2023-01-29.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

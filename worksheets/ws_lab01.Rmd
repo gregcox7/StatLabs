@@ -1,20 +1,11 @@
-# Exploring Data with R {#lab1}
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-knitr::opts_chunk$set(results = 'hold')
-# knitr::opts_chunk$set(class.source = 'Rcode')
-knitr::opts_chunk$set(
-  class.output  = "Rout text-muted",
-  class.message = "Rout text-info",
-  class.warning = "Rout text-warning",
-  class.error   = "Rout text-danger"
-)
-```
-
-```{r, echo=FALSE, out.width="100%"}
-knitr::include_graphics("img/titanic.png")
-```
+---
+title: "Lab Activity 1: Exploring Data with R"
+author: "YOUR NAME HERE"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document: default
+---
 
 In this session, we will learn a bit about data and how to explore it using the statistical computing language called `R`.  The point is to learn a bit more about data and variables and to get a feel for the power of the tools we will be learning to use in the rest of the semester.
 
