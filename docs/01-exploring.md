@@ -249,7 +249,7 @@ titanic %>%
 
 ------
 
-## Bar charts
+## Contingency tables
 
 You may have heard that, when trying to evacuate the *Titanic*, there was a rule to put "women and children first" onto lifeboats.  This suggests a **hypothesis**:  *If* this rule was actually followed, *then* female passengers should have a higher survival rate than male passengers.
 
@@ -280,7 +280,60 @@ titanic %>%
 
 Now each row of the table tells us the number of passengers (in column `n`) that fall into categories defined by the *combination* of `sex` and `survived`.  So the first row is the number of female passengers who did not survive, the second row is the number of female passengers who did survive, etc.
 
-The table we just made contains all the information we need to test the hypothesis about whether women in fact survived at a higher rate than men.  However, it is hard to compare male and female survival rates because there were different numbers of male and female passengers.  This is a case where a visual summary would make it easier to compare the survival rate of male and female passengers.
+When we make a frequency table that is grouped by two categorical variables, we often re-organize the table in a particular form called a **contingency table**.  The following chunk of code turns the table we just made into a contingency table:
+
+
+```r
+titanic %>%
+  group_by(sex, survived) %>%
+  summarize(n = n()) %>%
+  spread(survived, n)
+```
+
+```{.Rout .text-info}
+## `summarise()` has grouped output by 'sex'. You can override using the `.groups`
+## argument.
+```
+
+```{.Rout .text-muted}
+## # A tibble: 2 × 3
+## # Groups:   sex [2]
+##   sex    `FALSE` `TRUE`
+##   <chr>    <int>  <int>
+## 1 Female     127    339
+## 2 Male       682    161
+```
+
+Notice that we added a new line at the end.  This line tells R to `spread` out the `n` column from a single column into multiple columns, where each column now gives counts of the number of passengers who did or did not survive and each row corresponds to the sex of the passengers.
+
+------
+
+### Exercise 4
+
+Fill in the blank in the chunk below so that, when you run it, you get a contingency table where each row corresponds to the `class` of the passengers instead of their `sex`.  Based on the result, which class would you want to be if you wanted to survive the *Titanic* disaster?
+
+
+```r
+titanic %>%
+  group_by(___, survived) %>%
+  summarize(n = n()) %>%
+  spread(survived, n)
+```
+
+```{.Rout .text-danger}
+## Error: <text>:2:13: unexpected input
+## 1: titanic %>%
+## 2:   group_by(__
+##                ^
+```
+
+**PROVIDE YOUR WRITTEN RESPONSE HERE**
+
+------
+
+## Bar charts
+
+The tables we just made contain all the information we need to test the hypothesis about whether women in fact survived at a higher rate than men.  However, it is hard to compare male and female survival rates because there were different numbers of male and female passengers.  A visual summary would make it easier to compare the survival rate of male and female passengers.
 
 Run the chunk of code below to tell R make a visual summary of the number of male and female survivors.  The result is what we call a **dodged bar plot**.
 
@@ -291,7 +344,7 @@ titanic %>%
     geom_bar(position = "dodge")
 ```
 
-<img src="01-exploring_files/figure-html/unnamed-chunk-15-1.png" width="672" />
+<img src="01-exploring_files/figure-html/unnamed-chunk-17-1.png" width="672" />
 
 Pretty neat!  The height of each bar corresponds to the number of passengers of each combination of male/female and survived/not survived.  The code we used is similar to what we've been using, but differs in some important ways:
 
@@ -302,7 +355,7 @@ Pretty neat!  The height of each bar corresponds to the number of passengers of 
 
 ------
 
-### Exercise 4
+### Exercise 5
 
 Try running the following chunks of code.  Each of them are different ways to make a bar chart of the number of male and female passengers who did or did not survive.  After running each one, provide your response to the question below.
 
@@ -315,7 +368,7 @@ titanic %>%
     geom_bar(position = "stack")
 ```
 
-<img src="01-exploring_files/figure-html/unnamed-chunk-16-1.png" width="672" />
+<img src="01-exploring_files/figure-html/unnamed-chunk-18-1.png" width="672" />
 
 **PROVIDE YOUR WRITTEN RESPONSE HERE**
 
@@ -329,7 +382,7 @@ titanic %>%
     facet_wrap("sex")
 ```
 
-<img src="01-exploring_files/figure-html/unnamed-chunk-17-1.png" width="672" />
+<img src="01-exploring_files/figure-html/unnamed-chunk-19-1.png" width="672" />
 
 **PROVIDE YOUR WRITTEN RESPONSE HERE**
 
@@ -342,7 +395,7 @@ titanic %>%
     geom_bar(position = "dodge")
 ```
 
-<img src="01-exploring_files/figure-html/unnamed-chunk-18-1.png" width="672" />
+<img src="01-exploring_files/figure-html/unnamed-chunk-20-1.png" width="672" />
 
 **PROVIDE YOUR WRITTEN RESPONSE HERE**
 
@@ -397,7 +450,7 @@ titanic %>%
 ## Warning: Removed 263 rows containing non-finite values (stat_bin).
 ```
 
-<img src="01-exploring_files/figure-html/unnamed-chunk-20-1.png" width="672" />
+<img src="01-exploring_files/figure-html/unnamed-chunk-22-1.png" width="672" />
 
 The resulting histogram shows a bunch of bars.  Just like in a bar chart, the height of each bar indicates the number of passengers within a particular age range.
 
@@ -418,7 +471,7 @@ titanic %>%
 ## Warning: Removed 263 rows containing non-finite values (stat_bin).
 ```
 
-<img src="01-exploring_files/figure-html/unnamed-chunk-21-1.png" width="672" />
+<img src="01-exploring_files/figure-html/unnamed-chunk-23-1.png" width="672" />
 
 And just like we did with bar charts, we can split a histogram into different "facets".  The pair of histograms below shows the distribution of ages of passengers that either did or did not survive:
 
@@ -434,11 +487,11 @@ titanic %>%
 ## Warning: Removed 263 rows containing non-finite values (stat_bin).
 ```
 
-<img src="01-exploring_files/figure-html/unnamed-chunk-22-1.png" width="672" />
+<img src="01-exploring_files/figure-html/unnamed-chunk-24-1.png" width="672" />
 
 ------
 
-### Exercise 5
+### Exercise 6
 
 Use the chunk below to try making several different histograms of passenger age split by survival, using different bin widths of your own choice.  Each time, just put in a new number after `binwidth = ` and hit the green "Run" arrow on the upper right of the chunk to re-run the code and make a new graph.
 
@@ -456,16 +509,8 @@ titanic %>%
 ## Warning: Removed 263 rows containing non-finite values (stat_bin).
 ```
 
-<img src="01-exploring_files/figure-html/unnamed-chunk-23-1.png" width="672" />
+<img src="01-exploring_files/figure-html/unnamed-chunk-25-1.png" width="672" />
 
 **PROVIDE YOUR WRITTEN RESPONSE HERE**
 
 ------
-
-## Wrap-up
-
-Today we began our adventure by using RStudio to explore some data.  We saw how to look at data and how to summarize it in various helpful ways.  These were frequency tables, proportions, bar charts, and histograms.
-
-* Frequency tables count the number of times a particular value of a particular variable (or combination of values across multiple variables) occurs in our dataset.
-* Bar charts display counts of categorical variables in a visual form that makes it easier to compare them.
-* Histograms let us visually summarize counts of numerical variables by putting them in "bins", the width of which we need to decide.

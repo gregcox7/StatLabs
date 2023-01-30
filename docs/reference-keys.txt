@@ -88,11 +88,12 @@ check-out-the-variables
 exercise-2
 frequency-tables
 exercise-3
-bar-charts
+contingency-tables
 exercise-4
-histograms
+bar-charts
 exercise-5
-wrap-up
+histograms
+exercise-6
 lab2
 first-things-first
 sex-bias-sampling-bias-or-both
@@ -100,7 +101,7 @@ load-the-data-1
 are-more-males-than-females-admitted
 is-there-a-bias-in-all-departments
 resolving-the-paradox
-wrap-up-1
+wrap-up
 lab3
 load-the-tidyverse-library
 variance-and-standard-deviation
@@ -120,7 +121,7 @@ summarizing-the-data-visually
 histograms-1
 boxplots
 summarizing-the-data-numerically
-wrap-up-2
+wrap-up-1
 lab4
 load-the-tidyverse
 always-plot-your-data
@@ -141,7 +142,7 @@ overlaying-a-line-1
 finding-the-correlation-1
 finding-the-slope-and-intercept-1
 summary
-wrap-up-3
+wrap-up-2
 lab5
 did-kobe-have-a-hot-hand
 check-out-the-data
@@ -158,7 +159,7 @@ summarize-the-data-1
 model-the-null-hypothesis
 find-the-p-value-1
 form-a-conclusion-1
-wrap-up-4
+wrap-up-3
 lab6
 what-is-kobes-field-goal-percentage
 what-is-the-point-estimate
@@ -171,7 +172,7 @@ how-willing-are-people-to-obey-commands-that-endanger-someones-life
 milgrams-original-study
 a-more-recent-replication
 do-men-and-women-differ-in-their-proportions-of-obedience
-wrap-up-5
+wrap-up-4
 lab7
 the-data-national-health-and-nutrition-examination-surveys-nhanes
 the-normal-distribution-as-a-model-for-a-population-distribution
@@ -185,14 +186,14 @@ summary-statistics-for-each-sample
 approximating-with-a-normal-distribution
 larger-samples-and-the-central-limit-theorem
 what-if-we-dont-know-the-true-population
-wrap-up-6
+wrap-up-5
 lab8
 get-to-know-the-data
 confidence-interval-bootstrapping-how-accurate-are-eyewitnesses
 hypothesis-test-1-normal-distribution-are-eyewitnesses-better-than-chance
 hypothesis-test-2-permutation-is-there-a-difference-between-sequential-and-simultaneous-lineups
 hypothesis-test-3-permutation-does-it-matter-if-police-know-who-the-suspect-is
-wrap-up-7
+wrap-up-6
 lab9
 overworked
 confidence-interval-via-bootstrapping
@@ -203,7 +204,7 @@ check-out-the-data-2
 examine-the-distribution-of-differences
 confidence-interval-by-bootstrapping
 hypothesis-test-via-mathematical-model-1
-wrap-up-8
+wrap-up-7
 lab10
 what-if-there-were-two-groups-of-infants
 paired-vs.-two-group-data
@@ -212,7 +213,7 @@ are-recruiters-more-impressed-by-a-spoken-vs.-written-hiring-pitch
 check-out-the-data-3
 hypothesis-testing-via-simulation
 hypothesis-testing-using-the-t-distribution
-wrap-up-9
+wrap-up-8
 lab11
 can-we-reduce-intrusions-of-traumatic-memories
 check-out-the-data-4
@@ -223,7 +224,7 @@ simulating-the-null-hypothesis
 hypothesis-testing-by-mathematical-model
 post-hoc-comparisons
 adjusted-p-value-vs.-adjusted-significance-level
-wrap-up-10
+wrap-up-9
 lab12
 meet-the-data
 explaining-ridership-using-season-alone
@@ -233,4 +234,4 @@ confidence-interval-for-a-slope
 hypothesis-test-for-a-slope
 inference-about-a-slope-using-a-mathematical-model
 whats-up-with-those-weird-days
-wrap-up-11
+wrap-up-10

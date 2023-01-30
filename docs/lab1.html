@@ -249,9 +249,9 @@
 <hr>
 </div>
 </div>
-<div id="bar-charts" class="section level2" number="1.4">
+<div id="contingency-tables" class="section level2" number="1.4">
 <h2>
-<span class="header-section-number">1.4</span> Bar charts<a class="anchor" aria-label="anchor" href="#bar-charts"><i class="fas fa-link"></i></a>
+<span class="header-section-number">1.4</span> Contingency tables<a class="anchor" aria-label="anchor" href="#contingency-tables"><i class="fas fa-link"></i></a>
 </h2>
 <p>You may have heard that, when trying to evacuate the <em>Titanic</em>, there was a rule to put “women and children first” onto lifeboats. This suggests a <strong>hypothesis</strong>: <em>If</em> this rule was actually followed, <em>then</em> female passengers should have a higher survival rate than male passengers.</p>
 <p>To see if the data are consistent with this hypothesis, we can begin by using code similar to what we’ve been using to count the number of male and female passengers who either did or did not survive. Notice that we can <code>group_by</code> more than one variable using a list of the variable names separated by commas:</p>
@@ -270,13 +270,50 @@
 ## 3 Male   FALSE      682
 ## 4 Male   TRUE       161</code></pre>
 <p>Now each row of the table tells us the number of passengers (in column <code>n</code>) that fall into categories defined by the <em>combination</em> of <code>sex</code> and <code>survived</code>. So the first row is the number of female passengers who did not survive, the second row is the number of female passengers who did survive, etc.</p>
-<p>The table we just made contains all the information we need to test the hypothesis about whether women in fact survived at a higher rate than men. However, it is hard to compare male and female survival rates because there were different numbers of male and female passengers. This is a case where a visual summary would make it easier to compare the survival rate of male and female passengers.</p>
-<p>Run the chunk of code below to tell R make a visual summary of the number of male and female survivors. The result is what we call a <strong>dodged bar plot</strong>.</p>
+<p>When we make a frequency table that is grouped by two categorical variables, we often re-organize the table in a particular form called a <strong>contingency table</strong>. The following chunk of code turns the table we just made into a contingency table:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">titanic</span> <span class="op">%&gt;%</span>
+  <span class="fu">group_by</span><span class="op">(</span><span class="va">sex</span>, <span class="va">survived</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">summarize</span><span class="op">(</span>n <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">spread</span><span class="op">(</span><span class="va">survived</span>, <span class="va">n</span><span class="op">)</span></code></pre></div>
+<pre class="Rout text-info"><code>## `summarise()` has grouped output by 'sex'. You can override using the `.groups`
+## argument.</code></pre>
+<pre class="Rout text-muted"><code>## # A tibble: 2 × 3
+## # Groups:   sex [2]
+##   sex    `FALSE` `TRUE`
+##   &lt;chr&gt;    &lt;int&gt;  &lt;int&gt;
+## 1 Female     127    339
+## 2 Male       682    161</code></pre>
+<p>Notice that we added a new line at the end. This line tells R to <code>spread</code> out the <code>n</code> column from a single column into multiple columns, where each column now gives counts of the number of passengers who did or did not survive and each row corresponds to the sex of the passengers.</p>
+<hr>
+<div id="exercise-4" class="section level3" number="1.4.1">
+<h3>
+<span class="header-section-number">1.4.1</span> Exercise 4<a class="anchor" aria-label="anchor" href="#exercise-4"><i class="fas fa-link"></i></a>
+</h3>
+<p>Fill in the blank in the chunk below so that, when you run it, you get a contingency table where each row corresponds to the <code>class</code> of the passengers instead of their <code>sex</code>. Based on the result, which class would you want to be if you wanted to survive the <em>Titanic</em> disaster?</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="lab1.html#cb25-1" aria-hidden="true" tabindex="-1"></a>titanic <span class="sc">%&gt;%</span></span>
+<span id="cb25-2"><a href="lab1.html#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(___, survived) <span class="sc">%&gt;%</span></span>
+<span id="cb25-3"><a href="lab1.html#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb25-4"><a href="lab1.html#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">spread</span>(survived, n)</span></code></pre></div>
+<pre class="Rout text-danger"><code>## Error: &lt;text&gt;:2:13: unexpected input
+## 1: titanic %&gt;%
+## 2:   group_by(__
+##                ^</code></pre>
+<p><strong>PROVIDE YOUR WRITTEN RESPONSE HERE</strong></p>
+<hr>
+</div>
+</div>
+<div id="bar-charts" class="section level2" number="1.5">
+<h2>
+<span class="header-section-number">1.5</span> Bar charts<a class="anchor" aria-label="anchor" href="#bar-charts"><i class="fas fa-link"></i></a>
+</h2>
+<p>The tables we just made contain all the information we need to test the hypothesis about whether women in fact survived at a higher rate than men. However, it is hard to compare male and female survival rates because there were different numbers of male and female passengers. A visual summary would make it easier to compare the survival rate of male and female passengers.</p>
+<p>Run the chunk of code below to tell R make a visual summary of the number of male and female survivors. The result is what we call a <strong>dodged bar plot</strong>.</p>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">titanic</span> <span class="op">%&gt;%</span>
     <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">sex</span>, fill <span class="op">=</span> <span class="va">survived</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">geom_bar</span><span class="op">(</span>position <span class="op">=</span> <span class="st">"dodge"</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="01-exploring_files/figure-html/unnamed-chunk-15-1.png" width="672"></div>
+<div class="inline-figure"><img src="01-exploring_files/figure-html/unnamed-chunk-17-1.png" width="672"></div>
 <p>Pretty neat! The height of each bar corresponds to the number of passengers of each combination of male/female and survived/not survived. The code we used is similar to what we’ve been using, but differs in some important ways:</p>
 <ul>
 <li>The first line is the same, telling R what dataset we are using (<code>titanic</code>).</li>
@@ -285,48 +322,48 @@
 <li>Notice that the second 2 lines are connected by a <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code> rather than the <code>%&gt;%</code> symbol. This is a historical accident, but the meaning of the two symbols is basically the same. Both of them are telling R the order in which it should follow our instructions.</li>
 </ul>
 <hr>
-<div id="exercise-4" class="section level3" number="1.4.1">
+<div id="exercise-5" class="section level3" number="1.5.1">
 <h3>
-<span class="header-section-number">1.4.1</span> Exercise 4<a class="anchor" aria-label="anchor" href="#exercise-4"><i class="fas fa-link"></i></a>
+<span class="header-section-number">1.5.1</span> Exercise 5<a class="anchor" aria-label="anchor" href="#exercise-5"><i class="fas fa-link"></i></a>
 </h3>
 <p>Try running the following chunks of code. Each of them are different ways to make a bar chart of the number of male and female passengers who did or did not survive. After running each one, provide your response to the question below.</p>
 <ol style="list-style-type: lower-alpha">
 <li>In this one, we change <code>position = "dodge"</code> to <code>position = "stack"</code>. The result is a <strong>stacked bar plot</strong>. In your own words, what visual feature of the resulting graph tells you the total number of male and female passengers? What visual feature tells you how many of each of them survived?</li>
 </ol>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">titanic</span> <span class="op">%&gt;%</span>
     <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">sex</span>, fill <span class="op">=</span> <span class="va">survived</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">geom_bar</span><span class="op">(</span>position <span class="op">=</span> <span class="st">"stack"</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="01-exploring_files/figure-html/unnamed-chunk-16-1.png" width="672"></div>
+<div class="inline-figure"><img src="01-exploring_files/figure-html/unnamed-chunk-18-1.png" width="672"></div>
 <p><strong>PROVIDE YOUR WRITTEN RESPONSE HERE</strong></p>
 <ol start="2" style="list-style-type: lower-alpha">
 <li>In this one, instead of using different colors to tell apart people who did or did not survive, we put male and female passengers into separate “facets”. How is the resulting graph similar or different to the dodged bar plot we made earlier?</li>
 </ol>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">titanic</span> <span class="op">%&gt;%</span>
     <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">survived</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">geom_bar</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">facet_wrap</span><span class="op">(</span><span class="st">"sex"</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="01-exploring_files/figure-html/unnamed-chunk-17-1.png" width="672"></div>
+<div class="inline-figure"><img src="01-exploring_files/figure-html/unnamed-chunk-19-1.png" width="672"></div>
 <p><strong>PROVIDE YOUR WRITTEN RESPONSE HERE</strong></p>
 <ol start="3" style="list-style-type: lower-alpha">
 <li>The following graph swaps <code>sex</code> and <code>survived</code>. In your own words, describe a question that would be easier to answer using the graph below than it would using the graph we made just prior to this exercise.</li>
 </ol>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">titanic</span> <span class="op">%&gt;%</span>
     <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">survived</span>, fill <span class="op">=</span> <span class="va">sex</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">geom_bar</span><span class="op">(</span>position <span class="op">=</span> <span class="st">"dodge"</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="01-exploring_files/figure-html/unnamed-chunk-18-1.png" width="672"></div>
+<div class="inline-figure"><img src="01-exploring_files/figure-html/unnamed-chunk-20-1.png" width="672"></div>
 <p><strong>PROVIDE YOUR WRITTEN RESPONSE HERE</strong></p>
 <hr>
 </div>
 </div>
-<div id="histograms" class="section level2" number="1.5">
+<div id="histograms" class="section level2" number="1.6">
 <h2>
-<span class="header-section-number">1.5</span> Histograms<a class="anchor" aria-label="anchor" href="#histograms"><i class="fas fa-link"></i></a>
+<span class="header-section-number">1.6</span> Histograms<a class="anchor" aria-label="anchor" href="#histograms"><i class="fas fa-link"></i></a>
 </h2>
 <p>So far, we have been summarizing <em>categorical</em> variables. There are also some numerical variables in our data, including the age of each passenger. Let’s try running the chunk of code below to make a frequency table to figure out how many people of different ages sailed on the <em>Titanic</em>:</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">titanic</span> <span class="op">%&gt;%</span>
   <span class="fu">group_by</span><span class="op">(</span><span class="va">age</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">summarize</span><span class="op">(</span>n <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -347,59 +384,48 @@
 <p>Well that’s not very helpful! R didn’t even bother to show us the whole thing. Though we can see something interesting: Age is measured in years, and for passengers at least one year old, their age is a whole number. But there are fractions of years for passengers less than a year old—these ages were <em>measured</em> in months rather than years.</p>
 <p>The main point is that even though age can be measured in a more or less fine-grained manner, age is effectively <em>continuous</em>. We don’t want to know how many passengers were exactly 31.3491 years old or whatever. We want to get an overall sense of the <em>distribution</em> of ages across passengers.</p>
 <p>We can construct a summary that conveys this information using a <strong>histogram</strong>. A histogram is very similar to a bar chart; the difference is that bar charts are for categorical variables while histograms are for numerical variables. Run the code below to construct a histogram to summarize passenger age:</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">titanic</span> <span class="op">%&gt;%</span>
   <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">age</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">geom_histogram</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre class="Rout text-info"><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <pre class="Rout text-warning"><code>## Warning: Removed 263 rows containing non-finite values (stat_bin).</code></pre>
-<div class="inline-figure"><img src="01-exploring_files/figure-html/unnamed-chunk-20-1.png" width="672"></div>
+<div class="inline-figure"><img src="01-exploring_files/figure-html/unnamed-chunk-22-1.png" width="672"></div>
 <p>The resulting histogram shows a bunch of bars. Just like in a bar chart, the height of each bar indicates the number of passengers within a particular age range.</p>
 <p>We got a couple of messages from R in addition to our plot, one about “non-finite values” and another about “picking a better value”. When R says, “non-finite values”, it is talking about people for whom their age was not recorded. This is an unfortunate thing about real data: sometimes it has missing pieces. This didn’t stop R from making the plot we wanted using the non-missing data, but R wanted to warn us just in case.</p>
 <p>The message about “picking a better value” is important: When you make a histogram, you are looking at how many things fall within a particular range of values, say, between ages 4 and 8. How do you decide those ranges? If you don’t tell R how to do that, it will decide on its own to divide up the range of values into 30 “bins”, each of which corresponds to a range of values that is the same width. This is usually not what we want.</p>
 <p>Instead, we should decide how big or small we want those ranges to be. The following code tells R to make our histogram using “bins” that are 2 years “wide” (0-1, 2-3, etc.):</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">titanic</span> <span class="op">%&gt;%</span>
   <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">age</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">geom_histogram</span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
 <pre class="Rout text-warning"><code>## Warning: Removed 263 rows containing non-finite values (stat_bin).</code></pre>
-<div class="inline-figure"><img src="01-exploring_files/figure-html/unnamed-chunk-21-1.png" width="672"></div>
+<div class="inline-figure"><img src="01-exploring_files/figure-html/unnamed-chunk-23-1.png" width="672"></div>
 <p>And just like we did with bar charts, we can split a histogram into different “facets”. The pair of histograms below shows the distribution of ages of passengers that either did or did not survive:</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">titanic</span> <span class="op">%&gt;%</span>
   <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">age</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">geom_histogram</span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">facet_wrap</span><span class="op">(</span><span class="st">"survived"</span><span class="op">)</span></code></pre></div>
 <pre class="Rout text-warning"><code>## Warning: Removed 263 rows containing non-finite values (stat_bin).</code></pre>
-<div class="inline-figure"><img src="01-exploring_files/figure-html/unnamed-chunk-22-1.png" width="672"></div>
+<div class="inline-figure"><img src="01-exploring_files/figure-html/unnamed-chunk-24-1.png" width="672"></div>
 <hr>
-<div id="exercise-5" class="section level3" number="1.5.1">
+<div id="exercise-6" class="section level3" number="1.6.1">
 <h3>
-<span class="header-section-number">1.5.1</span> Exercise 5<a class="anchor" aria-label="anchor" href="#exercise-5"><i class="fas fa-link"></i></a>
+<span class="header-section-number">1.6.1</span> Exercise 6<a class="anchor" aria-label="anchor" href="#exercise-6"><i class="fas fa-link"></i></a>
 </h3>
 <p>Use the chunk below to try making several different histograms of passenger age split by survival, using different bin widths of your own choice. Each time, just put in a new number after <code>binwidth =</code> and hit the green “Run” arrow on the upper right of the chunk to re-run the code and make a new graph.</p>
 <p>After trying out several options, what bin width do you believe gives the best visual summary and why? Describe whether the shapes of the histograms in each facet are consistent with the “women and <em>children</em> first” rule.</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">titanic</span> <span class="op">%&gt;%</span>
   <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">age</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">geom_histogram</span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">facet_wrap</span><span class="op">(</span><span class="st">"survived"</span><span class="op">)</span></code></pre></div>
 <pre class="Rout text-warning"><code>## Warning: Removed 263 rows containing non-finite values (stat_bin).</code></pre>
-<div class="inline-figure"><img src="01-exploring_files/figure-html/unnamed-chunk-23-1.png" width="672"></div>
+<div class="inline-figure"><img src="01-exploring_files/figure-html/unnamed-chunk-25-1.png" width="672"></div>
 <p><strong>PROVIDE YOUR WRITTEN RESPONSE HERE</strong></p>
 <hr>
 </div>
-</div>
-<div id="wrap-up" class="section level2" number="1.6">
-<h2>
-<span class="header-section-number">1.6</span> Wrap-up<a class="anchor" aria-label="anchor" href="#wrap-up"><i class="fas fa-link"></i></a>
-</h2>
-<p>Today we began our adventure by using RStudio to explore some data. We saw how to look at data and how to summarize it in various helpful ways. These were frequency tables, proportions, bar charts, and histograms.</p>
-<ul>
-<li>Frequency tables count the number of times a particular value of a particular variable (or combination of values across multiple variables) occurs in our dataset.</li>
-<li>Bar charts display counts of categorical variables in a visual form that makes it easier to compare them.</li>
-<li>Histograms let us visually summarize counts of numerical variables by putting them in “bins”, the width of which we need to decide.</li>
-</ul>
 </div>
 </div>
   <div class="chapter-nav">
@@ -428,12 +454,14 @@
 <a class="nav-link" href="#frequency-tables"><span class="header-section-number">1.3</span> Frequency tables</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#exercise-3"><span class="header-section-number">1.3.1</span> Exercise 3</a></li></ul>
 </li>
 <li>
-<a class="nav-link" href="#bar-charts"><span class="header-section-number">1.4</span> Bar charts</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#exercise-4"><span class="header-section-number">1.4.1</span> Exercise 4</a></li></ul>
+<a class="nav-link" href="#contingency-tables"><span class="header-section-number">1.4</span> Contingency tables</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#exercise-4"><span class="header-section-number">1.4.1</span> Exercise 4</a></li></ul>
 </li>
 <li>
-<a class="nav-link" href="#histograms"><span class="header-section-number">1.5</span> Histograms</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#exercise-5"><span class="header-section-number">1.5.1</span> Exercise 5</a></li></ul>
+<a class="nav-link" href="#bar-charts"><span class="header-section-number">1.5</span> Bar charts</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#exercise-5"><span class="header-section-number">1.5.1</span> Exercise 5</a></li></ul>
 </li>
-<li><a class="nav-link" href="#wrap-up"><span class="header-section-number">1.6</span> Wrap-up</a></li>
+<li>
+<a class="nav-link" href="#histograms"><span class="header-section-number">1.6</span> Histograms</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#exercise-6"><span class="header-section-number">1.6.1</span> Exercise 6</a></li></ul>
+</li>
 </ul>
 
       <div class="book-extra">

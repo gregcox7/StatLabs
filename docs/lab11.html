@@ -131,8 +131,8 @@
 <li>Would it be possible to conclude that the treatment condition plays a role in <em>causing</em> any changes we might observe in the number of intrusive memories? Why or why not?</li>
 <li>Fill in the blanks in the code below to use <code>mutate</code> to create a new variable called <code>effect</code> that represents the <em>difference</em> between the number of intrusions after treatment and the number of intrusions before treatment. Write the code so that a <em>negative</em> value of <code>effect</code> means a <em>reduction</em> in the number of intrusive memories from before to after treatment. What code did you use?</li>
 </ol>
-<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="lab11.html#cb189-1" aria-hidden="true" tabindex="-1"></a>tetris_data <span class="sc">%&gt;%</span></span>
-<span id="cb189-2"><a href="lab11.html#cb189-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">effect =</span> ___ <span class="sc">-</span> ___)</span></code></pre></div>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="lab11.html#cb194-1" aria-hidden="true" tabindex="-1"></a>tetris_data <span class="sc">%&gt;%</span></span>
+<span id="cb194-2"><a href="lab11.html#cb194-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">effect =</span> ___ <span class="sc">-</span> ___)</span></code></pre></div>
 </div>
 </div>
 <div id="visualize-the-data" class="section level3" number="11.1.2">
@@ -141,10 +141,10 @@
 </h3>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-66" class="exercise"><strong>Exercise 11.2  </strong></span>Fill in the blanks in the code below to make a boxplot that compares the distribution of <code>effect</code> for each group (defined by their treatment <code>condition</code>). Your <code>mutate</code> line should be the same as in the previous exercise. Try putting treatment condition on the horizontal (“x”) axis and treatment effect on the vertical (“y”) axis.</p>
-<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="lab11.html#cb190-1" aria-hidden="true" tabindex="-1"></a>tetris_data <span class="sc">%&gt;%</span></span>
-<span id="cb190-2"><a href="lab11.html#cb190-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">effect =</span> ___ <span class="sc">-</span> ___) <span class="sc">%&gt;%</span></span>
-<span id="cb190-3"><a href="lab11.html#cb190-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___, <span class="at">y =</span> ___)) <span class="sc">+</span></span>
-<span id="cb190-4"><a href="lab11.html#cb190-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="lab11.html#cb195-1" aria-hidden="true" tabindex="-1"></a>tetris_data <span class="sc">%&gt;%</span></span>
+<span id="cb195-2"><a href="lab11.html#cb195-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">effect =</span> ___ <span class="sc">-</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb195-3"><a href="lab11.html#cb195-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ___, <span class="at">y =</span> ___)) <span class="sc">+</span></span>
+<span id="cb195-4"><a href="lab11.html#cb195-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>()</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>Our <strong>research question</strong> is, “is there a difference in average effectiveness between treatment conditions?” What are the null and alternative hypotheses corresponding to this research question?</li>
 <li>What are the names of the explanatory variable and response variable?</li>
@@ -163,12 +163,12 @@
 </h4>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-67" class="exercise"><strong>Exercise 11.3  </strong></span>Fill in the blanks in the code below to find the F statistic for our observed data. <em>Hint:</em> for the <code>specify</code> line, remember to put the name of the response variable on the left of the <code><a href="https://rdrr.io/r/base/tilde.html">~</a></code> and the name of the explanatory variable on the right.</p>
-<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="lab11.html#cb191-1" aria-hidden="true" tabindex="-1"></a>obs_f <span class="ot">&lt;-</span> tetris_data <span class="sc">%&gt;%</span></span>
-<span id="cb191-2"><a href="lab11.html#cb191-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">effect =</span> ___ <span class="sc">-</span> ___) <span class="sc">%&gt;%</span></span>
-<span id="cb191-3"><a href="lab11.html#cb191-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___) <span class="sc">%&gt;%</span></span>
-<span id="cb191-4"><a href="lab11.html#cb191-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"F"</span>)</span>
-<span id="cb191-5"><a href="lab11.html#cb191-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb191-6"><a href="lab11.html#cb191-6" aria-hidden="true" tabindex="-1"></a>obs_f</span></code></pre></div>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="lab11.html#cb196-1" aria-hidden="true" tabindex="-1"></a>obs_f <span class="ot">&lt;-</span> tetris_data <span class="sc">%&gt;%</span></span>
+<span id="cb196-2"><a href="lab11.html#cb196-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">effect =</span> ___ <span class="sc">-</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb196-3"><a href="lab11.html#cb196-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb196-4"><a href="lab11.html#cb196-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"F"</span>)</span>
+<span id="cb196-5"><a href="lab11.html#cb196-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-6"><a href="lab11.html#cb196-6" aria-hidden="true" tabindex="-1"></a>obs_f</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>What was the F statistic you found?</li>
 <li>Does the F statistic you found indicate that the between-group variability is greater or smaller than the within-group variability? Explain your reasoning.</li>
@@ -182,21 +182,21 @@
 <p>Just like when we were comparing proportions or comparing means from independent samples, we can simulate how the data would look if the null hypothesis were true. Specifically, to simulate a single dataset, we randomly re-assign (<em>permute</em>) the values of the explanatory variable across observations. We then calculate an F statistic for that simulated dataset. We then repeat that process many times to build a <strong>sampling distribution</strong> for the F statistic. Finally, we see whether the F statistic for the actual data is large enough that we reject the idea that it came about by sampling error alone.</p>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-68" class="exercise"><strong>Exercise 11.4  </strong></span>Fill in the blanks in the code below to use random permutation to conduct a hypothesis test. The final result should be a histogram of simulated F statistics along with a line indicating where our observed F statistic (<code>obs_f</code> from the last exercise) falls in that distribution. <em>Hint:</em> For the blanks in the <code>hypothesize</code> and <code>generate</code> lines, consider how we simulated the null hypothesis for <a href="lab5.html#lab5">comparing proportions</a> or <a href="lab10.html#lab10">means from independent samples</a>. Also, make sure that <code>obs_f</code> from the last exercise is present in R’s environment (upper right part of RStudio), otherwise this won’t work!</p>
-<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="lab11.html#cb192-1" aria-hidden="true" tabindex="-1"></a>null_dist <span class="ot">&lt;-</span> tetris_data <span class="sc">%&gt;%</span></span>
-<span id="cb192-2"><a href="lab11.html#cb192-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">effect =</span> ___ <span class="sc">-</span> ___) <span class="sc">%&gt;%</span></span>
-<span id="cb192-3"><a href="lab11.html#cb192-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___) <span class="sc">%&gt;%</span></span>
-<span id="cb192-4"><a href="lab11.html#cb192-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb192-5"><a href="lab11.html#cb192-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb192-6"><a href="lab11.html#cb192-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"F"</span>)</span>
-<span id="cb192-7"><a href="lab11.html#cb192-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-8"><a href="lab11.html#cb192-8" aria-hidden="true" tabindex="-1"></a>null_dist <span class="sc">%&gt;%</span></span>
-<span id="cb192-9"><a href="lab11.html#cb192-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
-<span id="cb192-10"><a href="lab11.html#cb192-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> obs_f, <span class="at">direction =</span> <span class="st">"greater"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="lab11.html#cb197-1" aria-hidden="true" tabindex="-1"></a>null_dist <span class="ot">&lt;-</span> tetris_data <span class="sc">%&gt;%</span></span>
+<span id="cb197-2"><a href="lab11.html#cb197-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">effect =</span> ___ <span class="sc">-</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb197-3"><a href="lab11.html#cb197-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___) <span class="sc">%&gt;%</span></span>
+<span id="cb197-4"><a href="lab11.html#cb197-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb197-5"><a href="lab11.html#cb197-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb197-6"><a href="lab11.html#cb197-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"F"</span>)</span>
+<span id="cb197-7"><a href="lab11.html#cb197-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb197-8"><a href="lab11.html#cb197-8" aria-hidden="true" tabindex="-1"></a>null_dist <span class="sc">%&gt;%</span></span>
+<span id="cb197-9"><a href="lab11.html#cb197-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb197-10"><a href="lab11.html#cb197-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> obs_f, <span class="at">direction =</span> <span class="st">"greater"</span>)</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>Based on the histogram you just produced, would you consider the observed F statistic to be unusually large if the null hypothesis were true?</li>
 <li>Run the chunk of code below to overlay the mathematical model of the null hypothesis—the “F distribution”—on the histogram of simulated F statistics. Describe the shape of the F distribution (skewness, number of modes) as well as whether the F distribution (the smooth curve) make a good “fit” with the histogram of simulated F statistics.</li>
 </ol>
-<div class="sourceCode" id="cb193"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb198"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">null_dist</span> <span class="op">%&gt;%</span>
     <span class="fu">visualize</span><span class="op">(</span>method <span class="op">=</span> <span class="st">"both"</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">shade_p_value</span><span class="op">(</span>obs_stat <span class="op">=</span> <span class="va">obs_f</span>, direction <span class="op">=</span> <span class="st">"greater"</span><span class="op">)</span></code></pre></div>
@@ -210,11 +210,11 @@
 <p>In practice, ANOVA is often done using a mathematical model of the null hypothesis instead of using simulation. The relevant calculations are carried out by computer, but the results are often presented in a table that makes it easier to see how the sausage is made (this is the same format used in class and in the book).</p>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-69" class="exercise"><strong>Exercise 11.5  </strong></span>Fill in the blanks in the code below to use R to produce an ANOVA table. <em>Hint:</em> The first two lines are just for convenience; they tell R to store a version of the data that already has the <code>effect</code> variable. So be sure to use the same <code>mutate</code> line you’ve been using in previous exercises. For the <code>lm</code> line, recall that the squiggly <code><a href="https://rdrr.io/r/base/tilde.html">~</a></code> is used to <code>specify</code> the response and explanatory variables.</p>
-<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="lab11.html#cb194-1" aria-hidden="true" tabindex="-1"></a>tetris_data_effect <span class="ot">&lt;-</span> tetris_data <span class="sc">%&gt;%</span></span>
-<span id="cb194-2"><a href="lab11.html#cb194-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">effect =</span> ___ <span class="sc">-</span> ___)</span>
-<span id="cb194-3"><a href="lab11.html#cb194-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb194-4"><a href="lab11.html#cb194-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(___ <span class="sc">~</span> ___, <span class="at">data =</span> tetris_data_effect) <span class="sc">%&gt;%</span></span>
-<span id="cb194-5"><a href="lab11.html#cb194-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">anova</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="lab11.html#cb199-1" aria-hidden="true" tabindex="-1"></a>tetris_data_effect <span class="ot">&lt;-</span> tetris_data <span class="sc">%&gt;%</span></span>
+<span id="cb199-2"><a href="lab11.html#cb199-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">effect =</span> ___ <span class="sc">-</span> ___)</span>
+<span id="cb199-3"><a href="lab11.html#cb199-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb199-4"><a href="lab11.html#cb199-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(___ <span class="sc">~</span> ___, <span class="at">data =</span> tetris_data_effect) <span class="sc">%&gt;%</span></span>
+<span id="cb199-5"><a href="lab11.html#cb199-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">anova</span>()</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>Find the mathematically computed <span class="math inline">\(p\)</span> value in the table you just produced (the column headings will be helpful, you may also compare the format to ANOVA tables from class or the book). What is the <span class="math inline">\(p\)</span> value?</li>
 <li>Using a significance level of 0.05, would we reject the null hypothesis or not? Why or why not?</li>
@@ -249,11 +249,11 @@ p \text{ value} &lt; \frac{\text{Significance level}}{\text{Number of pairwise c
 <p>R takes the second approach. That is, for each pairwise comparison, R reports the <em>adjusted <span class="math inline">\(p\)</span> value</em>. The reason is because R doesn’t know what our significance level is—that’s our choice. So by adjusting the <span class="math inline">\(p\)</span> value, R gives us a result that we can use regardless of what our significance level is. We will look at each <span class="math inline">\(p\)</span> value that R reports and, for each one, decide whether or not to reject the corresponding null hypothesis by seeing whether the adjusted <span class="math inline">\(p\)</span> value is less than our significance level.</p>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-70" class="exercise"><strong>Exercise 11.6  </strong></span>Fill in the blanks in the code below to tell R to conduct an independent samples T test for every pair of groups in our data. Remember to use the same <code>mutate</code> line we’ve been using. Also note that you’ll need to put the name of the response variable following <code>x</code> and the name of the explanatory (“grouping”) variable following <code>g</code>. Finally, see that we have specified the <strong>Bonferroni</strong> correction for multiple comparisons. The result of running this chunk should be a table of adjusted <span class="math inline">\(p\)</span> values.</p>
-<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="lab11.html#cb195-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(</span>
-<span id="cb195-2"><a href="lab11.html#cb195-2" aria-hidden="true" tabindex="-1"></a>    tetris_data <span class="sc">%&gt;%</span></span>
-<span id="cb195-3"><a href="lab11.html#cb195-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="at">effect =</span> ___ <span class="sc">-</span> ___),</span>
-<span id="cb195-4"><a href="lab11.html#cb195-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pairwise.t.test</span>(<span class="at">x =</span> ___, <span class="at">g =</span> ___, <span class="at">p.adjust.method =</span> <span class="st">"bonferroni"</span>)</span>
-<span id="cb195-5"><a href="lab11.html#cb195-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="lab11.html#cb200-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(</span>
+<span id="cb200-2"><a href="lab11.html#cb200-2" aria-hidden="true" tabindex="-1"></a>    tetris_data <span class="sc">%&gt;%</span></span>
+<span id="cb200-3"><a href="lab11.html#cb200-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="at">effect =</span> ___ <span class="sc">-</span> ___),</span>
+<span id="cb200-4"><a href="lab11.html#cb200-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pairwise.t.test</span>(<span class="at">x =</span> ___, <span class="at">g =</span> ___, <span class="at">p.adjust.method =</span> <span class="st">"bonferroni"</span>)</span>
+<span id="cb200-5"><a href="lab11.html#cb200-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p>Each entry in the table is the result of a two-tailed independent samples T test testing the null hypothesis that the two groups have the same mean. The row and column labels indicate which groups are being compared. Each P value in the table has been multiplied by an adjustment factor according to the Bonferroni method.</p>
 <ol style="list-style-type: lower-alpha">
 <li>What is the Bonferroni adjustment factor for these posthoc pairwise tests?</li>
@@ -264,9 +264,9 @@ p \text{ value} &lt; \frac{\text{Significance level}}{\text{Number of pairwise c
 </div>
 </div>
 </div>
-<div id="wrap-up-10" class="section level2" number="11.2">
+<div id="wrap-up-9" class="section level2" number="11.2">
 <h2>
-<span class="header-section-number">11.2</span> Wrap-up<a class="anchor" aria-label="anchor" href="#wrap-up-10"><i class="fas fa-link"></i></a>
+<span class="header-section-number">11.2</span> Wrap-up<a class="anchor" aria-label="anchor" href="#wrap-up-9"><i class="fas fa-link"></i></a>
 </h2>
 <p>Analysis of Variance, is used to address questions about whether multiple independent groups differ from one another on average. The F statistic is used to summarize how much variability there is between groups versus the amount of variability within groups. We used random permutation to simulate the kinds of data that would occur if the null hypothesis were true. We used simulation as well as a mathematical model to determine whether the observed F statistic is large enough to reject the null hypothesis.</p>
 
@@ -288,7 +288,7 @@ p \text{ value} &lt; \frac{\text{Significance level}}{\text{Number of pairwise c
 <li><a class="nav-link" href="#post-hoc-comparisons"><span class="header-section-number">11.1.5</span> Post-hoc comparisons</a></li>
 </ul>
 </li>
-<li><a class="nav-link" href="#wrap-up-10"><span class="header-section-number">11.2</span> Wrap-up</a></li>
+<li><a class="nav-link" href="#wrap-up-9"><span class="header-section-number">11.2</span> Wrap-up</a></li>
 </ul>
 
       <div class="book-extra">

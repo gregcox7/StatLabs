@@ -65,7 +65,7 @@
 </h2>
 <p>First, start up RStudio.</p>
 <p>As usual, the next thing we will do after starting up RStudio is to load the <code>tidyverse</code> package from R’s library using the following line of code (which you should run in your RStudio console, like last time):</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></code></pre></div>
 <pre class="Rout text-info"><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
 <pre class="Rout text-info"><code>## ✔ ggplot2 3.3.6     ✔ purrr   0.3.4
@@ -87,7 +87,7 @@
 <span class="header-section-number">2.2.1</span> Load the data<a class="anchor" aria-label="anchor" href="#load-the-data-1"><i class="fas fa-link"></i></a>
 </h3>
 <p>First, run the code below to load the 1973 Berkeley admissions data into our workspace:</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">berkeley</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/gregcox7/StatLabs/main/data/berkeley.csv"</span><span class="op">)</span></code></pre></div>
 <pre class="Rout text-info"><code>## Rows: 4526 Columns: 3
 ## ── Column specification ────────────────────────────────────────────────────────
@@ -115,7 +115,7 @@
 <span class="header-section-number">2.2.2</span> Are more males than females admitted?<a class="anchor" aria-label="anchor" href="#are-more-males-than-females-admitted"><i class="fas fa-link"></i></a>
 </h3>
 <p>As noted above, Berkeley was concerned because a greater <strong>proportion</strong> of their male applicants were being admitted than their female applicants. To verify whether this is true, let’s find those proportions ourselves by running the following chunk of code:</p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">berkeley</span> <span class="op">%&gt;%</span>
   <span class="fu">group_by</span><span class="op">(</span><span class="va">Gender</span>, <span class="va">Admit</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">summarize</span><span class="op">(</span>n <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -133,10 +133,10 @@
 <p>The rightmost column of the table (labeled <code>p</code>) gives the proportion of applicants of each gender who were either admitted or rejected. Based on this table, it looks like Berkeley was right to be concerned—the proportion of male applicants admitted is higher than the proportion of female applicants admitted.</p>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-2" class="exercise"><strong>Exercise 2.2  </strong></span>Compare the chunk of code we just ran to some of the code we used in the last activity in <a href="#titanic-props">this section</a>. You will note that they have four lines with the following structure:</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="lab2.html#cb46-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
-<span id="cb46-2"><a href="lab2.html#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(___) <span class="sc">%&gt;%</span></span>
-<span id="cb46-3"><a href="lab2.html#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb46-4"><a href="lab2.html#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">p =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="lab2.html#cb51-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
+<span id="cb51-2"><a href="lab2.html#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(___) <span class="sc">%&gt;%</span></span>
+<span id="cb51-3"><a href="lab2.html#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb51-4"><a href="lab2.html#cb51-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">p =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div>
 <p>For each of those four lines of code above, describe in your own words what that line does.</p>
 </div>
 </div>
@@ -147,11 +147,11 @@
 <p>Even if there is an overall bias, is this the case for all departments, or just some?</p>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-3" class="exercise"><strong>Exercise 2.3  </strong></span>Make a new table that gives the proportion of male and female applicants admitted for each department. You may find it helpful to fill in the blanks in the following chunk of code (note a new line at the end which “filters” out some redundant rows of the table to make it from being too long):</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="lab2.html#cb47-1" aria-hidden="true" tabindex="-1"></a>berkeley <span class="sc">%&gt;%</span></span>
-<span id="cb47-2"><a href="lab2.html#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(___, ___, Admit) <span class="sc">%&gt;%</span></span>
-<span id="cb47-3"><a href="lab2.html#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb47-4"><a href="lab2.html#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">p =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n)) <span class="sc">%&gt;%</span></span>
-<span id="cb47-5"><a href="lab2.html#cb47-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Admit <span class="sc">==</span> <span class="st">"Admitted"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="lab2.html#cb52-1" aria-hidden="true" tabindex="-1"></a>berkeley <span class="sc">%&gt;%</span></span>
+<span id="cb52-2"><a href="lab2.html#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(___, ___, Admit) <span class="sc">%&gt;%</span></span>
+<span id="cb52-3"><a href="lab2.html#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb52-4"><a href="lab2.html#cb52-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">p =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n)) <span class="sc">%&gt;%</span></span>
+<span id="cb52-5"><a href="lab2.html#cb52-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Admit <span class="sc">==</span> <span class="st">"Admitted"</span>)</span></code></pre></div>
 <p>Which departments admit a higher proportion of female applicants and which admit a higher proportion of male applicants?</p>
 </div>
 </div>
@@ -161,7 +161,7 @@
 </h3>
 <p>We appear to have a paradox on our hands: If we ignore differences between departments, it is more likely that a male applicant gets admitted than a female applicant. But within most departments, the opposite is true: a greater proportion of female applicants are admitted than male applicants. In other words, there seems to be a <strong>confounding variable</strong> at work, and it is related to the differences between departments.</p>
 <p>To try to figure out what this confound might be, we should look at two additional issues. The first issue is, for each department, what proportion of their applicants are female, regardless of whether they were admitted or not? We can address that question by running the following chunk of code:</p>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">berkeley</span> <span class="op">%&gt;%</span>
   <span class="fu">group_by</span><span class="op">(</span><span class="va">Department</span>, <span class="va">Gender</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">summarize</span><span class="op">(</span>n <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -193,7 +193,7 @@
 <p>What code did you use? Put the departments in order from highest to lowest admission rate.</p>
 </div>
 <p>Finally, let’s create a visualization that may help us put these pieces together. The chunk of code below produces a set of bar charts, one for each department. These are similar to those we made in the previous activity, but have a new “aesthetic”, namely, they use a variable (<code>Gender</code>) to <code>fill</code> in the bars with different colors:</p>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">berkeley</span> <span class="op">%&gt;%</span>
   <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">Admit</span>, fill <span class="op">=</span> <span class="va">Gender</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">geom_bar</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
@@ -215,9 +215,9 @@
 </div>
 </div>
 </div>
-<div id="wrap-up-1" class="section level2" number="2.3">
+<div id="wrap-up" class="section level2" number="2.3">
 <h2>
-<span class="header-section-number">2.3</span> Wrap-up<a class="anchor" aria-label="anchor" href="#wrap-up-1"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2.3</span> Wrap-up<a class="anchor" aria-label="anchor" href="#wrap-up"><i class="fas fa-link"></i></a>
 </h2>
 <p>The paradox we confronted in this activity has a name: “<strong>Simpson’s Paradox</strong>”. Check out a good video demonstration of the paradox <a href="https://youtu.be/ebEkn-BiW5k">here</a>.</p>
 <p>Simpson’s Paradox occurs whenever a pattern that appears in aggregate (like the bias against female applicants over all departments) disappears or reverses when we look at different subgroups (like the apparent bias in favor of female applicants within most departments). As we have done in this activity, Simpson’s Paradox can be resolved only by careful exploration of the data and consideration of potential confounding variables that are associated with different subgroups.</p>
@@ -240,7 +240,7 @@
 <li><a class="nav-link" href="#resolving-the-paradox"><span class="header-section-number">2.2.4</span> Resolving the paradox</a></li>
 </ul>
 </li>
-<li><a class="nav-link" href="#wrap-up-1"><span class="header-section-number">2.3</span> Wrap-up</a></li>
+<li><a class="nav-link" href="#wrap-up"><span class="header-section-number">2.3</span> Wrap-up</a></li>
 </ul>
 
       <div class="book-extra">

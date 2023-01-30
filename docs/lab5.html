@@ -166,7 +166,7 @@
 <span class="header-section-number">5.1.3</span> Summarize the data<a class="anchor" aria-label="anchor" href="#summarize-the-data"><i class="fas fa-link"></i></a>
 </h3>
 <p>Now that we’ve framed our hypotheses, let’s see whether our data suggest that we could reject the null hypothesis. We’ve already seen how to do this using a frequency table, like this:</p>
-<div class="sourceCode" id="cb103"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb108"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
     <span class="fu">group_by</span><span class="op">(</span><span class="va">prev_shot</span>, <span class="va">shot</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">summarize</span><span class="op">(</span>n <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -183,7 +183,7 @@
 ## 4 prev_M    M        36 0.590</code></pre>
 <p>Here, <code>prev_shot</code> refers to whether Kobe’s <code>prev</code>ious shot was a hit (“prev_H”) or a miss (“prev_M”). The final column <code>p</code> gives us the proportions of Hits (“H”) or Misses (“M”) following either a Previous Hit or Previous Miss.</p>
 <p>We could use the proportions in the final column to calculate by hand the difference between the proportion of Kobe’s made shots (<code>H</code>its) following either a hit (<code>prev_H</code>) or a miss (<code>prev_M</code>). But we can use R to do this work for us using a chunk like this one:</p>
-<div class="sourceCode" id="cb106"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb111"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
     <span class="fu">specify</span><span class="op">(</span><span class="va">shot</span> <span class="op">~</span> <span class="va">prev_shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">calculate</span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"diff in props"</span>, order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"prev_H"</span>, <span class="st">"prev_M"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -205,7 +205,7 @@
 <ol style="list-style-type: lower-alpha">
 <li>The following chunk of code changes the <code>success</code> setting from <code>"H"</code> to <code>"M"</code>. In your own words, describe what the number means that we get from this code.</li>
 </ol>
-<div class="sourceCode" id="cb108"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
     <span class="fu">specify</span><span class="op">(</span><span class="va">shot</span> <span class="op">~</span> <span class="va">prev_shot</span>, success <span class="op">=</span> <span class="st">"M"</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">calculate</span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"diff in props"</span>, order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"prev_H"</span>, <span class="st">"prev_M"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -218,7 +218,7 @@
 <ol start="2" style="list-style-type: lower-alpha">
 <li>The following chunk of code changes the <code>order</code> setting, but puts the <code>success</code> setting back to <code>"H"</code>. In your own words, describe what the number means that we get from this code (it is different from the one in part [a] of this exercise!).</li>
 </ol>
-<div class="sourceCode" id="cb110"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb115"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
     <span class="fu">specify</span><span class="op">(</span><span class="va">shot</span> <span class="op">~</span> <span class="va">prev_shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">calculate</span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"diff in props"</span>, order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"prev_M"</span>, <span class="st">"prev_H"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -236,7 +236,7 @@
 </h3>
 <p>If the null hypothesis were true, whether Kobe does or does not make a shot should not depend on whether he did or did not make his previous shot. We can <em>model</em> what Kobe’s performance would look like if this null hypothesis were true. To do this, we treat Kobe’s shooting history as if it were random. If the null hypothesis were true, we should be able to randomly <strong>permute</strong> Kobe’s shooting history <em>without changing the overall relationship between Kobe’s previous shots and his current shot</em>. By “overall relationship”, we mean the <em>difference in proportions</em> that we just calculated. If the null hypothesis were true, the difference in proportions from our permuted data should not be <em>too different</em> from the difference in proportions in our actual data. On the other hand, if the null hypothesis were false, the difference in proportions in the permuted data should be very different from what we actually saw.</p>
 <p>We can use R to permute Kobe’s shot history and thereby model how Kobe’s shots <em>might</em> have gone if the null hypothesis were true. To do this, we need to <code>specify</code> the relevant variables as well as the <code>hypothesis</code>. Let’s see that all at once, then unpack it:</p>
-<div class="sourceCode" id="cb112"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb117"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
     <span class="fu">specify</span><span class="op">(</span><span class="va">shot</span> <span class="op">~</span> <span class="va">prev_shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">hypothesize</span><span class="op">(</span>null <span class="op">=</span> <span class="st">"independence"</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -264,7 +264,7 @@
 <p>Finally, the fourth line <code>generate</code>s a simulated dataset by randomly <code>permut</code>ing—that is, <em>shuffling</em>—the columns of the original data containing the explanatory and response variables. We’ll see the function of the <code>reps = 1</code> setting momentarily.</p>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-23" class="exercise"><strong>Exercise 5.2  </strong></span>The following chunk of code simulates one way that Kobe’s shots could have gone <em>if</em> the null hypothesis (that his previous shot and current shot are <em>independent</em>) were true. The fifth line (the same as the last line in one of the chunks above) calculates the difference in proportions based on the <em>simulated</em> data.</p>
-<div class="sourceCode" id="cb114"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb119"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kobe</span> <span class="op">%&gt;%</span>
     <span class="fu">specify</span><span class="op">(</span><span class="va">shot</span> <span class="op">~</span> <span class="va">prev_shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">hypothesize</span><span class="op">(</span>null <span class="op">=</span> <span class="st">"independence"</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -279,7 +279,7 @@
 </h3>
 <p>All we did was simulate <em>one</em> possible way Kobe’s shots could have turned out if the null hypothesis were true. There are many possible ways Kobe’s shots could have turned out, and each of these corresponds to a different random permutation of Kobe’s shot history. What we need to do is keep track of all the differences in proportions we get from each of those permutations. It’s a good thing that computers are good at repetitive tasks, because we can use the computer to repeat the random permutation process many times to simulated many possible datasets.</p>
 <p>The next chunk of code is the same as before except we have changed <code>reps</code> in the <code>generate</code> line from <code>1</code> to <code>1000</code>. This way, we can simulate 1000 different datasets, each of which is a different random permutation of Kobe’s shot history. We tell R to remember these all under the name <code>kobe_null_distribution</code> because this represents the <code>distribution</code> of differences that we would expect to see if the <code>null</code> hypothesis were true.</p>
-<div class="sourceCode" id="cb115"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb120"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kobe_null_distribution</span> <span class="op">&lt;-</span> <span class="va">kobe</span> <span class="op">%&gt;%</span>
     <span class="fu">specify</span><span class="op">(</span><span class="va">shot</span> <span class="op">~</span> <span class="va">prev_shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">hypothesize</span><span class="op">(</span>null <span class="op">=</span> <span class="st">"independence"</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -320,7 +320,7 @@
 </table></div>
 <p>The “replicate” column is a label for each simulated dataset, and the new “stat” column is the difference <span class="math inline">\(\hat{p}_{\text{Prev. H}} - \hat{p}_{\text{Prev. M}}\)</span> <em>for each simulated dataset</em>.</p>
 <p>We can now make a histogram to examine the <em>distribution of differences in proportions that result when the null hypothesis is true</em>:</p>
-<div class="sourceCode" id="cb116"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb121"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kobe_null_distribution</span> <span class="op">%&gt;%</span>
     <span class="fu">visualize</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="05-randomization_files/figure-html/unnamed-chunk-10-1.png" width="672"></div>
@@ -330,12 +330,12 @@
 <span class="header-section-number">5.1.6</span> Find the <span class="math inline">\(p\)</span> value<a class="anchor" aria-label="anchor" href="#find-the-p-value"><i class="fas fa-link"></i></a>
 </h3>
 <p>Remember that the <span class="math inline">\(p\)</span> value is the proportion of simulated datasets which are <em>at least as extreme</em> as our actual data. In this case, that means the proportion of simulated datasets with a difference in proportions that is <em>bigger</em> than what we observed. Let’s tell R to remember that difference by running the chunk of code below:</p>
-<div class="sourceCode" id="cb117"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb122"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kobe_obs_diff</span> <span class="op">&lt;-</span> <span class="va">kobe</span> <span class="op">%&gt;%</span>
     <span class="fu">specify</span><span class="op">(</span><span class="va">shot</span> <span class="op">~</span> <span class="va">prev_shot</span>, success <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">calculate</span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"diff in props"</span>, order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"prev_H"</span>, <span class="st">"prev_M"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Now, let’s see how many simulated datasets were bigger than this. In the following line of code, we have to tell R that the observed “statistic” (<code>obs_stat</code>) is the difference we just told it to remember (<code>kobe_obs_diff</code>) as well as the fact that we are interested in how many simulations produced results that were “greater” than what was observed:</p>
-<div class="sourceCode" id="cb118"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb123"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kobe_null_distribution</span> <span class="op">%&gt;%</span>
     <span class="fu">get_p_value</span><span class="op">(</span>obs_stat <span class="op">=</span> <span class="va">kobe_obs_diff</span>, direction <span class="op">=</span> <span class="st">"greater"</span><span class="op">)</span></code></pre></div>
 <pre class="Rout text-muted"><code>## # A tibble: 1 × 1
@@ -343,7 +343,7 @@
 ##     &lt;dbl&gt;
 ## 1   0.757</code></pre>
 <p>Finally, it will help to visualize where the observed difference falls relative to the distribution of differences from our simulated data (note that this uses <code>shade_p_value</code> rather than <code>get_p_value</code>):</p>
-<div class="sourceCode" id="cb120"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb125"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kobe_null_distribution</span> <span class="op">%&gt;%</span>
     <span class="fu">visualize</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">shade_p_value</span><span class="op">(</span>obs_stat <span class="op">=</span> <span class="va">kobe_obs_diff</span>, direction <span class="op">=</span> <span class="st">"greater"</span><span class="op">)</span></code></pre></div>
@@ -488,9 +488,9 @@
 <li>A “Consistent” choice counts as a “success”.</li>
 <li>For the difference in proportions, we want to look at ASC minus NT.</li>
 </ul>
-<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="lab5.html#cb121-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
-<span id="cb121-2"><a href="lab5.html#cb121-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb121-3"><a href="lab5.html#cb121-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"___"</span>, <span class="st">"___"</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="lab5.html#cb126-1" aria-hidden="true" tabindex="-1"></a>___ <span class="sc">%&gt;%</span></span>
+<span id="cb126-2"><a href="lab5.html#cb126-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb126-3"><a href="lab5.html#cb126-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"___"</span>, <span class="st">"___"</span>))</span></code></pre></div>
 <p>Is the difference you found more consistent with the null hypothesis or with the alternative hypothesis? Explain your reasoning.</p>
 </div>
 </div>
@@ -508,14 +508,14 @@
 <li>We want to do <em>1000</em> simulations.</li>
 <li>For the difference in proportions, we want to look at ASC minus NT.</li>
 </ul>
-<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="lab5.html#cb122-1" aria-hidden="true" tabindex="-1"></a>asc_null_distribution <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
-<span id="cb122-2"><a href="lab5.html#cb122-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb122-3"><a href="lab5.html#cb122-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb122-4"><a href="lab5.html#cb122-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> ___, <span class="at">type =</span> <span class="st">"permute"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb122-5"><a href="lab5.html#cb122-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"___"</span>, <span class="st">"___"</span>))</span>
-<span id="cb122-6"><a href="lab5.html#cb122-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb122-7"><a href="lab5.html#cb122-7" aria-hidden="true" tabindex="-1"></a>asc_null_distribution <span class="sc">%&gt;%</span></span>
-<span id="cb122-8"><a href="lab5.html#cb122-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="lab5.html#cb127-1" aria-hidden="true" tabindex="-1"></a>asc_null_distribution <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
+<span id="cb127-2"><a href="lab5.html#cb127-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb127-3"><a href="lab5.html#cb127-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb127-4"><a href="lab5.html#cb127-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> ___, <span class="at">type =</span> <span class="st">"permute"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb127-5"><a href="lab5.html#cb127-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"___"</span>, <span class="st">"___"</span>))</span>
+<span id="cb127-6"><a href="lab5.html#cb127-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-7"><a href="lab5.html#cb127-7" aria-hidden="true" tabindex="-1"></a>asc_null_distribution <span class="sc">%&gt;%</span></span>
+<span id="cb127-8"><a href="lab5.html#cb127-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>()</span></code></pre></div>
 <p>Once your code is working correctly, try running it a few times.</p>
 <ol style="list-style-type: lower-alpha">
 <li>Explain in your own words why the histogram you get does not look the same each time you run the code.</li>
@@ -530,18 +530,18 @@
 <p>To find the <span class="math inline">\(p\)</span> value, we first need to get the observed difference in proportions and tell R to remember it with the label <code>asc_obs_diff</code>.</p>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-28" class="exercise"><strong>Exercise 5.7  </strong></span>Fill in the blanks below to find the observed difference in proportions in the actual data and tell R to remember it under the label <code>asc_obs_diff</code>. This value is then used to calculate the <span class="math inline">\(p\)</span> value. <em>Hint 1:</em> for the <code>direction</code>, remember that this should correspond to the alternative hypothesis (“less”, “greater”, or “two-sided”). <em>Hint 2:</em> be sure to reuse code from previous exercises!</p>
-<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="lab5.html#cb123-1" aria-hidden="true" tabindex="-1"></a>asc_null_distribution <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
-<span id="cb123-2"><a href="lab5.html#cb123-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb123-3"><a href="lab5.html#cb123-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb123-4"><a href="lab5.html#cb123-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> ___, <span class="at">type =</span> <span class="st">"permute"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb123-5"><a href="lab5.html#cb123-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"___"</span>, <span class="st">"___"</span>))</span>
-<span id="cb123-6"><a href="lab5.html#cb123-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb123-7"><a href="lab5.html#cb123-7" aria-hidden="true" tabindex="-1"></a>asc_obs_diff <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
-<span id="cb123-8"><a href="lab5.html#cb123-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb123-9"><a href="lab5.html#cb123-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"___"</span>, <span class="st">"___"</span>))</span>
-<span id="cb123-10"><a href="lab5.html#cb123-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb123-11"><a href="lab5.html#cb123-11" aria-hidden="true" tabindex="-1"></a>asc_null_distribution <span class="sc">%&gt;%</span></span>
-<span id="cb123-12"><a href="lab5.html#cb123-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_p_value</span>(<span class="at">obs_stat =</span> asc_obs_diff, <span class="at">direction =</span> <span class="st">"___"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="lab5.html#cb128-1" aria-hidden="true" tabindex="-1"></a>asc_null_distribution <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
+<span id="cb128-2"><a href="lab5.html#cb128-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb128-3"><a href="lab5.html#cb128-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb128-4"><a href="lab5.html#cb128-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> ___, <span class="at">type =</span> <span class="st">"permute"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb128-5"><a href="lab5.html#cb128-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"___"</span>, <span class="st">"___"</span>))</span>
+<span id="cb128-6"><a href="lab5.html#cb128-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb128-7"><a href="lab5.html#cb128-7" aria-hidden="true" tabindex="-1"></a>asc_obs_diff <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
+<span id="cb128-8"><a href="lab5.html#cb128-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb128-9"><a href="lab5.html#cb128-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"___"</span>, <span class="st">"___"</span>))</span>
+<span id="cb128-10"><a href="lab5.html#cb128-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb128-11"><a href="lab5.html#cb128-11" aria-hidden="true" tabindex="-1"></a>asc_null_distribution <span class="sc">%&gt;%</span></span>
+<span id="cb128-12"><a href="lab5.html#cb128-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_p_value</span>(<span class="at">obs_stat =</span> asc_obs_diff, <span class="at">direction =</span> <span class="st">"___"</span>)</span></code></pre></div>
 <p>What was the <span class="math inline">\(p\)</span> value you got?</p>
 </div>
 </div>
@@ -552,26 +552,26 @@
 <p>Finally, we are in a position to visualize where the observed difference in proportions falls relative to the differences that would be expected if the null hypothesis were true. This will enable us to form a conclusion about what these data tell us about our research question.</p>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-29" class="exercise"><strong>Exercise 5.8  </strong></span>Fill in the blanks in the code below to visualize where the observed difference in proportions falls on the distribution of differences that would be expected if the null hypothesis were true (<em>hint:</em> look back at previous exercises, you’ll be able to re-use a lot!)</p>
-<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="lab5.html#cb124-1" aria-hidden="true" tabindex="-1"></a>asc_null_distribution <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
-<span id="cb124-2"><a href="lab5.html#cb124-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb124-3"><a href="lab5.html#cb124-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb124-4"><a href="lab5.html#cb124-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> ___, <span class="at">type =</span> <span class="st">"permute"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb124-5"><a href="lab5.html#cb124-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"___"</span>, <span class="st">"___"</span>))</span>
-<span id="cb124-6"><a href="lab5.html#cb124-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb124-7"><a href="lab5.html#cb124-7" aria-hidden="true" tabindex="-1"></a>asc_obs_diff <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
-<span id="cb124-8"><a href="lab5.html#cb124-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb124-9"><a href="lab5.html#cb124-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"___"</span>, <span class="st">"___"</span>))</span>
-<span id="cb124-10"><a href="lab5.html#cb124-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb124-11"><a href="lab5.html#cb124-11" aria-hidden="true" tabindex="-1"></a>asc_null_distribution <span class="sc">%&gt;%</span></span>
-<span id="cb124-12"><a href="lab5.html#cb124-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
-<span id="cb124-13"><a href="lab5.html#cb124-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> asc_obs_diff, <span class="at">direction =</span> <span class="st">"___"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="lab5.html#cb129-1" aria-hidden="true" tabindex="-1"></a>asc_null_distribution <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
+<span id="cb129-2"><a href="lab5.html#cb129-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb129-3"><a href="lab5.html#cb129-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb129-4"><a href="lab5.html#cb129-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generate</span>(<span class="at">reps =</span> ___, <span class="at">type =</span> <span class="st">"permute"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb129-5"><a href="lab5.html#cb129-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"___"</span>, <span class="st">"___"</span>))</span>
+<span id="cb129-6"><a href="lab5.html#cb129-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb129-7"><a href="lab5.html#cb129-7" aria-hidden="true" tabindex="-1"></a>asc_obs_diff <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
+<span id="cb129-8"><a href="lab5.html#cb129-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specify</span>(___ <span class="sc">~</span> ___, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb129-9"><a href="lab5.html#cb129-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"___"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"___"</span>, <span class="st">"___"</span>))</span>
+<span id="cb129-10"><a href="lab5.html#cb129-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb129-11"><a href="lab5.html#cb129-11" aria-hidden="true" tabindex="-1"></a>asc_null_distribution <span class="sc">%&gt;%</span></span>
+<span id="cb129-12"><a href="lab5.html#cb129-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb129-13"><a href="lab5.html#cb129-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> asc_obs_diff, <span class="at">direction =</span> <span class="st">"___"</span>)</span></code></pre></div>
 <p>Based on your analysis, would you reject the null hypothesis? Explain your reasoning, being sure to state a reasonable <em>significance level</em>. What does your conclusion say about whether participants with a diagnosis of autism made more consistent choices than neuro-typical participants?</p>
 </div>
 </div>
 </div>
-<div id="wrap-up-4" class="section level2" number="5.3">
+<div id="wrap-up-3" class="section level2" number="5.3">
 <h2>
-<span class="header-section-number">5.3</span> Wrap-up<a class="anchor" aria-label="anchor" href="#wrap-up-4"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.3</span> Wrap-up<a class="anchor" aria-label="anchor" href="#wrap-up-3"><i class="fas fa-link"></i></a>
 </h2>
 <p>In this session, we got practice using R to perform hypothesis tests using randomization. Specifically, we used a type of shuffling called permutation. Shuffling allows us to simulate various ways that a particular dataset could look like if the null hypothesis were true. We then found the <span class="math inline">\(p\)</span> value and visualized the null distribution in order to get a sense of whether our actual data would be unlikely if the null hypothesis were true.</p>
 
@@ -605,7 +605,7 @@
 <li><a class="nav-link" href="#form-a-conclusion-1"><span class="header-section-number">5.2.6</span> Form a conclusion</a></li>
 </ul>
 </li>
-<li><a class="nav-link" href="#wrap-up-4"><span class="header-section-number">5.3</span> Wrap-up</a></li>
+<li><a class="nav-link" href="#wrap-up-3"><span class="header-section-number">5.3</span> Wrap-up</a></li>
 </ul>
 
       <div class="book-extra">
